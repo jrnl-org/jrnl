@@ -204,13 +204,18 @@ if __name__ == "__main__":
         compose = False
     elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in args.text):
         # No date and only tags?
-        print args.text, all(word[0] in config['tagsymbols'] for word in args.text)
+        compose = False
+
+    # No text? Query
+    if compose and not args.text:
+        args.text = [raw_input("Compose Entry: ")]
+
+    # Nothing entered? Go to viewing mode.
+    if not args.text:
         compose = False
 
     # Writing mode
     if compose:
-        if not args.text:
-            args.text = [raw_input("Compose Entry: ")]
         raw = " ".join(args.text).strip()    
         journal.new_entry(raw, args.date)
         print journal
