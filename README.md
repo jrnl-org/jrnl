@@ -27,9 +27,9 @@ If we start our entry by e.g. `yesterday:` or `last week monday at 9am:` the ent
 
 will list you the ten latest entries,
 
-    jrnl -from last year -to march   
+    jrnl -from "last year" -to march   
 
-everything that happened from the start of last year to the end of last march.
+everything that happened from the start of last year to the start of last march. 
 
 ### Tagging:
 
@@ -46,6 +46,23 @@ Will print all entries in which either `@pinkie` or `#WorldDomination` occured;
     jrnl -5 -and #pineapple #lubricant
 
 the last five entries containing both `#pineapple` _and_ `#lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
+
+> __Note:___jrnl_ has to modes: __composing__ and __viewing__. The mode depends on which arguments (starting with `-`) you specify. If no arguments are given, _jrnl_ will guess the mode: if all the input looks like tags, it will switch to viewing mode and filter by the specified tags., such as in
+>
+>     jrnl #WorldDomination
+>
+> If there is some non-argument input, _jrnl_ will treat it as a new entry, such as in
+> 
+>     jrnl july 4th: Aliens blew up the white house.
+>
+> If there is no input, you can still go to viewing mode by just hitting `return` when prompted to compose an entry.
+
+### JSON Export
+
+Can do:
+
+    jrnl -json
+
 
 ## Installation
 
