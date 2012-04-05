@@ -204,8 +204,8 @@ if __name__ == "__main__":
     composing.add_argument('text', metavar='text', nargs="*",  help='Log entry')
 
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
-    reading.add_argument('-from', dest='start_date', metavar="date", help='View entries after this date')
-    reading.add_argument('-to', dest='end_date', metavar="date", help='View entries before this date')
+    reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
+    reading.add_argument('-to', dest='end_date', metavar="DATE", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
     reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
