@@ -201,7 +201,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
     composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
-    composing.add_argument('text', metavar='text', nargs="*",  help='Log entry')
+    composing.add_argument('text', metavar='text', nargs="*",  help='Log entry (or tags by which to filter in viewing mode)')
 
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
