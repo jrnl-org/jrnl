@@ -109,6 +109,7 @@ class Journal:
         journal_file.close()
 
     def sort(self):
+        """Sorts the Journal's entries by date"""
         self.entries = sorted(self.entries, key=lambda entry: entry.date)
 
     def limit(self, n=None):
