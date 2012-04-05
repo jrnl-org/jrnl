@@ -128,14 +128,15 @@ class Journal:
         If strict is True, all tags must be present in an entry. If false, the 
         entry is kept if any tag is present."""
         search_tags = set(tags)
+        end_date = self.parse_date(end_date)
+        start_date = self.parse_date(start_date)
         # If strict mode is on, all tags have to be present in entry
         tagged = search_tags.issubset if strict else search_tags.intersection
-
         result = [
             entry for entry in self.entries
             if (not tags or tagged(entry.tags))
             and (not start_date or entry.date > start_date)
-            and (not end_date or entry.date < start_date)
+            and (not end_date or entry.date < end_date)
         ]
         self.entries = result
 
