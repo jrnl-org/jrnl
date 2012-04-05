@@ -55,7 +55,8 @@ class Entry:
         }
 
 class Journal:
-    def __init__(self, config):
+    def __init__(self, config, **kwargs):
+        config.update(kwargs)
         self.config = config
 
         # Set up date parser
