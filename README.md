@@ -45,7 +45,7 @@ Will print all entries in which either `@pinkie` or `#WorldDomination` occured;
 
     jrnl -5 -and #pineapple #lubricant
 
-the last five entries containing both `#pineapple` _and_ `#lubricant`.
+the last five entries containing both `#pineapple` _and_ `#lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
 
 ## Installation
 
@@ -60,6 +60,7 @@ After installation, _jrnl_ will create a file called `.jrnl_config` in your home
         default_hour:   9,
         default_minute: 0,
         timeformat:     "%Y-%m-%d %H:%M",
+        tagsymbols:     '#@'
     }
 
 Before using _jrnl_ I recommend changing your journal location to somewhere it belongs, for example your Dropbox folder.
@@ -67,3 +68,4 @@ Before using _jrnl_ I recommend changing your journal location to somewhere it b
  - `journal`: path to  your journal file
  - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
  - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
+  - `tagsymbols`: Symbols to be interpreted as tags. _jrnl_ is agnostic about the semantic of your tags, so using `@` for people and `#` for places, events or projects is just a convention that you may or may not decide to follow too.
