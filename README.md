@@ -39,7 +39,7 @@ Keep track of people, projects or locations: start names with an `@` character a
 
 You can filter your journal entries just like this:
 
-    jrnl -all @pinkie #WorldDomination
+    jrnl @pinkie #WorldDomination
 
 Will print all entries in which either `@pinkie` or `#WorldDomination` occured;
 
