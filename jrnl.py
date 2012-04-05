@@ -33,7 +33,7 @@ class Entry:
         date_str = self.date.strftime(self.journal.config['timeformat'])
         body_wrapper = "\n" if self.body else ""
         body = body_wrapper + self.body.strip()
-        space = "\n\n"
+        space = "\n"
 
         return "%(date)s %(title)s %(body)s %(space)s" % {
             'date': date_str, 
@@ -105,7 +105,7 @@ class Journal:
         filename = filename or self.config['journal']
         journal_file = open(filename, 'w')
         for entry in self.entries:
-            journal_file.write(str(entry))
+            journal_file.write(str(entry)+"\n")
         journal_file.close()
 
     def sort(self):
