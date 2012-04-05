@@ -210,9 +210,10 @@ if __name__ == "__main__":
     if compose:
         if not args.text:
             args.text = [raw_input("Compose Entry: ")]
-            raw = " ".join(args.text).strip()    
-            journal.new_entry(raw, args.date)
-            journal.write()
+        raw = " ".join(args.text).strip()    
+        journal.new_entry(raw, args.date)
+        print journal
+        journal.write()
 
     else: # read mode
         journal.filter(tags=args.text, start_date=args.start_date, end_date=args.end_date)
