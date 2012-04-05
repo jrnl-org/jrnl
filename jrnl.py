@@ -7,6 +7,7 @@ import re
 import argparse
 from datetime import datetime
 import time
+import json
 
 config = {
     'journal': "/home/manuel/Dropbox/Notes/journal.txt",
@@ -45,6 +46,13 @@ class Entry:
     def __repr__(self):
         return str(self)
 
+    def to_dict(self):
+        return {
+            'title': self.title.strip(),
+            'body': self.body.strip(),
+            'date': self.date.strftime("%Y-%m-%d"),
+            'time': self.date.strftime("%H:%M")
+        }
 
 class Journal:
     def __init__(self, config):
@@ -96,6 +104,10 @@ class Journal:
         """Prettyprints the journal's entries"""
         sep = "-"*60+"\n"
         return sep.join([str(e) for e in self.entries])
+
+    def to_json(self):
+        """Returns a JSON representation of the Journal."""
+        return json.dumps([e.to_dict() for e in self.entries], indent=2)
 
     def __repr__(self):
         return "<Journal with %d entries>" % len(self.entries)
@@ -194,6 +206,7 @@ if __name__ == "__main__":
     reading.add_argument('-to', dest='end_date', metavar="date", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
+    reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     args = parser.parse_args()
 
     # open journal
@@ -201,7 +214,7 @@ if __name__ == "__main__":
 
     # Guess mode
     compose = True
-    if args.start_date or args.end_date or args.limit:
+    if args.start_date or args.end_date or args.limit or args.json or args.strict:
         # Any sign of displaying stuff?
         compose = False
     elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in args.text):
@@ -226,4 +239,7 @@ if __name__ == "__main__":
     else: # read mode
         journal.filter(tags=args.text, start_date=args.start_date, end_date=args.end_date, strict=args.strict)
         journal.limit(args.limit)
-        print journal
+        if args.json:
+            print journal.to_json()
+        else:
+            print journal
