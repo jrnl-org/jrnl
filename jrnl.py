@@ -95,7 +95,8 @@ class Journal:
                     # In this case, just append line to our body.
                     current_entry.body += line
         # Append last entry
-        entries.append(current_entry)
+        if current_entry:
+            entries.append(current_entry)
         journal_file.close()
         for entry in entries:
             entry.parse_tags()
