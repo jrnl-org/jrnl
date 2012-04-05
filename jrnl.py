@@ -208,11 +208,11 @@ if __name__ == "__main__":
 
     # No text? Query
     if compose and not args.text:
-        args.text = [raw_input("Compose Entry: ")]
-
-    # Nothing entered? Go to viewing mode.
-    if not args.text:
-        compose = False
+        raw = raw_input("Compose Entry: ")
+        if raw:
+            args.text = [raw]
+        else:
+            compose = False
 
     # Writing mode
     if compose:
