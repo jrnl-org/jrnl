@@ -105,7 +105,7 @@ class Journal:
         filename = filename or self.config['journal']
         journal_file = open(filename, 'w')
         for entry in self.entries:
-            journal_file.write(entry)
+            journal_file.write(str(entry))
         journal_file.close()
 
     def sort(self):
