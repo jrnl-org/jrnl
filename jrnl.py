@@ -1,20 +1,24 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # encoding: utf-8
-
+import os
+import tempfile
 import parsedatetime.parsedatetime as pdt
 import parsedatetime.parsedatetime_consts as pdc
+import subprocess
 import re
 import argparse
 from datetime import datetime
 import time
 import json
+import sys
 
 config = {
-    'journal': "/home/manuel/Dropbox/Notes/journal.txt",
+    'journal': "/Users/dedan/Dropbox/Notes/journal_neu.txt",
+    'editor': "subl -w",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
-    'tagsymbols': '#@'
+    'tagsymbols': '@'
 }
 
 class Entry:
@@ -37,7 +41,7 @@ class Entry:
         space = "\n"
 
         return "%(date)s %(title)s %(body)s %(space)s" % {
-            'date': date_str, 
+            'date': date_str,
             'title': self.title,
             'body': body,
             'space': space
@@ -133,13 +137,13 @@ class Journal:
 
     def filter(self, tags=[], start_date=None, end_date=None, strict=False):
         """Removes all entries from the journal that don't match the filter.
-        
+
         tags is a list of tags, each being a string that starts with one of the
         tag symbols defined in the config, e.g. ["@John", "#WorldDomination"].
 
         start_date and end_date define a timespan by which to filter.
 
-        If strict is True, all tags must be present in an entry. If false, the 
+        If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
         search_tags = set(tags)
         end_date = self.parse_date(end_date)
@@ -162,7 +166,7 @@ class Journal:
             return date
 
         date, flag = self.dateparse.parse(date)
-        
+
         if not flag: # Oops, unparsable.
             return None
 
@@ -198,6 +202,7 @@ class Journal:
         self.sort()
 
 if __name__ == "__main__":
+    print sys.argv
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
     composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
@@ -210,6 +215,7 @@ if __name__ == "__main__":
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
     reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     args = parser.parse_args()
+    print args
 
     # open journal
     journal = Journal(config=config)
@@ -225,7 +231,15 @@ if __name__ == "__main__":
 
     # No text? Query
     if compose and not args.text:
-        raw = raw_input("Compose Entry: ")
+        if config['editor']:
+            tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
+            subprocess.call(config['editor'].split() + [tmpfile])
+            with open(tmpfile) as f:
+                raw = f.read()
+            os.remove(tmpfile)
+
+        else:
+            raw = raw_input("Compose Entry: ")
         if raw:
             args.text = [raw]
         else:
@@ -233,7 +247,7 @@ if __name__ == "__main__":
 
     # Writing mode
     if compose:
-        raw = " ".join(args.text).strip()    
+        raw = " ".join(args.text).strip()
         journal.new_entry(raw, args.date)
         print journal
         journal.write()
