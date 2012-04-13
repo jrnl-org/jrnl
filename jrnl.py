@@ -17,6 +17,7 @@ import readline, glob
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
     'editor': "",
+    'encrypt': True,
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
@@ -86,8 +87,9 @@ class Journal:
         entries = []
         current_entry = None
 
-        journal_file = open(filename)
-        for line in journal_file.readlines():
+        with open(filename) as f:
+            journal_plain = f.read()
+        for line in journal_plain.split(os.linesep):
             if line:
                 try:
                     new_date = datetime.fromtimestamp(time.mktime(time.strptime(line[:date_length], config['timeformat'])))
@@ -103,7 +105,6 @@ class Journal:
         # Append last entry
         if current_entry:
             entries.append(current_entry)
-        journal_file.close()
         for entry in entries:
             entry.parse_tags()
         return entries
@@ -123,10 +124,9 @@ class Journal:
     def write(self, filename = None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal_file = open(filename, 'w')
-        for entry in self.entries:
-            journal_file.write(str(entry)+"\n")
-        journal_file.close()
+        journal_plain = os.linesep.join([str(e) for e in self.entries])
+        with open(filename, 'w') as journal_file:
+            journal_file.write(journal_plain)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
