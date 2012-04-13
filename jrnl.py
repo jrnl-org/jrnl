@@ -11,10 +11,12 @@ from datetime import datetime
 import time
 import json
 import sys
+import readline, glob
 
-config = {
-    'journal': "/Users/dedan/Dropbox/Notes/journal_neu.txt",
-    'editor': "subl -w",
+
+default_config = {
+    'journal': os.path.expanduser("~/journal.txt"),
+    'editor': "",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
@@ -202,7 +204,26 @@ class Journal:
         self.sort()
 
 if __name__ == "__main__":
-    print sys.argv
+    config_path = os.path.expanduser('~/.jrnl_config')
+    if not os.path.exists(config_path):
+        def autocomplete(text, state):
+            expansions = glob.glob(os.path.expanduser(text)+'*')
+            expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
+            expansions.append(None)
+            return expansions[state]
+        readline.set_completer_delims(' \t\n;')
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(autocomplete)
+
+        path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
+        journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
+        default_config['journal'] = os.path.expanduser(journal_path)
+        open(default_config['journal'], 'a').close() # Touch to make sure it's there
+        with open(config_path, 'w') as f:
+            json.dump(default_config, f)
+    with open(config_path) as f:
+        config = json.load(f)
+
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
     composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
@@ -215,7 +236,6 @@ if __name__ == "__main__":
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
     reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     args = parser.parse_args()
-    print args
 
     # open journal
     journal = Journal(config=config)
