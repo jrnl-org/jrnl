@@ -19,7 +19,7 @@ import mimetypes
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
     'editor': "",
-    'encrypt': True,
+    'encrypt': False,
     'key': "",
     'default_hour': 9,
     'default_minute': 0,
@@ -73,6 +73,7 @@ class Journal:
         consts = pdc.Constants()
         consts.DOWParseStyle = -1 # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
+        self.crypto = None
 
         self.entries = self.open()
         self.sort()
@@ -104,11 +105,16 @@ class Journal:
                 self.crypto = AES.new(key, AES.MODE_ECB)
                 journal_plain = self.crypto.decrypt(journal_encrypted)
                 # encrypted files should end with spaces. No spaces, no luck.
-                while journal_plain[-1] != " ":
+                attempts = 1
+                while journal_plain and attempts < 3 and journal_plain[-1] != " ":
+                    attempts += 1
                     key = getpass.getpass('Wrong password. Try again: ')
                     key = self._block_tail(key)
                     self.crypto = AES.new(key, AES.MODE_ECB)
                     journal_plain = self.crypto.decrypt(journal_encrypted)
+                if attempts >= 3:
+                    print("Extremely wrong password.")
+                    sys.exit(-1)
             else:
                 journal_plain = f.read()
 
@@ -245,11 +251,21 @@ if __name__ == "__main__":
         path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
         journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
         default_config['journal'] = os.path.expanduser(journal_path)
+
+        key = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+        if key:
+            default_config['encrypt'] = True
+            print("Journal will be encrypted.")
+            print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
         open(default_config['journal'], 'a').close() # Touch to make sure it's there
         with open(config_path, 'w') as f:
             json.dump(default_config, f, indent=2)
-    with open(config_path) as f:
-        config = json.load(f)
+        config = default_config
+        if key:
+            config['key'] = key
+    else:
+        with open(config_path) as f:
+            config = json.load(f)
 
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
