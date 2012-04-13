@@ -103,10 +103,12 @@ class Journal:
                 key = self._block_tail(key)
                 self.crypto = AES.new(key, AES.MODE_ECB)
                 journal_plain = self.crypto.decrypt(journal_encrypted)
-
-                print len(journal_plain)
-                print journal_plain[-16:]
-                print 'xxxxxxxxxx'
+                # encrypted files should end with spaces. No spaces, no luck.
+                while journal_plain[-1] != " ":
+                    key = getpass.getpass('Wrong password. Try again: ')
+                    key = self._block_tail(key)
+                    self.crypto = AES.new(key, AES.MODE_ECB)
+                    journal_plain = self.crypto.decrypt(journal_encrypted)
             else:
                 journal_plain = f.read()
 
