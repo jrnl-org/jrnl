@@ -12,12 +12,14 @@ import time
 import json
 import sys
 import readline, glob
-
+from Crypto.Cipher import AES
+import getpass
 
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
     'editor': "",
     'encrypt': True,
+    'key': "",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
@@ -74,6 +76,10 @@ class Journal:
         self.entries = self.open()
         self.sort()
 
+    def _block_tail(self, s, b=16):
+        """Appends spaces to a string until length is a multiple of b"""
+        return s + " "*(b - len(s) % b)
+
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
@@ -88,7 +94,15 @@ class Journal:
         current_entry = None
 
         with open(filename) as f:
-            journal_plain = f.read()
+            if config['encrypt']:
+                journal_encrypted = f.read()
+                key = config['key'] or getpass.getpass()
+                key = self._block_tail(key)
+                self.crypto = AES.new(key, AES.MODE_ECB)
+                journal_plain = self.crypto.decrypt(journal_encrypted)
+            else:
+                journal_plain = f.read()
+
         for line in journal_plain.split(os.linesep):
             if line:
                 try:
@@ -126,7 +140,11 @@ class Journal:
         filename = filename or self.config['journal']
         journal_plain = os.linesep.join([str(e) for e in self.entries])
         with open(filename, 'w') as journal_file:
-            journal_file.write(journal_plain)
+            if self.crypto:
+                journal_padded = self._block_tail(journal_plain)
+                journal_file.write(self.crypto.encrypt(journal_padded))
+            else:
+                journal_file.write(journal_plain)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -237,9 +255,6 @@ if __name__ == "__main__":
     reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     args = parser.parse_args()
 
-    # open journal
-    journal = Journal(config=config)
-
     # Guess mode
     compose = True
     if args.start_date or args.end_date or args.limit or args.json or args.strict:
@@ -264,6 +279,9 @@ if __name__ == "__main__":
             args.text = [raw]
         else:
             compose = False
+
+    # open journal
+    journal = Journal(config=config)
 
     # Writing mode
     if compose:
