@@ -14,6 +14,7 @@ import sys
 import readline, glob
 from Crypto.Cipher import AES
 import getpass
+import mimetypes
 
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
@@ -76,8 +77,10 @@ class Journal:
         self.entries = self.open()
         self.sort()
 
-    def _block_tail(self, s, b=16):
+    def _block_tail(self, s, b=16, force=False):
         """Appends spaces to a string until length is a multiple of b"""
+        if force and len(s) % 16 == 0:
+            return s + " "*16
         return s + " "*(b - len(s) % b)
 
     def open(self, filename=None):
@@ -100,6 +103,10 @@ class Journal:
                 key = self._block_tail(key)
                 self.crypto = AES.new(key, AES.MODE_ECB)
                 journal_plain = self.crypto.decrypt(journal_encrypted)
+
+                print len(journal_plain)
+                print journal_plain[-16:]
+                print 'xxxxxxxxxx'
             else:
                 journal_plain = f.read()
 
@@ -141,7 +148,7 @@ class Journal:
         journal_plain = os.linesep.join([str(e) for e in self.entries])
         with open(filename, 'w') as journal_file:
             if self.crypto:
-                journal_padded = self._block_tail(journal_plain)
+                journal_padded = self._block_tail(journal_plain, force=True)
                 journal_file.write(self.crypto.encrypt(journal_padded))
             else:
                 journal_file.write(journal_plain)
@@ -238,7 +245,7 @@ if __name__ == "__main__":
         default_config['journal'] = os.path.expanduser(journal_path)
         open(default_config['journal'], 'a').close() # Touch to make sure it's there
         with open(config_path, 'w') as f:
-            json.dump(default_config, f)
+            json.dump(default_config, f, indent=2)
     with open(config_path) as f:
         config = json.load(f)
 
