@@ -1,20 +1,30 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # encoding: utf-8
-
+import os
+import tempfile
 import parsedatetime.parsedatetime as pdt
 import parsedatetime.parsedatetime_consts as pdc
+import subprocess
 import re
 import argparse
 from datetime import datetime
 import time
 import json
+import sys
+import readline, glob
+from Crypto.Cipher import AES
+import getpass
+import mimetypes
 
-config = {
-    'journal': "/home/manuel/Dropbox/Notes/journal.txt",
+default_config = {
+    'journal': os.path.expanduser("~/journal.txt"),
+    'editor': "",
+    'encrypt': False,
+    'key': "",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
-    'tagsymbols': '#@'
+    'tagsymbols': '@'
 }
 
 class Entry:
@@ -37,7 +47,7 @@ class Entry:
         space = "\n"
 
         return "%(date)s %(title)s %(body)s %(space)s" % {
-            'date': date_str, 
+            'date': date_str,
             'title': self.title,
             'body': body,
             'space': space
@@ -63,9 +73,16 @@ class Journal:
         consts = pdc.Constants()
         consts.DOWParseStyle = -1 # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
+        self.crypto = None
 
         self.entries = self.open()
         self.sort()
+
+    def _block_tail(self, s, b=16, force=False):
+        """Appends spaces to a string until length is a multiple of b"""
+        if force and len(s) % 16 == 0:
+            return s + " "*16
+        return s + " "*(b - len(s) % b)
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
@@ -80,8 +97,28 @@ class Journal:
         entries = []
         current_entry = None
 
-        journal_file = open(filename)
-        for line in journal_file.readlines():
+        with open(filename) as f:
+            if config['encrypt']:
+                journal_encrypted = f.read()
+                key = config['key'] or getpass.getpass()
+                key = self._block_tail(key)
+                self.crypto = AES.new(key, AES.MODE_ECB)
+                journal_plain = self.crypto.decrypt(journal_encrypted)
+                # encrypted files should end with spaces. No spaces, no luck.
+                attempts = 1
+                while journal_plain and attempts < 3 and journal_plain[-1] != " ":
+                    attempts += 1
+                    key = getpass.getpass('Wrong password. Try again: ')
+                    key = self._block_tail(key)
+                    self.crypto = AES.new(key, AES.MODE_ECB)
+                    journal_plain = self.crypto.decrypt(journal_encrypted)
+                if attempts >= 3:
+                    print("Extremely wrong password.")
+                    sys.exit(-1)
+            else:
+                journal_plain = f.read()
+
+        for line in journal_plain.split(os.linesep):
             if line:
                 try:
                     new_date = datetime.fromtimestamp(time.mktime(time.strptime(line[:date_length], config['timeformat'])))
@@ -97,7 +134,6 @@ class Journal:
         # Append last entry
         if current_entry:
             entries.append(current_entry)
-        journal_file.close()
         for entry in entries:
             entry.parse_tags()
         return entries
@@ -117,10 +153,13 @@ class Journal:
     def write(self, filename = None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal_file = open(filename, 'w')
-        for entry in self.entries:
-            journal_file.write(str(entry)+"\n")
-        journal_file.close()
+        journal_plain = os.linesep.join([str(e) for e in self.entries])
+        with open(filename, 'w') as journal_file:
+            if self.crypto:
+                journal_padded = self._block_tail(journal_plain, force=True)
+                journal_file.write(self.crypto.encrypt(journal_padded))
+            else:
+                journal_file.write(journal_plain)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -133,13 +172,13 @@ class Journal:
 
     def filter(self, tags=[], start_date=None, end_date=None, strict=False):
         """Removes all entries from the journal that don't match the filter.
-        
+
         tags is a list of tags, each being a string that starts with one of the
         tag symbols defined in the config, e.g. ["@John", "#WorldDomination"].
 
         start_date and end_date define a timespan by which to filter.
 
-        If strict is True, all tags must be present in an entry. If false, the 
+        If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
         search_tags = set(tags)
         end_date = self.parse_date(end_date)
@@ -162,7 +201,7 @@ class Journal:
             return date
 
         date, flag = self.dateparse.parse(date)
-        
+
         if not flag: # Oops, unparsable.
             return None
 
@@ -198,6 +237,36 @@ class Journal:
         self.sort()
 
 if __name__ == "__main__":
+    config_path = os.path.expanduser('~/.jrnl_config')
+    if not os.path.exists(config_path):
+        def autocomplete(text, state):
+            expansions = glob.glob(os.path.expanduser(text)+'*')
+            expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
+            expansions.append(None)
+            return expansions[state]
+        readline.set_completer_delims(' \t\n;')
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(autocomplete)
+
+        path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
+        journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
+        default_config['journal'] = os.path.expanduser(journal_path)
+
+        key = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+        if key:
+            default_config['encrypt'] = True
+            print("Journal will be encrypted.")
+            print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
+        open(default_config['journal'], 'a').close() # Touch to make sure it's there
+        with open(config_path, 'w') as f:
+            json.dump(default_config, f, indent=2)
+        config = default_config
+        if key:
+            config['key'] = key
+    else:
+        with open(config_path) as f:
+            config = json.load(f)
+
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
     composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
@@ -211,9 +280,6 @@ if __name__ == "__main__":
     reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     args = parser.parse_args()
 
-    # open journal
-    journal = Journal(config=config)
-
     # Guess mode
     compose = True
     if args.start_date or args.end_date or args.limit or args.json or args.strict:
@@ -225,15 +291,26 @@ if __name__ == "__main__":
 
     # No text? Query
     if compose and not args.text:
-        raw = raw_input("Compose Entry: ")
+        if config['editor']:
+            tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
+            subprocess.call(config['editor'].split() + [tmpfile])
+            with open(tmpfile) as f:
+                raw = f.read()
+            os.remove(tmpfile)
+
+        else:
+            raw = raw_input("Compose Entry: ")
         if raw:
             args.text = [raw]
         else:
             compose = False
 
+    # open journal
+    journal = Journal(config=config)
+
     # Writing mode
     if compose:
-        raw = " ".join(args.text).strip()    
+        raw = " ".join(args.text).strip()
         journal.new_entry(raw, args.date)
         print journal
         journal.write()
