@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 0.2.0
+
+* Encrypts using CBC
+* `key` has been renamed to `password` in config to avoid confusion. (The key use to encrypt and decrypt a journal is the SHA256-hash of the password.)
+
 ### 0.1.1
 
 * Removed unnecessary print commands
