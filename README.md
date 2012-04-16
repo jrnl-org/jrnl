@@ -28,7 +28,7 @@ If we start our entry by e.g. `yesterday:` or `last week monday at 9am:` the ent
 
 ### Viewing:
 
-    jrnl -10   
+    jrnl -n 10   
 
 will list you the ten latest entries,
 
@@ -74,7 +74,19 @@ Can do:
 Installation
 ------------
 
-...
+You can install _jrnl_ manually by cloning the repository:
+
+    git clone git://github.com/maebert/jrnl.git
+    cd jrnl
+    python setup.py install
+
+or by using pip:
+
+    pip install jrnl
+
+Afterwards, you may want to create an alias in your `.bashrc` or `.bash_profile` or whatever floats your shell:
+
+    alias jrnl="jrnl.py"
 
 Advanced configuration
 ----------------------
