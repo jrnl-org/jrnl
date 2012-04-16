@@ -33,6 +33,6 @@ setup(
     author = "Manuel Ebert",
     author_email = "manuel.ebert@upf.edu",
     license = "MIT",
-    keywords = "journal todo todo.txt jrnl",
+    keywords = "journal todo todo.txt jrnl".split(),
     url = "http://maebert.github.com/jrnl",   # project home page, if any
 )
