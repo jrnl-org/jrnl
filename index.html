@@ -90,7 +90,7 @@ Used the time to clean the house and spent 4h on writing my book.
 
 <h3>Viewing:</h3>
 
-<pre><code>jrnl -10
+<pre><code>jrnl -n 10
 </code></pre>
 
 <p>will list you the ten latest entries,</p>
@@ -142,7 +142,22 @@ Used the time to clean the house and spent 4h on writing my book.
 
 <h2>Installation</h2>
 
-<p>...</p>
+<p>You can install <em>jrnl</em> manually by cloning the repository:</p>
+
+<pre><code>git clone git://github.com/maebert/jrnl.git
+cd jrnl
+python setup.py install
+</code></pre>
+
+<p>or by using pip:</p>
+
+<pre><code>pip install jrnl
+</code></pre>
+
+<p>Afterwards, you may want to create an alias in your <code>.bashrc</code> or <code>.bash_profile</code> or whatever floats your shell:</p>
+
+<pre><code>alias jrnl="jrnl.py"
+</code></pre>
 
 <h2>Advanced configuration</h2>
 
