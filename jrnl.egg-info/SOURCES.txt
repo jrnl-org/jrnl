@@ -1,0 +1,7 @@
+jrnl.py
+setup.py
+jrnl.egg-info/PKG-INFO
+jrnl.egg-info/SOURCES.txt
+jrnl.egg-info/dependency_links.txt
+jrnl.egg-info/requires.txt
+jrnl.egg-info/top_level.txt
