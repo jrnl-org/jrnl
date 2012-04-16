@@ -5,13 +5,12 @@ jrnl
 
 Optionally, your journal can be encrypted using AES encryption
 
-Why keep a journal?
--------------------
+### Why keep a journal?
 
 Journals aren't only for 13-year old girls and people who have too much time on their summer vacation. A journal helps you to keep track of the things you get done and how you did them. Your imagination may be limitless, but your memory isn't. For personal use, make it a good habit to write at least 20 words a day. Just to reflect what made this day special, why you haven't wasted it. For professional use, consider a text-based journal to be the perfect complement to your GTD todo list - a documentation of what and how you've done it.
 
-How to use?
------------
+In a Nutshell
+-------------
 
 to make a new entry, just type
 
@@ -24,19 +23,10 @@ and hit return. `yesterday:` will be interpreted as a timestamp. Everything unti
 
 If you just call `jrnl`, you will be prompted to compose your entry - but you can also configure _jrnl_ to use your external editor.
 
-### Smart timestamps:
+Usage
+-----
 
-Timestamps that work:
-
-* at 6am
-* yesterday
-* last monday
-* sunday at noon
-* 2 march 2012
-* 7 apr
-* 5/20/1998 at 23:42
-
-If no timestamp is detected, the entry will be created now.
+_jrnl_ has to modes: __composing__ and __viewing__. 
 
 ### Viewing:
 
@@ -48,33 +38,35 @@ will list you the ten latest entries,
 
 everything that happened from the start of last year to the start of last march. 
 
+### Using Tags:
 
-> __Note:__ _jrnl_ has to modes: __composing__ and __viewing__. The mode depends on which arguments (starting with `-`) you specify. If no arguments are given, _jrnl_ will guess the mode: if all the input looks like tags, it will switch to viewing mode and filter by the specified tags., such as in
->
->     jrnl @WorldDomination
->
-> If there is some non-argument input, _jrnl_ will treat it as a new entry, such as in
-> 
->     jrnl july 4th: Aliens blew up the white house.
->
-> If there is no input, you can still go to viewing mode by just hitting `return` when prompted to compose an entry.
+Keep track of people, projects or locations, by tagging them with an `@` in your entries:
 
-
-### Tagging:
-
-Keep track of people, projects or locations, by tagging them with an `@`:
-
-    Wonderful day on the #beach with @Tom and @Anna.
+    jrnl Had a wonderful day on the #beach with @Tom and @Anna.
 
 You can filter your journal entries just like this:
 
     jrnl @pinkie @WorldDomination
 
-Will print all entries in which either `@pinkie` or `@WorldDomination` occured;
+Will print all entries in which either `@pinkie` or `@WorldDomination` occurred.
 
     jrnl -n 5 -and @pineapple @lubricant
 
-the last five entries containing both `@pineapple` _and_ `@lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
+the last five entries containing both `@pineapple` __and__ `@lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
+
+> __Note:__ `jrnl @pinkie @WorldDomination` will switch to viewing mode because although now command line arguments are given, all the input strings look like tags - _jrnl_ will assume you want to filter by tag. 
+
+### Smart timestamps:
+
+Timestamps that work:
+
+* at 6am
+* yesterday
+* last monday
+* sunday at noon
+* 2 march 2012
+* 7 apr
+* 5/20/1998 at 23:42
 
 Installation
 ------------
