@@ -9,7 +9,7 @@ import re
 import argparse
 from datetime import datetime
 import time
-import json
+import simplejson as json
 import sys
 import readline, glob
 from Crypto.Cipher import AES
