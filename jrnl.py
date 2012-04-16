@@ -90,6 +90,8 @@ class Journal:
 
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
+        if not cipher:
+            return ""
         crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
         plain = crypto.decrypt(cipher[16:])
         if plain[-1] != " ": # Journals are always padded
@@ -118,7 +120,7 @@ class Journal:
         if self.config['encrypt']:
             decrypted = None
             attempts = 0
-            while not decrypted:
+            while decrypted is None:
                 password = self.config['password'] or getpass.getpass()
                 self.key = hashlib.sha256(password).digest()
                 decrypted = self._decrypt(journal)
@@ -260,33 +262,41 @@ class Journal:
         self.entries.append(Entry(self, date, title, body))
         self.sort()
 
+def setup(config_path):
+    def autocomplete(text, state):
+        expansions = glob.glob(os.path.expanduser(text)+'*')
+        expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
+        expansions.append(None)
+        return expansions[state]
+    readline.set_completer_delims(' \t\n;')
+    readline.parse_and_bind("tab: complete")
+    readline.set_completer(autocomplete)
+
+    # Where to create the journal?
+    path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
+    journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
+    default_config['journal'] = os.path.expanduser(journal_path)
+
+    # Encrypt it?
+    password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+    if password:
+        default_config['encrypt'] = True
+        print("Journal will be encrypted.")
+        print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
+    open(default_config['journal'], 'a').close() # Touch to make sure it's there
+    
+    # Write config to ~/.jrnl_conf
+    with open(config_path, 'w') as f:
+        json.dump(default_config, f, indent=2)
+    config = default_config
+    if password:
+        config['password'] = password  
+    return config
+
 if __name__ == "__main__":
     config_path = os.path.expanduser('~/.jrnl_config')
     if not os.path.exists(config_path):
-        def autocomplete(text, state):
-            expansions = glob.glob(os.path.expanduser(text)+'*')
-            expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
-            expansions.append(None)
-            return expansions[state]
-        readline.set_completer_delims(' \t\n;')
-        readline.parse_and_bind("tab: complete")
-        readline.set_completer(autocomplete)
-
-        path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
-        journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
-        default_config['journal'] = os.path.expanduser(journal_path)
-
-        password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
-        if password:
-            default_config['encrypt'] = True
-            print("Journal will be encrypted.")
-            print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
-        open(default_config['journal'], 'a').close() # Touch to make sure it's there
-        with open(config_path, 'w') as f:
-            json.dump(default_config, f, indent=2)
-        config = default_config
-        if password:
-            config['password'] = password        
+        config = setup(config_path)
     else:
         with open(config_path) as f:
             config = json.load(f)
