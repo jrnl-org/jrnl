@@ -137,7 +137,7 @@ Should you ever want to decrypt your journal manually, you can do so with any pr
     with open("my_journal.txt") as f:
         cipher = f.read()
         crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
-        plain = crypto.decrypt(cipher)
+        plain = crypto.decrypt(cipher[16:])
 
 ### JSON export
 
