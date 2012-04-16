@@ -9,7 +9,8 @@ import re
 import argparse
 from datetime import datetime
 import time
-import simplejson as json
+try: import simplejson as json
+except ImportError: import json
 import sys
 import readline, glob
 from Crypto.Cipher import AES
