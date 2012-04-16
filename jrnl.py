@@ -13,7 +13,7 @@ try: import simplejson as json
 except ImportError: import json
 import sys
 import readline, glob
-from Crypto.Cipher import AES
+from ` import AES
 from Crypto.Random import random, atfork
 import hashlib
 import getpass
@@ -81,12 +81,6 @@ class Journal:
         journal_txt = self.open()
         self.entries = self.parse(journal_txt)
         self.sort()
-
-    def _block_tail(self, s, b=16, force=False):
-        """Appends spaces to a string until length is a multiple of b"""
-        if force and len(s) % 16 == 0:
-            return s + " "*16
-        return s + " "*(b - len(s) % b)
 
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
