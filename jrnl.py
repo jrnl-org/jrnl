@@ -14,6 +14,8 @@ except ImportError: import json
 import sys
 import readline, glob
 from Crypto.Cipher import AES
+from Crypto.Random import random, atfork
+import hashlib
 import getpass
 import mimetypes
 
@@ -21,7 +23,7 @@ default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
     'editor': "",
     'encrypt': False,
-    'key': "",
+    'password': "",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
@@ -74,9 +76,10 @@ class Journal:
         consts = pdc.Constants()
         consts.DOWParseStyle = -1 # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
-        self.crypto = None
+        self.key = None # used to decrypt and encrypt the journal
 
-        self.entries = self.open()
+        journal_txt = self.open()
+        self.entries = self.parse(journal_txt)
         self.sort()
 
     def _block_tail(self, s, b=16, force=False):
@@ -85,10 +88,39 @@ class Journal:
             return s + " "*16
         return s + " "*(b - len(s) % b)
 
+    def _decrypt(self, cipher):
+        """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
+        crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
+        plain = crypto.decrypt(cipher[16:])
+        return plain
+
+    def _encrypt(self, plain):
+        """Encrypt a plaintext string using self.key as the key"""
+        atfork() # A seed for PyCrypto
+        iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
+        crypto = AES.new(self.key, AES.MODE_CBC, iv)
+        if len(plain) % 16 != 0:
+            plain += " " * (16 - len(plain) % 16)
+        else: # Always pad so we can detect properly decrypted files :)
+            plain += " " * 16
+        return iv + crypto.encrypt(plain)
+
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
+        journal = None
+        with open(filename) as f:
+            journal = f.read()
+        if self.config['encrypt']:
+            password = self.config['password'] or getpass.getpass()
+            self.key = hashlib.sha256(password).digest()
+            journal = self._decrypt(journal)
+        print journal
+        return journal
+
+    def parse(self, journal):
+        """Parses a journal that's stored in a string and returns a list of entries"""
 
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
@@ -98,28 +130,7 @@ class Journal:
         entries = []
         current_entry = None
 
-        with open(filename) as f:
-            if self.config['encrypt']:
-                journal_encrypted = f.read()
-                key = self.config['key'] or getpass.getpass()
-                key = self._block_tail(key)
-                self.crypto = AES.new(key, AES.MODE_ECB)
-                journal_plain = self.crypto.decrypt(journal_encrypted)
-                # encrypted files should end with spaces. No spaces, no luck.
-                attempts = 1
-                while journal_plain and attempts < 3 and journal_plain[-1] != " ":
-                    attempts += 1
-                    key = getpass.getpass('Wrong password. Try again: ')
-                    key = self._block_tail(key)
-                    self.crypto = AES.new(key, AES.MODE_ECB)
-                    journal_plain = self.crypto.decrypt(journal_encrypted)
-                if attempts >= 3:
-                    print("Extremely wrong password.")
-                    sys.exit(-1)
-            else:
-                journal_plain = f.read()
-
-        for line in journal_plain.split(os.linesep):
+        for line in journal.split(os.linesep):
             if line:
                 try:
                     new_date = datetime.fromtimestamp(time.mktime(time.strptime(line[:date_length], self.config['timeformat'])))
@@ -154,13 +165,11 @@ class Journal:
     def write(self, filename = None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal_plain = os.linesep.join([str(e) for e in self.entries])
+        journal = os.linesep.join([str(e) for e in self.entries])
+        if self.config['encrypt']:
+            journal = self._encrypt(journal)            
         with open(filename, 'w') as journal_file:
-            if self.crypto:
-                journal_padded = self._block_tail(journal_plain, force=True)
-                journal_file.write(self.crypto.encrypt(journal_padded))
-            else:
-                journal_file.write(journal_plain)
+                journal_file.write(journal)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -253,8 +262,8 @@ if __name__ == "__main__":
         journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
         default_config['journal'] = os.path.expanduser(journal_path)
 
-        key = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
-        if key:
+        password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+        if password:
             default_config['encrypt'] = True
             print("Journal will be encrypted.")
             print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
@@ -262,8 +271,8 @@ if __name__ == "__main__":
         with open(config_path, 'w') as f:
             json.dump(default_config, f, indent=2)
         config = default_config
-        if key:
-            config['key'] = key
+        if password:
+            config['password'] = password        
     else:
         with open(config_path) as f:
             config = json.load(f)
