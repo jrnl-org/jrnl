@@ -19,14 +19,24 @@ to make a new entry, just type
 
 and hit return. `yesterday:` will be interpreted as a timestamp. Everything until the first sentence mark (`.?!`) will be interpreted as the title, the rest as the body. In your journal file, the result will look like this:
 
-    2012-03-29 09:0 Called in sick. 
+    2012-03-29 09:00 Called in sick. 
     Used the time to clean the house and spent 4h on writing my book.
 
 If you just call `jrnl`, you will be prompted to compose your entry - but you can also configure _jrnl_ to use your external editor.
 
 ### Smart timestamps:
 
-If we start our entry by e.g. `yesterday:` or `last week monday at 9am:` the entry's date will automatically be adjusted. 
+Timestamps that work:
+
+* at 6am
+* yesterday
+* last monday
+* sunday at noon
+* 2 march 2012
+* 7 apr
+* 5/20/1998 at 23:42
+
+If no timestamp is detected, the entry will be created now.
 
 ### Viewing:
 
