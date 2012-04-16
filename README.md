@@ -76,13 +76,6 @@ Will print all entries in which either `@pinkie` or `@WorldDomination` occured;
 
 the last five entries containing both `@pineapple` _and_ `@lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
 
-### JSON Export
-
-Can do:
-
-    jrnl -json
-
-
 Installation
 ------------
 
@@ -104,8 +97,8 @@ Afterwards, you may want to create an alias in your `.bashrc` or `.bash_profile`
 
 _jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems in automatically installing within virtual environments.
 
-Advanced configuration
-----------------------
+Advanced usage
+--------------
 
 The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory.
 
@@ -146,3 +139,9 @@ It's just a regular `json` file:
 ### Encryption
 
 Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm and the passwords you entered when running _jrnl_ for the first time. Since AES requires keys to be a multiple of 16 characters, passwords will be padded with trailing white spaces before using it to encrypt or decrypt your journal. Sow, if your password is `rosebud` (which I hope it isn't), the key with which to decrypt your journal is `rosebud_________` (the underscores represent whitespaces).
+
+### JSON export
+
+Can do:
+
+    jrnl -json
