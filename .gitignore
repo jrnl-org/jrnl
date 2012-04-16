@@ -1,0 +1,4 @@
+jrnl.egg-info
+build
+dist
+*.py[co]
