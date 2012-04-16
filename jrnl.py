@@ -99,9 +99,9 @@ class Journal:
         current_entry = None
 
         with open(filename) as f:
-            if config['encrypt']:
+            if self.config['encrypt']:
                 journal_encrypted = f.read()
-                key = config['key'] or getpass.getpass()
+                key = self.config['key'] or getpass.getpass()
                 key = self._block_tail(key)
                 self.crypto = AES.new(key, AES.MODE_ECB)
                 journal_plain = self.crypto.decrypt(journal_encrypted)
@@ -122,7 +122,7 @@ class Journal:
         for line in journal_plain.split(os.linesep):
             if line:
                 try:
-                    new_date = datetime.fromtimestamp(time.mktime(time.strptime(line[:date_length], config['timeformat'])))
+                    new_date = datetime.fromtimestamp(time.mktime(time.strptime(line[:date_length], self.config['timeformat'])))
                     # make a journal entry of the current stuff first
                     if new_date and current_entry:
                         entries.append(current_entry)
