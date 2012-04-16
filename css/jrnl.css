@@ -1,0 +1,126 @@
+body {
+    background: #e6ebed; /* Old browsers */
+    background-image: -ms-radial-gradient(center top, circle closest-corner, #FFFFFF 30%, #E6EBED 100%);
+    background-image: -moz-radial-gradient(center top, circle closest-corner, #FFFFFF 30%, #E6EBED 100%);
+    background-image: -o-radial-gradient(center top, circle closest-corner, #FFFFFF 30%, #E6EBED 100%);
+    background-image: -webkit-gradient(radial, center top, 0, center top, 488, color-stop(.3, #FFFFFF), color-stop(1, #E6EBED));
+    background-image: -webkit-radial-gradient(center top, circle closest-corner, #FFFFFF 30%, #E6EBED 100%);
+    background-image: radial-gradient(center top, circle closest-corner, #FFFFFF 30%, #E6EBED 100%);
+}
+
+.leftlogo {
+    width: 128px;
+    height: 168px;
+    margin: 0px auto;
+    position: fixed;
+    top: -168px;
+    background: url(../img/logo-left.png) center top no-repeat transparent;
+}
+::-moz-selection{background:#057FDE;color:white;text-shadow: 0px -1px #034679;}
+::selection{background:#057FDE;color:white;text-shadow: 0px -1px #034679;}
+
+a::-moz-selection{background:#057FDE;color:white;text-shadow: 0px -1px #034679;}
+a::selection{background:#057FDE;color:white;text-shadow: 0px -1px #034679;}
+
+
+.block {
+    background: white;
+    border: 1px solid #4d4d4d;
+    -webkit-border-radius:  5px;
+    -moz-border-radius:     5px;
+    -o-border-radius:       5px;
+    border-radius:          5px;
+    box-shadow: 0px 2px 0px -1px #4d4d4d;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.block p, .block li {
+    color:#444;
+    font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 18pt;
+    margin: 10px 0px;
+}
+
+span.backtick {
+    font-family: Menlo,Monaco,"Courier New",monospace;
+    border: 1px solid rgba(0, 0, 0, 0.148438);
+    background-color: whiteSmoke;
+    font-size: 12px;
+    padding: 2px 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #333;
+}
+
+h1, h2, h3 {
+    margin: 0px 0px 20px 0px;
+}
+h3 {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.148438);
+    margin-top: 20px;
+}
+blockquote {
+    margin: 20px 60px 20px 0px;
+}
+blockquote pre {
+    margin: 10px 0px;
+}
+blockquote pre, blockquote .backtick {
+    color: #666;
+    background: #fafafa;
+}
+blockquote p{
+    color: #888;
+    font-size: 11pt;
+}
+
+.logo .span10 {
+    background: url(../img/logo-top.png) center top no-repeat transparent;
+    height: 180px;
+}
+
+.logo .span2 {
+
+}
+
+.navcontain {
+}
+
+.sidebar-nav {
+    background: #4d4d4d;
+    -webkit-border-radius:  5px;
+    -moz-border-radius:     5px;
+    -o-border-radius:       5px;
+    border-radius:          5px;
+    box-shadow: 0px 0px 3px 1px rgba(0,0,0,.3);
+}
+
+.nav li, .nav li a {
+    color: white;
+    text-shadow: 0px -1px #1a1a1a;
+}
+
+.nav .nav-header {
+    color: white;
+    text-shadow: 0px -1px #1a1a1a;
+}
+
+.nav .active a {
+    text-shadow: 0px -1px #034679;
+    background: #057FDE;
+    background-image: -ms-linear-gradient(bottom, #057FDE 30%, #4BAEFB 100%);
+    background-image: -moz-linear-gradient(bottom, #057FDE 30%, #4BAEFB 100%);
+    background-image: -o-linear-gradient(bottom, #057FDE 30%, #4BAEFB 100%);
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(.3, #057FDE), color-stop(1, #4BAEFB));
+    background-image: -webkit-linear-gradient(bottom, #057FDE 30%, #4BAEFB 100%);
+    background-image: linear-gradient(bottom, #057FDE 30%, #4BAEFB 100%);
+    box-shadow: 0px 3px 3px 0px rgba(0,0,0,.1);
+}
+
+.nav li:hover a, .nav a:hover {
+    background: #3c3c3c;
+    box-shadow: inset 0px 3px 3px 0px rgba(0,0,0,.1);
+}
