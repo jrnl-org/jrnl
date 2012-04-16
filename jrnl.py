@@ -13,7 +13,7 @@ try: import simplejson as json
 except ImportError: import json
 import sys
 import readline, glob
-from ` import AES
+from Crypto.Cipher import AES
 from Crypto.Random import random, atfork
 import hashlib
 import getpass
