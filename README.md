@@ -3,6 +3,8 @@ jrnl
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
+Optionally, your journal can be encrypted using AES encryption
+
 Why keep a journal?
 -------------------
 
@@ -88,10 +90,18 @@ Afterwards, you may want to create an alias in your `.bashrc` or `.bash_profile`
 
     alias jrnl="jrnl.py"
 
+### Known Issues
+
+_jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems in automatically installing within virtual environments.
+
 Advanced configuration
 ----------------------
 
-The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory. It's just a regular `json` file:
+The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory.
+
+### .jrnl_config
+
+It's just a regular `json` file:
 
     {
         journal:        "~/journal.txt",
@@ -122,3 +132,7 @@ The first time launched, _jrnl_ will create a file called `.jrnl_config` in your
 >     jrnl "Implemented endless scrolling on the #frontend of our website."
 > 
 > Or use the built-in prompt or an external editor to compose your entries.
+
+### Encryption
+
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm and the passwords you entered when running _jrnl_ for the first time. Since AES requires keys to be a multiple of 16 characters, passwords will be padded with trailing white spaces before using it to encrypt or decrypt your journal. Sow, if your password is `rosebud` (which I hope it isn't), the key with which to decrypt your journal is `rosebud_________` (the underscores represent whitespaces).
