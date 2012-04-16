@@ -65,7 +65,7 @@
 
 <p><em>jrnl</em> is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.</p>
 
-<p>Optionally, your journal can be encrypted using AES encryption.</p>
+<p>Optionally, your journal can be encrypted using the <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">256-bit AES</a>.</p>
 
 <h3>Why keep a journal?</h3>
 
@@ -185,7 +185,7 @@ python setup.py install
 <ul>
 <li><code>journal</code>: path to  your journal file</li>
 <li><code>editor</code>: if set, executes this command to launch an external editor for writing your entries, e.g. <code>vim</code> or <code>subl -w</code> (note the <code>-w</code> flag to make sure <em>jrnl</em> waits for Sublime Text to close the file before writing into the journal).</li>
-<li><code>encrypt</code>: if true, encrypts your journal using AES encryption.</li>
+<li><code>encrypt</code>: if true, encrypts your journal using AES.</li>
 <li><code>password</code>: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.</li>
 <li><code>tagsymbols</code>: Symbols to be interpreted as tags. (<strong>See note below</strong>)</li>
 <li><code>default_hour</code> and <code>default_minute</code>: if you supply a date, such as <code>last thursday</code>, but no specific time, the entry will be created at this time</li>
@@ -206,6 +206,15 @@ python setup.py install
   <p>Or use the built-in prompt or an external editor to compose your entries.</p>
 </blockquote>
 
+<h3>JSON export</h3>
+
+<p>Can do:</p>
+
+<pre><code>jrnl -json
+</code></pre>
+
+<p>Why not create a beautiful <a href="http://timeline.verite.co/">timeline</a> of your journal?</p>
+
 <h3>Encryption</h3>
 
 <p>Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run</p>
@@ -215,14 +224,7 @@ key = hashlib.sha256(my_password).digest()
 with open("my_journal.txt") as f:
     cipher = f.read()
     crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
-    plain = crypto.decrypt(cipher)
-</code></pre>
-
-<h3>JSON export</h3>
-
-<p>Can do:</p>
-
-<pre><code>jrnl -json
+    plain = crypto.decrypt(cipher[16:])
 </code></pre>
 <h1>Changelog</h1>
 
