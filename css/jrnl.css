@@ -43,6 +43,12 @@ a::selection{background:#057FDE;color:white;text-shadow: 0px -1px #034679;}
     margin: 10px 0px;
 }
 
+footer {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #888;
+}
+
 span.backtick {
     font-family: Menlo,Monaco,"Courier New",monospace;
     border: 1px solid rgba(0, 0, 0, 0.148438);
