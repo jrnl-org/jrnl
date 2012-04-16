@@ -92,7 +92,10 @@ class Journal:
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
         crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
         plain = crypto.decrypt(cipher[16:])
-        return plain
+        if plain[-1] != " ": # Journals are always padded
+            return None
+        else:
+            return plain
 
     def _encrypt(self, plain):
         """Encrypt a plaintext string using self.key as the key"""
@@ -113,10 +116,21 @@ class Journal:
         with open(filename) as f:
             journal = f.read()
         if self.config['encrypt']:
-            password = self.config['password'] or getpass.getpass()
-            self.key = hashlib.sha256(password).digest()
-            journal = self._decrypt(journal)
-        print journal
+            decrypted = None
+            attempts = 0
+            while not decrypted:
+                password = self.config['password'] or getpass.getpass()
+                self.key = hashlib.sha256(password).digest()
+                decrypted = self._decrypt(journal)
+                if not decrypted:
+                    attempts += 1
+                    self.config['password'] = None # This doesn't work.
+                    if attempts < 3:
+                        print("Wrong password, try again.")
+                    else: 
+                        print("Extremely wrong password.")
+                        sys.exit(-1)
+            journal = decrypted
         return journal
 
     def parse(self, journal):
