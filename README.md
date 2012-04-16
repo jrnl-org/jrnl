@@ -1,12 +1,15 @@
-# jrnl
+jrnl
+====
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
-## Why keep a journal?
+Why keep a journal?
+-------------------
 
 Journals aren't only for 13-year old girls and people who have too much time on their summer vacation. A journal helps you to keep track of the things you get done and how you did them. Your imagination may be limitless, but your memory isn't. For personal use, make it a good habit to write at least 20 words a day. Just to reflect what made this day special, why you haven't wasted it. For professional use, consider a text-based journal to be the perfect complement to your GTD todo list - a documentation of what and how you've done it.
 
-## How to use?
+How to use?
+-----------
 
 to make a new entry, just type
 
@@ -68,11 +71,13 @@ Can do:
     jrnl -json
 
 
-## Installation
+Installation
+------------
 
 ...
 
-## Advanced configuration
+Advanced configuration
+----------------------
 
 The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory. It's just a regular `json` file:
 
