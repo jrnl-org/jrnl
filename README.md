@@ -3,13 +3,14 @@ jrnl
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
-Why keep a journal?
--------------------
+Optionally, your journal can be encrypted using AES encryption
+
+### Why keep a journal?
 
 Journals aren't only for 13-year old girls and people who have too much time on their summer vacation. A journal helps you to keep track of the things you get done and how you did them. Your imagination may be limitless, but your memory isn't. For personal use, make it a good habit to write at least 20 words a day. Just to reflect what made this day special, why you haven't wasted it. For professional use, consider a text-based journal to be the perfect complement to your GTD todo list - a documentation of what and how you've done it.
 
-How to use?
------------
+In a Nutshell
+-------------
 
 to make a new entry, just type
 
@@ -17,14 +18,15 @@ to make a new entry, just type
 
 and hit return. `yesterday:` will be interpreted as a timestamp. Everything until the first sentence mark (`.?!`) will be interpreted as the title, the rest as the body. In your journal file, the result will look like this:
 
-    2012-03-29 09:0 Called in sick. 
+    2012-03-29 09:00 Called in sick. 
     Used the time to clean the house and spent 4h on writing my book.
 
 If you just call `jrnl`, you will be prompted to compose your entry - but you can also configure _jrnl_ to use your external editor.
 
-### Smart timestamps:
+Usage
+-----
 
-If we start our entry by e.g. `yesterday:` or `last week monday at 9am:` the entry's date will automatically be adjusted. 
+_jrnl_ has to modes: __composing__ and __viewing__. 
 
 ### Viewing:
 
@@ -36,40 +38,35 @@ will list you the ten latest entries,
 
 everything that happened from the start of last year to the start of last march. 
 
+### Using Tags:
 
-> __Note:__ _jrnl_ has to modes: __composing__ and __viewing__. The mode depends on which arguments (starting with `-`) you specify. If no arguments are given, _jrnl_ will guess the mode: if all the input looks like tags, it will switch to viewing mode and filter by the specified tags., such as in
->
->     jrnl @WorldDomination
->
-> If there is some non-argument input, _jrnl_ will treat it as a new entry, such as in
-> 
->     jrnl july 4th: Aliens blew up the white house.
->
-> If there is no input, you can still go to viewing mode by just hitting `return` when prompted to compose an entry.
+Keep track of people, projects or locations, by tagging them with an `@` in your entries:
 
-
-### Tagging:
-
-Keep track of people, projects or locations, by tagging them with an `@`:
-
-    Wonderful day on the #beach with @Tom and @Anna.
+    jrnl Had a wonderful day on the #beach with @Tom and @Anna.
 
 You can filter your journal entries just like this:
 
     jrnl @pinkie @WorldDomination
 
-Will print all entries in which either `@pinkie` or `@WorldDomination` occured;
+Will print all entries in which either `@pinkie` or `@WorldDomination` occurred.
 
     jrnl -n 5 -and @pineapple @lubricant
 
-the last five entries containing both `@pineapple` _and_ `@lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
+the last five entries containing both `@pineapple` __and__ `@lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
 
-### JSON Export
+> __Note:__ `jrnl @pinkie @WorldDomination` will switch to viewing mode because although now command line arguments are given, all the input strings look like tags - _jrnl_ will assume you want to filter by tag. 
 
-Can do:
+### Smart timestamps:
 
-    jrnl -json
+Timestamps that work:
 
+* at 6am
+* yesterday
+* last monday
+* sunday at noon
+* 2 march 2012
+* 7 apr
+* 5/20/1998 at 23:42
 
 Installation
 ------------
@@ -88,10 +85,18 @@ Afterwards, you may want to create an alias in your `.bashrc` or `.bash_profile`
 
     alias jrnl="jrnl.py"
 
-Advanced configuration
-----------------------
+### Known Issues
 
-The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory. It's just a regular `json` file:
+_jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems in automatically installing within virtual environments.
+
+Advanced usage
+--------------
+
+The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory.
+
+### .jrnl_config
+
+It's just a regular `json` file:
 
     {
         journal:        "~/journal.txt",
@@ -122,3 +127,13 @@ The first time launched, _jrnl_ will create a file called `.jrnl_config` in your
 >     jrnl "Implemented endless scrolling on the #frontend of our website."
 > 
 > Or use the built-in prompt or an external editor to compose your entries.
+
+### Encryption
+
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm and the passwords you entered when running _jrnl_ for the first time. Since AES requires keys to be a multiple of 16 characters, passwords will be padded with trailing white spaces before using it to encrypt or decrypt your journal. Sow, if your password is `rosebud` (which I hope it isn't), the key with which to decrypt your journal is `rosebud_________` (the underscores represent whitespaces).
+
+### JSON export
+
+Can do:
+
+    jrnl -json

@@ -65,11 +65,13 @@
 
 <p><em>jrnl</em> is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.</p>
 
-<h2>Why keep a journal?</h2>
+<p>Optionally, your journal can be encrypted using AES encryption</p>
+
+<h3>Why keep a journal?</h3>
 
 <p>Journals aren't only for 13-year old girls and people who have too much time on their summer vacation. A journal helps you to keep track of the things you get done and how you did them. Your imagination may be limitless, but your memory isn't. For personal use, make it a good habit to write at least 20 words a day. Just to reflect what made this day special, why you haven't wasted it. For professional use, consider a text-based journal to be the perfect complement to your GTD todo list - a documentation of what and how you've done it.</p>
 
-<h2>How to use?</h2>
+<h2>In a Nutshell</h2>
 
 <p>to make a new entry, just type</p>
 
@@ -78,15 +80,15 @@
 
 <p>and hit return. <code>yesterday:</code> will be interpreted as a timestamp. Everything until the first sentence mark (<code>.?!</code>) will be interpreted as the title, the rest as the body. In your journal file, the result will look like this:</p>
 
-<pre><code>2012-03-29 09:0 Called in sick. 
+<pre><code>2012-03-29 09:00 Called in sick. 
 Used the time to clean the house and spent 4h on writing my book.
 </code></pre>
 
 <p>If you just call <code>jrnl</code>, you will be prompted to compose your entry - but you can also configure <em>jrnl</em> to use your external editor.</p>
 
-<h3>Smart timestamps:</h3>
+<h2>Usage</h2>
 
-<p>If we start our entry by e.g. <code>yesterday:</code> or <code>last week monday at 9am:</code> the entry's date will automatically be adjusted. </p>
+<p><em>jrnl</em> has to modes: <strong>composing</strong> and <strong>viewing</strong>. </p>
 
 <h3>Viewing:</h3>
 
@@ -100,25 +102,11 @@ Used the time to clean the house and spent 4h on writing my book.
 
 <p>everything that happened from the start of last year to the start of last march. </p>
 
-<blockquote>
-  <p><strong>Note:</strong> <em>jrnl</em> has to modes: <strong>composing</strong> and <strong>viewing</strong>. The mode depends on which arguments (starting with <code>-</code>) you specify. If no arguments are given, <em>jrnl</em> will guess the mode: if all the input looks like tags, it will switch to viewing mode and filter by the specified tags., such as in</p>
+<h3>Using Tags:</h3>
 
-<pre><code>jrnl @WorldDomination
-</code></pre>
-  
-  <p>If there is some non-argument input, <em>jrnl</em> will treat it as a new entry, such as in</p>
+<p>Keep track of people, projects or locations, by tagging them with an <code>@</code> in your entries:</p>
 
-<pre><code>jrnl july 4th: Aliens blew up the white house.
-</code></pre>
-  
-  <p>If there is no input, you can still go to viewing mode by just hitting <code>return</code> when prompted to compose an entry.</p>
-</blockquote>
-
-<h3>Tagging:</h3>
-
-<p>Keep track of people, projects or locations, by tagging them with an <code>@</code>:</p>
-
-<pre><code>Wonderful day on the #beach with @Tom and @Anna.
+<pre><code>jrnl Had a wonderful day on the #beach with @Tom and @Anna.
 </code></pre>
 
 <p>You can filter your journal entries just like this:</p>
@@ -126,19 +114,30 @@ Used the time to clean the house and spent 4h on writing my book.
 <pre><code>jrnl @pinkie @WorldDomination
 </code></pre>
 
-<p>Will print all entries in which either <code>@pinkie</code> or <code>@WorldDomination</code> occured;</p>
+<p>Will print all entries in which either <code>@pinkie</code> or <code>@WorldDomination</code> occurred.</p>
 
 <pre><code>jrnl -n 5 -and @pineapple @lubricant
 </code></pre>
 
-<p>the last five entries containing both <code>@pineapple</code> <em>and</em> <code>@lubricant</code>. You can change which symbols you'd like to use for tagging in the configuration.</p>
+<p>the last five entries containing both <code>@pineapple</code> <strong>and</strong> <code>@lubricant</code>. You can change which symbols you'd like to use for tagging in the configuration.</p>
 
-<h3>JSON Export</h3>
+<blockquote>
+  <p><strong>Note:</strong> <code>jrnl @pinkie @WorldDomination</code> will switch to viewing mode because although now command line arguments are given, all the input strings look like tags - <em>jrnl</em> will assume you want to filter by tag. </p>
+</blockquote>
 
-<p>Can do:</p>
+<h3>Smart timestamps:</h3>
 
-<pre><code>jrnl -json
-</code></pre>
+<p>Timestamps that work:</p>
+
+<ul>
+<li>at 6am</li>
+<li>yesterday</li>
+<li>last monday</li>
+<li>sunday at noon</li>
+<li>2 march 2012</li>
+<li>7 apr</li>
+<li>5/20/1998 at 23:42</li>
+</ul>
 
 <h2>Installation</h2>
 
@@ -159,9 +158,17 @@ python setup.py install
 <pre><code>alias jrnl="jrnl.py"
 </code></pre>
 
-<h2>Advanced configuration</h2>
+<h3>Known Issues</h3>
 
-<p>The first time launched, <em>jrnl</em> will create a file called <code>.jrnl_config</code> in your home directory. It's just a regular <code>json</code> file:</p>
+<p><em>jrnl</em> relies on the <code>Crypto</code> package to encrypt journals, which has some known problems in automatically installing within virtual environments.</p>
+
+<h2>Advanced usage</h2>
+
+<p>The first time launched, <em>jrnl</em> will create a file called <code>.jrnl_config</code> in your home directory.</p>
+
+<h3>.jrnl_config</h3>
+
+<p>It's just a regular <code>json</code> file:</p>
 
 <pre><code>{
     journal:        "~/journal.txt",
@@ -198,6 +205,17 @@ python setup.py install
   
   <p>Or use the built-in prompt or an external editor to compose your entries.</p>
 </blockquote>
+
+<h3>Encryption</h3>
+
+<p>Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm and the passwords you entered when running <em>jrnl</em> for the first time. Since AES requires keys to be a multiple of 16 characters, passwords will be padded with trailing white spaces before using it to encrypt or decrypt your journal. Sow, if your password is <code>rosebud</code> (which I hope it isn't), the key with which to decrypt your journal is <code>rosebud_________</code> (the underscores represent whitespaces).</p>
+
+<h3>JSON export</h3>
+
+<p>Can do:</p>
+
+<pre><code>jrnl -json
+</code></pre>
 
         </div> <!-- /span10 -->
 
