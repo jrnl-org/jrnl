@@ -3,7 +3,7 @@ jrnl
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
-Optionally, your journal can be encrypted using AES encryption
+Optionally, your journal can be encrypted using AES encryption.
 
 ### Why keep a journal?
 
@@ -102,7 +102,7 @@ It's just a regular `json` file:
         journal:        "~/journal.txt",
         editor:         "",
         encrypt:        false,
-        key:            ""
+        password:       ""
         tagsymbols:     '@'
         default_hour:   9,
         default_minute: 0,
@@ -112,7 +112,7 @@ It's just a regular `json` file:
  - `journal`: path to  your journal file
  - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
  - `encrypt`: if true, encrypts your journal using AES encryption.
- - `key`: you may store the key you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
+ - `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
  - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
  - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
  - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
@@ -130,7 +130,14 @@ It's just a regular `json` file:
 
 ### Encryption
 
-Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm and the passwords you entered when running _jrnl_ for the first time. Since AES requires keys to be a multiple of 16 characters, passwords will be padded with trailing white spaces before using it to encrypt or decrypt your journal. Sow, if your password is `rosebud` (which I hope it isn't), the key with which to decrypt your journal is `rosebud_________` (the underscores represent whitespaces).
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run
+
+    import hashlib, Crypto.Cipher
+    key = hashlib.sha256(my_password).digest()
+    with open("my_journal.txt") as f:
+        cipher = f.read()
+        crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
+        plain = crypto.decrypt(cipher)
 
 ### JSON export
 
