@@ -84,7 +84,7 @@ blockquote p{
 }
 
 .logo .span10 {
-    background: url(../img/logo-top.png) center top no-repeat transparent;
+    text-align: center;
     height: 180px;
 }
 
