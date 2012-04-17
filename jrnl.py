@@ -200,7 +200,7 @@ class Journal:
 
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
-        search_tags = set(tags)
+        search_tags = set([tag.lower() for tag in tags])
         end_date = self.parse_date(end_date)
         start_date = self.parse_date(start_date)
         # If strict mode is on, all tags have to be present in entry
