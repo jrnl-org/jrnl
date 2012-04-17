@@ -132,11 +132,27 @@ It's just a regular `json` file:
 
 Can do:
 
-    jrnl -json
+    jrnl --json
 
 Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
 
+### Markdown export
+
+    jrnl --markdown
+
+Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
+
 ### Encryption
+
+You can encrypt your existing journal file or change its password using
+
+    jrnl --encrypt
+
+If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely,
+
+    jrnl --decrypt
+
+will replace your encrypted journal file by a Journal in plain text.
 
 Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run
 

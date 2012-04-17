@@ -210,12 +210,31 @@ python setup.py install
 
 <p>Can do:</p>
 
-<pre><code>jrnl -json
+<pre><code>jrnl --json
 </code></pre>
 
 <p>Why not create a beautiful <a href="http://timeline.verite.co/">timeline</a> of your journal?</p>
 
+<h3>Markdown export</h3>
+
+<pre><code>jrnl --markdown
+</code></pre>
+
+<p>Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.</p>
+
 <h3>Encryption</h3>
+
+<p>You can encrypt your existing journal file or change its password using</p>
+
+<pre><code>jrnl --encrypt
+</code></pre>
+
+<p>If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely,</p>
+
+<pre><code>jrnl --decrypt
+</code></pre>
+
+<p>will replace your encrypted journal file by a Journal in plain text.</p>
 
 <p>Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run</p>
 
@@ -227,6 +246,18 @@ with open("my_journal.txt") as f:
     plain = crypto.decrypt(cipher[16:])
 </code></pre>
 <h1>Changelog</h1>
+
+<h3>0.2.2</h3>
+
+<ul>
+<li>Adds --encrypt and --decrypt to encrypt / descrypt existing journal files</li>
+</ul>
+
+<h3>0.2.1</h3>
+
+<ul>
+<li>Submitted to <a href="http://pypi.python.org/pypi/jrnl/0.2.1">PyPi</a>.</li>
+</ul>
 
 <h3>0.2.0</h3>
 
@@ -240,7 +271,6 @@ with open("my_journal.txt") as f:
 <ul>
 <li>Removed unnecessary print commands</li>
 <li>Created the documentation</li>
-<li>Registered jrnl in the python package repository</li>
 </ul>
 
 <h3>0.1.0</h3>

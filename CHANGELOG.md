@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 0.2.2
+
+* Adds --encrypt and --decrypt to encrypt / descrypt existing journal files
+
+### 0.2.1
+
+* Submitted to [PyPi](http://pypi.python.org/pypi/jrnl/0.2.1).
+
 ### 0.2.0
 
 * Encrypts using CBC
@@ -10,7 +18,6 @@ Changelog
 
 * Removed unnecessary print commands
 * Created the documentation
-* Registered jrnl in the python package repository
 
 ###  0.1.0
 
