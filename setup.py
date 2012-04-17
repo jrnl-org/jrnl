@@ -47,7 +47,7 @@ setup(
 
     packages = find_packages(),
     scripts = ['jrnl.py'],
-    install_requires = ["parsedatetime", "pycrypto", "hashlib", "simplejson"],
+    install_requires = ["parsedatetime", "pycrypto", "simplejson"],
     package_data={'': ['*.md']},
     long_description=__doc__,
     classifiers=[
