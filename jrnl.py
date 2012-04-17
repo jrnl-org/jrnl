@@ -17,7 +17,6 @@ from Crypto.Cipher import AES
 from Crypto.Random import random, atfork
 import hashlib
 import getpass
-import mimetypes
 
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
