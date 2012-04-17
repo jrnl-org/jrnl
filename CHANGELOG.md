@@ -4,6 +4,7 @@ Changelog
 ### 0.2.2
 
 * Adds --encrypt and --decrypt to encrypt / descrypt existing journal files
+* Adds markdown export (kudos to dedan)
 
 ### 0.2.1
 
