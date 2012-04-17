@@ -66,6 +66,21 @@ class Entry:
             'time': self.date.strftime("%H:%M")
         }
 
+    def to_md(self):
+        date_str = self.date.strftime(self.journal.config['timeformat'])
+        body_wrapper = "\n\n" if self.body.strip() else ""
+        body = body_wrapper + self.body.strip()
+        space = "\n"
+        md_head = "###"
+
+        return "%(md)s %(date)s, %(title)s %(body)s %(space)s" % {
+            'md': md_head,
+            'date': date_str,
+            'title': self.title,
+            'body': body,
+            'space': space
+        }
+
 class Journal:
     def __init__(self, config, **kwargs):
         config.update(kwargs)
@@ -167,6 +182,22 @@ class Journal:
     def to_json(self):
         """Returns a JSON representation of the Journal."""
         return json.dumps([e.to_dict() for e in self.entries], indent=2)
+
+    def to_md(self):
+        """Returns a markdown representation of the Journal"""
+        out = []
+        year, month = -1, -1
+        for e in self.entries:
+            if not e.date.year == year:
+                year = e.date.year
+                out.append(str(year))
+                out.append("=" * len(str(year)) + "\n")
+            if not e.date.month == month:
+                month = e.date.month
+                out.append(e.date.strftime("%B"))
+                out.append('-' * len(e.date.strftime("%B")) + "\n")
+            out.append(e.to_md())
+        return "\n".join(out)
 
     def __repr__(self):
         return "<Journal with %d entries>" % len(self.entries)
@@ -305,11 +336,12 @@ if __name__ == "__main__":
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
     reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
+    reading.add_argument('-markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
     args = parser.parse_args()
 
     # Guess mode
     compose = True
-    if args.start_date or args.end_date or args.limit or args.json or args.strict:
+    if args.start_date or args.end_date or args.limit or args.json or args.strict or args.markdown:
         # Any sign of displaying stuff?
         compose = False
     elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in args.text):
@@ -347,5 +379,7 @@ if __name__ == "__main__":
         journal.limit(args.limit)
         if args.json:
             print(journal.to_json())
+        elif args.markdown:
+            print(journal.to_md())
         else:
             print(journal)
