@@ -30,6 +30,8 @@ default_config = {
     'tagsymbols': '@'
 }
 
+CONFIG_PATH = os.path.expanduser('~/.jrnl_config')
+
 class Entry:
     def __init__(self, journal, date=None, title="", body=""):
         self.journal = journal # Reference to journal mainly to access it's config
@@ -104,6 +106,11 @@ class Journal:
             plain += " " * 16
         return iv + crypto.encrypt(plain)
 
+    def make_key(self, prompt="Password: "):
+        """Creates an encryption key from the default password or prompts for a new password."""
+        password = self.config['password'] or getpass.getpass(prompt)
+        self.key = hashlib.sha256(password).digest()
+
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
@@ -115,12 +122,11 @@ class Journal:
             decrypted = None
             attempts = 0
             while decrypted is None:
-                password = self.config['password'] or getpass.getpass()
-                self.key = hashlib.sha256(password).digest()
+                self.make_key()
                 decrypted = self._decrypt(journal)
-                if not decrypted:
+                if decrypted is None:
                     attempts += 1
-                    self.config['password'] = None # This doesn't work.
+                    self.config['password'] = None # This password doesn't work.
                     if attempts < 3:
                         print("Wrong password, try again.")
                     else: 
@@ -203,7 +209,6 @@ class Journal:
         search_tags = set([tag.lower() for tag in tags])
         end_date = self.parse_date(end_date)
         start_date = self.parse_date(start_date)
-        print start_date, end_date
         # If strict mode is on, all tags have to be present in entry
         tagged = search_tags.issubset if strict else search_tags.intersection
         result = [
@@ -257,7 +262,11 @@ class Journal:
         self.entries.append(Entry(self, date, title, body))
         self.sort()
 
-def setup(config_path):
+    def save_config(self, config_path = CONFIG_PATH):
+        with open(config_path, 'w') as f:
+            json.dump(self.config, f, indent=2)
+
+def setup():
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(text)+'*')
         expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
@@ -281,7 +290,7 @@ def setup(config_path):
     open(default_config['journal'], 'a').close() # Touch to make sure it's there
     
     # Write config to ~/.jrnl_conf
-    with open(config_path, 'w') as f:
+    with open(CONFIG_PATH, 'w') as f:
         json.dump(default_config, f, indent=2)
     config = default_config
     if password:
@@ -289,11 +298,11 @@ def setup(config_path):
     return config
 
 if __name__ == "__main__":
-    config_path = os.path.expanduser('~/.jrnl_config')
-    if not os.path.exists(config_path):
-        config = setup(config_path)
+    
+    if not os.path.exists(CONFIG_PATH):
+        config = setup()
     else:
-        with open(config_path) as f:
+        with open(CONFIG_PATH) as f:
             config = json.load(f)
 
     parser = argparse.ArgumentParser()
@@ -306,12 +315,20 @@ if __name__ == "__main__":
     reading.add_argument('-to', dest='end_date', metavar="DATE", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
-    reading.add_argument('-json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
+
+    reading = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
+    reading.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
+    reading.add_argument('--encrypt', dest='encrypt', action="store_true", help='Encrypts your existing journal with a new password')
+    reading.add_argument('--decrypt', dest='decrypt', action="store_true", help='Decrypts your journal and stores it in plain text')
     args = parser.parse_args()
 
     # Guess mode
     compose = True
-    if args.start_date or args.end_date or args.limit or args.json or args.strict:
+    export = False
+    if args.json or args.decrypt or args.encrypt:
+        compose = False
+        export = True
+    elif args.start_date or args.end_date or args.limit or args.strict:
         # Any sign of displaying stuff?
         compose = False
     elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in args.text):
@@ -344,10 +361,25 @@ if __name__ == "__main__":
         print("Entry added.")
         journal.write()
 
-    else: # read mode
+    elif not export: # read mode
         journal.filter(tags=args.text, start_date=args.start_date, end_date=args.end_date, strict=args.strict)
         journal.limit(args.limit)
-        if args.json:
-            print(journal.to_json())
-        else:
-            print(journal)
+        print(journal)
+
+    elif args.json: # export to json
+        print(journal.to_json())
+
+    elif args.encrypt:
+        journal.config['encrypt'] = True
+        journal.config['password'] = ""
+        journal.make_key(prompt="Enter new password:")
+        journal.write()
+        journal.save_config()
+        print("Journal encrypted to %s." % journal.config['journal'])
+
+    elif args.decrypt:
+        journal.config['encrypt'] = False
+        journal.config['password'] = ""
+        journal.write()
+        journal.save_config()
+        print("Journal decrypted to %s." % journal.config['journal'])
