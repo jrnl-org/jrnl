@@ -68,6 +68,21 @@ class Entry:
             'time': self.date.strftime("%H:%M")
         }
 
+    def to_md(self):
+        date_str = self.date.strftime(self.journal.config['timeformat'])
+        body_wrapper = "\n\n" if self.body.strip() else ""
+        body = body_wrapper + self.body.strip()
+        space = "\n"
+        md_head = "###"
+
+        return "%(md)s %(date)s, %(title)s %(body)s %(space)s" % {
+            'md': md_head,
+            'date': date_str,
+            'title': self.title,
+            'body': body,
+            'space': space
+        }
+
 class Journal:
     def __init__(self, config, **kwargs):
         config.update(kwargs)
@@ -173,6 +188,22 @@ class Journal:
     def to_json(self):
         """Returns a JSON representation of the Journal."""
         return json.dumps([e.to_dict() for e in self.entries], indent=2)
+
+    def to_md(self):
+        """Returns a markdown representation of the Journal"""
+        out = []
+        year, month = -1, -1
+        for e in self.entries:
+            if not e.date.year == year:
+                year = e.date.year
+                out.append(str(year))
+                out.append("=" * len(str(year)) + "\n")
+            if not e.date.month == month:
+                month = e.date.month
+                out.append(e.date.strftime("%B"))
+                out.append('-' * len(e.date.strftime("%B")) + "\n")
+            out.append(e.to_md())
+        return "\n".join(out)
 
     def __repr__(self):
         return "<Journal with %d entries>" % len(self.entries)
@@ -315,16 +346,18 @@ if __name__ == "__main__":
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
 
-    reading = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
-    reading.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
-    reading.add_argument('--encrypt', dest='encrypt', action="store_true", help='Encrypts your existing journal with a new password')
-    reading.add_argument('--decrypt', dest='decrypt', action="store_true", help='Decrypts your journal and stores it in plain text')
+    exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
+    exporting.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
+    exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
+    exporting.add_argument('--encrypt', dest='encrypt', action="store_true", help='Encrypts your existing journal with a new password')
+    exporting.add_argument('--decrypt', dest='decrypt', action="store_true", help='Decrypts your journal and stores it in plain text')
+
     args = parser.parse_args()
 
     # Guess mode
     compose = True
     export = False
-    if args.json or args.decrypt or args.encrypt:
+    if args.json or args.decrypt or args.encrypt or args.markdown:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict:
@@ -368,6 +401,9 @@ if __name__ == "__main__":
     elif args.json: # export to json
         print(journal.to_json())
 
+    elif args.markdown: # export to json
+        print(journal.to_md())
+
     elif args.encrypt:
         journal.config['encrypt'] = True
         journal.config['password'] = ""
@@ -382,3 +418,4 @@ if __name__ == "__main__":
         journal.write()
         journal.save_config()
         print("Journal decrypted to %s." % journal.config['journal'])
+
