@@ -202,7 +202,6 @@ class Journal:
         search_tags = set([tag.lower() for tag in tags])
         end_date = self.parse_date(end_date)
         start_date = self.parse_date(start_date)
-        print start_date, end_date
         # If strict mode is on, all tags have to be present in entry
         tagged = search_tags.issubset if strict else search_tags.intersection
         result = [
