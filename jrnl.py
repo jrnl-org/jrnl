@@ -17,6 +17,11 @@ from Crypto.Cipher import AES
 from Crypto.Random import random, atfork
 import hashlib
 import getpass
+try:
+    import clint
+    CLINT = True
+except ImportError:
+    CLINT = False
 
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
@@ -26,7 +31,8 @@ default_config = {
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
-    'tagsymbols': '@'
+    'tagsymbols': '@',
+    'highlight': True,
 }
 
 CONFIG_PATH = os.path.expanduser('~/.jrnl_config')
@@ -97,6 +103,12 @@ class Journal:
         journal_txt = self.open()
         self.entries = self.parse(journal_txt)
         self.sort()
+
+    def _colorize(self, string, color='red'):
+        if CLINT:
+            return str(clint.textui.colored.ColoredString(color.upper(), string))
+        else:
+            return string
 
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
@@ -183,7 +195,12 @@ class Journal:
     def __str__(self):
         """Prettyprints the journal's entries"""
         sep = "-"*60+"\n"
-        return sep.join([str(e) for e in self.entries])
+        pp = sep.join([str(e) for e in self.entries])
+        if self.config['highlight']: # highlight tags
+            pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
+                lambda match: self._colorize(match.group(0), 'cyan'),
+                pp)
+        return pp
 
     def to_json(self):
         """Returns a JSON representation of the Journal."""
@@ -317,6 +334,12 @@ def setup():
         default_config['encrypt'] = True
         print("Journal will be encrypted.")
         print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
+
+    # Use highlighting:
+    if not CLINT:
+        print("clint not found. To turn on highlighting, install clint and set highlight to true in your .jrnl_conf.")
+        default_config['highlight'] = False
+
     open(default_config['journal'], 'a').close() # Touch to make sure it's there
     
     # Write config to ~/.jrnl_conf
