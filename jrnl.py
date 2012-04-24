@@ -357,6 +357,10 @@ if __name__ == "__main__":
     else:
         with open(CONFIG_PATH) as f:
             config = json.load(f)
+        if not 'highlight' in config:
+            config['highlight'] = False
+            with open(CONFIG_PATH, 'w') as f:
+                json.dump(config, f, indent=2)
 
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
