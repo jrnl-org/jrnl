@@ -347,6 +347,7 @@ if __name__ == "__main__":
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
+    exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
     exporting.add_argument('--encrypt', dest='encrypt', action="store_true", help='Encrypts your existing journal with a new password')
@@ -357,7 +358,7 @@ if __name__ == "__main__":
     # Guess mode
     compose = True
     export = False
-    if args.json or args.decrypt or args.encrypt or args.markdown:
+    if args.json or args.decrypt or args.encrypt or args.markdown or args.tags:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict:
@@ -397,6 +398,16 @@ if __name__ == "__main__":
         journal.filter(tags=args.text, start_date=args.start_date, end_date=args.end_date, strict=args.strict)
         journal.limit(args.limit)
         print(journal)
+
+    elif args.tags: # get all tags
+        tags = {}
+        for entry in journal.entries:
+            for tag in entry.tags:
+                tags[tag] = tags.get(tag, 0) + 1
+        tags = [(n, tag) for tag, n in tags.viewitems()]
+        tags.sort(reverse=True)
+        for n, tag in tags:
+            print "%-20s : %d" % (tag, n)
 
     elif args.json: # export to json
         print(journal.to_json())
