@@ -136,6 +136,14 @@ Can do:
 
 Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
 
+### Tag export
+
+With
+
+    jrnl --tags
+
+you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
+
 ### Markdown export
 
     jrnl --markdown
