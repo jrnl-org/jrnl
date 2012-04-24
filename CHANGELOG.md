@@ -1,11 +1,15 @@
 Changelog
 =========
 
+### 0.2.3
+
+* Adds tag export
+* Adds coloured highlight of tags
+
 ### 0.2.2
 
 * Adds --encrypt and --decrypt to encrypt / descrypt existing journal files
 * Adds markdown export (kudos to dedan)
-* Adds tag export
 
 ### 0.2.1
 

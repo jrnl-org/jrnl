@@ -107,16 +107,17 @@ It's just a regular `json` file:
         default_hour:   9,
         default_minute: 0,
         timeformat:     "%Y-%m-%d %H:%M",
+        highlight:      true
     }
 
  - `journal`: path to  your journal file
  - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
- - `encrypt`: if true, encrypts your journal using AES.
+ - `encrypt`: if `true`, encrypts your journal using AES.
  - `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
  - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
  - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
  - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-
+- `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan. 
 
 > __Note on `tagsymbols`:__ Although it seems intuitive to use the `#` character for tags, there's a drawback: on most shells, this is interpreted as a meta-character starting a comment. This means that if you type
 > 
