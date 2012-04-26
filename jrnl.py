@@ -396,12 +396,16 @@ if __name__ == "__main__":
         if config['editor']:
             tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
             subprocess.call(config['editor'].split() + [tmpfile])
-            with open(tmpfile) as f:
-                raw = f.read()
-            os.remove(tmpfile)
-
+            if os.path.exists(tmpfile):
+                with open(tmpfile) as f:
+                    raw = f.read()
+                os.remove(tmpfile)
+            else:
+                print('nothing saved to file')
+                raw = ''
         else:
             raw = raw_input("Compose Entry: ")
+
         if raw:
             args.text = [raw]
         else:
