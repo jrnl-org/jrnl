@@ -155,7 +155,7 @@ class Journal:
                     self.config['password'] = None # This password doesn't work.
                     if attempts < 3:
                         print("Wrong password, try again.")
-                    else: 
+                    else:
                         print("Extremely wrong password.")
                         sys.exit(-1)
             journal = decrypted
@@ -230,7 +230,7 @@ class Journal:
         filename = filename or self.config['journal']
         journal = os.linesep.join([str(e) for e in self.entries])
         if self.config['encrypt']:
-            journal = self._encrypt(journal)            
+            journal = self._encrypt(journal)
         with open(filename, 'w') as journal_file:
                 journal_file.write(journal)
 
@@ -341,22 +341,30 @@ def setup():
         default_config['highlight'] = False
 
     open(default_config['journal'], 'a').close() # Touch to make sure it's there
-    
+
     # Write config to ~/.jrnl_conf
     with open(CONFIG_PATH, 'w') as f:
         json.dump(default_config, f, indent=2)
     config = default_config
     if password:
-        config['password'] = password  
+        config['password'] = password
     return config
 
 if __name__ == "__main__":
-    
+
     if not os.path.exists(CONFIG_PATH):
         config = setup()
     else:
         with open(CONFIG_PATH) as f:
             config = json.load(f)
+
+        # update config file with settings introduced in a later version
+        missing_keys = set(default_config).difference(config)
+        if missing_keys:
+            for key in missing_keys:
+                config[key] = default_config[key]
+            with open(CONFIG_PATH, 'w') as f:
+                json.dump(config, f, indent=2)
 
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
@@ -396,12 +404,16 @@ if __name__ == "__main__":
         if config['editor']:
             tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
             subprocess.call(config['editor'].split() + [tmpfile])
-            with open(tmpfile) as f:
-                raw = f.read()
-            os.remove(tmpfile)
-
+            if os.path.exists(tmpfile):
+                with open(tmpfile) as f:
+                    raw = f.read()
+                os.remove(tmpfile)
+            else:
+                print('nothing saved to file')
+                raw = ''
         else:
             raw = raw_input("Compose Entry: ")
+
         if raw:
             args.text = [raw]
         else:
