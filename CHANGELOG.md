@@ -5,6 +5,7 @@ Changelog
 
 * Adds tag export
 * Adds coloured highlight of tags
+* `.jrnl_config` will get automatically updated when updating jrnl to a new version
 
 ### 0.2.2
 
