@@ -36,7 +36,9 @@ will list you the ten latest entries,
 
     jrnl -from "last year" -to march   
 
-everything that happened from the start of last year to the start of last march. 
+everything that happened from the start of last year to the start of last march. If you only want to see the titles of your entries, use
+
+    jrnl -short
 
 ### Using Tags:
 
