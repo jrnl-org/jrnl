@@ -3,8 +3,9 @@ Changelog
 
 ### 0.2.3
 
+* Adds a `-short` option that will only display the titles of entries (or, when filtering by tags, the context of the tag)
 * Adds tag export
-* Adds coloured highlight of tags
+* Adds coloured highlight of tags (by default, highlights all tags - when filtering by tags, only highlights search tags)
 * `.jrnl_config` will get automatically updated when updating jrnl to a new version
 
 ### 0.2.2
