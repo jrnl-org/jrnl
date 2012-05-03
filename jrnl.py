@@ -197,9 +197,13 @@ class Journal:
         sep = "-"*60+"\n"
         pp = sep.join([str(e) for e in self.entries])
         if self.config['highlight']: # highlight tags
-            pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
-                lambda match: self._colorize(match.group(0), 'cyan'),
-                pp)
+            if hasattr(self, 'search_tags'):
+                for tag in self.search_tags:
+                    pp = pp.replace(tag, self._colorize(tag))
+            else:
+                pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
+                            lambda match: self._colorize(match.group(0), 'cyan'),
+                            pp)
         return pp
 
     def to_json(self):
@@ -253,11 +257,11 @@ class Journal:
 
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
-        search_tags = set([tag.lower() for tag in tags])
+        self.search_tags = set([tag.lower() for tag in tags])
         end_date = self.parse_date(end_date)
         start_date = self.parse_date(start_date)
         # If strict mode is on, all tags have to be present in entry
-        tagged = search_tags.issubset if strict else search_tags.intersection
+        tagged = self.search_tags.issubset if strict else self.search_tags.intersection
         result = [
             entry for entry in self.entries
             if (not tags or tagged(entry.tags))
