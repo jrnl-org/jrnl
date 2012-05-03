@@ -247,7 +247,7 @@ class Journal:
         if n:
             self.entries = self.entries[-n:]
 
-    def filter(self, tags=[], start_date=None, end_date=None, strict=False):
+    def filter(self, tags=[], start_date=None, end_date=None, strict=False, short=False):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -268,6 +268,20 @@ class Journal:
             and (not start_date or entry.date > start_date)
             and (not end_date or entry.date < end_date)
         ]
+        if short:
+            if tags:
+                for e in self.entries:
+                    res = []
+                    for tag in tags:
+                        matches = [m for m in re.finditer(tag, e.body)]
+                        for m in matches:
+                            date = e.date.strftime(self.config['timeformat'])
+                            excerpt = e.body[m.start():min(len(e.body), m.end()+60)]
+                            res.append('%s %s ..' % (date, excerpt))
+                    e.body = "\n".join(res)
+            else:
+                for e in self.entries:
+                    e.body = ''
         self.entries = result
 
     def parse_date(self, date):
@@ -380,6 +394,7 @@ if __name__ == "__main__":
     reading.add_argument('-to', dest='end_date', metavar="DATE", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
+    reading.add_argument('-short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
@@ -396,7 +411,7 @@ if __name__ == "__main__":
     if args.json or args.decrypt or args.encrypt or args.markdown or args.tags:
         compose = False
         export = True
-    elif args.start_date or args.end_date or args.limit or args.strict:
+    elif args.start_date or args.end_date or args.limit or args.strict or args.short:
         # Any sign of displaying stuff?
         compose = False
     elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in args.text):
@@ -434,7 +449,10 @@ if __name__ == "__main__":
         journal.write()
 
     elif not export: # read mode
-        journal.filter(tags=args.text, start_date=args.start_date, end_date=args.end_date, strict=args.strict)
+        journal.filter(tags=args.text,
+                       start_date=args.start_date, end_date=args.end_date,
+                       strict=args.strict,
+                       short=args.short)
         journal.limit(args.limit)
         print(journal)
 
