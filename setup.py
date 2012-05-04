@@ -42,7 +42,7 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name = "jrnl",
-    version = "0.2.2",
+    version = "0.2.3",
     description = "A command line journal application that stores your journal in a plain text file",
 
     packages = find_packages(),
