@@ -100,7 +100,10 @@ Used the time to clean the house and spent 4h on writing my book.
 <pre><code>jrnl -from "last year" -to march
 </code></pre>
 
-<p>everything that happened from the start of last year to the start of last march. </p>
+<p>everything that happened from the start of last year to the start of last march. If you only want to see the titles of your entries, use</p>
+
+<pre><code>jrnl -short
+</code></pre>
 
 <h3>Using Tags:</h3>
 
@@ -179,17 +182,21 @@ python setup.py install
     default_hour:   9,
     default_minute: 0,
     timeformat:     "%Y-%m-%d %H:%M",
+    highlight:      true
 }
 </code></pre>
 
 <ul>
 <li><code>journal</code>: path to  your journal file</li>
 <li><code>editor</code>: if set, executes this command to launch an external editor for writing your entries, e.g. <code>vim</code> or <code>subl -w</code> (note the <code>-w</code> flag to make sure <em>jrnl</em> waits for Sublime Text to close the file before writing into the journal).</li>
-<li><code>encrypt</code>: if true, encrypts your journal using AES.</li>
+<li><code>encrypt</code>: if <code>true</code>, encrypts your journal using AES.</li>
 <li><code>password</code>: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.</li>
 <li><code>tagsymbols</code>: Symbols to be interpreted as tags. (<strong>See note below</strong>)</li>
 <li><code>default_hour</code> and <code>default_minute</code>: if you supply a date, such as <code>last thursday</code>, but no specific time, the entry will be created at this time</li>
-<li><code>timeformat</code>: how to format the timestamps in your journal, see the <a href="http://docs.python.org/library/time.html#time.strftime">python docs</a> for reference</li>
+<li><code>timeformat</code>: how to format the timestamps in your journal, see the <a href="http://docs.python.org/library/time.html#time.strftime">python docs</a> for reference
+<ul>
+<li><code>highlight</code>: if <code>true</code> and you have <a href="http://www.nicosphere.net/clint-command-line-library-for-python/">clint</a> installed, tags will be highlighted in cyan. </li>
+</ul></li>
 </ul>
 
 <blockquote>
@@ -214,6 +221,15 @@ python setup.py install
 </code></pre>
 
 <p>Why not create a beautiful <a href="http://timeline.verite.co/">timeline</a> of your journal?</p>
+
+<h3>Tag export</h3>
+
+<p>With</p>
+
+<pre><code>jrnl --tags
+</code></pre>
+
+<p>you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.</p>
 
 <h3>Markdown export</h3>
 
@@ -246,6 +262,15 @@ with open("my_journal.txt") as f:
     plain = crypto.decrypt(cipher[16:])
 </code></pre>
 <h1>Changelog</h1>
+
+<h3>0.2.3</h3>
+
+<ul>
+<li>Adds a <code>-short</code> option that will only display the titles of entries (or, when filtering by tags, the context of the tag)</li>
+<li>Adds tag export</li>
+<li>Adds coloured highlight of tags (by default, highlights all tags - when filtering by tags, only highlights search tags)</li>
+<li><code>.jrnl_config</code> will get automatically updated when updating jrnl to a new version</li>
+</ul>
 
 <h3>0.2.2</h3>
 

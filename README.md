@@ -36,7 +36,9 @@ will list you the ten latest entries,
 
     jrnl -from "last year" -to march   
 
-everything that happened from the start of last year to the start of last march. 
+everything that happened from the start of last year to the start of last march. If you only want to see the titles of your entries, use
+
+    jrnl -short
 
 ### Using Tags:
 
@@ -107,16 +109,17 @@ It's just a regular `json` file:
         default_hour:   9,
         default_minute: 0,
         timeformat:     "%Y-%m-%d %H:%M",
+        highlight:      true
     }
 
  - `journal`: path to  your journal file
  - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
- - `encrypt`: if true, encrypts your journal using AES.
+ - `encrypt`: if `true`, encrypts your journal using AES.
  - `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
  - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
  - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
  - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-
+- `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan. 
 
 > __Note on `tagsymbols`:__ Although it seems intuitive to use the `#` character for tags, there's a drawback: on most shells, this is interpreted as a meta-character starting a comment. This means that if you type
 > 
@@ -135,6 +138,14 @@ Can do:
     jrnl --json
 
 Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
+
+### Tag export
+
+With
+
+    jrnl --tags
+
+you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
 
 ### Markdown export
 
