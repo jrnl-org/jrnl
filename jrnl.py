@@ -457,13 +457,9 @@ if __name__ == "__main__":
         print(journal)
 
     elif args.tags: # get all tags
-        tags = {}
-        for entry in journal.entries:
-            for tag in entry.tags:
-                tags[tag] = tags.get(tag, 0) + 1
-        tags = [(n, tag) for tag, n in tags.viewitems()]
-        tags.sort(reverse=True)
-        for n, tag in tags:
+        tags = [tag for entry in journal.entries for tag in set(entry.tags)]
+        tag_counts = {(tags.count(tag), tag) for tag in tags}
+        for n, tag in sorted(tag_counts, reverse=True):
             print "%-20s : %d" % (tag, n)
 
     elif args.json: # export to json
