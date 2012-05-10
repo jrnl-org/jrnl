@@ -459,7 +459,10 @@ if __name__ == "__main__":
     elif args.tags: # get all tags
         # Astute reader: should the following line leave you as puzzled as me the first time
         # I came across this construction, worry not and embrace the ensuing moment of enlightment.
-        tags = [tag for entry in journal.entries for tag in set(entry.tags)]
+        tags = [tag 
+            for entry in journal.entries 
+            for tag in set(entry.tags)
+        ]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
         tag_counts = {(tags.count(tag), tag) for tag in tags}
         for n, tag in sorted(tag_counts, reverse=True):
