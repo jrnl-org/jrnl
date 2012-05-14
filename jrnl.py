@@ -173,18 +173,19 @@ class Journal:
         current_entry = None
 
         for line in journal.split(os.linesep):
-            if line:
-                try:
-                    new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
-                    # make a journal entry of the current stuff first
-                    if new_date and current_entry:
-                        entries.append(current_entry)
-                    # Start constructing current entry
-                    current_entry = Entry(self, date=new_date, title=line[date_length+1:])
-                except ValueError:
-                    # Happens when we can't parse the start of the line as an date.
-                    # In this case, just append line to our body.
-                    current_entry.body += line
+            try:
+                # try to parse line as date => new entry begins
+                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+
+                # parsing successfull => save old entry and create new one
+                if new_date and current_entry:
+                    entries.append(current_entry)
+                current_entry = Entry(self, date=new_date, title=line[date_length+1:])
+            except ValueError:
+                # Happens when we can't parse the start of the line as an date.
+                # In this case, just append line to our body.
+                current_entry.body += line + os.linesep
+
         # Append last entry
         if current_entry:
             entries.append(current_entry)
