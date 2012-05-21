@@ -401,8 +401,8 @@ if __name__ == "__main__":
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
-    exporting.add_argument('--encrypt', dest='encrypt', action="store_true", help='Encrypts your existing journal with a new password')
-    exporting.add_argument('--decrypt', dest='decrypt', action="store_true", help='Decrypts your journal and stores it in plain text')
+    exporting.add_argument('--encrypt', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=True)
+    exporting.add_argument('--decrypt', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=True)
 
     args = parser.parse_args()
 
@@ -475,18 +475,29 @@ if __name__ == "__main__":
     elif args.markdown: # export to json
         print(journal.to_md())
 
+    # Encrypt into new file If args.encrypt is True, that it is present in the command line arguments
+    # but isn't followed by any value - in which case we encrypt the journal file itself. Otherwise
+    # encrypt to a new file.
     elif args.encrypt:
+        journal.make_key(prompt="Enter new password:")
         journal.config['encrypt'] = True
         journal.config['password'] = ""
-        journal.make_key(prompt="Enter new password:")
-        journal.write()
-        journal.save_config()
-        print("Journal encrypted to %s." % journal.config['journal'])
+        if args.encrypt is True:
+            journal.write()
+            journal.save_config()
+            print("Journal encrypted to %s." % journal.config['journal'])
+        else:
+            journal.write(args.encrypt)
+            print("Journal encrypted to %s." % os.path.realpath(args.encrypt))       
 
     elif args.decrypt:
         journal.config['encrypt'] = False
         journal.config['password'] = ""
-        journal.write()
-        journal.save_config()
-        print("Journal decrypted to %s." % journal.config['journal'])
+        if args.decrypt is True:
+            journal.write()
+            journal.save_config()
+            print("Journal decrypted to %s." % journal.config['journal'])
+        else:
+            journal.write(args.decrypt)
+            print("Journal encrypted to %s." % os.path.realpath(args.decrypt))       
 
