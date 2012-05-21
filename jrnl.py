@@ -20,8 +20,12 @@ try: import simplejson as json
 except ImportError: import json
 import sys
 import readline, glob
-from Crypto.Cipher import AES
-from Crypto.Random import random, atfork
+try:
+    from Crypto.Cipher import AES
+    from Crypto.Random import random, atfork
+    PYCRYPTO = True
+except ImportError: 
+    PYCRYPTO = False
 import hashlib
 import getpass
 try:
@@ -360,11 +364,15 @@ def setup():
     default_config['journal'] = os.path.expanduser(journal_path)
 
     # Encrypt it?
-    password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
-    if password:
-        default_config['encrypt'] = True
-        print("Journal will be encrypted.")
-        print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
+    if PYCRYPTO:
+        password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+        if password:
+            default_config['encrypt'] = True
+            print("Journal will be encrypted.")
+            print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
+    else:
+        password = None
+        print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
 
     # Use highlighting:
     if not CLINT:
@@ -396,6 +404,11 @@ if __name__ == "__main__":
                 config[key] = default_config[key]
             with open(CONFIG_PATH, 'w') as f:
                 json.dump(config, f, indent=2)
+
+        # check if the configuration is supported by available modules
+        if config['encrypt'] and not PYCRYPTO:
+            print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
+            sys.exit(-1)
 
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
@@ -486,6 +499,9 @@ if __name__ == "__main__":
 
     elif args.markdown: # export to json
         print(journal.to_md())
+
+    elif (args.encrypt or args.decrypt) and not PYCRYPTO:
+        print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
 
     # Encrypt into new file If args.encrypt is True, that it is present in the command line arguments
     # but isn't followed by any value - in which case we encrypt the journal file itself. Otherwise
