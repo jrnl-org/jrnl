@@ -172,7 +172,7 @@ class Journal:
         entries = []
         current_entry = None
 
-        for line in journal.split(os.linesep):
+        for line in journal.splitlines():
             try:
                 # try to parse line as date => new entry begins
                 new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
@@ -184,7 +184,7 @@ class Journal:
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
-                current_entry.body += line + os.linesep
+                current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -233,7 +233,7 @@ class Journal:
     def write(self, filename = None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal = os.linesep.join([str(e) for e in self.entries])
+        journal = "\n".join([str(e) for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
         with open(filename, 'w') as journal_file:
