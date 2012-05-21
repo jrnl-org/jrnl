@@ -42,12 +42,16 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name = "jrnl",
-    version = "0.2.3",
+    version = "0.2.4",
     description = "A command line journal application that stores your journal in a plain text file",
 
     packages = find_packages(),
     scripts = ['jrnl.py'],
-    install_requires = ["parsedatetime", "pycrypto", "simplejson"],
+    install_requires = ["parsedatetime", "simplejson"],
+    extras_require = {
+        'encryption': ["pycrypto"],
+        'highlight':  ["cling"]
+    },
     package_data={'': ['*.md']},
     long_description=__doc__,
     classifiers=[
