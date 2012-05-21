@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
+
+"""
+    jrnl
+
+    license: MIT, see LICENSE for more details.
+"""
+
 import os
 import tempfile
 import parsedatetime.parsedatetime as pdt
@@ -22,6 +29,11 @@ try:
     CLINT = True
 except ImportError:
     CLINT = False
+
+__title__ = 'jrnl'
+__version__ = '0.2.4'
+__author__ = 'Manuel Ebert, Stephan Gabler'
+__license__ = 'MIT'
 
 default_config = {
     'journal': os.path.expanduser("~/journal.txt"),
