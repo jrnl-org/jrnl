@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 0.2.4
+
+* Fixes parsing of new lines in journal files and entries
+* Adds support for encrypting and decrypting into new files
+
 ### 0.2.3
 
 * Adds a `-short` option that will only display the titles of entries (or, when filtering by tags, the context of the tag)
