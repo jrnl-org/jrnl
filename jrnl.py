@@ -323,17 +323,8 @@ class Journal:
     def new_entry(self, raw, date=None):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
-        if not date:
-            if raw.find(":") > 0:
-                date = self.parse_date(raw[:raw.find(":")])
-                if date: # Parsed successfully, strip that from the raw text
-                    raw = raw[raw.find(":")+1:].strip()
-
-        if not date: # Still nothing? Meh, just live in the moment.
-            date = self.parse_date("now")
 
         # Split raw text into title and body
-        body = ""
         title_end = len(raw)
         for separator in ".?!":
             sep_pos = raw.find(separator)
@@ -341,6 +332,15 @@ class Journal:
                 title_end = sep_pos
         title = raw[:title_end+1]
         body = raw[title_end+1:].strip()
+
+        if not date:
+            if title.find(":") > 0:
+                date = self.parse_date(title[:title.find(":")])
+                if date: # Parsed successfully, strip that from the raw text
+                    title = title[title.find(":")+1:].strip()
+        if not date: # Still nothing? Meh, just live in the moment.
+            date = self.parse_date("now")
+
         self.entries.append(Entry(self, date, title, body))
         self.sort()
 
