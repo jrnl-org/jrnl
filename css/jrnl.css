@@ -8,6 +8,49 @@ body {
     background-image: radial-gradient(center top, circle closest-corner, #FFFFFF 30%, #E6EBED 100%);
 }
 
+li.badge {
+    list-style: none;
+}
+
+.change-fixed {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #97B931;
+    box-shadow: inset 0px 1px 0px rgba(255,255,255,.5);
+    -webkit-box-shadow: inset 0px 1px 0px  rgba(255,255,255,.5);
+    -moz-box-shadow: inset 0px 1px 0px rgba(255,255,255,.5);
+    -o-box-shadow: inset 0px 1px 0px rgba(255,255,255,.5);
+    padding: 2px 5px;
+    color: white;
+    text-shadow: 0px 1px 0px rgba(0,0,0,.3);
+    font-weight: bold;
+    font-family: "Maven Pro", "Junction", "Helvetica Neue", Helvetica, Sans;
+    font-size: 10pt;
+    margin-right: 5px;
+}
+
+.change-improved {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #4787C9;
+    box-shadow: inset 0px 1px 0px rgba(255,255,255,.5);
+    -webkit-box-shadow: inset 0px 1px 0px  rgba(255,255,255,.5);
+    -moz-box-shadow: inset 0px 1px 0px rgba(255,255,255,.5);
+    -o-box-shadow: inset 0px 1px 0px rgba(255,255,255,.5);  
+    padding: 2px 5px;
+    color: white;
+    text-shadow: 0px 1px 0px rgba(0,0,0,.3);
+    font-weight: bold;
+    font-family: "Maven Pro", "Junction", "Helvetica Neue", Helvetica, Sans;
+    font-size: 10pt;
+    margin-right: 5px;
+}
+
+
 .leftlogo {
     width: 128px;
     height: 168px;
