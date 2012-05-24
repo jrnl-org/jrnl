@@ -19,7 +19,7 @@ except ImportError: import json
 
 
 __title__ = 'jrnl'
-__version__ = '0.2.5'
+__version__ = '0.3.0'
 __author__ = 'Manuel Ebert, Stephan Gabler'
 __license__ = 'MIT'
 
