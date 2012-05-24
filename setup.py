@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 jrnl is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
@@ -34,35 +37,44 @@ Links
 
 """
 
-from setuptools import setup, find_packages
-import os.path
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+import os
 import sys
+
+if sys.argv[-1] == 'publish':
+    os.system("python setup.py bdist-egg upload")
+    os.system("python setup.py sdist upload")
+    sys.exit()
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name = "jrnl",
-    version = "0.2.4",
+    version = "0.2.5",
     description = "A command line journal application that stores your journal in a plain text file",
-
-    packages = find_packages(),
-    scripts = ['jrnl.py'],
+    packages = ['jrnl'],
     install_requires = ["parsedatetime", "simplejson"],
     extras_require = {
         'encryption': ["pycrypto"],
         'highlight':  ["cling"]
     },
-    package_data={'': ['*.md']},
     long_description=__doc__,
+    entry_points={
+        'console_scripts': [
+            'jrnl = jrnl:cli',
+        ],
+    },
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Intended Audience :: End Users/Desktop',
-        'License :: Freely Distributable',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Topic :: Office/Business :: News/Diary',
         'Topic :: Text Processing'
@@ -72,5 +84,5 @@ setup(
     author_email = "manuel.ebert@upf.edu",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://maebert.github.com/jrnl",   # project home page, if any
+    url = "http://maebert.github.com/jrnl", 
 )

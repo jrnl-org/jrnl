@@ -73,19 +73,15 @@ Timestamps that work:
 Installation
 ------------
 
-You can install _jrnl_ manually by cloning the repository:
+Install _jrnl_ using pip:
+
+    pip install jrnl
+
+Alternatively, install manually by cloning the repository:
 
     git clone git://github.com/maebert/jrnl.git
     cd jrnl
     python setup.py install
-
-or by using pip:
-
-    pip install jrnl
-
-Afterwards, you may want to create an alias in your `.bashrc` or `.bash_profile` or whatever floats your shell:
-
-    alias jrnl="jrnl.py"
 
 ### Known Issues
 
