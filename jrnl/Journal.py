@@ -241,6 +241,13 @@ class Journal:
         else:
             date = datetime(*date[:6])
 
+        # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
+        # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
+        # past dates
+        dt = datetime.now() - date
+        if dt.days < -28:
+            date = date.replace(date.year - 1)
+
         return date
 
     def new_entry(self, raw, date=None):
