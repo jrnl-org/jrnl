@@ -3,6 +3,7 @@ Changelog
 
 ### 0.2.4 (May 24, 2012)
 
+* [Fixed] Dates such as "May 3" will now be interpreted as being in the past if the current day is at least 28 days in the future
 * [Fixed] Bug where composed entry is lost when the journal file fails to load
 * [Changed] Changed directory structure and install scripts (removing the necessity to make an alias from `jrnl` to `jrnl.py`)
 
