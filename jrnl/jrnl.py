@@ -54,8 +54,8 @@ def parse_args():
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
-    exporting.add_argument('--encrypt', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
-    exporting.add_argument('--decrypt', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
+    exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
+    exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
 
     return parser.parse_args()
 
@@ -140,11 +140,11 @@ def cli():
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
-    # open journal file
-    journal = Journal.Journal(config=config)
-
     args = parse_args()
     mode_compose, mode_export = guess_mode(args, config)
+
+    # open journal file
+    journal = Journal.Journal(config=config)
 
     if mode_compose and not args.text:
         if config['editor']:
