@@ -1,6 +1,8 @@
 Changelog
 =========
 
+* Changed directory structure and install scripts (removing the necessity to make an alias from `jrnl` to `jrnl.py`)
+
 ### 0.2.4
 
 * Fixes parsing of new lines in journal files and entries
