@@ -7,12 +7,9 @@ $(window).scroll(function(){
   var w = $(window).width();
   if (w > 768) {
       $('.leftlogo').show();
-      var lt = -300 + $(window).scrollTop()*2
+      lt = - $("#navbar").position().top - $("#navbar").height() - $('.leftlogo').height() + $(window).scrollTop()
       if (lt > 30) lt = 30;
       $('.leftlogo').css('top', lt);
-      if ($(window).scrollTop() > 30) {
-        $('#navbar').css('margin-top', $(window).scrollTop()-30)  
-      }
   } else {
     $('.leftlogo').hide();
   }

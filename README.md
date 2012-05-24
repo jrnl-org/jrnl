@@ -73,23 +73,20 @@ Timestamps that work:
 Installation
 ------------
 
-You can install _jrnl_ manually by cloning the repository:
+Install _jrnl_ using pip:
+
+    pip install jrnl
+
+Alternatively, install manually by cloning the repository:
 
     git clone git://github.com/maebert/jrnl.git
     cd jrnl
     python setup.py install
 
-or by using pip:
-
-    pip install jrnl
-
-Afterwards, you may want to create an alias in your `.bashrc` or `.bash_profile` or whatever floats your shell:
-
-    alias jrnl="jrnl.py"
-
 ### Known Issues
 
-_jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems in automatically installing within virtual environments.
+- The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
+- _jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems with installing within virtual environments.
 
 Advanced usage
 --------------

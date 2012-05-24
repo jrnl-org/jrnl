@@ -52,7 +52,7 @@
       <div class="row">
 
         <div class="span2 navcontain">
-          <div class="leftlogo"></div>
+          <a href="#" title="Top"><div class="leftlogo"></div></a>
           <div class="sidebar-nav" id='navbar'>
               <ul class="nav nav-list">
                
@@ -144,26 +144,24 @@ Used the time to clean the house and spent 4h on writing my book.
 
 <h2>Installation</h2>
 
-<p>You can install <em>jrnl</em> manually by cloning the repository:</p>
+<p>Install <em>jrnl</em> using pip:</p>
+
+<pre><code>pip install jrnl
+</code></pre>
+
+<p>Alternatively, install manually by cloning the repository:</p>
 
 <pre><code>git clone git://github.com/maebert/jrnl.git
 cd jrnl
 python setup.py install
 </code></pre>
 
-<p>or by using pip:</p>
-
-<pre><code>pip install jrnl
-</code></pre>
-
-<p>Afterwards, you may want to create an alias in your <code>.bashrc</code> or <code>.bash_profile</code> or whatever floats your shell:</p>
-
-<pre><code>alias jrnl="jrnl.py"
-</code></pre>
-
 <h3>Known Issues</h3>
 
-<p><em>jrnl</em> relies on the <code>Crypto</code> package to encrypt journals, which has some known problems in automatically installing within virtual environments.</p>
+<ul>
+<li>The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with <code>chcp 1252</code> before using <code>jrnl</code> (Thanks to Yves Pouplard for solving this!)</li>
+<li><em>jrnl</em> relies on the <code>Crypto</code> package to encrypt journals, which has some known problems with installing within virtual environments.</li>
+</ul>
 
 <h2>Advanced usage</h2>
 
@@ -263,64 +261,72 @@ with open("my_journal.txt") as f:
 </code></pre>
 <h1>Changelog</h1>
 
-<h3>0.2.4</h3>
+<h3>0.3.0 (May 24, 2012)</h3>
 
 <ul>
-<li>Fixes parsing of new lines in journal files and entries</li>
-<li>Adds support for encrypting and decrypting into new files</li>
+<li>[Fixed] Dates such as "May 3" will now be interpreted as being in the past if the current day is at least 28 days in the future</li>
+<li>[Fixed] Bug where composed entry is lost when the journal file fails to load</li>
+<li>Changed directory structure and install scripts (removing the necessity to make an alias from <code>jrnl</code> to <code>jrnl.py</code>)</li>
 </ul>
 
-<h3>0.2.3</h3>
+<h4>0.2.4 (May 21, 2012)</h4>
 
 <ul>
-<li>Adds a <code>-short</code> option that will only display the titles of entries (or, when filtering by tags, the context of the tag)</li>
-<li>Adds tag export</li>
-<li>Adds coloured highlight of tags (by default, highlights all tags - when filtering by tags, only highlights search tags)</li>
-<li><code>.jrnl_config</code> will get automatically updated when updating jrnl to a new version</li>
+<li>[Fixed] Parsing of new lines in journal files and entries</li>
+<li>[Improved] Adds support for encrypting and decrypting into new files</li>
 </ul>
 
-<h3>0.2.2</h3>
+<h4>0.2.3 (May 3, 2012)</h4>
 
 <ul>
-<li>Adds --encrypt and --decrypt to encrypt / descrypt existing journal files</li>
-<li>Adds markdown export (kudos to dedan)</li>
+<li>[Improved] Adds a <code>-short</code> option that will only display the titles of entries (or, when filtering by tags, the context of the tag)</li>
+<li>[Improved] Adds tag export</li>
+<li>[Improved] Adds coloured highlight of tags (by default, highlights all tags - when filtering by tags, only highlights search tags)</li>
+<li>[Improved] <code>.jrnl_config</code> will get automatically updated when updating jrnl to a new version</li>
 </ul>
 
-<h3>0.2.1</h3>
+<h4>0.2.2 (April 17, 2012)</h4>
 
 <ul>
-<li>Submitted to <a href="http://pypi.python.org/pypi/jrnl/0.2.1">PyPi</a>.</li>
+<li>[Improved] Adds --encrypt and --decrypt to encrypt / decrypt existing journal files</li>
+<li>[Improved] Adds markdown export (kudos to dedan)</li>
 </ul>
 
-<h3>0.2.0</h3>
+<h4>0.2.1 (April 17, 2012)</h4>
 
 <ul>
-<li>Encrypts using CBC</li>
-<li><code>key</code> has been renamed to <code>password</code> in config to avoid confusion. (The key use to encrypt and decrypt a journal is the SHA256-hash of the password.)</li>
+<li>[Improved] Submitted to <a href="http://pypi.python.org/pypi/jrnl/0.2.1">PyPi</a>.</li>
 </ul>
 
-<h3>0.1.1</h3>
+<h3>0.2.0 (April 16, 2012)</h3>
 
 <ul>
-<li>Removed unnecessary print commands</li>
-<li>Created the documentation</li>
+<li>[Improved] Encrypts using CBC</li>
+<li>[Fixed] <code>key</code> has been renamed to <code>password</code> in config to avoid confusion. (The key use to encrypt and decrypt a journal is the SHA256-hash of the password.)</li>
 </ul>
 
-<h3>0.1.0</h3>
+<h4>0.1.1 (April 15, 2012)</h4>
 
 <ul>
-<li>Supports encrypted journals using AES encryption</li>
-<li>Support external editors for composing entries</li>
+<li>[Fixed] Removed unnecessary print commands</li>
+<li>[Improved] Created the documentation</li>
 </ul>
 
-<h3>0.0.2</h3>
+<h3>0.1.0 (April 13, 2012)</h3>
 
 <ul>
-<li>Filtering by tags and dates</li>
-<li>Now using dedicated classes for Journals and entries</li>
+<li>[Improved] Supports encrypted journals using AES encryption</li>
+<li>[Improved] Support external editors for composing entries</li>
 </ul>
 
-<h3>0.0.1</h3>
+<h4>0.0.2 (April 5, 2012)</h4>
+
+<ul>
+<li>[Improved] Filtering by tags and dates</li>
+<li>[Fixed] Now using dedicated classes for Journals and entries</li>
+</ul>
+
+<h4>0.0.1 (March 29, 2012)</h4>
 
 <ul>
 <li>Composing entries works. That's pretty much it.</li>
