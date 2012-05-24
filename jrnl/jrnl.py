@@ -140,6 +140,9 @@ def cli():
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
+    # open journal file
+    journal = Journal.Journal(config=config)
+
     args = parse_args()
     mode_compose, mode_export = guess_mode(args, config)
 
@@ -152,9 +155,6 @@ def cli():
             args.text = [raw]
         else:
             mode_compose = False
-
-    # open journal
-    journal = Journal.Journal(config=config)
 
     # Writing mode
     if mode_compose:

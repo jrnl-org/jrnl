@@ -1,6 +1,7 @@
 Changelog
 =========
 
+* [Fixed] Bug where composed entry is lost when the journal file fails to load
 * Changed directory structure and install scripts (removing the necessity to make an alias from `jrnl` to `jrnl.py`)
 
 ### 0.2.4
