@@ -61,12 +61,12 @@ setup(
         'encryption': ["pycrypto"],
         'highlight':  ["cling"]
     },
+    long_description=__doc__,
     entry_points={
         'console_scripts': [
             'jrnl = jrnl:cli',
         ],
     },
-    long_description=__doc__,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',
@@ -84,5 +84,5 @@ setup(
     author_email = "manuel.ebert@upf.edu",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://maebert.github.com/jrnl",   # project home page, if any
+    url = "http://maebert.github.com/jrnl", 
 )
