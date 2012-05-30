@@ -1,6 +1,8 @@
 Changelog
 =========
 
+* [Improved] Supports a config option for setting word wrap.
+
 ### 0.3.0 (May 24, 2012)
 
 * [Fixed] Dates such as "May 3" will now be interpreted as being in the past if the current day is at least 28 days in the future

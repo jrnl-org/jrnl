@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import re
+import textwrap
 
 class Entry:
     def __init__(self, journal, date=None, title="", body=""):
@@ -19,7 +20,10 @@ class Entry:
     def __str__(self):
         date_str = self.date.strftime(self.journal.config['timeformat'])
         body_wrapper = "\n" if self.body else ""
-        body = body_wrapper + self.body.strip()
+        if self.journal.config['linewrap']:
+            body = body_wrapper + textwrap.fill(self.body, self.journal.config['linewrap'])
+        else:
+            body = body_wrapper + self.body.strip()
         space = "\n"
 
         return "%(date)s %(title)s %(body)s %(space)s" % {
