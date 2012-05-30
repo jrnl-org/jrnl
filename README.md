@@ -95,19 +95,7 @@ The first time launched, _jrnl_ will create a file called `.jrnl_config` in your
 
 ### .jrnl_config
 
-It's just a regular `json` file:
-
-    {
-        journal:        "~/journal.txt",
-        editor:         "",
-        encrypt:        false,
-        password:       ""
-        tagsymbols:     '@'
-        default_hour:   9,
-        default_minute: 0,
-        timeformat:     "%Y-%m-%d %H:%M",
-        highlight:      true
-    }
+The configuration file is a simple JSON file with the following options.
 
  - `journal`: path to  your journal file
  - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
@@ -117,6 +105,7 @@ It's just a regular `json` file:
  - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
  - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
 - `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan. 
+- `linewrap`: controls the width of the output. Set to `0` or `false` if you don't want to wrap long lines.
 
 > __Note on `tagsymbols`:__ Although it seems intuitive to use the `#` character for tags, there's a drawback: on most shells, this is interpreted as a meta-character starting a comment. This means that if you type
 > 
