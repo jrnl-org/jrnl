@@ -26,6 +26,7 @@ default_config = {
     'timeformat': "%Y-%m-%d %H:%M",
     'tagsymbols': '@',
     'highlight': True,
+    'linewrap': 80,
 }
 
 
