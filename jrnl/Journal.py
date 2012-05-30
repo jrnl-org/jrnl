@@ -137,9 +137,12 @@ class Journal:
         sep = "-"*60+"\n"
         pp = sep.join([str(e) for e in self.entries])
         if self.config['highlight']: # highlight tags
-            if hasattr(self, 'search_tags'):
+            if self.search_tags:
                 for tag in self.search_tags:
-                    pp = pp.replace(tag, self._colorize(tag))
+                    tagre = re.compile(re.escape(tag), re.IGNORECASE)
+                    pp = re.sub(tagre,
+                                lambda match: self._colorize(match.group(0), 'cyan'),
+                                pp)
             else:
                 pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
                             lambda match: self._colorize(match.group(0), 'cyan'),
