@@ -26,12 +26,12 @@ class Entry:
             body = body_wrapper + self.body.strip()
         space = "\n"
 
-        return "%(date)s %(title)s %(body)s %(space)s" % {
-            'date': date_str,
-            'title': self.title,
-            'body': body,
-            'space': space
-        }
+        return "{date} {title} {body} {space}".format(
+            date=date_str,
+            title=self.title,
+            body=body,
+            space=space
+        )
 
     def __repr__(self):
         return str(self)
@@ -51,10 +51,10 @@ class Entry:
         space = "\n"
         md_head = "###"
 
-        return "%(md)s %(date)s, %(title)s %(body)s %(space)s" % {
-            'md': md_head,
-            'date': date_str,
-            'title': self.title,
-            'body': body,
-            'space': space
-        }
+        return "{md} {date}, {title} {body} {space}".format(
+            md=md_head,
+            date=date_str,
+            title=self.title,
+            body=body,
+            space=space
+        )
