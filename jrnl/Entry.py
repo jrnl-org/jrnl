@@ -19,18 +19,20 @@ class Entry:
 
     def __str__(self):
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        body_wrapper = "\n" if self.body else ""
         if self.journal.config['linewrap']:
-            body = body_wrapper + textwrap.fill(self.body, self.journal.config['linewrap'])
+            title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
+            seplen = len(title.splitlines()[-1])
+            body = textwrap.fill(self.body, self.journal.config['linewrap'], initial_indent="| ", subsequent_indent="| ")
         else:
-            body = body_wrapper + self.body.strip()
-        space = "\n"
+            title = date_str + " " + self.title
+            seplen = len(title)
+            body = self.body.strip()
+        separator = "\n" #+ "-"*seplen + "\n"
 
-        return "{date} {title} {body} {space}".format(
-            date=date_str,
-            title=self.title,
-            body=body,
-            space=space
+        return "{title}{sep}{body}\n".format(
+            title=title,
+            sep=separator if self.body else "",
+            body=body
         )
 
     def __repr__(self):
