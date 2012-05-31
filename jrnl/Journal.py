@@ -135,7 +135,7 @@ class Journal:
     def __str__(self):
         """Prettyprints the journal's entries"""
         sep = "\n"
-        pp = sep.join([str(e) for e in self.entries])
+        pp = sep.join([e.pprint() for e in self.entries])
         if self.config['highlight']: # highlight tags
             if self.search_tags:
                 for tag in self.search_tags:
