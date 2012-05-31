@@ -63,7 +63,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.json or args.decrypt or args.encrypt or args.markdown or args.tags:
+    if args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict or args.short:
