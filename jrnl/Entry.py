@@ -40,7 +40,7 @@ class Entry:
                         initial_indent="| ", 
                         subsequent_indent="| ",
                         drop_whitespace=False)
-                    for line in self.body.splitlines()
+                    for line in self.body.strip().splitlines()
                 ])
         else:
             title = date_str + " " + self.title
