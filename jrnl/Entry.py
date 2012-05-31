@@ -18,20 +18,37 @@ class Entry:
         self.tags = set(tags)
 
     def __str__(self):
+        """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        if self.journal.config['linewrap']:
-            title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
-            seplen = len(title.splitlines()[-1])
-            body = textwrap.fill(self.body, self.journal.config['linewrap'], initial_indent="| ", subsequent_indent="| ")
-        else:
-            title = date_str + " " + self.title
-            seplen = len(title)
-            body = self.body.strip()
-        separator = "\n" #+ "-"*seplen + "\n"
+        title = date_str + " " + self.title
+        body = self.body.strip()
 
         return "{title}{sep}{body}\n".format(
             title=title,
-            sep=separator if self.body else "",
+            sep="\n" if self.body else "",
+            body=body
+        )
+
+    def pprint(self):
+        """Returns a pretty-printed version of the entry."""
+        date_str = self.date.strftime(self.journal.config['timeformat'])
+        if self.journal.config['linewrap']:
+            title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
+            body = "\n".join([
+                    textwrap.fill(line+" ", 
+                        self.journal.config['linewrap'], 
+                        initial_indent="| ", 
+                        subsequent_indent="| ",
+                        drop_whitespace=False)
+                    for line in self.body.splitlines()
+                ])
+        else:
+            title = date_str + " " + self.title
+            body = self.body.strip()
+
+        return "{title}{sep}{body}\n".format(
+            title=title,
+            sep="\n" if self.body else "",
             body=body
         )
 
