@@ -46,10 +46,13 @@ class Entry:
             title = date_str + " " + self.title
             body = self.body.strip()
 
+        # Suppress bodies that are just blanks and new lines.
+        has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
+
         return "{title}{sep}{body}\n".format(
             title=title,
-            sep="\n" if self.body else "",
-            body=body
+            sep="\n" if has_body else "",
+            body=body if has_body else "",
         )
 
     def __repr__(self):
