@@ -56,6 +56,7 @@ def parse_args():
     exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
+    exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
 
     return parser.parse_args()
 
@@ -63,7 +64,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags:
+    if args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags or args.delete_last:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict or args.short:
@@ -191,6 +192,11 @@ def cli():
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
 
+    elif args.delete_last:
+        last_entry = journal.entries.pop()
+        print("[Deleted Entry:]")
+        print(last_entry)
+        journal.write()
 
 if __name__ == "__main__":
     cli()
