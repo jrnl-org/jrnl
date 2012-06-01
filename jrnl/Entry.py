@@ -18,19 +18,41 @@ class Entry:
         self.tags = set(tags)
 
     def __str__(self):
+        """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        body_wrapper = "\n" if self.body else ""
-        if self.journal.config['linewrap']:
-            body = body_wrapper + textwrap.fill(self.body, self.journal.config['linewrap'])
-        else:
-            body = body_wrapper + self.body.strip()
-        space = "\n"
+        title = date_str + " " + self.title
+        body = self.body.strip()
 
-        return "{date} {title} {body} {space}".format(
-            date=date_str,
-            title=self.title,
-            body=body,
-            space=space
+        return "{title}{sep}{body}\n".format(
+            title=title,
+            sep="\n" if self.body else "",
+            body=body
+        )
+
+    def pprint(self):
+        """Returns a pretty-printed version of the entry."""
+        date_str = self.date.strftime(self.journal.config['timeformat'])
+        if self.journal.config['linewrap']:
+            title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
+            body = "\n".join([
+                    textwrap.fill(line+" ", 
+                        self.journal.config['linewrap'], 
+                        initial_indent="| ", 
+                        subsequent_indent="| ",
+                        drop_whitespace=False)
+                    for line in self.body.strip().splitlines()
+                ])
+        else:
+            title = date_str + " " + self.title
+            body = self.body.strip()
+
+        # Suppress bodies that are just blanks and new lines.
+        has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
+
+        return "{title}{sep}{body}\n".format(
+            title=title,
+            sep="\n" if has_body else "",
+            body=body if has_body else "",
         )
 
     def __repr__(self):
