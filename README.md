@@ -97,7 +97,7 @@ The first time launched, _jrnl_ will create a file called `.jrnl_config` in your
 
 The configuration file is a simple JSON file with the following options.
 
- - `journal`: path to  your journal file
+ - `journals`: path to  your journal files
  - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
  - `encrypt`: if `true`, encrypts your journal using AES.
  - `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
@@ -116,6 +116,17 @@ The configuration file is a simple JSON file with the following options.
 >     jrnl "Implemented endless scrolling on the #frontend of our website."
 > 
 > Or use the built-in prompt or an external editor to compose your entries.
+
+### Multiple journal files
+
+You can configure _jrnl_ to use with multiple journals (eg. `private` and `work`) by defining more journals in your `.jrnl_config`, for example:
+
+    "journals": {
+      "default": "~/journal.txt",
+      "work":    "~/work.txt"
+    },
+
+The `default` journal gets created the first time you start _jrnl_. Now you can access the `work` journal by using `jrnl work` instead of `jrnl`, eg. `jrnl work at 10am: Meeting with @Steve" or `jrnl work -n 3` will use `~/work.txt`, while `jrnl -n 3` will display the last three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
 
 ### JSON export
 
