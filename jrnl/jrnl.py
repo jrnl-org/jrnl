@@ -36,6 +36,7 @@ def update_config(config):
             config[key] = default_config[key]
         with open(CONFIG_PATH, 'w') as f:
             json.dump(config, f, indent=2)
+        print("[.jrnl_conf updated to newest version]")
 
 def parse_args():
     parser = argparse.ArgumentParser()
