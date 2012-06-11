@@ -129,6 +129,14 @@ def print_tags(journal):
         for n, tag in sorted(tag_counts, reverse=True):
             print("{:20} : {}".format(tag, n))
 
+
+def touch_journal(filename):
+    """If filename does not exist, touch the file"""
+    if not os.path.exists(filename):
+        print("[Journal created at {}".format(filename))
+        open(filename, 'a').close()
+
+
 def cli():
     if not os.path.exists(CONFIG_PATH):
         config = install_jrnl(CONFIG_PATH)
@@ -142,7 +150,17 @@ def cli():
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
-    args = parse_args()
+    args = parse_args()  
+
+    # If the first textual argument points to a journal file,
+    # use this!
+    if args.text and args.text[0] in config['journals']:
+        config['journal'] = config['journals'].get(args.text[0])
+        args.text = args.text[1:]
+    else:
+        config['journal'] = config['journals'].get('default')
+
+    touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
 
     # open journal file
