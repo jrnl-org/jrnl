@@ -4,6 +4,7 @@ Changelog
 * [Improved] Supports deleting of last entry.
 * [Fixed] Fixes a bug where --encrypt or --decrypt without a target file would not work.
 * [Improved] Supports a config option for setting word wrap.
+* [Improved] Supports multiple journal files.
 
 ### 0.3.0 (May 24, 2012)
 
