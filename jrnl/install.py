@@ -17,7 +17,9 @@ def module_exists(module_name):
         return True
 
 default_config = {
-    'journal': os.path.expanduser("~/journal.txt"),
+    'journals': {
+        "default": os.path.expanduser("~/journal.txt")
+    },
     'editor': "",
     'encrypt': False,
     'password': "",
@@ -43,7 +45,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
     # Where to create the journal?
     path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
     journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
-    default_config['journal'] = os.path.expanduser(journal_path)
+    default_config['journals']['default'] = os.path.expanduser(journal_path)
 
     # Encrypt it?
     if module_exists("Crypto"):
@@ -61,7 +63,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
         print("clint not found. To turn on highlighting, install clint and set highlight to true in your .jrnl_conf.")
         default_config['highlight'] = False
 
-    open(default_config['journal'], 'a').close() # Touch to make sure it's there
+    open(default_config['journals']['default'], 'a').close() # Touch to make sure it's there
 
     # Write config to ~/.jrnl_conf
     with open(config_path, 'w') as f:
