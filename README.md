@@ -97,13 +97,13 @@ The first time launched, _jrnl_ will create a file called `.jrnl_config` in your
 
 The configuration file is a simple JSON file with the following options.
 
- - `journals`: path to  your journal files
- - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
- - `encrypt`: if `true`, encrypts your journal using AES.
- - `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
- - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
- - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
- - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
+- `journals`: path to  your journal files
+- `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
+- `encrypt`: if `true`, encrypts your journal using AES.
+- `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
+- `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
+- `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
+- `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
 - `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan. 
 - `linewrap`: controls the width of the output. Set to `0` or `false` if you don't want to wrap long lines.
 
@@ -126,7 +126,12 @@ You can configure _jrnl_ to use with multiple journals (eg. `private` and `work`
       "work":    "~/work.txt"
     },
 
-The `default` journal gets created the first time you start _jrnl_. Now you can access the `work` journal by using `jrnl work` instead of `jrnl`, eg. `jrnl work at 10am: Meeting with @Steve" or `jrnl work -n 3` will use `~/work.txt`, while `jrnl -n 3` will display the last three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
+The `default` journal gets created the first time you start _jrnl_. Now you can access the `work` journal by using `jrnl work` instead of `jrnl`, eg. 
+
+    jrnl work at 10am: Meeting with @Steve
+    jrnl work -n 3
+    
+will both use `~/work.txt`, while `jrnl -n 3` will display the last three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
 
 ### JSON export
 
