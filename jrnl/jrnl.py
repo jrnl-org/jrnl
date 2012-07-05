@@ -85,7 +85,7 @@ def get_text_from_editor(config):
             raw = f.read()
         os.remove(tmpfile)
     else:
-        print('nothing saved to file')
+        print('[Nothing saved to file]')
         raw = ''
 
     return raw
@@ -133,7 +133,7 @@ def print_tags(journal):
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
-        print("[Journal created at {}".format(filename))
+        print("[Journal created at {}]".format(filename))
         open(filename, 'a').close()
 
 
@@ -154,11 +154,10 @@ def cli():
 
     # If the first textual argument points to a journal file,
     # use this!
-    if args.text and args.text[0] in config['journals']:
-        config['journal'] = config['journals'].get(args.text[0])
+    journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
+    if journal_name is not 'default':
         args.text = args.text[1:]
-    else:
-        config['journal'] = config['journals'].get('default')
+    config['journal'] = config['journals'].get(journal_name)
 
     touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
@@ -170,7 +169,7 @@ def cli():
         if config['editor']:
             raw = get_text_from_editor(config)
         else:
-            raw = raw_input("Compose Entry: ")
+            raw = raw_input("[Compose Entry] ")
         if raw:
             args.text = [raw]
         else:
@@ -180,7 +179,7 @@ def cli():
     if mode_compose:
         raw = " ".join(args.text).strip()
         journal.new_entry(raw, args.date)
-        print("Entry added.")
+        print("[Entry added to {} journal]").format(journal_name)
         journal.write()
 
     # Reading mode
