@@ -8,6 +8,7 @@
 """
 
 import Journal
+import exporters
 from install import *
 import os
 import tempfile
@@ -196,10 +197,10 @@ def cli():
         print_tags(journal)
 
     elif args.json: # export to json
-        print(journal.to_json())
+        print(exporters.to_json(journal))
 
     elif args.markdown: # export to json
-        print(journal.to_md())
+        print(exporters.to_md(journal))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
