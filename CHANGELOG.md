@@ -1,6 +1,12 @@
 Changelog
 =========
 
+### 0.3.2 (July 5, 2012)
+
+* [Improved] Converts `\n` to new lines (if using directly on a command line, make sure to wrap your entry with quotes).
+
+### 0.3.1 (June 16, 2012)
+
 * [Improved] Supports deleting of last entry.
 * [Fixed] Fixes a bug where --encrypt or --decrypt without a target file would not work.
 * [Improved] Supports a config option for setting word wrap.
