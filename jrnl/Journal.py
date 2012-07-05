@@ -237,15 +237,16 @@ class Journal:
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
+        raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
+
         # Split raw text into title and body
         title_end = len(raw)
-        for separator in ".?!":
+        for separator in ".?!\n":
             sep_pos = raw.find(separator)
             if 1 < sep_pos < title_end:
                 title_end = sep_pos
         title = raw[:title_end+1]
         body = raw[title_end+1:].strip()
-
         if not date:
             if title.find(":") > 0:
                 date = self.parse_date(title[:title.find(":")])
