@@ -164,7 +164,7 @@ def cli():
     mode_compose, mode_export = guess_mode(args, config)
 
     # open journal file
-    journal = Journal.Journal(config=config)
+    journal = Journal.Journal(**config)
 
     if mode_compose and not args.text:
         if config['editor']:

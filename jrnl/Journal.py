@@ -25,9 +25,19 @@ except ImportError:
     clint = None
 
 class Journal:
-    def __init__(self, config, **kwargs):
-        config.update(kwargs)
-        self.config = config
+    def __init__(self, **kwargs):
+        self.config = {
+            'journal': "journal.txt",
+            'encrypt': False,
+            'password': "",
+            'default_hour': 9,
+            'default_minute': 0,
+            'timeformat': "%Y-%m-%d %H:%M",
+            'tagsymbols': '@',
+            'highlight': True,
+            'linewrap': 80,
+        }
+        self.config.update(kwargs)
 
         # Set up date parser
         consts = pdc.Constants()
