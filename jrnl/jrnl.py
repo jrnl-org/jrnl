@@ -146,8 +146,11 @@ def cli():
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
     if journal_name is not 'default':
         args.text = args.text[1:]
-    config['journal'] = config['journals'].get(journal_name)
-
+    journal_conf = config['journals'].get(journal_name)
+    if type(journal_conf) is dict: # We can override the default config on a by-journal basis
+        config.update(journal_conf)
+    else: # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
     touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
 
