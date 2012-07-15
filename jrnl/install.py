@@ -32,6 +32,19 @@ default_config = {
 }
 
 
+def update_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
+    """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
+    This essentially automatically ports jrnl installations if new config parameters are  introduced in later
+    versions."""
+    missing_keys = set(default_config).difference(config)
+    if missing_keys:
+        for key in missing_keys:
+            config[key] = default_config[key]
+        with open(config_path, 'w') as f:
+            json.dump(config, f, indent=2)
+        print("[.jrnl_conf updated to newest version]")
+
+
 def install_jrnl(config_path='~/.jrnl_config'):
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(text)+'*')
