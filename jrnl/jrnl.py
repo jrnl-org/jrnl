@@ -9,7 +9,7 @@
 
 import Journal
 import exporters
-from install import *
+import install
 import os
 import tempfile
 import subprocess
@@ -25,19 +25,7 @@ __author__ = 'Manuel Ebert, Stephan Gabler'
 __license__ = 'MIT'
 
 CONFIG_PATH = os.path.expanduser('~/.jrnl_config')
-PYCRYPTO = module_exists("Crypto")
-
-def update_config(config):
-    """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
-    This essentially automatically ports jrnl installations if new config parameters are  introduced in later
-    versions."""
-    missing_keys = set(default_config).difference(config)
-    if missing_keys:
-        for key in missing_keys:
-            config[key] = default_config[key]
-        with open(CONFIG_PATH, 'w') as f:
-            json.dump(config, f, indent=2)
-        print("[.jrnl_conf updated to newest version]")
+PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -140,11 +128,11 @@ def touch_journal(filename):
 
 def cli():
     if not os.path.exists(CONFIG_PATH):
-        config = install_jrnl(CONFIG_PATH)
+        config = install.install_jrnl(CONFIG_PATH)
     else:
         with open(CONFIG_PATH) as f:
             config = json.load(f)
-        update_config(config)
+        install.update_config(config, config_path=CONFIG_PATH)
 
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
