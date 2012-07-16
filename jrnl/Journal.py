@@ -267,7 +267,3 @@ class Journal:
 
         self.entries.append(Entry(self, date, title, body))
         self.sort()
-
-    def save_config(self, config_path):
-        with open(config_path, 'w') as f:
-            json.dump(self.config, f, indent=2)
