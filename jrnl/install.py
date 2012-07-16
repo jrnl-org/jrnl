@@ -45,6 +45,11 @@ def update_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
         print("[.jrnl_conf updated to newest version]")
 
 
+def save_config(config=default_config, config_path=os.path.expanduser("~/.jrnl_conf")):
+    with open(config_path, 'w') as f:
+        json.dump(config, f, indent=2)
+
+
 def install_jrnl(config_path='~/.jrnl_config'):
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(text)+'*')
