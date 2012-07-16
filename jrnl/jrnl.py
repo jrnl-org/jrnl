@@ -82,28 +82,18 @@ def get_text_from_editor(config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
+    journal.config['password'] = ""
     journal.make_key(prompt="Enter new password:")
     journal.config['encrypt'] = True
-    journal.config['password'] = ""
-    if not filename:
-        journal.write()
-        journal.save_config(CONFIG_PATH)
-        print("Journal encrypted to %s." % journal.config['journal'])
-    else:
-        journal.write(filename)
-        print("Journal encrypted to %s." % os.path.realpath(filename))       
+    journal.write(filename)
+    print("Journal encrypted to {}.".format(filename or journal.config['journal']))
 
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
     journal.config['password'] = ""
-    if not filename:
-        journal.write()
-        journal.save_config()
-        print("Journal decrypted to %s." % journal.config['journal'])
-    else:
-        journal.write(filename)
-        print("Journal encrypted to %s." % os.path.realpath(filename))       
+    journal.write(filename)
+    print("Journal decrypted to {}.".format(filename or journal.config['journal']))
 
 def print_tags(journal):
         """Prints a list of all tags and the number of occurances."""
@@ -125,6 +115,15 @@ def touch_journal(filename):
         print("[Journal created at {}]".format(filename))
         open(filename, 'a').close()
 
+def update_config(config, new_config, scope):
+    """Updates a config dict with new values - either global if scope is None
+    of config['journals'][scope] is just a string pointing to a journal file,
+    or within the scope"""
+    if scope and type(config['journals'][scope]) is dict: # Update to journal specific
+        config['journals'][scope].update(new_config)
+    else:
+        config.update(new_config)
+
 
 def cli():
     if not os.path.exists(CONFIG_PATH):
@@ -134,6 +133,7 @@ def cli():
             config = json.load(f)
         install.update_config(config, config_path=CONFIG_PATH)
 
+    original_config = config.copy()
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
@@ -156,7 +156,6 @@ def cli():
 
     # open journal file
     journal = Journal.Journal(**config)
-
     if mode_compose and not args.text:
         if config['editor']:
             raw = get_text_from_editor(config)
@@ -198,9 +197,17 @@ def cli():
 
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
+        # Not encrypting to a separate file: update config!
+        if not args.encrypt: 
+            update_config(original_config, {"encrypt": True, "password": ""}, journal_name)
+            install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
+        # Not decrypting to a separate file: update config!
+        if not args.decrypt: 
+            update_config(original_config, {"encrypt": False, "password": ""}, journal_name)
+            install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.delete_last:
         last_entry = journal.entries.pop()
