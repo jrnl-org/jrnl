@@ -23,6 +23,22 @@ and hit return. `yesterday:` will be interpreted as a timestamp. Everything unti
 
 If you just call `jrnl`, you will be prompted to compose your entry - but you can also configure _jrnl_ to use your external editor.
 
+
+Installation
+------------
+
+Install _jrnl_ using pip:
+
+    pip install jrnl
+
+Alternatively, install manually by cloning the repository:
+
+    git clone git://github.com/maebert/jrnl.git
+    cd jrnl
+    python setup.py install
+
+The first time you run `jrnl` you will be asked where your journal file should be created and whether you wish to encrypt it.
+
 Usage
 -----
 
@@ -70,25 +86,46 @@ Timestamps that work:
 * 7 apr
 * 5/20/1998 at 23:42
 
-Installation
-------------
+Import and export
+-----------------
 
-Install _jrnl_ using pip:
+### Tag export
 
-    pip install jrnl
+With
 
-Alternatively, install manually by cloning the repository:
+    jrnl --tags
 
-    git clone git://github.com/maebert/jrnl.git
-    cd jrnl
-    python setup.py install
+you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
 
-### Known Issues
+### JSON export
 
-- The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
-- _jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems with installing within virtual environments.
+Can do:
 
-Advanced usage
+    jrnl --json
+
+Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
+
+### Markdown export
+
+    jrnl --markdown
+
+Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
+
+Encryption
+----------
+
+If you don't choose to encrypt your file when you run `jrnl` for the first time, you can encrypt your existing journal file or change its password using
+
+    jrnl --encrypt
+
+If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely,
+
+    jrnl --decrypt
+
+will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. `jrnl --decrypt plain_text_copy.txt`, to leave your original file untouched.
+
+
+Advanced usages
 --------------
 
 The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory.
@@ -97,7 +134,7 @@ The first time launched, _jrnl_ will create a file called `.jrnl_config` in your
 
 The configuration file is a simple JSON file with the following options.
 
-- `journals`: path to  your journal files
+- `journals`: paths to your journal files
 - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
 - `encrypt`: if `true`, encrypts your journal using AES.
 - `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
@@ -133,39 +170,22 @@ The `default` journal gets created the first time you start _jrnl_. Now you can 
     
 will both use `~/work.txt`, while `jrnl -n 3` will display the last three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
 
-### JSON export
+You can also override the default options for each individual journal. If you `.jrnl_conf` looks like this:
+    {
+      ...
+      "encrypt": false
+      "journals": {
+        "default": "~/journal.txt",
+        "work": {
+          "journal": "~/work.txt",
+          "encrypt": true
+        },
+        "food": "~/my_recipes.txt",
+    }
 
-Can do:
+Your `default` and your `food` journals won't be encrypted, however your `work` journal will! You can override all options that are present at the top level of `.jrnl_conf`, just make sure that at the very least you specify a `"journal": ...` key that points to the journal file of that journal.
 
-    jrnl --json
-
-Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
-
-### Tag export
-
-With
-
-    jrnl --tags
-
-you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
-
-### Markdown export
-
-    jrnl --markdown
-
-Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
-
-### Encryption
-
-You can encrypt your existing journal file or change its password using
-
-    jrnl --encrypt
-
-If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely,
-
-    jrnl --decrypt
-
-will replace your encrypted journal file by a Journal in plain text.
+### Manual decryption
 
 Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run
 
@@ -175,3 +195,9 @@ Should you ever want to decrypt your journal manually, you can do so with any pr
         cipher = f.read()
         crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
         plain = crypto.decrypt(cipher[16:])
+
+Known Issues
+------------
+
+- The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
+- _jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems with installing within virtual environments.
