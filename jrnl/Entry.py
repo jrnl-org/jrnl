@@ -35,11 +35,11 @@ class Entry:
         if self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
-                    textwrap.fill(line+" ", 
-                        self.journal.config['linewrap'], 
-                        initial_indent="| ", 
+                    textwrap.fill(line+" ",
+                        self.journal.config['linewrap'],
+                        initial_indent="| ",
                         subsequent_indent="| ",
-                        drop_whitespace=False)
+                        drop_whitespace=False).replace('  ', ' ')
                     for line in self.body.strip().splitlines()
                 ])
         else:
