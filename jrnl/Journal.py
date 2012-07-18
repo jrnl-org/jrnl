@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from Entry import Entry
-import os
+import os, random, string
 import parsedatetime.parsedatetime as pdt
 import parsedatetime.parsedatetime_consts as pdc
 import re
@@ -29,7 +29,12 @@ class Journal:
     def __init__(self, config, **kwargs):
         config.update(kwargs)
         self.config = config
+        # TODO: comment regex
         self.path_search = re.compile('[\[\(]?(([A-Z]:|/)\S*?\.(tif|tiff|jpg|jpeg|gif|png))[\[\)]?')
+        self.data_path = os.path.splitext(self.config['journal'])[0] + '_data'
+        # TODO: maybe move to setup in jrnl.py
+        if not os.path.exists(self.data_path):
+            os.mkdir(self.data_path)
 
         # Set up date parser
         consts = pdc.Constants()
@@ -72,6 +77,9 @@ class Journal:
         else: # Always pad so we can detect properly decrypted files :)
             plain += " " * 16
         return iv + crypto.encrypt(plain)
+
+    def _random_string(self, length=20):
+        return ''.join(random.choice(string.letters+string.digits) for _ in range(length))
 
     def make_key(self, prompt="Password: "):
         """Creates an encryption key from the default password or prompts for a new password."""
@@ -244,12 +252,9 @@ class Journal:
             if res and len(res.groups()) == 2 and os.path.exists(word.strip('()[]')):
                 word = word.strip('()[]')
                 print word
-                save_path = os.path.splitext(self.config['journal'])[0] + '_data'
-                if not os.path.exists(save_path):
-                    os.mkdir(save_path)
-                new_path = os.path.join(save_path, os.path.basename(word))
-                # TODO: replace name by hash
-                shutil.copyfile(word, new_path)
+                ext = os.path.splitext(os.path.basename(word))[1]
+                random_name = 'img_' + self._random_string() + ext
+                shutil.copyfile(word, os.path.join(self.data_path, random_name))
         return body
 
     def new_entry(self, raw, date=None):
