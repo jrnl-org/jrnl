@@ -13,13 +13,15 @@ class TestClasses(unittest.TestCase):
     """
 
     def setUp(self):
-        self.data_path = os.path.dirname(os.path.abspath(__file__))
+        self.test_data_path = os.path.dirname(os.path.abspath(__file__))
         self.config =   {
                             "timeformat": "%Y-%m-%d %H:%M",
                             "encrypt": False,
                             "tagsymbols": "@",
                             "journal": ""
                         }
+        self.config['journal'] = os.path.join(self.test_data_path, 'empty.txt')
+        self.journal = Journal(config=self.config)
 
     def tearDown(self):
         # TODO: delete copied file, etc
@@ -29,12 +31,16 @@ class TestClasses(unittest.TestCase):
         """colons should not cause problems in the text body"""
         pass
 
-    # def test_file_detection(self):
-    #     self.config['journal'] = os.path.join(self.data_path, 'empty.txt')
-    #     journal = Journal(config=self.config)
-    #     with open(os.path.join(self.data_path, 'url_test.txt')) as f:
-    #         journal.new_entry(f.read())
-    #     # TODO: check that copied file exists
+    def test_data_folder_exists(self):
+        self.assertTrue(os.path.exists(self.journal.data_path))
+        self.assertTrue(os.path.isdir(self.journal.data_path))
+
+    def test_file_copied(self):
+        self.assertTrue(len(os.list))
+        with open(os.path.join(self.test_data_path, 'url_test.txt')) as f:
+            journal.new_entry(f.read())
+        # TODO: check that copied file exists
+
 
     def test_rendering_md(self):
         pass
@@ -51,9 +57,9 @@ class TestClasses(unittest.TestCase):
                          '/Volumes/dedan/test.png']
         false_positive = ['/Volumes/dedan/bla.blub',
                           'http://en.wikipedia.org/wiki/Generative_model']
-        self.config['journal'] = os.path.join(self.data_path, 'empty.txt')
+        self.config['journal'] = os.path.join(self.test_data_path, 'empty.txt')
         journal = Journal(config=self.config)
-        with open(os.path.join(self.data_path, 'url_test.txt')) as f:
+        with open(os.path.join(self.test_data_path, 'url_test.txt')) as f:
             results = [res[0] for res in journal.path_search.findall(f.read())]
             for tp in true_positive:
                 self.assertIn(tp, results)
