@@ -27,10 +27,6 @@ class TestClasses(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.journal.data_path)
 
-    def test_colon_in_textbody(self):
-        """colons should not cause problems in the text body"""
-        pass
-
     def test_data_folder_exists(self):
         self.assertTrue(os.path.exists(self.journal.data_path))
         self.assertTrue(os.path.isdir(self.journal.data_path))
