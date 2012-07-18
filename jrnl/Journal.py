@@ -15,7 +15,7 @@ import readline, glob
 try:
     from Crypto.Cipher import AES
     from Crypto.Random import random, atfork
-except ImportError: 
+except ImportError:
     pass
 import hashlib
 import getpass
@@ -23,11 +23,13 @@ try:
     import clint
 except ImportError:
     clint = None
+import shutil
 
 class Journal:
     def __init__(self, config, **kwargs):
         config.update(kwargs)
         self.config = config
+        self.path_search = re.compile('[\[\(]?(([A-Z]:|/)\S*?\.(tif|tiff|jpg|jpeg|gif|png))[\[\)]?')
 
         # Set up date parser
         consts = pdc.Constants()
@@ -233,6 +235,23 @@ class Journal:
 
         return date
 
+    def parse_for_images(self, body):
+        print 'in parse for images'
+        # TODO: parse also for name (like used in markdown [name](url))
+        path_start = re.compile('[\[\(]?([A-Z]:|/).*?\.(tif|tiff|jpg|jpeg|gif|png)[\[\)]?')
+        for word in body.split():
+            res = path_start.match(word)
+            if res and len(res.groups()) == 2 and os.path.exists(word.strip('()[]')):
+                word = word.strip('()[]')
+                print word
+                save_path = os.path.splitext(self.config['journal'])[0] + '_data'
+                if not os.path.exists(save_path):
+                    os.mkdir(save_path)
+                new_path = os.path.join(save_path, os.path.basename(word))
+                # TODO: replace name by hash
+                shutil.copyfile(word, new_path)
+        return body
+
     def new_entry(self, raw, date=None):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
@@ -247,6 +266,7 @@ class Journal:
                 title_end = sep_pos
         title = raw[:title_end+1]
         body = raw[title_end+1:].strip()
+        body = self.parse_for_images(body)
         if not date:
             if title.find(":") > 0:
                 date = self.parse_date(title[:title.find(":")])
