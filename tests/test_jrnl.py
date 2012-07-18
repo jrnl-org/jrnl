@@ -32,11 +32,10 @@ class TestClasses(unittest.TestCase):
         self.assertTrue(os.path.isdir(self.journal.data_path))
 
     def test_file_copied(self):
-        self.assertTrue(len(os.list))
+        self.assertEqual(len(os.listdir(self.journal.data_path)), 0)
         with open(os.path.join(self.test_data_path, 'url_test.txt')) as f:
-            journal.new_entry(f.read())
-        # TODO: check that copied file exists
-
+            self.journal.new_entry(f.read())
+        self.assertEqual(len(os.listdir(self.journal.data_path)), 1)
 
     def test_rendering_md(self):
         pass
