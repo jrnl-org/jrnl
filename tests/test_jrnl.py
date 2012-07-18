@@ -4,6 +4,7 @@
 import unittest
 import os
 from jrnl.Journal import Journal
+import shutil
 
 class TestClasses(unittest.TestCase):
     """Test the behavior of the classes.
@@ -24,8 +25,7 @@ class TestClasses(unittest.TestCase):
         self.journal = Journal(config=self.config)
 
     def tearDown(self):
-        # TODO: delete copied file, etc
-        pass
+        shutil.rmtree(self.journal.data_path)
 
     def test_colon_in_textbody(self):
         """colons should not cause problems in the text body"""
