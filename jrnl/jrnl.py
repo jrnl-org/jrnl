@@ -54,13 +54,14 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
+    print args
     if args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags or args.delete_last:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict or args.short:
         # Any sign of displaying stuff?
         compose = False
-    elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in args.text):
+    elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
