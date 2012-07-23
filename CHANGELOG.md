@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 1.0.0-rc1
+
+* [Fixed] A bug where jrnl would not go into compose mode
+* [Improved] Each journal can have individual settings
+
 ### 0.3.2 (July 5, 2012)
 
 * [Improved] Converts `\n` to new lines (if using directly on a command line, make sure to wrap your entry with quotes).
