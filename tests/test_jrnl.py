@@ -6,8 +6,6 @@ import os
 from jrnl.Journal import Journal
 import shutil
 
-# TODO: move test data to a data folder
-
 class TestClasses(unittest.TestCase):
     """Test the behavior of the classes.
 
@@ -16,7 +14,8 @@ class TestClasses(unittest.TestCase):
     """
 
     def setUp(self):
-        self.test_data_path = os.path.dirname(os.path.abspath(__file__))
+        self.test_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                           'test_data')
         self.config =   {
                             "timeformat": "%Y-%m-%d %H:%M",
                             "encrypt": False,
@@ -50,7 +49,7 @@ class TestClasses(unittest.TestCase):
 
     def test_pathsearch_regex(self):
         true_positive = ['/Volumes/dedan/bla.png',
-                         '/Users/dedan/projects/jrnl/tests/golden.jpg',
+                         '/Users/dedan/projects/jrnl/tests/test_data/golden.jpg',
                          '/Volumes/dedan/test.png',
                          'C:\\a\\windows\\file.png']
         false_positive = ['/Volumes/dedan/bla.blub',

@@ -255,10 +255,10 @@ class Journal:
         for word in body.split():
             res = self.path_search.match(word)
             if res and os.path.exists(res.groups()[0]):
-                word = word.strip('()[]')
-                ext = os.path.splitext(os.path.basename(word))[1]
+                im_path = res.groups()[0]
+                ext = os.path.splitext(os.path.basename(im_path))[1]
                 random_name = 'img_' + self._random_string() + ext
-                shutil.copyfile(word, os.path.join(self.data_path, random_name))
+                shutil.copyfile(im_path, os.path.join(self.data_path, random_name))
         return body
 
     def new_entry(self, raw, date=None):
