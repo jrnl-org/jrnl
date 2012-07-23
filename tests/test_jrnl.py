@@ -49,10 +49,10 @@ class TestClasses(unittest.TestCase):
         pass
 
     def test_pathsearch_regex(self):
-        # TODO: test for windows path
         true_positive = ['/Volumes/dedan/bla.png',
                          '/Users/dedan/projects/jrnl/tests/golden.jpg',
-                         '/Volumes/dedan/test.png']
+                         '/Volumes/dedan/test.png',
+                         'C:\\a\\windows\\file.png']
         false_positive = ['/Volumes/dedan/bla.blub',
                           'http://en.wikipedia.org/wiki/Generative_model']
         self.config['journal'] = os.path.join(self.test_data_path, 'empty.txt')
