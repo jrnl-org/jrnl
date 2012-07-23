@@ -29,8 +29,14 @@ class Journal:
     def __init__(self, config, **kwargs):
         config.update(kwargs)
         self.config = config
-        # TODO: comment regex
-        self.path_search = re.compile('[\[\(]?((?:[A-Z]:|/)\S*?\.(?:tif|tiff|jpg|jpeg|gif|png))[\[\)]?')
+        self.path_search = re.compile(r"""
+            [\[\(]?                                 # brackets or braces at start
+                ((?:[A-Z]:|/)                       # letter with colon (win) or slash (*nix)
+                \S*?                                # all following non whitespace
+                \.                                  # dot for filename extension
+                (?:tif|tiff|jpg|jpeg|gif|png))      # all file formats I look for
+            [\[\)]?                                 # brackets or braces in the end
+        """, re.VERBOSE)
         self.data_path = os.path.splitext(self.config['journal'])[0] + '_data'
         # TODO: maybe move to setup in jrnl.py
         if not os.path.exists(self.data_path):
