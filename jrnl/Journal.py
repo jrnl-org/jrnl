@@ -30,7 +30,7 @@ class Journal:
         config.update(kwargs)
         self.config = config
         # TODO: comment regex
-        self.path_search = re.compile('[\[\(]?(([A-Z]:|/)\S*?\.(tif|tiff|jpg|jpeg|gif|png))[\[\)]?')
+        self.path_search = re.compile('[\[\(]?((?:[A-Z]:|/)\S*?\.(?:tif|tiff|jpg|jpeg|gif|png))[\[\)]?')
         self.data_path = os.path.splitext(self.config['journal'])[0] + '_data'
         # TODO: maybe move to setup in jrnl.py
         if not os.path.exists(self.data_path):
@@ -244,14 +244,12 @@ class Journal:
         return date
 
     def parse_for_images(self, body):
-        print 'in parse for images'
         # TODO: parse also for name (like used in markdown [name](url))
-        path_start = re.compile('[\[\(]?([A-Z]:|/).*?\.(tif|tiff|jpg|jpeg|gif|png)[\[\)]?')
+
         for word in body.split():
-            res = path_start.match(word)
-            if res and len(res.groups()) == 2 and os.path.exists(word.strip('()[]')):
+            res = self.path_search.match(word)
+            if res and os.path.exists(res.groups()[0]):
                 word = word.strip('()[]')
-                print word
                 ext = os.path.splitext(os.path.basename(word))[1]
                 random_name = 'img_' + self._random_string() + ext
                 shutil.copyfile(word, os.path.join(self.data_path, random_name))

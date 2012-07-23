@@ -6,6 +6,8 @@ import os
 from jrnl.Journal import Journal
 import shutil
 
+# TODO: move test data to a data folder
+
 class TestClasses(unittest.TestCase):
     """Test the behavior of the classes.
 
@@ -40,13 +42,14 @@ class TestClasses(unittest.TestCase):
     def test_rendering_md(self):
         pass
 
-    def test_rendering_htm(self):
+    def test_rendering_html(self):
         pass
 
     def test_open_in_browser(self):
         pass
 
     def test_pathsearch_regex(self):
+        # TODO: test for windows path
         true_positive = ['/Volumes/dedan/bla.png',
                          '/Users/dedan/projects/jrnl/tests/golden.jpg',
                          '/Volumes/dedan/test.png']
@@ -55,7 +58,7 @@ class TestClasses(unittest.TestCase):
         self.config['journal'] = os.path.join(self.test_data_path, 'empty.txt')
         journal = Journal(config=self.config)
         with open(os.path.join(self.test_data_path, 'url_test.txt')) as f:
-            results = [res[0] for res in journal.path_search.findall(f.read())]
+            results = [res for res in journal.path_search.findall(f.read())]
             for tp in true_positive:
                 self.assertIn(tp, results)
             for fp in false_positive:
