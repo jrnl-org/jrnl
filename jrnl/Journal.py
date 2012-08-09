@@ -308,7 +308,7 @@ class DayOne(Journal):
             # have a new one!
             if not hasattr(entry, "uuid"):
                 new_uuid = uuid.uuid1().hex
-                filename = os.path.join(self.config['journal'], "entries", uuid+".doentry")
+                filename = os.path.join(self.config['journal'], "entries", new_uuid+".doentry")
                 entry_plist = {
                     'Creation Date': entry.date,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
