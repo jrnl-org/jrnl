@@ -5,6 +5,7 @@ Changelog
 
 * [Fixed] A bug where jrnl would not go into compose mode
 * [Improved] Each journal can have individual settings
+* [New] Integrates seamlessly with DayOne
 
 ### 0.3.2 (July 5, 2012)
 
