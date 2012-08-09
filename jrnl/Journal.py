@@ -23,6 +23,8 @@ try:
     import clint
 except ImportError:
     clint = None
+import plistlib
+import uuid
 
 class Journal(object):
     def __init__(self, **kwargs):
@@ -270,4 +272,48 @@ class Journal(object):
         if sort:
             self.sort()
         return entry
+
+class DayOne(Journal):
+    """A special Journal handling DayOne files"""
+    def __init__(self, **kwargs):
+        self.entries = []
+        super(DayOne, self).__init__(**kwargs)
+
+    def open(self):
+        files = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
+        return files
+
+    def parse(self, filenames):
+        """Instead of parsing a string into an entry, this method will take a list
+        of filenames, interpret each as a plist file and create a new entry from that."""
+        self.entries = []
+        for filename in filenames:
+            with open(filename) as plist_entry:
+                dict_entry = plistlib.readPlist(plist_entry)
+                entry = self.new_entry(raw=dict_entry['Entry Text'], date=dict_entry['Creation Date'], sort=False)
+                entry.starred = dict_entry["Starred"]
+                entry.uuid = dict_entry["UUID"]
+        # We're using new_entry to create the Entry object, which adds the entry
+        # to self.entries already. However, in the original Journal.__init__, this
+        # method is expected to return a list of newly created entries, which is why
+        # we're returning the obvious.
+        return self.entries
+
+
+    def write(self):
+        """Writes only the entries that have been modified into plist files."""
+        for entry in self.entries:
+            # Assumption: since jrnl can not manipulate existing entries, all entries
+            # that have a uuid will be old ones, and only the one that doesn't will
+            # have a new one!
+            if not hasattr(entry, "uuid"):
+                new_uuid = uuid.uuid1().hex
+                filename = os.path.join(self.config['journal'], "entries", uuid+".doentry")
+                entry_plist = {
+                    'Creation Date': entry.date,
+                    'Starred': entry.starred if hasattr(entry, 'starred') else False,
+                    'Entry Text': entry.title+"\n"+entry.body,
+                    'UUID': new_uuid
+                }
+                plistlib.writePlist(entry_plist, filename)
 
