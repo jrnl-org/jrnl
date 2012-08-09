@@ -24,7 +24,7 @@ try:
 except ImportError:
     clint = None
 
-class Journal:
+class Journal(object):
     def __init__(self, **kwargs):
         self.config = {
             'journal': "journal.txt",
@@ -243,7 +243,7 @@ class Journal:
 
         return date
 
-    def new_entry(self, raw, date=None):
+    def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
@@ -265,5 +265,9 @@ class Journal:
         if not date: # Still nothing? Meh, just live in the moment.
             date = self.parse_date("now")
 
-        self.entries.append(Entry(self, date, title, body))
-        self.sort()
+        entry = Entry(self, date, title, body)
+        self.entries.append(entry)
+        if sort:
+            self.sort()
+        return entry
+
