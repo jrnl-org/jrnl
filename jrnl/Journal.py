@@ -251,7 +251,7 @@ class Journal:
 
     def parse_for_images(self, body):
         # TODO: parse also for name (like used in markdown [name](url))
-
+        found_images = []
         for word in body.split():
             res = self.path_search.match(word)
             if res and os.path.exists(res.groups()[0]):
@@ -259,6 +259,11 @@ class Journal:
                 ext = os.path.splitext(os.path.basename(im_path))[1]
                 random_name = 'img_' + self._random_string() + ext
                 shutil.copyfile(im_path, os.path.join(self.data_path, random_name))
+                found_images.append((im_path, random_name))
+        for im_path, random_name in found_images:
+            body = re.sub('[\[\(]?%s[\[\(]?' % im_path,
+                          '![%s](%s)' % (os.path.basename(im_path), random_name),
+                          body)
         return body
 
     def new_entry(self, raw, date=None):

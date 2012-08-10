@@ -20,10 +20,13 @@ class TestClasses(unittest.TestCase):
                             "timeformat": "%Y-%m-%d %H:%M",
                             "encrypt": False,
                             "tagsymbols": "@",
-                            "journal": ""
+                            "journal": "",
+                            "linewrap": 80,
+                            "highlight": True
                         }
         self.config['journal'] = os.path.join(self.test_data_path, 'empty.txt')
         self.journal = Journal(config=self.config)
+        self.journal.search_tags = ''
 
     def tearDown(self):
         shutil.rmtree(self.journal.data_path)
@@ -36,6 +39,7 @@ class TestClasses(unittest.TestCase):
         self.assertEqual(len(os.listdir(self.journal.data_path)), 0)
         with open(os.path.join(self.test_data_path, 'url_test.txt')) as f:
             self.journal.new_entry(f.read())
+        print str(self.journal)
         self.assertEqual(len(os.listdir(self.journal.data_path)), 1)
 
     def test_rendering_md(self):
@@ -48,6 +52,7 @@ class TestClasses(unittest.TestCase):
         pass
 
     def test_pathsearch_regex(self):
+        # TODO: create pathes (als in url_test.txt) dynamically to work also in other locations
         true_positive = ['/Volumes/dedan/bla.png',
                          '/Users/dedan/projects/jrnl/tests/test_data/golden.jpg',
                          '/Volumes/dedan/test.png',
