@@ -13,6 +13,7 @@ import codecs
 html_skeleton = '''
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>%s</title>
 </head>
 <body>
@@ -45,7 +46,7 @@ def to_html(journal, open_in_browser=False):
     """renders the given journal to html
         and can open it in the default browser"""
     bla = to_md(journal)
-    html_body = markdown.markdown(bla.decode('utf-8'))
+    html_body = markdown.markdown(bla.decode('utf8'))
     print html_body
     tmp_file = os.path.join(tempfile.gettempdir(), "pretty.html")
     url = 'file://' + tmp_file
