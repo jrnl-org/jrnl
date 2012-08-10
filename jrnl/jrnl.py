@@ -185,13 +185,16 @@ def cli():
         journal.write()
 
     # Reading mode
-    elif not mode_export:
+    elif not mode_export or args.html:
         journal.filter(tags=args.text,
-                       start_date=args.start_date, end_date=args.end_date,
-                       strict=args.strict,
-                       short=args.short)
+                           start_date=args.start_date, end_date=args.end_date,
+                           strict=args.strict,
+                           short=args.short)
         journal.limit(args.limit)
-        print(journal)
+        if args.html:
+            exporters.to_html(journal, True)
+        else:
+            print(journal)
 
     # Various export modes
     elif args.tags:
@@ -202,10 +205,6 @@ def cli():
 
     elif args.markdown: # export to json
         print(exporters.to_md(journal))
-
-    elif args.html: #export to html and open in browser
-        print 'test'
-        exporters.to_html(journal, True)
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")

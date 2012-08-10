@@ -47,7 +47,6 @@ def to_html(journal, open_in_browser=False):
         and can open it in the default browser"""
     bla = to_md(journal)
     html_body = markdown.markdown(bla.decode('utf8'))
-    print html_body
     tmp_file = os.path.join(tempfile.gettempdir(), "pretty.html")
     url = 'file://' + tmp_file
     output_file = codecs.open(tmp_file, "w", encoding="utf8")
