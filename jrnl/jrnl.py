@@ -56,6 +56,7 @@ def parse_args():
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
     exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
+    exporting.add_argument('--html', dest='html', action="store_true", help='Opens html-formated version of the Journal in browser')
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
@@ -66,7 +67,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags or args.delete_last:
+    if args.html or args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags or args.delete_last:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict or args.short:
@@ -103,7 +104,7 @@ def encrypt(journal, filename=None):
         print("Journal encrypted to %s." % journal.config['journal'])
     else:
         journal.write(filename)
-        print("Journal encrypted to %s." % os.path.realpath(filename))       
+        print("Journal encrypted to %s." % os.path.realpath(filename))
 
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
@@ -115,7 +116,7 @@ def decrypt(journal, filename=None):
         print("Journal decrypted to %s." % journal.config['journal'])
     else:
         journal.write(filename)
-        print("Journal encrypted to %s." % os.path.realpath(filename))       
+        print("Journal encrypted to %s." % os.path.realpath(filename))
 
 def print_tags(journal):
         """Prints a list of all tags and the number of occurances."""
@@ -151,7 +152,7 @@ def cli():
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
-    args = parse_args()  
+    args = parse_args()
 
     # If the first textual argument points to a journal file,
     # use this!
@@ -193,7 +194,7 @@ def cli():
         print(journal)
 
     # Various export modes
-    elif args.tags: 
+    elif args.tags:
         print_tags(journal)
 
     elif args.json: # export to json
@@ -201,6 +202,10 @@ def cli():
 
     elif args.markdown: # export to json
         print(exporters.to_md(journal))
+
+    elif args.html: #export to html and open in browser
+        print 'test'
+        exporters.to_html(journal, True)
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
@@ -220,4 +225,3 @@ def cli():
 if __name__ == "__main__":
     cli()
 
- 
