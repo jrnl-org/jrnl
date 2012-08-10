@@ -21,7 +21,6 @@ html_skeleton = '''
 </body>
 </html>'''
 
-
 def to_json(journal):
     """Returns a JSON representation of the Journal."""
     return json.dumps([e.to_dict() for e in journal.entries], indent=2)
@@ -45,10 +44,9 @@ def to_md(journal):
 def to_html(journal, open_in_browser=False):
     """renders the given journal to html
         and can open it in the default browser"""
-    bla = to_md(journal)
-    html_body = markdown.markdown(bla.decode('utf8'))
+    html_body = markdown.markdown(to_md(journal).decode('utf8'))
     tmp_file = os.path.join(tempfile.gettempdir(), "pretty.html")
-    url = 'file://' + tmp_file
     output_file = codecs.open(tmp_file, "w", encoding="utf8")
     output_file.write(html_skeleton % (journal.config['journal'], html_body))
-    webbrowser.open(url)
+    output_file.close()
+    webbrowser.open('file://' + tmp_file)
