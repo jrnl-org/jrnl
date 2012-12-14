@@ -24,7 +24,7 @@ and hit return. yesterday` will be interpreted as a timestamp. Everything until 
 
 ::
 
-    2012-03-29 09:00 Called in sick. 
+    2012-03-29 09:00 Called in sick.
     Used the time to clean the house and spent 4h on writing my book.
 
 If you just call jrnl you will be prompted to compose your entry - but you can also configure jrnl to use your external editor.
@@ -81,8 +81,8 @@ setup(
     ],
     # metadata for upload to PyPI
     author = "Manuel Ebert",
-    author_email = "manuel.ebert@upf.edu",
+    author_email = "manuel@herelabs.com",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://maebert.github.com/jrnl", 
+    url = "http://maebert.github.com/jrnl",
 )
