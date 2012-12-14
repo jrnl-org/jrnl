@@ -2,6 +2,6 @@ language: python
 python:
   - "2.7"
   - "3.2"
-install: "pip install cling parsedatetime simplejson --use-mirrors"
+install: "pip install -r requirements.txt --use-mirrors"
 # command to run tests
 script: nosetests

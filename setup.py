@@ -56,10 +56,10 @@ setup(
     version = "0.3.0",
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
-    install_requires = ["parsedatetime", "simplejson"],
+    install_requires = ["parsedatetime"],
     extras_require = {
         'encryption': ["pycrypto"],
-        'highlight':  ["cling"]
+        'highlight':  ["clint"]
     },
     long_description=__doc__,
     entry_points={
