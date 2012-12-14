@@ -1,0 +1,2 @@
+clint >= 0.3.1
+parsedatetime >= 0.8.7
