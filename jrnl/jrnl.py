@@ -105,7 +105,10 @@ def print_tags(journal):
         ]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
         tag_counts = {(tags.count(tag), tag) for tag in tags}
-        for n, tag in sorted(tag_counts, reverse=True):
+        if len([t for t in tag_counts if t[0] == 1]):
+            tag_counts = filter(lambda x: x[0] > 1, tag_counts)
+            print('removed tags that appear only once..')
+        for n, tag in sorted(tag_counts, reverse=False):
             print("{:20} : {}".format(tag, n))
 
 
@@ -139,7 +142,7 @@ def cli():
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
-    args = parse_args()  
+    args = parse_args()
 
     # If the first textual argument points to a journal file,
     # use this!
@@ -183,7 +186,7 @@ def cli():
         print(journal)
 
     # Various export modes
-    elif args.tags: 
+    elif args.tags:
         print_tags(journal)
 
     elif args.json: # export to json
@@ -198,14 +201,14 @@ def cli():
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
-        if not args.encrypt: 
+        if not args.encrypt:
             update_config(original_config, {"encrypt": True, "password": ""}, journal_name)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
-        if not args.decrypt: 
+        if not args.decrypt:
             update_config(original_config, {"encrypt": False, "password": ""}, journal_name)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
@@ -218,4 +221,3 @@ def cli():
 if __name__ == "__main__":
     cli()
 
- 
