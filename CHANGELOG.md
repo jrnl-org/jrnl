@@ -1,6 +1,23 @@
 Changelog
 =========
 
+### 1.0.0-rc1
+
+* [Fixed] A bug where jrnl would not go into compose mode
+* [Improved] Each journal can have individual settings
+* [New] Integrates seamlessly with DayOne
+
+### 0.3.2 (July 5, 2012)
+
+* [Improved] Converts `\n` to new lines (if using directly on a command line, make sure to wrap your entry with quotes).
+
+### 0.3.1 (June 16, 2012)
+
+* [Improved] Supports deleting of last entry.
+* [Fixed] Fixes a bug where --encrypt or --decrypt without a target file would not work.
+* [Improved] Supports a config option for setting word wrap.
+* [Improved] Supports multiple journal files.
+
 ### 0.3.0 (May 24, 2012)
 
 * [Fixed] Dates such as "May 3" will now be interpreted as being in the past if the current day is at least 28 days in the future
