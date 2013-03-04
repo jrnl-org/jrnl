@@ -1,7 +1,9 @@
 jrnl
 ====
 
-*jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncinc and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
+*jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
+
+*jrnl* also plays nice with the fabulous [DayOne](http://dayoneapp.com/) and can read and write directly from and to DayOne Journals.
 
 Optionally, your journal can be encrypted using the [256-bit AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
@@ -153,6 +155,18 @@ The configuration file is a simple JSON file with the following options.
 >     jrnl "Implemented endless scrolling on the #frontend of our website."
 > 
 > Or use the built-in prompt or an external editor to compose your entries.
+
+### DayOne Integration
+
+Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
+
+    * `~/Library/Application Support/Day One/` by default
+    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and 
+    * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
+
+Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
+
+    jrnl -star yesterday: Lunch with @Arthur
 
 ### Multiple journal files
 
