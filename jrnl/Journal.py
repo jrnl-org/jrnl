@@ -4,7 +4,6 @@
 from Entry import Entry
 import os
 import parsedatetime.parsedatetime as pdt
-import parsedatetime.parsedatetime_consts as pdc
 import re
 from datetime import datetime
 import time
@@ -15,7 +14,7 @@ import readline, glob
 try:
     from Crypto.Cipher import AES
     from Crypto.Random import random, atfork
-except ImportError: 
+except ImportError:
     pass
 import hashlib
 import getpass
@@ -40,7 +39,7 @@ class Journal:
         self.config.update(kwargs)
 
         # Set up date parser
-        consts = pdc.Constants()
+        consts = pdt.Constants()
         consts.DOWParseStyle = -1 # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
         self.key = None # used to decrypt and encrypt the journal
