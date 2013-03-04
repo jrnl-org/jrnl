@@ -31,6 +31,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
     composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
+    composing.add_argument('-star', dest='star', help='Stars an entry (DayOne journals only)', action="store_true")
     composing.add_argument('text', metavar='text', nargs="*",  help='Log entry (or tags by which to filter in viewing mode)')
 
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
@@ -157,8 +158,13 @@ def cli():
     touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
 
-    # open journal file
-    journal = Journal.Journal(**config)
+    # open journal file or folder
+    if os.path.isdir(config['journal']) and config['journal'].endswith(".dayone"):
+        journal = Journal.DayOne(**config)
+    else:
+        journal = Journal.Journal(**config)
+
+
     if mode_compose and not args.text:
         if config['editor']:
             raw = get_text_from_editor(config)
@@ -172,7 +178,8 @@ def cli():
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
-        journal.new_entry(raw, args.date)
+        entry = journal.new_entry(raw, args.date)
+        entry.starred = args.star
         print("[Entry added to {} journal]").format(journal_name)
         journal.write()
 
