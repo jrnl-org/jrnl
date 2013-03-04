@@ -1,11 +1,13 @@
 Changelog
 =========
 
-### 1.0.0-rc1
+### 1.0.0 (March 4, 2013)
 
-* [Fixed] A bug where jrnl would not go into compose mode
-* [Improved] Each journal can have individual settings
 * [New] Integrates seamlessly with DayOne
+* [Improved] Each journal can have individual settings
+* [Fixed] A bug where jrnl would not go into compose mode
+* [Fixed] A bug where jrnl would not add entries without timestamp
+* [Fixed] Support for parsedatetime 1.x
 
 ### 0.3.2 (July 5, 2012)
 
