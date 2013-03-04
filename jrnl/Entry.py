@@ -3,11 +3,12 @@
 
 import re
 import textwrap
+from datetime import datetime
 
 class Entry:
     def __init__(self, journal, date=None, title="", body=""):
         self.journal = journal # Reference to journal mainly to access it's config
-        self.date = date
+        self.date = date or datetime.now()
         self.title = title.strip()
         self.body = body.strip()
         self.tags = self.parse_tags()
