@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 1.0.1 (March 12, 2013)
+
+* [Fixed] Requires parsedatetime 1.1.2 or newer
+
 ### 1.0.0 (March 4, 2013)
 
 * [New] Integrates seamlessly with DayOne

@@ -53,7 +53,7 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name = "jrnl",
-    version = "1.0.0",
+    version = "1.0.1",
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
     install_requires = ["parsedatetime >= 1.1.2"],
