@@ -20,3 +20,5 @@ lib64
 
 # Installer logs
 pip-log.txt
+.DS_Store
+
