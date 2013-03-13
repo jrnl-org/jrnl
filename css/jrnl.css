@@ -145,9 +145,19 @@ blockquote p{
     font-size: 11pt;
 }
 
-.logo .span10 {
+.logo .span12 {
     text-align: center;
     height: 180px;
+    padding-bottom: 180px;
+    background: url(../img/header.png) center bottom no-repeat;
+}
+
+@media screen and (max-width: 550px) {
+    .logo .span12 {
+        background-size: 100%;
+        padding-bottom: 30%;
+    }
+
 }
 
 .logo .span2 {

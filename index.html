@@ -43,10 +43,10 @@
 
 <a href="http://github.com/maebert/jrnl"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
-    <div class="container"> 
+
+    <div class="container">
       <div class="logo row">
-        <div class="span2">&nbsp;</div>
-        <div class="span10"><img src="img/logo-top.png" title="jrnl - the friendly Command Jine Journal"/></div>
+        <div class="span12"><img src="img/logo-top.png" title="jrnl - the friendly Command Jine Journal"/></div>
       </div>
       <div class="row">
 
@@ -54,7 +54,7 @@
           <a href="#" title="Top"><div class="leftlogo"></div></a>
           <div class="sidebar-nav" id='navbar'>
               <ul class="nav nav-list">
-               
+
               </ul>
             </div>
           &nbsp;
@@ -81,7 +81,7 @@
 
 <p>and hit return. <code>yesterday:</code> will be interpreted as a timestamp. Everything until the first sentence mark (<code>.?!</code>) will be interpreted as the title, the rest as the body. In your journal file, the result will look like this:</p>
 
-<pre><code>2012-03-29 09:00 Called in sick. 
+<pre><code>2012-03-29 09:00 Called in sick.
 Used the time to clean the house and spent 4h on writing my book.
 </code></pre>
 
@@ -105,7 +105,7 @@ python setup.py install
 
 <h2>Usage</h2>
 
-<p><em>jrnl</em> has to modes: <strong>composing</strong> and <strong>viewing</strong>. </p>
+<p><em>jrnl</em> has to modes: <strong>composing</strong> and <strong>viewing</strong>.</p>
 
 <h3>Viewing:</h3>
 
@@ -126,7 +126,7 @@ python setup.py install
 
 <p>Keep track of people, projects or locations, by tagging them with an <code>@</code> in your entries:</p>
 
-<pre><code>jrnl Had a wonderful day on the #beach with @Tom and @Anna.
+<pre><code>jrnl Had a wonderful day on the @beach with @Tom and @Anna.
 </code></pre>
 
 <p>You can filter your journal entries just like this:</p>
@@ -142,8 +142,15 @@ python setup.py install
 <p>the last five entries containing both <code>@pineapple</code> <strong>and</strong> <code>@lubricant</code>. You can change which symbols you'd like to use for tagging in the configuration.</p>
 
 <blockquote>
-  <p><strong>Note:</strong> <code>jrnl @pinkie @WorldDomination</code> will switch to viewing mode because although now command line arguments are given, all the input strings look like tags - <em>jrnl</em> will assume you want to filter by tag. </p>
+  <p><strong>Note:</strong> <code>jrnl @pinkie @WorldDomination</code> will switch to viewing mode because although <em>no</em> command line arguments are given, all the input strings look like tags - <em>jrnl</em> will assume you want to filter by tag.</p>
 </blockquote>
+
+<h3>Composing:</h3>
+
+<p>Composing mode is entered by either starting <code>jrnl</code> without any arguments -- which will prompt you to write an entry or launch your editor -- or by just writing an entry on the prompt, such as</p>
+
+<pre><code>jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
+</code></pre>
 
 <h3>Smart timestamps:</h3>
 
@@ -216,7 +223,7 @@ python setup.py install
 <li><code>tagsymbols</code>: Symbols to be interpreted as tags. (<strong>See note below</strong>)</li>
 <li><code>default_hour</code> and <code>default_minute</code>: if you supply a date, such as <code>last thursday</code>, but no specific time, the entry will be created at this time</li>
 <li><code>timeformat</code>: how to format the timestamps in your journal, see the <a href="http://docs.python.org/library/time.html#time.strftime">python docs</a> for reference</li>
-<li><code>highlight</code>: if <code>true</code> and you have <a href="http://www.nicosphere.net/clint-command-line-library-for-python/">clint</a> installed, tags will be highlighted in cyan. </li>
+<li><code>highlight</code>: if <code>true</code> and you have <a href="http://www.nicosphere.net/clint-command-line-library-for-python/">clint</a> installed, tags will be highlighted in cyan.</li>
 <li><code>linewrap</code>: controls the width of the output. Set to <code>0</code> or <code>false</code> if you don't want to wrap long lines.</li>
 </ul>
 
@@ -225,12 +232,12 @@ python setup.py install
 
 <pre><code>jrnl Implemented endless scrolling on the #frontend of our website.
 </code></pre>
-  
+
   <p>your bash will chop off everything after the <code>#</code> before passing it to <em>jrnl</em>). To avoid this, wrap your input into quotation marks like this:</p>
 
 <pre><code>jrnl "Implemented endless scrolling on the #frontend of our website."
 </code></pre>
-  
+
   <p>Or use the built-in prompt or an external editor to compose your entries.</p>
 </blockquote>
 
@@ -239,7 +246,7 @@ python setup.py install
 <p>Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the <code>"journal"</code> key in your <code>.jrnl_conf</code> to point to your DayOne journal. This is a folder ending with <code>.dayone</code>, and it's located at</p>
 
 <pre><code>* `~/Library/Application Support/Day One/` by default
-* `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and 
+* `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
 * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
 </code></pre>
 
@@ -258,7 +265,7 @@ python setup.py install
 },
 </code></pre>
 
-<p>The <code>default</code> journal gets created the first time you start <em>jrnl</em>. Now you can access the <code>work</code> journal by using <code>jrnl work</code> instead of <code>jrnl</code>, eg. </p>
+<p>The <code>default</code> journal gets created the first time you start <em>jrnl</em>. Now you can access the <code>work</code> journal by using <code>jrnl work</code> instead of <code>jrnl</code>, eg.</p>
 
 <pre><code>jrnl work at 10am: Meeting with @Steve
 jrnl work -n 3
@@ -266,18 +273,20 @@ jrnl work -n 3
 
 <p>will both use <code>~/work.txt</code>, while <code>jrnl -n 3</code> will display the last three entries from <code>~/journal.txt</code> (and so does <code>jrnl default -n 3</code>).</p>
 
-<p>You can also override the default options for each individual journal. If you <code>.jrnl_conf</code> looks like this:
-    {
-      ...
-      "encrypt": false
-      "journals": {
-        "default": "~/journal.txt",
-        "work": {
-          "journal": "~/work.txt",
-          "encrypt": true
-        },
-        "food": "~/my_recipes.txt",
-    }</p>
+<p>You can also override the default options for each individual journal. If you <code>.jrnl_conf</code> looks like this:</p>
+
+<pre><code>{
+  ...
+  "encrypt": false
+  "journals": {
+    "default": "~/journal.txt",
+    "work": {
+      "journal": "~/work.txt",
+      "encrypt": true
+    },
+    "food": "~/my_recipes.txt",
+}
+</code></pre>
 
 <p>Your <code>default</code> and your <code>food</code> journals won't be encrypted, however your <code>work</code> journal will! You can override all options that are present at the top level of <code>.jrnl_conf</code>, just make sure that at the very least you specify a <code>"journal": ...</code> key that points to the journal file of that journal.</p>
 
@@ -300,6 +309,12 @@ with open("my_journal.txt") as f:
 <li><em>jrnl</em> relies on the <code>Crypto</code> package to encrypt journals, which has some known problems with installing within virtual environments.</li>
 </ul>
 <h1>Changelog</h1>
+
+<h3>1.0.1 (March 12, 2013)</h3>
+
+<ul>
+<li class="badge"><span class="change-fixed">Fixed</span> Requires parsedatetime 1.1.2 or newer</li>
+</ul>
 
 <h3>1.0.0 (March 4, 2013)</h3>
 
@@ -401,7 +416,7 @@ with open("my_journal.txt") as f:
 
       <div class="row">
         <footer class="span10 offset2">
-          <b>jrnl</b> is an open source project created with love by <a href="http://www.portwempreludium.de">Manuel Ebert</a> and <a href="http://www.github.com/dedan">Stephan Gabler</a>. 
+          <b>jrnl</b> is an open source project created with love by <a href="http://www.portwempreludium.de">Manuel Ebert</a> and <a href="http://www.github.com/dedan">Stephan Gabler</a>.
         </footer>
       </div>
       </div>

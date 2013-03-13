@@ -20,7 +20,7 @@ to make a new entry, just type
 
 and hit return. `yesterday:` will be interpreted as a timestamp. Everything until the first sentence mark (`.?!`) will be interpreted as the title, the rest as the body. In your journal file, the result will look like this:
 
-    2012-03-29 09:00 Called in sick. 
+    2012-03-29 09:00 Called in sick.
     Used the time to clean the house and spent 4h on writing my book.
 
 If you just call `jrnl`, you will be prompted to compose your entry - but you can also configure _jrnl_ to use your external editor.
@@ -44,15 +44,15 @@ The first time you run `jrnl` you will be asked where your journal file should b
 Usage
 -----
 
-_jrnl_ has to modes: __composing__ and __viewing__. 
+_jrnl_ has to modes: __composing__ and __viewing__.
 
 ### Viewing:
 
-    jrnl -n 10   
+    jrnl -n 10
 
 will list you the ten latest entries,
 
-    jrnl -from "last year" -to march   
+    jrnl -from "last year" -to march
 
 everything that happened from the start of last year to the start of last march. If you only want to see the titles of your entries, use
 
@@ -62,7 +62,7 @@ everything that happened from the start of last year to the start of last march.
 
 Keep track of people, projects or locations, by tagging them with an `@` in your entries:
 
-    jrnl Had a wonderful day on the #beach with @Tom and @Anna.
+    jrnl Had a wonderful day on the @beach with @Tom and @Anna.
 
 You can filter your journal entries just like this:
 
@@ -74,7 +74,14 @@ Will print all entries in which either `@pinkie` or `@WorldDomination` occurred.
 
 the last five entries containing both `@pineapple` __and__ `@lubricant`. You can change which symbols you'd like to use for tagging in the configuration.
 
-> __Note:__ `jrnl @pinkie @WorldDomination` will switch to viewing mode because although now command line arguments are given, all the input strings look like tags - _jrnl_ will assume you want to filter by tag. 
+> __Note:__ `jrnl @pinkie @WorldDomination` will switch to viewing mode because although _no_ command line arguments are given, all the input strings look like tags - _jrnl_ will assume you want to filter by tag.
+
+### Composing:
+
+Composing mode is entered by either starting `jrnl` without any arguments -- which will prompt you to write an entry or launch your editor -- or by just writing an entry on the prompt, such as
+
+    jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
+
 
 ### Smart timestamps:
 
@@ -111,6 +118,7 @@ Why not create a beautiful [timeline](http://timeline.verite.co/) of your journa
 
     jrnl --markdown
 
+
 Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
 
 Encryption
@@ -143,25 +151,30 @@ The configuration file is a simple JSON file with the following options.
 - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
 - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
 - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-- `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan. 
+<<<<<<< HEAD
+- `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan.
+=======
+- `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan.
+>>>>>>> Typos and new style
 - `linewrap`: controls the width of the output. Set to `0` or `false` if you don't want to wrap long lines.
 
 > __Note on `tagsymbols`:__ Although it seems intuitive to use the `#` character for tags, there's a drawback: on most shells, this is interpreted as a meta-character starting a comment. This means that if you type
-> 
+>
 >     jrnl Implemented endless scrolling on the #frontend of our website.
 >
 > your bash will chop off everything after the `#` before passing it to _jrnl_). To avoid this, wrap your input into quotation marks like this:
-> 
+>
 >     jrnl "Implemented endless scrolling on the #frontend of our website."
-> 
+>
 > Or use the built-in prompt or an external editor to compose your entries.
 
 ### DayOne Integration
+<<<<<<< HEAD
 
 Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
 
     * `~/Library/Application Support/Day One/` by default
-    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and 
+    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
     * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
@@ -177,14 +190,45 @@ You can configure _jrnl_ to use with multiple journals (eg. `private` and `work`
       "work":    "~/work.txt"
     },
 
-The `default` journal gets created the first time you start _jrnl_. Now you can access the `work` journal by using `jrnl work` instead of `jrnl`, eg. 
+The `default` journal gets created the first time you start _jrnl_. Now you can access the `work` journal by using `jrnl work` instead of `jrnl`, eg.
 
     jrnl work at 10am: Meeting with @Steve
     jrnl work -n 3
-    
+
 will both use `~/work.txt`, while `jrnl -n 3` will display the last three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
 
 You can also override the default options for each individual journal. If you `.jrnl_conf` looks like this:
+=======
+
+Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
+
+    * `~/Library/Application Support/Day One/` by default
+    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
+    * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
+
+Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
+
+    jrnl -star yesterday: Lunch with @Arthur
+
+### Multiple journal files
+
+You can configure _jrnl_ to use with multiple journals (eg. `private` and `work`) by defining more journals in your `.jrnl_config`, for example:
+
+    "journals": {
+      "default": "~/journal.txt",
+      "work":    "~/work.txt"
+    },
+
+The `default` journal gets created the first time you start _jrnl_. Now you can access the `work` journal by using `jrnl work` instead of `jrnl`, eg.
+
+    jrnl work at 10am: Meeting with @Steve
+    jrnl work -n 3
+
+will both use `~/work.txt`, while `jrnl -n 3` will display the last three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
+
+You can also override the default options for each individual journal. If you `.jrnl_conf` looks like this:
+
+>>>>>>> Typos and new style
     {
       ...
       "encrypt": false
