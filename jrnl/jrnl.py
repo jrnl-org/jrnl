@@ -199,7 +199,7 @@ def cli():
     elif args.json: # export to json
         print(exporters.to_json(journal))
 
-    elif args.markdown: # export to json
+    elif args.markdown: # export to markdown
         print(exporters.to_md(journal))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
