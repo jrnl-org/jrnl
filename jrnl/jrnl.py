@@ -49,6 +49,11 @@ def parse_args():
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
 
+    exporting_to_files = parser.add_argument_group('Export to files', 'Options for exporting your journal to individual files')
+    exporting_to_files.add_argument('--files', dest='files', action="store_true", help='Turns your journal into separate files for each entry')
+    exporting_to_files.add_argument('--dir',  metavar='DIRECTORY', dest='directory', help='The directory you want to export the files to', nargs='?', default='journal', const=None)
+    exporting_to_files.add_argument('--ext',  metavar='EXTENSION', dest='extension', help='The extension of the exported files', nargs='?', default=False, const=None)
+
     return parser.parse_args()
 
 def guess_mode(args, config):
@@ -201,6 +206,9 @@ def cli():
 
     elif args.markdown: # export to markdown
         print(exporters.to_md(journal))
+
+    elif args.files: # export to files
+        print(exporters.to_files(journal, args.directory, args.extension))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")

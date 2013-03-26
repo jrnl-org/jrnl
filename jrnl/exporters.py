@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import re
+import os
 try: import simplejson as json
 except ImportError: import json
 
@@ -23,3 +25,25 @@ def to_md(journal):
             out.append('-' * len(e.date.strftime("%B")) + "\n")
         out.append(e.to_md())
     return "\n".join(out)
+
+def to_files(journal, directory, extension):
+    """Turns your journal into separate files for each entry."""
+    if extension:
+        ext = "." + extension
+    else:
+        ext = ''
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    for e in journal.entries:
+        date = e.date.strftime('%Y-%m-%d')
+        title = re.sub('[^\w-]', '', re.sub(' ', '-', e.title.lower()))
+        filename = date + '-' + title + ext
+        f = open(directory + "/" + filename, 'w+')
+        if extension == 'md':
+            f.write(str(e.to_md()))
+        else:
+            f.write(str(e))
+        f.close()
+    return ("Journal exported to directory '" + directory + "' as <filename>" + ext)
