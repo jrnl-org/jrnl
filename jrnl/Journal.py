@@ -252,7 +252,7 @@ class Journal(object):
 
         # Split raw text into title and body
         title_end = len(raw)
-        for separator in ".?!\n":
+        for separator in ["\n",". ","? ","! "]:
             sep_pos = raw.find(separator)
             if 1 < sep_pos < title_end:
                 title_end = sep_pos
