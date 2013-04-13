@@ -48,6 +48,7 @@ def parse_args():
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
+    exporting.add_argument('--sync', metavar='TYPE', dest='sync', help='Syncs your journal to a repository. Works similar to export.', nargs='?', default=False, const=None)
 
     return parser.parse_args()
 
@@ -55,7 +56,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or args.tags or args.delete_last:
+    if args.decrypt is not False or args.encrypt is not False or args.export is not False or args.tags or args.delete_last or args.sync is not False:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict or args.short:
@@ -196,17 +197,21 @@ def cli():
     elif args.tags:
         print_tags(journal)
 
-    elif args.export == 'json': # export to json
-        print(exporters.to_json(journal, args.output))
+    elif args.export is not False:
+        if args.export == 'json': # export to json
+            print(exporters.to_json(journal, args.output))
 
-    elif args.export == 'markdown' or args.export == 'md': # export to markdown
-        print(exporters.to_md(journal, args.output))
+        elif args.export == 'markdown' or args.export == 'md': # export to markdown
+            print(exporters.to_md(journal, args.output))
 
-    elif args.export == 'text' or args.export == 'txt': # export to text
-        print(exporters.to_txt(journal, args.output))
+        elif args.export == 'text' or args.export == 'txt': # export to text
+            print(exporters.to_txt(journal, args.output))
 
-    elif args.export == 'files': # export to files
-        print(exporters.to_files(journal, args.output))
+        elif args.export == 'files': # export to files
+            print(exporters.to_files(journal, args.output))
+
+    elif args.sync is not False: # syncs journal to repository
+        print(journal.sync(args.sync))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")

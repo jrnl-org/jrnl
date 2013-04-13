@@ -30,6 +30,7 @@ default_config = {
     'highlight': True,
     'linewrap': 80,
     'folder': os.path.expanduser("~/journal/"),
+    'sync_folder': os.path.expanduser("~/journal/"),
 }
 
 
@@ -66,6 +67,16 @@ def install_jrnl(config_path='~/.jrnl_config'):
     journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
     default_config['journals']['default'] = os.path.expanduser(journal_path)
 
+    # Where to export files?
+    path_query = 'Path to your journal folder (leave blank for ~/journal): '
+    folder_path = raw_input(path_query).strip() or os.path.expanduser('~/journal')
+    default_config['folder'] = os.path.expanduser(folder_path)
+
+    # Where to sync journal?
+    path_query = 'Path to folder which is a git repository (leave blank for ~/journal): '
+    folder_path = raw_input(path_query).strip() or os.path.expanduser('~/journal')
+    default_config['sync_folder'] = os.path.expanduser(folder_path)
+
     # Encrypt it?
     if module_exists("Crypto"):
         password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
@@ -91,8 +102,3 @@ def install_jrnl(config_path='~/.jrnl_config'):
     if password:
         config['password'] = password
     return config
-
-    # Where to export files?
-    path_query = 'Path to your journal folder (leave blank for ~/journal): '
-    folder_path = raw_input(path_query).strip() or os.path.expanduser('~/journal')
-    default_config['folder'] = os.path.expanduser(folder_path)

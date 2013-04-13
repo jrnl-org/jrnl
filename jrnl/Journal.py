@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from Entry import Entry
+import exporters
 import os
 import parsedatetime.parsedatetime as pdt
 import re
@@ -38,6 +39,7 @@ class Journal(object):
             'highlight': True,
             'linewrap': 80,
             'folder': os.path.expanduser("~/journal/"),
+            'sync_folder': os.path.expanduser("~/journal/"),
         }
         self.config.update(kwargs)
 
@@ -272,6 +274,18 @@ class Journal(object):
         if sort:
             self.sort()
         return entry
+
+    def sync(self, arg):
+        if arg == "json":
+            exporters.to_json(self, self.config['sync_folder'] + "journal.json")
+        elif arg == "md":
+            exporters.to_md(self, self.config['sync_folder'] + "journal.md")
+        elif arg == "txt":
+            exporters.to_txt(self, self.config['sync_folder'] + "journal.txt")
+        elif arg == "files":
+            exporters.to_files(self, self.config['sync_folder'] + "*.txt")
+        return "journal synced to " + self.config['sync_folder']
+
 
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
