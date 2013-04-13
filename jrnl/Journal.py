@@ -3,6 +3,7 @@
 
 from Entry import Entry
 import exporters
+import subprocess
 import os
 import parsedatetime.parsedatetime as pdt
 import re
@@ -284,6 +285,12 @@ class Journal(object):
             exporters.to_txt(self, self.config['sync_folder'] + "journal.txt")
         elif arg == "files":
             exporters.to_files(self, self.config['sync_folder'] + "*.txt")
+        os.chdir(self.config['sync_folder'])
+        subprocess.call(["git", "pull"])
+        subprocess.call(["git", "add", "."])
+        message = "Site update at " + str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        subprocess.call(["git", "commit", "-m", message])
+        subprocess.call(["git", "push"])
         return "journal synced to " + self.config['sync_folder']
 
 
