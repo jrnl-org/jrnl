@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import re
 import os
 try: from slugify import slugify
 except ImportError: import slugify
@@ -43,7 +42,7 @@ def to_txt(journal, output):
 def to_files(journal, output):
     """Turns your journal into separate files for each entry."""
     if output is False:
-        output = os.path.expanduser('~/journal/*.txt') # default path
+        output = journal.config['folder'] + "*.txt" # default path
     path, extension = os.path.splitext(os.path.expanduser(output))
     head, tail = os.path.split(path)
     if tail == '*': # if wildcard is specified
@@ -52,13 +51,13 @@ def to_files(journal, output):
         os.makedirs(path)
     for e in journal.entries:
         date = e.date.strftime('%Y-%m-%d')
-        title = slugify(e.title)
+        title = slugify(unicode(e.title))
         filename = date + '-' + title
         result = str(e)
         fullpath = path + filename + extension
         print fullpath
         write_file(result, fullpath)
-    return ("Journal exported to '" + path + "'")
+    return ("Journal exported")
 
 def write_file(content, path):
     """Writes content to the file provided"""
