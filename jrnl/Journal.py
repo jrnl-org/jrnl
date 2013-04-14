@@ -277,6 +277,8 @@ class Journal(object):
         return entry
 
     def sync(self, arg):
+        """Syncs journal on the basis of supplied argument.
+        Takes json, md, txt, files as arguments and syncs to sync_folder"""
         if arg == "json":
             exporters.to_json(self, self.config['sync_folder'] + "journal.json")
         elif arg == "md":
@@ -285,12 +287,12 @@ class Journal(object):
             exporters.to_txt(self, self.config['sync_folder'] + "journal.txt")
         elif arg == "files":
             exporters.to_files(self, self.config['sync_folder'] + "*.txt")
-        os.chdir(self.config['sync_folder'])
-        subprocess.call(["git", "pull"])
-        subprocess.call(["git", "add", "."])
-        message = "Site update at " + str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-        subprocess.call(["git", "commit", "-m", message])
-        subprocess.call(["git", "push"])
+        os.chdir(self.config['sync_folder']) # change current folder to the sync_folder
+        subprocess.call(["git", "pull"]) # calls git pull to retrieve any changes
+        subprocess.call(["git", "add", "."]) # adds the new files to the repository
+        message = "Site update at " + str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')) # creates a new commit
+        subprocess.call(["git", "commit", "-m", message]) # commits the changes
+        subprocess.call(["git", "push"]) # calls git push to make the new changes
         return "journal synced to " + self.config['sync_folder']
 
 
