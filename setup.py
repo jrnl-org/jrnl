@@ -56,7 +56,7 @@ setup(
     version = "1.0.1",
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
-    install_requires = ["parsedatetime >= 1.1.2"],
+    install_requires = ["parsedatetime >= 1.1.2", "slugify >= 0.0.1"],
     extras_require = {
         'encryption': ["pycrypto"],
         'highlight':  ["clint"]

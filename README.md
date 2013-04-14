@@ -104,21 +104,38 @@ With
 
     jrnl --tags
 
-you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
+you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occurring several times in the same entry are only counted as one.
 
 ### JSON export
 
 Can do:
 
-    jrnl --json
+    jrnl --export json
 
 Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
 
 ### Markdown export
 
-    jrnl --markdown
+    jrnl --export markdown # alias md
 
 Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
+
+### Plain text export
+
+    jrnl --export text # alias txt
+
+### Export to multiple files
+
+    jrnl --export files
+
+### Support for output file
+
+    jrnl --export json -o "~/journal.json"
+    jrnl --export markdown -o "~/journal.md"
+    jrnl --export text -o "~/journal.txt"
+    jrnl --export files -o "~/journal/*.txt"
+
+The output file can be given as a fullpath to a file and in case of a file based export, wildcards can be used.
 
 Encryption
 ----------
@@ -133,6 +150,16 @@ If it is already encrypted, you will first be asked for the current password. Yo
 
 will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. `jrnl --decrypt plain_text_copy.txt`, to leave your original file untouched.
 
+Sync
+----
+
+If you wish to sync your default journal to a git repository, you can do it by running the following command
+
+    jrnl --sync [TYPE]
+
+`jrnl --sync` works in a similar fashion to export, except it exports the journal to the sync folder provided in the config and then runs `git` commands.
+
+The `[TYPE]` can be `json`, `md`, `txt` and `files`.
 
 Advanced usages
 --------------
@@ -152,6 +179,8 @@ The configuration file is a simple JSON file with the following options.
 - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
 - `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan.
 - `linewrap`: controls the width of the output. Set to `0` or `false` if you don't want to wrap long lines.
+- `folder`: the folder where your export functions will default to
+- `sync_folder`: the folder where your exported files will be synced to. This needs to be a git repository for the sync operation to complete.
 
 > __Note on `tagsymbols`:__ Although it seems intuitive to use the `#` character for tags, there's a drawback: on most shells, this is interpreted as a meta-character starting a comment. This means that if you type
 >

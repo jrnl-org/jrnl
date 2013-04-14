@@ -2,6 +2,8 @@
 # encoding: utf-8
 
 from Entry import Entry
+import exporters
+import subprocess
 import os
 import parsedatetime.parsedatetime as pdt
 import re
@@ -37,6 +39,8 @@ class Journal(object):
             'tagsymbols': '@',
             'highlight': True,
             'linewrap': 80,
+            'folder': os.path.expanduser("~/journal/"),
+            'sync_folder': os.path.expanduser("~/journal/"),
         }
         self.config.update(kwargs)
 
@@ -271,6 +275,26 @@ class Journal(object):
         if sort:
             self.sort()
         return entry
+
+    def sync(self, arg):
+        """Syncs journal on the basis of supplied argument.
+        Takes json, md, txt, files as arguments and syncs to sync_folder"""
+        if arg == "json":
+            exporters.to_json(self, self.config['sync_folder'] + "journal.json")
+        elif arg == "md":
+            exporters.to_md(self, self.config['sync_folder'] + "journal.md")
+        elif arg == "txt":
+            exporters.to_txt(self, self.config['sync_folder'] + "journal.txt")
+        elif arg == "files":
+            exporters.to_files(self, self.config['sync_folder'] + "*.txt")
+        os.chdir(self.config['sync_folder']) # change current folder to the sync_folder
+        subprocess.call(["git", "pull"]) # calls git pull to retrieve any changes
+        subprocess.call(["git", "add", "."]) # adds the new files to the repository
+        message = "Site update at " + str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')) # creates a new commit
+        subprocess.call(["git", "commit", "-m", message]) # commits the changes
+        subprocess.call(["git", "push"]) # calls git push to make the new changes
+        return "journal synced to " + self.config['sync_folder']
+
 
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
