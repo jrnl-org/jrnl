@@ -24,7 +24,7 @@ __version__ = '1.0.0-rc1'
 __author__ = 'Manuel Ebert, Stephan Gabler'
 __license__ = 'MIT'
 
-CONFIG_PATH = os.path.expanduser('~/.jrnl_config')
+CONFIG_PATH = os.environ.get('JRNL_CONFIG', os.path.expanduser('~/.jrnl_config'))
 PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args():
