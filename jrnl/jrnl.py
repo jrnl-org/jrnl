@@ -106,7 +106,9 @@ def print_tags(journal):
         ]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
         tag_counts = {(tags.count(tag), tag) for tag in tags}
-        if min(tag_counts)[0] == 0:
+        if not tag_counts:
+            print('[No tags found in journal.]')
+        elif min(tag_counts)[0] == 0:
             tag_counts = filter(lambda x: x[0] > 1, tag_counts)
             print('[Removed tags that appear only once.]')
         for n, tag in sorted(tag_counts, reverse=False):
