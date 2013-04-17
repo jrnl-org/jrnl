@@ -65,6 +65,7 @@ setup(
     packages = ['jrnl'],
     install_requires = [
         "parsedatetime>=1.1.2",
+        "pytz>=2013b",
         "colorama>=0.2.5",
         "pycrypto>=2.6"
         ] + ["pyreadline>=2.0"] if "win" in sys.platform else [],

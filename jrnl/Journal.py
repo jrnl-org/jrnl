@@ -7,6 +7,7 @@ import parsedatetime.parsedatetime as pdt
 import re
 from datetime import datetime
 import time
+import pytz
 try: import simplejson as json
 except ImportError: import json
 import sys
@@ -294,7 +295,10 @@ class DayOne(Journal):
         for filename in filenames:
             with open(filename) as plist_entry:
                 dict_entry = plistlib.readPlist(plist_entry)
-                entry = self.new_entry(raw=dict_entry['Entry Text'], date=dict_entry['Creation Date'], sort=False)
+                timezone = pytz.timezone(dict_entry['Time Zone'])
+                date = dict_entry['Creation Date']
+                date = date + timezone.utcoffset(date)
+                entry = self.new_entry(raw=dict_entry['Entry Text'], date=date, sort=False)
                 entry.starred = dict_entry["Starred"]
                 entry.uuid = dict_entry["UUID"]
         # We're using new_entry to create the Entry object, which adds the entry
@@ -311,12 +315,20 @@ class DayOne(Journal):
             # that have a uuid will be old ones, and only the one that doesn't will
             # have a new one!
             if not hasattr(entry, "uuid"):
+                timezone = os.popen("systemsetup -gettimezone").read()
+                try:
+                    timezone = timezone.split(':')[1].strip()
+                except:
+                    print("ERROR: Unable to get your time zone.")
+                    sys.exit(-1)
+                utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
                 new_uuid = uuid.uuid1().hex
                 filename = os.path.join(self.config['journal'], "entries", new_uuid+".doentry")
                 entry_plist = {
-                    'Creation Date': entry.date,
+                    'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
+                    'Time Zone': timezone,
                     'UUID': new_uuid
                 }
                 plistlib.writePlist(entry_plist, filename)
