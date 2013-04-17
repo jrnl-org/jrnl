@@ -19,9 +19,10 @@ except ImportError:
 import hashlib
 import getpass
 try:
-    import clint
+    import colorama
+    colorama.init()
 except ImportError:
-    clint = None
+    colorama = None
 import plistlib
 import uuid
 
@@ -50,9 +51,9 @@ class Journal(object):
         self.entries = self.parse(journal_txt)
         self.sort()
 
-    def _colorize(self, string, color='red'):
-        if clint:
-            return str(clint.textui.colored.ColoredString(color.upper(), string))
+    def _colorize(self, string):
+        if colorama:
+            return colorama.Fore.CYAN + string + colorama.Fore.RESET
         else:
             return string
 
@@ -152,11 +153,11 @@ class Journal(object):
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
-                                lambda match: self._colorize(match.group(0), 'cyan'),
+                                lambda match: self._colorize(match.group(0)),
                                 pp)
             else:
                 pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
-                            lambda match: self._colorize(match.group(0), 'cyan'),
+                            lambda match: self._colorize(match.group(0)),
                             pp)
         return pp
 

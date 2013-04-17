@@ -1,6 +1,9 @@
 Changelog
 =========
 
+### 1.0.2 (April 17, 2013)
+
+* [Improved] Removed clint in favour of colorama
 ### 1.0.1 (March 12, 2013)
 
 * [Fixed] Requires parsedatetime 1.1.2 or newer
