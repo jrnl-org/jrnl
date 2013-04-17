@@ -5,6 +5,8 @@ Changelog
 
 * [Improved] Installs pycrypto by default
 * [Improved] Removed clint in favour of colorama
+* [Fixed] Smaller fixes and typos
+
 ### 1.0.1 (March 12, 2013)
 
 * [Fixed] Requires parsedatetime 1.1.2 or newer

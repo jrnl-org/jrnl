@@ -51,9 +51,16 @@ if sys.argv[-1] == 'publish':
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
+def get_version(filename="kerouac/__init__.py"):
+    with open(os.path.join(base_dir, filename)) as initfile:
+        for line in initfile.readlines():
+            m = re.match("__version__ *= *['\"](.*)['\"]", line)
+            if m:
+                return m.group(1)
+
 setup(
     name = "jrnl",
-    version = "1.0.1",
+    version = get_version(),
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
     install_requires = [
