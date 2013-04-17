@@ -16,6 +16,10 @@ try:
     from Crypto.Random import random, atfork
 except ImportError:
     pass
+try:
+  import pyreadline as readline
+except ImportError:
+  import readline
 import hashlib
 import getpass
 try:
