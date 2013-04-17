@@ -43,15 +43,15 @@ except ImportError:
     from distutils.core import setup
 import os
 import sys
+import re
 
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py bdist-egg upload")
     os.system("python setup.py sdist upload")
     sys.exit()
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-def get_version(filename="kerouac/__init__.py"):
+def get_version(filename="jrnl/__init__.py"):
     with open(os.path.join(base_dir, filename)) as initfile:
         for line in initfile.readlines():
             m = re.match("__version__ *= *['\"](.*)['\"]", line)
@@ -67,7 +67,7 @@ setup(
         "parsedatetime >= 1.1.2",
         "colorama >= 0.2.5",
         "pycrypto >= 2.6"
-        ],
+        ] + ["pyreadline >= 2.0"] if "win" in sys.platform else [],
     long_description=__doc__,
     entry_points={
         'console_scripts': [
@@ -88,7 +88,7 @@ setup(
     ],
     # metadata for upload to PyPI
     author = "Manuel Ebert",
-    author_email = "manuel@herelabs.com",
+    author_email = "manuel@hey.com",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
     url = "http://maebert.github.com/jrnl",
