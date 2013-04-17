@@ -64,10 +64,10 @@ setup(
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
     install_requires = [
-        "parsedatetime >= 1.1.2",
-        "colorama >= 0.2.5",
-        "pycrypto >= 2.6"
-        ] + ["pyreadline >= 2.0"] if "win" in sys.platform else [],
+        "parsedatetime>=1.1.2",
+        "colorama>=0.2.5",
+        "pycrypto>=2.6"
+        ] + ["pyreadline>=2.0"] if "win" in sys.platform else [],
     long_description=__doc__,
     entry_points={
         'console_scripts': [
@@ -75,7 +75,7 @@ setup(
         ],
     },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: MIT License',

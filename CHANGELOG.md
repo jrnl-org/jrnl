@@ -1,7 +1,7 @@
 Changelog
 =========
 
-### 1.0.2 (April 17, 2013)
+### 1.0.3 (April 17, 2013)
 
 * [Improved] Installs pycrypto by default
 * [Improved] Removed clint in favour of colorama
