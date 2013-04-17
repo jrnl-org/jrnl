@@ -161,7 +161,10 @@ def cli():
     mode_compose, mode_export = guess_mode(args, config)
 
     # open journal file or folder
-    if os.path.isdir(config['journal']) and config['journal'].endswith(".dayone"):
+
+
+    if os.path.isdir(config['journal']) and ( config['journal'].endswith(".dayone") or \
+        config['journal'].endswith(".dayone/")):
         journal = Journal.DayOne(**config)
     else:
         journal = Journal.Journal(**config)
