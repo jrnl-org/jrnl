@@ -44,7 +44,7 @@ The first time you run `jrnl` you will be asked where your journal file should b
 Usage
 -----
 
-_jrnl_ has to modes: __composing__ and __viewing__.
+_jrnl_ has two modes: __composing__ and __viewing__.
 
 ### Viewing:
 
@@ -168,7 +168,7 @@ The configuration file is a simple JSON file with the following options.
 Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
 
     * `~/Library/Application Support/Day One/` by default
-    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and 
+    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
     * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
