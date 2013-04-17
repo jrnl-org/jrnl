@@ -222,4 +222,5 @@ Known Issues
 ------------
 
 - The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
-- _jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems with installing within virtual environments.
+- _jrnl_ relies on the `PyCrypto` package to encrypt journals, which has some known problems with installing within virtual environments. If you want to install __jrnl__ within a virtual environment, you need to [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first.
+
