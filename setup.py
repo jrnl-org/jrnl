@@ -58,6 +58,11 @@ def get_version(filename="jrnl/__init__.py"):
             if m:
                 return m.group(1)
 
+conditional_dependencies = {
+    "pyreadline>=2.0": "win32" in sys.platform,
+    "argparse==1.2.1": sys.version.startswith("2.6")
+}
+
 setup(
     name = "jrnl",
     version = get_version(),
@@ -67,7 +72,7 @@ setup(
         "parsedatetime>=1.1.2",
         "colorama>=0.2.5",
         "pycrypto>=2.6"
-        ] + ["pyreadline>=2.0"] if "win" in sys.platform else [],
+        ] + [p for p, cond in conditional_dependencies.items() if cond],
     long_description=__doc__,
     entry_points={
         'console_scripts': [

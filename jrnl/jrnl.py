@@ -87,14 +87,14 @@ def encrypt(journal, filename=None):
     journal.make_key(prompt="Enter new password:")
     journal.config['encrypt'] = True
     journal.write(filename)
-    print("Journal encrypted to {}.".format(filename or journal.config['journal']))
+    print("Journal encrypted to {0}.".format(filename or journal.config['journal']))
 
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
     journal.config['password'] = ""
     journal.write(filename)
-    print("Journal decrypted to {}.".format(filename or journal.config['journal']))
+    print("Journal decrypted to {0}.".format(filename or journal.config['journal']))
 
 def print_tags(journal):
         """Prints a list of all tags and the number of occurances."""
@@ -105,20 +105,20 @@ def print_tags(journal):
             for tag in set(entry.tags)
         ]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
-        tag_counts = {(tags.count(tag), tag) for tag in tags}
+        tag_counts = set([(tags.count(tag), tag) for tag in tags])
         if not tag_counts:
             print('[No tags found in journal.]')
         elif min(tag_counts)[0] == 0:
             tag_counts = filter(lambda x: x[0] > 1, tag_counts)
             print('[Removed tags that appear only once.]')
         for n, tag in sorted(tag_counts, reverse=False):
-            print("{:20} : {}".format(tag, n))
+            print("{0:20} : {1}".format(tag, n))
 
 
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
-        print("[Journal created at {}]".format(filename))
+        print("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
 def update_config(config, new_config, scope):
@@ -185,7 +185,7 @@ def cli():
         raw = " ".join(args.text).strip()
         entry = journal.new_entry(raw, args.date)
         entry.starred = args.star
-        print("[Entry added to {} journal]").format(journal_name)
+        print("[Entry added to {0} journal]").format(journal_name)
         journal.write()
 
     # Reading mode
