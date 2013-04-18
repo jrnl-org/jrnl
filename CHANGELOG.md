@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 1.0.4
+
+* [Improved] Python 2.6 compatibility
+
 ### 1.0.3 (April 17, 2013)
 
 * [Improved] Installs pycrypto by default
