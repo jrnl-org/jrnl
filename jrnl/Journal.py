@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import Entry
+try: from . import Entry
+except (SystemError, ValueError): import Entry
+import codecs
 import os
 import parsedatetime.parsedatetime as pdt
 import re
@@ -14,8 +16,9 @@ import readline, glob
 try:
     from Crypto.Cipher import AES
     from Crypto.Random import random, atfork
+    crypto_installed = True
 except ImportError:
-    pass
+    crypto_installed = False
 try:
   import pyreadline as readline
 except ImportError:
@@ -63,6 +66,8 @@ class Journal(object):
 
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
+        if not crypto_installed:
+            sys.exit("Error: PyCrypto is not installed.")
         if not cipher:
             return ""
         crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
@@ -78,6 +83,8 @@ class Journal(object):
 
     def _encrypt(self, plain):
         """Encrypt a plaintext string using self.key as the key"""
+        if not crypto_installed:
+            sys.exit("Error: PyCrypto is not installed.")
         atfork() # A seed for PyCrypto
         iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
@@ -90,14 +97,14 @@ class Journal(object):
     def make_key(self, prompt="Password: "):
         """Creates an encryption key from the default password or prompts for a new password."""
         password = self.config['password'] or getpass.getpass(prompt)
-        self.key = hashlib.sha256(password).digest()
+        self.key = hashlib.sha256(password.encode('utf-8')).digest()
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
         journal = None
-        with open(filename) as f:
+        with codecs.open(filename, "r", "utf-8") as f:
             journal = f.read()
         if self.config['encrypt']:
             decrypted = None
@@ -174,7 +181,7 @@ class Journal(object):
         journal = "\n".join([str(e) for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
-        with open(filename, 'w') as journal_file:
+        with codecs.open(filename, 'w', "utf-8") as journal_file:
                 journal_file.write(journal)
 
     def sort(self):

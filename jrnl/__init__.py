@@ -12,5 +12,5 @@ __author__ = 'Manuel Ebert'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2013 Manuel Ebert'
 
-from jrnl.Journal import Journal
-from jrnl.jrnl import cli
+from . import Journal
+from . import jrnl
