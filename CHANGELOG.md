@@ -4,8 +4,9 @@ Changelog
 ### 1.0.4
 
 * [Improved] Python 2.6 compatibility
+* [Improved] Better utf-8 support
 * [New] Python 3 compatibility
-* [New] Respects the `XDG_CONFIG_HOME` environment variable for storing your configuration file
+* [New] Respects the `XDG_CONFIG_HOME` environment variable for storing your configuration file (Thanks [evaryont](https://github.com/evaryont))
 
 ### 1.0.3 (April 17, 2013)
 

@@ -32,7 +32,7 @@ __author__ = 'Manuel Ebert, Stephan Gabler'
 __license__ = 'MIT'
 
 xdg_config = os.environ.get('XDG_CONFIG_HOME')
-CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config'))
+CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
 PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args():
