@@ -137,7 +137,7 @@ will replace your encrypted journal file by a Journal in plain text. You can als
 Advanced usages
 --------------
 
-The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory.
+The first time launched, _jrnl_ will create a file configuration file at  `~/.jrnl_config` or, if the `XDG_CONFIG_HOME` environment variable is set, `$XDG_CONFIG_HOME/jrnl`.
 
 ### .jrnl_config
 

@@ -5,6 +5,7 @@ Changelog
 
 * [Improved] Python 2.6 compatibility
 * [New] Python 3 compatibility
+* [New] Respects the `XDG_CONFIG_HOME` environment variable for storing your configuration file
 
 ### 1.0.3 (April 17, 2013)
 
