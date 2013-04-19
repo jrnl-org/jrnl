@@ -8,6 +8,7 @@
 """
 
 import Journal
+import util
 import exporters
 import install
 import os
@@ -174,7 +175,7 @@ def cli():
         if config['editor']:
             raw = get_text_from_editor(config)
         else:
-            raw = raw_input("[Compose Entry] ")
+            raw = util.py23_input("[Compose Entry] ")
         if raw:
             args.text = [raw]
         else:

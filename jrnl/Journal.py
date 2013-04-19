@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from Entry import Entry
+import Entry
 import os
 import parsedatetime.parsedatetime as pdt
 import re
@@ -135,7 +135,7 @@ class Journal(object):
                 # parsing successfull => save old entry and create new one
                 if new_date and current_entry:
                     entries.append(current_entry)
-                current_entry = Entry(self, date=new_date, title=line[date_length+1:])
+                current_entry = Entry.Entry(self, date=new_date, title=line[date_length+1:])
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
@@ -271,7 +271,7 @@ class Journal(object):
         if not date: # Still nothing? Meh, just live in the moment.
             date = self.parse_date("now")
 
-        entry = Entry(self, date, title, body)
+        entry = Entry.Entry(self, date, title, body)
         self.entries.append(entry)
         if sort:
             self.sort()

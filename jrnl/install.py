@@ -6,6 +6,7 @@ import getpass
 try: import simplejson as json
 except ImportError: import json
 import os
+import util
 
 def module_exists(module_name):
     """Checks if a module exists and can be imported"""
@@ -62,7 +63,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
 
     # Where to create the journal?
     path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
-    journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
+    journal_path = util.py23_input(path_query).strip() or os.path.expanduser('~/journal.txt')
     default_config['journals']['default'] = os.path.expanduser(journal_path)
 
     # Encrypt it?
