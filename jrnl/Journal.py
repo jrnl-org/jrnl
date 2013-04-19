@@ -104,9 +104,9 @@ class Journal(object):
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
         journal = None
-        with codecs.open(filename, "r", "utf-8") as f:
-            journal = f.read()
         if self.config['encrypt']:
+            with open(filename, "rb") as f:
+                journal = f.read()
             decrypted = None
             attempts = 0
             while decrypted is None:
@@ -121,6 +121,9 @@ class Journal(object):
                         print("Extremely wrong password.")
                         sys.exit(-1)
             journal = decrypted
+        else:
+            with codecs.open(filename, "r", "utf-8") as f:
+                journal = f.read()
         return journal
 
     def parse(self, journal):
@@ -181,8 +184,11 @@ class Journal(object):
         journal = "\n".join([str(e) for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
-        with codecs.open(filename, 'w', "utf-8") as journal_file:
-                journal_file.write(journal)
+            with open(filename, 'wb') as journal_file:
+               journal_file.write(journal)
+        else:
+            with codecs.open(filename, 'w', "utf-8") as journal_file:
+               journal_file.write(journal)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
