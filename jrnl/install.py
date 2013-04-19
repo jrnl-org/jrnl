@@ -6,7 +6,9 @@ import getpass
 try: import simplejson as json
 except ImportError: import json
 import os
-import util
+try: from . import util
+except (SystemError, ValueError): import util
+
 
 def module_exists(module_name):
     """Checks if a module exists and can be imported"""

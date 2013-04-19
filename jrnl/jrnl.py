@@ -7,10 +7,16 @@
     license: MIT, see LICENSE for more details.
 """
 
-import Journal
-import util
-import exporters
-import install
+try:
+    from . import Journal
+    from . import util
+    from . import exporters
+    from . import install
+except (SystemError, ValueError):
+    import Journal
+    import util
+    import exporters
+    import install
 import os
 import tempfile
 import subprocess
@@ -186,7 +192,7 @@ def cli():
         raw = " ".join(args.text).strip()
         entry = journal.new_entry(raw, args.date)
         entry.starred = args.star
-        print("[Entry added to {0} journal]").format(journal_name)
+        print("[Entry added to {0} journal]".format(journal_name))
         journal.write()
 
     # Reading mode
