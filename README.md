@@ -1,4 +1,4 @@
-jrnl
+jrnl [![Build Status](https://travis-ci.org/maebert/jrnl.png?branch=master)](https://travis-ci.org/maebert/jrnl)
 ====
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
@@ -222,5 +222,5 @@ Known Issues
 ------------
 
 - The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
-- _jrnl_ relies on the `PyCrypto` package to encrypt journals, which has some known problems with installing within virtual environments. If you want to install __jrnl__ within a virtual environment, you need to [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first.
+- _jrnl_ relies on the `PyCrypto` package to encrypt journals, which has some known problems with installing on Windows and within virtual environments. If you have trouble installing __jrnl__, [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first.
 
