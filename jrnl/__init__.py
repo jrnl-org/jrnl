@@ -14,3 +14,4 @@ __copyright__ = 'Copyright 2013 Manuel Ebert'
 
 from . import Journal
 from . import jrnl
+from .jrnl import cli
