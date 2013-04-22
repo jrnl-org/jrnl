@@ -33,7 +33,11 @@ Install _jrnl_ using pip:
 
     pip install jrnl
 
-Alternatively, install manually by cloning the repository:
+Or, if you want the option to encrypt your journal,
+
+    pip install jrnl[encrypted]
+
+To install `pycrypto` as well (Note: this requires a `gcc` compiler. You can also [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first)). Alternatively, install _jrnl_ manually by cloning the repository:
 
     git clone git://github.com/maebert/jrnl.git
     cd jrnl

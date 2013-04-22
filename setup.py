@@ -70,9 +70,11 @@ setup(
     packages = ['jrnl'],
     install_requires = [
         "parsedatetime>=1.1.2",
-        "colorama>=0.2.5",
-        "pycrypto>=2.6"
+        "colorama>=0.2.5"
         ] + [p for p, cond in conditional_dependencies.items() if cond],
+    extras_require = {
+        "encrypted": "pycrypto>=2.6"
+    },
     long_description=__doc__,
     entry_points={
         'console_scripts': [

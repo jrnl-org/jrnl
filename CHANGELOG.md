@@ -10,7 +10,6 @@ Changelog
 
 ### 1.0.3 (April 17, 2013)
 
-* [Improved] Installs pycrypto by default
 * [Improved] Removed clint in favour of colorama
 * [Fixed] Fixed a bug where showing tags failed when no tags are defined.
 * [Fixed] Improvements to config parsing (Thanks [alapolloni](https://github.com/alapolloni))
