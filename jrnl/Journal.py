@@ -12,7 +12,7 @@ import time
 try: import simplejson as json
 except ImportError: import json
 import sys
-import readline, glob
+import glob
 try:
     from Crypto.Cipher import AES
     from Crypto.Random import random, atfork
