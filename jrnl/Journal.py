@@ -19,10 +19,8 @@ try:
     crypto_installed = True
 except ImportError:
     crypto_installed = False
-try:
-  import pyreadline as readline
-except ImportError:
-  import readline
+if "win32" in sys.platform: import pyreadline as readline
+else: import readline
 import hashlib
 import getpass
 try:
