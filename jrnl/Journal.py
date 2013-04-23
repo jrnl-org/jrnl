@@ -31,6 +31,7 @@ except ImportError:
 import plistlib
 import uuid
 
+
 class Journal(object):
     def __init__(self, **kwargs):
         self.config = {
@@ -48,9 +49,9 @@ class Journal(object):
 
         # Set up date parser
         consts = pdt.Constants()
-        consts.DOWParseStyle = -1 # "Monday" will be either today or the last Monday
+        consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
-        self.key = None # used to decrypt and encrypt the journal
+        self.key = None  # used to decrypt and encrypt the journal
 
         journal_txt = self.open()
         self.entries = self.parse(journal_txt)
@@ -74,7 +75,7 @@ class Journal(object):
         except ValueError:
             print("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
             sys.exit(-1)
-        if plain[-1] != " ": # Journals are always padded
+        if plain[-1] != " ":  # Journals are always padded
             return None
         else:
             return plain
@@ -83,12 +84,12 @@ class Journal(object):
         """Encrypt a plaintext string using self.key as the key"""
         if not crypto_installed:
             sys.exit("Error: PyCrypto is not installed.")
-        atfork() # A seed for PyCrypto
+        atfork()  # A seed for PyCrypto
         iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
         if len(plain) % 16 != 0:
             plain += " " * (16 - len(plain) % 16)
-        else: # Always pad so we can detect properly decrypted files :)
+        else:  # Always pad so we can detect properly decrypted files :)
             plain += " " * 16
         return iv + crypto.encrypt(plain)
 
@@ -112,7 +113,7 @@ class Journal(object):
                 decrypted = self._decrypt(journal)
                 if decrypted is None:
                     attempts += 1
-                    self.config['password'] = None # This password doesn't work.
+                    self.config['password'] = None  # This password doesn't work.
                     if attempts < 3:
                         print("Wrong password, try again.")
                     else:
@@ -160,7 +161,7 @@ class Journal(object):
         """Prettyprints the journal's entries"""
         sep = "\n"
         pp = sep.join([e.pprint() for e in self.entries])
-        if self.config['highlight']: # highlight tags
+        if self.config['highlight']:  # highlight tags
             if self.search_tags:
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
@@ -176,17 +177,17 @@ class Journal(object):
     def __repr__(self):
         return "<Journal with %d entries>" % len(self.entries)
 
-    def write(self, filename = None):
+    def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
         journal = "\n".join([str(e) for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
             with open(filename, 'wb') as journal_file:
-               journal_file.write(journal)
+                journal_file.write(journal)
         else:
             with codecs.open(filename, 'w', "utf-8") as journal_file:
-               journal_file.write(journal)
+                journal_file.write(journal)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -243,10 +244,10 @@ class Journal(object):
 
         date, flag = self.dateparse.parse(date)
 
-        if not flag: # Oops, unparsable.
+        if not flag:  # Oops, unparsable.
             return None
 
-        if flag is 1: # Date found, but no time. Use the default time.
+        if flag is 1:  # Date found, but no time. Use the default time.
             date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
         else:
             date = datetime(*date[:6])
@@ -268,7 +269,7 @@ class Journal(object):
 
         # Split raw text into title and body
         title_end = len(raw)
-        for separator in ["\n",". ","? ","! "]:
+        for separator in ["\n", ". ", "? ", "! "]:
             sep_pos = raw.find(separator)
             if 1 < sep_pos < title_end:
                 title_end = sep_pos
@@ -277,9 +278,9 @@ class Journal(object):
         if not date:
             if title.find(":") > 0:
                 date = self.parse_date(title[:title.find(":")])
-                if date: # Parsed successfully, strip that from the raw text
+                if date:  # Parsed successfully, strip that from the raw text
                     title = title[title.find(":")+1:].strip()
-        if not date: # Still nothing? Meh, just live in the moment.
+        if not date:  # Still nothing? Meh, just live in the moment.
             date = self.parse_date("now")
 
         entry = Entry.Entry(self, date, title, body)
@@ -287,6 +288,7 @@ class Journal(object):
         if sort:
             self.sort()
         return entry
+
 
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
@@ -314,7 +316,6 @@ class DayOne(Journal):
         # we're returning the obvious.
         return self.entries
 
-
     def write(self):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
@@ -331,4 +332,3 @@ class DayOne(Journal):
                     'UUID': new_uuid
                 }
                 plistlib.writePlist(entry_plist, filename)
-
