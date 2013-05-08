@@ -49,7 +49,7 @@ class Journal(object):
         self.config.update(kwargs)
 
         # Set up date parser
-        consts = pdt.Constants()
+        consts = pdt.Constants(usePyICU=False)
         consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
         self.key = None  # used to decrypt and encrypt the journal
