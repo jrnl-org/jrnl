@@ -5,7 +5,8 @@ try: from . import Entry
 except (SystemError, ValueError): import Entry
 import codecs
 import os
-import parsedatetime.parsedatetime as pdt
+try: import parsedatetime.parsedatetime_consts as pdt
+except ImportError: import parsedatetime.parsedatetime as pdt
 import re
 from datetime import datetime
 import time
