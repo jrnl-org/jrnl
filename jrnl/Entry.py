@@ -15,16 +15,16 @@ class Entry:
 
     def parse_tags(self):
         fulltext = " ".join([self.title, self.body]).lower()
-        tags = re.findall(r"([%s]\w+)" % self.journal.config['tagsymbols'], fulltext)
+        tags = re.findall(ur'([{}]\w+)'.format(self.journal.config['tagsymbols']), fulltext, re.UNICODE)
         self.tags = set(tags)
 
-    def __str__(self):
+    def __unicode__(self):
         """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
         title = date_str + " " + self.title
         body = self.body.strip()
 
-        return "{title}{sep}{body}\n".format(
+        return u"{title}{sep}{body}\n".format(
             title=title,
             sep="\n" if self.body else "",
             body=body
@@ -50,7 +50,7 @@ class Entry:
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
 
-        return "{title}{sep}{body}\n".format(
+        return u"{title}{sep}{body}\n".format(
             title=title,
             sep="\n" if has_body else "",
             body=body if has_body else "",
@@ -74,7 +74,7 @@ class Entry:
         space = "\n"
         md_head = "###"
 
-        return "{md} {date}, {title} {body} {space}".format(
+        return u"{md} {date}, {title} {body} {space}".format(
             md=md_head,
             date=date_str,
             title=self.title,

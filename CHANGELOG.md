@@ -5,6 +5,7 @@ Changelog
 
 * [New] JSON export exports tags as well.
 * [Improved] Nicer error message when there is a syntactical error in your config file.
+* [Improved] Unicode support
 
 #### 1.0.5
 

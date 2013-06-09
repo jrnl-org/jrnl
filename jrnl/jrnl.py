@@ -171,7 +171,8 @@ def cli():
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
-        entry = journal.new_entry(raw, args.date)
+        unicode_raw = raw.decode(sys.getfilesystemencoding())
+        entry = journal.new_entry(unicode_raw, args.date)
         entry.starred = args.star
         print("[Entry added to {0} journal]".format(journal_name))
         journal.write()
@@ -183,7 +184,7 @@ def cli():
                        strict=args.strict,
                        short=args.short)
         journal.limit(args.limit)
-        print(journal)
+        print(unicode(journal))
 
     # Various export modes
     elif args.tags:
