@@ -1,9 +1,12 @@
 Changelog
 =========
 
+#### 1.1.0
+
+* [New] JSON export exports tags as well.
 #### 1.0.5
 
-* Backwards compatibility with `parsedatetime` 0.8.7
+* [Improved] Backwards compatibility with `parsedatetime` 0.8.7
 
 #### 1.0.4
 
