@@ -108,7 +108,7 @@ With
 
     jrnl --tags
 
-you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
+you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occurring several times in the same entry are only counted as one.
 
 ### JSON export
 
