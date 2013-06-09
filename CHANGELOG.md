@@ -4,6 +4,8 @@ Changelog
 #### 1.1.0
 
 * [New] JSON export exports tags as well.
+* [Improved] Nicer error message when there is a syntactical error in your config file.
+
 #### 1.0.5
 
 * [Improved] Backwards compatibility with `parsedatetime` 0.8.7
