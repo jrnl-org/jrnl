@@ -158,7 +158,7 @@ class Journal(object):
             entry.parse_tags()
         return entries
 
-    def __str__(self):
+    def __unicode__(self):
         """Prettyprints the journal's entries"""
         sep = "\n"
         pp = sep.join([e.pprint() for e in self.entries])
@@ -168,9 +168,9 @@ class Journal(object):
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
                                 lambda match: self._colorize(match.group(0)),
-                                pp)
+                                pp, re.UNICODE)
             else:
-                pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
+                pp = re.sub(ur"(?u)([{}]\w+)".format(self.config['tagsymbols']),
                             lambda match: self._colorize(match.group(0)),
                             pp)
         return pp
@@ -181,7 +181,7 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal = "\n".join([str(e) for e in self.entries])
+        journal = "\n".join([unicode(e) for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
             with open(filename, 'wb') as journal_file:
