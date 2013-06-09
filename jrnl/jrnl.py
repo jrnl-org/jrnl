@@ -104,23 +104,29 @@ def decrypt(journal, filename=None):
     journal.write(filename)
     print("Journal decrypted to {0}.".format(filename or journal.config['journal']))
 
+
+def get_tags_count(journal):
+    """Returns a set of tuples (count, tag) for all tags present in the journal."""
+    # Astute reader: should the following line leave you as puzzled as me the first time
+    # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+    tags = [tag
+        for entry in journal.entries
+        for tag in set(entry.tags)
+    ]
+    # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
+    tag_counts = set([(tags.count(tag), tag) for tag in tags])
+    return tag_counts
+
 def print_tags(journal):
-        """Prints a list of all tags and the number of occurances."""
-        # Astute reader: should the following line leave you as puzzled as me the first time
-        # I came across this construction, worry not and embrace the ensuing moment of enlightment.
-        tags = [tag
-            for entry in journal.entries
-            for tag in set(entry.tags)
-        ]
-        # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
-        tag_counts = set([(tags.count(tag), tag) for tag in tags])
-        if not tag_counts:
-            print('[No tags found in journal.]')
-        elif min(tag_counts)[0] == 0:
-            tag_counts = filter(lambda x: x[0] > 1, tag_counts)
-            print('[Removed tags that appear only once.]')
-        for n, tag in sorted(tag_counts, reverse=False):
-            print("{0:20} : {1}".format(tag, n))
+    """Prints a list of all tags and the number of occurances."""
+    tag_counts = get_tags_count(journal)
+    if not tag_counts:
+        print('[No tags found in journal.]')
+    elif min(tag_counts)[0] == 0:
+        tag_counts = filter(lambda x: x[0] > 1, tag_counts)
+        print('[Removed tags that appear only once.]')
+    for n, tag in sorted(tag_counts, reverse=False):
+        print("{0:20} : {1}".format(tag, n))
 
 
 def touch_journal(filename):
