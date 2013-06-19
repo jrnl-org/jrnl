@@ -1,2 +1,4 @@
-clint >= 0.3.1
-parsedatetime == 1.1.2
+parsedatetime >= 1.1.2
+colorama >= 0.2.5
+pycrypto >= 2.6
+argparse==1.2.1

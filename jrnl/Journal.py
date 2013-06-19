@@ -1,29 +1,37 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from Entry import Entry
+try: from . import Entry
+except (SystemError, ValueError): import Entry
+import codecs
 import os
-import parsedatetime.parsedatetime as pdt
+try: import parsedatetime.parsedatetime_consts as pdt
+except ImportError: import parsedatetime.parsedatetime as pdt
 import re
 from datetime import datetime
 import time
 try: import simplejson as json
 except ImportError: import json
 import sys
-import readline, glob
+import glob
 try:
     from Crypto.Cipher import AES
     from Crypto.Random import random, atfork
+    crypto_installed = True
 except ImportError:
-    pass
+    crypto_installed = False
+if "win32" in sys.platform: import pyreadline as readline
+else: import readline
 import hashlib
 import getpass
 try:
-    import clint
+    import colorama
+    colorama.init()
 except ImportError:
-    clint = None
+    colorama = None
 import plistlib
 import uuid
+
 
 class Journal(object):
     def __init__(self, **kwargs):
@@ -41,23 +49,25 @@ class Journal(object):
         self.config.update(kwargs)
 
         # Set up date parser
-        consts = pdt.Constants()
-        consts.DOWParseStyle = -1 # "Monday" will be either today or the last Monday
+        consts = pdt.Constants(usePyICU=False)
+        consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
-        self.key = None # used to decrypt and encrypt the journal
+        self.key = None  # used to decrypt and encrypt the journal
 
         journal_txt = self.open()
         self.entries = self.parse(journal_txt)
         self.sort()
 
-    def _colorize(self, string, color='red'):
-        if clint:
-            return str(clint.textui.colored.ColoredString(color.upper(), string))
+    def _colorize(self, string):
+        if colorama:
+            return colorama.Fore.CYAN + string + colorama.Fore.RESET
         else:
             return string
 
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
+        if not crypto_installed:
+            sys.exit("Error: PyCrypto is not installed.")
         if not cipher:
             return ""
         crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
@@ -66,35 +76,37 @@ class Journal(object):
         except ValueError:
             print("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
             sys.exit(-1)
-        if plain[-1] != " ": # Journals are always padded
+        if plain[-1] != " ":  # Journals are always padded
             return None
         else:
             return plain
 
     def _encrypt(self, plain):
         """Encrypt a plaintext string using self.key as the key"""
-        atfork() # A seed for PyCrypto
+        if not crypto_installed:
+            sys.exit("Error: PyCrypto is not installed.")
+        atfork()  # A seed for PyCrypto
         iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
         if len(plain) % 16 != 0:
             plain += " " * (16 - len(plain) % 16)
-        else: # Always pad so we can detect properly decrypted files :)
+        else:  # Always pad so we can detect properly decrypted files :)
             plain += " " * 16
         return iv + crypto.encrypt(plain)
 
     def make_key(self, prompt="Password: "):
         """Creates an encryption key from the default password or prompts for a new password."""
         password = self.config['password'] or getpass.getpass(prompt)
-        self.key = hashlib.sha256(password).digest()
+        self.key = hashlib.sha256(password.encode('utf-8')).digest()
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
         journal = None
-        with open(filename) as f:
-            journal = f.read()
         if self.config['encrypt']:
+            with open(filename, "rb") as f:
+                journal = f.read()
             decrypted = None
             attempts = 0
             while decrypted is None:
@@ -102,13 +114,16 @@ class Journal(object):
                 decrypted = self._decrypt(journal)
                 if decrypted is None:
                     attempts += 1
-                    self.config['password'] = None # This password doesn't work.
+                    self.config['password'] = None  # This password doesn't work.
                     if attempts < 3:
                         print("Wrong password, try again.")
                     else:
                         print("Extremely wrong password.")
                         sys.exit(-1)
             journal = decrypted
+        else:
+            with codecs.open(filename, "r", "utf-8") as f:
+                journal = f.read()
         return journal
 
     def parse(self, journal):
@@ -130,7 +145,7 @@ class Journal(object):
                 # parsing successfull => save old entry and create new one
                 if new_date and current_entry:
                     entries.append(current_entry)
-                current_entry = Entry(self, date=new_date, title=line[date_length+1:])
+                current_entry = Entry.Entry(self, date=new_date, title=line[date_length+1:])
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
@@ -143,33 +158,36 @@ class Journal(object):
             entry.parse_tags()
         return entries
 
-    def __str__(self):
+    def __unicode__(self):
         """Prettyprints the journal's entries"""
         sep = "\n"
         pp = sep.join([e.pprint() for e in self.entries])
-        if self.config['highlight']: # highlight tags
+        if self.config['highlight']:  # highlight tags
             if self.search_tags:
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
-                                lambda match: self._colorize(match.group(0), 'cyan'),
-                                pp)
+                                lambda match: self._colorize(match.group(0)),
+                                pp, re.UNICODE)
             else:
-                pp = re.sub(r"([%s]\w+)" % self.config['tagsymbols'],
-                            lambda match: self._colorize(match.group(0), 'cyan'),
+                pp = re.sub(ur"(?u)([{}]\w+)".format(self.config['tagsymbols']),
+                            lambda match: self._colorize(match.group(0)),
                             pp)
         return pp
 
     def __repr__(self):
         return "<Journal with %d entries>" % len(self.entries)
 
-    def write(self, filename = None):
+    def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal = "\n".join([str(e) for e in self.entries])
+        journal = "\n".join([unicode(e) for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
-        with open(filename, 'w') as journal_file:
+            with open(filename, 'wb') as journal_file:
+                journal_file.write(journal)
+        else:
+            with codecs.open(filename, 'w', "utf-8") as journal_file:
                 journal_file.write(journal)
 
     def sort(self):
@@ -227,10 +245,10 @@ class Journal(object):
 
         date, flag = self.dateparse.parse(date)
 
-        if not flag: # Oops, unparsable.
+        if not flag:  # Oops, unparsable.
             return None
 
-        if flag is 1: # Date found, but no time. Use the default time.
+        if flag is 1:  # Date found, but no time. Use the default time.
             date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
         else:
             date = datetime(*date[:6])
@@ -252,7 +270,7 @@ class Journal(object):
 
         # Split raw text into title and body
         title_end = len(raw)
-        for separator in ["\n",". ","? ","! "]:
+        for separator in ["\n", ". ", "? ", "! "]:
             sep_pos = raw.find(separator)
             if 1 < sep_pos < title_end:
                 title_end = sep_pos
@@ -261,16 +279,17 @@ class Journal(object):
         if not date:
             if title.find(":") > 0:
                 date = self.parse_date(title[:title.find(":")])
-                if date: # Parsed successfully, strip that from the raw text
+                if date:  # Parsed successfully, strip that from the raw text
                     title = title[title.find(":")+1:].strip()
-        if not date: # Still nothing? Meh, just live in the moment.
+        if not date:  # Still nothing? Meh, just live in the moment.
             date = self.parse_date("now")
 
-        entry = Entry(self, date, title, body)
+        entry = Entry.Entry(self, date, title, body)
         self.entries.append(entry)
         if sort:
             self.sort()
         return entry
+
 
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
@@ -298,7 +317,6 @@ class DayOne(Journal):
         # we're returning the obvious.
         return self.entries
 
-
     def write(self):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
@@ -315,4 +333,3 @@ class DayOne(Journal):
                     'UUID': new_uuid
                 }
                 plistlib.writePlist(entry_plist, filename)
-

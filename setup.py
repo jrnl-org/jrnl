@@ -43,23 +43,37 @@ except ImportError:
     from distutils.core import setup
 import os
 import sys
+import re
 
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py bdist-egg upload")
     os.system("python setup.py sdist upload")
     sys.exit()
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
+def get_version(filename="jrnl/__init__.py"):
+    with open(os.path.join(base_dir, filename)) as initfile:
+        for line in initfile.readlines():
+            m = re.match("__version__ *= *['\"](.*)['\"]", line)
+            if m:
+                return m.group(1)
+
+conditional_dependencies = {
+    "pyreadline>=2.0": "win32" in sys.platform,
+    "argparse==1.2.1": sys.version.startswith("2.6")
+}
+
 setup(
     name = "jrnl",
-    version = "1.0.1",
+    version = get_version(),
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
-    install_requires = ["parsedatetime >= 1.1.2"],
+    install_requires = [
+        "parsedatetime>=1.1.2",
+        "colorama>=0.2.5"
+        ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
-        'encryption': ["pycrypto"],
-        'highlight':  ["clint"]
+        "encrypted": "pycrypto>=2.6"
     },
     long_description=__doc__,
     entry_points={
@@ -68,7 +82,7 @@ setup(
         ],
     },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: MIT License',
@@ -81,7 +95,7 @@ setup(
     ],
     # metadata for upload to PyPI
     author = "Manuel Ebert",
-    author_email = "manuel@herelabs.com",
+    author_email = "manuel@hey.com",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
     url = "http://maebert.github.com/jrnl",

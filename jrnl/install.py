@@ -6,6 +6,9 @@ import getpass
 try: import simplejson as json
 except ImportError: import json
 import os
+try: from . import util
+except (SystemError, ValueError): import util
+
 
 def module_exists(module_name):
     """Checks if a module exists and can be imported"""
@@ -62,7 +65,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
 
     # Where to create the journal?
     path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
-    journal_path = raw_input(path_query).strip() or os.path.expanduser('~/journal.txt')
+    journal_path = util.py23_input(path_query).strip() or os.path.expanduser('~/journal.txt')
     default_config['journals']['default'] = os.path.expanduser(journal_path)
 
     # Encrypt it?
@@ -77,8 +80,8 @@ def install_jrnl(config_path='~/.jrnl_config'):
         print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
 
     # Use highlighting:
-    if module_exists("clint"):
-        print("clint not found. To turn on highlighting, install clint and set highlight to true in your .jrnl_conf.")
+    if not module_exists("colorama"):
+        print("colorama not found. To turn on highlighting, install colorama and set highlight to true in your .jrnl_conf.")
         default_config['highlight'] = False
 
     open(default_config['journals']['default'], 'a').close() # Touch to make sure it's there
@@ -91,4 +94,4 @@ def install_jrnl(config_path='~/.jrnl_config'):
         config['password'] = password
     return config
 
-    
+

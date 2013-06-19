@@ -1,7 +1,32 @@
 Changelog
 =========
 
-### 1.0.1 (March 12, 2013)
+#### 1.1.0
+
+* [New] JSON export exports tags as well.
+* [Improved] Nicer error message when there is a syntactical error in your config file.
+* [Improved] Unicode support
+
+#### 1.0.5
+
+* [Improved] Backwards compatibility with `parsedatetime` 0.8.7
+
+#### 1.0.4
+
+* [Improved] Python 2.6 compatibility
+* [Improved] Better utf-8 support
+* [New] Python 3 compatibility
+* [New] Respects the `XDG_CONFIG_HOME` environment variable for storing your configuration file (Thanks [evaryont](https://github.com/evaryont))
+
+#### 1.0.3 (April 17, 2013)
+
+* [Improved] Removed clint in favour of colorama
+* [Fixed] Fixed a bug where showing tags failed when no tags are defined.
+* [Fixed] Improvements to config parsing (Thanks [alapolloni](https://github.com/alapolloni))
+* [Fixed] Fixes readline support on Windows
+* [Fixed] Smaller fixes and typos
+
+#### 1.0.1 (March 12, 2013)
 
 * [Fixed] Requires parsedatetime 1.1.2 or newer
 
@@ -13,11 +38,11 @@ Changelog
 * [Fixed] A bug where jrnl would not add entries without timestamp
 * [Fixed] Support for parsedatetime 1.x
 
-### 0.3.2 (July 5, 2012)
+#### 0.3.2 (July 5, 2012)
 
 * [Improved] Converts `\n` to new lines (if using directly on a command line, make sure to wrap your entry with quotes).
 
-### 0.3.1 (June 16, 2012)
+#### 0.3.1 (June 16, 2012)
 
 * [Improved] Supports deleting of last entry.
 * [Fixed] Fixes a bug where --encrypt or --decrypt without a target file would not work.

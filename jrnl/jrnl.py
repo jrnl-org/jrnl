@@ -7,9 +7,16 @@
     license: MIT, see LICENSE for more details.
 """
 
-import Journal
-import exporters
-import install
+try:
+    from . import Journal
+    from . import util
+    from . import exporters
+    from . import install
+except (SystemError, ValueError):
+    import Journal
+    import util
+    import exporters
+    import install
 import os
 import tempfile
 import subprocess
@@ -18,13 +25,8 @@ import sys
 try: import simplejson as json
 except ImportError: import json
 
-
-__title__ = 'jrnl'
-__version__ = '1.0.0-rc1'
-__author__ = 'Manuel Ebert, Stephan Gabler'
-__license__ = 'MIT'
-
-CONFIG_PATH = os.path.expanduser('~/.jrnl_config')
+xdg_config = os.environ.get('XDG_CONFIG_HOME')
+CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
 PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args():
@@ -87,36 +89,19 @@ def encrypt(journal, filename=None):
     journal.make_key(prompt="Enter new password:")
     journal.config['encrypt'] = True
     journal.write(filename)
-    print("Journal encrypted to {}.".format(filename or journal.config['journal']))
+    print("Journal encrypted to {0}.".format(filename or journal.config['journal']))
 
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
     journal.config['password'] = ""
     journal.write(filename)
-    print("Journal decrypted to {}.".format(filename or journal.config['journal']))
-
-def print_tags(journal):
-        """Prints a list of all tags and the number of occurances."""
-        # Astute reader: should the following line leave you as puzzled as me the first time
-        # I came across this construction, worry not and embrace the ensuing moment of enlightment.
-        tags = [tag
-            for entry in journal.entries
-            for tag in set(entry.tags)
-        ]
-        # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
-        tag_counts = {(tags.count(tag), tag) for tag in tags}
-        if min(tag_counts)[0] == 0:
-            tag_counts = filter(lambda x: x[0] > 1, tag_counts)
-            print('[Removed tags that appear only once.]')
-        for n, tag in sorted(tag_counts, reverse=False):
-            print("{:20} : {}".format(tag, n))
-
+    print("Journal decrypted to {0}.".format(filename or journal.config['journal']))
 
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
-        print("[Journal created at {}]".format(filename))
+        print("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
 def update_config(config, new_config, scope):
@@ -134,7 +119,12 @@ def cli():
         config = install.install_jrnl(CONFIG_PATH)
     else:
         with open(CONFIG_PATH) as f:
-            config = json.load(f)
+            try:
+                config = json.load(f)
+            except ValueError as e:
+                print("[There seems to be something wrong with your jrnl config at {}: {}]".format(CONFIG_PATH, e.message))
+                print("[Entry was NOT added to your journal]")
+                sys.exit(-1)
         install.update_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
@@ -172,7 +162,7 @@ def cli():
         if config['editor']:
             raw = get_text_from_editor(config)
         else:
-            raw = raw_input("[Compose Entry] ")
+            raw = util.py23_input("[Compose Entry] ")
         if raw:
             args.text = [raw]
         else:
@@ -181,9 +171,10 @@ def cli():
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
-        entry = journal.new_entry(raw, args.date)
+        unicode_raw = raw.decode(sys.getfilesystemencoding())
+        entry = journal.new_entry(unicode_raw, args.date)
         entry.starred = args.star
-        print("[Entry added to {} journal]").format(journal_name)
+        print("[Entry added to {0} journal]".format(journal_name))
         journal.write()
 
     # Reading mode
@@ -193,11 +184,11 @@ def cli():
                        strict=args.strict,
                        short=args.short)
         journal.limit(args.limit)
-        print(journal)
+        print(unicode(journal))
 
     # Various export modes
     elif args.tags:
-        print_tags(journal)
+        print(exporters.to_tag_list(journal))
 
     elif args.json: # export to json
         print(exporters.to_json(journal))

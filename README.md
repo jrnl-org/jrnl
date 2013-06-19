@@ -1,4 +1,4 @@
-jrnl
+jrnl [![Build Status](https://travis-ci.org/maebert/jrnl.png?branch=master)](https://travis-ci.org/maebert/jrnl)
 ====
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
@@ -33,7 +33,11 @@ Install _jrnl_ using pip:
 
     pip install jrnl
 
-Alternatively, install manually by cloning the repository:
+Or, if you want the option to encrypt your journal,
+
+    pip install jrnl[encrypted]
+
+To install `pycrypto` as well (Note: this requires a `gcc` compiler. You can also [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first)). Alternatively, install _jrnl_ manually by cloning the repository:
 
     git clone git://github.com/maebert/jrnl.git
     cd jrnl
@@ -44,7 +48,7 @@ The first time you run `jrnl` you will be asked where your journal file should b
 Usage
 -----
 
-_jrnl_ has to modes: __composing__ and __viewing__.
+_jrnl_ has two modes: __composing__ and __viewing__.
 
 ### Viewing:
 
@@ -104,7 +108,7 @@ With
 
     jrnl --tags
 
-you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occuring several times in the same entry are only counted as one.
+you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occurring several times in the same entry are only counted as one.
 
 ### JSON export
 
@@ -137,7 +141,7 @@ will replace your encrypted journal file by a Journal in plain text. You can als
 Advanced usages
 --------------
 
-The first time launched, _jrnl_ will create a file called `.jrnl_config` in your home directory.
+The first time launched, _jrnl_ will create a file configuration file at  `~/.jrnl_config` or, if the `XDG_CONFIG_HOME` environment variable is set, `$XDG_CONFIG_HOME/jrnl`.
 
 ### .jrnl_config
 
@@ -150,7 +154,7 @@ The configuration file is a simple JSON file with the following options.
 - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
 - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
 - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-- `highlight`: if `true` and you have [clint](http://www.nicosphere.net/clint-command-line-library-for-python/) installed, tags will be highlighted in cyan.
+- `highlight`: if `true`, tags will be highlighted in cyan.
 - `linewrap`: controls the width of the output. Set to `0` or `false` if you don't want to wrap long lines.
 
 > __Note on `tagsymbols`:__ Although it seems intuitive to use the `#` character for tags, there's a drawback: on most shells, this is interpreted as a meta-character starting a comment. This means that if you type
@@ -168,7 +172,7 @@ The configuration file is a simple JSON file with the following options.
 Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
 
     * `~/Library/Application Support/Day One/` by default
-    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and 
+    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
     * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
@@ -222,4 +226,5 @@ Known Issues
 ------------
 
 - The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
-- _jrnl_ relies on the `Crypto` package to encrypt journals, which has some known problems with installing within virtual environments.
+- _jrnl_ relies on the `PyCrypto` package to encrypt journals, which has some known problems with installing on Windows and within virtual environments. If you have trouble installing __jrnl__, [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first.
+
