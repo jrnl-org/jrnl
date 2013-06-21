@@ -45,6 +45,7 @@ class Journal(object):
             'tagsymbols': '@',
             'highlight': True,
             'linewrap': 80,
+            'folder': os.path.expanduser("~/journal/"),
         }
         self.config.update(kwargs)
 

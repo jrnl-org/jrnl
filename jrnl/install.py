@@ -32,6 +32,7 @@ default_config = {
     'tagsymbols': '@',
     'highlight': True,
     'linewrap': 80,
+    'folder': os.path.expanduser("~/journal/"),
 }
 
 
@@ -94,4 +95,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
         config['password'] = password
     return config
 
-
+    # Where to export files?
+    path_query = 'Path to your journal folder (leave blank for ~/journal): '
+    folder_path = raw_input(path_query).strip() or os.path.expanduser('~/journal')
+    default_config['folder'] = os.path.expanduser(folder_path)
