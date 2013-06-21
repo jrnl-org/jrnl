@@ -2,3 +2,4 @@ parsedatetime >= 1.1.2
 colorama >= 0.2.5
 pycrypto >= 2.6
 argparse==1.2.1
+slugify==0.0.1
