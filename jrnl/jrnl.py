@@ -45,8 +45,8 @@ def parse_args():
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
-    exporting.add_argument('--json', dest='json', action="store_true", help='Returns a JSON-encoded version of the Journal')
-    exporting.add_argument('--markdown', dest='markdown', action="store_true", help='Returns a Markdown-formated version of the Journal')
+    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON, Text or multiple files', nargs='?', default=False, const=None)
+    exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', nargs='?', default=False, const=None)
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
@@ -57,7 +57,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.json or args.decrypt is not False or args.encrypt is not False or args.markdown or args.tags or args.delete_last:
+    if args.decrypt is not False or args.encrypt is not False or args.export is not False or args.tags or args.delete_last:
         compose = False
         export = True
     elif args.start_date or args.end_date or args.limit or args.strict or args.short:
@@ -190,11 +190,17 @@ def cli():
     elif args.tags:
         print(exporters.to_tag_list(journal))
 
-    elif args.json: # export to json
-        print(exporters.to_json(journal))
+    elif args.export == 'json': # export to json
+        print(exporters.to_json(journal, args.output))
 
-    elif args.markdown: # export to json
-        print(exporters.to_md(journal))
+    elif args.export == 'markdown' or args.export == 'md': # export to markdown
+        print(exporters.to_md(journal, args.output))
+
+    elif args.export == 'text' or args.export == 'txt': # export to text
+        print(exporters.to_txt(journal, args.output))
+
+    elif args.export == 'files': # export to files
+        print(exporters.to_files(journal, args.output))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
