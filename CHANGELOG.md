@@ -1,6 +1,11 @@
 Changelog
 =========
 
+#### 1.1.1
+
+* [New] Export to multiple files
+* [New] Feature to export to given output file
+
 #### 1.1.0
 
 * [New] JSON export exports tags as well.
