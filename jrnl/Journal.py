@@ -170,13 +170,13 @@ class Journal(object):
                                 lambda match: self._colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub(ur"(?u)([{}]\w+)".format(self.config['tagsymbols']),
+                pp = re.sub(r"(?u)([{}]\w+)".format(self.config['tagsymbols']),
                             lambda match: self._colorize(match.group(0)),
                             pp)
         return pp
 
     def __repr__(self):
-        return "<Journal with %d entries>" % len(self.entries)
+        return "<Journal with {} entries>".format(len(self.entries))
 
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
@@ -229,7 +229,7 @@ class Journal(object):
                         for m in matches:
                             date = e.date.strftime(self.config['timeformat'])
                             excerpt = e.body[m.start():min(len(e.body), m.end()+60)]
-                            res.append('%s %s ..' % (date, excerpt))
+                            res.append('{} {} ..'.format(date, excerpt))
                     e.body = "\n".join(res)
             else:
                 for e in self.entries:

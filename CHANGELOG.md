@@ -1,7 +1,11 @@
 Changelog
 =========
 
-#### 1.1.0
+#### 1.1.1
+
+* [Fixed] Unicode and Python3 issues resolved.
+
+### 1.1.0
 
 * [New] JSON export exports tags as well.
 * [Improved] Nicer error message when there is a syntactical error in your config file.
