@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import os
+import string
 try: from slugify import slugify
 except ImportError: import slugify
 try: import simplejson as json
@@ -20,7 +21,7 @@ def get_tags_count(journal):
     return tag_counts
 
 def to_tag_list(journal):
-    """Prints a list of all tags and the number of occurances."""
+    """Prints a list of all tags and the number of occurrences."""
     tag_counts = get_tags_count(journal)
     result = ""
     if not tag_counts:
@@ -39,8 +40,14 @@ def to_json(journal, output):
         "entries": [e.to_dict() for e in journal.entries]
     }
     if output is not False:
-        write_file(json.dumps(result, indent=2), output)
-    return json.dumps(result, indent=2)
+        path = output_path('json', output)
+        if not is_globable(path):
+            message = write_file(json.dumps(result, indent=2), path)
+        else:
+            message = to_files(journal, path)
+        return message
+    else:
+        return json.dumps(result, indent=2)
 
 def to_md(journal, output):
     """Returns a markdown representation of the Journal"""
@@ -58,35 +65,78 @@ def to_md(journal, output):
         out.append(e.to_md())
     result = "\n".join(out)
     if output is not False:
-        write_file(result, output)
-    return result
+        path = output_path('md', output)
+        if not is_globable(path):
+            message = write_file(result, path)
+        else:
+            message = to_files(journal, path)
+        return message
+    else:
+        return result
 
 def to_txt(journal, output):
     """Returns the complete text of the Journal."""
     if output is not False:
-        write_file(unicode(journal), output)
-    return unicode(journal)
+        path = output_path('txt', output)
+        if not is_globable(path):
+            message = write_file(unicode(journal), path)
+        else:
+            message = to_files(journal, path)
+        return message
+    else:
+        return unicode(journal)
 
 def to_files(journal, output):
     """Turns your journal into separate files for each entry."""
-    if output is False:
-        output = journal.config['folder'] + "*.txt" # default path
+    path, extension = os.path.splitext(os.path.expanduser(output))
+
+    for e in journal.entries:
+        content = ""
+        date = e.date.strftime('%C-%m-%d')
+        title = slugify(unicode(e.title))
+
+        filename = string.replace(path, "%C-%m-%d", date)
+        filename = string.replace(filename, "slug", title)
+
+        fullpath = filename + extension
+
+        if extension == '.json':
+            content = json.dumps(e.to_dict(), indent=2)
+        elif extension == '.md':
+            content = e.to_md()
+        elif extension == '.txt':
+            content = unicode(e)
+        write_file(content, fullpath)
+
+    return ("Journal exported.")
+
+def is_globable(output):
     path, extension = os.path.splitext(os.path.expanduser(output))
     head, tail = os.path.split(path)
-    if tail == '*': # if wildcard is specified
-        path = head + '/'
-    if not os.path.exists(path): # if the folder doesn't exist, create it
-        os.makedirs(path)
-    for e in journal.entries:
-        date = e.date.strftime('%Y-%m-%d')
-        title = slugify(unicode(e.title))
-        filename = date + '-' + title
-        fullpath = path + filename + extension
-        write_file(unicode(e), fullpath)
-    return ("Journal exported")
+
+    if tail == "%C-%m-%d_slug":
+        return True
+    else:
+        return False
+
+def output_path(file_ext, output):
+    path, extension = os.path.splitext(os.path.expanduser(output))
+
+    head, tail = os.path.split(path)
+    if head != '':
+        if not os.path.exists(head): # if the folder doesn't exist, create it
+            os.makedirs(head)
+        fullpath = head + '/' + tail + '.' + file_ext
+    else:
+        fullpath = tail + '.' + file_ext
+
+    return fullpath
 
 def write_file(content, path):
     """Writes content to the file provided"""
+
     f = open(path, 'w+')
     f.write(content)
     f.close()
+
+    return ("File exported to " + path)

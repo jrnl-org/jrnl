@@ -45,7 +45,7 @@ def parse_args():
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
-    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON, Text or multiple files', nargs='?', default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON or Text', nargs='?', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', nargs='?', default=False, const=None)
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
@@ -198,9 +198,6 @@ def cli():
 
     elif args.export == 'text' or args.export == 'txt': # export to text
         print(exporters.to_txt(journal, args.output))
-
-    elif args.export == 'files': # export to files
-        print(exporters.to_files(journal, args.output))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
