@@ -3,16 +3,11 @@ Changelog
 
 #### 1.1.1
 
-<<<<<<< HEAD
 * [New] Export to multiple files
 * [New] Feature to export to given output file
-
-#### 1.1.0
-=======
 * [Fixed] Unicode and Python3 issues resolved.
 
 ### 1.1.0
->>>>>>> master
 
 * [New] JSON export exports tags as well.
 * [Improved] Nicer error message when there is a syntactical error in your config file.
