@@ -70,6 +70,8 @@ setup(
     packages = ['jrnl'],
     install_requires = [
         "parsedatetime>=1.1.2",
+        "pytz>=2013b",
+        "tzlocal==1.0",
         "colorama>=0.2.5"
         ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
