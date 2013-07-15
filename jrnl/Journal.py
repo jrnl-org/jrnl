@@ -3,6 +3,7 @@
 
 try: from . import Entry
 except (SystemError, ValueError): import Entry
+from util import get_local_timezone
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
@@ -10,8 +11,6 @@ except ImportError: import parsedatetime.parsedatetime as pdt
 import re
 from datetime import datetime
 import time
-import pytz
-from tzlocal import get_localzone
 try: import simplejson as json
 except ImportError: import json
 import sys
@@ -32,6 +31,7 @@ try:
 except ImportError:
     colorama = None
 import plistlib
+import pytz
 import uuid
 
 
@@ -329,7 +329,6 @@ class DayOne(Journal):
             # that have a uuid will be old ones, and only the one that doesn't will
             # have a new one!
             if not hasattr(entry, "uuid"):
-                timezone = str(get_localzone())
                 utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
                 new_uuid = uuid.uuid1().hex
                 filename = os.path.join(self.config['journal'], "entries", new_uuid+".doentry")
@@ -337,7 +336,7 @@ class DayOne(Journal):
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
-                    'Time Zone': timezone,
+                    'Time Zone': get_local_timezone(),
                     'UUID': new_uuid
                 }
                 plistlib.writePlist(entry_plist, filename)
