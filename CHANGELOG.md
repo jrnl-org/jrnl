@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### 1.1.2
+
+* [Fixed] Timezone support for DayOne
+
 #### 1.1.1
 
 * [Fixed] Unicode and Python3 issues resolved.
