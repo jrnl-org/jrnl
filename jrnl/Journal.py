@@ -310,7 +310,10 @@ class DayOne(Journal):
         for filename in filenames:
             with open(filename) as plist_entry:
                 dict_entry = plistlib.readPlist(plist_entry)
-                timezone = pytz.timezone(dict_entry['Time Zone'])
+                try:
+                    timezone = pytz.timezone(dict_entry['Time Zone'])
+                except pytz.exceptions.UnknownTimeZoneError:
+                    timezone = pytz.timezone(get_local_timezone())
                 date = dict_entry['Creation Date']
                 date = date + timezone.utcoffset(date)
                 entry = self.new_entry(raw=dict_entry['Entry Text'], date=date, sort=False)
