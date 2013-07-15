@@ -3,7 +3,8 @@
 
 try: from . import Entry
 except (SystemError, ValueError): import Entry
-from util import get_local_timezone
+try: from .util import get_local_timezone
+except (SystemError, ValueError): from util import get_local_timezone
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
@@ -308,7 +309,7 @@ class DayOne(Journal):
         of filenames, interpret each as a plist file and create a new entry from that."""
         self.entries = []
         for filename in filenames:
-            with open(filename) as plist_entry:
+            with open(filename, 'rb') as plist_entry:
                 dict_entry = plistlib.readPlist(plist_entry)
                 try:
                     timezone = pytz.timezone(dict_entry['Time Zone'])
