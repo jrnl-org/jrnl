@@ -32,24 +32,16 @@ def to_tag_list(journal):
     result += "\n".join(u"{0:20} : {1}".format(tag, n) for n, tag in sorted(tag_counts, reverse=False))
     return result
 
-def to_json(journal, output):
+def to_json(journal):
     """Returns a JSON representation of the Journal."""
     tags = get_tags_count(journal)
     result = {
         "tags": dict((tag, count) for count, tag in tags),
         "entries": [e.to_dict() for e in journal.entries]
     }
-    if output is not False:
-        path = output_path('json', output)
-        if not is_globable(path):
-            message = write_file(json.dumps(result, indent=2), path)
-        else:
-            message = to_files(journal, path)
-        return message
-    else:
-        return json.dumps(result, indent=2)
+    return json.dumps(result, indent=2)
 
-def to_md(journal, output):
+def to_md(journal):
     """Returns a markdown representation of the Journal"""
     out = []
     year, month = -1, -1
@@ -64,79 +56,52 @@ def to_md(journal, output):
             out.append('-' * len(e.date.strftime("%B")) + "\n")
         out.append(e.to_md())
     result = "\n".join(out)
-    if output is not False:
-        path = output_path('md', output)
-        if not is_globable(path):
-            message = write_file(result, path)
-        else:
-            message = to_files(journal, path)
-        return message
-    else:
-        return result
+    return result
 
-def to_txt(journal, output):
+def to_txt(journal):
     """Returns the complete text of the Journal."""
-    if output is not False:
-        path = output_path('txt', output)
-        if not is_globable(path):
-            message = write_file(unicode(journal), path)
+    return unicode(journal)
+
+def export(journal, format, output=None):
+    """Exports the journal to various formats.
+    format should be one of json, txt, text, md, markdown.
+    If output is None, returns a unicode representation of the output.
+    If output is a directory, exports entries into individual files.
+    Otherwise, exports to the given output file.
+    """
+    maps = {
+        "json": to_json,
+        "txt": to_txt,
+        "text": to_txt,
+        "md": to_md,
+        "markdown": to_md
+    }
+    if output and os.path.isdir(output): # multiple files
+        return write_files(journal, output, format)
+    else:
+        content = maps[format](journal)
+        if output:
+            try:
+                with open(output, 'w') as f:
+                    f.write(content)
+                return "[Journal exported to {}]".format(output)
+            except IOError as e:
+                return "[ERROR: {} {}]".format(e.filename, e.strerror)
         else:
-            message = to_files(journal, path)
-        return message
-    else:
-        return unicode(journal)
+            return content
 
-def to_files(journal, output):
-    """Turns your journal into separate files for each entry."""
-    path, extension = os.path.splitext(os.path.expanduser(output))
-
+def write_files(journal, path, format):
+    """Turns your journal into separate files for each entry.
+    Format should be either json, md or txt."""
+    make_filename = lambda entry: e.date.strftime("%C-%m-%d_{}.{}".format(slugify(unicode(e.title)), format))
     for e in journal.entries:
-        content = ""
-        date = e.date.strftime('%C-%m-%d')
-        title = slugify(unicode(e.title))
-
-        filename = string.replace(path, "%C-%m-%d", date)
-        filename = string.replace(filename, "slug", title)
-
-        fullpath = filename + extension
-
-        if extension == '.json':
-            content = json.dumps(e.to_dict(), indent=2)
-        elif extension == '.md':
+        full_path = os.path.join(path, make_filename(e))
+        if format == 'json':
+            content = json.dumps(e.to_dict(), indent=2) + "\n"
+        elif format == 'md':
             content = e.to_md()
-        elif extension == '.txt':
+        elif format == 'txt':
             content = unicode(e)
-        write_file(content, fullpath)
-
-    return ("Journal exported.")
-
-def is_globable(output):
-    path, extension = os.path.splitext(os.path.expanduser(output))
-    head, tail = os.path.split(path)
-
-    if tail == "%C-%m-%d_slug":
-        return True
-    else:
-        return False
-
-def output_path(file_ext, output):
-    path, extension = os.path.splitext(os.path.expanduser(output))
-
-    head, tail = os.path.split(path)
-    if head != '':
-        if not os.path.exists(head): # if the folder doesn't exist, create it
-            os.makedirs(head)
-        fullpath = head + '/' + tail + '.' + file_ext
-    else:
-        fullpath = tail + '.' + file_ext
-
-    return fullpath
-
-def write_file(content, path):
-    """Writes content to the file provided"""
-
-    f = open(path, 'w+')
-    f.write(content)
-    f.close()
-
-    return ("File exported to " + path)
+        with open(full_path, 'w') as f:
+            f.write(content)
+    return "[Journal exported individual files in {}]".format(path)

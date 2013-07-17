@@ -190,14 +190,8 @@ def cli():
     elif args.tags:
         print(exporters.to_tag_list(journal))
 
-    elif args.export == 'json': # export to json
-        print(exporters.to_json(journal, args.output))
-
-    elif args.export == 'markdown' or args.export == 'md': # export to markdown
-        print(exporters.to_md(journal, args.output))
-
-    elif args.export == 'text' or args.export == 'txt': # export to text
-        print(exporters.to_txt(journal, args.output))
+    elif args.export is not False:
+        print(exporters.export(journal, args.export, args.output))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
