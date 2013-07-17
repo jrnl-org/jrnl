@@ -16,7 +16,7 @@ class Entry:
     def parse_tags(self):
         fulltext = " ".join([self.title, self.body]).lower()
         tags = re.findall(r'(?u)([{}]\w+)'.format(self.journal.config['tagsymbols']), fulltext, re.UNICODE)
-        self.tags = set(tags)
+        return set(tags)
 
     def __unicode__(self):
         """Returns a string representation of the entry to be written into a journal file."""
@@ -57,7 +57,7 @@ class Entry:
         )
 
     def __repr__(self):
-        return str(self)
+        return "<Entry '{}' on {}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
 
     def to_dict(self):
         return {
