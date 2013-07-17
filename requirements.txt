@@ -4,4 +4,4 @@ colorama >= 0.2.5
 pycrypto >= 2.6
 argparse==1.2.1
 tzlocal == 1.0
-
+slugify==0.0.1

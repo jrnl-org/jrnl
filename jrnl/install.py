@@ -93,5 +93,3 @@ def install_jrnl(config_path='~/.jrnl_config'):
     if password:
         config['password'] = password
     return config
-
-
