@@ -142,15 +142,20 @@ Prettyprints your entire journal.
 
 ### Export to files
 
-    jrnl --export md -o journal
+You can specify the output file of your exported journal using the `-o` argument:
 
-The above command will generate a file named `journal.md`. The extension will be generated on the type of export option. This way a json export will generate a `.json` file and a plain text export will generate a `.txt` file.
+    jrnl --export md -o journal.md
 
-In case you wish to export to multiple files, you can use a glob-able filename.
+The above command will generate a file named `journal.md`. If the `-o` argument is a directory, jrnl will export each entry into an individual file:
 
-    jrnl --export markdown -o %C-%m-%d_slug
+    jrnl --export json -o my_entries/
 
-It also works with `json` and `text` export types.
+The contents of `my_entries/` will then look like this:
+
+    my_entries/
+    |- 2013_06_03_a-beautiful-day.json
+    |- 2013_06_07_dinner-with-gabriel.json
+    |- ...
 
 Encryption
 ----------

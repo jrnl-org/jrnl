@@ -1,14 +1,17 @@
 Changelog
 =========
 
+### 1.3.0
+
+* [New] Export to multiple files
+* [New] Feature to export to given output file
+
 #### 1.1.2
 
 * [Fixed] Timezone support for DayOne
 
 #### 1.1.1
 
-* [New] Export to multiple files
-* [New] Feature to export to given output file
 * [Fixed] Unicode and Python3 issues resolved.
 
 ### 1.1.0
