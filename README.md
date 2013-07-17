@@ -114,15 +114,43 @@ you'll get a list of all tags you used in your journal, sorted by most frequent.
 
 Can do:
 
-    jrnl --json
+    jrnl --export json
 
 Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
 
 ### Markdown export
 
-    jrnl --markdown
+Use:
+
+    jrnl --export markdown
+
+or
+
+    jrnl --export md
 
 Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
+
+### Text export
+
+    jrnl --export text
+
+or
+
+    jrnl --export txt
+
+Prettyprints your entire journal.
+
+### Export to files
+
+    jrnl --export md -o journal
+
+The above command will generate a file named `journal.md`. The extension will be generated on the type of export option. This way a json export will generate a `.json` file and a plain text export will generate a `.txt` file.
+
+In case you wish to export to multiple files, you can use a glob-able filename.
+
+    jrnl --export markdown -o %C-%m-%d_slug
+
+It also works with `json` and `text` export types.
 
 Encryption
 ----------

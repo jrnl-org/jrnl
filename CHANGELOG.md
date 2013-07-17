@@ -7,6 +7,8 @@ Changelog
 
 #### 1.1.1
 
+* [New] Export to multiple files
+* [New] Feature to export to given output file
 * [Fixed] Unicode and Python3 issues resolved.
 
 ### 1.1.0
