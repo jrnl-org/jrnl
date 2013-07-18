@@ -29,7 +29,7 @@ xdg_config = os.environ.get('XDG_CONFIG_HOME')
 CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
 PYCRYPTO = install.module_exists("Crypto")
 
-def parse_args():
+def parse_args(args=None):
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
     composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
@@ -51,7 +51,7 @@ def parse_args():
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
@@ -114,7 +114,7 @@ def update_config(config, new_config, scope):
         config.update(new_config)
 
 
-def cli():
+def cli(manual_args=None):
     if not os.path.exists(CONFIG_PATH):
         config = install.install_jrnl(CONFIG_PATH)
     else:
@@ -133,7 +133,7 @@ def cli():
         print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
-    args = parse_args()
+    args = parse_args(manual_args)
 
     # If the first textual argument points to a journal file,
     # use this!
