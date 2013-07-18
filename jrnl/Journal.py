@@ -341,6 +341,7 @@ class DayOne(Journal):
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
                     'Time Zone': get_local_timezone(),
-                    'UUID': new_uuid
+                    'UUID': new_uuid,
+                    'Tags': [tag for tag in entry.tags] if entry.parse_tags() and hasattr(entry, 'tags') else False
                 }
                 plistlib.writePlist(entry_plist, filename)
