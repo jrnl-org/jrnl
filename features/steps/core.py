@@ -2,7 +2,7 @@ from behave import *
 from jrnl import Journal, jrnl
 import os
 
-@given('we use "{config_file}"')
+@given('we use the config "{config_file}"')
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
     jrnl.CONFIG_PATH = os.path.abspath(full_path)
@@ -22,3 +22,9 @@ def check_output(context):
     out = context.stdout_capture.getvalue().strip().splitlines()
     for line_text, line_out in zip(text, out):
         assert line_text.strip() == line_out.strip()
+
+@then('the output should contain "{text}"')
+def check_output(context, text):
+    out = context.stdout_capture.getvalue()
+    print out
+    assert text in out
