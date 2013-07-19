@@ -169,7 +169,7 @@ def cli(manual_args=None):
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
-        if type(raw) is not unicode:
+        if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
         entry = journal.new_entry(raw, args.date)
         entry.starred = args.star
@@ -183,7 +183,7 @@ def cli(manual_args=None):
                        strict=args.strict,
                        short=args.short)
         journal.limit(args.limit)
-        print(unicode(journal))
+        print(journal.pprint())
 
     # Various export modes
     elif args.tags:

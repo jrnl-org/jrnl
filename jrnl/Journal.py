@@ -179,13 +179,16 @@ class Journal(object):
                             pp)
         return pp
 
+    def pprint(self):
+        return self.__unicode__()
+
     def __repr__(self):
         return "<Journal with {} entries>".format(len(self.entries))
 
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal = "\n".join([unicode(e) for e in self.entries])
+        journal = "\n".join([e.__unicode__() for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
             with open(filename, 'wb') as journal_file:
