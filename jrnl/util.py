@@ -3,10 +3,15 @@
 import sys
 import os
 from tzlocal import get_localzone
+PY3 = sys.version_info[0] == 3
+PY2 = sys.version_info[0] == 2
+
+def u(s):
+    """Mock unicode function for python 2 and 3 compatibility."""
+    return s if PY3 else unicode(s, "unicode_escape")
 
 STDIN = sys.stdin
 STDOUT = sys.stdout
-
 __cached_tz = None
 
 def py23_input(msg):

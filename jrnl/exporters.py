@@ -7,6 +7,9 @@ try: from slugify import slugify
 except ImportError: import slugify
 try: import simplejson as json
 except ImportError: import json
+try: from .util import u
+except (SystemError, ValueError): from util import u
+
 
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
@@ -60,7 +63,7 @@ def to_md(journal):
 
 def to_txt(journal):
     """Returns the complete text of the Journal."""
-    return unicode(journal)
+    return journal.pprint()
 
 def export(journal, format, output=None):
     """Exports the journal to various formats.
@@ -93,7 +96,7 @@ def export(journal, format, output=None):
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
     Format should be either json, md or txt."""
-    make_filename = lambda entry: e.date.strftime("%C-%m-%d_{}.{}".format(slugify(unicode(e.title)), format))
+    make_filename = lambda entry: e.date.strftime("%C-%m-%d_{}.{}".format(slugify(u(e.title)), format))
     for e in journal.entries:
         full_path = os.path.join(path, make_filename(e))
         if format == 'json':
@@ -101,7 +104,7 @@ def write_files(journal, path, format):
         elif format == 'md':
             content = e.to_md()
         elif format == 'txt':
-            content = unicode(e)
+            content = u(e)
         with open(full_path, 'w') as f:
             f.write(content)
     return "[Journal exported individual files in {}]".format(path)
