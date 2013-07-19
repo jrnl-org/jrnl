@@ -171,8 +171,9 @@ def cli(manual_args=None):
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
-        unicode_raw = raw.decode(sys.getfilesystemencoding())
-        entry = journal.new_entry(unicode_raw, args.date)
+        if type(raw) is not unicode:
+            raw = raw.decode(sys.getfilesystemencoding())
+        entry = journal.new_entry(raw, args.date)
         entry.starred = args.star
         print("[Entry added to {0} journal]".format(journal_name))
         journal.write()
