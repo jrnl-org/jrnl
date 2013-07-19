@@ -3,7 +3,10 @@ from jrnl import jrnl
 import os
 import sys
 import json
-import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    from cStringIO import StringIO
 
 def read_journal(journal_name="default"):
     with open(jrnl.CONFIG_PATH) as config_file:
@@ -22,7 +25,7 @@ def set_config(context, config_file):
 def run_with_input(context, command, inputs=None):
     text = inputs or context.text
     args = command.split()[1:]
-    buffer = StringIO.StringIO(text.strip())
+    buffer = StringIO(text.strip())
     jrnl.util.STDIN = buffer
     jrnl.cli(args)
 
