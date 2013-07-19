@@ -152,7 +152,8 @@ class Journal(object):
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
-                current_entry.body += line + "\n"
+                if current_entry:
+                    current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -173,7 +174,7 @@ class Journal(object):
                                 lambda match: self._colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub(r"(?u)([{}]\w+)".format(self.config['tagsymbols']),
+                pp = re.sub(r"(?u)([{tags}]\w+)".format(tags=self.config['tagsymbols']),
                             lambda match: self._colorize(match.group(0)),
                             pp)
         return pp

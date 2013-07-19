@@ -15,7 +15,7 @@ class Entry:
 
     def parse_tags(self):
         fulltext = " ".join([self.title, self.body]).lower()
-        tags = re.findall(r'(?u)([{}]\w+)'.format(self.journal.config['tagsymbols']), fulltext, re.UNICODE)
+        tags = re.findall(r'(?u)([{tags}]\w+)'.format(tags=self.journal.config['tagsymbols']), fulltext, re.UNICODE)
         return set(tags)
 
     def __unicode__(self):
