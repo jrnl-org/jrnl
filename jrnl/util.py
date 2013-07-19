@@ -4,14 +4,14 @@ import sys
 import os
 from tzlocal import get_localzone
 
+STDIN = sys.stdin
+STDOUT = sys.stdout
+
 __cached_tz = None
 
 def py23_input(msg):
-    if sys.version_info[0] == 3:
-        try: return input(msg)
-        except SyntaxError: return ""
-    else:
-        return raw_input(msg)
+    STDOUT.write(msg)
+    return STDIN.readline().strip()
 
 def get_local_timezone():
     """Returns the Olson identifier of the local timezone.

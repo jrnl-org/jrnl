@@ -4,7 +4,7 @@ Feature: Basic reading and writing to a journal
         Given we use the config "basic.json"
         When we run "jrnl -n 2"
         Then we should get no error
-        And the output should be
+        and the output should be
             """
             2013-06-09 15:39 My first entry.
             | Everything is alright
@@ -27,3 +27,10 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -n 1"
         Then the output should contain "🌞"
         and the output should contain "🐘"
+
+    Scenario: Writing an entry at the prompt
+        Given we use the config "basic.json"
+        When we run "jrnl" and enter "25 jul 2013: I saw Elvis. He's alive."
+        Then we should get no error
+        and the journal should contain "2013-07-25 09:00 I saw Elvis."
+        and the journal should contain "He's alive."
