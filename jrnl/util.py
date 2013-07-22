@@ -22,7 +22,7 @@ def getpass(prompt):
 
 def u(s):
     """Mock unicode function for python 2 and 3 compatibility."""
-    return s if PY3 else unicode(s, "unicode_escape")
+    return s if PY3 or type(s) is unicode else unicode(s, "unicode_escape")
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
