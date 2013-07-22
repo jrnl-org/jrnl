@@ -17,6 +17,8 @@ def after_scenario(context, scenario):
     for folder in ("configs", "journals"):
         original = os.path.join("features", folder)
         backup = os.path.join("features", folder+"_backup")
+        for filename in os.listdir(original):
+            os.remove(os.path.join(original, filename))
         for filename in os.listdir(backup):
             shutil.copy2(os.path.join(backup, filename), original)
         shutil.rmtree(backup)

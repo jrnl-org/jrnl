@@ -1,5 +1,5 @@
 from behave import *
-from jrnl import jrnl
+from jrnl import jrnl, Journal
 import os
 import sys
 import json
@@ -14,6 +14,16 @@ def read_journal(journal_name="default"):
     with open(config['journals'][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
+
+def open_journal(journal_name="default"):
+    with open(jrnl.CONFIG_PATH) as config_file:
+        config = json.load(config_file)
+    journals = config['journals']
+    if type(journals) is dict: # We can override the default config on a by-journal basis
+        config['journal'] = journals.get(journal_name)
+    else: # But also just give them a string to point to the journal file
+        config['journal'] = journal
+    return Journal.Journal(**config)
 
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
@@ -52,8 +62,28 @@ def check_output_inline(context, text):
     assert text in out
 
 @then('the journal should contain "{text}"')
-@then('journal {journal_name} should contain "{text}"')
+@then('journal "{journal_name}" should contain "{text}"')
 def check_journal_content(context, text, journal_name="default"):
     journal = read_journal(journal_name)
     assert text in journal
+
+@then('journal "{journal_name}" should not exist')
+def journal_doesnt_exist(context, journal_name="default"):
+    with open(jrnl.CONFIG_PATH) as config_file:
+        config = json.load(config_file)
+    journal_path = config['journals'][journal_name]
+    print journal_path
+    assert not os.path.exists(journal_path)
+
+@then('the journal should have {number:d} entries')
+@then('the journal should have {number:d} entry')
+@then('journal "{journal_name}" should have {number:d} entries')
+@then('journal "{journal_name}" should have {number:d} entry')
+def check_journal_content(context, number, journal_name="default"):
+    journal = open_journal(journal_name)
+    assert len(journal.entries) == number
+
+@then('fail')
+def debug_fail(context):
+    assert False
 

@@ -50,7 +50,6 @@ class Journal(object):
             'linewrap': 80,
         }
         self.config.update(kwargs)
-
         # Set up date parser
         consts = pdt.Constants(usePyICU=False)
         consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
