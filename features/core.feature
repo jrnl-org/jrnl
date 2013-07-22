@@ -16,14 +16,14 @@ Feature: Basic reading and writing to a journal
     Scenario: Writing an entry from command line
         Given we use the config "basic.json"
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
-        Then the output should contain "Entry added"
+        Then we should see the message "Entry added"
         When we run "jrnl -n 1"
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
     Scenario: Emoji support
         Given we use the config "basic.json"
         When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
-        Then the output should contain "Entry added"
+        Then we should see the message "Entry added"
         When we run "jrnl -n 1"
         Then the output should contain "🌞"
         and the output should contain "🐘"

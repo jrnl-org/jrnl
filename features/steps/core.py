@@ -61,6 +61,11 @@ def check_output_inline(context, text):
     out = context.stdout_capture.getvalue()
     assert text in out
 
+@then('we should see the message "{text}"')
+def check_message(context, text):
+    out = context.messages.getvalue()
+    assert text in out
+
 @then('the journal should contain "{text}"')
 @then('journal "{journal_name}" should contain "{text}"')
 def check_journal_content(context, text, journal_name="default"):
@@ -72,7 +77,6 @@ def journal_doesnt_exist(context, journal_name="default"):
     with open(jrnl.CONFIG_PATH) as config_file:
         config = json.load(config_file)
     journal_path = config['journals'][journal_name]
-    print journal_path
     assert not os.path.exists(journal_path)
 
 @then('the journal should have {number:d} entries')

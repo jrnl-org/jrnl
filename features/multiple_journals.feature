@@ -20,7 +20,7 @@ Feature: Multiple journals
     Scenario: Tell user which journal was used
         Given we use the config "multiple.json"
         When we run "jrnl work a long day in the office"
-        Then the output should contain "Entry added to work journal"
+        Then we should see the message "Entry added to work journal"
 
     Scenario: Write to specified journal with a timestamp
         Given we use the config "multiple.json"
