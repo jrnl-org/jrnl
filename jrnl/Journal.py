@@ -3,8 +3,8 @@
 
 try: from . import Entry
 except (SystemError, ValueError): import Entry
-try: from .util import get_local_timezone, prompt
-except (SystemError, ValueError): from util import get_local_timezone, prompt
+try: from .util import get_local_timezone, prompt, getpass
+except (SystemError, ValueError): from util import get_local_timezone, prompt, getpass
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
@@ -25,7 +25,6 @@ except ImportError:
 if "win32" in sys.platform: import pyreadline as readline
 else: import readline
 import hashlib
-import getpass
 try:
     import colorama
     colorama.init()
@@ -89,6 +88,7 @@ class Journal(object):
             sys.exit("Error: PyCrypto is not installed.")
         atfork()  # A seed for PyCrypto
         iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
+        print("iv", iv, len(iv))
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
         if len(plain) % 16 != 0:
             plain += " " * (16 - len(plain) % 16)
@@ -98,7 +98,8 @@ class Journal(object):
 
     def make_key(self, prompt="Password: "):
         """Creates an encryption key from the default password or prompts for a new password."""
-        password = self.config['password'] or getpass.getpass(prompt)
+        password = self.config['password'] or getpass(prompt)
+        print("GOT PWD", password)
         self.key = hashlib.sha256(password.encode('utf-8')).digest()
 
     def open(self, filename=None):
