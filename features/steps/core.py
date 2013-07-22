@@ -90,7 +90,6 @@ def config_var(context, key, value):
     with open(jrnl.CONFIG_PATH) as config_file:
         config = json.load(config_file)
     assert key in config
-    print key, config[key], type(config[key]), value, type(value)
     assert config[key] == value
 
 @then('the journal should have {number:d} entries')
