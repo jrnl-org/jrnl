@@ -79,6 +79,20 @@ def journal_doesnt_exist(context, journal_name="default"):
     journal_path = config['journals'][journal_name]
     assert not os.path.exists(journal_path)
 
+@then('the config should have "{key}" set to "{value}"')
+def config_var(context, key, value):
+    t, value = value.split(":")
+    value = {
+        "bool": lambda v: v.lower() == "true",
+        "int": int,
+        "str": str
+    }[t](value)
+    with open(jrnl.CONFIG_PATH) as config_file:
+        config = json.load(config_file)
+    assert key in config
+    print key, config[key], type(config[key]), value, type(value)
+    assert config[key] == value
+
 @then('the journal should have {number:d} entries')
 @then('the journal should have {number:d} entry')
 @then('journal "{journal_name}" should have {number:d} entries')

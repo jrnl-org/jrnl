@@ -11,6 +11,7 @@ def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     context.messages = StringIO()
     jrnl.util.STDERR = context.messages
+    jrnl.util.TEST = True
     for folder in ("configs", "journals"):
         original = os.path.join("features", folder)
         backup = os.path.join("features", folder+"_backup")
