@@ -3,8 +3,8 @@
 
 try: from . import Entry
 except (SystemError, ValueError): import Entry
-try: from .util import get_local_timezone, prompt, getpass
-except (SystemError, ValueError): from util import get_local_timezone, prompt, getpass
+try: from . import util
+except (SystemError, ValueError): import util
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
@@ -18,7 +18,7 @@ import sys
 import glob
 try:
     from Crypto.Cipher import AES
-    from Crypto.Random import random, atfork
+    from Crypto import Random
     crypto_installed = True
 except ImportError:
     crypto_installed = False
@@ -75,32 +75,29 @@ class Journal(object):
         try:
             plain = crypto.decrypt(cipher[16:])
         except ValueError:
-            prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
+            util.prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
             sys.exit(-1)
-        if plain[-1] != " ":  # Journals are always padded
+        padding = " ".encode("utf-8")
+        if not plain.endswith(padding):  # Journals are always padded
             return None
         else:
-            return plain
+            return plain.decode("utf-8")
 
     def _encrypt(self, plain):
         """Encrypt a plaintext string using self.key as the key"""
         if not crypto_installed:
             sys.exit("Error: PyCrypto is not installed.")
-        atfork()  # A seed for PyCrypto
-        iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
-        print("iv", iv, len(iv))
+        Random.atfork()  # A seed for PyCrypto
+        iv = Random.new().read(AES.block_size)
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
-        if len(plain) % 16 != 0:
-            plain += " " * (16 - len(plain) % 16)
-        else:  # Always pad so we can detect properly decrypted files :)
-            plain += " " * 16
+        plain = plain.encode("utf-8")
+        plain += b" " * (AES.block_size - len(plain) % AES.block_size)
         return iv + crypto.encrypt(plain)
 
     def make_key(self, prompt="Password: "):
         """Creates an encryption key from the default password or prompts for a new password."""
-        password = self.config['password'] or getpass(prompt)
-        print("GOT PWD", password)
-        self.key = hashlib.sha256(password.encode('utf-8')).digest()
+        password = self.config['password'] or util.getpass(prompt)
+        self.key = hashlib.sha256(password.encode("utf-8")).digest()
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
@@ -119,9 +116,9 @@ class Journal(object):
                     attempts += 1
                     self.config['password'] = None  # This password doesn't work.
                     if attempts < 3:
-                        prompt("Wrong password, try again.")
+                        util.prompt("Wrong password, try again.")
                     else:
-                        prompt("Extremely wrong password.")
+                        util.prompt("Extremely wrong password.")
                         sys.exit(-1)
             journal = decrypted
         else:
@@ -318,7 +315,7 @@ class DayOne(Journal):
                 try:
                     timezone = pytz.timezone(dict_entry['Time Zone'])
                 except pytz.exceptions.UnknownTimeZoneError:
-                    timezone = pytz.timezone(get_local_timezone())
+                    timezone = pytz.timezone(util.get_local_timezone())
                 date = dict_entry['Creation Date']
                 date = date + timezone.utcoffset(date)
                 entry = self.new_entry(raw=dict_entry['Entry Text'], date=date, sort=False)
@@ -344,7 +341,7 @@ class DayOne(Journal):
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
-                    'Time Zone': get_local_timezone(),
+                    'Time Zone': util.get_local_timezone(),
                     'UUID': new_uuid
                 }
                 plistlib.writePlist(entry_plist, filename)

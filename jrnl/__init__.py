@@ -7,7 +7,7 @@ jrnl is a simple journal application for your command line.
 """
 
 __title__ = 'jrnl'
-__version__ = '1.3.2'
+__version__ = '1.4.0'
 __author__ = 'Manuel Ebert'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2013 Manuel Ebert'
