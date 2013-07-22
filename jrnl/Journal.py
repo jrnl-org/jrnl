@@ -3,8 +3,8 @@
 
 try: from . import Entry
 except (SystemError, ValueError): import Entry
-try: from .util import get_local_timezone
-except (SystemError, ValueError): from util import get_local_timezone
+try: from .util import get_local_timezone, prompt
+except (SystemError, ValueError): from util import get_local_timezone, prompt
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
@@ -76,7 +76,7 @@ class Journal(object):
         try:
             plain = crypto.decrypt(cipher[16:])
         except ValueError:
-            print("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
+            prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
             sys.exit(-1)
         if plain[-1] != " ":  # Journals are always padded
             return None
@@ -118,9 +118,9 @@ class Journal(object):
                     attempts += 1
                     self.config['password'] = None  # This password doesn't work.
                     if attempts < 3:
-                        print("Wrong password, try again.")
+                        prompt("Wrong password, try again.")
                     else:
-                        print("Extremely wrong password.")
+                        prompt("Extremely wrong password.")
                         sys.exit(-1)
             journal = decrypted
         else:

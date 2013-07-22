@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 1.3.2
+
+* [Improved] Everything that is not direct output of jrnl will be written stderr to improve integration
+
 ### 1.3.0
 
 * [New] Export to multiple files
