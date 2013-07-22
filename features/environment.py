@@ -13,22 +13,17 @@ def before_scenario(context, scenario):
     jrnl.util.STDERR = context.messages
     jrnl.util.TEST = True
     for folder in ("configs", "journals"):
-        original = os.path.join("features", folder)
-        backup = os.path.join("features", folder+"_backup")
-        if not os.path.exists(backup):
-            os.mkdir(backup)
+        original = os.path.join("features", "data", folder)
+        working_dir = os.path.join("features", folder)
+        if not os.path.exists(working_dir):
+            os.mkdir(working_dir)
         for filename in os.listdir(original):
-            shutil.copy2(os.path.join(original, filename), backup)
+            shutil.copy2(os.path.join(original, filename), working_dir)
 
 def after_scenario(context, scenario):
-    """After each scenario, restore all test data and remove backups."""
+    """After each scenario, restore all test data and remove working_dirs."""
     context.messages.close()
     context.messages = None
     for folder in ("configs", "journals"):
-        original = os.path.join("features", folder)
-        backup = os.path.join("features", folder+"_backup")
-        for filename in os.listdir(original):
-            os.remove(os.path.join(original, filename))
-        for filename in os.listdir(backup):
-            shutil.copy2(os.path.join(backup, filename), original)
-        shutil.rmtree(backup)
+        working_dir = os.path.join("features", folder)
+        shutil.rmtree(working_dir)
