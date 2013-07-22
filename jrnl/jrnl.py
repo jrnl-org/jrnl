@@ -29,6 +29,7 @@ xdg_config = os.environ.get('XDG_CONFIG_HOME')
 CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
 PYCRYPTO = install.module_exists("Crypto")
 
+
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
     composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
@@ -77,7 +78,7 @@ def get_text_from_editor(config):
             raw = f.read()
         os.remove(tmpfile)
     else:
-        print('[Nothing saved to file]')
+        util.prompt('[Nothing saved to file]')
         raw = ''
 
     return raw
@@ -89,19 +90,19 @@ def encrypt(journal, filename=None):
     journal.make_key(prompt="Enter new password:")
     journal.config['encrypt'] = True
     journal.write(filename)
-    print("Journal encrypted to {0}.".format(filename or journal.config['journal']))
+    util.prompt("Journal encrypted to {0}.".format(filename or journal.config['journal']))
 
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
     journal.config['password'] = ""
     journal.write(filename)
-    print("Journal decrypted to {0}.".format(filename or journal.config['journal']))
+    util.prompt("Journal decrypted to {0}.".format(filename or journal.config['journal']))
 
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
-        print("[Journal created at {0}]".format(filename))
+        util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
 def update_config(config, new_config, scope):
@@ -122,15 +123,15 @@ def cli(manual_args=None):
             try:
                 config = json.load(f)
             except ValueError as e:
-                print("[There seems to be something wrong with your jrnl config at {}: {}]".format(CONFIG_PATH, e.message))
-                print("[Entry was NOT added to your journal]")
+                util.prompt("[There seems to be something wrong with your jrnl config at {}: {}]".format(CONFIG_PATH, e.message))
+                util.prompt("[Entry was NOT added to your journal]")
                 sys.exit(-1)
         install.update_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
-        print("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
+        util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(-1)
 
     args = parse_args(manual_args)
@@ -173,7 +174,7 @@ def cli(manual_args=None):
             raw = raw.decode(sys.getfilesystemencoding())
         entry = journal.new_entry(raw, args.date)
         entry.starred = args.star
-        print("[Entry added to {0} journal]".format(journal_name))
+        util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
 
     # Reading mode
@@ -193,7 +194,7 @@ def cli(manual_args=None):
         print(exporters.export(journal, args.export, args.output))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
-        print("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
+        util.prompt("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
 
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
@@ -211,7 +212,7 @@ def cli(manual_args=None):
 
     elif args.delete_last:
         last_entry = journal.entries.pop()
-        print("[Deleted Entry:]")
+        util.prompt("[Deleted Entry:]")
         print(last_entry)
         journal.write()
 

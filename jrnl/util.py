@@ -11,8 +11,13 @@ def u(s):
     return s if PY3 else unicode(s, "unicode_escape")
 
 STDIN = sys.stdin
+STDERR = sys.stderr
 STDOUT = sys.stdout
 __cached_tz = None
+
+def prompt(msg):
+    """Prints a message to the std err stream defined in util."""
+    print(msg, file=STDERR)
 
 def py23_input(msg):
     STDOUT.write(msg)
