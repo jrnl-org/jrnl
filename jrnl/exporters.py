@@ -32,7 +32,7 @@ def to_tag_list(journal):
     elif min(tag_counts)[0] == 0:
         tag_counts = filter(lambda x: x[0] > 1, tag_counts)
         result += '[Removed tags that appear only once.]\n'
-    result += "\n".join(u"{0:20} : {1}".format(tag, n) for n, tag in sorted(tag_counts, reverse=False))
+    result += "\n".join(u"{0:20} : {1}".format(tag, n) for n, tag in sorted(tag_counts, reverse=True))
     return result
 
 def to_json(journal):
