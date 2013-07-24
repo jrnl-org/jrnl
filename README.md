@@ -1,6 +1,8 @@
 jrnl [![Build Status](https://travis-ci.org/maebert/jrnl.png?branch=master)](https://travis-ci.org/maebert/jrnl)
 ====
 
+_For news on updates or to get help, follow [@maebert](https://twitter.com/maebert) or [submit an issue](https://github.com/maebert/jrnl/issues/new) on Github._
+
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
 *jrnl* also plays nice with the fabulous [DayOne](http://dayoneapp.com/) and can read and write directly from and to DayOne Journals.
