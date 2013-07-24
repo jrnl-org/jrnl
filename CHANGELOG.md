@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 1.4.1
+
+* [Fixed] Tagging works again
+
 ### 1.4.0
 
 * [Improved] Unifies encryption between Python 2 and 3. If you have problems reading encrypted journals afterwards, first decrypt your journal with the __old__ jrnl version (install with `pip install jrnl==1.3.1`, then `jrnl --decrypt`), upgrade jrnl (`pip install jrnl --upgrade`) and encrypt it again (`jrnl --encrypt`).
