@@ -92,14 +92,16 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Office/Business :: News/Diary',
         'Topic :: Text Processing'
     ],
     # metadata for upload to PyPI
     author = "Manuel Ebert",
-    author_email = "manuel@hey.com",
+    author_email = "manuel@1450.me",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://maebert.github.com/jrnl",
+    url = "http://maebert.github.io/jrnl",
 )
