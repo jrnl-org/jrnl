@@ -1,9 +1,10 @@
 Changelog
 =========
 
-### 1.4.1
+### 1.4.2
 
 * [Fixed] Tagging works again
+* Meta-info for PyPi updated
 
 ### 1.4.0
 
