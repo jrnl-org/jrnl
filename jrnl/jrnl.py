@@ -176,14 +176,15 @@ def cli(manual_args=None):
         entry.starred = args.star
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
-
-    # Reading mode
-    elif not mode_export:
+    else:
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
                        short=args.short)
         journal.limit(args.limit)
+
+    # Reading mode
+    if not mode_export:
         print(journal.pprint())
 
     # Various export modes

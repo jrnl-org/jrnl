@@ -54,6 +54,7 @@ class Journal(object):
         consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
         self.key = None  # used to decrypt and encrypt the journal
+        self.search_tags = None # Store tags we're highlighting
 
         journal_txt = self.open()
         self.entries = self.parse(journal_txt)
