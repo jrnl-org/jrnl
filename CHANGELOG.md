@@ -1,7 +1,11 @@
 Changelog
 =========
 
-### 1.4.2
+### 1.5.0
+
+* [Improved] Exporting, encrypting and displaying tags now takes your filter options into account. So you could export everything before May 2012: `jrnl -to 'may 2012' --export json`. Or encrypt all entries tagged with `@work` into a new journal: `jrnl @work --encrypt work_journal.txt`. Or display all tags of posts where Bob is also tagged: `jrnl @bob --tags`
+
+#### 1.4.2
 
 * [Fixed] Tagging works again
 * Meta-info for PyPi updated
@@ -10,7 +14,7 @@ Changelog
 
 * [Improved] Unifies encryption between Python 2 and 3. If you have problems reading encrypted journals afterwards, first decrypt your journal with the __old__ jrnl version (install with `pip install jrnl==1.3.1`, then `jrnl --decrypt`), upgrade jrnl (`pip install jrnl --upgrade`) and encrypt it again (`jrnl --encrypt`).
 
-### 1.3.2
+#### 1.3.2
 
 * [Improved] Everything that is not direct output of jrnl will be written stderr to improve integration
 
