@@ -8,6 +8,20 @@ try:
 except ImportError:
     from cStringIO import StringIO
 
+def _parse_args(command):
+    nargs=[]
+    concats = []
+    for a in command.split()[1:]:
+        if a.startswith("'"):
+            concats.append(a.strip("'"))
+        elif a.endswith("'"):
+            concats.append(a.strip("'"))
+            nargs.append(u" ".join(concats))
+            concats = []
+        else:
+            nargs.append(a)
+    return nargs
+
 def read_journal(journal_name="default"):
     with open(jrnl.CONFIG_PATH) as config_file:
         config = json.load(config_file)
@@ -34,20 +48,47 @@ def set_config(context, config_file):
 @when('we run "{command}" and enter "{inputs}"')
 def run_with_input(context, command, inputs=None):
     text = inputs or context.text
-    args = command.split()[1:]
+    args = _parse_args(command)
     buffer = StringIO(text.strip())
     jrnl.util.STDIN = buffer
     jrnl.cli(args)
 
 @when('we run "{command}"')
 def run(context, command):
-    args = command.split()[1:]
+    args = _parse_args(command)
     jrnl.cli(args or None)
 
 
 @then('we should get no error')
 def no_error(context):
     assert context.failed is False
+
+@then('the output should be parsable as json')
+def check_output_json(context):
+    out = context.stdout_capture.getvalue()
+    assert json.loads(out)
+
+@then('"{field}" in the json output should have {number:d} elements')
+@then('"{field}" in the json output should have 1 element')
+def check_output_field(context, field, number=1):
+    out = context.stdout_capture.getvalue()
+    out_json = json.loads(out)
+    assert field in out_json
+    assert len(out_json[field]) == number
+
+@then('"{field}" in the json output should not contain "{key}"')
+def check_output_field_not_key(context, field, key):
+    out = context.stdout_capture.getvalue()
+    out_json = json.loads(out)
+    assert field in out_json
+    assert key not in out_json[field]
+
+@then('"{field}" in the json output should contain "{key}"')
+def check_output_field_key(context, field, key):
+    out = context.stdout_capture.getvalue()
+    out_json = json.loads(out)
+    assert field in out_json
+    assert key in out_json[field]
 
 @then('the output should be')
 def check_output(context):
