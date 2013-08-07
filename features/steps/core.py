@@ -8,6 +8,20 @@ try:
 except ImportError:
     from cStringIO import StringIO
 
+def _parse_args(command):
+    nargs=[]
+    concats = []
+    for a in command.split()[1:]:
+        if a.startswith("'"):
+            concats.append(a.strip("'"))
+        elif a.endswith("'"):
+            concats.append(a.strip("'"))
+            nargs.append(u" ".join(concats))
+            concats = []
+        else:
+            nargs.append(a)
+    return nargs
+
 def read_journal(journal_name="default"):
     with open(jrnl.CONFIG_PATH) as config_file:
         config = json.load(config_file)
@@ -34,14 +48,14 @@ def set_config(context, config_file):
 @when('we run "{command}" and enter "{inputs}"')
 def run_with_input(context, command, inputs=None):
     text = inputs or context.text
-    args = command.split()[1:]
+    args = _parse_args(command)
     buffer = StringIO(text.strip())
     jrnl.util.STDIN = buffer
     jrnl.cli(args)
 
 @when('we run "{command}"')
 def run(context, command):
-    args = command.split()[1:]
+    args = _parse_args(command)
     jrnl.cli(args or None)
 
 
