@@ -102,6 +102,11 @@ def check_output_inline(context, text):
     out = context.stdout_capture.getvalue()
     assert text in out
 
+@then('the output should not contain "{text}"')
+def check_output_not_inline(context, text):
+    out = context.stdout_capture.getvalue()
+    assert text not in out
+
 @then('we should see the message "{text}"')
 def check_message(context, text):
     out = context.messages.getvalue()
