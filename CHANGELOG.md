@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 1.5.2
+
+* [Improved] Soft-deprecated `-to` for filtering by time and introduces `-until` instead.
+
+### 1.5.1
+
+* [Fixed] Fixed a bug introduced in 1.5.0 that caused the entire journal to be printed after composing an entry
+
 ### 1.5.0
 
 * [Improved] Exporting, encrypting and displaying tags now takes your filter options into account. So you could export everything before May 2012: `jrnl -to 'may 2012' --export json`. Or encrypt all entries tagged with `@work` into a new journal: `jrnl @work --encrypt work_journal.txt`. Or display all tags of posts where Bob is also tagged: `jrnl @bob --tags`
