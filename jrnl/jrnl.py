@@ -184,7 +184,7 @@ def cli(manual_args=None):
         journal.limit(args.limit)
 
     # Reading mode
-    if not mode_export:
+    if not mode_compose and not mode_export:
         print(journal.pprint())
 
     # Various export modes
