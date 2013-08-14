@@ -58,7 +58,7 @@ _jrnl_ has two modes: __composing__ and __viewing__.
 
 will list you the ten latest entries,
 
-    jrnl -from "last year" -to march
+    jrnl -from "last year" -until march
 
 everything that happened from the start of last year to the start of last march. If you only want to see the titles of your entries, use
 
