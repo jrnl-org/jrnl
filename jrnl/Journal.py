@@ -315,7 +315,7 @@ class DayOne(Journal):
                 dict_entry = plistlib.readPlist(plist_entry)
                 try:
                     timezone = pytz.timezone(dict_entry['Time Zone'])
-                except pytz.exceptions.UnknownTimeZoneError:
+                except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                     timezone = pytz.timezone(util.get_local_timezone())
                 date = dict_entry['Creation Date']
                 date = date + timezone.utcoffset(date)
