@@ -322,6 +322,7 @@ class DayOne(Journal):
                 entry = self.new_entry(raw=dict_entry['Entry Text'], date=date, sort=False)
                 entry.starred = dict_entry["Starred"]
                 entry.uuid = dict_entry["UUID"]
+                entry.tags = dict_entry.get("Tags", [])
         # We're using new_entry to create the Entry object, which adds the entry
         # to self.entries already. However, in the original Journal.__init__, this
         # method is expected to return a list of newly created entries, which is why
@@ -343,6 +344,9 @@ class DayOne(Journal):
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
                     'Time Zone': util.get_local_timezone(),
-                    'UUID': new_uuid
+                    'UUID': new_uuid,
+                    'Tags': [tag.strip(self.config['tagsymbols']) for tag in entry.tags]
                 }
+                # print entry_plist
+
                 plistlib.writePlist(entry_plist, filename)
