@@ -18,7 +18,11 @@ def before_scenario(context, scenario):
         if not os.path.exists(working_dir):
             os.mkdir(working_dir)
         for filename in os.listdir(original):
-            shutil.copy2(os.path.join(original, filename), working_dir)
+            source = os.path.join(original, filename)
+            if os.path.isdir(source):
+                shutil.copytree(source, os.path.join(working_dir, filename))
+            else:
+                shutil.copy2(source, working_dir)
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
