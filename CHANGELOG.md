@@ -1,11 +1,19 @@
 Changelog
 =========
 
-### 1.5.2
+#### 1.5.4
+
+* [New] DayOne journals can now handle tags
+
+#### 1.5.3
+
+* [Fixed] DayOne integration with older DayOne Journals
+
+#### 1.5.2
 
 * [Improved] Soft-deprecated `-to` for filtering by time and introduces `-until` instead.
 
-### 1.5.1
+#### 1.5.1
 
 * [Fixed] Fixed a bug introduced in 1.5.0 that caused the entire journal to be printed after composing an entry
 
