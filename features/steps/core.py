@@ -1,8 +1,10 @@
 from behave import *
-from jrnl import jrnl, Journal
+from jrnl import jrnl, Journal, util
+from dateutil import parser as date_parser
 import os
 import sys
 import json
+import pytz
 try:
     from io import StringIO
 except ImportError:
@@ -66,15 +68,15 @@ def no_error(context):
 @then('the output should be parsable as json')
 def check_output_json(context):
     out = context.stdout_capture.getvalue()
-    assert json.loads(out)
+    assert json.loads(out), out
 
 @then('"{field}" in the json output should have {number:d} elements')
 @then('"{field}" in the json output should have 1 element')
 def check_output_field(context, field, number=1):
     out = context.stdout_capture.getvalue()
     out_json = json.loads(out)
-    assert field in out_json
-    assert len(out_json[field]) == number
+    assert field in out_json, [field, out_json]
+    assert len(out_json[field]) == number, len(out_json[field])
 
 @then('"{field}" in the json output should not contain "{key}"')
 def check_output_field_not_key(context, field, key):
@@ -95,7 +97,16 @@ def check_output(context):
     text = context.text.strip().splitlines()
     out = context.stdout_capture.getvalue().strip().splitlines()
     for line_text, line_out in zip(text, out):
-        assert line_text.strip() == line_out.strip()
+        assert line_text.strip() == line_out.strip(), [line_text.strip(), line_out.strip()]
+
+@then('the output should contain "{text}" in the local time')
+def check_output_time_inline(context, text):
+    out = context.stdout_capture.getvalue()
+    local_tz = pytz.timezone(util.get_local_timezone())
+    utc_time = date_parser.parse(text)
+    date = utc_time + local_tz._utcoffset
+    local_date = date.strftime("%Y-%m-%d %H:%M")
+    assert local_date in out, local_date
 
 @then('the output should contain "{text}"')
 def check_output_inline(context, text):

@@ -204,11 +204,11 @@ The configuration file is a simple JSON file with the following options.
 
 ### DayOne Integration
 
-Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
+Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, change your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
 
-    * `~/Library/Application Support/Day One/` by default
-    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
-    * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
+* `~/Library/Application Support/Day One/` by default
+* `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
+* `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
 
