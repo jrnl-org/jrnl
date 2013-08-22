@@ -1,0 +1,1369 @@
+///*
+// * 3L was made for YOU to help you create awesome websites
+// * and fill the Internet with excessive amount of Love! ♥
+// *
+// * Keep up your good work!
+// *
+// * Yours faithfully,
+// * Mateusz Kocz           -> http://radiatingstar.com
+// *
+// * 3L:                    -> http://mateuszkocz.github.com/3l
+// *
+// * Watch 3L on Github:    -> https://github.com/mateuszkocz/3l
+// *
+// * Submit a bug issue:    -> https://github.com/mateuszkocz/3l/issues?state=open
+// *
+// *
+// * Licensed under the Apache License v2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Version: 1.4.0-beta (2012.12.06)
+// *
+// */
+
+///*
+// * To compile all of the code you need to use a compiler
+// * that supports JavaScript code and guarder mixins.
+// * WinLess meets those requirements. You can find it on winless.org
+// *
+// * If you're on a Mac and your compiler meets the requirements,
+// * please, let me know via Twitter or GitHub!
+// *
+// */
+
+///* ACTIVATE SUPPORTING CLASSES */
+///* Uncomment ones you want to use or put them in html or body elements in your style sheet. */
+///* For the explanation what those classes do, read further. */
+
+    //html { // If you want to use those classes, uncomment also the html element.
+    //.seo-helper;
+    //.box-sizing() // Put in the brackets box-model you want to use.
+    //} // CAUTION! If you're using any of those supporting classes, uncomment that bracket!
+
+///*
+// * SEO & HTML Debugging
+// *
+// * A useful supporting class that will help a bit with your SEO
+// * and usability of your website.
+// *
+// * Creating a website is a serious business, but sometimes you may
+// * forget about some important details. This class will help you.
+// * It will let you know when you haven't put an alt attribute on image
+// * or kept that attribute empty, when you haven't typed a URL in anchor or when
+// * anchor link has rel=nofollow attribute. It will also show you an alert
+// * message if you don't have a <title> tag and description or left them empty*.
+// *
+// * If any of the errors described above happens, according element will
+// * get a red outline border drawing your attention and asking for some love
+// * or you will get a message with the same purpose.
+// *
+// * *** * The <title> reminder can alert you even if you have a <title> tag.
+// * ***    This happens if you have a <link> tag (usually used for style sheets)
+// * ***    before <title> in your HTML. Just change the order of <link> and
+// * ***    <title> and you're cool.
+// *
+// * How to:
+// * Place the .seo-helper class in html element. That's it!
+// *
+// * *** Example: html {.seo-helper}
+// *
+// * That way every element on your page will be affected
+// * by this rule. You can also place it in any other container
+// * class element in your code (body, div.wrapper, article and so on)
+// * if you don't want for some reasons to check for bugs on whole page
+// * but in a single area.
+// *
+// * Caution! Do not forget to delete this class before finishing your
+// * project, unless you want to keep it in continuous project (like blog)
+// * and debug every new content on your site. But then you might consider
+// * restyling this class to be a bit more eye-pleasing.
+// *
+// * This may not work in every browser, but since you are a web
+// * developer/designer you're probably already using a bleeding
+// * edge nightly alpha back-door version of browser, so no problem!
+// * It's probably the only class you don't need to care about how
+// * your visitors will see it!
+// *
+// * *** Aside - How it works:
+// * *** Section only for people who don't know yet what attribute
+// * *** selectors and negation pseudo-class are.
+// * ***
+// * *** Using negation pseudo-class is like saying "target every element x
+// * *** that doesn't have attribute y" or "target every element exept (but 'not') z".
+// * *** You can read more about that here ->www.w3.org/TR/selectors/#negation.
+// * ***
+// * *** Attribute selectors are rules that target elements that have
+// * *** some specified attributes (rel, alt, href etc.) and/or specified
+// * *** value of this attributes. Read more on this topic here
+// * *** ->www.w3.org/TR/selectors/#selectors.
+// *
+// * For a further explanation and a demo, refer to:
+// * -> http://radiatingstar.com/how-to-improve-seo-with-css
+// *
+// * Why img:not([alt]), img[alt=""] and img[alt^=" "]?
+// * First targets images that don't have an alt attribute, second targets
+// * ones that have this attribute but it's left empty (probably left by
+// * automatic completion of html editor), third is just in case - it
+// * might have been left by html editor or manually "to do it later" (clearly
+// * a space at the beginning of an alt can't be anything good).
+// *
+// * Why a[href=""]?
+// * If you write an anchor text and leave href to copyPaste URL later,
+// * it will reminding you about that.
+// *
+// * Why a[rel="nofollow"]?
+// * For some reasons links on your site may have this attribute and this
+// * may generate a huge SEO problem. Better fix it ASAP. (On the other hand
+// * nofollow links might be useful in some situations. See here:
+// * -> http://en.wikipedia.org/wiki/Nofollow#Control_internal_PageRank_flow)
+// *
+// * Why div:empty, span:empty, li:empty, p:empty, td:empty, th:empty?
+// * It'll just check if you have some redundancy (empty elements) in you code.
+// *
+// */
+
+.seo-helper () {
+    img:not([alt]), img[alt=""], img[alt^=" "],
+    a[href=""], a[href^=" "], a[href="#"], a[rel*="nofollow"],
+    div:empty, span:empty, li:empty, p:empty, td:empty, th:empty,
+    *[title=""], *[class=""], *[id=""] {
+        outline: 2px solid red !important;
+        outline-offset: 3px !important;
+        }
+    head, title:empty, link, meta {display: block;}
+    title:empty:before {content: "You've left the <title> empty!"}
+    link:before {content: "You don't have a <title>!"}
+    title ~ link {display: none;}
+    meta[name="description"][content=""]:before, meta[name="description"][content=" "]:before {content: "You've left description empty!";}
+    }
+
+///*
+// * Helper classes from HTML5 Boilerplate
+// *
+// * Classes below help you create a better user experience for both users
+// * of browsers and screen readers. Oh, and there's also a clearfix!
+// *
+// * All the classes comes from HTML5 Boilerplate (-> html5boilerplate.com). Here though,
+// * they're changed so that they can be easily used in The LESS Way.
+// * They're called "non-semantic" in H5B, but here they become semantic if used well.
+// * (Actually they can't be used in any way than good in 3L.)
+// * (Actually II they can be semantic in H5B as well, but it's a bit pain to do that.)
+// *
+// * Usage:
+// * Just put them in your classes, id's or elements.
+// *
+// * Example:
+// * .YOUR-AWESOME-CLASS-NAME {
+// *                        // some rules
+// *                        .clearfix;
+// *                        }
+// *
+// */
+
+// For image replacement.
+.ir () {border: 0; overflow: hidden; background-color: transparent; *text-indent: -9999px; &:before {content: ""; display: block; width: 0; height: 100%;}}
+
+// Hide from both screenreaders and browsers: h5bp.com/u
+.hidden () {display: none !important; visibility: hidden;}
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+.visuallyhidden () {border: 0;clip: rect(0 0 0 0);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}
+
+// Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p
+// CAUTION! The .visuallyhidden class is included! If you want your object be both
+// .visuallyhidden and .focusabe use only .focusable class.
+.focusable () {.visuallyhidden;&:active,&:focus{clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto;}}
+
+// Hide visually and from screenreaders, but maintain layout.
+.invisible () {visibility: hidden;}
+
+// Contain floats: h5bp.com/q
+.clearfix () {*zoom:1;&:before,&:after{content:" ";display:table;}&:after{clear:both;}}
+
+///*
+// * Some other helper classes.
+// */
+
+.incomplete() {outline: 3px dotted green}
+.fixme() {outline: 3px dotted yellow}
+.todo() {outline: 3px dotted blue}
+.xxx() {outline: 3px dotted red}
+
+///*
+// * Box-sizing
+// *
+// * Change the basic box-model to the one you want.
+// *
+// * Basic box-model defines the width and height of an object only as a size of
+// * object's content area. In order to know exactly how big is the object you need
+// * to add its padding and borders. This may result in many unwanted behaviours.
+// * That's why you can define how you want the browser to calculate the width/height:
+// * with or without padding, with or without borders.
+// *
+// * To use this feature just put a value you want:
+// * -- content-box ("content" works too) - it's default value from basic model.
+// * -- padding-box (also "padding") - width and height declarations will include paddings.
+// * -- border-box (and "border") - border and padding included.
+// *
+// * Usage:
+// * 1. .box-sizing(content-box), .box-sizing(content) and .content-box-sizing* for box-sizing: content-box.
+// * 2. .box-sizing(padding-box), .box-sizing(padding) and .padding-box-sizing* for box-sizing: padding-box.
+// * 3. .box-sizing(border-box), .box-sizing(padding) and .border.box-sizing* for box-sizing: border-box.
+// *
+// * * Beware not to use those properties without -sizing suffix thus suffixless classes are for background-clip (see this class below).
+// *
+// * Resources:
+// * -- http://paulirish.com/2012/box-sizing-border-box-ftw/
+// *
+// * Browsers support: IE8+ and every other.
+// * Notable lack of support: IE7-
+// *
+// */
+
+.content-box-sizing(){-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}
+.padding-box-sizing(){-moz-box-sizing:padding-box;-webkit-box-sizing:padding-box;box-sizing:padding-box;}
+.border-box-sizing(){-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+.box-sizing (padding) {.padding-box-sizing;}
+.box-sizing (padding-box){.padding-box-sizing;}
+.box-sizing (border){.border-box-sizing;}
+.box-sizing (border-box){.border-box-sizing;}
+.box-sizing (content){.content-box-sizing;}
+.box-sizing (content-box){.content-box-sizing;}
+
+///*
+// * Background-clip
+// *
+// * Clips the object's background to the desired box according to the box-model.
+// *
+// * To use this class simply put into an object a .background-clip(box) class,
+// * where box means the desired box (see below). You can also use a shorter class
+// * .bg-clip or class that corresponds to the clipping you want to get (.content-clip,
+// * .padding-clip, .border-clip).
+// *
+// * Arguments that comes into (box) are:
+// * -- content-box or content for content clip,
+// * -- padding-box or padding for padding clip,
+// * -- border-box or border for border clip.
+// * *** You can use values either with or without "-box" suffix.
+// *
+// * Browsers support: IE9+ and every other.
+// * Notable lack of support: IE8-
+// *
+// */
+
+.content-box(){-moz-background-clip:content;background-clip:content-box;}
+.padding-box(){-moz-background-clip:padding;background-clip:padding-box;}
+.border-box(){-moz-background-clip:border;background-clip:border-box;}
+.background-clip (padding){.padding-box;}
+.background-clip (padding-box){.padding-box;}
+.background-clip (border){.border-box;}
+.background-clip (border-box){.border-box;}
+.background-clip (content){.content-box;}
+.background-clip (content-box){.content-box;}
+.bg-clip(@arguments){.background-clip(@arguments);}
+
+///*
+// * Box-shadow
+// * Create a shadow behind or inside the element.
+// *
+// * Usage:
+// * In .box-shadow() brackets put arguments for every single shadow. Separate
+// * each shadows' arguments with comma. You can put up to five shadows
+// * by default but feel free to add a class with as many as you want.
+// * Just check how it is done.
+// *
+// * You can use a default box-shadow which will create a shadow with
+// * 0px x and 1px y offsets, 3px of blur and in black colour with 25% transparency.
+// * Just place a .box-shadow class without any arguments.
+// *
+// * Box-shadow property takes following arguments:
+// *
+// * 1. inset [optional].
+// * 2. x-offset [required].
+// * 3. y-offset [required].
+// * 4. blur [optional].
+// * 5. spread [optional].
+// * 6. color [optional/required].
+// *
+// * Resources:
+// * -- developer.mozilla.org/en/CSS/box-shadow
+// *
+// * Browsers support: IE9, Fx3.5, Chrome, Opera, Safari, Opera Mobile, Android Browser
+// * Notable lack of support: IE8-, Opera Mini
+// *
+// * Example:
+// * Two box-shadows: one is 1px offset, black, second one is green with 30% opacity, inset,
+// * with 5px offsets, 3px of blur and 1px spread.
+// * .box-shadow(1px 1px black, inset 5px 5px 3px 1px fade(green,30%)) // fade(colour,XX%) is a LESS native function
+// *                                                                                            // that adds alpha channel to colour. Instead of fade()
+// *                                                                                            // you can also use rgba or hsla colours declaration.
+// * Solution for multiple box-shadows in a single mixin taken from http://www.toekneestuck.com/blog/2012/05/15/less-css-arguments-variable/
+// */
+
+.box-shadow(@shadow1, @shadow2:X, ...){
+    @shadows: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+    -webkit-box-shadow: @shadows;
+    -moz-box-shadow: @shadows;
+    -o-box-shadow: @shadows;
+    box-shadow: @shadows;
+}
+
+///*
+// * Border-radius
+// * Round the element's corners.
+// *
+// * Usage:
+// * Border-radius property takes one to four arguments with px, em and %
+// * values and round the element's corners accordingly. You can make
+// * ellipticaly roundeded corners putting two sets of values separated with
+// * comma using .elliptical-border-radius class. In order to round a single
+// * corner use .round-corner class. This class takes two sets of arguments.
+// * First one is a declaration of corner you want to round (top-left, top-right,
+// * bottom-right, bottom-left), second one (separated from the first with comma),
+// * is a set of values in px, em or % that round choosen corner. Second
+// * declaration can have one (for circle rounding) or two values (for
+// * elliptical rounding).
+// *
+// * For further explanation of the border-radius property, refer to the
+// * resources section above.
+// *
+// * Resources:
+// * -- developer.mozilla.org/en/CSS/border-radius
+// *
+// * Browsers support: IE9, Fx3.5, Chrome, Opera, Safari, Opera Mobile, Android Browser
+// * Notable lack of support: IE8-, Opera Mini
+// *
+// * Example:
+// * 1. Round every corner of the element with 10px radius.
+// *        .border-radius(10px)
+// * 2. Round top-left and bottom-right corners by 10px, top-right
+// *        and bottom-left corners by 20px.
+// *        .border-radius(10px 20px)
+// * 3  Exemplary use of the .elliptical-border-radius class.
+// *    .elliptical-border-radius(10px 20px 30px, 40px 50px 60px 70px)
+// * 4. Round top-right corner by 10px and 20px (elliptical).
+// *    .round-corner(top-right, 10px 20px)
+// *        .border-top-right-radius(10px 20px) // Alternate method.
+// * 5. Round similar corners.
+// *    .border-top-radius(20px 10px); // top-left + top-right (elliptical)
+// *        .border-left-radius(5px);        // top-left + bottom-left
+// *
+// */
+
+// If your rounded corners looks bad with borders add this class to your rounded element.
+// -> http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
+.border-radius-fix(){.background-clip(padding-box);}
+
+.border-radius (@radius:5px, ...) {
+    -webkit-border-radius: @arguments;
+    -moz-border-radius: @arguments;
+    border-radius: @arguments;
+}
+// Alternate name for .border-radius.
+.round-corners (@radius:5px, ...) {.border-radius(@arguments);}
+
+.elliptical-border-radius (@radius1, @radius2) {
+    -webkit-border-radius: @radius1 ~"/" @radius2;
+    -moz-border-radius: @radius1 ~"/" @radius2;
+    border-radius: @radius1 ~"/" @radius2;
+}
+.round-corner (top-left, @radius...){
+    -webkit-border-top-left-radius: @radius;
+    -moz-border-top-left-radius: @radius;
+    border-top-left-radius: @radius;
+}
+.round-corner (top-right, @radius...){
+    -webkit-border-top-right-radius: @radius;
+    -moz-border-top-right-radius: @radius;
+    border-top-right-radius: @radius;
+}
+.round-corner (bottom-right, @radius...) {
+    -webkit-border-bottom-right-radius: @radius;
+    -moz-border-bottom-right-radius: @radius;
+    border-bottom-right-radius: @radius;
+}
+.round-corner (bottom-left, @radius...) {
+    -webkit-border-bottom-left-radius: @radius;
+    -moz-border-bottom-left-radius: @radius;
+    border-bottom-left-radius: @radius;
+}
+// Another methods to use corner radius.
+.border-top-left-radius (...) {.round-corner(top-left,@arguments);}
+.border-top-right-radius (...) {.round-corner(top-right,@arguments);}
+.border-bottom-right-radius (...) {.round-corner(bottom-right,@arguments);}
+.border-bottom-left-radius (...) {.round-corner(bottom-left,@arguments);}
+
+// Round similar corners.
+.border-top-radius (...) {.round-corner(top-left,@arguments);.round-corner(top-right,@arguments);}
+.border-bottom-radius (...) {.round-corner(bottom-left,@arguments);.round-corner(bottom-right,@arguments);}
+.border-left-radius (...) {.round-corner(top-left,@arguments);.round-corner(bottom-left,@arguments);}
+.border-right-radius (...) {.round-corner(top-right,@arguments);.round-corner(bottom-right,@arguments);}
+
+// Another classes for the same purpose as above.
+.round-top-corners (...) {.border-top-radius(@arguments);}
+.round-bottom-corners (...) {.border-bottom-radius(@arguments);}
+.round-left-corners (...) {.border-left-radius(@arguments);}
+.round-right-corners (...) {.border-right-radius(@arguments);}
+
+///*
+// * Opacity
+// * Make an object transparent.
+// *
+// * Opacity takes values between 0.0 (invisible) to 1.0 (default - full
+// * visibility) but 3L lets you also use percentages and values from >1 to 100.
+// *
+// * If you want an element with transparency 1, .5 or 0, use these classes:
+// * .not-transparent., .half-transparent, .transparent.
+// *
+// * Browsers support: full (IE6+)
+// * Caution! According to -> caniuse.com/#search=opacity, transparency doesn't
+// * work well with PNG images that are itself transparent (use alpha channel) in IE8-.
+// *
+// * Aside:
+// * Do we need the ability to set opacity in numbers from 1 to 100
+// * and in percentages? I think we do, because:
+// * 1. You need to use integer numbers in filter property for IE,
+// *    so there is a possibility that someone will type this kind
+// *        of value, instead of [0,1].
+// *    2. LESS has a fade() function that uses percentages to makes
+// *    colours (semi)transparent, so using percentages here will
+// *        result in more consistent code (same unit in similar situation).
+// *    3. Percentages are more intuitive when it comes to transparency and
+// *    opacity since graphic editors like Photoshop and GIMP use them.
+// *
+// */
+
+.transparent() {.opacity(0);}
+.non-transparent() {.opacity(1);}
+.half-transparent () {.opacity(.5);}
+.opacity () {.non-transparent();}
+.opacity (@value) when (isnumber(@value)) and (@value =< 1){
+    opacity: @value;
+    filter: ~"alpha(opacity="@value*100~")";
+    }
+.opacity (@value) when (isnumber(@value)) and (@value > 1) and not (ispercentage(@value)){
+    // INFO: for the explanation of rule "and not (ispercentage(@value))" refer to the class below.
+    opacity: @value/100;
+    filter: ~"alpha(opacity="@value~")";
+    }
+.opacity (@value) when (ispercentage(@value)) {
+    // Change the @value from percentage to integer (XX% => XX)
+    @integerValue: `parseInt('@{value}')`;
+    // Actually the @value should be a number now... but it isn't.
+    // LESS think of it as a string so we can't do math here.
+    // We'll use a feature of LESS that automatically makes
+    // a second value's unit in a sum to be the same as the first one.
+    // In our case we need a number so we can divide it by 100.
+    opacity: (0 + @integerValue) /100;
+    // We don't need a math in filter so no trick.
+    filter: ~"alpha(opacity="@integerValue~")";
+
+    // BUG: WinLESS compile this with doubled properties unless the rule
+    // "and not (ispercentage(@value))" is added in the class above.
+    // In Firebug (through the LESS native compiler) those properties
+    // aren't doubled, though.
+    }
+
+///*
+// * Gradient
+// * Create a beautiful gradient without images.
+// *
+// * Pick a type of a gradient you want to have and put colours in
+// * brackets. You can put either two or three colours. In the first case
+// * the default colour for old browsers will be the same as the first colour provided.
+// * In the second case you can set that colour as a third argument.
+// *
+// * The default class - .gradient - is the same as .vertical-gradient.
+// *
+// * You can choose from four types of gradients:
+// * 1. Vertical - colour will change from top to bottom.
+// * 2. Horizontal - change is from left to right.
+// * 3. Diagonal - from top-left to bottom-right.
+// * 4. Radial - from the centre of an element to its borders.
+// *
+// * Gradients tend to be tricky. There's no support for this property
+// * in older IE, but "filter" comes to the rescue. It can generate
+// * only horizontal and vertical gradients, though. Also IE9 has some
+// * strange behaviour -> css3wizardry.com/2010/10/29/css-gradients-for-ie9/.
+// * To provide the best experience for your visitors you should use
+// * gradient generator (refer to resources above) with "IE9 Support" option checked.
+// *
+// * Resources:
+// * -- gradient generator with broad browsers support and some advanced options:
+// *    -> www.colorzilla.com/gradient-editor/
+// * -- gradient is a powerful tool - you can generate shapes as a background!
+// *    -> lea.verou.me/css3patterns/
+// *
+// * Browsers support: almost full
+// * Notable lack of support: Opera mini
+// * Caution! IE6 - IE8 use filter property that can generate only vertical and
+// * horizontal gradients. For the best experience in IE9 use gradient generator
+// * mentioned above in the resources.
+// *
+// * TODO: manual for .gradient(). Mention it's still compatible with previous versions of 3L since
+// *         you need to provide at least 4 values to use it. Anything less will use the old .gradient().
+// *         You can provide as much stop colors as you want.
+// */
+
+// Multi-purpose gradient is in a BETA stage! Uncomment for your own responsibility.
+///*
+// * FIXME: you don't need to provide the @direction value since default is "to bottom". How to make it works?
+// * FIXME: simple radial-gradient should work, but what if you provide some more advanced values?
+// * FIXME: does it work with "to top left" and similar or angles?
+// */
+// .gradient(@gradientType, @direction, @rest...) {
+    // @valuesProcessed: ~`"@{rest}".replace(/[\[\]]/g, '')`;
+    // @directionProcessedOld: ~`"@{direction}".replace(/[\[\]]|\,/g,'').replace("to ","").replace("top","bottom").replace("bottom","top").replace("right","left").replace("left","right").replace("at ","").replace("cover", "farthest-corner")`;
+    // @directionProcessedNew: ~`"@{direction}".replace(/[\[\]]|\,/g,'')`;
+//
+    // @webkit1: `"-webkit-" + "@{gradientType}" + "-gradient(" + "@{directionProcessedOld}," + "@{valuesProcessed}" + ")"`;
+    // @webkit2: ~`'@{webkit1}'.replace(/\"/g, '')`;
+    // background-image: @webkit2;
+//
+    // @moz1: `"-moz-" + "@{gradientType}" + "-gradient(" + "@{directionProcessedOld}," + "@{valuesProcessed}" + ")"`;
+    // @moz2: ~`'@{moz1}'.replace(/\"/g, '')`;
+    // background-image: @moz2;
+//
+    // @o1: `"-o-" + "@{gradientType}" + "-gradient(" + "@{directionProcessedOld}," + "@{valuesProcessed}" + ")"`;
+    // @o2: ~`'@{o1}'.replace(/\"/g, '')`;
+    // background-image: @o2;
+//
+    // @w3c1: `"@{gradientType}" + "-gradient(" + "@{directionProcessedNew}," + "@{valuesProcessed}" + ")"`;
+    // @w3c2: ~`'@{w3c1}'.replace(/\"/g, '')`;
+    // background-image: @w3c2;
+// }
+
+.gradient (@color1, @color2){
+    background: @color1;
+    background-image: -moz-linear-gradient(top, @color1 0%, @color2 100%);
+    background-image: -webkit-linear-gradient(top, @color1 0%,@color2 100%);
+    background-image: -o-linear-gradient(top, @color1 0%,@color2 100%);
+    background-image: linear-gradient(to bottom, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=0 );
+}
+
+
+.gradient (@color1, @color2, @color3){
+    background: @color3;
+    background-image: -moz-linear-gradient(top, @color1 0%, @color2 100%);
+    background-image: -webkit-linear-gradient(top, @color1 0%,@color2 100%);
+    background-image: -o-linear-gradient(top, @color1 0%,@color2 100%);
+    background-image: linear-gradient(to bottom, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=0 );
+}
+// .vertical-gradient = .gradient
+.vertical-gradient (@color1,@color2) {.gradient(@color1,@color2)}
+.vertical-gradient (@color1,@color2,@color3) {.gradient(@color1,@color2,@color3)}
+.horizontal-gradient (@color1, @color2) {
+    background: @color1;
+    background-image: -moz-linear-gradient(left, @color1 0%, @color2 100%);
+    background-image: -webkit-linear-gradient(left, @color1 0%,@color2 100%);
+    background-image: -o-linear-gradient(left, @color1 0%,@color2 100%);
+    background-image: linear-gradient(to right, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=1 );
+}
+.horizontal-gradient (@color1, @color2, @color3) {
+    background: @color3;
+    background-image: -moz-linear-gradient(left, @color1 0%, @color2 100%);
+    background-image: -webkit-linear-gradient(left, @color1 0%,@color2 100%);
+    background-image: -o-linear-gradient(left, @color1 0%,@color2 100%);
+    background-image: linear-gradient(to right, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=1 );
+}
+.diagonal-gradient (@color1, @color2) {
+    background: @color1;
+    background-image: -moz-linear-gradient(-45deg, @color1 0%, @color2 100%);
+    background-image: -webkit-linear-gradient(-45deg, @color1 0%,@color2 100%);
+    background-image: -o-linear-gradient(-45deg, @color1 0%,@color2 100%);
+    background-image: linear-gradient(135deg, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=1 );
+    }
+.diagonal-gradient (@color1, @color2,@color3) {
+    background: @color3;
+    background-image: -moz-linear-gradient(-45deg, @color1 0%, @color2 100%);
+    background-image: -webkit-linear-gradient(-45deg, @color1 0%,@color2 100%);
+    background-image: -o-linear-gradient(-45deg, @color1 0%,@color2 100%);
+    background-image: linear-gradient(135deg, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=1 );
+    }
+.radial-gradient (@color1, @color2) {
+    background: @color1;
+    background-image: -moz-radial-gradient(center, @color1 0%, @color2 100%);
+    background-image: -webkit-radial-gradient(center, @color1 0%,@color2 100%);
+    background-image: -o-radial-gradient(center, @color1 0%,@color2 100%);
+    background-image: radial-gradient(at center, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=1 );
+    }
+.radial-gradient (@color1, @color2,@color3) {
+    background: @color3;
+    background-image: -moz-radial-gradient(center, @color1 0%, @color2 100%);
+    background-image: -webkit-radial-gradient(center, @color1 0%,@color2 100%);
+    background-image: -o-radial-gradient(center, @color1 0%,@color2 100%);
+    background-image: radial-gradient(at center, @color1 0%,@color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=1 );
+    }
+
+///*
+// * Background-size
+// * Scale (or not) your background image.
+// *
+// * This property takes following values:
+// * -- auto [default] - it does nothing when used alone; when used with a value
+// *    it makes sure that image will keep its aspect ratio while being stretched
+// *    to the required size. (See: examples 3. and 4.)
+// * -- contain - scale image to the first border it meets;
+// *        it may leave some area uncovered but keeps image's aspect ratio,
+// * -- cover - scale image to the second border it meets;
+// *    cover all area but part of an image may not be shown. The image keeps its aspect ratio.
+// * -- px, em, % - scale image according to declared value;
+// *    you can declare one value (x-size) or two values for each size.
+// *        Using (100%, 100%) stretch the image to cover full area but may not
+// *        keep its aspect ratio. When you use percentages keep in mind that XX%
+// *    means XX% of the element size, not XX% of the background image.
+// *
+// * Consider adding background-repeat property to avoid unwanted repetition of background.
+// *
+// * Browsers support: IE9+, Fx3.6+, Chrome, Safari, Opera, Opera Mini, Opera Mobile, Android Browser
+// * Notable lack of support: IE8-
+// *
+// * Examples:
+// * 1. .background-size(contain);
+// * 2. .background-size(cover);
+// * 3. .background-size(70%);       // = (70% auto). Image is scaled to take 70% of width
+// *                                             // of the element and it keeps its own aspect ratio.
+// * 4. .background-size(auto, 70%) // Image is scaled to take 70% of element's
+// *                                         // height and keeps aspect ratio.
+// * 5. background-size(70px 7em);  // Size of the background image is now 70px (width) x 7em (height).
+// * 6. background-size(70px,7em);  // Same as above. Comma is fine too.
+// *
+// */
+
+.background-size (...) {
+    -moz-background-size: @arguments;
+    background-size: @arguments;
+    }
+// A shorthand class.
+.bg-size (...) {.background-size(@arguments)}
+
+///*
+// * Columns layout
+// *
+// * Divide a block of text into columns as seen in newspapers.
+// *
+// * Basic usage:
+// * Use .columns() class providing in brackets arguments for columns.
+// * Non of those arguments are required, but unless you provide one, columns
+// * layout won't work. Available arguments:
+// * -- integer - declare a column-count. Unless declared, their width will
+// *    equal to division of the block's width minus column-gaps and declared integer.
+// *    Default value is "auto" which means that width of columns will be determined
+// *    by column-width value.
+// * -- width - declare every column width in px, em and % (of containing block).
+// *    Default value is "auto" - column width will be equal to division of the
+// *        block's width and declared column-count
+// *
+// * Usage of supporting classes:
+// * You can declare the gaps between columns by .column-gap() class that takes
+// * width type argument. Default value is "normal" and equals to 1em.
+// *
+// * Declare a vertical rule between columns using .column-rule(). It's the same
+// * type of declaration as in borders, that is width, style and colour. By default
+// * there is no rule.
+// *
+// * Browsers support: IE10+, Fx, Chrome, Safari, Opera, Opera Mobile, Android Browser
+// * Notable lack of support: IE9-, Opera Mini
+// *
+// * Example:
+// * 1. .column(2, 20px) // Two columns with 20px width.
+// * 2. .column(5) // Five columns layout.
+// * 3. element {
+// *        .column(100px);                     // A 100px width columns
+// *        .column-gap(10px);                  // with 10px gap between
+// *        .column-rule(1px solid black);  // and 1px thick, solid, black vertical rule.
+// *        }
+// *
+// */
+
+.columns (...) {
+    -webkit-columns: @arguments;
+    -moz-columns: @arguments;
+    columns: @arguments;
+    }
+.column-gap (@gap) {
+    -webkit-column-gap: @gap;
+    -moz-column-gap: @gap;
+    column-gap: @gap;
+    }
+.columns-gap (@gap) {.column-gap(@gap);}
+.column-rule (...) {
+    -webkit-column-rule: @arguments;
+    -moz-column-rule: @arguments;
+    column-rule: @arguments;
+    }
+.columns-rule (...) {.column-rule(@arguments);}
+.column-fill (@fill) {
+    -webkit-column-fill: @fill;
+    -moz-column-fill: @fill;
+    column-fill: @fill;
+}
+.columns-fill (@fill) {.column-fill(@fill);}
+
+///*
+// * Transform
+// * 2D and 3D transformation of an object.
+// *
+// * You can use classes dedicated to specifics transformation, but if you plan
+// * to use multiple transformation on an object, use general classes .transform
+// * or .transform3d instead. Otherwise the latter transform will override the former.
+// * If you want to use some of the 3D transformations, use .transform3d class. It
+// * has a 3D specific property transform-style included. You can put both 3D and 2D
+// * transformations in .transform3D.
+// *
+// * Transforms don't affect an object's place in a document and its environment
+// * so there's no risk of crashing a layout.
+// *
+// * Transformations characteristics:
+// * -- Rotate takes one argument and rotate object clockwise by specified angle (in deg).
+// * -- Scale takes one or two arguments (x,y). If y is not specified it is assumed that x = y.
+// *    Arguments in interval (0,1) shrink the object. Arguments >1 makes it bigger.
+// * -- Skew takes one or two arguments (x,y). If y is not specified it is assumed that y = 0 (no y-skew).
+// *    Arguments must be in deg.
+// * -- Translate takes one or two arguments (w,y). If y is not specified it is assumed y = 0 (no y-translate).
+// *    Arguments are in px or em. Translate moves the object by specified value.
+// *
+// * Sometimes you might want to control the point that is the relative base of transformations.
+// * For that reason use .transform-origin class. That class takes one or two values.
+// * First value defines horizontal position of that point, second refers to vertical position.
+// * In case you provide only the first value, the second is set to 50%. Default value is (50% 50%).
+// * You can use three types of values:
+// * -- pixels that place origin point in position according to the top-left corner of an element
+// *    to its bottom-right corner. Negative values allowed - in that case position goes to the left
+// *        and top from the top-left corner,
+// * -- percentages that are relative to object's width and height. As in px, the original position
+// *        is top-left corner (0% 0%), and goes to bottom-right (100% 100%). Negative values does the
+// *        same as in px.
+// * -- keywords: left / center / right for x-axis and top / center / bottom for y-axis.
+// *
+// * For 3D transformations you can set a perspective using .perspective() class and putting
+// * value in brackets .
+// *
+// * Browsers support: IE9+, Fx3,5+, Chrome, Safari, Opera, Opera Mobile, Android Browser
+// * Notable lack of support: IE8-*, Opera Mini
+// * * You can use some of the transformation in older IE through filter property.
+// *   To generate that property refer to -> css3please.com.
+// *   You can also emulate scale property with zoom property.
+// *
+// * Examples:
+// * 1. .scale(2,.5) // Stretch an object two times and shrink in height by half.
+// * 2. .rotate(180deg) // Rotate an object by 180deg.
+// * 3. .transform(.scale(2,.5),rotate(180deg)) // Does the combined transformation from examples above.
+// * 4. .transform-origin(20% top) // Place the transformation origin at the top, 20% of the object's
+// *                                        // width to the right from the top-left corner.
+// */
+
+.transform-origin (...) {
+    -webkit-transform-origin: @arguments;
+    -moz-transform-origin: @arguments;
+    -ms-transform-origin: @arguments;
+    -o-transform-origin: @arguments;
+    transform-origin: @arguments;
+    }
+.perspective (...) {
+    -webkit-perspective: @arguments;
+    -moz-perspective: @arguments;
+    -o-perspective: @arguments;
+    perspective: @arguments;
+    }
+.backface-visibility(@visibility){
+    -webkit-backface-visibility: @visibility;
+    backface-visibility: @visibility;
+}
+.transform (...) {
+    -webkit-transform: @arguments;
+    -moz-transform: @arguments;
+    -ms-transform: @arguments;
+    -o-transform: @arguments;
+    transform: @arguments;
+    }
+.transform3d (...) {
+    -webkit-transform: @arguments;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform: @arguments;
+    -moz-transform-style: preserve-3d;
+    -o-transform: @arguments;
+    -o-transform-style: preserve-3d;
+    transform: @arguments;
+    transform-style: preserve-3d;
+}
+.rotate (@rotate) {
+    -webkit-transform: rotate(@rotate);
+    -moz-transform: rotate(@rotate);
+    -ms-transform: rotate(@rotate);
+    -o-transform: rotate(@rotate);
+    transform: rotate(@rotate);
+    }
+.rotate3d (@deg1, @deg2:0, @deg3:0){
+    -webkit-transform: rotateX(@deg1) rotateY(@deg2) rotateZ(@deg3);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform: rotateX(@deg1) rotateY(@deg2) rotateZ(@deg3);
+    -moz-transform-style: preserve-3d;
+    -o-transform: rotateX(@deg1) rotateY(@deg2) rotateZ(@deg3);
+    -o-transform-style: preserve-3d;
+    transform: rotateX(@deg1) rotateY(@deg2) rotateZ(@deg3);
+    transform-style: preserve-3d;
+    }
+.scale (@scale) {
+    -webkit-transform: scale(@scale);
+    -moz-transform: scale(@scale);
+    -ms-transform: scale(@scale);
+    -o-transform: scale(@scale);
+    transform: scale(@scale);
+    }
+.scale (@scale1,@scale2) {
+    -webkit-transform: scale(@scale1,@scale2);
+    -moz-transform: scale(@scale1,@scale2);
+    -ms-transform: scale(@scale1,@scale2);
+    -o-transform: scale(@scale1,@scale2);
+    transform: scale(@scale1,@scale2);
+    }
+.scaleX (@scale) {
+    -webkit-transform: scaleX(@scale);
+    -moz-transform: scaleX(@scale);
+    -ms-transform: scaleX(@scale);
+    -o-transform: scaleX(@scale);
+    transform: scaleX(@scale);
+    }
+.scaleY (@scale) {
+    -webkit-transform: scaleY(@scale);
+    -moz-transform: scaleY(@scale);
+    -ms-transform: scaleY(@scale);
+    -o-transform: scaleY(@scale);
+    transform: scaleY(@scale);
+    }
+.skew (@skew) {
+    .skewX(@skew);
+    }
+.skew (@skew1, @skew2) {
+    -webkit-transform: skewX(@skew1) skewY(@skew2);
+    -moz-transform: skewX(@skew1) skewY(@skew2);
+    -ms-transform: skewX(@skew1) skewY(@skew2);
+    -o-transform: skewX(@skew1) skewY(@skew2);
+    transform: skewX(@skew1) skewY(@skew2);
+    }
+.skewX (@skew) {
+    -webkit-transform: skewX(@skew);
+    -moz-transform: skewX(@skew);
+    -ms-transform: skewX(@skew);
+    -o-transform: skewX(@skew);
+    transform: skewX(@skew);
+    }
+.skewY (@skew) {
+    -webkit-transform: skewY(@skew);
+    -moz-transform: skewY(@skew);
+    -ms-transform: skewY(@skew);
+    -o-transform: skewY(@skew);
+    transform: skewY(@skew);
+    }
+.translate (@translate) {
+    -webkit-transform: translate(@translate);
+    -moz-transform: translate(@translate);
+    -ms-transform: translate(@translate);
+    -o-transform: translate(@translate);
+    transform: translate(@translate);
+    }
+.translate (@translate1, @translate2) {
+    -webkit-transform: translate(@translate1, @translate2);
+    -moz-transform: translate(@translate1, @translate2);
+    -ms-transform: translate(@translate1, @translate2);
+    -o-transform: translate(@translate1, @translate2);
+    transform: translate(@translate1, @translate2);
+    }
+.translateX (@translate) {
+    -webkit-transform: translateX(@translate);
+    -moz-transform: translateX(@translate);
+    -ms-transform: translateX(@translate);
+    -o-transform: translateX(@translate);
+    transform: translateX(@translate);
+    }
+.translateY (@translate) {
+    -webkit-transform: translateY(@translate);
+    -moz-transform: translateY(@translate);
+    -ms-transform: translateY(@translate);
+    -o-transform: translateY(@translate);
+    transform: translateY(@translate);
+    }
+
+///*
+// * Transition
+// * Animate a change between different object states.
+// *
+// * You can use this class to animate change of up to 5 different properties.
+// * If you need more that that (wow!) it's easy to add more of these classes.
+// *
+// * Transition takes 4 values:
+// * -- transition-property - choose a property you want to animate (margin, colour etc.).
+// *    Default value is "all" which will animate every change that might happen. It's a good
+// *    idea to explicitly write this value if you want to animate everything, though. We can't
+// *    be sure if in the future default state won't change to "none", which will break the whole transition.
+// * -- transition-duration - specifies how long transition animation will have to take
+// *        until animation is finished. Put values in s (seconds) or ms (milliseconds).
+// *    Required value, since default state is 0s (no animation occurs).
+// * -- transition-timing-function - this value describe an acceleration function. It can
+// *        really affect overall experience, so it's good idea to pay attention to that.
+// *    Timing function takes 4 number values of keywords: linear, ease, ease-in,
+// *    ease-in-out, ease-out. For further explanation refer to ->developer.mozilla.org/en/CSS/timing-function
+// *    Default value is "ease".
+// * -- transition-delay - in seconds or millisecond describes how long transition will wait
+// *    until it occurs after a triggering requirement was met. Default value is 0 - instant animation.
+// *
+// * In case you want to put a transformation property into transition effect, use
+// * the .transition-transform class. This class is prepared to automatically add
+// * many browsers prefixes required in that case. It is also a bit future friendly,
+// * but all at all using transitions on transform is very risky.
+// * -> http://radiatingstar.com/transition-with-transform-cant-be-future-proof
+// *
+// * Usage:
+// * For .transition class, put in brackets at least a time value. If you want to animate more than one
+// * property or animate everything with different functions, put up to 5 declarations separated with
+// * commas. If one of the property you want to animate is "transform" _and_ you want to animate every
+// * other properties (or at least not with the same functions), use .transition-transform. As a first
+// * value put a time duration for transform property. Do not write this property though. It's auto-added
+// * for the first set of values. Add other properties after commas. Refer to the example 3.
+// *
+// * Browsers support: IE10+, Fx4+, Chrome, Opera, Safari, Opera Mobile, Android Browser
+// * Notable lack of support: IE9-, Fx3.6-, Opera Mini
+// * *** Transition provides only a visual effects between states. It's perfectly
+// * *** safe to use. Users with older browser just won't see a phase of changing.
+// *
+// * Examples:
+// * 1. .transition (all 1s); // Animate all properties for 1 second.
+// * 2. .transition (background-color 5s, margin 1s linear 5s) // Animate change of background-color for 5s
+// *                                                                             // and after 5s animate margin change for 1s.
+// * 3. .transition-transform (2s linear, padding 3s) // Animate change of transform property (no "transform" declared!)
+// *                                                                 // and padding property.
+// *
+// * Solution for multiple transitions in a single mixin taken from http://www.toekneestuck.com/blog/2012/05/15/less-css-arguments-variable/
+// */
+
+.transition(@transition1, @transition2:X, ...){
+    @transitions: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+    -webkit-transition: @transitions;
+    -moz-transition: @transitions;
+    -o-transition: @transitions;
+    transition: @transitions;
+}
+.transition-transform (@transformArguments1, @transformArguments2:X, ...) {
+    @transformArguments: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+    -webkit-transition: -webkit-transform @transformArguments;
+    -moz-transition: -moz-transform @transformArguments;
+    -o-transition: -o-transform @transformArguments;
+    transition: transform @transformArguments;
+}
+// FIXME: The specyfic properties also require the unlimited arguments feature.
+.transition-property(...) {
+    -webkit-transition-property: @arguments;
+    -moz-transition-property: @arguments;
+    -o-transition-property: @arguments;
+    transition-property: @arguments;
+}
+.transition-duration(...) {
+    -webkit-transition-duration: @arguments;
+    -moz-transition-duration: @arguments;
+    -o-transition-duration: @arguments;
+    transition-duration: @arguments;
+}
+.transition-timing-function(...) {
+    -webkit-transition-timing-function: @arguments;
+    -moz-transition-timing-function: @arguments;
+    -o-transition-timing-function: @arguments;
+    transition-timing-function: @arguments;
+}
+.transition-delay(...) {
+    -webkit-transition-delay: @arguments;
+    -moz-transition-delay: @arguments;
+    -o-transition-delay: @arguments;
+    transition-delay: @arguments;
+}
+
+///*
+// * Animations
+// *
+// * Create an awesome animation!
+// *
+// * This class takes from two to five properties:
+// * -- animation-name [required] - declare your @keyframes animation name. See below
+// *    for an easy way to make @keyframes!
+// * -- animation-duration [required] - declare how long will it take for an animation
+// *    to reach end. Value in seconds (s) or milliseconds (ms).
+// * -- timing-function - it's the same property as in transition. Refer to
+// *    that topic for further explanation.
+// * -- iteration-count - how many times an animation will repeat. It takes integer
+// *    or "infinite" keyword (for infinite repetition). Default value is 1.
+// * -- direction - indicates whether the animation should play in reverse on
+// *    alternate cycles. Refer to ->developer.mozilla.org/en/CSS/animation-direction
+// *    for better explanation. To declare a direction use normal [default value],
+// *    alternate, reverse or alternate-reverse keyword.
+// *
+// * Resources:
+// * -- developer.mozilla.org/en/CSS/animation
+// *
+// * Creating @keyframes:
+// * Write in your .less file:
+// * *** @import 'animationX.less';
+// * where X stands for a number between 1 and 5. Then create a class
+// * *** .animationX () {}
+// * and in {} write declarations you normally write in @keyframes.
+// * Then just put an .animation(animationX [other animation properties]) class in your element.
+// * That's all!
+// *
+// * Example:
+// * .toBeAnimated {
+// *        // Animation with every possible value declared. //
+// *            .animation(animation1 5s linear 3s infinite alternate);
+// *            }
+// * // Importing prefixed @keyframes for animation1.
+// * @import '3L/assets/animations/animation1';
+// *
+// * // Declaring @keyframes for animation. Only once!
+// * .animation1() {
+// *            from {margin-top: 3px;}
+// *            to {margin-top: 333px;}
+// *            }
+// *
+// */
+
+.animation (...) {
+    -webkit-animation: @arguments;
+    -moz-animation: @arguments;
+    -o-animation: @arguments;
+    animation: @arguments;
+    }
+.animate (...) {.animation(@arguments);}
+.anime (...) {.animation(@arguments);}
+// FIXME: The specyfic properties also require the unlimited arguments feature.
+.animation-name(...) {
+    -webkit-animation-name: @arguments;
+    -moz-animation-name: @arguments;
+    -o-animation-name: @arguments;
+    animation-name: @arguments;
+}
+.animation-duration(...) {
+    -webkit-animation-duration: @arguments;
+    -moz-animation-duration: @arguments;
+    -o-animation-duration: @arguments;
+    animation-duration: @arguments;
+}
+.animation-timing-function(...) {
+    -webkit-animation-timing-function: @arguments;
+    -moz-animation-timing-function: @arguments;
+    -o-animation-timing-function: @arguments;
+    animation-timing-function: @arguments;
+}
+.animation-delay(...) {
+    -webkit-animation-delay: @arguments;
+    -moz-animation-delay: @arguments;
+    -o-animation-delay: @arguments;
+    animation-delay: @arguments;
+}
+.animation-iteration-count(...) {
+    -webkit-animation-iteration-count: @arguments;
+    -moz-animation-iteration-count: @arguments;
+    -o-animation-iteration-count: @arguments;
+    animation-iteration-count: @arguments;
+}
+.animation-direction(...) {
+    -webkit-animation-direction: @arguments;
+    -moz-animation-direction: @arguments;
+    -o-animation-direction: @arguments;
+    animation-direction: @arguments;
+}
+.animation-fill-mode(...) {
+    -webkit-animation-fill-mode: @arguments;
+    -moz-animation-fill-mode: @arguments;
+    -o-animation-fill-mode: @arguments;
+    animation-fill-mode: @arguments;
+}
+
+///*
+// * User-select
+// * controls the selection model and granularity of an element.
+// *
+// * This property takes following values:
+// * -- none - none of the element's content can be selected.
+// * -- text [default] - the element's contents follow a standard text content selection model.
+// * -- toggle - the element's contents follow a standard toggling content model.
+// * -- element - one element at a time may be selected.
+// * -- elements - one or more elements at a time may be selected.
+// * -- all - Only the entire contents as a whole can be selected.
+// *
+// * Browsers support: IE10+, Fx0.6+, Chrome, Safari
+// * Notable lack of support: IE9-, Opera
+// *
+// */
+
+.user-select (...) {
+-webkit-touch-callout: @arguments;
+-webkit-user-select: @arguments;
+-khtml-user-select: @arguments;
+-moz-user-select: @arguments;
+-ms-user-select: @arguments;
+user-select: @arguments;
+}
+
+///*
+// * Filter
+// *
+// * Advanced image manipulation in your CSS!
+// *
+// * Note: the filter property works only in Webkit for now. Will the prefixed version for other
+// * vendors be supported, is unknown, so the mixin might for now generate useles code.
+// * You might want to use just the -webkit-filter property without the help of .filter() mixin.
+// *
+// * drop-shadow and opacity might be hardware accelerated.
+// *
+// * Resources: http://www.html5rocks.com/en/tutorials/filters/understanding-css/
+// *
+// * TODO: requires testing
+// */
+// FIXME: .filter() requires the unlimited arguments feature.
+.filter(...) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.grayscale(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.sepia(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.saturate(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.hue-rotation(@angle) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.invert(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+// .opacity() already taken, hence the -filter suffix.
+.opacity-filter(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.brightness(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.contrast(@amount) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.blur(@radius) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.drop-shadow(@shadow) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+.url(@url) {
+    -webkit-filter: @arguments;
+    -moz-filter: @arguments;
+    -ms-filter: @arguments;
+    -o-filter: @arguments;
+    filter: @arguments;
+}
+
+///*
+// * Border image
+// *
+// * Browsers support: Chrome, Firefox, Safari, Opera, Chrome for Android, Android Browser, Opera Mobile, Firefox for Android
+// * Notable lack of support: IE, Opera Mini
+// */
+.border-image(@url, @rest...) {
+    -webkit-border-image:url(@url) @rest;
+    -o-border-image:url(@url) @rest;
+    border-image:url(@url) @rest;
+}
+
+///*
+// * Flexible Box Model
+// *
+// * Resources: https://developer.mozilla.org/en-US/docs/CSS/Using_CSS_flexible_boxes
+// *
+// * Browsers Support: Chrome, Firefox 18*, Opera 12.1, Opera Mini 12.1
+// * Notable lack of support: IE, Firefox 17 (stable), Safari, Chrome for Android
+// */
+
+.display-flex() {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: flex;
+}
+.display-inline-flex(){
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: inline-flex;
+}
+.flex-direction(@direction) {
+    -webkit-flex-direction: @direction;
+    -moz-flex-direction: @direction;
+    flex-direction: @direction;
+}
+.justify-content(@alignment) {
+    -webkit-justify-content: @alignment;
+    -moz-justify-content: @alignment;
+    justify-content: @alignment;
+}
+.align-content(@alignment) {
+    -webkit-align-content: @alignment;
+    -moz-align-content: @alignment;
+    align-content: @alignment;
+}
+.align-items(@alignment) {
+    -webkit-align-items: @alignment;
+    -moz-align-items: @alignment;
+    align-items: @alignment;
+}
+.align-self(@alignment) {
+    -webkit-align-self: @alignment;
+    -moz-align-self: @alignment;
+    align-self: @alignment;
+}
+.flex(@arguments){
+    -webkit-flex: @arguments;
+    -moz-flex: @arguments;
+    flex: @arguments;
+}
+.flex-basis(@basis) {
+    -webkit-flex-basis: @basis;
+    -moz-fles-basis: @basis;
+    flex-basis: @basis;
+}
+.flex-grow(@grow) {
+    -webkit-flex-grow: @grow;
+    -moz-flex-grow: @grow;
+    flex-grow: @grow;
+}
+.flex-shrink(@shrink) {
+    -webkit-flex-shrink: @shrink;
+    -moz-flex-shrink: @shrink;
+    flex-shrink: @shrink;
+}
+.flex-flow(@arguments) {
+    -webkit-flex-flow: @arguments;
+    -moz-flex-flow: @arguments;
+    flex-flow: @arguments;
+}
+.flex-direction(@direction) {
+    -webkit-flex-direction: @direction;
+    -moz-flex-direction: @direction;
+    flex-direction: @direction;
+}
+.flex-wrap(@wrap) {
+    -webkit-flex-wrap: @wrap;
+    -moz-flex-wrap: @wrap;
+    flex-wrap: @wrap;
+}
+.order(@order) {
+    -webkit-order: @order;
+    -moz-order: @order;
+    order: @order;
+}
+
+///*
+// * Appearance
+// */
+
+.appearance (@appearance) {
+    -webkit-appearance: @appearance;
+    -moz-appearance: @appearance;
+}
+
+///*
+// * Selection
+// *
+// * You can use it on the root of your CSS or inside a specyfic element.
+// *
+// * Examples:
+// * 1. .selection(red, blue);
+// * 2. p{
+// *        .selection(red, blue)
+// *        }
+// */
+
+.selection(@text-color, @background-color) {
+    &::-moz-selection {color: @text-color; background-color: @background-color;}
+    &::selection {color: @text-color; background-color: @background-color;}
+}
+
+///*
+// * hasLayout
+// *
+// * http://reference.sitepoint.com/css/haslayout
+// */
+
+.hasLayout() {*zoom: 1;}
+
+///*
+// * Normalize
+// */
+
+.normalize(){article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden]{display:none}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}body{margin:0}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}}
+
+///*
+// * Reset
+// */
+
+.reset() {html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}}
+
+///*
+// * HTML5 Boiler Plate's default stylesheets.
+// */
+.h5bp() {html,button,input,select,textarea{color:#222}body{font-size:1em;line-height:1.4}::-moz-selection{background:#b3d4fc;text-shadow:none}::selection{background:#b3d4fc;text-shadow:none}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}img{vertical-align:middle}fieldset{border:0;margin:0;padding:0}textarea{resize:vertical}.chromeframe{margin:.2em 0;background:#ccc;color:#000;padding:.2em 0}}
+.h5bp-print() {@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important;} a,a:visited{text-decoration:underline;} a[href]:after{content:" (" attr(href) ")";} abbr[title]:after{content:" (" attr(title) ")";} .ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:"";} pre,blockquote{border:1px solid #999;page-break-inside:avoid;} thead{display:table-header-group;} tr,img{page-break-inside:avoid;} img{max-width:100% !important;} @page {margin:0.5cm;}p,h2,h3{orphans:3;widows:3;} h2,h3{page-break-after:avoid;}}.przerwa{color:#ff0000;}}
+
+
+.ninja() {
+    color: black;
+    visibility: hidden;
+}
+
