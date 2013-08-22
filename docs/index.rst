@@ -21,27 +21,11 @@ Release v\ |version|. (:ref:`Installation <install>`)
     >>> r.json()
     {u'private_gists': 419, u'total_private_repos': 77, ...}
 
-.. autofunction:: jrnl
-.. autofunction:: jrnl.Journal
-
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   installation
+   usage

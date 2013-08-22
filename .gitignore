@@ -22,4 +22,7 @@ lib64
 pip-log.txt
 .DS_Store
 .travis-solo
+Icon
 
+# Documentation
+_build
