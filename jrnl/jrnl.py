@@ -123,16 +123,16 @@ def cli(manual_args=None):
             try:
                 config = json.load(f)
             except ValueError as e:
-                util.prompt("[There seems to be something wrong with your jrnl config at {}: {}]".format(CONFIG_PATH, e.message))
+                util.prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(CONFIG_PATH, e.message))
                 util.prompt("[Entry was NOT added to your journal]")
-                sys.exit(-1)
+                sys.exit(1)
         install.update_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
         util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
-        sys.exit(-1)
+        sys.exit(1)
 
     args = parse_args(manual_args)
 
@@ -150,12 +150,15 @@ def cli(manual_args=None):
     mode_compose, mode_export = guess_mode(args, config)
 
     # open journal file or folder
-    if os.path.isdir(config['journal']) and ( config['journal'].endswith(".dayone") or \
-        config['journal'].endswith(".dayone/")):
-        journal = Journal.DayOne(**config)
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or \
+           "entries" in os.listdir(config['journal']):
+            journal = Journal.DayOne(**config)
+        else:
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
     else:
         journal = Journal.Journal(**config)
-
 
     if mode_compose and not args.text:
         if config['editor']:
