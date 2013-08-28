@@ -53,16 +53,28 @@ def run_with_input(context, command, inputs=None):
     args = _parse_args(command)
     buffer = StringIO(text.strip())
     jrnl.util.STDIN = buffer
-    jrnl.cli(args)
+    try:
+        jrnl.cli(args or None)
+        context.exit_status = 0
+    except SystemExit as e:
+        context.exit_status = e.code
 
 @when('we run "{command}"')
 def run(context, command):
     args = _parse_args(command)
-    jrnl.cli(args or None)
+    try:
+        jrnl.cli(args or None)
+        context.exit_status = 0
+    except SystemExit as e:
+        context.exit_status = e.code
 
+@then('we should get an error')
+def has_error(context):
+    assert context.exit_status is not 0
 
 @then('we should get no error')
 def no_error(context):
+    assert context.exit_status is 0
     assert context.failed is False
 
 @then('the output should be parsable as json')
@@ -121,7 +133,7 @@ def check_output_not_inline(context, text):
 @then('we should see the message "{text}"')
 def check_message(context, text):
     out = context.messages.getvalue()
-    assert text in out
+    assert text in out, [text, out]
 
 @then('the journal should contain "{text}"')
 @then('journal "{journal_name}" should contain "{text}"')
