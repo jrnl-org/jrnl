@@ -87,16 +87,16 @@ def export(journal, format, output=None):
             try:
                 with open(output, 'w') as f:
                     f.write(content)
-                return "[Journal exported to {}]".format(output)
+                return "[Journal exported to {0}]".format(output)
             except IOError as e:
-                return "[ERROR: {} {}]".format(e.filename, e.strerror)
+                return "[ERROR: {0} {1}]".format(e.filename, e.strerror)
         else:
             return content
 
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
     Format should be either json, md or txt."""
-    make_filename = lambda entry: e.date.strftime("%C-%m-%d_{}.{}".format(slugify(u(e.title)), format))
+    make_filename = lambda entry: e.date.strftime("%C-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
     for e in journal.entries:
         full_path = os.path.join(path, make_filename(e))
         if format == 'json':
@@ -107,4 +107,4 @@ def write_files(journal, path, format):
             content = u(e)
         with open(full_path, 'w') as f:
             f.write(content)
-    return "[Journal exported individual files in {}]".format(path)
+    return "[Journal exported individual files in {0}]".format(path)
