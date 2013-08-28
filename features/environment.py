@@ -12,6 +12,14 @@ def before_scenario(context, scenario):
     context.messages = StringIO()
     jrnl.util.STDERR = context.messages
     jrnl.util.TEST = True
+
+    # Clean up in case something went wrong
+    for folder in ("configs", "journals"):
+        working_dir = os.path.join("features", folder)
+        if os.path.exists(working_dir):
+            shutil.rmtree(working_dir)
+
+
     for folder in ("configs", "journals"):
         original = os.path.join("features", "data", folder)
         working_dir = os.path.join("features", folder)
@@ -30,4 +38,5 @@ def after_scenario(context, scenario):
     context.messages = None
     for folder in ("configs", "journals"):
         working_dir = os.path.join("features", folder)
-        shutil.rmtree(working_dir)
+        if os.path.exists(working_dir):
+            shutil.rmtree(working_dir)
