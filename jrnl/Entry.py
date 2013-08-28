@@ -58,7 +58,7 @@ class Entry:
         )
 
     def __repr__(self):
-        return "<Entry '{}' on {}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
+        return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
 
     def to_dict(self):
         return {

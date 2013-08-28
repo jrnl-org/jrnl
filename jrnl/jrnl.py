@@ -123,7 +123,7 @@ def cli(manual_args=None):
             try:
                 config = json.load(f)
             except ValueError as e:
-                util.prompt("[There seems to be something wrong with your jrnl config at {}: {}]".format(CONFIG_PATH, e.message))
+                util.prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(CONFIG_PATH, e.message))
                 util.prompt("[Entry was NOT added to your journal]")
                 sys.exit(1)
         install.update_config(config, config_path=CONFIG_PATH)
@@ -155,7 +155,7 @@ def cli(manual_args=None):
            "entries" in os.listdir(config['journal']):
             journal = Journal.DayOne(**config)
         else:
-            util.prompt("[Error: {} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
             sys.exit(1)
     else:
         journal = Journal.Journal(**config)
