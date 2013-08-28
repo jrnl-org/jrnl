@@ -150,12 +150,15 @@ def cli(manual_args=None):
     mode_compose, mode_export = guess_mode(args, config)
 
     # open journal file or folder
-    if os.path.isdir(config['journal']) and ( config['journal'].endswith(".dayone") or \
-        config['journal'].endswith(".dayone/")):
-        journal = Journal.DayOne(**config)
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or \
+           "entries" in os.listdir(config['journal']):
+            journal = Journal.DayOne(**config)
+        else:
+            util.prompt("[Error: {} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(-1)
     else:
         journal = Journal.Journal(**config)
-
 
     if mode_compose and not args.text:
         if config['editor']:
