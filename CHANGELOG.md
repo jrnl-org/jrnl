@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### 1.5.5
+
+* [Fixed] Detects DayOne journals stored in `~/Library/Mobile Data` as well.
+
 #### 1.5.4
 
 * [New] DayOne journals can now handle tags
