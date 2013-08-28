@@ -125,14 +125,14 @@ def cli(manual_args=None):
             except ValueError as e:
                 util.prompt("[There seems to be something wrong with your jrnl config at {}: {}]".format(CONFIG_PATH, e.message))
                 util.prompt("[Entry was NOT added to your journal]")
-                sys.exit(-1)
+                sys.exit(1)
         install.update_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
         util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
-        sys.exit(-1)
+        sys.exit(1)
 
     args = parse_args(manual_args)
 
@@ -156,7 +156,7 @@ def cli(manual_args=None):
             journal = Journal.DayOne(**config)
         else:
             util.prompt("[Error: {} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
-            sys.exit(-1)
+            sys.exit(1)
     else:
         journal = Journal.Journal(**config)
 
