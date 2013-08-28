@@ -70,12 +70,11 @@ def run(context, command):
 
 @then('we should get an error')
 def has_error(context):
-    assert context.exit_status is not 0
+    assert context.exit_status != 0, context.exit_status
 
 @then('we should get no error')
 def no_error(context):
-    assert context.exit_status is 0
-    assert context.failed is False
+    assert context.exit_status is 0, context.exit_status
 
 @then('the output should be parsable as json')
 def check_output_json(context):
