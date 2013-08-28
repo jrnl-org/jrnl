@@ -181,7 +181,7 @@ class Journal(object):
         return self.__unicode__()
 
     def __repr__(self):
-        return "<Journal with {} entries>".format(len(self.entries))
+        return "<Journal with {0} entries>".format(len(self.entries))
 
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
@@ -234,7 +234,7 @@ class Journal(object):
                         for m in matches:
                             date = e.date.strftime(self.config['timeformat'])
                             excerpt = e.body[m.start():min(len(e.body), m.end()+60)]
-                            res.append('{} {} ..'.format(date, excerpt))
+                            res.append('{0} {1} ..'.format(date, excerpt))
                     e.body = "\n".join(res)
             else:
                 for e in self.entries:
