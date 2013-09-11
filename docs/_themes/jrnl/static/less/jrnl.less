@@ -11,6 +11,9 @@
 @purple-light-shade: #564371;
 @orange: #deaa09;
 
+.normalize();
+@import "docs.less";
+
 .icon,
     {
     .sprite("../img/icons.png", 32px, 5, 3, 8px);
@@ -29,12 +32,11 @@
     &.info   {.sprite(2, 2)};
     }
 
-.terminal
+.pre-block
     {
     background: @terminal;
     .border-radius(6px);
-    @p: 20px;
-    padding: @p + 30px @p (@p - 10px) @p;
+    padding: 1px 20px;
     margin: 40px auto;
     width: 500px;
     .box-shadow(0px 1px 8px darken(@white, 30));
@@ -44,6 +46,13 @@
     font-size: 12pt;
     #args {color: #f6f7b9}
     #output {color: #9278b5}
+    }
+
+.terminal
+    {
+    .pre-block;
+    @p: 20px;
+    padding: @p + 30px @p (@p - 10px) @p;
     &:before
         {
         content: "Terminal";
