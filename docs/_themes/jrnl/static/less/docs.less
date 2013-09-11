@@ -1,0 +1,150 @@
+body
+    {
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
+    font-weight: 300;
+    color: #333;
+    background: @white;
+    }
+input
+    {
+    background: transparent;
+    border: 1px solid #999;
+    .border-radius(3px);
+    padding: 2px 5px;
+    color: #666;
+    font-family: "Open Sans";
+    font-weight: 300;
+    outline: none;
+    &:focus
+        {
+        background: white;
+        }
+    }
+div.related
+    {
+    background: rgba(255,200,200,.2);
+    }
+
+* > a.headerlink
+    {
+    display: none;
+    }
+
+h1, h2, h3, h4, h5, h6
+    {
+    font-weight: 300;
+    }
+
+a:link, a:visited
+    {
+    color: @orange;
+    text-decoration: none;
+    }
+a:hover, a:active
+    {
+    text-decoration: underline;
+    color: lighten(@orange, 10);
+    }
+.note
+    {
+    .gradient(lighten(@purple-light, 10), lighten(@purple-light-shade, 10));
+    .border-radius(5px);
+    .box-shadow(0px 2px 3px @purple-shade);
+    padding: 10px 20px 10px 70px;
+    position: relative;
+    color: white;
+    .admonition-title {display: none;}
+    a { color: lighten(@orange, 30);}
+    &:before
+        {
+        content: "";
+        display: block;
+        .icon;
+        .icon.info;
+        position: absolute;
+        margin: auto;
+        top: 0; bottom: 0; left: 20px;
+        }
+    }
+
+.highlight-output
+    {
+    .pre-block;
+    }
+.highlight-python
+    {
+    .terminal;
+    pre
+        {
+        margin: 0 0 10px 0;
+        &:before
+            {
+            content: "$ ";
+            color: @orange;
+            }
+        }
+    }
+
+*:hover > a.headerlink
+    {
+    display: inline;
+    color: lighten(@purple-light, 30);
+    margin-left: 10px;
+    text-decoration: none;
+    &:hover { color: @purple-light; }
+    }
+
+tt
+    {
+    color: @purple;
+    font-size: 1.2em;
+    }
+
+
+div.document
+    {
+    max-width: 900px;
+    margin: 20px auto;
+    position: relative;
+    }
+div.documentwrapper
+    {
+    margin-left: 240px;
+    padding: 0;
+    }
+aside
+    {
+    position: absolute;
+    width: 220px;
+    top: 0px;
+    .logo
+        {
+        margin: 0 0 20px 0px;
+        background: green;
+        width: 90px;
+        height: 98px;
+        }
+    }
+.sphinxsidebarwrapper
+    {
+    color: #999;
+
+    a:link, a:visited
+        {
+        color: #999;
+        }
+    a:hover, a:active
+        {
+        color: @orange;
+        }
+    input[type=submit]
+        {
+        display: none;
+        }
+    &>ul
+        {
+        margin: 0 4px;
+        padding: 0;
+        list-style: none;
+        }
+    }
