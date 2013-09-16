@@ -42,12 +42,12 @@ def get_local_timezone():
     global __cached_tz
     if not __cached_tz and "darwin" in sys.platform:
         __cached_tz = os.popen("systemsetup -gettimezone").read().replace("Time Zone: ", "").strip()
-    if not __cached_tz or __cached_tz not in pytz.all_timezones_set:
-        link = os.readlink("/etc/localtime")
-        # This is something like /usr/share/zoneinfo/America/Los_Angeles.
-        # Find second / from right and take the substring
-        __cached_tz = link[link.rfind('/', 0, link.rfind('/'))+1:]
-    if not __cached_tz or __cached_tz not in pytz.all_timezones_set:
+        if not __cached_tz or __cached_tz not in pytz.all_timezones_set:
+            link = os.readlink("/etc/localtime")
+            # This is something like /usr/share/zoneinfo/America/Los_Angeles.
+            # Find second / from right and take the substring
+            __cached_tz = link[link.rfind('/', 0, link.rfind('/'))+1:]
+    elif not __cached_tz:
         __cached_tz = str(get_localzone())
     if not __cached_tz or __cached_tz not in pytz.all_timezones_set:
         __cached_tz = "UTC"
