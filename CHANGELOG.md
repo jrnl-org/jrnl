@@ -3,6 +3,10 @@ Changelog
 
 #### 1.5.5
 
+* [Fixed] Fixed a bug where on OS X, the timezone could only be accessed on administrator accounts.
+
+#### 1.5.5
+
 * [Fixed] Detects DayOne journals stored in `~/Library/Mobile Data` as well.
 
 #### 1.5.4
