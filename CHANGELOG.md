@@ -1,7 +1,11 @@
 Changelog
 =========
 
-#### 1.5.5
+#### 1.5.7
+
+* [Improved] The `~` in journal config paths will now expand properly to e.g. `/Users/maebert`
+
+#### 1.5.6
 
 * [Fixed] Fixed a bug where on OS X, the timezone could only be accessed on administrator accounts.
 
