@@ -5,6 +5,7 @@ import os
 import sys
 import json
 import pytz
+import keyring
 try:
     from io import StringIO
 except ImportError:
@@ -34,11 +35,11 @@ def read_journal(journal_name="default"):
 def open_journal(journal_name="default"):
     with open(jrnl.CONFIG_PATH) as config_file:
         config = json.load(config_file)
-    journals = config['journals']
-    if type(journals) is dict: # We can override the default config on a by-journal basis
-        config['journal'] = journals.get(journal_name)
-    else: # But also just give them a string to point to the journal file
-        config['journal'] = journal
+    journal_conf = config['journals'][journal_name]
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        config.update(journal_conf)
+    else:  # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
     return Journal.Journal(**config)
 
 @given('we use the config "{config_file}"')
@@ -67,6 +68,10 @@ def run(context, command):
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
+
+@when('we set the keychain password of "{journal}" to "{password}"')
+def set_keychain(context, journal, password):
+    keyring.set_password('jrnl', journal, password)
 
 @then('we should get an error')
 def has_error(context):
@@ -134,6 +139,11 @@ def check_message(context, text):
     out = context.messages.getvalue()
     assert text in out, [text, out]
 
+@then('we should not see the message "{text}"')
+def check_not_message(context, text):
+    out = context.messages.getvalue()
+    assert text not in out, [text, out]
+
 @then('the journal should contain "{text}"')
 @then('journal "{journal_name}" should contain "{text}"')
 def check_journal_content(context, text, journal_name="default"):
@@ -148,7 +158,8 @@ def journal_doesnt_exist(context, journal_name="default"):
     assert not os.path.exists(journal_path)
 
 @then('the config should have "{key}" set to "{value}"')
-def config_var(context, key, value):
+@then('the config for journal "{journal}" should have "{key}" set to "{value}"')
+def config_var(context, key, value, journal=None):
     t, value = value.split(":")
     value = {
         "bool": lambda v: v.lower() == "true",
@@ -157,6 +168,8 @@ def config_var(context, key, value):
     }[t](value)
     with open(jrnl.CONFIG_PATH) as config_file:
         config = json.load(config_file)
+    if journal:
+        config = config["journals"][journal]
     assert key in config
     assert config[key] == value
 
@@ -171,4 +184,3 @@ def check_journal_content(context, number, journal_name="default"):
 @then('fail')
 def debug_fail(context):
     assert False
-
