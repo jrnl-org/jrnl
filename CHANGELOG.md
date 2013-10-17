@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### 1.6.0
+
+* [Improved] Passwords are now saved in the key-chain. The `password` field in `.jrnl_config` is soft-deprecated.
+
 #### 1.5.7
 
 * [Improved] The `~` in journal config paths will now expand properly to e.g. `/Users/maebert`

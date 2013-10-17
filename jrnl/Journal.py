@@ -12,18 +12,13 @@ except ImportError: import parsedatetime.parsedatetime as pdt
 import re
 from datetime import datetime
 import time
-try: import simplejson as json
-except ImportError: import json
 import sys
-import glob
 try:
     from Crypto.Cipher import AES
     from Crypto import Random
     crypto_installed = True
 except ImportError:
     crypto_installed = False
-if "win32" in sys.platform: import pyreadline as readline
-else: import readline
 import hashlib
 try:
     import colorama
@@ -33,14 +28,13 @@ except ImportError:
 import plistlib
 import pytz
 import uuid
-
+from functools import partial
 
 class Journal(object):
-    def __init__(self, **kwargs):
+    def __init__(self, name='default', **kwargs):
         self.config = {
             'journal': "journal.txt",
             'encrypt': False,
-            'password': "",
             'default_hour': 9,
             'default_minute': 0,
             'timeformat': "%Y-%m-%d %H:%M",
@@ -54,7 +48,8 @@ class Journal(object):
         consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
         self.key = None  # used to decrypt and encrypt the journal
-        self.search_tags = None # Store tags we're highlighting
+        self.search_tags = None  # Store tags we're highlighting
+        self.name = name
 
         journal_txt = self.open()
         self.entries = self.parse(journal_txt)
@@ -77,7 +72,7 @@ class Journal(object):
             plain = crypto.decrypt(cipher[16:])
         except ValueError:
             util.prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
-            sys.exit(-1)
+            sys.exit(1)
         padding = " ".encode("utf-8")
         if not plain.endswith(padding):  # Journals are always padded
             return None
@@ -95,33 +90,23 @@ class Journal(object):
         plain += b" " * (AES.block_size - len(plain) % AES.block_size)
         return iv + crypto.encrypt(plain)
 
-    def make_key(self, prompt="Password: "):
+    def make_key(self, password):
         """Creates an encryption key from the default password or prompts for a new password."""
-        password = self.config['password'] or util.getpass(prompt)
         self.key = hashlib.sha256(password.encode("utf-8")).digest()
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
-        journal = None
+
+        def validate_password(journal, password):
+            self.make_key(password)
+            return self._decrypt(journal)
+
         if self.config['encrypt']:
             with open(filename, "rb") as f:
-                journal = f.read()
-            decrypted = None
-            attempts = 0
-            while decrypted is None:
-                self.make_key()
-                decrypted = self._decrypt(journal)
-                if decrypted is None:
-                    attempts += 1
-                    self.config['password'] = None  # This password doesn't work.
-                    if attempts < 3:
-                        util.prompt("Wrong password, try again.")
-                    else:
-                        util.prompt("Extremely wrong password.")
-                        sys.exit(-1)
-            journal = decrypted
+                journal_encrypted = f.read()
+            journal = util.get_password(keychain=self.name, validator=partial(validate_password, journal_encrypted))
         else:
             with codecs.open(filename, "r", "utf-8") as f:
                 journal = f.read()
