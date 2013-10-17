@@ -107,11 +107,14 @@ def touch_journal(filename):
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
-def update_config(config, new_config, scope):
+def update_config(config, new_config, scope, force_local=False):
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""
     if scope and type(config['journals'][scope]) is dict:  # Update to journal specific
+        config['journals'][scope].update(new_config)
+    elif scope and force_local:  # Convert to dict
+        config['journals'][scope] = {"journal": config['journals'][scope]}
         config['journals'][scope].update(new_config)
     else:
         config.update(new_config)
@@ -206,14 +209,14 @@ def cli(manual_args=None):
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
         if not args.encrypt:
-            update_config(original_config, {"encrypt": True}, journal_name)
+            update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
         if not args.decrypt:
-            update_config(original_config, {"encrypt": False}, journal_name)
+            update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.delete_last:
