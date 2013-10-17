@@ -49,7 +49,7 @@ def set_keychain(journal_name, password):
             keyring.delete_password('jrnl', journal_name)
         except:
             pass
-    else:
+    elif not TEST:
         keyring.set_password('jrnl', journal_name, password)
 
 def u(s):
@@ -69,7 +69,7 @@ def py23_input(msg):
 def yesno(prompt, default=True):
     prompt = prompt.strip() + (" [Yn]" if default else "[yN]")
     raw = py23_input(prompt)
-    return  {'y': True, 'n': False}.get(raw.lower(), default)
+    return {'y': True, 'n': False}.get(raw.lower(), default)
 
 def get_local_timezone():
     """Returns the Olson identifier of the local timezone.
