@@ -109,7 +109,7 @@ def touch_journal(filename):
 
 def update_config(config, new_config, scope):
     """Updates a config dict with new values - either global if scope is None
-    of config['journals'][scope] is just a string pointing to a journal file,
+    or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""
     if scope and type(config['journals'][scope]) is dict:  # Update to journal specific
         config['journals'][scope].update(new_config)
@@ -127,7 +127,7 @@ def cli(manual_args=None):
                 util.prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(CONFIG_PATH, e.message))
                 util.prompt("[Entry was NOT added to your journal]")
                 sys.exit(1)
-        install.update_config(config, config_path=CONFIG_PATH)
+        install.upgrade_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules

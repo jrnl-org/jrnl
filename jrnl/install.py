@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import readline, glob
+import readline
+import glob
 import getpass
 try: import simplejson as json
 except ImportError: import json
@@ -25,7 +26,6 @@ default_config = {
     },
     'editor': "",
     'encrypt': False,
-    'password': "",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
@@ -35,7 +35,7 @@ default_config = {
 }
 
 
-def update_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
+def upgrade_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are  introduced in later
     versions."""
