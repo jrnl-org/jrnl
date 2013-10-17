@@ -9,6 +9,7 @@
   "password": "",
   "journals": {
     "default": "features/journals/simple.journal",
+    "simple": "features/journals/simple.journal",
     "work": "features/journals/work.journal",
     "ideas": "features/journals/nothing.journal"
   },
