@@ -73,7 +73,8 @@ setup(
         "pytz>=2013b",
         "tzlocal==1.0",
         "slugify>=0.0.1",
-        "colorama>=0.2.5"
+        "colorama>=0.2.5",
+        "keyring>=3.0.5"
         ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
         "encrypted": "pycrypto>=2.6"

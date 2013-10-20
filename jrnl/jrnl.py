@@ -86,10 +86,12 @@ def get_text_from_editor(config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
-    journal.config['password'] = ""
-    journal.make_key(prompt="Enter new password:")
+    password = util.getpass("Enter new password: ")
+    journal.make_key(password)
     journal.config['encrypt'] = True
     journal.write(filename)
+    if util.yesno("Do you want to store the password in your keychain?", default=True):
+        util.set_keychain(journal.name, password)
     util.prompt("Journal encrypted to {0}.".format(filename or journal.config['journal']))
 
 def decrypt(journal, filename=None):
@@ -105,15 +107,17 @@ def touch_journal(filename):
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
-def update_config(config, new_config, scope):
+def update_config(config, new_config, scope, force_local=False):
     """Updates a config dict with new values - either global if scope is None
-    of config['journals'][scope] is just a string pointing to a journal file,
+    or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""
-    if scope and type(config['journals'][scope]) is dict: # Update to journal specific
+    if scope and type(config['journals'][scope]) is dict:  # Update to journal specific
+        config['journals'][scope].update(new_config)
+    elif scope and force_local:  # Convert to dict
+        config['journals'][scope] = {"journal": config['journals'][scope]}
         config['journals'][scope].update(new_config)
     else:
         config.update(new_config)
-
 
 def cli(manual_args=None):
     if not os.path.exists(CONFIG_PATH):
@@ -126,7 +130,7 @@ def cli(manual_args=None):
                 util.prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(CONFIG_PATH, e.message))
                 util.prompt("[Entry was NOT added to your journal]")
                 sys.exit(1)
-        install.update_config(config, config_path=CONFIG_PATH)
+        install.upgrade_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules
@@ -142,9 +146,9 @@ def cli(manual_args=None):
     if journal_name is not 'default':
         args.text = args.text[1:]
     journal_conf = config['journals'].get(journal_name)
-    if type(journal_conf) is dict: # We can override the default config on a by-journal basis
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
         config.update(journal_conf)
-    else: # But also just give them a string to point to the journal file
+    else:  # But also just give them a string to point to the journal file
         config['journal'] = journal_conf
     config['journal'] = os.path.expanduser(config['journal'])
     touch_journal(config['journal'])
@@ -159,7 +163,7 @@ def cli(manual_args=None):
             util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
             sys.exit(1)
     else:
-        journal = Journal.Journal(**config)
+        journal = Journal.Journal(journal_name, **config)
 
     if mode_compose and not args.text:
         if config['editor']:
@@ -205,22 +209,21 @@ def cli(manual_args=None):
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
         if not args.encrypt:
-            update_config(original_config, {"encrypt": True, "password": ""}, journal_name)
+            update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
         if not args.decrypt:
-            update_config(original_config, {"encrypt": False, "password": ""}, journal_name)
+            update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.delete_last:
         last_entry = journal.entries.pop()
         util.prompt("[Deleted Entry:]")
-        print(last_entry)
+        print(last_entry.pprint())
         journal.write()
 
 if __name__ == "__main__":
     cli()
-
