@@ -99,14 +99,21 @@ class Journal(object):
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
 
-        def validate_password(journal, password):
-            self.make_key(password)
-            return self._decrypt(journal)
 
         if self.config['encrypt']:
             with open(filename, "rb") as f:
                 journal_encrypted = f.read()
-            journal = util.get_password(keychain=self.name, validator=partial(validate_password, journal_encrypted))
+
+            def validate_password(password):
+                self.make_key(password)
+                return self._decrypt(journal_encrypted)
+
+            # Soft-deprecated:
+            journal = None
+            if 'password' in self.config:
+                journal = validate_password(self.config['password'])
+            if not journal:
+                journal = util.get_password(keychain=self.name, validator=validate_password)
         else:
             with codecs.open(filename, "r", "utf-8") as f:
                 journal = f.read()
