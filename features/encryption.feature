@@ -1,4 +1,4 @@
-    Feature: Multiple journals
+    Feature: Encrypted journals
 
         Scenario: Loading an encrypted journal
             Given we use the config "encrypted.json"
@@ -21,6 +21,11 @@
             When we run "jrnl -n 1" and enter "swordfish"
             Then we should see the message "Password"
             and the output should contain "2013-06-10 15:40 Life is good"
+
+        Scenario: Loading an encrypted journal with password in config
+            Given we use the config "encrypted_with_pw.json"
+            When we run "jrnl -n 1"
+            Then the output should contain "2013-06-10 15:40 Life is good"
 
         Scenario: Storing a password in Keychain
             Given we use the config "multiple.json"
