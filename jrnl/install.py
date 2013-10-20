@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import readline, glob
+import readline
+import glob
 import getpass
 try: import simplejson as json
 except ImportError: import json
@@ -25,7 +26,6 @@ default_config = {
     },
     'editor': "",
     'encrypt': False,
-    'password': "",
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
@@ -35,7 +35,7 @@ default_config = {
 }
 
 
-def update_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
+def upgrade_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are  introduced in later
     versions."""
@@ -73,18 +73,19 @@ def install_jrnl(config_path='~/.jrnl_config'):
         password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
         if password:
             default_config['encrypt'] = True
+            if util.yesno("Do you want to store the password in your keychain?", default=True):
+                util.set_keychain("default", password)
             print("Journal will be encrypted.")
-            print("If you want to, you can store your password in .jrnl_config and will never be bothered about it again.")
     else:
         password = None
-        print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
+        print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org or with 'pip install pycrypto' and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
 
     # Use highlighting:
     if not module_exists("colorama"):
         print("colorama not found. To turn on highlighting, install colorama and set highlight to true in your .jrnl_conf.")
         default_config['highlight'] = False
 
-    open(default_config['journals']['default'], 'a').close() # Touch to make sure it's there
+    open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
 
     # Write config to ~/.jrnl_conf
     with open(config_path, 'w') as f:
