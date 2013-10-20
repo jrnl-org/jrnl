@@ -6,6 +6,7 @@ import sys
 import json
 import pytz
 import keyring
+keyring.set_keyring(keyring.backends.file.PlaintextKeyring())
 try:
     from io import StringIO
 except ImportError:
