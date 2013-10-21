@@ -67,7 +67,7 @@ def py23_input(msg):
     return STDIN.readline().strip()
 
 def yesno(prompt, default=True):
-    prompt = prompt.strip() + (" [Yn]" if default else "[yN]")
+    prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
     raw = py23_input(prompt)
     return {'y': True, 'n': False}.get(raw.lower(), default)
 
