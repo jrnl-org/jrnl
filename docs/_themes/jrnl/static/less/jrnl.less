@@ -17,11 +17,11 @@
 .icon,
     {
     .sprite("../img/icons.png", 32px, 5, 3, 8px);
-    &.share  {.sprite(0, 0)};
+    &.secure {.sprite(0, 0)};
     &.future {.sprite(1, 0)};
     &.search {.sprite(2, 0)};
     &.nli    {.sprite(3, 0)};
-    &.secure {.sprite(4, 0)};
+    &.share  {.sprite(0, 1)};
     &.sync   {.sprite(0, 1)};
     &.dayone {.sprite(1, 1)};
     &.github {.sprite(2, 1)};
@@ -88,6 +88,24 @@ body#landing
     background-color: @purple;
     font-family: "Open Sans", "Helvetica Neue", sans-serif;
     font-weight: 300;
+    #twitter
+        {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: 1px solid @purple;
+        padding: 5px 10px 5px 30px;
+        color: @purple;
+        .border-radius(3px);
+        .opacity(.7);
+        background: url(../img/twitter.png) 8px center no-repeat transparent;
+        &:hover, &:active
+            {
+            .opacity(1);
+            text-decoration: none;
+            }
+        }
     #title, .row3, .row4, #prompt
         {
         width: 900px;
@@ -145,6 +163,7 @@ body#landing
         height: 60px;
         .box-shadow(0px 6px 6px -3px @purple-shade);
         text-align: center;
+        a#twitter-nav {display: none;}
         a
             {
             color: @white;
@@ -165,6 +184,7 @@ body#landing
             .box-shadow(0px 1px 0px @purple-shade);
             .border-radius(5px);
             padding: 6px 10px 5px 10px;
+            white-space: nowrap;
             &:hover
                 {
                 .gradient(lighten(@orange, 10), darken(@orange, 5));
@@ -213,5 +233,83 @@ body#landing
         }
         .row3 .col { width: 33.3333%; }
         .row4 .col { color: mix(@white, @purple, 80); i {.opacity(80);}}
+        }
+    }
+
+@media screen and (max-width: 680px)
+    {
+    body#landing
+        {
+        #nav
+            {
+            height: auto;
+            padding-bottom: 10px;
+            a, a#twitter-nav
+                {
+                display: block;
+                }
+            a.cta
+                {
+                margin: 10px;
+                padding: 1px;
+                }
+            }
+        #upper
+            {
+            #twitter { display: none;}
+            #title
+                {
+                    margin: 30px 0 10px 0;
+                }
+            #logo
+                {
+                backgound: red;
+                display: block;
+                float: none;
+                margin: 0px auto;
+                }
+            #title br {display: none;}
+            .pleft, .pright {display: none;}
+            #prompt, #title
+                {
+                width: 100%;
+                .border-box-sizing;
+                padding: 0px 20px;
+                }
+            .terminal
+                {
+                width: 100%;
+                }
+            }
+        }
+    }
+
+@media screen and (max-width: 900px)
+    {
+    body#landing
+        {
+        #lower
+            {
+            padding: 40px 20px;
+            .row3, .row4
+                {
+                width: auto;
+                }
+            .row3 .col, .row4 .col
+                {
+                float: none;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 40px;
+                h3 {font-size: 1.5em;}
+                p {font-size: 1em;}
+
+                i
+                    {
+                    position: static;
+                    margin-bottom: -20px;
+                    }
+                }
+            }
         }
     }
