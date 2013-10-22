@@ -5,6 +5,15 @@ body
     color: #333;
     background: @white;
     }
+body:not(.landing)
+    {
+    padding:0px 20px;
+    padding-top: 40px;
+    h2
+        {
+        margin-top: 40px;
+        }
+    }
 input
     {
     background: transparent;
@@ -45,6 +54,17 @@ a:hover, a:active
     text-decoration: underline;
     color: lighten(@orange, 10);
     }
+
+.literal
+    {
+    color: @purple;
+    font-size: 1em;
+    background: lighten(@purple-light, 45);
+    padding: 1px 2px;
+    .border-radius(2px);
+    .box-shadow(inset 0px 0px 0px 1px lighten(@purple-light, 30));
+    }
+
 .note
     {
     .gradient(lighten(@purple-light, 10), lighten(@purple-light-shade, 10));
@@ -65,11 +85,38 @@ a:hover, a:active
         margin: auto;
         top: 0; bottom: 0; left: 20px;
         }
+    .literal, .highlight-note
+        {
+        color: white;
+        background: darken(@purple-light, 3);
+        padding: 1px 3px;
+        .border-radius(2px);
+        .box-shadow(inset 0px 0px 0px 1px lighten(@purple-light, 10));
+        }
+    .highlight-note
+        {
+        padding: 1px 10px;
+        pre:before
+            {
+            content: "$ ";
+            color: @orange;
+            }
+        }
     }
 
+.highlight
+    {
+    background:transparent !important;
+    }
 .highlight-output
     {
     .pre-block;
+    background: desaturate(lighten(@terminal,10), 10);
+    }
+.highlight-javascript
+    {
+    .pre-block;
+    background: desaturate(lighten(@terminal,10), 10);
     }
 .highlight-python
     {
@@ -99,7 +146,9 @@ tt
     color: @purple;
     font-size: 1.2em;
     }
-
+ul li {
+    margin-bottom: 10px;
+}
 
 div.document
     {
@@ -119,15 +168,16 @@ aside
     top: 0px;
     .logo
         {
-        margin: 0 0 20px 0px;
-        background: green;
+        margin: 0 auto 20px auto;
+        display: block;
         width: 90px;
         height: 98px;
         }
-    }
-.sphinxsidebarwrapper
-    {
     color: #999;
+    h2, h3, h3 a:link, h3 a:visited
+        {
+        color: #777;
+        }
 
     a:link, a:visited
         {
@@ -146,5 +196,82 @@ aside
         margin: 0 4px;
         padding: 0;
         list-style: none;
+        &>li
+            {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #777;
+            a:link, a:visited {color: #777;}
+            ul
+                {
+                margin: 10px 0 0 0;
+                padding-left: 20px;
+                font-size: 16px;
+                color: #999;
+                a:link, a:visited {color: #999;}
+                }
+            }
         }
+    }
+
+div.footer
+    {
+    font-size: .8em;
+    text-align: center;
+    margin: 40px 0;
+    color: #999;
+    a:link, a:visited {color: #555;}
+    }
+
+@media screen and (max-width: 820px)
+    {
+        body:not(.landing){
+            padding-top: 130px;
+            .highlight-output,.highlight-python, .highlight-javascript
+                {
+                width: auto;
+                max-width: 500px;
+                }
+            .highlight-python
+                {
+                pre { margin: -10px 0 10px 0;}
+                &:before
+                    {
+                    height: 24px !important;
+                    line-height: 24px;
+                    font-size: .7em;
+                    }
+                &:after
+                    {
+                    background: none;
+                    }
+                }
+            aside
+                {
+                position: static;
+                }
+            div.documentwrapper
+                {
+                margin: 0px;
+                }
+            h1, .section
+                {
+                margin: 0px !important;
+                }
+            aside
+                {
+                background-color: #f0f0f0;
+                width: 100%;
+                margin: 5px -20px;
+                padding: 5px 20px 10px 20px;
+                }
+            #logolink
+                {
+                position: absolute;
+                top: -120px;
+                left: 50%;
+                margin-left: -49px;
+                }
+        }
+
     }

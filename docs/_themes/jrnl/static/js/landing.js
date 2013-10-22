@@ -14,9 +14,12 @@ var output = document.getElementById("output");
 var right = document.getElementById("right");
 var left = document.getElementById("left");
 var current = 0
+var timer = null;
 
 var next = function() {
+    clearTimeout(timer);
     reveal(++current % phrases.length);
+    setTimeout(next, 5000);
 }
 var prev = function() {
     reveal(--current % phrases.length);
@@ -86,3 +89,4 @@ var letter = function(text, element, next, timeout, index) {
     var nx = function() { letter(text, element, next, timeout, ++index); }
     setTimeout(nx, timeout);
 }
+setTimeout(next, 3000);
