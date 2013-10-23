@@ -44,7 +44,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'jrnl'
-copyright = u'2013, <a href="http://www.1450.me">Manuel Ebert</a>'
+copyright = u'Journal is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributtors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

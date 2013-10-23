@@ -14,7 +14,7 @@
 
   {%- block sidebar2 %}
   <aside>
-    <a href="/" id="logolink" title="jrnl"><img class="logo" src="{{ pathto('_static/img/logo.png', 1) }}" title="jrnl"/></a>
+    <a href="/" id="logolink" title="jrnl"><img class="logo" src="{{ pathto('_static/img/logo.png', 1) }}" width="90px" height="98px" title="jrnl"/></a>
     <h2>Documentation</h2>
     {{ toctree() }}
     {%- include "searchbox.html" %}
@@ -23,7 +23,7 @@
 
   {%- block footer %}
       <div class="footer">
-        Journal is made with love by {{ copyright }} and other fabulous people. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
+          {{ copyright }}
       </div>
   {%- endblock %}
 {% endif %}
