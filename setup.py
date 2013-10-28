@@ -70,7 +70,11 @@ setup(
     packages = ['jrnl'],
     install_requires = [
         "parsedatetime>=1.1.2",
-        "colorama>=0.2.5"
+        "pytz>=2013b",
+        "tzlocal==1.0",
+        "slugify>=0.0.1",
+        "colorama>=0.2.5",
+        "keyring>=3.0.5"
         ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
         "encrypted": "pycrypto>=2.6"
@@ -89,14 +93,16 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Office/Business :: News/Diary',
         'Topic :: Text Processing'
     ],
     # metadata for upload to PyPI
     author = "Manuel Ebert",
-    author_email = "manuel@hey.com",
+    author_email = "manuel@1450.me",
     license = "MIT License",
     keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://maebert.github.com/jrnl",
+    url = "http://maebert.github.io/jrnl",
 )

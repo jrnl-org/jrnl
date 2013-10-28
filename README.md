@@ -1,6 +1,8 @@
 jrnl [![Build Status](https://travis-ci.org/maebert/jrnl.png?branch=master)](https://travis-ci.org/maebert/jrnl)
 ====
 
+_For news on updates or to get help, follow [@maebert](https://twitter.com/maebert) or [submit an issue](https://github.com/maebert/jrnl/issues/new) on Github._
+
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
 *jrnl* also plays nice with the fabulous [DayOne](http://dayoneapp.com/) and can read and write directly from and to DayOne Journals.
@@ -56,7 +58,7 @@ _jrnl_ has two modes: __composing__ and __viewing__.
 
 will list you the ten latest entries,
 
-    jrnl -from "last year" -to march
+    jrnl -from "last year" -until march
 
 everything that happened from the start of last year to the start of last march. If you only want to see the titles of your entries, use
 
@@ -114,15 +116,48 @@ you'll get a list of all tags you used in your journal, sorted by most frequent.
 
 Can do:
 
-    jrnl --json
+    jrnl --export json
 
 Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
 
 ### Markdown export
 
-    jrnl --markdown
+Use:
+
+    jrnl --export markdown
+
+or
+
+    jrnl --export md
 
 Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
+
+### Text export
+
+    jrnl --export text
+
+or
+
+    jrnl --export txt
+
+Prettyprints your entire journal.
+
+### Export to files
+
+You can specify the output file of your exported journal using the `-o` argument:
+
+    jrnl --export md -o journal.md
+
+The above command will generate a file named `journal.md`. If the `-o` argument is a directory, jrnl will export each entry into an individual file:
+
+    jrnl --export json -o my_entries/
+
+The contents of `my_entries/` will then look like this:
+
+    my_entries/
+    |- 2013_06_03_a-beautiful-day.json
+    |- 2013_06_07_dinner-with-gabriel.json
+    |- ...
 
 Encryption
 ----------
@@ -150,7 +185,6 @@ The configuration file is a simple JSON file with the following options.
 - `journals`: paths to your journal files
 - `editor`: if set, executes this command to launch an external editor for writing your entries, e.g. `vim` or `subl -w` (note the `-w` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal).
 - `encrypt`: if `true`, encrypts your journal using AES.
-- `password`: you may store the password you used to encrypt your journal in plaintext here. This is useful if your journal file lives in an unsecure space (ie. your Dropbox), but the config file itself is more or less safe.
 - `tagsymbols`: Symbols to be interpreted as tags. (__See note below__)
 - `default_hour` and `default_minute`: if you supply a date, such as `last thursday`, but no specific time, the entry will be created at this time
 - `timeformat`: how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
@@ -169,11 +203,11 @@ The configuration file is a simple JSON file with the following options.
 
 ### DayOne Integration
 
-Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, set the `"journal"` key in your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
+Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, change your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
 
-    * `~/Library/Application Support/Day One/` by default
-    * `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
-    * `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
+* `~/Library/Application Support/Day One/` by default
+* `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
+* `~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
 
@@ -227,4 +261,8 @@ Known Issues
 
 - The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with `chcp 1252` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
 - _jrnl_ relies on the `PyCrypto` package to encrypt journals, which has some known problems with installing on Windows and within virtual environments. If you have trouble installing __jrnl__, [install PyCyrypto manually](https://www.dlitz.net/software/pycrypto/) first.
+
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/maebert/jrnl/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

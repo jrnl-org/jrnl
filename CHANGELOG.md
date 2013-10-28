@@ -1,7 +1,69 @@
 Changelog
 =========
 
-#### 1.1.0
+#### 1.6.0
+
+* [Improved] Passwords are now saved in the key-chain. The `password` field in `.jrnl_config` is soft-deprecated.
+
+#### 1.5.7
+
+* [Improved] The `~` in journal config paths will now expand properly to e.g. `/Users/maebert`
+
+#### 1.5.6
+
+* [Fixed] Fixed a bug where on OS X, the timezone could only be accessed on administrator accounts.
+
+#### 1.5.5
+
+* [Fixed] Detects DayOne journals stored in `~/Library/Mobile Data` as well.
+
+#### 1.5.4
+
+* [New] DayOne journals can now handle tags
+
+#### 1.5.3
+
+* [Fixed] DayOne integration with older DayOne Journals
+
+#### 1.5.2
+
+* [Improved] Soft-deprecated `-to` for filtering by time and introduces `-until` instead.
+
+#### 1.5.1
+
+* [Fixed] Fixed a bug introduced in 1.5.0 that caused the entire journal to be printed after composing an entry
+
+### 1.5.0
+
+* [Improved] Exporting, encrypting and displaying tags now takes your filter options into account. So you could export everything before May 2012: `jrnl -to 'may 2012' --export json`. Or encrypt all entries tagged with `@work` into a new journal: `jrnl @work --encrypt work_journal.txt`. Or display all tags of posts where Bob is also tagged: `jrnl @bob --tags`
+
+#### 1.4.2
+
+* [Fixed] Tagging works again
+* Meta-info for PyPi updated
+
+### 1.4.0
+
+* [Improved] Unifies encryption between Python 2 and 3. If you have problems reading encrypted journals afterwards, first decrypt your journal with the __old__ jrnl version (install with `pip install jrnl==1.3.1`, then `jrnl --decrypt`), upgrade jrnl (`pip install jrnl --upgrade`) and encrypt it again (`jrnl --encrypt`).
+
+#### 1.3.2
+
+* [Improved] Everything that is not direct output of jrnl will be written stderr to improve integration
+
+### 1.3.0
+
+* [New] Export to multiple files
+* [New] Feature to export to given output file
+
+#### 1.1.2
+
+* [Fixed] Timezone support for DayOne
+
+#### 1.1.1
+
+* [Fixed] Unicode and Python3 issues resolved.
+
+### 1.1.0
 
 * [New] JSON export exports tags as well.
 * [Improved] Nicer error message when there is a syntactical error in your config file.

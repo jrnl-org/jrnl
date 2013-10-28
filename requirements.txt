@@ -1,4 +1,8 @@
 parsedatetime >= 1.1.2
+pytz >= 2013b
 colorama >= 0.2.5
 pycrypto >= 2.6
 argparse==1.2.1
+tzlocal == 1.0
+slugify==0.0.1
+keyring==3.0.5
