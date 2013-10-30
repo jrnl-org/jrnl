@@ -61,6 +61,8 @@ def prompt(msg):
     """Prints a message to the std err stream defined in util."""
     if not msg.endswith("\n"):
         msg += "\n"
+    print "barf"
+    print msg 
     STDERR.write(u(msg))
 
 def py23_input(msg):
