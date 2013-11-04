@@ -4,7 +4,7 @@
 jrnl: The command-line journal
 ==============================
 
-Release v\ |version|. (:ref:`Installation <install>`)
+Release v\ |version|.
 
 Contents:
 
