@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### 1.6.2
+
+* [Improved] Starring entries now works for plain-text journals too!
+
 #### 1.6.1
 
 * [Improved] Attempts to fix broken config files automatically

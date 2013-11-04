@@ -133,12 +133,20 @@ class Journal(object):
         for line in journal.splitlines():
             try:
                 # try to parse line as date => new entry begins
+                line = line.strip()
                 new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
 
                 # parsing successfull => save old entry and create new one
                 if new_date and current_entry:
                     entries.append(current_entry)
-                current_entry = Entry.Entry(self, date=new_date, title=line[date_length+1:])
+
+                if line.endswith("*"):
+                    starred = True
+                    line = line[:-1]
+                else:
+                    starred = False
+
+                current_entry = Entry.Entry(self, date=new_date, title=line[date_length+1:], starred=starred)
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
@@ -153,9 +161,12 @@ class Journal(object):
         return entries
 
     def __unicode__(self):
+        return self.pprint()
+
+    def pprint(self, short=False):
         """Prettyprints the journal's entries"""
         sep = "\n"
-        pp = sep.join([e.pprint() for e in self.entries])
+        pp = sep.join([e.pprint(short=short) for e in self.entries])
         if self.config['highlight']:  # highlight tags
             if self.search_tags:
                 for tag in self.search_tags:
@@ -168,9 +179,6 @@ class Journal(object):
                             lambda match: self._colorize(match.group(0)),
                             pp)
         return pp
-
-    def pprint(self):
-        return self.__unicode__()
 
     def __repr__(self):
         return "<Journal with {0} entries>".format(len(self.entries))
@@ -196,13 +204,15 @@ class Journal(object):
         if n:
             self.entries = self.entries[-n:]
 
-    def filter(self, tags=[], start_date=None, end_date=None, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
         tag symbols defined in the config, e.g. ["@John", "#WorldDomination"].
 
         start_date and end_date define a timespan by which to filter.
+
+        starred limits journal to starred entries
 
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
@@ -214,6 +224,7 @@ class Journal(object):
         result = [
             entry for entry in self.entries
             if (not tags or tagged(entry.tags))
+            and (not starred or entry.starred)
             and (not start_date or entry.date > start_date)
             and (not end_date or entry.date < end_date)
         ]
@@ -233,17 +244,23 @@ class Journal(object):
                     e.body = ''
         self.entries = result
 
-    def parse_date(self, date):
+    def parse_date(self, date_str):
         """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
-        if not date:
+        if not date_str:
             return None
-        elif type(date) is datetime:
-            return date
+        elif isinstance(date_str, datetime):
+            return date_str
 
-        date, flag = self.dateparse.parse(date)
+        date, flag = self.dateparse.parse(date_str)
 
         if not flag:  # Oops, unparsable.
-            return None
+            try: # Try and parse this as a single year
+                year = int(date_str)
+                return datetime(year, 1, 1)
+            except ValueError:
+                return None
+            except TypeError:
+                return None
 
         if flag is 1:  # Date found, but no time. Use the default time.
             date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
@@ -264,7 +281,7 @@ class Journal(object):
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
-
+        starred = False
         # Split raw text into title and body
         title_end = len(raw)
         for separator in ["\n", ". ", "? ", "! "]:
@@ -273,15 +290,22 @@ class Journal(object):
                 title_end = sep_pos
         title = raw[:title_end+1]
         body = raw[title_end+1:].strip()
+        starred = False
         if not date:
             if title.find(":") > 0:
+                starred =  "*" in title[:title.find(":")]
                 date = self.parse_date(title[:title.find(":")])
-                if date:  # Parsed successfully, strip that from the raw text
+                if date or starred:  # Parsed successfully, strip that from the raw text
                     title = title[title.find(":")+1:].strip()
+            elif title.strip().startswith("*"):
+                starred = True
+                title = title[1:].strip()
+            elif title.strip().endswith("*"):
+                starred = True
+                title = title[:-1].strip()
         if not date:  # Still nothing? Meh, just live in the moment.
             date = self.parse_date("now")
-
-        entry = Entry.Entry(self, date, title, body)
+        entry = Entry.Entry(self, date, title, body, starred=starred)
         self.entries.append(entry)
         if sort:
             self.sort()
