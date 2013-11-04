@@ -6,12 +6,13 @@ import textwrap
 from datetime import datetime
 
 class Entry:
-    def __init__(self, journal, date=None, title="", body=""):
+    def __init__(self, journal, date=None, title="", body="", starred=False):
         self.journal = journal # Reference to journal mainly to access it's config
         self.date = date or datetime.now()
         self.title = title.strip()
         self.body = body.strip()
         self.tags = self.parse_tags()
+        self.starred = starred
 
     def parse_tags(self):
         fulltext = " ".join([self.title, self.body]).lower()
@@ -23,6 +24,8 @@ class Entry:
         """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
         title = date_str + " " + self.title
+        if self.starred:
+            title += " *"
         body = self.body.strip()
 
         return u"{title}{sep}{body}\n".format(
@@ -31,10 +34,11 @@ class Entry:
             body=body
         )
 
-    def pprint(self):
-        """Returns a pretty-printed version of the entry."""
+    def pprint(self, short=False):
+        """Returns a pretty-printed version of the entry.
+        If short is true, only print the title."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        if self.journal.config['linewrap']:
+        if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
                     textwrap.fill(line+" ",
@@ -51,11 +55,14 @@ class Entry:
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
 
-        return u"{title}{sep}{body}\n".format(
-            title=title,
-            sep="\n" if has_body else "",
-            body=body if has_body else "",
-        )
+        if short:
+            return title
+        else:
+            return u"{title}{sep}{body}\n".format(
+                title=title,
+                sep="\n" if has_body else "",
+                body=body if has_body else "",
+            )
 
     def __repr__(self):
         return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
@@ -65,7 +72,8 @@ class Entry:
             'title': self.title.strip(),
             'body': self.body.strip(),
             'date': self.date.strftime("%Y-%m-%d"),
-            'time': self.date.strftime("%H:%M")
+            'time': self.date.strftime("%H:%M"),
+            'starred': self.starred
         }
 
     def to_md(self):

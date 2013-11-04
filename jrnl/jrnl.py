@@ -30,22 +30,21 @@ PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
-    composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
-    composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
-    composing.add_argument('-star', dest='star', help='Stars an entry (DayOne journals only)', action="store_true")
-    composing.add_argument('text', metavar='text', nargs="*",  help='Log entry (or tags by which to filter in viewing mode)')
+    composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
+    composing.add_argument('text', metavar='', nargs="*")
 
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
+    reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
-    reading.add_argument('-short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
+    exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
-    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON or Text', nargs='?', default=False, const=None)
-    exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', nargs='?', default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON or Text', default=False, const=None)
+    exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', default=False, const=None)
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
@@ -56,13 +55,13 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or args.tags or args.delete_last:
+    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.delete_last)):
         compose = False
         export = True
-    elif args.start_date or args.end_date or args.limit or args.strict or args.short:
+    elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
-    elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
+    elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
@@ -172,15 +171,15 @@ def cli(manual_args=None):
         raw = " ".join(args.text).strip()
         if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
-        entry = journal.new_entry(raw, args.date)
-        entry.starred = args.star
+        entry = journal.new_entry(raw)
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
     else:
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
-                       short=args.short)
+                       short=args.short,
+                       starred=args.starred)
         journal.limit(args.limit)
 
     # Reading mode
@@ -188,6 +187,9 @@ def cli(manual_args=None):
         print(journal.pprint())
 
     # Various export modes
+    elif args.short:
+        print(journal.pprint(short=True))
+
     elif args.tags:
         print(exporters.to_tag_list(journal))
 
