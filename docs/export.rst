@@ -3,7 +3,6 @@
 Import and Export
 =================
 
-
 Tag export
 ----------
 
@@ -13,6 +12,13 @@ With::
 
 you'll get a list of all tags you used in your journal, sorted by most frequent. Tags occurring several times in the same entry are only counted as one.
 
+List of all entries
+-------------------
+
+    jrnl --short
+
+Will only display the date and title of each entry.
+
 JSON export
 -----------
 
@@ -20,7 +26,7 @@ Can do::
 
     jrnl --export json
 
-Why not create a beautiful [timeline](http://timeline.verite.co/) of your journal?
+Why not create a `beautiful timeline <http://timeline.verite.co/>`_ of your journal?
 
 Markdown export
 ---------------
@@ -28,10 +34,6 @@ Markdown export
 Use::
 
     jrnl --export markdown
-
-or::
-
-    jrnl --export md
 
 Markdown is a simple markup language that is human readable and can be used to be rendered to other formats (html, pdf). This README for example is formatted in markdown and github makes it look nice.
 
@@ -41,10 +43,6 @@ Text export
 ::
 
     jrnl --export text
-
-or ::
-
-    jrnl --export txt
 
 Pretty-prints your entire journal.
 
