@@ -6,6 +6,9 @@ from tzlocal import get_localzone
 import getpass as gp
 import keyring
 import pytz
+try: import simplejson as json
+except ImportError: import json
+import re
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -88,3 +91,29 @@ def get_local_timezone():
     if not __cached_tz or __cached_tz not in pytz.all_timezones_set:
         __cached_tz = "UTC"
     return __cached_tz
+
+def load_and_fix_json(json_path):
+    """Tries to load a json object from a file.
+    If that fails, tries to fix common errors (no or extra , at end of the line).
+    """
+    with open(json_path) as f:
+        json_str = f.read()
+    config = fixed = None
+    try:
+        return json.loads(json_str)
+    except ValueError as e:
+        # Attempt to fix extra ,
+        json_str = re.sub(r",[ \n]*}", "}", json_str)
+        # Attempt to fix missing ,
+        json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
+        try:
+            config = json.loads(json_str)
+            with open(json_path, 'w') as f:
+                json.dump(config, f, indent=2)
+            prompt("[Some errors in your jrnl config have been fixed for you.]")
+            return config
+        except ValueError as e:
+            prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
+            prompt("[Entry was NOT added to your journal]")
+            sys.exit(1)
+
