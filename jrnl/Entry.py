@@ -68,7 +68,8 @@ class Entry:
             'title': self.title.strip(),
             'body': self.body.strip(),
             'date': self.date.strftime("%Y-%m-%d"),
-            'time': self.date.strftime("%H:%M")
+            'time': self.date.strftime("%H:%M"),
+            'starred': self.starred
         }
 
     def to_md(self):
