@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### 1.6.1
+
+* [Improved] Attempts to fix broken config files automatically
+
 #### 1.6.0
 
 * [Improved] Passwords are now saved in the key-chain. The `password` field in `.jrnl_config` is soft-deprecated.

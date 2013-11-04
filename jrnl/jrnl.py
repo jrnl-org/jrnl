@@ -22,8 +22,6 @@ import tempfile
 import subprocess
 import argparse
 import sys
-try: import simplejson as json
-except ImportError: import json
 
 xdg_config = os.environ.get('XDG_CONFIG_HOME')
 CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
@@ -123,13 +121,7 @@ def cli(manual_args=None):
     if not os.path.exists(CONFIG_PATH):
         config = install.install_jrnl(CONFIG_PATH)
     else:
-        with open(CONFIG_PATH) as f:
-            try:
-                config = json.load(f)
-            except ValueError as e:
-                util.prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(CONFIG_PATH, e.message))
-                util.prompt("[Entry was NOT added to your journal]")
-                sys.exit(1)
+        config = util.load_and_fix_json(CONFIG_PATH)
         install.upgrade_config(config, config_path=CONFIG_PATH)
 
     original_config = config.copy()
