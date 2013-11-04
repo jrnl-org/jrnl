@@ -6,12 +6,13 @@ import textwrap
 from datetime import datetime
 
 class Entry:
-    def __init__(self, journal, date=None, title="", body=""):
+    def __init__(self, journal, date=None, title="", body="", starred=False):
         self.journal = journal # Reference to journal mainly to access it's config
         self.date = date or datetime.now()
         self.title = title.strip()
         self.body = body.strip()
         self.tags = self.parse_tags()
+        self.starred = starred
 
     def parse_tags(self):
         fulltext = " ".join([self.title, self.body]).lower()
@@ -23,6 +24,8 @@ class Entry:
         """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
         title = date_str + " " + self.title
+        if self.starred:
+            title += " *"
         body = self.body.strip()
 
         return u"{title}{sep}{body}\n".format(

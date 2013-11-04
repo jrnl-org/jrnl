@@ -39,6 +39,7 @@ def parse_args(args=None):
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
+    reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
     reading.add_argument('-short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
 
@@ -59,10 +60,10 @@ def guess_mode(args, config):
     if args.decrypt is not False or args.encrypt is not False or args.export is not False or args.tags or args.delete_last:
         compose = False
         export = True
-    elif args.start_date or args.end_date or args.limit or args.strict or args.short:
+    elif any((args.start_date, args.end_date, args.limit, args.strict, args.short, args.starred)):
         # Any sign of displaying stuff?
         compose = False
-    elif not args.date and args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
+    elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
@@ -180,7 +181,8 @@ def cli(manual_args=None):
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
-                       short=args.short)
+                       short=args.short,
+                       starred=args.starred)
         journal.limit(args.limit)
 
     # Reading mode
