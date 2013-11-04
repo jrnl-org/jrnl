@@ -244,14 +244,14 @@ class Journal(object):
                     e.body = ''
         self.entries = result
 
-    def parse_date(self, date):
+    def parse_date(self, date_str):
         """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
-        if not date:
+        if not date_str:
             return None
-        elif type(date) is datetime:
-            return date
+        elif isinstance(date_str, datetime):
+            return date_str
 
-        date, flag = self.dateparse.parse(date)
+        date, flag = self.dateparse.parse(date_str)
 
         if not flag:  # Oops, unparsable.
             try: # Try and parse this as a single year
