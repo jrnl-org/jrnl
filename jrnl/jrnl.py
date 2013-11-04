@@ -30,10 +30,8 @@ PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
-    composing = parser.add_argument_group('Composing', 'Will make an entry out of whatever follows as arguments')
-    composing.add_argument('-date', dest='date', help='Date, e.g. "yesterday at 5pm"')
-    composing.add_argument('-star', dest='star', help='Stars an entry (DayOne journals only)', action="store_true")
-    composing.add_argument('text', metavar='text', nargs="*",  help='Log entry (or tags by which to filter in viewing mode)')
+    composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
+    composing.add_argument('text', metavar='', nargs="*")
 
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
@@ -173,8 +171,7 @@ def cli(manual_args=None):
         raw = " ".join(args.text).strip()
         if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
-        entry = journal.new_entry(raw, args.date)
-        entry.starred = args.star
+        entry = journal.new_entry(raw)
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
     else:
