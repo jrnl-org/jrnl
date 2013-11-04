@@ -39,12 +39,12 @@ def parse_args(args=None):
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
-    reading.add_argument('-short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
+    exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
-    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON or Text', nargs='?', default=False, const=None)
-    exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', nargs='?', default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON or Text', default=False, const=None)
+    exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', default=False, const=None)
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
@@ -55,10 +55,10 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or args.tags or args.delete_last:
+    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.delete_last)):
         compose = False
         export = True
-    elif any((args.start_date, args.end_date, args.limit, args.strict, args.short, args.starred)):
+    elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
     elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
@@ -187,6 +187,9 @@ def cli(manual_args=None):
         print(journal.pprint())
 
     # Various export modes
+    elif args.short:
+        print(journal.pprint(short=True))
+
     elif args.tags:
         print(exporters.to_tag_list(journal))
 

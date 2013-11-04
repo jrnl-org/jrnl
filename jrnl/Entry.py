@@ -34,10 +34,11 @@ class Entry:
             body=body
         )
 
-    def pprint(self):
-        """Returns a pretty-printed version of the entry."""
+    def pprint(self, short=False):
+        """Returns a pretty-printed version of the entry.
+        If short is true, only print the title."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        if self.journal.config['linewrap']:
+        if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
                     textwrap.fill(line+" ",
@@ -54,11 +55,14 @@ class Entry:
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
 
-        return u"{title}{sep}{body}\n".format(
-            title=title,
-            sep="\n" if has_body else "",
-            body=body if has_body else "",
-        )
+        if short:
+            return title
+        else:
+            return u"{title}{sep}{body}\n".format(
+                title=title,
+                sep="\n" if has_body else "",
+                body=body if has_body else "",
+            )
 
     def __repr__(self):
         return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
