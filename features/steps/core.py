@@ -113,6 +113,7 @@ def check_output_field_key(context, field, key):
 def check_output(context):
     text = context.text.strip().splitlines()
     out = context.stdout_capture.getvalue().strip().splitlines()
+    assert len(text) == len(out), "Output has {} lines (expected: {})".format(len(out), len(text))
     for line_text, line_out in zip(text, out):
         assert line_text.strip() == line_out.strip(), [line_text.strip(), line_out.strip()]
 
@@ -149,7 +150,7 @@ def check_not_message(context, text):
 @then('journal "{journal_name}" should contain "{text}"')
 def check_journal_content(context, text, journal_name="default"):
     journal = read_journal(journal_name)
-    assert text in journal
+    assert text in journal, journal
 
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
