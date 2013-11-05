@@ -1,0 +1,119 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Encryption &mdash; jrnl 1.6.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.6.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="jrnl 1.6.3 documentation" href="index.html" />
+    <link rel="next" title="Import and Export" href="export.html" />
+    <link rel="prev" title="Basic Usage" href="usage.html" />
+     
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <link rel="apple-touch-icon-precomposed" href="_static/img/favicon-152.png">
+    <link rel="shortcut icon" href="_static/img/favicon.ico">
+  
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="encryption">
+<span id="id1"></span><h1>Encryption<a class="headerlink" href="#encryption" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="encrypting-and-decrypting">
+<h2>Encrypting and decrypting<a class="headerlink" href="#encrypting-and-decrypting" title="Permalink to this headline">¶</a></h2>
+<p>If you don&#8217;t choose to encrypt your file when you run <cite>jrnl</cite> for the first time, you can encrypt your existing journal file or change its password using</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">--</span><span class="n">encrypt</span>
+</pre></div>
+</div>
+<p>If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">--</span><span class="n">decrypt</span>
+</pre></div>
+</div>
+<p>will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. <cite>jrnl &#8211;decrypt plain_text_copy.txt</cite>, to leave your original file untouched.</p>
+</div>
+<div class="section" id="storing-passwords-in-your-keychain">
+<h2>Storing passwords in your keychain<a class="headerlink" href="#storing-passwords-in-your-keychain" title="Permalink to this headline">¶</a></h2>
+<p>Whenever you encrypt your journal, you are asked whether you want to store the encryption password in your keychain. If you do this, you won&#8217;t have to enter your password every time you want to write or read your journal.</p>
+<p>If you don&#8217;t initially store the password in the keychain but decide to do so at a later point &#8211; or maybe want to store it on one computer but not on another &#8211; you can simply run <cite>jrnl &#8211;encrypt</cite> on an encrypted journal and use the same password again.</p>
+</div>
+<div class="section" id="manual-decryption">
+<h2>Manual decryption<a class="headerlink" href="#manual-decryption" title="Permalink to this headline">¶</a></h2>
+<p>Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">Crypto.Cipher</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">my_password</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;my_journal.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">cipher</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">crypto</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span> <span class="o">=</span> <span class="n">cipher</span><span class="p">[:</span><span class="mi">16</span><span class="p">])</span>
+    <span class="n">plain</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">[</span><span class="mi">16</span><span class="p">:])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <aside>
+    <a href="/" id="logolink" title="jrnl"><img class="logo" src="_static/img/logo.png" width="90px" height="98px" title="jrnl"/></a>
+    <h2>Documentation</h2>
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Encryption</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#encrypting-and-decrypting">Encrypting and decrypting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#storing-passwords-in-your-keychain">Storing passwords in your keychain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manual-decryption">Manual decryption</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Import and Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">FAQ</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </aside>
+  
+      <div class="clearer"></div>
+    </div>
+      <div class="footer">
+          Journal is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributtors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
+      </div>
+  </body>
+</html>
