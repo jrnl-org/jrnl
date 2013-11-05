@@ -28,7 +28,6 @@ except ImportError:
 import plistlib
 import pytz
 import uuid
-from functools import partial
 
 class Journal(object):
     def __init__(self, name='default', **kwargs):
@@ -98,7 +97,6 @@ class Journal(object):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
-
 
         if self.config['encrypt']:
             with open(filename, "rb") as f:
@@ -254,7 +252,7 @@ class Journal(object):
         date, flag = self.dateparse.parse(date_str)
 
         if not flag:  # Oops, unparsable.
-            try: # Try and parse this as a single year
+            try:  # Try and parse this as a single year
                 year = int(date_str)
                 return datetime(year, 1, 1)
             except ValueError:
@@ -293,7 +291,7 @@ class Journal(object):
         starred = False
         if not date:
             if title.find(":") > 0:
-                starred =  "*" in title[:title.find(":")]
+                starred = "*" in title[:title.find(":")]
                 date = self.parse_date(title[:title.find(":")])
                 if date or starred:  # Parsed successfully, strip that from the raw text
                     title = title[title.find(":")+1:].strip()
