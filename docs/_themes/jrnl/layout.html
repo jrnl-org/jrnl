@@ -14,7 +14,7 @@
 
   {%- block sidebar2 %}
   <aside>
-    <a href="/" id="logolink" title="jrnl"><img class="logo" src="{{ pathto('_static/img/logo.png', 1) }}" width="90px" height="98px" title="jrnl"/></a>
+    <a href="{{ pathto('index') }}" id="logolink" title="jrnl"><img class="logo" src="{{ pathto('_static/img/logo.png', 1) }}" width="90px" height="98px" title="jrnl"/></a>
     <h2>Documentation</h2>
     {{ toctree() }}
     {%- include "searchbox.html" %}

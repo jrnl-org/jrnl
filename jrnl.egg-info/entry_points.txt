@@ -1,0 +1,3 @@
+[console_scripts]
+jrnl = jrnl:cli
+
