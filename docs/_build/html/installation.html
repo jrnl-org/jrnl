@@ -1,0 +1,115 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting started &mdash; jrnl 1.6.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.6.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="jrnl 1.6.3 documentation" href="index.html" />
+    <link rel="next" title="Basic Usage" href="usage.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
+     
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <link rel="apple-touch-icon-precomposed" href="_static/img/favicon-152.png">
+    <link rel="shortcut icon" href="_static/img/favicon.ico">
+  
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<span id="download"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Install <em>jrnl</em> using pip</p>
+<div class="highlight-python"><pre>pip install jrnl</pre>
+</div>
+<p>Or, if you want the option to encrypt your journal,</p>
+<div class="highlight-python"><pre>pip install jrnl[encrypted]</pre>
+</div>
+<p>to install the dependencies for encrypting journals as well.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Installing the encryption library, <cite>pycrypto</cite>, requires a <cite>gcc</cite> compiler. For this reason, jrnl will not install <cite>pycrypto</cite> unless explicitly told so like this. You can <a class="reference external" href="https://www.dlitz.net/software/pycrypto/">install PyCyrypto manually</a> first or install it with <tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pycrypto</span></tt> if you have a <cite>gcc</cite> compiler.</p>
+</div>
+<p>The first time you run <tt class="docutils literal"><span class="pre">jrnl</span></tt> you will be asked where your journal file should be created and whether you wish to encrypt it.</p>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>to make a new entry, just type:</p>
+<div class="highlight-python"><pre>jrnl yesterday: Called in sick. Used the time to clean the house and spent 4h on writing my book.</pre>
+</div>
+<p>and hit return. <tt class="docutils literal"><span class="pre">yesterday:</span></tt> will be interpreted as a time stamp. Everything until the first sentence mark (<tt class="docutils literal"><span class="pre">.?!:</span></tt>) will be interpreted as the title, the rest as the body. In your journal file, the result will look like this:</p>
+<div class="highlight-output"><pre>2012-03-29 09:00 Called in sick.
+Used the time to clean the house and spent 4h on writing my book.</pre>
+</div>
+<p>If you just call <tt class="docutils literal"><span class="pre">jrnl</span></tt>, you will be prompted to compose your entry - but you can also configure <em>jrnl</em> to use your external editor.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <aside>
+    <a href="/" id="logolink" title="jrnl"><img class="logo" src="_static/img/logo.png" width="90px" height="98px" title="jrnl"/></a>
+    <h2>Documentation</h2>
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encryption.html">Encryption</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Import and Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">FAQ</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </aside>
+  
+      <div class="clearer"></div>
+    </div>
+      <div class="footer">
+          Journal is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributtors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
+      </div>
+  </body>
+</html>
