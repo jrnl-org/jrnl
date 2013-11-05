@@ -99,6 +99,9 @@ pygments_style = 'native'
 # a list of builtin themes.
 html_theme = 'jrnl'
 
+# On read the docs, use their standard theme.
+RTD_NEW_THEME = True
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
