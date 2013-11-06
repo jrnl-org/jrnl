@@ -15,7 +15,7 @@ If it is already encrypted, you will first be asked for the current password. Yo
 
     jrnl --decrypt
 
-will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. `jrnl --decrypt plain_text_copy.txt`, to leave your original file untouched.
+will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. ``jrnl --decrypt plain_text_copy.txt``, to leave your original file untouched.
 
 
 Storing passwords in your keychain
@@ -23,7 +23,7 @@ Storing passwords in your keychain
 
 Whenever you encrypt your journal, you are asked whether you want to store the encryption password in your keychain. If you do this, you won't have to enter your password every time you want to write or read your journal.
 
-If you don't initially store the password in the keychain but decide to do so at a later point -- or maybe want to store it on one computer but not on another -- you can simply run `jrnl --encrypt` on an encrypted journal and use the same password again.
+If you don't initially store the password in the keychain but decide to do so at a later point -- or maybe want to store it on one computer but not on another -- you can simply run ``jrnl --encrypt`` on an encrypted journal and use the same password again.
 
 
 Manual decryption

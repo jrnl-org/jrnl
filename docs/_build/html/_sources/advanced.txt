@@ -6,7 +6,7 @@ Advanced Usage
 Configuration File
 -------------------
 
-The configuration file is a simple JSON file with the following options.
+You can configure the way jrnl behaves in a configuration file. By default, this is `~/.jrnl_conf`. If you have the `XDG_CONFIG_HOME` variable set, the configuration file will be saved under `$XDG_CONFIG_HOME/jrnl`. The configuration file is a simple JSON file with the following options.
 
 - ``journals``
       paths to your journal files
@@ -15,11 +15,11 @@ The configuration file is a simple JSON file with the following options.
 - ``encrypt``
     if ``true``, encrypts your journal using AES.
 - ``tagsymbols``
-    Symbols to be interpreted as tags. (__See note below__)
+    Symbols to be interpreted as tags. (See note below)
 - ``default_hour`` and ``default_minute``
     if you supply a date, such as ``last thursday``, but no specific time, the entry will be created at this time
 - ``timeformat``
-    how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
+    how to format the timestamps in your journal, see the `python docs <http://docs.python.org/library/time.html#time.strftime>`_ for reference
 - ``highlight``
     if ``true``, tags will be highlighted in cyan.
 - ``linewrap``
@@ -44,16 +44,13 @@ The configuration file is a simple JSON file with the following options.
 DayOne Integration
 ------------------
 
-Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, change your `.jrnl_conf` to point to your DayOne journal. This is a folder ending with `.dayone`, and it's located at
+Using your DayOne journal instead of a flat text file is dead simple -- instead of pointing to a text file, change your ``.jrnl_conf`` to point to your DayOne journal. This is a folder ending with ``.dayone``, and it's located at
 
 * ``~/Library/Application Support/Day One/`` by default
 * ``~/Dropbox/Apps/Day One/`` if you're syncing with Dropbox and
 * ``~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/`` if you're syncing with iCloud.
 
-Instead of all entries being in a single file, each entry will live in a separate `plist` file. You can also star entries when you write them:
-
-    jrnl -star yesterday: Lunch with @Arthur
-
+Instead of all entries being in a single file, each entry will live in a separate `plist` file.
 Multiple journal files
 ----------------------
 
@@ -72,6 +69,9 @@ You can configure _jrnl_ to use with multiple journals (eg. ``private`` and ``wo
 The ``default`` journal gets created the first time you start _jrnl_. Now you can access the ``work`` journal by using ``jrnl work`` instead of ``jrnl``, eg. ::
 
     jrnl work at 10am: Meeting with @Steve
+
+::
+
     jrnl work -n 3
 
 will both use ``~/work.txt``, while ``jrnl -n 3`` will display the last three entries from ``~/journal.txt`` (and so does ``jrnl default -n 3``).

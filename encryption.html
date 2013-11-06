@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.6.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -52,12 +51,12 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">--</span><span class="n">decrypt</span>
 </pre></div>
 </div>
-<p>will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. <cite>jrnl &#8211;decrypt plain_text_copy.txt</cite>, to leave your original file untouched.</p>
+<p>will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">--decrypt</span> <span class="pre">plain_text_copy.txt</span></tt>, to leave your original file untouched.</p>
 </div>
 <div class="section" id="storing-passwords-in-your-keychain">
 <h2>Storing passwords in your keychain<a class="headerlink" href="#storing-passwords-in-your-keychain" title="Permalink to this headline">¶</a></h2>
 <p>Whenever you encrypt your journal, you are asked whether you want to store the encryption password in your keychain. If you do this, you won&#8217;t have to enter your password every time you want to write or read your journal.</p>
-<p>If you don&#8217;t initially store the password in the keychain but decide to do so at a later point &#8211; or maybe want to store it on one computer but not on another &#8211; you can simply run <cite>jrnl &#8211;encrypt</cite> on an encrypted journal and use the same password again.</p>
+<p>If you don&#8217;t initially store the password in the keychain but decide to do so at a later point &#8211; or maybe want to store it on one computer but not on another &#8211; you can simply run <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">--encrypt</span></tt> on an encrypted journal and use the same password again.</p>
 </div>
 <div class="section" id="manual-decryption">
 <h2>Manual decryption<a class="headerlink" href="#manual-decryption" title="Permalink to this headline">¶</a></h2>

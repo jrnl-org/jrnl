@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.6.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -44,7 +43,7 @@
 <span id="advanced"></span><h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="configuration-file">
 <h2>Configuration File<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
-<p>The configuration file is a simple JSON file with the following options.</p>
+<p>You can configure the way jrnl behaves in a configuration file. By default, this is <cite>~/.jrnl_conf</cite>. If you have the <cite>XDG_CONFIG_HOME</cite> variable set, the configuration file will be saved under <cite>$XDG_CONFIG_HOME/jrnl</cite>. The configuration file is a simple JSON file with the following options.</p>
 <ul>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">journals</span></tt></dt>
@@ -66,7 +65,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">tagsymbols</span></tt></dt>
-<dd><p class="first last">Symbols to be interpreted as tags. (__See note <a href="#id1"><span class="problematic" id="id2">below__</span></a>)</p>
+<dd><p class="first last">Symbols to be interpreted as tags. (See note below)</p>
 </dd>
 </dl>
 </li>
@@ -78,7 +77,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">timeformat</span></tt></dt>
-<dd><p class="first last">how to format the timestamps in your journal, see the [python docs](<a class="reference external" href="http://docs.python.org/library/time.html#time.strftime">http://docs.python.org/library/time.html#time.strftime</a>) for reference</p>
+<dd><p class="first last">how to format the timestamps in your journal, see the <a class="reference external" href="http://docs.python.org/library/time.html#time.strftime">python docs</a> for reference</p>
 </dd>
 </dl>
 </li>
@@ -108,18 +107,15 @@
 </div>
 <div class="section" id="dayone-integration">
 <h2>DayOne Integration<a class="headerlink" href="#dayone-integration" title="Permalink to this headline">¶</a></h2>
-<p>Using your DayOne journal instead of a flat text file is dead simple - instead of pointing to a text file, change your <cite>.jrnl_conf</cite> to point to your DayOne journal. This is a folder ending with <cite>.dayone</cite>, and it&#8217;s located at</p>
+<p>Using your DayOne journal instead of a flat text file is dead simple &#8211; instead of pointing to a text file, change your <tt class="docutils literal"><span class="pre">.jrnl_conf</span></tt> to point to your DayOne journal. This is a folder ending with <tt class="docutils literal"><span class="pre">.dayone</span></tt>, and it&#8217;s located at</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">~/Library/Application</span> <span class="pre">Support/Day</span> <span class="pre">One/</span></tt> by default</li>
 <li><tt class="docutils literal"><span class="pre">~/Dropbox/Apps/Day</span> <span class="pre">One/</span></tt> if you&#8217;re syncing with Dropbox and</li>
 <li><tt class="docutils literal"><span class="pre">~/Library/Mobile</span> <span class="pre">Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/</span></tt> if you&#8217;re syncing with iCloud.</li>
 </ul>
-<p>Instead of all entries being in a single file, each entry will live in a separate <cite>plist</cite> file. You can also star entries when you write them:</p>
-<blockquote>
-<div>jrnl -star yesterday: Lunch with &#64;Arthur</div></blockquote>
-</div>
-<div class="section" id="multiple-journal-files">
-<h2>Multiple journal files<a class="headerlink" href="#multiple-journal-files" title="Permalink to this headline">¶</a></h2>
+<p>Instead of all entries being in a single file, each entry will live in a separate <cite>plist</cite> file.
+Multiple journal files
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</p>
 <p>You can configure _jrnl_ to use with multiple journals (eg. <tt class="docutils literal"><span class="pre">private</span></tt> and <tt class="docutils literal"><span class="pre">work</span></tt>) by defining more journals in your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt>, for example:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
 <span class="p">...</span>
@@ -131,8 +127,9 @@
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">default</span></tt> journal gets created the first time you start _jrnl_. Now you can access the <tt class="docutils literal"><span class="pre">work</span></tt> journal by using <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">work</span></tt> instead of <tt class="docutils literal"><span class="pre">jrnl</span></tt>, eg.</p>
-<div class="highlight-python"><pre>jrnl work at 10am: Meeting with @Steve
-jrnl work -n 3</pre>
+<div class="highlight-python"><pre>jrnl work at 10am: Meeting with @Steve</pre>
+</div>
+<div class="highlight-python"><pre>jrnl work -n 3</pre>
 </div>
 <p>will both use <tt class="docutils literal"><span class="pre">~/work.txt</span></tt>, while <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">-n</span> <span class="pre">3</span></tt> will display the last three entries from <tt class="docutils literal"><span class="pre">~/journal.txt</span></tt> (and so does <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">default</span> <span class="pre">-n</span> <span class="pre">3</span></tt>).</p>
 <p>You can also override the default options for each individual journal. If you <tt class="docutils literal"><span class="pre">.jrnl_conf</span></tt> looks like this:</p>
@@ -173,7 +170,6 @@ jrnl work -n 3</pre>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#configuration-file">Configuration File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dayone-integration">DayOne Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#multiple-journal-files">Multiple journal files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="recipes.html">FAQ</a></li>
