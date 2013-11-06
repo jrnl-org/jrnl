@@ -9,7 +9,7 @@ gh_pages:
 	make html ; \
 	cd .. ; \
 	cp -r docs/_build/html/* . ; \
-	git add * ; \
+	git add -A ; \
 	git commit -m "Updated docs from master" ; \
 	git push -u origin gh-pages ; \
 	git checkout master
