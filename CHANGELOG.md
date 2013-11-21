@@ -3,6 +3,7 @@ Changelog
 
 ### 1.6 (November 5, 2013)
 
+* __1.6.4__ Fixed a bug that caused creating encrypted journals to fail
 * __1.6.3__ New, pretty, _useful_ documentation!
 * __1.6.2__ Starring entries now works for plain-text journals too!
 * __1.6.1__ Attempts to fix broken config files automatically

@@ -75,6 +75,8 @@ def install_jrnl(config_path='~/.jrnl_config'):
             default_config['encrypt'] = True
             if util.yesno("Do you want to store the password in your keychain?", default=True):
                 util.set_keychain("default", password)
+            else:
+                util.set_keychain("default", None)
             print("Journal will be encrypted.")
     else:
         password = None
