@@ -110,7 +110,7 @@ class Journal(object):
             journal = None
             if 'password' in self.config:
                 journal = validate_password(self.config['password'])
-            if not journal:
+            if journal is None:
                 journal = util.get_password(keychain=self.name, validator=validate_password)
         else:
             with codecs.open(filename, "r", "utf-8") as f:
