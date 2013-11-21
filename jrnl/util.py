@@ -29,15 +29,15 @@ def get_password(validator, keychain=None, max_attempts=3):
     password = pwd_from_keychain or getpass()
     result = validator(password)
     # Password is bad:
-    if not result and pwd_from_keychain:
+    if result is None and pwd_from_keychain:
         set_keychain(keychain, None)
     attempt = 1
-    while not result and attempt < max_attempts:
+    while result is None and attempt < max_attempts:
         prompt("Wrong password, try again.")
         password = getpass()
         result = validator(password)
         attempt += 1
-    if result:
+    if result is not None:
         return result
     else:
         prompt("Extremely wrong password.")
