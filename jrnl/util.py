@@ -57,7 +57,8 @@ def set_keychain(journal_name, password):
 
 def u(s):
     """Mock unicode function for python 2 and 3 compatibility."""
-    return s if PY3 or type(s) is unicode else unicode(s, "unicode_escape")
+    """file paths with a U like uses directories in Windows where being interperted at Unicode so force converting to string"""
+    return s if PY3 or type(s) is unicode else unicode(s.encode('string-escape'), "unicode_escape")
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
