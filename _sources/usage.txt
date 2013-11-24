@@ -15,6 +15,9 @@ Composing mode is entered by either starting ``jrnl`` without any arguments -- w
 
     jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
 
+You can also import an entry directly from a file::
+
+    jrnl < my_entry.txt
 
 Smart timestamps
 ~~~~~~~~~~~~~~~~
