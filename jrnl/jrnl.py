@@ -157,10 +157,13 @@ def cli(manual_args=None):
         journal = Journal.Journal(journal_name, **config)
 
     if mode_compose and not args.text:
-        if config['editor']:
+        if not sys.stdin.isatty():
+            # Piping data into jrnl
+            raw = util.py23_read()
+        elif config['editor']:
             raw = get_text_from_editor(config)
         else:
-            raw = util.py23_input("[Compose Entry] ")
+            raw = util.py23_read("[Compose Entry, press Ctrl+D to finish writing]\n")
         if raw:
             args.text = [raw]
         else:
