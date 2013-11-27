@@ -31,11 +31,8 @@ default_config = {
     'timeformat': "%Y-%m-%d %H:%M",
     'tagsymbols': '@',
     'highlight': True,
-    'linewrap': 80,
+    'linewrap': 79,
 }
-
-if "win32" in sys.platform:
-	default_config['linewrap'] = 79
 
 
 def upgrade_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
