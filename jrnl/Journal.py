@@ -134,7 +134,7 @@ class Journal(object):
                 line = line.strip()
                 new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
 
-                # parsing successfull => save old entry and create new one
+                # parsing successful => save old entry and create new one
                 if new_date and current_entry:
                     entries.append(current_entry)
 

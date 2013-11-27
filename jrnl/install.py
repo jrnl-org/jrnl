@@ -34,10 +34,13 @@ default_config = {
     'linewrap': 80,
 }
 
+if "win32" in sys.platform:
+	default_config['linewrap'] = 79
+
 
 def upgrade_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
-    This essentially automatically ports jrnl installations if new config parameters are  introduced in later
+    This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions."""
     missing_keys = set(default_config).difference(config)
     if missing_keys:
