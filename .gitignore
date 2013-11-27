@@ -26,3 +26,9 @@ Icon
 
 # Documentation
 _build
+
+# MS Visual Studio (PyTools)
+obj
+*.pyproj
+*.sln
+*.suo
