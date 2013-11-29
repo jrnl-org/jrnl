@@ -34,3 +34,9 @@ Feature: Basic reading and writing to a journal
         Then we should get no error
         and the journal should contain "2013-07-25 09:00 I saw Elvis."
         and the journal should contain "He's alive."
+
+    Scenario: Displaying the version number
+        Given we use the config "basic.json"
+        When we run "jrnl -v"
+        Then we should get no error
+        Then the output should contain "version"
