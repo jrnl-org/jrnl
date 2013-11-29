@@ -1,5 +1,5 @@
 from behave import *
-from jrnl import jrnl, Journal, util
+from jrnl import cli, Journal, util
 from dateutil import parser as date_parser
 import os
 import sys
@@ -27,14 +27,14 @@ def _parse_args(command):
     return nargs
 
 def read_journal(journal_name="default"):
-    with open(jrnl.CONFIG_PATH) as config_file:
+    with open(cli.CONFIG_PATH) as config_file:
         config = json.load(config_file)
     with open(config['journals'][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
 
 def open_journal(journal_name="default"):
-    with open(jrnl.CONFIG_PATH) as config_file:
+    with open(cli.CONFIG_PATH) as config_file:
         config = json.load(config_file)
     journal_conf = config['journals'][journal_name]
     if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
@@ -46,7 +46,7 @@ def open_journal(journal_name="default"):
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
-    jrnl.CONFIG_PATH = os.path.abspath(full_path)
+    cli.CONFIG_PATH = os.path.abspath(full_path)
 
 @when('we run "{command}" and enter')
 @when('we run "{command}" and enter "{inputs}"')
@@ -54,9 +54,9 @@ def run_with_input(context, command, inputs=None):
     text = inputs or context.text
     args = _parse_args(command)
     buffer = StringIO(text.strip())
-    jrnl.util.STDIN = buffer
+    util.STDIN = buffer
     try:
-        jrnl.cli(args or None)
+        cli.run(args or None)
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -65,7 +65,7 @@ def run_with_input(context, command, inputs=None):
 def run(context, command):
     args = _parse_args(command)
     try:
-        jrnl.cli(args or None)
+        cli.run(args or None)
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -154,7 +154,7 @@ def check_journal_content(context, text, journal_name="default"):
 
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
-    with open(jrnl.CONFIG_PATH) as config_file:
+    with open(cli.CONFIG_PATH) as config_file:
         config = json.load(config_file)
     journal_path = config['journals'][journal_name]
     assert not os.path.exists(journal_path)
@@ -168,7 +168,7 @@ def config_var(context, key, value, journal=None):
         "int": int,
         "str": str
     }[t](value)
-    with open(jrnl.CONFIG_PATH) as config_file:
+    with open(cli.CONFIG_PATH) as config_file:
         config = json.load(config_file)
     if journal:
         config = config["journals"][journal]

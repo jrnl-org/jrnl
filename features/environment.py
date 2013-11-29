@@ -1,7 +1,7 @@
 from behave import *
 import shutil
 import os
-from jrnl import jrnl
+import jrnl
 try:
     from io import StringIO
 except ImportError:
