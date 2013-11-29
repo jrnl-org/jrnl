@@ -156,6 +156,13 @@ def cli(manual_args=None):
     else:
         journal = Journal.Journal(journal_name, **config)
 
+    if "win32" in sys.platform:
+        # for Windows systems
+        _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
+    else:
+        # for *nix systems (and others?)
+        _exit_multiline_code = "press Ctrl+D"
+
     if mode_compose and not args.text:
         if not sys.stdin.isatty():
             # Piping data into jrnl
@@ -163,7 +170,7 @@ def cli(manual_args=None):
         elif config['editor']:
             raw = get_text_from_editor(config)
         else:
-            raw = util.py23_read("[Compose Entry, press Ctrl+D to finish writing]\n")
+            raw = util.py23_read("[Compose Entry; " +  _exit_multiline_code + " to finish writing]\n")
         if raw:
             args.text = [raw]
         else:
