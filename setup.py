@@ -82,7 +82,7 @@ setup(
     long_description=__doc__,
     entry_points={
         'console_scripts': [
-            'jrnl = jrnl:cli',
+            'jrnl = jrnl:run',
         ],
     },
     classifiers=[

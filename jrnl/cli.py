@@ -12,11 +12,13 @@ try:
     from . import util
     from . import exporters
     from . import install
+    from . import __version__
 except (SystemError, ValueError):
     import Journal
     import util
     import exporters
     import install
+import jrnl
 import os
 import tempfile
 import subprocess
@@ -30,6 +32,8 @@ PYCRYPTO = install.module_exists("Crypto")
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
+
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
     composing.add_argument('text', metavar='', nargs="*")
 
@@ -116,7 +120,7 @@ def update_config(config, new_config, scope, force_local=False):
     else:
         config.update(new_config)
 
-def cli(manual_args=None):
+def run(manual_args=None):
     if not os.path.exists(CONFIG_PATH):
         config = install.install_jrnl(CONFIG_PATH)
     else:
@@ -130,6 +134,10 @@ def cli(manual_args=None):
         sys.exit(1)
 
     args = parse_args(manual_args)
+
+    if args.version:
+        print("{} version {}".format(jrnl.__title__, jrnl.__version__))
+        sys.exit(0)
 
     # If the first textual argument points to a journal file,
     # use this!
@@ -230,4 +238,4 @@ def cli(manual_args=None):
         journal.write()
 
 if __name__ == "__main__":
-    cli()
+    run()
