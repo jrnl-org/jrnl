@@ -3,6 +3,7 @@ Changelog
 
 ### 1.6 (November 5, 2013)
 
+* __1.6.6__ -v prints the current version, also better strings for windows users. Furthermore, jrnl/jrnl.py moved to jrnl/cli.py
 * __1.6.5__ Allows composing multi-line entries on the command line or importing files
 * __1.6.4__ Fixed a bug that caused creating encrypted journals to fail
 * __1.6.3__ New, pretty, _useful_ documentation!
