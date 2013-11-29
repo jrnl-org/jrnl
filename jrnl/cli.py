@@ -136,7 +136,7 @@ def run(manual_args=None):
     args = parse_args(manual_args)
 
     if args.version:
-        print("{} version {}".format(jrnl.__title__, jrnl.__version__))
+        print("{0} version {1}".format(jrnl.__title__, jrnl.__version__))
         sys.exit(0)
 
     # If the first textual argument points to a journal file,
