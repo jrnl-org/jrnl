@@ -54,6 +54,10 @@ class Journal(object):
         self.entries = self.parse(journal_txt)
         self.sort()
 
+    def __len__(self):
+        """Returns the number of entries"""
+        return len(self.entries)
+
     def _colorize(self, string):
         if colorama:
             return colorama.Fore.CYAN + string + colorama.Fore.RESET
@@ -184,7 +188,7 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal = "\n".join([e.__unicode__() for e in self.entries])
+        journal = u"\n".join([e.__unicode__() for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
             with open(filename, 'wb') as journal_file:

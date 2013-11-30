@@ -20,8 +20,6 @@ except (SystemError, ValueError):
     import install
 import jrnl
 import os
-import tempfile
-import subprocess
 import argparse
 import sys
 
@@ -51,7 +49,8 @@ def parse_args(args=None):
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', default=False, const=None)
     exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
-    exporting.add_argument('--delete-last', dest='delete_last', help='Deletes the last entry from your journal file.', action="store_true")
+    exporting.add_argument('--delete', dest='delete', help='Deletes the selected entries your journal file.', action="store_true")
+    exporting.add_argument('--edit', dest='edit', help='Opens your editor to edit the selected entries.', action="store_true")
 
     return parser.parse_args(args)
 
@@ -59,7 +58,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.delete_last)):
+    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.delete, args.edit)):
         compose = False
         export = True
     elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
@@ -70,20 +69,6 @@ def guess_mode(args, config):
         compose = False
 
     return compose, export
-
-def get_text_from_editor(config):
-    tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
-    subprocess.call(config['editor'].split() + [tmpfile])
-    if os.path.exists(tmpfile):
-        with open(tmpfile) as f:
-            raw = f.read()
-        os.remove(tmpfile)
-    else:
-        util.prompt('[Nothing saved to file]')
-        raw = ''
-
-    return raw
-
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
@@ -176,7 +161,7 @@ def run(manual_args=None):
             # Piping data into jrnl
             raw = util.py23_read()
         elif config['editor']:
-            raw = get_text_from_editor(config)
+            raw = util.get_text_from_editor(config)
         else:
             raw = util.py23_read("[Compose Entry; " +  _exit_multiline_code + " to finish writing]\n")
         if raw:
@@ -193,6 +178,7 @@ def run(manual_args=None):
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
     else:
+        old_entries = journal.entries
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
@@ -231,10 +217,34 @@ def run(manual_args=None):
             update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
-    elif args.delete_last:
-        last_entry = journal.entries.pop()
-        util.prompt("[Deleted Entry:]")
-        print(last_entry.pprint())
+    elif args.delete:
+        other_entries = [e for e in old_entries if e not in journal.entries]
+        util.prompt("Following entries will be deleted:")
+        for e in journal.entries[:10]:
+            util.prompt("  "+e.pprint(short=True))
+        if len(journal) > 10:
+            q = "...and {0} more. Do you really want to delete these entries?".format(len(journal) - 10)
+        else:
+            q = "Do you really want to delete these entries?"
+        ok = util.yesno(q, default=False)
+        if ok:
+            util.prompt("[Deleted {0} entries]".format(len(journal)))
+            journal.entries = other_entries
+            journal.write()
+
+    elif args.edit:
+        other_entries = [e for e in old_entries if e not in journal.entries]
+        # Edit
+        old_num_entries = len(journal)
+        template = u"\n".join([e.__unicode__() for e in journal.entries])
+        edited = util.get_text_from_editor(config, template)
+        journal.entries = journal.parse(edited)
+        num_deleted = old_num_entries - len(journal)
+        if num_deleted:
+            util.prompt("[Deleted {0} entries]".format(num_deleted))
+        else:
+            util.prompt("[Edited {0} entries]".format(len(journal)))
+        journal.entries += other_entries
         journal.write()
 
 if __name__ == "__main__":
