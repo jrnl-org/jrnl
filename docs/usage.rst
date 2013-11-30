@@ -88,6 +88,10 @@ the last five entries containing both ``@pineapple`` **and** ``@lubricant``. You
 Editing and deleting entries
 ----------------------------
 
+Deleting
+~~~~~~~~
+
+
 Use ``--delete`` to delete entries from your journal. This will only affect selected entries, e.g. ::
 
     jrnl -n 1 --delete
@@ -97,6 +101,9 @@ will delete the last entry, ::
     jrnl @girlfriend -until 'june 2012' --delete
 
 will delete all entries tagged with ``@girlfriend`` written before June 2012. ``jrnl --delete`` would delete your **entire** journal, which is often not what you want. You will be shown the titles of the entries which are about to be deleted before you have to confirm the deletion.
+
+Editing
+~~~~~~~
 
 You can also edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted. To use this feature, you need to have an editor configured in your journal configuration file (see :doc:`advanced usage <advanced>`). It behaves the same way ``--delete`` does, ie. ::
 
