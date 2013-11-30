@@ -83,5 +83,24 @@ the last five entries containing both ``@pineapple`` **and** ``@lubricant``. You
 
 .. note::
 
-  ``jrnl @pinkie @WorldDomination`` will switch to viewing mode because although _no_ command line arguments are given, all the input strings look like tags - *jrnl* will assume you want to filter by tag.
+  ``jrnl @pinkie @WorldDomination`` will switch to viewing mode because although **no** command line arguments are given, all the input strings look like tags - *jrnl* will assume you want to filter by tag.
+
+Editing and deleting entries
+----------------------------
+
+Use ``--delete`` to delete entries from your journal. This will only affect selected entries, e.g. ::
+
+    jrnl -n 1 --delete
+
+will delete the last entry, ::
+
+    jrnl @girlfriend -until 'june 2012' --delete
+
+will delete all entries tagged with ``@girlfriend`` written before June 2012. ``jrnl --delete`` would delete your **entire** journal, which is often not what you want. You will be shown the titles of the entries which are about to be deleted before you have to confirm the deletion.
+
+You can also edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted. To use this feature, you need to have an editor configured in your journal configuration file (see :doc:`advanced usage <advanced>`). It behaves the same way ``--delete`` does, ie. ::
+
+    jrnl -until 1950 @texas -and @history --edit
+
+Will edit all entries tagged with ``@texas`` and ``@history`` before 1950. Of course, if you are using multiple journals, you can also edit e.g. the entry of your work journal with ``jrnl work -n 1 --edit``. In any case, this will bring up your editor and save (and, if applicable, encrypt) your edited journal after you save and exit the editor.
 
