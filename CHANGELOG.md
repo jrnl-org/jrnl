@@ -1,6 +1,12 @@
 Changelog
 =========
 
+
+### 1.7 (December 1, 2013)
+
+* __1.7.0__ Edit encrypted journals with `--edit` and `--delete`. Deprecates `--delete-last` (use `-n 1 --delete` instead).
+
+
 ### 1.6 (November 5, 2013)
 
 * __1.6.6__ -v prints the current version, also better strings for windows users. Furthermore, jrnl/jrnl.py moved to jrnl/cli.py
