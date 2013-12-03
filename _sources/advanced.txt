@@ -51,6 +51,7 @@ Using your DayOne journal instead of a flat text file is dead simple -- instead 
 * ``~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/`` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file.
+
 Multiple journal files
 ----------------------
 
