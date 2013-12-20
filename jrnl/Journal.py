@@ -285,13 +285,8 @@ class Journal(object):
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        title_end = len(raw)
-        for separator in ["\n", ". ", "? ", "! "]:
-            sep_pos = raw.find(separator)
-            if 1 < sep_pos < title_end:
-                title_end = sep_pos
-        title = raw[:title_end+1]
-        body = raw[title_end+1:].strip()
+        sep = re.search("[\n!?.]+", raw)
+        title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
         starred = False
         if not date:
             if title.find(":") > 0:
@@ -338,15 +333,13 @@ class DayOne(Journal):
                     timezone = pytz.timezone(util.get_local_timezone())
                 date = dict_entry['Creation Date']
                 date = date + timezone.utcoffset(date)
-                entry = self.new_entry(raw=dict_entry['Entry Text'], date=date, sort=False)
-                entry.starred = dict_entry["Starred"]
+                raw = dict_entry['Entry Text']
+                sep = re.search("[\n!?.]+", raw)
+                title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
+                entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
                 entry.uuid = dict_entry["UUID"]
                 entry.tags = dict_entry.get("Tags", [])
-        # We're using new_entry to create the Entry object, which adds the entry
-        # to self.entries already. However, in the original Journal.__init__, this
-        # method is expected to return a list of newly created entries, which is why
-        # we're returning the obvious.
-        return self.entries
+                self.entries.append(entry)
 
     def write(self):
         """Writes only the entries that have been modified into plist files."""
