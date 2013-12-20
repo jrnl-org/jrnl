@@ -308,6 +308,7 @@ class Journal(object):
         if not date:  # Still nothing? Meh, just live in the moment.
             date = self.parse_date("now")
         entry = Entry.Entry(self, date, title, body, starred=starred)
+        entry.modified = True
         self.entries.append(entry)
         if sort:
             self.sort()
@@ -350,21 +351,17 @@ class DayOne(Journal):
     def write(self):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
-            # Assumption: since jrnl can not manipulate existing entries, all entries
-            # that have a uuid will be old ones, and only the one that doesn't will
-            # have a new one!
-            if not hasattr(entry, "uuid"):
+            if entry.modified:
+                if not hasattr(entry, "uuid"):
+                    entry.uuid = uuid.uuid1().hex
                 utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
-                new_uuid = uuid.uuid1().hex
-                filename = os.path.join(self.config['journal'], "entries", new_uuid+".doentry")
+                filename = os.path.join(self.config['journal'], "entries", entry.uuid+".doentry")
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
                     'Time Zone': util.get_local_timezone(),
-                    'UUID': new_uuid,
+                    'UUID': entry.uuid,
                     'Tags': [tag.strip(self.config['tagsymbols']) for tag in entry.tags]
                 }
-                # print entry_plist
-
                 plistlib.writePlist(entry_plist, filename)
