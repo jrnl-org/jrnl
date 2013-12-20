@@ -148,11 +148,10 @@ def run(manual_args=None):
     else:
         journal = Journal.Journal(journal_name, **config)
 
+    # How to quit writing?
     if "win32" in sys.platform:
-        # for Windows systems
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
     else:
-        # for *nix systems (and others?)
         _exit_multiline_code = "press Ctrl+D"
 
     if mode_compose and not args.text:
