@@ -13,6 +13,7 @@ class Entry:
         self.body = body.strip()
         self.tags = self.parse_tags()
         self.starred = starred
+        self.modified = False
 
     def parse_tags(self):
         fulltext = " ".join([self.title, self.body]).lower()
