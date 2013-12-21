@@ -50,9 +50,7 @@ class Journal(object):
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
 
-        journal_txt = self.open()
-        self.entries = self.parse(journal_txt)
-        self.sort()
+        self.open()
 
     def __len__(self):
         """Returns the number of entries"""
@@ -119,9 +117,10 @@ class Journal(object):
         else:
             with codecs.open(filename, "r", "utf-8") as f:
                 journal = f.read()
-        return journal
+        self.entries = self._parse(journal)
+        self.sort()
 
-    def parse(self, journal):
+    def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
 
         # Entries start with a line that looks like 'date title' - let's figure out how
@@ -132,7 +131,7 @@ class Journal(object):
         entries = []
         current_entry = None
 
-        for line in journal.splitlines():
+        for line in journal_txt.splitlines():
             try:
                 # try to parse line as date => new entry begins
                 line = line.strip()
@@ -309,20 +308,30 @@ class Journal(object):
             self.sort()
         return entry
 
+    def editable_str(self):
+        """Turns the journal into a string of entries that can be edited
+        manually and later be parsed with eslf.parse_editable_str."""
+        return u"\n".join([e.__unicode__() for e in self.entries])
+
+    def parse_editable_str(self, edited):
+        """Parses the output of self.editable_str and updates it's entries."""
+        mod_entries = self._parse(edited)
+        # Match those entries that can be found in self.entries and set
+        # these to modified, so we can get a count of how many entries got
+        # modified and how many got deleted later.
+        for entry in mod_entries:
+            entry.modified = not any(entry == old_entry for old_entry in self.entries)
+        self.entries = mod_entries
 
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
     def __init__(self, **kwargs):
         self.entries = []
+        self._deleted_entries = []
         super(DayOne, self).__init__(**kwargs)
 
     def open(self):
-        files = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
-        return files
-
-    def parse(self, filenames):
-        """Instead of parsing a string into an entry, this method will take a list
-        of filenames, interpret each as a plist file and create a new entry from that."""
+        filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
         self.entries = []
         for filename in filenames:
             with open(filename, 'rb') as plist_entry:
@@ -340,6 +349,7 @@ class DayOne(Journal):
                 entry.uuid = dict_entry["UUID"]
                 entry.tags = dict_entry.get("Tags", [])
                 self.entries.append(entry)
+        self.sort()
 
     def write(self):
         """Writes only the entries that have been modified into plist files."""
@@ -358,3 +368,72 @@ class DayOne(Journal):
                     'Tags': [tag.strip(self.config['tagsymbols']) for tag in entry.tags]
                 }
                 plistlib.writePlist(entry_plist, filename)
+        for entry in self._deleted_entries:
+            print "DELETING", entry.uuid, entry.title
+            filename = os.path.join(self.config['journal'], "entries", entry.uuid+".doentry")
+            os.remove(filename)
+
+    def editable_str(self):
+        """Turns the journal into a string of entries that can be edited
+        manually and later be parsed with eslf.parse_editable_str."""
+        return u"\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
+
+    def parse_editable_str(self, edited):
+        """Parses the output of self.editable_str and updates it's entries."""
+        # Method: create a new list of entries from the edited text, then match
+        # UUIDs of the new entries against self.entries, updating the entries
+        # if the edited entries differ, and deleting entries from self.entries
+        # if they don't show up in the edited entries anymore.
+        date_length = len(datetime.today().strftime(self.config['timeformat']))
+
+        # Initialise our current entry
+        entries = []
+        current_entry = None
+
+        for line in edited.splitlines():
+            # try to parse line as UUID => new entry begins
+            line = line.strip()
+            m = re.match("# *([a-f0-9]+) *$", line.lower())
+            if m:
+                if current_entry:
+                    entries.append(current_entry)
+                current_entry = Entry.Entry(self)
+                current_entry.modified = False
+                current_entry.uuid = m.group(1).lower()
+            else:
+                try:
+                    new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+                    if line.endswith("*"):
+                        current_entry.starred = True
+                        line = line[:-1]
+                    current_entry.title = line[date_length+1:]
+                    current_entry.date = new_date
+                except ValueError:
+                    if current_entry:
+                        current_entry.body += line + "\n"
+
+        # Append last entry
+        if current_entry:
+            entries.append(current_entry)
+
+        # Now, update our current entries if they changed
+        for entry in entries:
+            entry.parse_tags()
+            matched_entries = [e for e in self.entries if e.uuid.lower() == entry.uuid]
+            if matched_entries:
+                # This entry is an existing entry
+                match = matched_entries[0]
+                if match != entry:
+                    self.entries.remove(match)
+                    entry.modified = True
+                    self.entries.append(entry)
+            else:
+                # This entry seems to be new... save it.
+                entry.modified = True
+                self.entries.append(entry)
+        # Remove deleted entries
+        edited_uuids = [e.uuid for e in entries]
+        self._deleted_entries = [e for e in self.entries if e.uuid not in edited_uuids]
+        self.entries[:] = [e for e in self.entries if e.uuid in edited_uuids]
+        return entries
+

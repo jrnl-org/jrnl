@@ -219,14 +219,15 @@ def run(manual_args=None):
         other_entries = [e for e in old_entries if e not in journal.entries]
         # Edit
         old_num_entries = len(journal)
-        template = u"\n".join([e.__unicode__() for e in journal.entries])
-        edited = util.get_text_from_editor(config, template)
-        journal.entries = journal.parse(edited)
+        edited = util.get_text_from_editor(config, journal.editable_str())
+        journal.parse_editable_str(edited)
         num_deleted = old_num_entries - len(journal)
-        if num_deleted:
-            util.prompt("[Deleted {0} entries]".format(num_deleted))
-        else:
-            util.prompt("[Edited {0} entries]".format(len(journal)))
+        num_edited = len([e for e in journal.entries if e.modified])
+        prompts = []
+        if num_deleted: prompts.append("{0} entries deleted".format(num_deleted))
+        if num_edited: prompts.append("{0} entries modified".format(num_edited))
+        if prompts:
+            util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
         journal.write()
 

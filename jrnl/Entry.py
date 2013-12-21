@@ -9,8 +9,8 @@ class Entry:
     def __init__(self, journal, date=None, title="", body="", starred=False):
         self.journal = journal # Reference to journal mainly to access it's config
         self.date = date or datetime.now()
-        self.title = title.strip()
-        self.body = body.strip()
+        self.title = title.strip("\n ")
+        self.body = body.strip("\n ")
         self.tags = self.parse_tags()
         self.starred = starred
         self.modified = False
@@ -67,6 +67,18 @@ class Entry:
 
     def __repr__(self):
         return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
+
+    def __eq__(self, other):
+        if not isinstance(other, Entry) \
+           or self.title.strip() != other.title.strip() \
+           or self.body.strip() != other.body.strip() \
+           or self.date != other.date \
+           or self.starred != other.starred:
+           return False
+        return True
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def to_dict(self):
         return {
