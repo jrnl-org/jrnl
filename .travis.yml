@@ -5,7 +5,6 @@ python:
   - "3.3"
 install:
   - "pip install -q -r requirements.txt --use-mirrors"
-  - "pip install -q behave python-dateutil"
 # command to run tests
 script:
  - python --version

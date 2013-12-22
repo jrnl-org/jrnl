@@ -17,3 +17,8 @@ gh_pages:
 # Upload to pipy
 dist:
 	python setup.py publish
+
+clean:
+	rm -rf dist
+	rm -rf _static
+	rm -rf jrnl.egg-info
