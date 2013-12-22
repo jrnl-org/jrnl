@@ -1,6 +1,13 @@
 Changelog
 =========
 
+
+### 1.7 (December 22, 2013)
+
+* __1.7.1__ Fixes issues with parsing time information in entries.
+* __1.7.0__ Edit encrypted or DayOne journals with `jrnl --edit`.
+
+
 ### 1.6 (November 5, 2013)
 
 * __1.6.6__ -v prints the current version, also better strings for windows users. Furthermore, jrnl/jrnl.py moved to jrnl/cli.py
