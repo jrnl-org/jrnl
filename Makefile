@@ -1,5 +1,10 @@
 # A Makefile for commands I run frequently:
 
+clean:
+	rm -rf dist
+	rm -rf _static
+	rm -rf jrnl.egg-info
+
 # Build GitHub Page from docs
 gh_pages:
 	git checkout gh-pages ; \
@@ -17,8 +22,3 @@ gh_pages:
 # Upload to pipy
 dist:
 	python setup.py publish
-
-clean:
-	rm -rf dist
-	rm -rf _static
-	rm -rf jrnl.egg-info
