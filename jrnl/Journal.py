@@ -375,7 +375,6 @@ class DayOne(Journal):
                 }
                 plistlib.writePlist(entry_plist, filename)
         for entry in self._deleted_entries:
-            print "DELETING", entry.uuid, entry.title
             filename = os.path.join(self.config['journal'], "entries", entry.uuid+".doentry")
             os.remove(filename)
 

@@ -2,9 +2,10 @@ Changelog
 =========
 
 
-### 1.7 (December 1, 2013)
+### 1.7 (December 22, 2013)
 
-* __1.7.0__ Edit encrypted journals with `--edit` and `--delete`. Deprecates `--delete-last` (use `-n 1 --delete` instead).
+* __1.7.1__ Fixes issues with parsing time information in entries.
+* __1.7.0__ Edit encrypted or DayOne journals with `jrnl --edit`.
 
 
 ### 1.6 (November 5, 2013)

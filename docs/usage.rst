@@ -88,16 +88,34 @@ the last five entries containing both ``@pineapple`` **and** ``@lubricant``. You
 Editing older entries
 ---------------------
 
-You can edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted or if you're using a DayOne journal. To use this feature, you need to have an editor configured in your journal configuration file (see :doc:`advanced usage <advanced>`):
+You can edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted or if you're using a DayOne journal. To use this feature, you need to have an editor configured in your journal configuration file (see :doc:`advanced usage <advanced>`)::
 
     jrnl -until 1950 @texas -and @history --edit
 
 Will open your editor with all entries tagged with ``@texas`` and ``@history`` before 1950. You can make any changes to them you want; after you save the file and close the editor, your journal will be updated.
 
-Of course, if you are using multiple journals, you can also edit e.g. the entry of your work journal with ``jrnl work -n 1 --edit``. In any case, this will bring up your editor and save (and, if applicable, encrypt) your edited journal after you save and exit the editor.
+Of course, if you are using multiple journals, you can also edit e.g. the latest entry of your work journal with ``jrnl work -n 1 --edit``. In any case, this will bring up your editor and save (and, if applicable, encrypt) your edited journal after you save and exit the editor.
 
 You can also use this feature for deleting entries from your journal::
 
     jrnl @girlfriend -until 'june 2012' --edit
 
 Just select all text, press delete, and everything is gone...
+
+Editing DayOne Journals
+~~~~~~~~~~~~~~~~~~~~~~~
+
+DayOne journals can be edited exactly the same way, however the output looks a little bit different because of the way DayOne stores its entries:
+
+.. code-block:: output
+
+    # af8dbd0d43fb55458f11aad586ea2abf
+    2013-05-02 15:30 I told everyone I built my @robot wife for sex.
+    But late at night when we're alone we mostly play Battleship.
+
+    # 2391048fe24111e1983ed49a20be6f9e
+    2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
+    I just figured I'd be on the other side.
+
+The long strings starting with hash symbol are the so-called UUIDs, unique identifiers for each entry. Don't touch them. If you do, then the old entry would get deleted and a new one written, which means that you could DayOne loose data that jrnl can't handle (such as as the entry's geolocation).
+
