@@ -9,6 +9,9 @@ import pytz
 try: import simplejson as json
 except ImportError: import json
 import re
+import tempfile
+import subprocess
+import codecs
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -120,4 +123,20 @@ def load_and_fix_json(json_path):
             prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
             prompt("[Entry was NOT added to your journal]")
             sys.exit(1)
+
+def get_text_from_editor(config, template=""):
+    tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
+    if template:
+        with codecs.open(tmpfile, 'w', "utf-8") as f:
+            f.write(template)
+    subprocess.call(config['editor'].split() + [tmpfile])
+    if os.path.exists(tmpfile):
+        with codecs.open(tmpfile, "r", "utf-8") as f:
+            raw = f.read()
+        os.remove(tmpfile)
+    else:
+        prompt('[Nothing saved to file]')
+        raw = ''
+
+    return raw
 
