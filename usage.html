@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Basic Usage &mdash; jrnl 1.6.6 documentation</title>
+    <title>Basic Usage &mdash; jrnl 1.7.2 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.6.6',
+        VERSION:     '1.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.6.6 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.2 documentation" href="index.html" />
     <link rel="next" title="Encryption" href="encryption.html" />
     <link rel="prev" title="Getting started" href="installation.html" />
      
@@ -109,7 +109,32 @@
 <p>the last five entries containing both <tt class="docutils literal"><span class="pre">&#64;pineapple</span></tt> <strong>and</strong> <tt class="docutils literal"><span class="pre">&#64;lubricant</span></tt>. You can change which symbols you&#8217;d like to use for tagging in the configuration.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">&#64;pinkie</span> <span class="pre">&#64;WorldDomination</span></tt> will switch to viewing mode because although _no_ command line arguments are given, all the input strings look like tags - <em>jrnl</em> will assume you want to filter by tag.</p>
+<p class="last"><tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">&#64;pinkie</span> <span class="pre">&#64;WorldDomination</span></tt> will switch to viewing mode because although <strong>no</strong> command line arguments are given, all the input strings look like tags - <em>jrnl</em> will assume you want to filter by tag.</p>
+</div>
+</div>
+<div class="section" id="editing-older-entries">
+<h2>Editing older entries<a class="headerlink" href="#editing-older-entries" title="Permalink to this headline">¶</a></h2>
+<p>You can edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted or if you&#8217;re using a DayOne journal. To use this feature, you need to have an editor configured in your journal configuration file (see <a class="reference internal" href="advanced.html"><em>advanced usage</em></a>):</p>
+<div class="highlight-python"><pre>jrnl -until 1950 @texas -and @history --edit</pre>
+</div>
+<p>Will open your editor with all entries tagged with <tt class="docutils literal"><span class="pre">&#64;texas</span></tt> and <tt class="docutils literal"><span class="pre">&#64;history</span></tt> before 1950. You can make any changes to them you want; after you save the file and close the editor, your journal will be updated.</p>
+<p>Of course, if you are using multiple journals, you can also edit e.g. the latest entry of your work journal with <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">work</span> <span class="pre">-n</span> <span class="pre">1</span> <span class="pre">--edit</span></tt>. In any case, this will bring up your editor and save (and, if applicable, encrypt) your edited journal after you save and exit the editor.</p>
+<p>You can also use this feature for deleting entries from your journal:</p>
+<div class="highlight-python"><pre>jrnl @girlfriend -until 'june 2012' --edit</pre>
+</div>
+<p>Just select all text, press delete, and everything is gone...</p>
+<div class="section" id="editing-dayone-journals">
+<h3>Editing DayOne Journals<a class="headerlink" href="#editing-dayone-journals" title="Permalink to this headline">¶</a></h3>
+<p>DayOne journals can be edited exactly the same way, however the output looks a little bit different because of the way DayOne stores its entries:</p>
+<div class="highlight-output"><pre># af8dbd0d43fb55458f11aad586ea2abf
+2013-05-02 15:30 I told everyone I built my @robot wife for sex.
+But late at night when we're alone we mostly play Battleship.
+
+# 2391048fe24111e1983ed49a20be6f9e
+2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
+I just figured I'd be on the other side.</pre>
+</div>
+<p>The long strings starting with hash symbol are the so-called UUIDs, unique identifiers for each entry. Don&#8217;t touch them. If you do, then the old entry would get deleted and a new one written, which means that you could DayOne loose data that jrnl can&#8217;t handle (such as as the entry&#8217;s geolocation).</p>
 </div>
 </div>
 </div>
@@ -132,6 +157,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#viewing">Viewing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-tags">Using Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#editing-older-entries">Editing older entries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#editing-dayone-journals">Editing DayOne Journals</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="encryption.html">Encryption</a></li>

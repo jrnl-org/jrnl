@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Advanced Usage &mdash; jrnl 1.6.6 documentation</title>
+    <title>Advanced Usage &mdash; jrnl 1.7.2 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.6.6',
+        VERSION:     '1.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.6.6 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.2 documentation" href="index.html" />
     <link rel="next" title="FAQ" href="recipes.html" />
     <link rel="prev" title="Import and Export" href="export.html" />
      
@@ -44,7 +44,7 @@
 <span id="advanced"></span><h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="configuration-file">
 <h2>Configuration File<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
-<p>You can configure the way jrnl behaves in a configuration file. By default, this is <cite>~/.jrnl_conf</cite>. If you have the <cite>XDG_CONFIG_HOME</cite> variable set, the configuration file will be saved under <cite>$XDG_CONFIG_HOME/jrnl</cite>. The configuration file is a simple JSON file with the following options.</p>
+<p>You can configure the way jrnl behaves in a configuration file. By default, this is <tt class="docutils literal"><span class="pre">~/.jrnl_conf</span></tt>. If you have the <tt class="docutils literal"><span class="pre">XDG_CONFIG_HOME</span></tt> variable set, the configuration file will be saved under <tt class="docutils literal"><span class="pre">$XDG_CONFIG_HOME/jrnl</span></tt>. The configuration file is a simple JSON file with the following options.</p>
 <ul>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">journals</span></tt></dt>
@@ -54,7 +54,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">editor</span></tt></dt>
-<dd><p class="first last">if set, executes this command to launch an external editor for writing your entries, e.g. <tt class="docutils literal"><span class="pre">vim</span></tt> or <tt class="docutils literal"><span class="pre">subl</span> <span class="pre">-w</span></tt> (note the <tt class="docutils literal"><span class="pre">-w</span></tt> flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal. If you&#8217;re using MacVim, that would be <tt class="docutils literal"><span class="pre">mvim</span> <span class="pre">-f</span></tt>).</p>
+<dd><p class="first last">if set, executes this command to launch an external editor for writing your entries, e.g. <tt class="docutils literal"><span class="pre">vim</span></tt> or <tt class="docutils literal"><span class="pre">subl</span> <span class="pre">-w</span></tt> (note the <tt class="docutils literal"><span class="pre">-w</span></tt> flag to make sure <em>jrnl</em> waits for Sublime Text to close the file before writing into the journal. If you&#8217;re using MacVim, that would be <tt class="docutils literal"><span class="pre">mvim</span> <span class="pre">-f</span></tt>).</p>
 </dd>
 </dl>
 </li>
@@ -114,9 +114,10 @@
 <li><tt class="docutils literal"><span class="pre">~/Dropbox/Apps/Day</span> <span class="pre">One/</span></tt> if you&#8217;re syncing with Dropbox and</li>
 <li><tt class="docutils literal"><span class="pre">~/Library/Mobile</span> <span class="pre">Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/</span></tt> if you&#8217;re syncing with iCloud.</li>
 </ul>
-<p>Instead of all entries being in a single file, each entry will live in a separate <cite>plist</cite> file.
-Multiple journal files
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</p>
+<p>Instead of all entries being in a single file, each entry will live in a separate <cite>plist</cite> file.</p>
+</div>
+<div class="section" id="multiple-journal-files">
+<h2>Multiple journal files<a class="headerlink" href="#multiple-journal-files" title="Permalink to this headline">¶</a></h2>
 <p>You can configure _jrnl_ to use with multiple journals (eg. <tt class="docutils literal"><span class="pre">private</span></tt> and <tt class="docutils literal"><span class="pre">work</span></tt>) by defining more journals in your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt>, for example:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
 <span class="p">...</span>
@@ -171,6 +172,7 @@ Multiple journal files
 <li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#configuration-file">Configuration File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dayone-integration">DayOne Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-journal-files">Multiple journal files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="recipes.html">FAQ</a></li>

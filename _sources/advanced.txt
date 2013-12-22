@@ -6,12 +6,12 @@ Advanced Usage
 Configuration File
 -------------------
 
-You can configure the way jrnl behaves in a configuration file. By default, this is `~/.jrnl_conf`. If you have the `XDG_CONFIG_HOME` variable set, the configuration file will be saved under `$XDG_CONFIG_HOME/jrnl`. The configuration file is a simple JSON file with the following options.
+You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_conf``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved under ``$XDG_CONFIG_HOME/jrnl``. The configuration file is a simple JSON file with the following options.
 
 - ``journals``
       paths to your journal files
 - ``editor``
-    if set, executes this command to launch an external editor for writing your entries, e.g. ``vim`` or ``subl -w`` (note the ``-w`` flag to make sure _jrnl_ waits for Sublime Text to close the file before writing into the journal. If you're using MacVim, that would be ``mvim -f``).
+    if set, executes this command to launch an external editor for writing your entries, e.g. ``vim`` or ``subl -w`` (note the ``-w`` flag to make sure *jrnl* waits for Sublime Text to close the file before writing into the journal. If you're using MacVim, that would be ``mvim -f``).
 - ``encrypt``
     if ``true``, encrypts your journal using AES.
 - ``tagsymbols``
@@ -51,6 +51,7 @@ Using your DayOne journal instead of a flat text file is dead simple -- instead 
 * ``~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/`` if you're syncing with iCloud.
 
 Instead of all entries being in a single file, each entry will live in a separate `plist` file.
+
 Multiple journal files
 ----------------------
 

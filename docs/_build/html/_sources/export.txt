@@ -15,6 +15,8 @@ you'll get a list of all tags you used in your journal, sorted by most frequent.
 List of all entries
 -------------------
 
+::
+
     jrnl --short
 
 Will only display the date and title of each entry.
