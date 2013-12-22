@@ -11,6 +11,7 @@ try: import parsedatetime.parsedatetime_consts as pdt
 except ImportError: import parsedatetime.parsedatetime as pdt
 import re
 from datetime import datetime
+import dateutil
 import time
 import sys
 try:
@@ -252,7 +253,12 @@ class Journal(object):
         elif isinstance(date_str, datetime):
             return date_str
 
-        date, flag = self.dateparse.parse(date_str)
+        try:
+            date = dateutil.parser.parse(date_str)
+            flag = 1 if date.hour == 0 and date.minute == 0 else 2
+            date = date.timetuple()
+        except:
+            date, flag = self.dateparse.parse(date_str)
 
         if not flag:  # Oops, unparsable.
             try:  # Try and parse this as a single year
@@ -288,11 +294,11 @@ class Journal(object):
         title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
         starred = False
         if not date:
-            if title.find(":") > 0:
-                starred = "*" in title[:title.find(":")]
-                date = self.parse_date(title[:title.find(":")])
+            if title.find(": ") > 0:
+                starred = "*" in title[:title.find(": ")]
+                date = self.parse_date(title[:title.find(": ")])
                 if date or starred:  # Parsed successfully, strip that from the raw text
-                    title = title[title.find(":")+1:].strip()
+                    title = title[title.find(": ")+1:].strip()
             elif title.strip().startswith("*"):
                 starred = True
                 title = title[1:].strip()
