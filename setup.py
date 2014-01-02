@@ -73,7 +73,8 @@ setup(
         "pytz>=2013b",
         "tzlocal==1.0",
         "slugify>=0.0.1",
-        "keyring>=3.0.5"
+        "keyring>=3.3",
+        "python-dateutil>=2.2"
         ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
         "encrypted": "pycrypto>=2.6"
