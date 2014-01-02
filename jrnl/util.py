@@ -129,14 +129,13 @@ def get_text_from_editor(config, template=""):
     if template:
         with codecs.open(tmpfile, 'w', "utf-8") as f:
             f.write(template)
+    with open(tmpfile, 'w'):
+        pass
     subprocess.call(config['editor'].split() + [tmpfile])
-    if os.path.exists(tmpfile):
-        with codecs.open(tmpfile, "r", "utf-8") as f:
-            raw = f.read()
-        os.remove(tmpfile)
-    else:
+    with codecs.open(tmpfile, "r", "utf-8") as f:
+        raw = f.read()
+    os.remove(tmpfile)
+    if not raw:
         prompt('[Nothing saved to file]')
-        raw = ''
-
     return raw
 

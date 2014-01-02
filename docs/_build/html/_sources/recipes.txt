@@ -24,6 +24,18 @@ You can do things like ::
 
 To get a short summary of the 10 most recent, favourited entries before January 1, 2013 that are tagged with ``@fixed``.
 
+
+Using iA Writer to write entries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On OS X, you can use the fabulous `iA Writer <http://www.iawriter.com/mac>` to write entries. Configure your ``.jrnl_conf`` like this:
+
+.. code-block:: javascript
+
+    "editor": "open -b jp.informationarchitects.WriterForMacOSX -Wn"
+
+What does this do? ``open -b ...`` opens a file using the application identified by the bundle identifier (a unique string for every app out there). ``-Wn`` tells the application to wait until it's closed before passing back control, and to use a new instance of the application.
+
 Known Issues
 ------------
 
