@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.4__ Gets rid of colorama.
 * __1.7.3__ Touches temporary files before opening them to allow more external editors.
 * __1.7.2__ Dateutil added to requirements.
 * __1.7.1__ Fixes issues with parsing time information in entries.
