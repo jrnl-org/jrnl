@@ -21,11 +21,6 @@ try:
 except ImportError:
     crypto_installed = False
 import hashlib
-try:
-    import colorama
-    colorama.init()
-except ImportError:
-    colorama = None
 import plistlib
 import pytz
 import uuid
@@ -56,12 +51,6 @@ class Journal(object):
     def __len__(self):
         """Returns the number of entries"""
         return len(self.entries)
-
-    def _colorize(self, string):
-        if colorama:
-            return colorama.Fore.CYAN + string + colorama.Fore.RESET
-        else:
-            return string
 
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
@@ -174,11 +163,11 @@ class Journal(object):
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
-                                lambda match: self._colorize(match.group(0)),
+                                lambda match: util.colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
                 pp = re.sub(r"(?u)([{tags}]\w+)".format(tags=self.config['tagsymbols']),
-                            lambda match: self._colorize(match.group(0)),
+                            lambda match: util.colorize(match.group(0)),
                             pp)
         return pp
 

@@ -28,7 +28,7 @@ To get a short summary of the 10 most recent, favourited entries before January 
 Using iA Writer to write entries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-On OS X, you can use the fabulous `iA Writer <http://www.iawriter.com/mac>` to write entries. Configure your ``.jrnl_conf`` like this:
+On OS X, you can use the fabulous `iA Writer <http://www.iawriter.com/mac>`_ to write entries. Configure your ``.jrnl_conf`` like this:
 
 .. code-block:: javascript
 
