@@ -168,11 +168,11 @@ class Journal(object):
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
-                                lambda match: util.colorize(match.group(0)),
+                                lambda match: util.colorize(match.group(0), colorama),
                                 pp, re.UNICODE)
             else:
                 pp = re.sub(r"(?u)([{tags}]\w+)".format(tags=self.config['tagsymbols']),
-                            lambda match: util.colorize(match.group(0)),
+                            lambda match: util.colorize(match.group(0), colorama),
                             pp)
         return pp
 
@@ -435,4 +435,3 @@ class DayOne(Journal):
         self._deleted_entries = [e for e in self.entries if e.uuid not in edited_uuids]
         self.entries[:] = [e for e in self.entries if e.uuid in edited_uuids]
         return entries
-
