@@ -126,11 +126,11 @@ def load_and_fix_json(json_path):
 
 def get_text_from_editor(config, template=""):
     tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
+    with open(tmpfile, 'w'):
+        pass
     if template:
         with codecs.open(tmpfile, 'w', "utf-8") as f:
             f.write(template)
-    with open(tmpfile, 'w'):
-        pass
     subprocess.call(config['editor'].split() + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
@@ -139,7 +139,9 @@ def get_text_from_editor(config, template=""):
         prompt('[Nothing saved to file]')
     return raw
 
-def colorize(string):
+def colorize(string, colorama=None):
     """Returns the string wrapped in cyan ANSI escape"""
-    return u"\033[36m{}\033[39m".format(string)
-
+    if os.name == "nt" and not colorama:
+        return string
+    else:
+        return u"\033[36m{}\033[39m".format(string)
