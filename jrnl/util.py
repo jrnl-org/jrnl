@@ -8,6 +8,8 @@ import keyring
 import pytz
 try: import simplejson as json
 except ImportError: import json
+if "win32" in sys.platform:
+    import colorama
 import re
 import tempfile
 import subprocess
@@ -126,11 +128,9 @@ def load_and_fix_json(json_path):
 
 def get_text_from_editor(config, template=""):
     tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
-    if template:
-        with codecs.open(tmpfile, 'w', "utf-8") as f:
+    with codecs.open(tmpfile, 'w', "utf-8") as f:
+        if template:
             f.write(template)
-    with open(tmpfile, 'w'):
-        pass
     subprocess.call(config['editor'].split() + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
@@ -141,5 +141,7 @@ def get_text_from_editor(config, template=""):
 
 def colorize(string):
     """Returns the string wrapped in cyan ANSI escape"""
+    if "win32" in sys.platform:
+        return colorama.Fore.CYAN + string + colorama.Fore.RESET
     return u"\033[36m{}\033[39m".format(string)
 
