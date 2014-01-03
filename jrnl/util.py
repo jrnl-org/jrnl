@@ -126,6 +126,8 @@ def load_and_fix_json(json_path):
 
 def get_text_from_editor(config, template=""):
     tmpfile = os.path.join(tempfile.gettempdir(), "jrnl")
+    with open(tmpfile, 'w'):
+        pass
     if template:
         with codecs.open(tmpfile, 'w', "utf-8") as f:
             f.write(template)
