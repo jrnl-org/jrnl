@@ -99,3 +99,26 @@ Your ``default`` and your ``food`` journals won't be encrypted, however your ``w
 
     Changing ``encrypt`` to a different value will not encrypt or decrypt your journal file, it merely says whether or not your journal `is` encrypted. Hence manually changing this option will most likely result in your journal file being impossible to load.
 
+Windows Usage
+-------------
+
+A couple of tips to get jrnl working better on Windows:
+
+The configuration file is typically found at ``C:\Users\[Your Username\.jrnl_conf``. This is just a text file and so can be edited in a text editor (but don't use Notepad, it will mess with the line endings).
+
+For editing entries, Notepad will technically work, but doesn't play nice with line endings. A good alternative is `Notepad++ <http://notepad-plus-plus.org/>`_. To set Notepad++ as your editor, edit the jrnl config file (``.jrnl_conf``) like this:
+
+.. code-block:: javascript
+
+    {
+      ...
+      "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst",
+    }
+
+The double backslashes are needed so jrnl can read the file path correctly. The ``-multiInst`` option will cause jrnl to open its own Notepad++ windows. When you're done editing an entry in Notepad++, save the file and close the Notepad++ window for jrnl to know you're done editing and record your changes.
+
+Known Issues
+~~~~~~~~~~~~
+
+- The Windows shell prior to Windows 7 has issues with unicode encoding. If you want to use non-ascii characters, change the codepage with ``chcp 1252`` before using `jrnl` (Thanks to Yves Pouplard for solving this!)
+- _jrnl_ relies on the `PyCrypto` package to encrypt journals, which has some known problems with installing on Windows and within virtual environments.
