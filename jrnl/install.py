@@ -83,7 +83,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
         print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org or with 'pip install pycrypto' and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
 
     # Use highlighting:
-    if not module_exists("colorama"):
+    if os.name == "nt" and not module_exists("colorama"):
         print("colorama not found. To turn on highlighting, install colorama and set highlight to true in your .jrnl_conf.")
         default_config['highlight'] = False
 
