@@ -7,10 +7,10 @@ jrnl is a simple journal application for your command line.
 """
 
 __title__ = 'jrnl'
-__version__ = '1.7.3'
+__version__ = '1.7.5'
 __author__ = 'Manuel Ebert'
 __license__ = 'MIT License'
-__copyright__ = 'Copyright 2013 Manuel Ebert'
+__copyright__ = 'Copyright 2013-14 Manuel Ebert'
 
 from . import Journal
 from . import cli

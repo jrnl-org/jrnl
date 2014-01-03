@@ -4,7 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
-* __1.7.5__ Return of colorama (for color on Windows), fixes editing (stops deleting entries instead of editing them), improves Windows documentation.
+* __1.7.5__ Optional return of colorama (for color on Windows), fixes editing (stops deleting entries instead of editing them), improves Windows documentation.
 * __1.7.4__ Gets rid of colorama.
 * __1.7.3__ Touches temporary files before opening them to allow more external editors.
 * __1.7.2__ Dateutil added to requirements.

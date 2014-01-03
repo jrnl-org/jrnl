@@ -104,6 +104,10 @@ Windows Usage
 
 A couple of tips to get jrnl working better on Windows:
 
+To get colored output on Windows, install ``colorama`` ::
+
+    pip install colorama
+
 The configuration file is typically found at ``C:\Users\[Your Username\.jrnl_conf``. This is just a text file and so can be edited in a text editor (but don't use Notepad, it will mess with the line endings).
 
 For editing entries, Notepad will technically work, but doesn't play nice with line endings. A good alternative is `Notepad++ <http://notepad-plus-plus.org/>`_. To set Notepad++ as your editor, edit the jrnl config file (``.jrnl_conf``) like this:

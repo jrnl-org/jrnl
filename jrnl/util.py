@@ -139,3 +139,9 @@ def get_text_from_editor(config, template=""):
         prompt('[Nothing saved to file]')
     return raw
 
+def colorize(string):
+    """Returns the string wrapped in cyan ANSI escape"""
+    if os.name == "nt" and not colorama:
+        return string
+    else:
+        return u"\033[36m{}\033[39m".format(string)
