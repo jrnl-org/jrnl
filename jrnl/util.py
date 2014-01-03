@@ -8,6 +8,8 @@ import keyring
 import pytz
 try: import simplejson as json
 except ImportError: import json
+if "win32" in sys.platform:
+    import colorama
 import re
 import tempfile
 import subprocess
@@ -141,5 +143,7 @@ def get_text_from_editor(config, template=""):
 
 def colorize(string):
     """Returns the string wrapped in cyan ANSI escape"""
+    if "win32" in sys.platform:
+        return colorama.Fore.CYAN + string + colorama.Fore.RESET
     return u"\033[36m{}\033[39m".format(string)
 
