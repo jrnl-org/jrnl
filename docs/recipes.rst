@@ -36,6 +36,26 @@ On OS X, you can use the fabulous `iA Writer <http://www.iawriter.com/mac>`_ to 
 
 What does this do? ``open -b ...`` opens a file using the application identified by the bundle identifier (a unique string for every app out there). ``-Wn`` tells the application to wait until it's closed before passing back control, and to use a new instance of the application.
 
+
+Using Notepad++ to write entries on Windows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    The configuration file is typically found at ``C:\Users\[Your Username]\.jrnl_conf``. This is just a text file and so can be edited in a text editor (but don't use Notepad, it will mess with the line endings).
+
+To set `Notepad++ <http://notepad-plus-plus.org/>`_ as your editor, edit the jrnl config file (``.jrnl_conf``) like this:
+
+.. code-block:: javascript
+
+    {
+      ...
+      "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst",
+    }
+
+The double backslashes are needed so jrnl can read the file path correctly. The ``-multiInst`` option will cause jrnl to open its own Notepad++ window. When you're done editing an entry in Notepad++, save the file and close the Notepad++ window for jrnl to know you're done editing and record your changes.
+
+
 Known Issues
 ------------
 
