@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>FAQ &mdash; jrnl 1.7.4 documentation</title>
+    <title>FAQ &mdash; jrnl 1.7.5 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.7.4',
+        VERSION:     '1.7.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.7.4 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.5 documentation" href="index.html" />
     <link rel="prev" title="Advanced Usage" href="advanced.html" />
      
     <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -65,6 +65,21 @@
 </div>
 <p>What does this do? <tt class="docutils literal"><span class="pre">open</span> <span class="pre">-b</span> <span class="pre">...</span></tt> opens a file using the application identified by the bundle identifier (a unique string for every app out there). <tt class="docutils literal"><span class="pre">-Wn</span></tt> tells the application to wait until it&#8217;s closed before passing back control, and to use a new instance of the application.</p>
 </div>
+<div class="section" id="using-notepad-to-write-entries-on-windows">
+<h3>Using Notepad++ to write entries on Windows<a class="headerlink" href="#using-notepad-to-write-entries-on-windows" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The configuration file is typically found at <tt class="docutils literal"><span class="pre">C:\Users\[Your</span> <span class="pre">Username]\.jrnl_conf</span></tt>. This is just a text file and so can be edited in a text editor (but don&#8217;t use Notepad, it will mess with the line endings).</p>
+</div>
+<p>To set <a class="reference external" href="http://notepad-plus-plus.org/">Notepad++</a> as your editor, edit the jrnl config file (<tt class="docutils literal"><span class="pre">.jrnl_conf</span></tt>) like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="p">...</span>
+  <span class="s2">&quot;editor&quot;</span><span class="o">:</span> <span class="s2">&quot;C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The double backslashes are needed so jrnl can read the file path correctly. The <tt class="docutils literal"><span class="pre">-multiInst</span></tt> option will cause jrnl to open its own Notepad++ window. When you&#8217;re done editing an entry in Notepad++, save the file and close the Notepad++ window for jrnl to know you&#8217;re done editing and record your changes.</p>
+</div>
 </div>
 <div class="section" id="known-issues">
 <h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
@@ -94,6 +109,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#co-occurrence-of-tags">Co-occurrence of tags</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#combining-filters">Combining filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-ia-writer-to-write-entries">Using iA Writer to write entries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-notepad-to-write-entries-on-windows">Using Notepad++ to write entries on Windows</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a></li>
