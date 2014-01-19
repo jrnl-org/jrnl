@@ -4,6 +4,7 @@ clean:
 	rm -rf dist
 	rm -rf _static
 	rm -rf jrnl.egg-info
+	rm -rf docs/_build
 
 # Build GitHub Page from docs
 docs:
