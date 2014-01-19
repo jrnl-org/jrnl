@@ -26,6 +26,7 @@ Icon
 
 # Documentation
 _build
+docs/_themes/jrnl/static/css/jrnl.css
 
 # MS Visual Studio (PyTools)
 obj
