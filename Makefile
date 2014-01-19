@@ -6,10 +6,11 @@ clean:
 	rm -rf jrnl.egg-info
 
 # Build GitHub Page from docs
-gh_pages:
+docs:
 	git checkout gh-pages ; \
 	git checkout master docs ; \
 	git checkout master jrnl ; \
+	lessc --clean-css docs/_themes/jrnl/static/less/jrnl.less docs/_themes/jrnl/static/css/jrnl.css ; \
 	cd docs ; \
 	make html ; \
 	cd .. ; \
