@@ -7,17 +7,12 @@
     license: MIT, see LICENSE for more details.
 """
 
-try:
-    from . import Journal
-    from . import util
-    from . import exporters
-    from . import install
-    from . import __version__
-except (SystemError, ValueError):
-    import Journal
-    import util
-    import exporters
-    import install
+from __future__ import absolute_import
+from . import Journal
+from . import util
+from . import exporters
+from . import install
+from . import __version__
 import jrnl
 import os
 import argparse

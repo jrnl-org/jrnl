@@ -6,8 +6,7 @@ from tzlocal import get_localzone
 import getpass as gp
 import keyring
 import pytz
-try: import simplejson as json
-except ImportError: import json
+import json
 if "win32" in sys.platform:
     import colorama
     colorama.init()

@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-try: from . import Entry
-except (SystemError, ValueError): import Entry
-try: from . import util
-except (SystemError, ValueError): import util
+from __future__ import absolute_import
+from . import Entry
+from . import util
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
