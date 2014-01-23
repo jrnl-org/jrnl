@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import absolute_import
 import os
-import string
-try: import simplejson as json
-except ImportError: import json
-try: from .util import u, slugify
-except (SystemError, ValueError): from util import u, slugify
+import json
+from .util import u, slugify
 
 
 def get_tags_count(journal):
