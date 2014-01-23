@@ -65,6 +65,10 @@ def u(s):
     """Mock unicode function for python 2 and 3 compatibility."""
     return s if PY3 or type(s) is unicode else unicode(s.encode('string-escape'), "unicode_escape")
 
+def py2encode(s):
+    """Encode in Python 2, but not in python 3."""
+    return s.encode("utf-8") if PY2 and type(s) is unicode else s
+
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
     if not msg.endswith("\n"):
