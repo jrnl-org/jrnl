@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.8__ Upgrade to parsedatetime 1.2
 * __1.7.7__ Cleaned up imports, better unicode support
 * __1.7.6__ Python 3 port for slugify
 * __1.7.5__ Colorama is only needed on windows. Smaller fixes

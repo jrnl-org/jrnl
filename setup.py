@@ -70,7 +70,7 @@ setup(
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
     install_requires = [
-        "parsedatetime>=1.1.2",
+        "parsedatetime>=1.2",
         "pytz>=2013b",
         "tzlocal==1.0",
         "keyring>=3.3",
