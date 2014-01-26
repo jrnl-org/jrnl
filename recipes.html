@@ -57,6 +57,16 @@
 </div>
 <p>To get a short summary of the 10 most recent, favourited entries before January 1, 2013 that are tagged with <tt class="docutils literal"><span class="pre">&#64;fixed</span></tt>.</p>
 </div>
+<div class="section" id="statistics">
+<h3>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h3>
+<p>How much did I write last year?</p>
+<blockquote>
+<div>jrnl -from &#8220;jan 1 2013&#8221; -until &#8220;dec 31 2013&#8221; | wc -w</div></blockquote>
+<p>Will give you the number of words you wrote in 2013. How long is my average entry?</p>
+<blockquote>
+<div>expr $(jrnl &#8211;export text | wc -w) / $(jrnl &#8211;short | wc -l)</div></blockquote>
+<p>This will first get the total number of words in the journal and divide it by the number of entries (this works because <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">--short</span></tt> will print exactly one line per entry).</p>
+</div>
 </div>
 <div class="section" id="external-editors">
 <h2>External editors<a class="headerlink" href="#external-editors" title="Permalink to this headline">¶</a></h2>
@@ -113,6 +123,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id1">Recipes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#co-occurrence-of-tags">Co-occurrence of tags</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#combining-filters">Combining filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#statistics">Statistics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#external-editors">External editors</a><ul>
