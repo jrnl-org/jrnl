@@ -1,0 +1,150 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FAQ &mdash; jrnl 1.7.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.7.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="jrnl 1.7.6 documentation" href="index.html" />
+    <link rel="prev" title="Advanced Usage" href="advanced.html" />
+     
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <link rel="apple-touch-icon-precomposed" href="_static/img/favicon-152.png">
+    <link rel="shortcut icon" href="_static/img/favicon.ico">
+  
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="faq">
+<span id="recipes"></span><h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Recipes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="co-occurrence-of-tags">
+<h3>Co-occurrence of tags<a class="headerlink" href="#co-occurrence-of-tags" title="Permalink to this headline">¶</a></h3>
+<p>If I want to find out how often I mentioned my flatmates Alberto and Melo in the same entry, I run</p>
+<div class="highlight-python"><pre>jrnl @alberto --tags | grep @melo</pre>
+</div>
+<p>And will get something like <tt class="docutils literal"><span class="pre">&#64;melo:</span> <span class="pre">9</span></tt>, meaning there are 9 entries where both <tt class="docutils literal"><span class="pre">&#64;alberto</span></tt> and <tt class="docutils literal"><span class="pre">&#64;melo</span></tt> are tagged. How does this work? First, <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">&#64;alberto</span></tt> will filter the journal to only entries containing the tag <tt class="docutils literal"><span class="pre">&#64;alberto</span></tt>, and then the <tt class="docutils literal"><span class="pre">--tags</span></tt> option will print out how often each tag occurred in this <cite>filtered</cite> journal. Finally, we pipe this to <tt class="docutils literal"><span class="pre">grep</span></tt> which will only display the line containing <tt class="docutils literal"><span class="pre">&#64;melo</span></tt>.</p>
+</div>
+<div class="section" id="combining-filters">
+<h3>Combining filters<a class="headerlink" href="#combining-filters" title="Permalink to this headline">¶</a></h3>
+<p>You can do things like</p>
+<div class="highlight-python"><pre>jrnl @fixed -starred -n 10 -until "jan 2013" --short</pre>
+</div>
+<p>To get a short summary of the 10 most recent, favourited entries before January 1, 2013 that are tagged with <tt class="docutils literal"><span class="pre">&#64;fixed</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="external-editors">
+<h2>External editors<a class="headerlink" href="#external-editors" title="Permalink to this headline">¶</a></h2>
+<p>To use external editors for writing and editing journal entries,  set them up in your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> (see <a class="reference internal" href="advanced.html"><em>advanced usage</em></a> for details). Generally, after writing an entry, you will have to save and close the file to save the changes to jrnl.</p>
+<div class="section" id="sublime-text">
+<h3>Sublime Text<a class="headerlink" href="#sublime-text" title="Permalink to this headline">¶</a></h3>
+<p>To use Sublime Text, install the command line tools for Sublime Text and configure your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;editor&quot;</span><span class="o">:</span> <span class="s2">&quot;subl -w&quot;</span>
+</pre></div>
+</div>
+<p>Note the <tt class="docutils literal"><span class="pre">-w</span></tt> flag to make sure jrnl waits for Sublime Text to close the file before writing into the journal.</p>
+</div>
+<div class="section" id="macvim">
+<h3>MacVim<a class="headerlink" href="#macvim" title="Permalink to this headline">¶</a></h3>
+<p>Similar to Sublime Text, MacVim must be started with a flag that tells the the process to wait until the file is closed before passing control back to journal. In the case of MacVim, this is <tt class="docutils literal"><span class="pre">-f</span></tt>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;editor&quot;</span><span class="o">:</span> <span class="s2">&quot;mvim -f&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ia-writer">
+<h3>iA Writer<a class="headerlink" href="#ia-writer" title="Permalink to this headline">¶</a></h3>
+<p>On OS X, you can use the fabulous <a class="reference external" href="http://www.iawriter.com/mac">iA Writer</a> to write entries. Configure your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;editor&quot;</span><span class="o">:</span> <span class="s2">&quot;open -b jp.informationarchitects.WriterForMacOSX -Wn&quot;</span>
+</pre></div>
+</div>
+<p>What does this do? <tt class="docutils literal"><span class="pre">open</span> <span class="pre">-b</span> <span class="pre">...</span></tt> opens a file using the application identified by the bundle identifier (a unique string for every app out there). <tt class="docutils literal"><span class="pre">-Wn</span></tt> tells the application to wait until it&#8217;s closed before passing back control, and to use a new instance of the application.</p>
+</div>
+<div class="section" id="notepad-on-windows">
+<h3>Notepad++ on Windows<a class="headerlink" href="#notepad-on-windows" title="Permalink to this headline">¶</a></h3>
+<p>To set <a class="reference external" href="http://notepad-plus-plus.org/">Notepad++</a> as your editor, edit the jrnl config file (<tt class="docutils literal"><span class="pre">.jrnl_config</span></tt>) like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="s2">&quot;editor&quot;</span><span class="o">:</span> <span class="s2">&quot;C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>The double backslashes are needed so jrnl can read the file path correctly. The <tt class="docutils literal"><span class="pre">-multiInst</span></tt> option will cause jrnl to open its own Notepad++ window.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <aside>
+    <a href="index.html" id="logolink" title="jrnl"><img class="logo" src="_static/img/logo.png" width="90px" height="98px" title="jrnl"/></a>
+    <h2>Documentation</h2>
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encryption.html">Encryption</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Import and Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Recipes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#co-occurrence-of-tags">Co-occurrence of tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combining-filters">Combining filters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#external-editors">External editors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sublime-text">Sublime Text</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#macvim">MacVim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ia-writer">iA Writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notepad-on-windows">Notepad++ on Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </aside>
+  
+      <div class="clearer"></div>
+    </div>
+      <div class="footer">
+          Journal is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributtors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
+      </div>
+  </body>
+</html>
