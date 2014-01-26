@@ -1,4 +1,4 @@
-parsedatetime >= 1.1.2
+parsedatetime >= 1.2
 pytz >= 2013b
 pycrypto >= 2.6
 argparse==1.2.1
