@@ -60,11 +60,15 @@
 <div class="section" id="statistics">
 <h3>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h3>
 <p>How much did I write last year?</p>
-<blockquote>
-<div>jrnl -from &#8220;jan 1 2013&#8221; -until &#8220;dec 31 2013&#8221; | wc -w</div></blockquote>
+<dl class="docutils">
+<dt>::</dt>
+<dd>jrnl -from &#8220;jan 1 2013&#8221; -until &#8220;dec 31 2013&#8221; | wc -w</dd>
+</dl>
 <p>Will give you the number of words you wrote in 2013. How long is my average entry?</p>
-<blockquote>
-<div>expr $(jrnl &#8211;export text | wc -w) / $(jrnl &#8211;short | wc -l)</div></blockquote>
+<dl class="docutils">
+<dt>::</dt>
+<dd>expr $(jrnl &#8211;export text | wc -w) / $(jrnl &#8211;short | wc -l)</dd>
+</dl>
 <p>This will first get the total number of words in the journal and divide it by the number of entries (this works because <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">--short</span></tt> will print exactly one line per entry).</p>
 </div>
 </div>
