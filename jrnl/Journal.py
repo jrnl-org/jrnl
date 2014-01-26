@@ -7,7 +7,7 @@ from . import util
 import codecs
 import os
 try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime.parsedatetime as pdt
+except ImportError: import parsedatetime as pdt
 import re
 from datetime import datetime
 import dateutil
