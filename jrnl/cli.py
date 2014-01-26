@@ -100,6 +100,13 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 def run(manual_args=None):
+    args = parse_args(manual_args)
+
+    if args.version:
+        version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
+        print(util.py2encode(version_str))
+        sys.exit(0)
+
     if not os.path.exists(CONFIG_PATH):
         config = install.install_jrnl(CONFIG_PATH)
     else:
@@ -112,12 +119,7 @@ def run(manual_args=None):
         util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(1)
 
-    args = parse_args(manual_args)
 
-    if args.version:
-        version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
-        print(util.py2encode(version_str))
-        sys.exit(0)
 
     # If the first textual argument points to a journal file,
     # use this!
