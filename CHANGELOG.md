@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.9__ Fix a logic bug so that jrnl -h and jrnl -v are possible even if jrnl not configured yet.
 * __1.7.8__ Upgrade to parsedatetime 1.2
 * __1.7.7__ Cleaned up imports, better unicode support
 * __1.7.6__ Python 3 port for slugify
