@@ -24,6 +24,19 @@ You can do things like ::
 
 To get a short summary of the 10 most recent, favourited entries before January 1, 2013 that are tagged with ``@fixed``.
 
+Statistics
+~~~~~~~~~~
+
+How much did I write last year? ::
+
+    jrnl -from "jan 1 2013" -until "dec 31 2013" | wc -w
+
+Will give you the number of words you wrote in 2013. How long is my average entry? ::
+
+    expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
+
+This will first get the total number of words in the journal and divide it by the number of entries (this works because ``jrnl --short`` will print exactly one line per entry).
+
 External editors
 ----------------
 
