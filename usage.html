@@ -1,0 +1,193 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic Usage &mdash; jrnl 1.7.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.7.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="jrnl 1.7.6 documentation" href="index.html" />
+    <link rel="next" title="Encryption" href="encryption.html" />
+    <link rel="prev" title="Getting started" href="installation.html" />
+     
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <link rel="apple-touch-icon-precomposed" href="_static/img/favicon-152.png">
+    <link rel="shortcut icon" href="_static/img/favicon.ico">
+  
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="basic-usage">
+<span id="usage"></span><h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<p><em>jrnl</em> has two modes: <strong>composing</strong> and <strong>viewing</strong>. Basically, whenever you <cite>don&#8217;t</cite> supply any arguments that start with a dash or double-dash, you&#8217;re in composing mode, meaning you can write your entry on the command line or an editor of your choice.</p>
+<p>We intentionally break a convention on command line arguments: all arguments starting with a <cite>single dash</cite> will <cite>filter</cite> your journal before viewing it, and can be combined arbitrarily. Arguments with a <cite>double dash</cite> will control how your journal is displayed or exported and are mutually exclusive (ie. you can only specify one way to display or export your journal at a time).</p>
+<div class="section" id="composing-entries">
+<h2>Composing Entries<a class="headerlink" href="#composing-entries" title="Permalink to this headline">¶</a></h2>
+<p>Composing mode is entered by either starting <tt class="docutils literal"><span class="pre">jrnl</span></tt> without any arguments &#8211; which will prompt you to write an entry or launch your editor &#8211; or by just writing an entry on the prompt, such as:</p>
+<div class="highlight-python"><pre>jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.</pre>
+</div>
+<p>You can also import an entry directly from a file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">&lt;</span> <span class="n">my_entry</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="section" id="smart-timestamps">
+<h3>Smart timestamps<a class="headerlink" href="#smart-timestamps" title="Permalink to this headline">¶</a></h3>
+<p>Timestamps that work:</p>
+<ul class="simple">
+<li>at 6am</li>
+<li>yesterday</li>
+<li>last monday</li>
+<li>sunday at noon</li>
+<li>2 march 2012</li>
+<li>7 apr</li>
+<li>5/20/1998 at 23:42</li>
+</ul>
+</div>
+<div class="section" id="starring-entries">
+<h3>Starring entries<a class="headerlink" href="#starring-entries" title="Permalink to this headline">¶</a></h3>
+<p>To mark an entry as a favourite, simply &#8220;star&#8221; it:</p>
+<div class="highlight-python"><pre>jrnl last sunday *: Best day of my life.</pre>
+</div>
+<p>If you don&#8217;t want to add a date (ie. your entry will be dated as now), The following options are equivalent:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">*:</span> <span class="pre">Best</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">my</span> <span class="pre">life.</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">*Best</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">my</span> <span class="pre">life.</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">Best</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">my</span> <span class="pre">life.*</span></tt></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Just make sure that the asterisk sign is <strong>not</strong> surrounded by whitespaces, e.g. <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">Best</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">my</span> <span class="pre">life!</span> <span class="pre">*</span></tt> will <strong>not</strong> work (the reason being that the <tt class="docutils literal"><span class="pre">*</span></tt> sign has a special meaning on most shells).</p>
+</div>
+</div>
+</div>
+<div class="section" id="viewing">
+<h2>Viewing<a class="headerlink" href="#viewing" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>jrnl -n 10</pre>
+</div>
+<p>will list you the ten latest entries,</p>
+<div class="highlight-python"><pre>jrnl -from "last year" -until march</pre>
+</div>
+<p>everything that happened from the start of last year to the start of last march. To only see your favourite entries, use</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">-</span><span class="n">starred</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-tags">
+<h2>Using Tags<a class="headerlink" href="#using-tags" title="Permalink to this headline">¶</a></h2>
+<p>Keep track of people, projects or locations, by tagging them with an <tt class="docutils literal"><span class="pre">&#64;</span></tt> in your entries</p>
+<div class="highlight-python"><pre>jrnl Had a wonderful day on the @beach with @Tom and @Anna.</pre>
+</div>
+<p>You can filter your journal entries just like this:</p>
+<div class="highlight-python"><pre>jrnl @pinkie @WorldDomination</pre>
+</div>
+<p>Will print all entries in which either <tt class="docutils literal"><span class="pre">&#64;pinkie</span></tt> or <tt class="docutils literal"><span class="pre">&#64;WorldDomination</span></tt> occurred.</p>
+<div class="highlight-python"><pre>jrnl -n 5 -and @pineapple @lubricant</pre>
+</div>
+<p>the last five entries containing both <tt class="docutils literal"><span class="pre">&#64;pineapple</span></tt> <strong>and</strong> <tt class="docutils literal"><span class="pre">&#64;lubricant</span></tt>. You can change which symbols you&#8217;d like to use for tagging in the configuration.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">&#64;pinkie</span> <span class="pre">&#64;WorldDomination</span></tt> will switch to viewing mode because although <strong>no</strong> command line arguments are given, all the input strings look like tags - <em>jrnl</em> will assume you want to filter by tag.</p>
+</div>
+</div>
+<div class="section" id="editing-older-entries">
+<h2>Editing older entries<a class="headerlink" href="#editing-older-entries" title="Permalink to this headline">¶</a></h2>
+<p>You can edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted or if you&#8217;re using a DayOne journal. To use this feature, you need to have an editor configured in your journal configuration file (see <a class="reference internal" href="advanced.html"><em>advanced usage</em></a>):</p>
+<div class="highlight-python"><pre>jrnl -until 1950 @texas -and @history --edit</pre>
+</div>
+<p>Will open your editor with all entries tagged with <tt class="docutils literal"><span class="pre">&#64;texas</span></tt> and <tt class="docutils literal"><span class="pre">&#64;history</span></tt> before 1950. You can make any changes to them you want; after you save the file and close the editor, your journal will be updated.</p>
+<p>Of course, if you are using multiple journals, you can also edit e.g. the latest entry of your work journal with <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">work</span> <span class="pre">-n</span> <span class="pre">1</span> <span class="pre">--edit</span></tt>. In any case, this will bring up your editor and save (and, if applicable, encrypt) your edited journal after you save and exit the editor.</p>
+<p>You can also use this feature for deleting entries from your journal:</p>
+<div class="highlight-python"><pre>jrnl @girlfriend -until 'june 2012' --edit</pre>
+</div>
+<p>Just select all text, press delete, and everything is gone...</p>
+<div class="section" id="editing-dayone-journals">
+<h3>Editing DayOne Journals<a class="headerlink" href="#editing-dayone-journals" title="Permalink to this headline">¶</a></h3>
+<p>DayOne journals can be edited exactly the same way, however the output looks a little bit different because of the way DayOne stores its entries:</p>
+<div class="highlight-output"><pre># af8dbd0d43fb55458f11aad586ea2abf
+2013-05-02 15:30 I told everyone I built my @robot wife for sex.
+But late at night when we're alone we mostly play Battleship.
+
+# 2391048fe24111e1983ed49a20be6f9e
+2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
+I just figured I'd be on the other side.</pre>
+</div>
+<p>The long strings starting with hash symbol are the so-called UUIDs, unique identifiers for each entry. Don&#8217;t touch them. If you do, then the old entry would get deleted and a new one written, which means that you could DayOne loose data that jrnl can&#8217;t handle (such as as the entry&#8217;s geolocation).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <aside>
+    <a href="index.html" id="logolink" title="jrnl"><img class="logo" src="_static/img/logo.png" width="90px" height="98px" title="jrnl"/></a>
+    <h2>Documentation</h2>
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Basic Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#composing-entries">Composing Entries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#smart-timestamps">Smart timestamps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starring-entries">Starring entries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#viewing">Viewing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-tags">Using Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#editing-older-entries">Editing older entries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#editing-dayone-journals">Editing DayOne Journals</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="encryption.html">Encryption</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export.html">Import and Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">FAQ</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </aside>
+  
+      <div class="clearer"></div>
+    </div>
+      <div class="footer">
+          Journal is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributtors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
+      </div>
+  </body>
+</html>
