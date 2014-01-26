@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import absolute_import
 import readline
 import glob
 import getpass
-try: import simplejson as json
-except ImportError: import json
+import json
 import os
-try: from . import util
-except (SystemError, ValueError): import util
+from . import util
 
 
 def module_exists(module_name):

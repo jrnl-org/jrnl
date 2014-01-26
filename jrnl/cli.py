@@ -7,17 +7,12 @@
     license: MIT, see LICENSE for more details.
 """
 
-try:
-    from . import Journal
-    from . import util
-    from . import exporters
-    from . import install
-    from . import __version__
-except (SystemError, ValueError):
-    import Journal
-    import util
-    import exporters
-    import install
+from __future__ import absolute_import
+from . import Journal
+from . import util
+from . import exporters
+from . import install
+from . import __version__
 import jrnl
 import os
 import argparse
@@ -120,7 +115,8 @@ def run(manual_args=None):
     args = parse_args(manual_args)
 
     if args.version:
-        print("{0} version {1}".format(jrnl.__title__, jrnl.__version__))
+        version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
+        print(util.py2encode(version_str))
         sys.exit(0)
 
     # If the first textual argument points to a journal file,
@@ -186,17 +182,17 @@ def run(manual_args=None):
 
     # Reading mode
     if not mode_compose and not mode_export:
-        print(journal.pprint())
+        print(util.py2encode(journal.pprint()))
 
     # Various export modes
     elif args.short:
-        print(journal.pprint(short=True))
+        print(util.py2encode(journal.pprint(short=True)))
 
     elif args.tags:
-        print(exporters.to_tag_list(journal))
+        print(util.py2encode(exporters.to_tag_list(journal)))
 
     elif args.export is not False:
-        print(exporters.export(journal, args.export, args.output))
+        print(util.py2encode(exporters.export(journal, args.export, args.output)))
 
     elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
         util.prompt("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
