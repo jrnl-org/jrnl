@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Advanced Usage &mdash; jrnl 1.7.5 documentation</title>
+    <title>Advanced Usage &mdash; jrnl 1.7.6 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.7.5',
+        VERSION:     '1.7.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.7.5 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.6 documentation" href="index.html" />
     <link rel="next" title="FAQ" href="recipes.html" />
     <link rel="prev" title="Import and Export" href="export.html" />
      
@@ -44,7 +44,12 @@
 <span id="advanced"></span><h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="configuration-file">
 <h2>Configuration File<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
-<p>You can configure the way jrnl behaves in a configuration file. By default, this is <tt class="docutils literal"><span class="pre">~/.jrnl_conf</span></tt>. If you have the <tt class="docutils literal"><span class="pre">XDG_CONFIG_HOME</span></tt> variable set, the configuration file will be saved under <tt class="docutils literal"><span class="pre">$XDG_CONFIG_HOME/jrnl</span></tt>. The configuration file is a simple JSON file with the following options.</p>
+<p>You can configure the way jrnl behaves in a configuration file. By default, this is <tt class="docutils literal"><span class="pre">~/.jrnl_config</span></tt>. If you have the <tt class="docutils literal"><span class="pre">XDG_CONFIG_HOME</span></tt> variable set, the configuration file will be saved under <tt class="docutils literal"><span class="pre">$XDG_CONFIG_HOME/jrnl</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On Windows, The configuration file is typically found at <tt class="docutils literal"><span class="pre">C:\Users\[Your</span> <span class="pre">Username]\.jrnl_config</span></tt>.</p>
+</div>
+<p>The configuration file is a simple JSON file with the following options and can be edited with any plain text editor.</p>
 <ul>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">journals</span></tt></dt>
@@ -54,7 +59,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">editor</span></tt></dt>
-<dd><p class="first last">if set, executes this command to launch an external editor for writing your entries, e.g. <tt class="docutils literal"><span class="pre">vim</span></tt> or <tt class="docutils literal"><span class="pre">subl</span> <span class="pre">-w</span></tt> (note the <tt class="docutils literal"><span class="pre">-w</span></tt> flag to make sure <em>jrnl</em> waits for Sublime Text to close the file before writing into the journal. If you&#8217;re using MacVim, that would be <tt class="docutils literal"><span class="pre">mvim</span> <span class="pre">-f</span></tt>).</p>
+<dd><p class="first last">if set, executes this command to launch an external editor for writing your entries, e.g. <tt class="docutils literal"><span class="pre">vim</span></tt>. Some editors require special options to work properly, see <a class="reference internal" href="recipes.html"><em>FAQ</em></a> for details.</p>
 </dd>
 </dl>
 </li>
@@ -108,7 +113,7 @@
 </div>
 <div class="section" id="dayone-integration">
 <h2>DayOne Integration<a class="headerlink" href="#dayone-integration" title="Permalink to this headline">¶</a></h2>
-<p>Using your DayOne journal instead of a flat text file is dead simple &#8211; instead of pointing to a text file, change your <tt class="docutils literal"><span class="pre">.jrnl_conf</span></tt> to point to your DayOne journal. This is a folder ending with <tt class="docutils literal"><span class="pre">.dayone</span></tt>, and it&#8217;s located at</p>
+<p>Using your DayOne journal instead of a flat text file is dead simple &#8211; instead of pointing to a text file, change your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> to point to your DayOne journal. This is a folder ending with <tt class="docutils literal"><span class="pre">.dayone</span></tt>, and it&#8217;s located at</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">~/Library/Application</span> <span class="pre">Support/Day</span> <span class="pre">One/</span></tt> by default</li>
 <li><tt class="docutils literal"><span class="pre">~/Dropbox/Apps/Day</span> <span class="pre">One/</span></tt> if you&#8217;re syncing with Dropbox and</li>
@@ -134,7 +139,7 @@
 <div class="highlight-python"><pre>jrnl work -n 3</pre>
 </div>
 <p>will both use <tt class="docutils literal"><span class="pre">~/work.txt</span></tt>, while <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">-n</span> <span class="pre">3</span></tt> will display the last three entries from <tt class="docutils literal"><span class="pre">~/journal.txt</span></tt> (and so does <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">default</span> <span class="pre">-n</span> <span class="pre">3</span></tt>).</p>
-<p>You can also override the default options for each individual journal. If you <tt class="docutils literal"><span class="pre">.jrnl_conf</span></tt> looks like this:</p>
+<p>You can also override the default options for each individual journal. If you <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> looks like this:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
   <span class="p">...</span>
   <span class="s2">&quot;encrypt&quot;</span><span class="o">:</span> <span class="kc">false</span>
@@ -148,7 +153,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Your <tt class="docutils literal"><span class="pre">default</span></tt> and your <tt class="docutils literal"><span class="pre">food</span></tt> journals won&#8217;t be encrypted, however your <tt class="docutils literal"><span class="pre">work</span></tt> journal will! You can override all options that are present at the top level of <tt class="docutils literal"><span class="pre">.jrnl_conf</span></tt>, just make sure that at the very least you specify a <tt class="docutils literal"><span class="pre">&quot;journal&quot;:</span> <span class="pre">...</span></tt> key that points to the journal file of that journal.</p>
+<p>Your <tt class="docutils literal"><span class="pre">default</span></tt> and your <tt class="docutils literal"><span class="pre">food</span></tt> journals won&#8217;t be encrypted, however your <tt class="docutils literal"><span class="pre">work</span></tt> journal will! You can override all options that are present at the top level of <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt>, just make sure that at the very least you specify a <tt class="docutils literal"><span class="pre">&quot;journal&quot;:</span> <span class="pre">...</span></tt> key that points to the journal file of that journal.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Changing <tt class="docutils literal"><span class="pre">encrypt</span></tt> to a different value will not encrypt or decrypt your journal file, it merely says whether or not your journal <cite>is</cite> encrypted. Hence manually changing this option will most likely result in your journal file being impossible to load.</p>
@@ -206,7 +211,7 @@
       <div class="clearer"></div>
     </div>
       <div class="footer">
-          Journal is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributtors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
+          jrnl is made with love by <a href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/maebert/jrnl/graphs/contributors" title="Contributors">other fabulous people</a>. If you need help, tweet to <a href="https://twitter.com/maebert" title="Follow @maebert on twitter">@maebert</a> or <a href="https://github.com/maebert/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
       </div>
   </body>
 </html>

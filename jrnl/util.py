@@ -15,6 +15,7 @@ import re
 import tempfile
 import subprocess
 import codecs
+import unicodedata
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -143,4 +144,15 @@ def get_text_from_editor(config, template=""):
 def colorize(string):
     """Returns the string wrapped in cyan ANSI escape"""
     return u"\033[36m{}\033[39m".format(string)
+
+def slugify(string):
+    """Slugifies a string.
+    Based on public domain code from https://github.com/zacharyvoase/slugify
+    and ported to deal with all kinds of python 2 and 3 strings
+    """
+    string = u(string)
+    ascii_string = str(unicodedata.normalize('NFKD', string).encode('ascii', 'ignore'))
+    no_punctuation = re.sub(r'[^\w\s-]', '', ascii_string).strip().lower()
+    slug = re.sub(r'[-\s]+', '-', no_punctuation)
+    return u(slug)
 

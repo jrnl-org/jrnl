@@ -6,12 +6,19 @@ Advanced Usage
 Configuration File
 -------------------
 
-You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_conf``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved under ``$XDG_CONFIG_HOME/jrnl``. The configuration file is a simple JSON file with the following options.
+You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_config``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved under ``$XDG_CONFIG_HOME/jrnl``.
+
+.. note::
+
+    On Windows, The configuration file is typically found at ``C:\Users\[Your Username]\.jrnl_config``.
+
+
+The configuration file is a simple JSON file with the following options and can be edited with any plain text editor.
 
 - ``journals``
       paths to your journal files
 - ``editor``
-    if set, executes this command to launch an external editor for writing your entries, e.g. ``vim`` or ``subl -w`` (note the ``-w`` flag to make sure *jrnl* waits for Sublime Text to close the file before writing into the journal. If you're using MacVim, that would be ``mvim -f``).
+    if set, executes this command to launch an external editor for writing your entries, e.g. ``vim``. Some editors require special options to work properly, see :doc:`FAQ <recipes>` for details.
 - ``encrypt``
     if ``true``, encrypts your journal using AES.
 - ``tagsymbols``
@@ -44,7 +51,7 @@ You can configure the way jrnl behaves in a configuration file. By default, this
 DayOne Integration
 ------------------
 
-Using your DayOne journal instead of a flat text file is dead simple -- instead of pointing to a text file, change your ``.jrnl_conf`` to point to your DayOne journal. This is a folder ending with ``.dayone``, and it's located at
+Using your DayOne journal instead of a flat text file is dead simple -- instead of pointing to a text file, change your ``.jrnl_config`` to point to your DayOne journal. This is a folder ending with ``.dayone``, and it's located at
 
 * ``~/Library/Application Support/Day One/`` by default
 * ``~/Dropbox/Apps/Day One/`` if you're syncing with Dropbox and
@@ -77,7 +84,7 @@ The ``default`` journal gets created the first time you start _jrnl_. Now you ca
 
 will both use ``~/work.txt``, while ``jrnl -n 3`` will display the last three entries from ``~/journal.txt`` (and so does ``jrnl default -n 3``).
 
-You can also override the default options for each individual journal. If you ``.jrnl_conf`` looks like this:
+You can also override the default options for each individual journal. If you ``.jrnl_config`` looks like this:
 
 .. code-block:: javascript
 
@@ -93,7 +100,7 @@ You can also override the default options for each individual journal. If you ``
         "food": "~/my_recipes.txt",
     }
 
-Your ``default`` and your ``food`` journals won't be encrypted, however your ``work`` journal will! You can override all options that are present at the top level of ``.jrnl_conf``, just make sure that at the very least you specify a ``"journal": ...`` key that points to the journal file of that journal.
+Your ``default`` and your ``food`` journals won't be encrypted, however your ``work`` journal will! You can override all options that are present at the top level of ``.jrnl_config``, just make sure that at the very least you specify a ``"journal": ...`` key that points to the journal file of that journal.
 
 .. note::
 

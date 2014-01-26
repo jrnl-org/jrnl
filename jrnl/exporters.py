@@ -3,12 +3,10 @@
 
 import os
 import string
-try: from slugify import slugify
-except ImportError: import slugify
 try: import simplejson as json
 except ImportError: import json
-try: from .util import u
-except (SystemError, ValueError): from util import u
+try: from .util import u, slugify
+except (SystemError, ValueError): from util import u, slugify
 
 
 def get_tags_count(journal):
