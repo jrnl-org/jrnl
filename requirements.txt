@@ -1,7 +1,0 @@
-parsedatetime >= 1.2
-pytz >= 2013b
-pycrypto >= 2.6
-argparse==1.2.1
-tzlocal >= 1.0
-keyring==3.0.5
-python-dateutil==2.2
