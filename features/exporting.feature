@@ -1,4 +1,4 @@
-Feature: Expoting a Journal
+Feature: Exporting a Journal
 
     Scenario: Exporting to json
         Given we use the config "tags.json"

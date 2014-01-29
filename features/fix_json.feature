@@ -1,6 +1,6 @@
 Feature: Fixing broken config files
 
-    Scenario: Loading a file with  journal
+    Scenario: Loading a file with journal
         Given we use the config "broken.json"
         When we run "jrnl -n 2"
         Then we should see the message "Some errors in your jrnl config have been fixed for you."
