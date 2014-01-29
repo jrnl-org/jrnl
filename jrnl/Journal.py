@@ -23,6 +23,7 @@ import hashlib
 import plistlib
 import pytz
 import uuid
+import tzlocal
 
 class Journal(object):
     def __init__(self, name='default', **kwargs):
@@ -333,7 +334,7 @@ class DayOne(Journal):
                 try:
                     timezone = pytz.timezone(dict_entry['Time Zone'])
                 except (KeyError, pytz.exceptions.UnknownTimeZoneError):
-                    timezone = pytz.timezone(util.get_local_timezone())
+                    timezone = tzlocal.get_localzone()
                 date = dict_entry['Creation Date']
                 date = date + timezone.utcoffset(date)
                 raw = dict_entry['Entry Text']
@@ -357,7 +358,7 @@ class DayOne(Journal):
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title+"\n"+entry.body,
-                    'Time Zone': util.get_local_timezone(),
+                    'Time Zone': str(tzlocal.get_localzone()),
                     'UUID': entry.uuid,
                     'Tags': [tag.strip(self.config['tagsymbols']) for tag in entry.tags]
                 }
