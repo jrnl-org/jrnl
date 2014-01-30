@@ -26,6 +26,11 @@ Icon
 
 # Documentation
 _build
+_sources
+_static
+*.html
+objects.inv
+searchindex.js
 docs/_themes/jrnl/static/css/jrnl.css
 
 # MS Visual Studio (PyTools)
