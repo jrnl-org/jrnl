@@ -5,6 +5,11 @@ clean:
 	rm -rf _static
 	rm -rf jrnl.egg-info
 	rm -rf docs/_build
+	rm -rf _build
+	rm -rf _sources
+	rm -rf _static
+	rm *.html
+
 
 # Build GitHub Page from docs
 docs:
