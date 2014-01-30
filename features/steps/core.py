@@ -11,6 +11,7 @@ try:
     from io import StringIO
 except ImportError:
     from cStringIO import StringIO
+import tzlocal
 
 def _parse_args(command):
     nargs=[]
@@ -120,7 +121,7 @@ def check_output(context):
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
-    local_tz = pytz.timezone(util.get_local_timezone())
+    local_tz = tzlocal.get_localzone()
     utc_time = date_parser.parse(text)
     date = utc_time + local_tz._utcoffset
     local_date = date.strftime("%Y-%m-%d %H:%M")

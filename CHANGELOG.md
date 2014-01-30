@@ -8,7 +8,7 @@ Changelog
 * __1.7.8__ Upgrade to parsedatetime 1.2
 * __1.7.7__ Cleaned up imports, better unicode support
 * __1.7.6__ Python 3 port for slugify
-* __1.7.5__ Colorama is only needed on windows. Smaller fixes
+* __1.7.5__ Colorama is only needed on Windows. Smaller fixes
 * __1.7.3__ Touches temporary files before opening them to allow more external editors.
 * __1.7.2__ Dateutil added to requirements.
 * __1.7.1__ Fixes issues with parsing time information in entries.
