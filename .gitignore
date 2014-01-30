@@ -33,3 +33,7 @@ obj
 *.pyproj
 *.sln
 *.suo
+
+# virtaulenv
+env/
+env*/
