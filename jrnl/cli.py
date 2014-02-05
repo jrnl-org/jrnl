@@ -35,7 +35,7 @@ def parse_args(args=None):
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
-    reading.add_argument('-n', dest='limit', default=None, metavar="N", help='Shows the last n entries matching the filter', nargs="?", type=int)
+    reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
@@ -119,13 +119,19 @@ def run(manual_args=None):
         util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
         sys.exit(1)
 
-
-
     # If the first textual argument points to a journal file,
     # use this!
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
     if journal_name is not 'default':
         args.text = args.text[1:]
+    # If the first remaining argument looks like e.g. '-3', interpret that as a limiter
+    if not args.limit and args.text and args.text[0].startswith("-"):
+        try:
+            args.limit = int(args.text[0].lstrip("-"))
+            args.text = args.text[1:]
+        except:
+            pass
+
     journal_conf = config['journals'].get(journal_name)
     if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
         config.update(journal_conf)
