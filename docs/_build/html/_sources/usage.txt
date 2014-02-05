@@ -56,7 +56,7 @@ Viewing
 
     jrnl -n 10
 
-will list you the ten latest entries, ::
+will list you the ten latest entries (if you're lazy, ``jrnl -10`` will do the same), ::
 
     jrnl -from "last year" -until march
 
