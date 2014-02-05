@@ -1,4 +1,4 @@
-jrnl [![Build Status](https://travis-ci.org/maebert/jrnl.png?branch=master)](https://travis-ci.org/maebert/jrnl)
+jrnl [![Build Status](https://travis-ci.org/maebert/jrnl.png?branch=master)](https://travis-ci.org/maebert/jrnl)  [![Downloads](https://pypip.in/d/jrnl/badge.png)](https://pypi.python.org/pypi/jrnl/)
 ====
 
 _For news on updates or to get help, [read the docs](http://maebert.github.io/jrnl), follow [@maebert](https://twitter.com/maebert) or [submit an issue](https://github.com/maebert/jrnl/issues/new) on Github._
@@ -38,7 +38,4 @@ Install _jrnl_ using pip:
 Or, if you want the option to encrypt your journal,
 
     pip install jrnl[encrypted]
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/maebert/jrnl/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
