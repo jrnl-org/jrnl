@@ -46,7 +46,7 @@ class Entry:
                         self.journal.config['linewrap'],
                         initial_indent="| ",
                         subsequent_indent="| ",
-                        drop_whitespace=False).replace('  ', ' ')
+                        drop_whitespace=False)
                     for line in self.body.strip().splitlines()
                 ])
         else:
