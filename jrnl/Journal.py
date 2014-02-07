@@ -208,8 +208,8 @@ class Journal(object):
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
         self.search_tags = set([tag.lower() for tag in tags])
-        end_date = self.parse_date(end_date)
-        start_date = self.parse_date(start_date)
+        end_date = self.parse_date(end_date, end_flag="to")
+        start_date = self.parse_date(start_date, end_flag="from")
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
         result = [
@@ -235,7 +235,7 @@ class Journal(object):
                     e.body = ''
         self.entries = result
 
-    def parse_date(self, date_str):
+    def parse_date(self, date_str, end_flag=None):
         """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
         if not date_str:
             return None
@@ -258,8 +258,14 @@ class Journal(object):
             except TypeError:
                 return None
 
-        if flag is 1:  # Date found, but no time. Use the default time.
-            date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
+        if flag is 1:  # Date found, but no time.
+            if end_flag == "from":
+                date = datetime(*date[:3], hour=0, minute=0)
+            elif end_flag == "to":
+                date = datetime(*date[:3], hour=23, minute=59, second=59)
+            else:
+                # Use the default time.
+                date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
         else:
             date = datetime(*date[:6])
 
