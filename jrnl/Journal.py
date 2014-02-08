@@ -244,39 +244,49 @@ class Journal(object):
         elif isinstance(date_str, datetime):
             return date_str
 
-        try:
-            date = dateutil.parser.parse(date_str)
-            flag = 1 if date.hour == 0 and date.minute == 0 else 2
-            date = date.timetuple()
-        except:
-            date, flag = self.dateparse.parse(date_str)
-
-        if not flag:  # Oops, unparsable.
-            try:  # Try and parse this as a single year
-                year = int(date_str)
-                return datetime(year, 1, 1)
-            except ValueError:
-                return None
-            except TypeError:
-                return None
-
-        if flag is 1:  # Date found, but no time.
+        if re.match(r'^\d{4}$', date_str):
+            # i.e. if we're just given a year
             if end_flag == "from":
-                date = datetime(*date[:3], hour=0, minute=0)
+                date = datetime(year=int(date_str), month=1, day=1, hour=0, minute=0)
             elif end_flag == "to":
-                date = datetime(*date[:3], hour=23, minute=59, second=59)
+                date = datetime(year=int(date_str), month=12, day=31, hour=23, minute=59, second=59)
             else:
                 # Use the default time.
-                date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
+                date = datetime(year=int(date_str), month=1, day=1, hour=self.config['default_hour'], minute=self.config['default_minute'])
         else:
-            date = datetime(*date[:6])
+            try:
+                date = dateutil.parser.parse(date_str)
+                flag = 1 if date.hour == 0 and date.minute == 0 else 2
+                date = date.timetuple()
+            except:
+                date, flag = self.dateparse.parse(date_str)
 
-        # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
-        # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
-        # past dates
-        dt = datetime.now() - date
-        if dt.days < -28:
-            date = date.replace(date.year - 1)
+            if not flag:  # Oops, unparsable.
+                try:  # Try and parse this as a single year
+                    year = int(date_str)
+                    return datetime(year, 1, 1)
+                except ValueError:
+                    return None
+                except TypeError:
+                    return None
+
+            if flag is 1:  # Date found, but no time.
+                if end_flag == "from":
+                    date = datetime(*date[:3], hour=0, minute=0)
+                elif end_flag == "to":
+                    date = datetime(*date[:3], hour=23, minute=59, second=59)
+                else:
+                    # Use the default time.
+                    date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
+            else:
+                date = datetime(*date[:6])
+
+            # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
+            # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
+            # past dates
+            dt = datetime.now() - date
+            if dt.days < -28:
+                date = date.replace(date.year - 1)
 
         return date
 
