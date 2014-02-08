@@ -5,14 +5,14 @@ Feature: Processing of (relative) dates and times
 	# these results assume the test is run on Feb 8, 2014
 
 	Scenario Outline: no date
-		Given we use the config "basic.json"
+		Given we use the config "empty.json"
 		When we run "jrnl I saw Elvis <entry no>. He's alive!"
 		Then we should get no error
 		Then the journal should contain "<date out> I saw Elvis <entry no>"
 
 		Examples: no date
 			| date in	| date out			| entry no	|
-			|			| 2014-02-08 09:00	| 1			|
+			|			| 2014-02-08 13:24	| 1			|
 
 	Scenario Outline: Test all sorts of (non-fixed) dates
 		Given we use the config "empty.json"
@@ -67,10 +67,11 @@ Feature: Processing of (relative) dates and times
 			| next monday	|2014-02-10 09:00	| 29		|
 
 		Examples: Just times
-			| date in	| date out	| entry no	|
-			| at 8pm	|2014-02-10 20:00	| 30		|
-			| noon		|2014-02-10 12:00	| 31		|
-			| midnight	|2014-02-10 00:00	| 32		|
+			| date in	| date out			| entry no	|
+			| at 8pm	|2014-02-08 20:00	| 30		|
+			| noon		|2014-02-08 12:00	| 31		|
+			| midnight	|2014-02-08 00:00	| 32		|
+			| 2 o'clock	|2014-02-08 02:00	| 32 bis	|
 
 		Examples: short months
 			| date in	| date out			| entry no	|
@@ -103,8 +104,11 @@ Feature: Processing of (relative) dates and times
 			| december	| 2014-12-01 09:00	| 56		|
 
 		Examples: month + day (no year)
+			# unless within 28 days, assumed to be the last occurance
+			# if in the next 28 days, assumed to be then
 			| date in	| date out			| entry no	|
-			| 7 apr		| 2014-04-07 09:00	| 57		|
-			| apr 8		| 2014-04-08 09:00	| 58		|
-			| 9 march	| 2014-03-09 09:00	| 59		|
-			| march 10	| 2014-03-10 09:00	| 60		|
+			| 7 apr		| 2013-04-07 09:00	| 57		|
+			| apr 8		| 2013-04-08 09:00	| 58		|
+			| 9 march	| 2013-03-09 09:00	| 59		|
+			| march 10	| 2013-03-10 09:00	| 60		|
+			| march 7	| 2014-03-07 09:00	| 60 bis	|
