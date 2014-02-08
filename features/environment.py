@@ -1,6 +1,7 @@
 from behave import *
 import shutil
 import os
+import time
 import jrnl
 try:
     from io import StringIO
@@ -17,14 +18,24 @@ def before_scenario(context, scenario):
     for folder in ("configs", "journals"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
-            shutil.rmtree(working_dir)
+            try:
+                shutil.rmtree(working_dir)
+            except:
+                # give it a second go at it...
+                time.sleep(0.5)
+                shutil.rmtree(working_dir)
 
 
     for folder in ("configs", "journals"):
         original = os.path.join("features", "data", folder)
         working_dir = os.path.join("features", folder)
         if not os.path.exists(working_dir):
-            os.mkdir(working_dir)
+            try:
+                os.mkdir(working_dir)
+            except:
+                # give it a second go at it...
+                time.sleep(0.5)
+                os.mkdir(working_dir)
         for filename in os.listdir(original):
             source = os.path.join(original, filename)
             if os.path.isdir(source):
@@ -39,4 +50,9 @@ def after_scenario(context, scenario):
     for folder in ("configs", "journals"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
-            shutil.rmtree(working_dir)
+            try:
+                shutil.rmtree(working_dir)
+            except:
+                # give it a second go at it...
+                time.sleep(0.5)
+                shutil.rmtree(working_dir)
