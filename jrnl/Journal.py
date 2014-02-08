@@ -254,6 +254,11 @@ class Journal(object):
                 # Use the default time.
                 date = datetime(year=int(date_str), month=1, day=1, hour=self.config['default_hour'], minute=self.config['default_minute'])
         else:
+            replacements = (u"september", u"sep"), (u"sept", u"sep"), (u"tuesday", u"tue"), \
+                                (u"tues", u"tue"), (u"thursday", u"thu"), (u"thurs", u"thu"), \
+                                (u" o'clock", u":00")
+            date_str = util.multiple_replace(date_str, *replacements)
+
             try:
                 date = dateutil.parser.parse(date_str)
                 flag = 1 if date.hour == 0 and date.minute == 0 else 2

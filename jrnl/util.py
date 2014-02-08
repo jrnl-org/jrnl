@@ -141,3 +141,19 @@ def slugify(string):
     slug = re.sub(r'[-\s]+', '-', no_punctuation)
     return u(slug)
 
+# Use the following two functions to do multiple replacements in one pass
+# from http://stackoverflow.com/questions/6116978/python-replace-multiple-strings
+#
+# Useage:
+# >>> replacements = (u"café", u"tea"), (u"tea", u"café"), (u"like", u"love")
+# >>> print multiple_replace(u"Do you like café? No, I prefer tea.", *replacements)
+# output: Do you love tea? No, I prefer café.
+
+def multiple_replacer(*key_values):
+    replace_dict = dict(key_values)
+    replacement_function = lambda match: replace_dict[match.group(0)]
+    pattern = re.compile("|".join([re.escape(k) for k, v in key_values]), re.M | re.I)
+    return lambda string: pattern.sub(replacement_function, string)
+
+def multiple_replace(string, *key_values):
+    return multiple_replacer(*key_values)(string)
