@@ -1,5 +1,5 @@
 
-@dates2 @dates @wip
+@dates2 @dates
 Feature: Processing of (fixed) dates and times
 
     Scenario Outline: Test all sorts of (fixed) dates
