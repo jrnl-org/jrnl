@@ -259,7 +259,7 @@ class Journal(object):
             replacements = (u"september", u"sep"), (u"sept", u"sep"), (u"tuesday", u"tue"), \
                                 (u"tues", u"tue"), (u"thursday", u"thu"), (u"thurs", u"thu"), \
                                 (u" o'clock", u":00")
-            date_str = util.multiple_replace(date_str, *replacements)
+            date_str = util.multiple_replace(date_str.lower(), *replacements)
 
             # determine if we've been given just a month, or just a year and month
             replacements2 = ("january", "01"), ("february", "02"), ("march", "03"), \
@@ -269,7 +269,7 @@ class Journal(object):
                             ("jan", "01"), ("feb", "02"), ("mar", "03"), ("apr", "04"), \
                                            ("jun", "06"), ("jul", "07"), ("aug", "08"), \
                             ("sep", "09"), ("oct", "10"), ("nov", "11"), ("dec", "12")
-            date_str2 = util.multiple_replace(date_str, *replacements2)
+            date_str2 = util.multiple_replace(date_str.lower(), *replacements2)
             year_month_only = False;
             matches = re.match(r'^(\d{4})[ \\/-](\d{2})$', date_str2)
             if matches:
@@ -299,7 +299,7 @@ class Journal(object):
                     date = datetime(year=int(myYear), month=int(myMonth), day=1, hour=0, minute=0)
                 elif end_flag == "to":
                     # get the last day of the month
-                    if myMouth == 12:
+                    if myMonth == 12:
                         date = datetime(year=int(myYear), month=int(myMonth), day=31, hour=23, minute=59, second=59)
                     else:
                         date = datetime(year=int(myYear), month=int(myMonth)+1, day=1, hour=23, minute=59, second=59) - timedelta (days = 1)
