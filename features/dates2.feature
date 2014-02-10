@@ -38,16 +38,12 @@ Feature: Processing of (fixed) dates and times
             | 2013-may-07 08:12 | 2013-05-07 08:12  | 76        |
             | 2013-may-07 20:13 | 2013-05-07 20:13  | 77        |
 
-        Examples: Full dates, with written montsh
+        Examples: Full dates, with written months
             | date in       | date out          | entry no  |
             | Feb 5, 2014   | 2014-02-05 09:00  | 78        |
             | Feb 06, 2014  | 2014-02-06 09:00  | 79        |
-            | Feb. 7, 2014  | 2014-02-07 09:00  | 80        |
-            | Feb. 08, 2014 | 2014-02-08 09:00  | 81        |
             | 9 Feb 2014    | 2014-02-09 09:00  | 82        |
             | 01 Feb 2014   | 2014-02-01 09:00  | 83        |
-            | 2 Feb. 2014   | 2014-02-02 09:00  | 84        |
-            | 03 Feb. 2014  | 2014-02-03 09:00  | 85        |
 
         Examples: 'YYYY/MM/DD' dates (with and without times)
             | date in           | date out          | entry no  |
@@ -62,3 +58,17 @@ Feature: Processing of (fixed) dates and times
             | 13/06/2007 8:11   | 2007-06-13 08:11  | 91        |
             | 13/06/2007 08:12  | 2007-06-13 08:12  | 92        |
             | 13/06/2007 20:13  | 2007-06-13 20:13  | 93        |
+
+	@wip
+	Scenario Outline: Test all sorts of (fixed) dates with periods
+        Given we use the config "empty.json"
+        When we run "jrnl <date in>: I saw Elvis <entry no>. He's Alive!"
+        Then we should get no error
+        Then the journal should contain "<date out> I saw Elvis <entry no>"
+
+		Examples: Full dates, with written months, with periods
+            | date in       | date out          | entry no  |
+            | Feb. 7, 2014  | 2014-02-07 09:00  | 80        |
+            | Feb. 08, 2014 | 2014-02-08 09:00  | 81        |
+            | 2 Feb. 2014   | 2014-02-02 09:00  | 84        |
+            | 03 Feb. 2014  | 2014-02-03 09:00  | 85        |
