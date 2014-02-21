@@ -26,6 +26,7 @@ PYCRYPTO = install.module_exists("Crypto")
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
+    parser.add_argument('-ls', dest='ls', action="store_true", help="displays accessible journals")
 
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
     composing.add_argument('text', metavar='', nargs="*")
@@ -87,6 +88,14 @@ def touch_journal(filename):
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
+def list_journals(config):
+    """List the journals specified in the configuration file"""
+
+    sep = "\n"
+    journal_list = sep.join(j for j in config['journals'])
+
+    return journal_list
+
 def update_config(config, new_config, scope, force_local=False):
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
@@ -112,6 +121,10 @@ def run(manual_args=None):
     else:
         config = util.load_and_fix_json(CONFIG_PATH)
         install.upgrade_config(config, config_path=CONFIG_PATH)
+
+    if args.ls:
+        print(util.py2encode(list_journals(config)))
+        sys.exit(0)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules
