@@ -61,7 +61,7 @@ def get_version(filename="jrnl/__init__.py"):
 conditional_dependencies = {
     "pyreadline>=2.0": "win32" in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
-    "argparse==1.2.1": sys.version.startswith("2.6")
+    "argparse>=1.1.0": sys.version.startswith("2.6")
 }
 
 setup(
