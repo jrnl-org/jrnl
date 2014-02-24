@@ -92,7 +92,7 @@ def list_journals(config):
     """List the journals specified in the configuration file"""
 
     sep = "\n"
-    journal_list = sep.join(j for j in config['journals'])
+    journal_list = sep.join(config['journals'])
 
     return journal_list
 
