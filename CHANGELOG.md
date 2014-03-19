@@ -4,6 +4,8 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.12__ Fixes a bug where filtering by tags didn't work for DayOne journals
+* __1.7.11__ `-ls` will list all available journals (Thanks @jtan189)
 * __1.7.10__ Supports `-3` as a shortcut for `-n 3` and updates to tzlocal 1.1
 * __1.7.9__ Fix a logic bug so that jrnl -h and jrnl -v are possible even if jrnl not configured yet.
 * __1.7.8__ Upgrade to parsedatetime 1.2
