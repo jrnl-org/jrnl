@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Basic Usage &mdash; jrnl 1.7.10 documentation</title>
+    <title>Basic Usage &mdash; jrnl 1.7.12 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.7.10',
+        VERSION:     '1.7.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.7.10 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.12 documentation" href="index.html" />
     <link rel="next" title="Encryption" href="encryption.html" />
     <link rel="prev" title="Getting started" href="installation.html" />
      
@@ -44,6 +44,14 @@
 <span id="usage"></span><h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
 <p><em>jrnl</em> has two modes: <strong>composing</strong> and <strong>viewing</strong>. Basically, whenever you <cite>don&#8217;t</cite> supply any arguments that start with a dash or double-dash, you&#8217;re in composing mode, meaning you can write your entry on the command line or an editor of your choice.</p>
 <p>We intentionally break a convention on command line arguments: all arguments starting with a <cite>single dash</cite> will <cite>filter</cite> your journal before viewing it, and can be combined arbitrarily. Arguments with a <cite>double dash</cite> will control how your journal is displayed or exported and are mutually exclusive (ie. you can only specify one way to display or export your journal at a time).</p>
+<div class="section" id="listing-journals">
+<h2>Listing Journals<a class="headerlink" href="#listing-journals" title="Permalink to this headline">¶</a></h2>
+<p>You can list the journals accessible by jrnl:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">-</span><span class="n">ls</span>
+</pre></div>
+</div>
+<p>The journals displayed correspond to those specified in the jrnl configuration file.</p>
+</div>
 <div class="section" id="composing-entries">
 <h2>Composing Entries<a class="headerlink" href="#composing-entries" title="Permalink to this headline">¶</a></h2>
 <p>Composing mode is entered by either starting <tt class="docutils literal"><span class="pre">jrnl</span></tt> without any arguments &#8211; which will prompt you to write an entry or launch your editor &#8211; or by just writing an entry on the prompt, such as:</p>
@@ -150,6 +158,7 @@ I just figured I'd be on the other side.</pre>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Getting started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Basic Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#listing-journals">Listing Journals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#composing-entries">Composing Entries</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#smart-timestamps">Smart timestamps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#starring-entries">Starring entries</a></li>

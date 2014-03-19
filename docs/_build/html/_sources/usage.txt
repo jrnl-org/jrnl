@@ -7,6 +7,14 @@ Basic Usage
 
 We intentionally break a convention on command line arguments: all arguments starting with a `single dash` will `filter` your journal before viewing it, and can be combined arbitrarily. Arguments with a `double dash` will control how your journal is displayed or exported and are mutually exclusive (ie. you can only specify one way to display or export your journal at a time).
 
+Listing Journals
+----------------
+
+You can list the journals accessible by jrnl::
+
+    jrnl -ls
+
+The journals displayed correspond to those specified in the jrnl configuration file.
 
 Composing Entries
 -----------------
