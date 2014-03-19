@@ -33,8 +33,8 @@ Feature: DayOne Ingetration
         When we run "jrnl --tags"
         Then the output should be
             """
-            work                 : 1
-            play                 : 1
+            @work                : 1
+            @play                : 1
             """
 
     Scenario: Saving tags from a DayOne Journal
@@ -43,6 +43,14 @@ Feature: DayOne Ingetration
         and we run "jrnl --tags"
         Then the output should be
             """
-            work                 : 2
-            play                 : 1
+            @work                : 2
+            @play                : 1
+            """
+
+    Scenario: Filtering by tags from a DayOne Journal
+        Given we use the config "dayone.json"
+        When we run "jrnl @work"
+        Then the output should be
+            """
+            2013-05-17 11:39 This entry has tags!
             """
