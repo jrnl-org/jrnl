@@ -25,6 +25,7 @@ import pytz
 import uuid
 import tzlocal
 
+
 class Journal(object):
     def __init__(self, name='default', **kwargs):
         self.config = {
@@ -318,6 +319,7 @@ class Journal(object):
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
         self.entries = mod_entries
 
+
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
     def __init__(self, **kwargs):
@@ -342,7 +344,7 @@ class DayOne(Journal):
                 title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
                 entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
                 entry.uuid = dict_entry["UUID"]
-                entry.tags = dict_entry.get("Tags", [])
+                entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
                 self.entries.append(entry)
         self.sort()
 
@@ -353,7 +355,7 @@ class DayOne(Journal):
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
                 utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
-                filename = os.path.join(self.config['journal'], "entries", entry.uuid+".doentry")
+                filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
@@ -430,4 +432,3 @@ class DayOne(Journal):
         self._deleted_entries = [e for e in self.entries if e.uuid not in edited_uuids]
         self.entries[:] = [e for e in self.entries if e.uuid in edited_uuids]
         return entries
-
