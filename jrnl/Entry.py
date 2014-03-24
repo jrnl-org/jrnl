@@ -5,12 +5,13 @@ import re
 import textwrap
 from datetime import datetime
 
+
 class Entry:
     def __init__(self, journal, date=None, title="", body="", starred=False):
-        self.journal = journal # Reference to journal mainly to access it's config
+        self.journal = journal  # Reference to journal mainly to access it's config
         self.date = date or datetime.now()
-        self.title = title.strip("\n ")
-        self.body = body.strip("\n ")
+        self.title = title.rstrip("\n ")
+        self.body = body.rstrip("\n ")
         self.tags = self.parse_tags()
         self.starred = starred
         self.modified = False
@@ -27,12 +28,11 @@ class Entry:
         title = date_str + " " + self.title
         if self.starred:
             title += " *"
-        body = self.body.strip()
 
         return u"{title}{sep}{body}\n".format(
             title=title,
             sep="\n" if self.body else "",
-            body=body
+            body=self.body
         )
 
     def pprint(self, short=False):
@@ -47,11 +47,11 @@ class Entry:
                         initial_indent="| ",
                         subsequent_indent="| ",
                         drop_whitespace=False)
-                    for line in self.body.strip().splitlines()
+                    for line in self.body.rstrip().splitlines()
                 ])
         else:
             title = date_str + " " + self.title
-            body = self.body.strip()
+            body = self.body
 
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
@@ -71,7 +71,7 @@ class Entry:
     def __eq__(self, other):
         if not isinstance(other, Entry) \
            or self.title.strip() != other.title.strip() \
-           or self.body.strip() != other.body.strip() \
+           or self.body.rstrip() != other.body.rstrip() \
            or self.date != other.date \
            or self.starred != other.starred:
            return False
@@ -82,8 +82,8 @@ class Entry:
 
     def to_dict(self):
         return {
-            'title': self.title.strip(),
-            'body': self.body.strip(),
+            'title': self.title,
+            'body': self.body,
             'date': self.date.strftime("%Y-%m-%d"),
             'time': self.date.strftime("%H:%M"),
             'starred': self.starred
@@ -91,8 +91,8 @@ class Entry:
 
     def to_md(self):
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        body_wrapper = "\n\n" if self.body.strip() else ""
-        body = body_wrapper + self.body.strip()
+        body_wrapper = "\n\n" if self.body else ""
+        body = body_wrapper + self.body
         space = "\n"
         md_head = "###"
 
