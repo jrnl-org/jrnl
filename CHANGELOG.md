@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.13__ Fix for UTF-8 in DayOne journals
 * __1.7.12__ Fixes a bug where filtering by tags didn't work for DayOne journals
 * __1.7.11__ `-ls` will list all available journals (Thanks @jtan189)
 * __1.7.10__ Supports `-3` as a shortcut for `-n 3` and updates to tzlocal 1.1
