@@ -123,9 +123,9 @@ class Journal(object):
         current_entry = None
 
         for line in journal_txt.splitlines():
+            line = line.rstrip()
             try:
                 # try to parse line as date => new entry begins
-                line = line.strip()
                 new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
 
                 # parsing successful => save old entry and create new one
@@ -280,7 +280,7 @@ class Journal(object):
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        sep = re.search("[\n!?.]+", raw)
+        sep = re.search("\n|[\?.]+", raw)
         title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
         starred = False
         if not date:
@@ -388,7 +388,7 @@ class DayOne(Journal):
 
         for line in edited.splitlines():
             # try to parse line as UUID => new entry begins
-            line = line.strip()
+            line = line.rstrip()
             m = re.match("# *([a-f0-9]+) *$", line.lower())
             if m:
                 if current_entry:
