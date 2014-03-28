@@ -59,7 +59,7 @@ def guess_mode(args, config):
     elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
-    elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
+    elif args.text and all(word[0] in config['tagsymbols'] for word in u" ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
@@ -110,7 +110,7 @@ def update_config(config, new_config, scope, force_local=False):
 
 def run(manual_args=None):
     args = parse_args(manual_args)
-
+    args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
     if args.version:
         version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
         print(util.py2encode(version_str))
@@ -160,7 +160,7 @@ def run(manual_args=None):
            "entries" in os.listdir(config['journal']):
             journal = Journal.DayOne(**config)
         else:
-            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
             sys.exit(1)
     else:
         journal = Journal.Journal(journal_name, **config)
@@ -241,8 +241,8 @@ def run(manual_args=None):
         num_deleted = old_num_entries - len(journal)
         num_edited = len([e for e in journal.entries if e.modified])
         prompts = []
-        if num_deleted: prompts.append("{0} entries deleted".format(num_deleted))
-        if num_edited: prompts.append("{0} entries modified".format(num_edited))
+        if num_deleted: prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
+        if num_edited: prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
