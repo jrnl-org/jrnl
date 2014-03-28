@@ -10,7 +10,7 @@ install:
 # command to run tests
 script:
  - python --version
- - behave
+ - "behave --tags ~wip"
 matrix:
   allow_failures: # python 3 support for travis is shaky....
     - python: 3.3

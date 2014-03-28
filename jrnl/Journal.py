@@ -6,9 +6,12 @@ from . import Entry
 from . import util
 import codecs
 import os
-try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime as pdt
+try:
+    import parsedatetime.parsedatetime_consts as pdt
+except ImportError:
+    import parsedatetime as pdt
 import re
+from datetime import timedelta
 from datetime import datetime
 import dateutil
 import time
@@ -209,8 +212,8 @@ class Journal(object):
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
         self.search_tags = set([tag.lower() for tag in tags])
-        end_date = self.parse_date(end_date)
-        start_date = self.parse_date(start_date)
+        end_date = self.parse_date(end_date, end_flag="to")
+        start_date = self.parse_date(start_date, end_flag="from")
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
         result = [
@@ -236,40 +239,109 @@ class Journal(object):
                     e.body = ''
         self.entries = result
 
-    def parse_date(self, date_str):
+    def parse_date(self, date_str, end_flag=None):
         """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
         if not date_str:
             return None
         elif isinstance(date_str, datetime):
             return date_str
 
-        try:
-            date = dateutil.parser.parse(date_str)
-            flag = 1 if date.hour == 0 and date.minute == 0 else 2
-            date = date.timetuple()
-        except:
-            date, flag = self.dateparse.parse(date_str)
-
-        if not flag:  # Oops, unparsable.
-            try:  # Try and parse this as a single year
-                year = int(date_str)
-                return datetime(year, 1, 1)
-            except ValueError:
-                return None
-            except TypeError:
-                return None
-
-        if flag is 1:  # Date found, but no time. Use the default time.
-            date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
+        if re.match(r'^\d{4}$', date_str):
+            # i.e. if we're just given a year
+            if end_flag == "from":
+                date = datetime(year=int(date_str), month=1, day=1, hour=0, minute=0)
+            elif end_flag == "to":
+                date = datetime(year=int(date_str), month=12, day=31, hour=23, minute=59, second=59)
+            else:
+                # Use the default time.
+                date = datetime(year=int(date_str), month=1, day=1, hour=self.config['default_hour'], minute=self.config['default_minute'])
         else:
-            date = datetime(*date[:6])
+            # clean up some misunderstood dates
+            replacements = (u"september", u"sep"), (u"sept", u"sep"), (u"tuesday", u"tue"), \
+                                (u"tues", u"tue"), (u"thursday", u"thu"), (u"thurs", u"thu"), \
+                                (u" o'clock", u":00")
+            date_str = util.multiple_replace(date_str.lower(), *replacements)
 
-        # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
-        # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
-        # past dates
-        dt = datetime.now() - date
-        if dt.days < -28:
-            date = date.replace(date.year - 1)
+            # determine if we've been given just a month, or just a year and month
+            replacements2 = ("january", "01"), ("february", "02"), ("march", "03"), \
+                            ("april", "04"), ("may", "05"), ("june", "06"), \
+                            ("july", "07"), ("august", "08"), \
+                            ("october", "10"), ("november", "11"), ("december", "12"), \
+                            ("jan", "01"), ("feb", "02"), ("mar", "03"), ("apr", "04"), \
+                                           ("jun", "06"), ("jul", "07"), ("aug", "08"), \
+                            ("sep", "09"), ("oct", "10"), ("nov", "11"), ("dec", "12")
+            date_str2 = util.multiple_replace(date_str.lower(), *replacements2)
+            year_month_only = False;
+            matches = re.match(r'^(\d{4})[ \\/-](\d{2})$', date_str2)
+            if matches:
+                myYear = matches.group(1)
+                myMonth = matches.group(2)
+                year_month_only = True
+            else:
+                matches2 = re.match(r'^(\d{2})[ \\/-](\d{4})$', date_str2)
+                if matches2:
+                    myYear = matches2.group(2)
+                    myMonth = matches2.group(1)
+                    year_month_only = True
+                else:
+                    matches3 = re.match(r'^(\d{2})$', date_str2)
+                    if matches3:
+                        myYear = datetime.today().year
+                        myMonth = matches3.group(0)
+
+                        # if given (just) a month and it's not this month or next, assume it was last year
+                        dt = datetime.now() - datetime(year=int(myYear), month=int(myMonth), day=1)
+                        if dt.days < -32:
+                            myYear = myYear - 1
+                        year_month_only = True
+
+            if year_month_only == True:
+                if end_flag == "from":
+                    date = datetime(year=int(myYear), month=int(myMonth), day=1, hour=0, minute=0)
+                elif end_flag == "to":
+                    # get the last day of the month
+                    if myMonth == 12:
+                        date = datetime(year=int(myYear), month=int(myMonth), day=31, hour=23, minute=59, second=59)
+                    else:
+                        date = datetime(year=int(myYear), month=int(myMonth)+1, day=1, hour=23, minute=59, second=59) - timedelta (days = 1)
+                else:
+                    # Use the default time.
+                    date = datetime(year=int(myYear), month=int(myMonth), day=1, hour=self.config['default_hour'], minute=self.config['default_minute'])
+
+            else:
+                try:
+                    date = dateutil.parser.parse(date_str)
+                    flag = 1 if date.hour == 0 and date.minute == 0 else 2
+                    date = date.timetuple()
+                except:
+                    date, flag = self.dateparse.parse(date_str)
+
+                if not flag:  # Oops, unparsable.
+                    try:  # Try and parse this as a single year
+                        year = int(date_str)
+                        return datetime(year, 1, 1)
+                    except ValueError:
+                        return None
+                    except TypeError:
+                        return None
+
+                if flag is 1:  # Date found, but no time.
+                    if end_flag == "from":
+                        date = datetime(*date[:3], hour=0, minute=0)
+                    elif end_flag == "to":
+                        date = datetime(*date[:3], hour=23, minute=59, second=59)
+                    else:
+                        # Use the default time.
+                        date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
+                else:
+                    date = datetime(*date[:6])
+
+                # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
+                # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
+                # past dates
+                dt = datetime.now() - date
+                if dt.days < -28:
+                    date = date.replace(date.year - 1)
 
         return date
 
