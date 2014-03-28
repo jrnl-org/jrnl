@@ -110,7 +110,7 @@ def update_config(config, new_config, scope, force_local=False):
 
 def run(manual_args=None):
     args = parse_args(manual_args)
-
+    args.text = map(lambda p: p.decode('utf-8'), args.text)
     if args.version:
         version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
         print(util.py2encode(version_str))
