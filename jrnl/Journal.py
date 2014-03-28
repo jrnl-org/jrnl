@@ -28,6 +28,7 @@ import pytz
 import uuid
 import tzlocal
 
+
 class Journal(object):
     def __init__(self, name='default', **kwargs):
         self.config = {
@@ -125,9 +126,9 @@ class Journal(object):
         current_entry = None
 
         for line in journal_txt.splitlines():
+            line = line.rstrip()
             try:
                 # try to parse line as date => new entry begins
-                line = line.strip()
                 new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
 
                 # parsing successful => save old entry and create new one
@@ -351,7 +352,7 @@ class Journal(object):
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        sep = re.search("[\n!?.]+", raw)
+        sep = re.search("\n|[\?.]+", raw)
         title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
         starred = False
         if not date:
@@ -390,6 +391,7 @@ class Journal(object):
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
         self.entries = mod_entries
 
+
 class DayOne(Journal):
     """A special Journal handling DayOne files"""
     def __init__(self, **kwargs):
@@ -414,7 +416,7 @@ class DayOne(Journal):
                 title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
                 entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
                 entry.uuid = dict_entry["UUID"]
-                entry.tags = dict_entry.get("Tags", [])
+                entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
                 self.entries.append(entry)
         self.sort()
 
@@ -425,7 +427,7 @@ class DayOne(Journal):
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
                 utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
-                filename = os.path.join(self.config['journal'], "entries", entry.uuid+".doentry")
+                filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
@@ -442,7 +444,7 @@ class DayOne(Journal):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return u"\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
+        return u"\n".join([u"# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates it's entries."""
@@ -458,7 +460,7 @@ class DayOne(Journal):
 
         for line in edited.splitlines():
             # try to parse line as UUID => new entry begins
-            line = line.strip()
+            line = line.rstrip()
             m = re.match("# *([a-f0-9]+) *$", line.lower())
             if m:
                 if current_entry:
@@ -502,4 +504,3 @@ class DayOne(Journal):
         self._deleted_entries = [e for e in self.entries if e.uuid not in edited_uuids]
         self.entries[:] = [e for e in self.entries if e.uuid in edited_uuids]
         return entries
-

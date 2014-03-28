@@ -26,6 +26,7 @@ PYCRYPTO = install.module_exists("Crypto")
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
+    parser.add_argument('-ls', dest='ls', action="store_true", help="displays accessible journals")
 
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
     composing.add_argument('text', metavar='', nargs="*")
@@ -58,7 +59,7 @@ def guess_mode(args, config):
     elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
-    elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
+    elif args.text and all(word[0] in config['tagsymbols'] for word in u" ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
@@ -87,6 +88,14 @@ def touch_journal(filename):
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
+def list_journals(config):
+    """List the journals specified in the configuration file"""
+
+    sep = "\n"
+    journal_list = sep.join(config['journals'])
+
+    return journal_list
+
 def update_config(config, new_config, scope, force_local=False):
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
@@ -112,6 +121,10 @@ def run(manual_args=None):
     else:
         config = util.load_and_fix_json(CONFIG_PATH)
         install.upgrade_config(config, config_path=CONFIG_PATH)
+
+    if args.ls:
+        print(util.py2encode(list_journals(config)))
+        sys.exit(0)
 
     original_config = config.copy()
     # check if the configuration is supported by available modules
@@ -147,7 +160,7 @@ def run(manual_args=None):
            "entries" in os.listdir(config['journal']):
             journal = Journal.DayOne(**config)
         else:
-            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
             sys.exit(1)
     else:
         journal = Journal.Journal(journal_name, **config)
@@ -228,8 +241,8 @@ def run(manual_args=None):
         num_deleted = old_num_entries - len(journal)
         num_edited = len([e for e in journal.entries if e.modified])
         prompts = []
-        if num_deleted: prompts.append("{0} entries deleted".format(num_deleted))
-        if num_edited: prompts.append("{0} entries modified".format(num_edited))
+        if num_deleted: prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
+        if num_edited: prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries

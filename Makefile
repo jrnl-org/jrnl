@@ -8,7 +8,7 @@ clean:
 	rm -rf _build
 	rm -rf _sources
 	rm -rf _static
-	rm *.html
+	rm -f *.html
 
 
 # Build GitHub Page from docs
