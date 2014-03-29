@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.16__ Even more unicode fixes!
 * __1.7.15__ More unicode fixes
 * __1.7.14__ Fix for trailing whitespaces (eg. when writing markdown code block)
 * __1.7.13__ Fix for UTF-8 in DayOne journals
