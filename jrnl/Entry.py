@@ -25,14 +25,13 @@ class Entry:
     def __unicode__(self):
         """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        title = date_str + " " + self.title
+        title = date_str + " " + self.title.rstrip("\n ")
         if self.starred:
             title += " *"
-
         return u"{title}{sep}{body}\n".format(
             title=title,
-            sep="\n" if self.body else "",
-            body=self.body
+            sep="\n" if self.body.rstrip("\n ") else "",
+            body=self.body.rstrip("\n ")
         )
 
     def pprint(self, short=False):
@@ -47,11 +46,11 @@ class Entry:
                         initial_indent="| ",
                         subsequent_indent="| ",
                         drop_whitespace=False)
-                    for line in self.body.rstrip().splitlines()
+                    for line in self.body.rstrip(" \n").splitlines()
                 ])
         else:
-            title = date_str + " " + self.title
-            body = self.body
+            title = date_str + " " + self.title.rstrip("\n ")
+            body = self.body.rstrip("\n ")
 
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
