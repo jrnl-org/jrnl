@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.18__ Small update to parsing regex
 * __1.7.17__ Fixes writing new lines between entries
 * __1.7.16__ Even more unicode fixes!
 * __1.7.15__ More unicode fixes
