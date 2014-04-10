@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Advanced Usage &mdash; jrnl 1.7.17 documentation</title>
+    <title>Advanced Usage &mdash; jrnl 1.7.19 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.7.17',
+        VERSION:     '1.7.19',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.7.17 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.19 documentation" href="index.html" />
     <link rel="next" title="FAQ" href="recipes.html" />
     <link rel="prev" title="Import and Export" href="export.html" />
      
@@ -113,13 +113,21 @@
 </div>
 <div class="section" id="dayone-integration">
 <h2>DayOne Integration<a class="headerlink" href="#dayone-integration" title="Permalink to this headline">¶</a></h2>
-<p>Using your DayOne journal instead of a flat text file is dead simple &#8211; instead of pointing to a text file, change your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> to point to your DayOne journal. This is a folder ending with <tt class="docutils literal"><span class="pre">.dayone</span></tt>, and it&#8217;s located at</p>
+<p>Using your DayOne journal instead of a flat text file is dead simple &#8211; instead of pointing to a text file, change your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> to point to your DayOne journal. This is a folder named something like <tt class="docutils literal"><span class="pre">Journal_dayone</span></tt> or <tt class="docutils literal"><span class="pre">Journal.dayone</span></tt>, and it&#8217;s located at</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">~/Library/Application</span> <span class="pre">Support/Day</span> <span class="pre">One/</span></tt> by default</li>
 <li><tt class="docutils literal"><span class="pre">~/Dropbox/Apps/Day</span> <span class="pre">One/</span></tt> if you&#8217;re syncing with Dropbox and</li>
 <li><tt class="docutils literal"><span class="pre">~/Library/Mobile</span> <span class="pre">Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/</span></tt> if you&#8217;re syncing with iCloud.</li>
 </ul>
-<p>Instead of all entries being in a single file, each entry will live in a separate <cite>plist</cite> file.</p>
+<p>Instead of all entries being in a single file, each entry will live in a separate <cite>plist</cite> file. So your <tt class="docutils literal"><span class="pre">.jrnl_config</span></tt> should look like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="p">...</span>
+  <span class="s2">&quot;journals&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;default&quot;</span><span class="o">:</span> <span class="s2">&quot;~/journal.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dayone&quot;</span><span class="o">:</span> <span class="s2">&quot;~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/Journal_dayone&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="multiple-journal-files">
 <h2>Multiple journal files<a class="headerlink" href="#multiple-journal-files" title="Permalink to this headline">¶</a></h2>
