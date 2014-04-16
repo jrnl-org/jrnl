@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.20__ Minor fixes when parsing DayOne journals
 * __1.7.19__ Creates full path to journal during installation if it doesn't exist yet
 * __1.7.18__ Small update to parsing regex
 * __1.7.17__ Fixes writing new lines between entries

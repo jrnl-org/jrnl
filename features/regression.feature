@@ -20,3 +20,13 @@ Feature: Zapped bugs should stay dead.
         When we run "jrnl 2013-11-30 15:42: Project Started."
         Then we should see the message "Entry added"
         and the journal should contain "2013-11-30 15:42 Project Started."
+
+    Scenario: Loading entry with ambiguous time stamp
+        #https://github.com/maebert/jrnl/issues/153
+        Given we use the config "bug153.json"
+        When we run "jrnl -1"
+        Then we should get no error
+        and the output should be
+            """
+            2013-10-27 03:27 Some text.
+            """
