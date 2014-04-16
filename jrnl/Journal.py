@@ -24,6 +24,7 @@ import plistlib
 import pytz
 import uuid
 import tzlocal
+from xml.parsers.expat import ExpatError
 
 
 class Journal(object):
@@ -332,20 +333,24 @@ class DayOne(Journal):
         self.entries = []
         for filename in filenames:
             with open(filename, 'rb') as plist_entry:
-                dict_entry = plistlib.readPlist(plist_entry)
                 try:
-                    timezone = pytz.timezone(dict_entry['Time Zone'])
-                except (KeyError, pytz.exceptions.UnknownTimeZoneError):
-                    timezone = tzlocal.get_localzone()
-                date = dict_entry['Creation Date']
-                date = date + timezone.utcoffset(date)
-                raw = dict_entry['Entry Text']
-                sep = re.search("[\n!?.]+", raw)
-                title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
-                entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
-                entry.uuid = dict_entry["UUID"]
-                entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
-                self.entries.append(entry)
+                    dict_entry = plistlib.readPlist(plist_entry)
+                except ExpatError:
+                    pass
+                else:
+                    try:
+                        timezone = pytz.timezone(dict_entry['Time Zone'])
+                    except (KeyError, pytz.exceptions.UnknownTimeZoneError):
+                        timezone = tzlocal.get_localzone()
+                    date = dict_entry['Creation Date']
+                    date = date + timezone.utcoffset(date, is_dst=False)
+                    raw = dict_entry['Entry Text']
+                    sep = re.search("[\n!?.]+", raw)
+                    title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
+                    entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
+                    entry.uuid = dict_entry["UUID"]
+                    entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
+                    self.entries.append(entry)
         self.sort()
 
     def write(self):
