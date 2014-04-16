@@ -338,7 +338,7 @@ class DayOne(Journal):
                 except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                     timezone = tzlocal.get_localzone()
                 date = dict_entry['Creation Date']
-                date = date + timezone.utcoffset(date)
+                date = date + timezone.utcoffset(date, is_dst=False)
                 raw = dict_entry['Entry Text']
                 sep = re.search("[\n!?.]+", raw)
                 title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
