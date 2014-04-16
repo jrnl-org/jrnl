@@ -233,6 +233,9 @@ def run(manual_args=None):
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.edit:
+        if not config['editor']:
+            util.prompt(u"[You need to specify an editor in {0} to use the --edit function.]".format(CONFIG_PATH))
+            sys.exit(1)
         other_entries = [e for e in old_entries if e not in journal.entries]
         # Edit
         old_num_entries = len(journal)
