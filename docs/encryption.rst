@@ -29,7 +29,7 @@ If you don't initially store the password in the keychain but decide to do so at
 Manual decryption
 -----------------
 
-Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run::
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. So, to decrypt a journal file in python, run::
 
     import hashlib, Crypto.Cipher
     key = hashlib.sha256(my_password).digest()
@@ -37,3 +37,5 @@ Should you ever want to decrypt your journal manually, you can do so with any pr
         cipher = f.read()
         crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
         plain = crypto.decrypt(cipher[16:])
+        plain = plain.strip(plain[-1])
+        plain = plain.decode("utf-8")
