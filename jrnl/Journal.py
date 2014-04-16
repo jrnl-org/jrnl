@@ -67,7 +67,7 @@ class Journal(object):
             util.prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
             sys.exit(1)
 
-        padding_length = ord(plain[-1])
+        padding_length = util.byte2int(plain[-1])
         if padding_length > AES.block_size and padding_length != 32:
             # 32 is the space character and is kept for backwards compatibility
             return None
