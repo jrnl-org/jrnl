@@ -30,3 +30,25 @@ Feature: Zapped bugs should stay dead.
             """
             2013-10-27 03:27 Some text.
             """
+
+	Scenario: Title with an embedded period. 
+		Given we use the config "basic.json"
+		When we run "jrnl 04-24-2014: Created a new website - empty.com. Hope to get a lot of traffic."
+		Then we should see the message "Entry added"
+		When we run "jrnl -1"
+		Then the output should be 
+			"""
+			2014-04-24 09:00 Created a new website - empty.com.
+			| Hope to get a lot of traffic.
+			"""
+			
+	Scenario: Title with an embedded period on DayOne journal
+		Given we use the config "dayone.json"
+		When we run "jrnl 04-24-2014: Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch."
+		Then we should see the message "Entry added"
+		When we run "jrnl -1"
+		Then the output should be 
+			"""
+			2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
+			| I'm feeling sore because I forgot to stretch.
+			"""
