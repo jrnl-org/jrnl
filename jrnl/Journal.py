@@ -290,7 +290,7 @@ class Journal(object):
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        sep = re.search("\n|[\?!.]+ *\n?", raw)
+        sep = re.search("\n|[\?!.]+ +\n?", raw)
         title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
         starred = False
         if not date:
@@ -354,7 +354,7 @@ class DayOne(Journal):
                     date = dict_entry['Creation Date']
                     date = date + timezone.utcoffset(date, is_dst=False)
                     raw = dict_entry['Entry Text']
-                    sep = re.search("[\n!?.]+", raw)
+                    sep = re.search("\n|[\?!.]+ +\n?", raw)
                     title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
                     entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
