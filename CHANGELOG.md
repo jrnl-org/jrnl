@@ -4,6 +4,7 @@ Changelog
 
 ### 1.7 (December 22, 2013)
 
+* __1.7.22__ Fixed an issue with writing files when exporting entries containing non-ascii characters.
 * __1.7.21__ jrnl now uses PKCS#7 padding.
 * __1.7.20__ Minor fixes when parsing DayOne journals
 * __1.7.19__ Creates full path to journal during installation if it doesn't exist yet

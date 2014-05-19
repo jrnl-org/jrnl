@@ -8,7 +8,7 @@ jrnl is a simple journal application for your command line.
 from __future__ import absolute_import
 
 __title__ = 'jrnl'
-__version__ = '1.7.21'
+__version__ = '1.7.22'
 __author__ = 'Manuel Ebert'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2013 - 2014 Manuel Ebert'
