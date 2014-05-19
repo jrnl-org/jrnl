@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Encryption &mdash; jrnl 1.7.19 documentation</title>
+    <title>Encryption &mdash; jrnl 1.7.22 documentation</title>
     
     <link rel="stylesheet" href="_static/css/jrnl.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.7.19',
+        VERSION:     '1.7.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="jrnl 1.7.19 documentation" href="index.html" />
+    <link rel="top" title="jrnl 1.7.22 documentation" href="index.html" />
     <link rel="next" title="Import and Export" href="export.html" />
     <link rel="prev" title="Basic Usage" href="usage.html" />
      
@@ -61,13 +61,15 @@
 </div>
 <div class="section" id="manual-decryption">
 <h2>Manual decryption<a class="headerlink" href="#manual-decryption" title="Permalink to this headline">¶</a></h2>
-<p>Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm. The key used for encryption is the SHA-256-hash of your password, and the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. So, to decrypt a journal file in python, run:</p>
+<p>Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. So, to decrypt a journal file in python, run:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">Crypto.Cipher</span>
 <span class="n">key</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">my_password</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;my_journal.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">cipher</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="n">crypto</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span> <span class="o">=</span> <span class="n">cipher</span><span class="p">[:</span><span class="mi">16</span><span class="p">])</span>
     <span class="n">plain</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">[</span><span class="mi">16</span><span class="p">:])</span>
+    <span class="n">plain</span> <span class="o">=</span> <span class="n">plain</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">plain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plain</span> <span class="o">=</span> <span class="n">plain</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
