@@ -5,6 +5,7 @@ from __future__ import absolute_import
 import os
 import json
 from .util import u, slugify
+import codecs
 
 
 def get_tags_count(journal):
@@ -81,7 +82,7 @@ def export(journal, format, output=None):
         content = maps[format](journal)
         if output:
             try:
-                with open(output, 'w') as f:
+                with codecs.open(output, "w", "utf-8") as f:
                     f.write(content)
                 return "[Journal exported to {0}]".format(output)
             except IOError as e:
@@ -101,6 +102,6 @@ def write_files(journal, path, format):
             content = e.to_md()
         elif format == 'txt':
             content = u(e)
-        with open(full_path, 'w') as f:
+        with codecs.open(full_path, "w", "utf-8") as f:
             f.write(content)
     return "[Journal exported individual files in {0}]".format(path)
