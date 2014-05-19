@@ -24,6 +24,7 @@ import plistlib
 import pytz
 import uuid
 import tzlocal
+from xml.parsers.expat import ExpatError
 
 
 class Journal(object):
@@ -65,11 +66,19 @@ class Journal(object):
         except ValueError:
             util.prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
             sys.exit(1)
-        padding = " ".encode("utf-8")
-        if not plain.endswith(padding):  # Journals are always padded
+
+        padding_length = util.byte2int(plain[-1])
+        if padding_length > AES.block_size and padding_length != 32:
+            # 32 is the space character and is kept for backwards compatibility
+            return None
+        elif padding_length == 32:
+            plain = plain.strip()
+        elif plain[-padding_length:] != util.int2byte(padding_length) * padding_length:
+            # Invalid padding!
             return None
         else:
-            return plain.decode("utf-8")
+            plain = plain[:-padding_length]
+        return plain.decode("utf-8")
 
     def _encrypt(self, plain):
         """Encrypt a plaintext string using self.key as the key"""
@@ -79,7 +88,8 @@ class Journal(object):
         iv = Random.new().read(AES.block_size)
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
         plain = plain.encode("utf-8")
-        plain += b" " * (AES.block_size - len(plain) % AES.block_size)
+        padding_length = AES.block_size - len(plain) % AES.block_size
+        plain += util.int2byte(padding_length) * padding_length
         return iv + crypto.encrypt(plain)
 
     def make_key(self, password):
@@ -280,7 +290,7 @@ class Journal(object):
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        sep = re.search("\n|[\?!.]+ *\n?", raw)
+        sep = re.search("\n|[\?!.]+ +\n?", raw)
         title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
         starred = False
         if not date:
@@ -332,20 +342,24 @@ class DayOne(Journal):
         self.entries = []
         for filename in filenames:
             with open(filename, 'rb') as plist_entry:
-                dict_entry = plistlib.readPlist(plist_entry)
                 try:
-                    timezone = pytz.timezone(dict_entry['Time Zone'])
-                except (KeyError, pytz.exceptions.UnknownTimeZoneError):
-                    timezone = tzlocal.get_localzone()
-                date = dict_entry['Creation Date']
-                date = date + timezone.utcoffset(date)
-                raw = dict_entry['Entry Text']
-                sep = re.search("[\n!?.]+", raw)
-                title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
-                entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
-                entry.uuid = dict_entry["UUID"]
-                entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
-                self.entries.append(entry)
+                    dict_entry = plistlib.readPlist(plist_entry)
+                except ExpatError:
+                    pass
+                else:
+                    try:
+                        timezone = pytz.timezone(dict_entry['Time Zone'])
+                    except (KeyError, pytz.exceptions.UnknownTimeZoneError):
+                        timezone = tzlocal.get_localzone()
+                    date = dict_entry['Creation Date']
+                    date = date + timezone.utcoffset(date, is_dst=False)
+                    raw = dict_entry['Entry Text']
+                    sep = re.search("\n|[\?!.]+ +\n?", raw)
+                    title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
+                    entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
+                    entry.uuid = dict_entry["UUID"]
+                    entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
+                    self.entries.append(entry)
         self.sort()
 
     def write(self):
