@@ -3,7 +3,7 @@ python:
   - "2.6"
   - "2.7"
   - "3.3"
-#  - "3.4"  # Not available on Travis yet, see https://github.com/travis-ci/travis-ci/issues/1989
+  - "3.4"
 install:
   - "pip install -e . --use-mirrors"
   - "pip install pycrypto>=2.6 --use-mirrors"
