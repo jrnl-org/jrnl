@@ -1,4 +1,4 @@
-<?xxml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -23,7 +23,7 @@
     <key>Location</key>
     <dict>
         <key>Administrative Area</key>
-        <string>Ã–stergÃ¶tlands lÃ¤n</string>
+        <string>Östergötlands län</string>
         <key>Country</key>
         <string>Sverige</string>
         <key>Latitude</key>
