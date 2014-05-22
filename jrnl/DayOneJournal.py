@@ -17,6 +17,10 @@ from xml.parsers.expat import ExpatError
 
 class DayOne(Journal.Journal):
     """A special Journal handling DayOne files"""
+
+    # InvalidFileException was added to plistlib in Python3.4
+    PLIST_EXCEPTIONS = (ExpatError, plistlib.InvalidFileException) if hasattr(plistlib, "InvalidFileException") else ExpatError
+
     def __init__(self, **kwargs):
         self.entries = []
         self._deleted_entries = []
@@ -29,7 +33,7 @@ class DayOne(Journal.Journal):
             with open(filename, 'rb') as plist_entry:
                 try:
                     dict_entry = plistlib.readPlist(plist_entry)
-                except ExpatError:
+                except self.PLIST_EXCEPTIONS:
                     pass
                 else:
                     try:
