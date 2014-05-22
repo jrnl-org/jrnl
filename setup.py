@@ -51,6 +51,7 @@ if sys.argv[-1] == 'publish':
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
+
 def get_version(filename="jrnl/__init__.py"):
     with open(os.path.join(base_dir, filename)) as initfile:
         for line in initfile.readlines():
@@ -76,7 +77,7 @@ setup(
         "tzlocal>=1.1",
         "keyring>=3.3",
         "python-dateutil>=2.2"
-        ] + [p for p, cond in conditional_dependencies.items() if cond],
+    ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
         "encrypted": "pycrypto>=2.6"
     },
@@ -97,6 +98,7 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Office/Business :: News/Diary',
         'Topic :: Text Processing'
     ],
