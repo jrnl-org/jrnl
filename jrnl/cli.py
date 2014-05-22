@@ -9,10 +9,10 @@
 
 from __future__ import absolute_import
 from . import Journal
+from . import DayOneJournal
 from . import util
 from . import exporters
 from . import install
-from . import __version__
 import jrnl
 import os
 import argparse
@@ -43,11 +43,12 @@ def parse_args(args=None):
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal to Markdown, JSON or Text', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', default=False, const=None)
-    exporting.add_argument('--encrypt',  metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
-    exporting.add_argument('--decrypt',  metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
+    exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
+    exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--edit', dest='edit', help='Opens your editor to edit the selected entries.', action="store_true")
 
     return parser.parse_args(args)
+
 
 def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
@@ -65,6 +66,7 @@ def guess_mode(args, config):
 
     return compose, export
 
+
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
     password = util.getpass("Enter new password: ")
@@ -75,6 +77,7 @@ def encrypt(journal, filename=None):
         util.set_keychain(journal.name, password)
     util.prompt("Journal encrypted to {0}.".format(filename or journal.config['journal']))
 
+
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
@@ -82,19 +85,20 @@ def decrypt(journal, filename=None):
     journal.write(filename)
     util.prompt("Journal decrypted to {0}.".format(filename or journal.config['journal']))
 
+
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
+
 def list_journals(config):
     """List the journals specified in the configuration file"""
-
     sep = "\n"
     journal_list = sep.join(config['journals'])
-
     return journal_list
+
 
 def update_config(config, new_config, scope, force_local=False):
     """Updates a config dict with new values - either global if scope is None
@@ -107,6 +111,7 @@ def update_config(config, new_config, scope, force_local=False):
         config['journals'][scope].update(new_config)
     else:
         config.update(new_config)
+
 
 def run(manual_args=None):
     args = parse_args(manual_args)
@@ -158,7 +163,7 @@ def run(manual_args=None):
     if os.path.isdir(config['journal']):
         if config['journal'].strip("/").endswith(".dayone") or \
            "entries" in os.listdir(config['journal']):
-            journal = Journal.DayOne(**config)
+            journal = DayOneJournal.DayOne(**config)
         else:
             util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
             sys.exit(1)
@@ -178,7 +183,7 @@ def run(manual_args=None):
         elif config['editor']:
             raw = util.get_text_from_editor(config)
         else:
-            raw = util.py23_read("[Compose Entry; " +  _exit_multiline_code + " to finish writing]\n")
+            raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
         if raw:
             args.text = [raw]
         else:
@@ -189,7 +194,7 @@ def run(manual_args=None):
         raw = " ".join(args.text).strip()
         if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
-        entry = journal.new_entry(raw)
+        journal.new_entry(raw)
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
     else:
@@ -244,8 +249,10 @@ def run(manual_args=None):
         num_deleted = old_num_entries - len(journal)
         num_edited = len([e for e in journal.entries if e.modified])
         prompts = []
-        if num_deleted: prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
-        if num_edited: prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
+        if num_deleted:
+            prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
+        if num_edited:
+            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
