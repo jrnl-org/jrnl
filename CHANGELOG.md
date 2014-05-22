@@ -2,6 +2,10 @@ Changelog
 =========
 
 
+### 1.8 (May 22, 2014)
+
+* __1.8.0__ Official support for python 3.4
+
 ### 1.7 (December 22, 2013)
 
 * __1.7.22__ Fixed an issue with writing files when exporting entries containing non-ascii characters.
