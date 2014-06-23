@@ -54,7 +54,7 @@ def save_config(config=default_config, config_path=os.path.expanduser("~/.jrnl_c
 
 def install_jrnl(config_path='~/.jrnl_config'):
     def autocomplete(text, state):
-        expansions = glob.glob(os.path.expanduser(text)+'*')
+        expansions = glob.glob(os.path.expanduser(os.path.expandvars(text))+'*')
         expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
         expansions.append(None)
         return expansions[state]
@@ -65,7 +65,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
     # Where to create the journal?
     path_query = 'Path to your journal file (leave blank for ~/journal.txt): '
     journal_path = util.py23_input(path_query).strip() or os.path.expanduser('~/journal.txt')
-    default_config['journals']['default'] = os.path.expanduser(journal_path)
+    default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
 
     # Encrypt it?
     if module_exists("Crypto"):
