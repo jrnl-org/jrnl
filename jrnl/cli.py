@@ -18,8 +18,6 @@ import os
 import argparse
 import sys
 
-xdg_config = os.environ.get('XDG_CONFIG_HOME')
-CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
 PYCRYPTO = install.module_exists("Crypto")
 
 
@@ -121,11 +119,7 @@ def run(manual_args=None):
         print(util.py2encode(version_str))
         sys.exit(0)
 
-    if not os.path.exists(CONFIG_PATH):
-        config = install.install_jrnl(CONFIG_PATH)
-    else:
-        config = util.load_and_fix_json(CONFIG_PATH)
-        install.upgrade_config(config, CONFIG_PATH)
+    config = install.install_jrnl()
 
     if args.ls:
         print(util.py2encode(list_journals(config)))
@@ -228,18 +222,18 @@ def run(manual_args=None):
         # Not encrypting to a separate file: update config!
         if not args.encrypt:
             update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
-            install.save_config(original_config, CONFIG_PATH)
+            install.save_config(original_config)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
         if not args.decrypt:
             update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
-            install.save_config(original_config, CONFIG_PATH)
+            install.save_config(original_config)
 
     elif args.edit:
         if not config['editor']:
-            util.prompt(u"[You need to specify an editor in {0} to use the --edit function.]".format(CONFIG_PATH))
+            util.prompt(u"[You need to specify an editor in {0} to use the --edit function.]".format(install.CONFIG_FILE_PATH))
             sys.exit(1)
         other_entries = [e for e in old_entries if e not in journal.entries]
         # Edit

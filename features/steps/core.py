@@ -1,5 +1,5 @@
 from behave import *
-from jrnl import cli, Journal, util
+from jrnl import cli, install, Journal, util
 from dateutil import parser as date_parser
 import os
 import sys
@@ -28,14 +28,14 @@ def _parse_args(command):
     return nargs
 
 def read_journal(journal_name="default"):
-    with open(cli.CONFIG_PATH) as config_file:
+    with open(install.CONFIG_FILE_PATH) as config_file:
         config = json.load(config_file)
     with open(config['journals'][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
 
 def open_journal(journal_name="default"):
-    with open(cli.CONFIG_PATH) as config_file:
+    with open(install.CONFIG_FILE_PATH) as config_file:
         config = json.load(config_file)
     journal_conf = config['journals'][journal_name]
     if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
@@ -47,7 +47,7 @@ def open_journal(journal_name="default"):
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
-    cli.CONFIG_PATH = os.path.abspath(full_path)
+    install.CONFIG_FILE_PATH = os.path.abspath(full_path)
 
 @when('we run "{command}" and enter')
 @when('we run "{command}" and enter "{inputs}"')
@@ -159,7 +159,7 @@ def check_journal_content(context, text, journal_name="default"):
 
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
-    with open(cli.CONFIG_PATH) as config_file:
+    with open(install.CONFIG_FILE_PATH) as config_file:
         config = json.load(config_file)
     journal_path = config['journals'][journal_name]
     assert not os.path.exists(journal_path)
@@ -173,7 +173,7 @@ def config_var(context, key, value, journal=None):
         "int": int,
         "str": str
     }[t](value)
-    with open(cli.CONFIG_PATH) as config_file:
+    with open(install.CONFIG_FILE_PATH) as config_file:
         config = json.load(config_file)
     if journal:
         config = config["journals"][journal]
