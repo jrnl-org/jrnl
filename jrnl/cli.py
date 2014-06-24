@@ -155,7 +155,7 @@ def run(manual_args=None):
         config.update(journal_conf)
     else:  # But also just give them a string to point to the journal file
         config['journal'] = journal_conf
-    config['journal'] = os.path.expanduser(config['journal'])
+    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
     touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
 
