@@ -11,8 +11,6 @@ var phrases = [
 var args = document.getElementById("args");
 var input = document.getElementById("input");
 var output = document.getElementById("output");
-var right = document.getElementById("right");
-var left = document.getElementById("left");
 var current = 0
 var timer = null;
 var fadeInTimer = null;
@@ -49,8 +47,6 @@ var reveal = function(idx) {
     var s1 = function() {unletter(old_args_text, args, s2);}
     var s0 = function() {unletter(old_input_text, input, s1);}
     fadeOut(old_output_text, output, s0, 10);
-    // letter(input_text, input);
-    // output.innerHTML = output_text;
 }
 
 var fadeIn = function(text, element, next, step) {

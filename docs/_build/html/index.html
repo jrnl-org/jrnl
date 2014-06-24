@@ -1,5 +1,4 @@
 
-
   <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -26,9 +25,9 @@
                 <h1>Collect your thoughts and notes <br />without leaving the command line</h1>
             </div>
             <div id="prompt">
-                <div class="pleft" onlick="next(); return false;"><i class="icon left"></i></div>
+                <div class="pleft" onclick="reset(); prev(); return false;"><i class="icon left"></i></div>
                 <div class="terminal">$ jrnl <span id="args"></span><span id="input">today: Started writing my memoirs. On the command line. Like a boss.</span><div id="output"></div></div>
-                <div class="pright" onclick="next(); return false;"><i class="icon right"></i></div>
+                <div class="pright" onclick="reset(); next(); return false;"><i class="icon right"></i></div>
             </div>
         </div>
         <div id="nav">

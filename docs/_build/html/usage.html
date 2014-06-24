@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.8.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -55,7 +54,8 @@
 <div class="section" id="composing-entries">
 <h2>Composing Entries<a class="headerlink" href="#composing-entries" title="Permalink to this headline">¶</a></h2>
 <p>Composing mode is entered by either starting <tt class="docutils literal"><span class="pre">jrnl</span></tt> without any arguments &#8211; which will prompt you to write an entry or launch your editor &#8211; or by just writing an entry on the prompt, such as:</p>
-<div class="highlight-python"><pre>jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
+</pre></div>
 </div>
 <p>You can also import an entry directly from a file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">&lt;</span> <span class="n">my_entry</span><span class="o">.</span><span class="n">txt</span>
@@ -77,7 +77,8 @@
 <div class="section" id="starring-entries">
 <h3>Starring entries<a class="headerlink" href="#starring-entries" title="Permalink to this headline">¶</a></h3>
 <p>To mark an entry as a favourite, simply &#8220;star&#8221; it:</p>
-<div class="highlight-python"><pre>jrnl last sunday *: Best day of my life.</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl last sunday *: Best day of my life.
+</pre></div>
 </div>
 <p>If you don&#8217;t want to add a date (ie. your entry will be dated as now), The following options are equivalent:</p>
 <ul class="simple">
@@ -93,10 +94,12 @@
 </div>
 <div class="section" id="viewing">
 <h2>Viewing<a class="headerlink" href="#viewing" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><pre>jrnl -n 10</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl -n 10
+</pre></div>
 </div>
 <p>will list you the ten latest entries (if you&#8217;re lazy, <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">-10</span></tt> will do the same),</p>
-<div class="highlight-python"><pre>jrnl -from "last year" -until march</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl -from &quot;last year&quot; -until march
+</pre></div>
 </div>
 <p>everything that happened from the start of last year to the start of last march. To only see your favourite entries, use</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">jrnl</span> <span class="o">-</span><span class="n">starred</span>
@@ -106,13 +109,16 @@
 <div class="section" id="using-tags">
 <h2>Using Tags<a class="headerlink" href="#using-tags" title="Permalink to this headline">¶</a></h2>
 <p>Keep track of people, projects or locations, by tagging them with an <tt class="docutils literal"><span class="pre">&#64;</span></tt> in your entries</p>
-<div class="highlight-python"><pre>jrnl Had a wonderful day on the @beach with @Tom and @Anna.</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl Had a wonderful day on the @beach with @Tom and @Anna.
+</pre></div>
 </div>
 <p>You can filter your journal entries just like this:</p>
-<div class="highlight-python"><pre>jrnl @pinkie @WorldDomination</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl @pinkie @WorldDomination
+</pre></div>
 </div>
 <p>Will print all entries in which either <tt class="docutils literal"><span class="pre">&#64;pinkie</span></tt> or <tt class="docutils literal"><span class="pre">&#64;WorldDomination</span></tt> occurred.</p>
-<div class="highlight-python"><pre>jrnl -n 5 -and @pineapple @lubricant</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl -n 5 -and @pineapple @lubricant
+</pre></div>
 </div>
 <p>the last five entries containing both <tt class="docutils literal"><span class="pre">&#64;pineapple</span></tt> <strong>and</strong> <tt class="docutils literal"><span class="pre">&#64;lubricant</span></tt>. You can change which symbols you&#8217;d like to use for tagging in the configuration.</p>
 <div class="admonition note">
@@ -123,24 +129,27 @@
 <div class="section" id="editing-older-entries">
 <h2>Editing older entries<a class="headerlink" href="#editing-older-entries" title="Permalink to this headline">¶</a></h2>
 <p>You can edit selected entries after you wrote them. This is particularly useful when your journal file is encrypted or if you&#8217;re using a DayOne journal. To use this feature, you need to have an editor configured in your journal configuration file (see <a class="reference internal" href="advanced.html"><em>advanced usage</em></a>):</p>
-<div class="highlight-python"><pre>jrnl -until 1950 @texas -and @history --edit</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl -until 1950 @texas -and @history --edit
+</pre></div>
 </div>
 <p>Will open your editor with all entries tagged with <tt class="docutils literal"><span class="pre">&#64;texas</span></tt> and <tt class="docutils literal"><span class="pre">&#64;history</span></tt> before 1950. You can make any changes to them you want; after you save the file and close the editor, your journal will be updated.</p>
 <p>Of course, if you are using multiple journals, you can also edit e.g. the latest entry of your work journal with <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">work</span> <span class="pre">-n</span> <span class="pre">1</span> <span class="pre">--edit</span></tt>. In any case, this will bring up your editor and save (and, if applicable, encrypt) your edited journal after you save and exit the editor.</p>
 <p>You can also use this feature for deleting entries from your journal:</p>
-<div class="highlight-python"><pre>jrnl @girlfriend -until 'june 2012' --edit</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl @girlfriend -until &#39;june 2012&#39; --edit
+</pre></div>
 </div>
 <p>Just select all text, press delete, and everything is gone...</p>
 <div class="section" id="editing-dayone-journals">
 <h3>Editing DayOne Journals<a class="headerlink" href="#editing-dayone-journals" title="Permalink to this headline">¶</a></h3>
 <p>DayOne journals can be edited exactly the same way, however the output looks a little bit different because of the way DayOne stores its entries:</p>
-<div class="highlight-output"><pre># af8dbd0d43fb55458f11aad586ea2abf
+<div class="highlight-output"><div class="highlight"><pre># af8dbd0d43fb55458f11aad586ea2abf
 2013-05-02 15:30 I told everyone I built my @robot wife for sex.
-But late at night when we're alone we mostly play Battleship.
+But late at night when we&#39;re alone we mostly play Battleship.
 
 # 2391048fe24111e1983ed49a20be6f9e
 2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
-I just figured I'd be on the other side.</pre>
+I just figured I&#39;d be on the other side.
+</pre></div>
 </div>
 <p>The long strings starting with hash symbol are the so-called UUIDs, unique identifiers for each entry. Don&#8217;t touch them. If you do, then the old entry would get deleted and a new one written, which means that you could DayOne loose data that jrnl can&#8217;t handle (such as as the entry&#8217;s geolocation).</p>
 </div>

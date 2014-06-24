@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.8.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -46,24 +45,28 @@
 <div class="section" id="co-occurrence-of-tags">
 <h3>Co-occurrence of tags<a class="headerlink" href="#co-occurrence-of-tags" title="Permalink to this headline">¶</a></h3>
 <p>If I want to find out how often I mentioned my flatmates Alberto and Melo in the same entry, I run</p>
-<div class="highlight-python"><pre>jrnl @alberto --tags | grep @melo</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl @alberto --tags | grep @melo
+</pre></div>
 </div>
 <p>And will get something like <tt class="docutils literal"><span class="pre">&#64;melo:</span> <span class="pre">9</span></tt>, meaning there are 9 entries where both <tt class="docutils literal"><span class="pre">&#64;alberto</span></tt> and <tt class="docutils literal"><span class="pre">&#64;melo</span></tt> are tagged. How does this work? First, <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">&#64;alberto</span></tt> will filter the journal to only entries containing the tag <tt class="docutils literal"><span class="pre">&#64;alberto</span></tt>, and then the <tt class="docutils literal"><span class="pre">--tags</span></tt> option will print out how often each tag occurred in this <cite>filtered</cite> journal. Finally, we pipe this to <tt class="docutils literal"><span class="pre">grep</span></tt> which will only display the line containing <tt class="docutils literal"><span class="pre">&#64;melo</span></tt>.</p>
 </div>
 <div class="section" id="combining-filters">
 <h3>Combining filters<a class="headerlink" href="#combining-filters" title="Permalink to this headline">¶</a></h3>
 <p>You can do things like</p>
-<div class="highlight-python"><pre>jrnl @fixed -starred -n 10 -until "jan 2013" --short</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl @fixed -starred -n 10 -until &quot;jan 2013&quot; --short
+</pre></div>
 </div>
 <p>To get a short summary of the 10 most recent, favourited entries before January 1, 2013 that are tagged with <tt class="docutils literal"><span class="pre">&#64;fixed</span></tt>.</p>
 </div>
 <div class="section" id="statistics">
 <h3>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h3>
 <p>How much did I write last year?</p>
-<div class="highlight-python"><pre>jrnl -from "jan 1 2013" -until "dec 31 2013" | wc -w</pre>
+<div class="highlight-python"><div class="highlight"><pre>jrnl -from &quot;jan 1 2013&quot; -until &quot;dec 31 2013&quot; | wc -w
+</pre></div>
 </div>
 <p>Will give you the number of words you wrote in 2013. How long is my average entry?</p>
-<div class="highlight-python"><pre>expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)</pre>
+<div class="highlight-python"><div class="highlight"><pre>expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
+</pre></div>
 </div>
 <p>This will first get the total number of words in the journal and divide it by the number of entries (this works because <tt class="docutils literal"><span class="pre">jrnl</span> <span class="pre">--short</span></tt> will print exactly one line per entry).</p>
 </div>
