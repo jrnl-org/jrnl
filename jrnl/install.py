@@ -23,7 +23,7 @@ default_config = {
     'journals': {
         "default": os.path.expanduser("~/journal.txt")
     },
-    'editor': "",
+    'editor': os.getenv('VISUAL') or os.getenv('EDITOR') or "",
     'encrypt': False,
     'default_hour': 9,
     'default_minute': 0,
