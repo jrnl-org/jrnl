@@ -82,6 +82,6 @@ To set `Notepad++ <http://notepad-plus-plus.org/>`_ as your editor, edit the jrn
 
 .. code-block:: javascript
 
-      "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst",
+      "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession",
 
-The double backslashes are needed so jrnl can read the file path correctly. The ``-multiInst`` option will cause jrnl to open its own Notepad++ window.
+The double backslashes are needed so jrnl can read the file path correctly. The ``-multiInst -nosession`` options will cause jrnl to open its own Notepad++ window.
