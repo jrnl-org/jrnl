@@ -16,6 +16,7 @@ docs:
 	git checkout gh-pages ; \
 	git checkout master docs ; \
 	git checkout master jrnl ; \
+	curl https://raw.githubusercontent.com/mateuszkocz/3l/master/3L/3L.less > docs/_themes/jrnl/static/less/3L.less ;\
 	lessc --clean-css docs/_themes/jrnl/static/less/jrnl.less docs/_themes/jrnl/static/css/jrnl.css ; \
 	cd docs ; \
 	make html ; \
