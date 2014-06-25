@@ -125,5 +125,5 @@ DayOne journals can be edited exactly the same way, however the output looks a l
     2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
     I just figured I'd be on the other side.
 
-The long strings starting with hash symbol are the so-called UUIDs, unique identifiers for each entry. Don't touch them. If you do, then the old entry would get deleted and a new one written, which means that you could DayOne loose data that jrnl can't handle (such as as the entry's geolocation).
+The long strings starting with hash symbol are the so-called UUIDs, unique identifiers for each entry. Don't touch them. If you do, then the old entry would get deleted and a new one written, which means that you could lose DayOne data that jrnl can't handle (such as as the entry's geolocation).
 
