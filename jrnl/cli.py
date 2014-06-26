@@ -69,7 +69,14 @@ def guess_mode(args, config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
-    password = util.getpass("Enter new password: ")
+    confirmed_password = False
+    while confirmed_password == False:
+        password = util.getpass("Enter new password: ")
+        password_conf = util.getpass("Confirm password: ")
+        if password == password_conf:
+            confirmed_password = True
+        else:
+            print("Password and confirmation did not match, try again.")
     journal.make_key(password)
     journal.config['encrypt'] = True
     journal.write(filename)
