@@ -71,6 +71,7 @@ setup(
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
     install_requires = [
+        "pyxdg>=0.19",
         "parsedatetime>=1.2",
         "pytz>=2013b",
         "six>=1.6.1",
