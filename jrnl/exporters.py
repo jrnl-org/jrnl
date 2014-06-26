@@ -81,7 +81,7 @@ def export(journal, format, output=None):
         "markdown": to_md
     }
     if format not in maps:
-        return u"[ERROR: can't export to {0}. Valid options are 'md', 'txt', and 'json']".format(format)
+        return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
@@ -108,7 +108,7 @@ def write_files(journal, path, format):
         elif format in ('md', 'markdown'):
             content = e.to_md()
         elif format in ('txt', 'text'):
-            content = u(e)
+            content = e.__unicode__()
         with codecs.open(full_path, "w", "utf-8") as f:
             f.write(content)
     return u"[Journal exported individual files in {0}]".format(path)
