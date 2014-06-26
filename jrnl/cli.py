@@ -9,7 +9,6 @@
 
 from __future__ import absolute_import, unicode_literals
 from . import Journal
-from . import DayOneJournal
 from . import util
 from . import exporters
 from . import install
@@ -68,21 +67,30 @@ def guess_mode(args, config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
-    password = util.getpass("Enter new password: ")
-    journal.make_key(password)
+    from . import EncryptedJournal
+
+    journal.config['password'] = util.getpass("Enter new password: ")
     journal.config['encrypt'] = True
-    journal.write(filename)
+
+    new_journal = EncryptedJournal.EncryptedJournal(None, **journal.config)
+    new_journal.entries = journal.entries
+    new_journal.write(filename)
+
     if util.yesno("Do you want to store the password in your keychain?", default=True):
         util.set_keychain(journal.name, password)
-    util.prompt("Journal encrypted to {0}.".format(filename or journal.config['journal']))
+
+    util.prompt("Journal encrypted to {0}.".format(filename or new_journal.config['journal']))
 
 
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
     journal.config['password'] = ""
-    journal.write(filename)
-    util.prompt("Journal decrypted to {0}.".format(filename or journal.config['journal']))
+
+    new_journal = Journal.PlainJournal(filename, **journal.config)
+    new_journal.entries = journal.entries
+    new_journal.write(filename)
+    util.prompt("Journal decrypted to {0}.".format(filename or new_journal.config['journal']))
 
 
 def touch_journal(filename):
@@ -110,6 +118,25 @@ def update_config(config, new_config, scope, force_local=False):
         config['journals'][scope].update(new_config)
     else:
         config.update(new_config)
+
+
+def open_journal(name, config):
+    """
+    Creates a normal, encrypted or DayOne journal based on the passed config.
+    """
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
+            from . import DayOneJournal
+            return DayOneJournal.DayOne(**config).open()
+        else:
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+
+    if not config['encrypt']:
+        return Journal.PlainJournal(name, **config).open()
+    else:
+        from . import EncryptedJournal
+        return EncryptedJournal.EncryptedJournal(name, **config).open()
 
 
 def run(manual_args=None):
@@ -177,16 +204,7 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
-    # open journal file or folder
-    if os.path.isdir(config['journal']):
-        if config['journal'].strip("/").endswith(".dayone") or \
-           "entries" in os.listdir(config['journal']):
-            journal = DayOneJournal.DayOne(**config)
-        else:
-            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
-            sys.exit(1)
-    else:
-        journal = Journal.Journal(journal_name, **config)
+    journal = open_journal(journal_name, config)
 
     # Writing mode
     if mode_compose:
