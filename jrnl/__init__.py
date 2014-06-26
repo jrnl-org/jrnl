@@ -12,7 +12,3 @@ __version__ = '1.8.4'
 __author__ = 'Manuel Ebert'
 __license__ = 'MIT License'
 __copyright__ = 'Copyright 2013 - 2014 Manuel Ebert'
-
-from . import Journal
-from . import cli
-from .cli import run
