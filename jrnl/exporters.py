@@ -6,6 +6,7 @@ import os
 import json
 from .util import u, slugify
 import codecs
+from xml.dom import minidom
 
 
 def get_tags_count(journal):
@@ -43,6 +44,33 @@ def to_json(journal):
     return json.dumps(result, indent=2)
 
 
+def to_xml(journal):
+    """Returns a XML representation of the Journal."""
+    tags = get_tags_count(journal)
+    doc = minidom.Document()
+    xml = doc.createElement('journal')
+    tagsxml = doc.createElement('tags')
+    entries = doc.createElement('entries')
+    for t in tags:
+        tag = doc.createElement('tag')
+        tag.setAttribute('name', t[1])
+        countNode = doc.createTextNode(str(t[0]))
+        tag.appendChild(countNode)
+        tagsxml.appendChild(tag)
+    for e in journal.entries:
+        entry = doc.createElement('entry')
+        ed = e.to_dict()
+        for en in ed:
+            elem = doc.createElement(en)
+            elem.appendChild(doc.createTextNode(str(ed[en])))
+            entry.appendChild(elem)
+        entries.appendChild(entry)
+    xml.appendChild(entries)
+    xml.appendChild(tagsxml)
+    doc.appendChild(xml)
+    return doc.toprettyxml()
+
+
 def to_md(journal):
     """Returns a markdown representation of the Journal"""
     out = []
@@ -68,20 +96,21 @@ def to_txt(journal):
 
 def export(journal, format, output=None):
     """Exports the journal to various formats.
-    format should be one of json, txt, text, md, markdown.
+    format should be one of json, xml, txt, text, md, markdown.
     If output is None, returns a unicode representation of the output.
     If output is a directory, exports entries into individual files.
     Otherwise, exports to the given output file.
     """
     maps = {
         "json": to_json,
+        "xml": to_xml,
         "txt": to_txt,
         "text": to_txt,
         "md": to_md,
         "markdown": to_md
     }
     if format not in maps:
-        return "[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
+        return "[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', 'xml', and 'json']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
@@ -99,7 +128,7 @@ def export(journal, format, output=None):
 
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
-    Format should be either json, md or txt."""
+    Format should be either json, xml, md or txt."""
     make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
     for e in journal.entries:
         full_path = os.path.join(path, make_filename(e))
@@ -107,6 +136,8 @@ def write_files(journal, path, format):
             content = json.dumps(e.to_dict(), indent=2) + "\n"
         elif format in ('md', 'markdown'):
             content = e.to_md()
+        elif format in 'xml':
+            content = e.to_xml()
         elif format in ('txt', 'text'):
             content = e.__unicode__()
         with codecs.open(full_path, "w", "utf-8") as f:
