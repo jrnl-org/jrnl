@@ -3,7 +3,6 @@
 import sys
 import os
 import getpass as gp
-import keyring
 import yaml
 if "win32" in sys.platform:
     import colorama
@@ -51,10 +50,12 @@ def get_password(validator, keychain=None, max_attempts=3):
 
 
 def get_keychain(journal_name):
+    import keyring
     return keyring.get_password('jrnl', journal_name)
 
 
 def set_keychain(journal_name, password):
+    import keyring
     if password is None:
         try:
             keyring.delete_password('jrnl', journal_name)
