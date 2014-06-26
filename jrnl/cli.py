@@ -125,7 +125,7 @@ def run(manual_args=None):
         config = install.install_jrnl(CONFIG_PATH)
     else:
         config = util.load_and_fix_json(CONFIG_PATH)
-        install.upgrade_config(config, config_path=CONFIG_PATH)
+        install.upgrade_config(config, CONFIG_PATH)
 
     if args.ls:
         print(util.py2encode(list_journals(config)))
@@ -228,14 +228,14 @@ def run(manual_args=None):
         # Not encrypting to a separate file: update config!
         if not args.encrypt:
             update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
-            install.save_config(original_config, config_path=CONFIG_PATH)
+            install.save_config(original_config, CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
         if not args.decrypt:
             update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
-            install.save_config(original_config, config_path=CONFIG_PATH)
+            install.save_config(original_config, CONFIG_PATH)
 
     elif args.edit:
         if not config['editor']:
