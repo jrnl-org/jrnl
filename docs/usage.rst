@@ -23,6 +23,8 @@ Composing mode is entered by either starting ``jrnl`` without any arguments -- w
 
     jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
 
+Note that a shell contains a certain number of reserved characters. Unbalanced quotes, paranthesis, etc will get into the way of your editing. If you need to edit a text which is a bit longer and is likely to contain the reserved characters, you are better to just type `jrnl`and `return`. Only then enter the text of your journal entry. Or you might want to use an external editor (see below).
+
 You can also import an entry directly from a file::
 
     jrnl < my_entry.txt
