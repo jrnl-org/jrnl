@@ -73,11 +73,7 @@ def py23_input(msg=""):
     return STDIN.readline().strip()
 
 def py23_read(msg=""):
-    STDERR.write(u(msg))
-    try:
-        return STDIN.read()
-    except KeyboardInterrupt:
-        sys.exit(0)
+    return STDIN.read()
 
 def yesno(prompt, default=True):
     prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
