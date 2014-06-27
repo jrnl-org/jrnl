@@ -172,7 +172,11 @@ def run(manual_args=None):
         elif config['editor']:
             raw = util.get_text_from_editor(config)
         else:
-            raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+            try:
+                raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+            except KeyboardInterrupt:
+                util.prompt("[Entry NOT saved to journal.]")
+                sys.exit(0)
         if raw:
             args.text = [raw]
         else:

@@ -80,7 +80,6 @@ def py23_input(msg=""):
     return STDIN.readline().strip()
 
 def py23_read(msg=""):
-    STDERR.write(u(msg))
     return STDIN.read()
 
 def yesno(prompt, default=True):
