@@ -34,14 +34,42 @@ def to_tag_list(journal):
     return result
 
 
+def entry_to_dict(entry):
+    return {
+        'title': entry.title,
+        'body': entry.body,
+        'date': entry.date.strftime("%Y-%m-%d"),
+        'time': entry.date.strftime("%H:%M"),
+        'starred': entry.starred
+    }
+
+
 def to_json(journal):
     """Returns a JSON representation of the Journal."""
     tags = get_tags_count(journal)
     result = {
         "tags": dict((tag, count) for count, tag in tags),
-        "entries": [e.to_dict() for e in journal.entries]
+        "entries": [entry_to_dict(e) for e in journal.entries]
     }
     return json.dumps(result, indent=2)
+
+
+def entry_to_xml(entry, doc=None):
+    """Turns an entry into an XML representation.
+    If doc is not given, it will return a full XML document.
+    Otherwise, it will only return a new 'entry' elemtent for
+    a given doc."""
+    doc_el = doc or minidom.Document()
+    entry_el = doc_el.createElement('entry')
+    for key, value in entry_to_dict(entry).items():
+        elem = doc_el.createElement(key)
+        elem.appendChild(doc_el.createTextNode(u(value)))
+        entry_el.appendChild(elem)
+    if not doc:
+        doc_el.appendChild(entry_el)
+        return doc_el.toprettyxml()
+    else:
+        return entry_el
 
 
 def to_xml(journal):
@@ -49,26 +77,36 @@ def to_xml(journal):
     tags = get_tags_count(journal)
     doc = minidom.Document()
     xml = doc.createElement('journal')
-    tagsxml = doc.createElement('tags')
-    entries = doc.createElement('entries')
-    for t in tags:
-        tag = doc.createElement('tag')
-        tag.setAttribute('name', t[1])
-        countNode = doc.createTextNode(str(t[0]))
-        tag.appendChild(countNode)
-        tagsxml.appendChild(tag)
-    for e in journal.entries:
-        entry = doc.createElement('entry')
-        ed = e.to_dict()
-        for en in ed:
-            elem = doc.createElement(en)
-            elem.appendChild(doc.createTextNode(str(ed[en])))
-            entry.appendChild(elem)
-        entries.appendChild(entry)
-    xml.appendChild(entries)
-    xml.appendChild(tagsxml)
+    tags_el = doc.createElement('tags')
+    entries_el = doc.createElement('entries')
+    for tag in tags:
+        tag_el = doc.createElement('tag')
+        tag_el.setAttribute('name', tag[1])
+        count_node = doc.createTextNode(u(tag[0]))
+        tag.appendChild(count_node)
+        tags_el.appendChild(tag)
+    for entry in journal.entries:
+        entries_el.appendChild(entry_to_xml(entry, doc))
+    xml.appendChild(entries_el)
+    xml.appendChild(tags_el)
     doc.appendChild(xml)
     return doc.toprettyxml()
+
+
+def entry_to_md(entry):
+    date_str = entry.date.strftime(entry.journal.config['timeformat'])
+    body_wrapper = "\n\n" if entry.body else ""
+    body = body_wrapper + entry.body
+    space = "\n"
+    md_head = "###"
+
+    return u"{md} {date}, {title} {body} {space}".format(
+        md=md_head,
+        date=date_str,
+        title=entry.title,
+        body=body,
+        space=space
+    )
 
 
 def to_md(journal):
@@ -133,11 +171,11 @@ def write_files(journal, path, format):
     for e in journal.entries:
         full_path = os.path.join(path, make_filename(e))
         if format == 'json':
-            content = json.dumps(e.to_dict(), indent=2) + "\n"
+            content = json.dumps(entry_to_dict(e), indent=2) + "\n"
         elif format in ('md', 'markdown'):
-            content = e.to_md()
+            content = entry_to_md(e)
         elif format in 'xml':
-            content = e.to_xml()
+            content = entry_to_xml(e)
         elif format in ('txt', 'text'):
             content = e.__unicode__()
         with codecs.open(full_path, "w", "utf-8") as f:
