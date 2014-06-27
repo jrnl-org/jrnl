@@ -44,6 +44,12 @@ except ImportError:
 import os
 import sys
 import re
+try:
+    import readline
+    readline_available = True
+except ImportError:
+    readline_available = False
+
 
 if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist upload")
@@ -60,10 +66,12 @@ def get_version(filename="jrnl/__init__.py"):
                 return m.group(1)
 
 conditional_dependencies = {
-    "pyreadline>=2.0": "win32" in sys.platform,
+    "pyreadline>=2.0": not readline_available and "win32" in sys.platform,
+    "readline>=6.2": not readline_available and "win32" not in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
     "argparse>=1.1.0": sys.version.startswith("2.6")
 }
+
 
 setup(
     name = "jrnl",
