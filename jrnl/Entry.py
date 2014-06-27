@@ -79,26 +79,3 @@ class Entry:
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    def to_dict(self):
-        return {
-            'title': self.title,
-            'body': self.body,
-            'date': self.date.strftime("%Y-%m-%d"),
-            'time': self.date.strftime("%H:%M"),
-            'starred': self.starred
-        }
-
-    def to_md(self):
-        date_str = self.date.strftime(self.journal.config['timeformat'])
-        body_wrapper = "\n\n" if self.body else ""
-        body = body_wrapper + self.body
-        space = "\n"
-        md_head = "###"
-
-        return u"{md} {date}, {title} {body} {space}".format(
-            md=md_head,
-            date=date_str,
-            title=self.title,
-            body=body,
-            space=space
-        )
