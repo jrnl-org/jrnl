@@ -76,7 +76,7 @@ def encrypt(journal, filename=None):
     new_journal.write(filename)
 
     if util.yesno("Do you want to store the password in your keychain?", default=True):
-        util.set_keychain(journal.name, password)
+        util.set_keychain(journal.name, journal.config['password'])
 
     util.prompt("Journal encrypted to {0}.".format(filename or new_journal.config['journal']))
 
@@ -119,23 +119,6 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 
-def open_journal(name, config):
-    """
-    Creates a normal, encrypted or DayOne journal based on the passed config.
-    """
-    if os.path.isdir(config['journal']):
-        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
-            from . import DayOneJournal
-            return DayOneJournal.DayOne(**config).open()
-        else:
-            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
-            sys.exit(1)
-
-    if not config['encrypt']:
-        return Journal.PlainJournal(name, **config).open()
-    else:
-        from . import EncryptedJournal
-        return EncryptedJournal.EncryptedJournal(name, **config).open()
 
 
 def run(manual_args=None):
@@ -199,7 +182,7 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
-    journal = open_journal(journal_name, config)
+    journal = Journal.open_journal(journal_name, config)
 
     # Writing mode
     if mode_compose:
