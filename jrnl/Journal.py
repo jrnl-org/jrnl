@@ -4,20 +4,16 @@
 from __future__ import absolute_import
 from . import Entry
 from . import util
-import codecs
-try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime as pdt
-import re
 from datetime import datetime
-import dateutil
+import os
 import sys
+import codecs
+import re
+import dateutil
 try:
-    from Crypto.Cipher import AES
-    from Crypto import Random
-    crypto_installed = True
+    import parsedatetime.parsedatetime_consts as pdt
 except ImportError:
-    crypto_installed = False
-import hashlib
+    import parsedatetime as pdt
 
 
 class Journal(object):
@@ -37,82 +33,33 @@ class Journal(object):
         consts = pdt.Constants(usePyICU=False)
         consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
         self.dateparse = pdt.Calendar(consts)
-        self.key = None  # used to decrypt and encrypt the journal
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
-
-        self.open()
 
     def __len__(self):
         """Returns the number of entries"""
         return len(self.entries)
 
-    def _decrypt(self, cipher):
-        """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
-        if not crypto_installed:
-            sys.exit("Error: PyCrypto is not installed.")
-        if not cipher:
-            return ""
-        crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
-        try:
-            plain = crypto.decrypt(cipher[16:])
-        except ValueError:
-            util.prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
-            sys.exit(1)
-
-        padding_length = util.byte2int(plain[-1])
-        if padding_length > AES.block_size and padding_length != 32:
-            # 32 is the space character and is kept for backwards compatibility
-            return None
-        elif padding_length == 32:
-            plain = plain.strip()
-        elif plain[-padding_length:] != util.int2byte(padding_length) * padding_length:
-            # Invalid padding!
-            return None
-        else:
-            plain = plain[:-padding_length]
-        return plain.decode("utf-8")
-
-    def _encrypt(self, plain):
-        """Encrypt a plaintext string using self.key as the key"""
-        if not crypto_installed:
-            sys.exit("Error: PyCrypto is not installed.")
-        Random.atfork()  # A seed for PyCrypto
-        iv = Random.new().read(AES.block_size)
-        crypto = AES.new(self.key, AES.MODE_CBC, iv)
-        plain = plain.encode("utf-8")
-        padding_length = AES.block_size - len(plain) % AES.block_size
-        plain += util.int2byte(padding_length) * padding_length
-        return iv + crypto.encrypt(plain)
-
-    def make_key(self, password):
-        """Creates an encryption key from the default password or prompts for a new password."""
-        self.key = hashlib.sha256(password.encode("utf-8")).digest()
-
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
-
-        if self.config['encrypt']:
-            with open(filename, "rb") as f:
-                journal_encrypted = f.read()
-
-            def validate_password(password):
-                self.make_key(password)
-                return self._decrypt(journal_encrypted)
-
-            # Soft-deprecated:
-            journal = None
-            if 'password' in self.config:
-                journal = validate_password(self.config['password'])
-            if journal is None:
-                journal = util.get_password(keychain=self.name, validator=validate_password)
-        else:
-            with codecs.open(filename, "r", "utf-8") as f:
-                journal = f.read()
-        self.entries = self._parse(journal)
+        text = self._load(filename)
+        self.entries = self._parse(text)
         self.sort()
+        return self
+
+    def write(self, filename=None):
+        """Dumps the journal into the config file, overwriting it"""
+        filename = filename or self.config['journal']
+        text = u"\n".join([e.__unicode__() for e in self.entries])
+        self._store(filename, text)
+
+    def _load(self, filename):
+        raise NotImplementedError
+
+    def _store(self, filename, text):
+        raise NotImplementedError
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
@@ -177,18 +124,6 @@ class Journal(object):
 
     def __repr__(self):
         return "<Journal with {0} entries>".format(len(self.entries))
-
-    def write(self, filename=None):
-        """Dumps the journal into the config file, overwriting it"""
-        filename = filename or self.config['journal']
-        journal = u"\n".join([e.__unicode__() for e in self.entries])
-        if self.config['encrypt']:
-            journal = self._encrypt(journal)
-            with open(filename, 'wb') as journal_file:
-                journal_file.write(journal)
-        else:
-            with codecs.open(filename, 'w', "utf-8") as journal_file:
-                journal_file.write(journal)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -321,3 +256,35 @@ class Journal(object):
         for entry in mod_entries:
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
         self.entries = mod_entries
+
+
+class PlainJournal(Journal):
+    def __init__(self, name='default', **kwargs):
+        super(PlainJournal, self).__init__(name, **kwargs)
+
+    def _load(self, filename):
+        with codecs.open(filename, "r", "utf-8") as f:
+            return f.read()
+
+    def _store(self, filename, text):
+        with codecs.open(filename, 'w', "utf-8") as f:
+            f.write(text)
+
+
+def open_journal(name, config):
+    """
+    Creates a normal, encrypted or DayOne journal based on the passed config.
+    """
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
+            from . import DayOneJournal
+            return DayOneJournal.DayOne(**config).open()
+        else:
+            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+
+    if not config['encrypt']:
+        return PlainJournal(name, **config).open()
+    else:
+        from . import EncryptedJournal
+        return EncryptedJournal.EncryptedJournal(name, **config).open()
