@@ -41,7 +41,7 @@ def open_journal(journal_name="default"):
         config.update(journal_conf)
     else:  # But also just give them a string to point to the journal file
         config['journal'] = journal_conf
-    return Journal.Journal(**config)
+    return Journal.open_journal(journal_name, config)
 
 
 @given('we use the config "{config_file}"')

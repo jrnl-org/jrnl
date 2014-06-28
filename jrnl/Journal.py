@@ -5,6 +5,8 @@ from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import util
 from . import time
+import os
+import sys
 import codecs
 import re
 from datetime import datetime
@@ -224,3 +226,22 @@ class PlainJournal(Journal):
     def _store(self, filename, text):
         with codecs.open(filename, 'w', "utf-8") as f:
             f.write(text)
+
+
+def open_journal(name, config):
+    """
+    Creates a normal, encrypted or DayOne journal based on the passed config.
+    """
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
+            from . import DayOneJournal
+            return DayOneJournal.DayOne(**config).open()
+        else:
+            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+
+    if not config['encrypt']:
+        return PlainJournal(name, **config).open()
+    else:
+        from . import EncryptedJournal
+        return EncryptedJournal.EncryptedJournal(name, **config).open()

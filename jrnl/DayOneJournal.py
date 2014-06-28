@@ -50,6 +50,7 @@ class DayOne(Journal.Journal):
                     entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
                     self.entries.append(entry)
         self.sort()
+        return self
 
     def write(self):
         """Writes only the entries that have been modified into plist files."""
