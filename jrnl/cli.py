@@ -77,7 +77,7 @@ def encrypt(journal, filename=None):
     new_journal.write(filename)
 
     if util.yesno("Do you want to store the password in your keychain?", default=True):
-        util.set_keychain(journal.name, password)
+        util.set_keychain(journal.name, journal.config['password'])
 
     util.prompt("Journal encrypted to {0}.".format(filename or new_journal.config['journal']))
 
@@ -204,7 +204,7 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
-    journal = open_journal(journal_name, config)
+    journal = Journal.open_journal(journal_name, config)
 
     # Writing mode
     if mode_compose:
