@@ -4,6 +4,7 @@ Changelog
 
 ### 1.8 (May 22, 2014)
 
+* __1.8.5__ Fixed: file names when exporting to individual files contain full year (thanks to @jdevera)
 * __1.8.4__ Improved: using external editors (thanks to @chrissexton)
 * __1.8.3__ Fixed: export to text files and improves help (thanks to @igniteflow and @mpe)
 * __1.8.2__ Better integration with environment variables (thanks to @ajaam and @matze)

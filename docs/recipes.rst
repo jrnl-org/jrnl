@@ -37,6 +37,40 @@ Will give you the number of words you wrote in 2013. How long is my average entr
 
 This will first get the total number of words in the journal and divide it by the number of entries (this works because ``jrnl --short`` will print exactly one line per entry).
 
+Importing older files
+~~~~~~~~~~~~~~~~~~~~~
+
+If you want to import a file as an entry to jrnl, you can just do ``jrnl < entry.ext``. But what if you want the modification date of the file to be the date of the entry in jrnl? Try this ::
+
+    echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
+
+The first part will format the modification date of ``entry.txt``, and then combine it with the contents of the file before piping it to jrnl. If you do that often, consider creating a function in your ``.bashrc`` or ``.bash_profile`` ::
+
+    jrnlimport () {
+        echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
+    }
+
+
+Using templates
+~~~~~~~~~~~~~~~
+
+Say you always want to use the same template for creating new entries. If you have an :doc:`external editor <advanced>` set up, you can use this ::
+
+    jrnl < my_template.txt
+    jrnl -1 --edit
+
+Another nice solution that allows you to define individual prompts comes from `Jacobo de Vera <https://github.com/maebert/jrnl/issues/194#issuecomment-47402869>`_ ::
+
+    function log_question()
+    {
+       echo $1
+       read
+       jrnl today: ${1}. $REPLY
+    }
+    log_question 'What did I achieve today?'
+    log_question 'What did I make progress with?'
+
+
 External editors
 ----------------
 
