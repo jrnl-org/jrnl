@@ -7,7 +7,7 @@ If you use jrnl, you can totally make my day by just saying "thanks for the code
 Docs & Typos
 ------------
 
-If you find a typo or a mistake in the docs, just fix it right away and send a pull request. The Right Way™ to fix the docs is to edit the `docs/*.rst` files on the **master** branch. You can see the result if you run `make html` inside the project's root directory, and then open `docs/_build/html/index.html` in your browser. Note that this requires [lessc](http://lesscss.org/#using-less-installation) to be installed. Changes to the CSS or Javascript should be made on `docs/_themes/jrnl/`. The `gh-pages` branch is automatically maintained and updates from `master`; you should never have to edit that.
+If you find a typo or a mistake in the docs, just fix it right away and send a pull request. The Right Way™ to fix the docs is to edit the `docs/*.rst` files on the **master** branch. You can see the result if you run `make html` inside the project's root directory, and then open `docs/_build/html/index.html` in your browser. Note that this requires [lessc](http://lesscss.org/#using-less-installation) and [Sphinx](https://pypi.python.org/pypi/Sphinx) to be installed. Changes to the CSS or Javascript should be made on `docs/_themes/jrnl/`. The `gh-pages` branch is automatically maintained and updates from `master`; you should never have to edit that.
 
 Bugs
 ----
