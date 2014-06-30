@@ -100,7 +100,7 @@ def export(journal, format, output=None):
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
     Format should be either json, md or txt."""
-    make_filename = lambda entry: e.date.strftime("%C-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
+    make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
     for e in journal.entries:
         full_path = os.path.join(path, make_filename(e))
         if format == 'json':
