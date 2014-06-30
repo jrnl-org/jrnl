@@ -10,6 +10,13 @@ clean:
 	rm -rf _static
 	rm -f *.html
 
+html:
+	curl https://raw.githubusercontent.com/mateuszkocz/3l/master/3L/3L.less > docs/_themes/jrnl/static/less/3L.less ;\
+	lessc --clean-css docs/_themes/jrnl/static/less/jrnl.less docs/_themes/jrnl/static/css/jrnl.css ;\
+	cd docs ;\
+	make html ;\
+	cd .. ;\
+	open docs/_build/html/index.html ;\
 
 # Build GitHub Page from docs
 docs:
