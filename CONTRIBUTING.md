@@ -18,7 +18,7 @@ They unfortunately happen. Specifically, I don't have a Windows machine to test 
 Feature requests and ideas
 --------------------------
 
-So, you have an idea for a great feature? Awesome. I love you. As with bugs, first you should [open a new issue](https://www.github.com/maebert/jrnl/issues/new) on GitHub, describe the use case and what the feature should accomplish. If we agree that this feature is useful, it will sooner or later get implement it. Even sooner if you roll up your sleeves and code it yourself ;-)
+So, you have an idea for a great feature? Awesome. I love you. As with bugs, first you should [open a new issue](https://www.github.com/maebert/jrnl/issues/new) on GitHub, describe the use case and what the feature should accomplish. If we agree that this feature is useful, it will sooner or later get implemented. Even sooner if you roll up your sleeves and code it yourself ;-)
 
 Keep in mind that the design goal of jrnl is to be _slim_. That means
 
