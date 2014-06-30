@@ -25,6 +25,12 @@ Whenever you encrypt your journal, you are asked whether you want to store the e
 
 If you don't initially store the password in the keychain but decide to do so at a later point -- or maybe want to store it on one computer but not on another -- you can simply run ``jrnl --encrypt`` on an encrypted journal and use the same password again.
 
+A note on security
+------------------
+
+While jrnl follows best practises, true security is an illusion. Specifically, jrnl will leave traces in your memory and your shell history -- it's meant to keep journals secure in transit, for example when storing it on an `untrusted <http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/>`_ services such as Dropbox. If you're concerned about security, disable history logging for journal in your ``.bashrc`` ::
+
+    HISTINGNORE="jrnl *"
 
 Manual decryption
 -----------------
