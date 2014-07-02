@@ -2,7 +2,7 @@ Feature: Zapped bugs should stay dead.
 
     Scenario: Writing an entry does not print the entire journal
         # https://github.com/maebert/jrnl/issues/87
-        Given we use the config "basic.json"
+        Given we use the config "basic.yaml"
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
@@ -16,7 +16,7 @@ Feature: Zapped bugs should stay dead.
 
     Scenario: Date with time should be parsed correctly
         # https://github.com/maebert/jrnl/issues/117
-        Given we use the config "basic.json"
+        Given we use the config "basic.yaml"
         When we run "jrnl 2013-11-30 15:42: Project Started."
         Then we should see the message "Entry added"
         and the journal should contain "2013-11-30 15:42 Project Started."
@@ -39,7 +39,7 @@ Feature: Zapped bugs should stay dead.
             """
 
 	Scenario: Title with an embedded period.
-		Given we use the config "basic.json"
+		Given we use the config "basic.yaml"
 		When we run "jrnl 04-24-2014: Created a new website - empty.com. Hope to get a lot of traffic."
 		Then we should see the message "Entry added"
 		When we run "jrnl -1"
