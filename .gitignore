@@ -44,3 +44,9 @@ env/
 env*/
 
 docs/_themes/jrnl/static/less/3L.less
+
+# PyCharm Project files
+.idea/
+
+# export testing director
+exp/
