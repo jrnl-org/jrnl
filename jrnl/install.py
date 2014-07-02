@@ -61,7 +61,8 @@ def upgrade_config(config):
 
 
 def save_config(config):
-    yaml.safe_dump(config, file(CONFIG_FILE_PATH, 'w'), encoding='utf-8', allow_unicode=True, default_flow_style=False)
+    with open(CONFIG_FILE_PATH, 'w') as f:
+        yaml.safe_dump(config, f, encoding='utf-8', allow_unicode=True, default_flow_style=False)
 
 
 def install_jrnl():
