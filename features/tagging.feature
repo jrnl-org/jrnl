@@ -20,3 +20,14 @@ Feature: Tagging
             @idea                : 1
             @dan                 : 1
             """
+
+    Scenario: Tags should allow certain special characters
+        Given we use the config "tags-216.json"
+        When we run "jrnl --tags"
+        Then we should get no error
+        and the output should be
+            """
+            @os/2                : 1
+            @c++                 : 1
+            @c#                  : 1
+            """
