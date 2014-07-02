@@ -4,7 +4,7 @@ import sys
 import os
 import getpass as gp
 import keyring
-import json
+import yaml
 if "win32" in sys.platform:
     import colorama
     colorama.init()
@@ -100,30 +100,13 @@ def yesno(prompt, default=True):
     return {'y': True, 'n': False}.get(raw.lower(), default)
 
 
-def load_and_fix_json(json_path):
-    """Tries to load a json object from a file.
-    If that fails, tries to fix common errors (no or extra , at end of the line).
+def load_config(config_path):
+    """Tries to load a config file from YAML.
+    If that fails, fall back to JSON.
     """
-    with open(json_path) as f:
-        json_str = f.read()
-    config = None
-    try:
-        return json.loads(json_str)
-    except ValueError as e:
-        # Attempt to fix extra ,
-        json_str = re.sub(r",[ \n]*}", "}", json_str)
-        # Attempt to fix missing ,
-        json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
-        try:
-            config = json.loads(json_str)
-            with open(json_path, 'w') as f:
-                json.dump(config, f, indent=2)
-            prompt("[Some errors in your jrnl config have been fixed for you.]")
-            return config
-        except ValueError as e:
-            prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
-            prompt("[Entry was NOT added to your journal]")
-            sys.exit(1)
+    with open(config_path) as f:
+        config = yaml.load(f)
+    return config
 
 
 def get_text_from_editor(config, template=""):
