@@ -86,6 +86,7 @@ setup(
         "pytz>=2013b",
         "six>=1.6.1",
         "tzlocal>=1.1",
+        "PyYAML>=3.11",
         "keyring>=3.3",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
