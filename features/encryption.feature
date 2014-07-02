@@ -14,7 +14,7 @@
             and the journal should have 2 entries
 
         Scenario: Encrypting a journal
-            Given we use the config "basic.json"
+            Given we use the config "basic.yaml"
             When we run "jrnl --encrypt" and enter "swordfish"
             Then we should see the message "Journal encrypted"
             and the config for journal "default" should have "encrypt" set to "bool:True"
