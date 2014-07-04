@@ -158,11 +158,11 @@ class Journal(object):
     def __unicode__(self):
         return self.pprint()
 
-    def pprint(self, short=False):
+    def pprint(self, short=False, plain=False):
         """Prettyprints the journal's entries"""
         sep = "\n"
-        pp = sep.join([e.pprint(short=short) for e in self.entries])
-        if self.config['highlight']:  # highlight tags
+        pp = sep.join([e.pprint(short=short, plain=plain) for e in self.entries])
+        if self.config['highlight'] and not plain:  # highlight tags
             if self.search_tags:
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
@@ -199,7 +199,7 @@ class Journal(object):
         if n:
             self.entries = self.entries[-n:]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, shortmatch=None, starred=False, strict=False, short=False):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -220,6 +220,7 @@ class Journal(object):
             entry for entry in self.entries
             if (not tags or tagged(entry.tags))
             and (not starred or entry.starred)
+            and (not shortmatch or entry.short() == shortmatch)
             and (not start_date or entry.date > start_date)
             and (not end_date or entry.date < end_date)
         ]

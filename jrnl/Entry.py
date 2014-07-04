@@ -33,21 +33,29 @@ class Entry:
             sep="\n" if self.body.rstrip("\n ") else "",
             body=self.body.rstrip("\n ")
         )
+    
+    def short(self):
+        """Returns the short version of the entry."""
+        date_str = self.date.strftime(self.journal.config['timeformat'])
+        return date_str + " " + self.title
 
-    def pprint(self, short=False):
+    def pprint(self, short=False, plain=False):
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
         if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
-            body = "\n".join([
-                    textwrap.fill((line + " ") if (len(line) == 0) else line,
-                        self.journal.config['linewrap'],
-                        initial_indent="| ",
-                        subsequent_indent="| ",
-                        drop_whitespace=False)
-                    for line in self.body.rstrip(" \n").splitlines()
-                ])
+            if plain:
+              body = self.body.rstrip("\n ")
+            else:
+              body = "\n".join([
+                      textwrap.fill((line + " ") if (len(line) == 0) else line,
+                          self.journal.config['linewrap'],
+                          initial_indent="| ",
+                          subsequent_indent="| ",
+                          drop_whitespace=False)
+                      for line in self.body.rstrip(" \n").splitlines()
+                  ])
         else:
             title = date_str + " " + self.title.rstrip("\n ")
             body = self.body.rstrip("\n ")

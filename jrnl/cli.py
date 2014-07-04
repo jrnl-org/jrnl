@@ -34,12 +34,14 @@ def parse_args(args=None):
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
+    reading.add_argument('-shortmatch', dest='shortmatch', metavar="SHORT", help='View entries with this exact short format')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
+    exporting.add_argument('--plain', dest='plain', action="store_true", help='Print without highlighting or text wrapping')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--export', metavar='TYPE', dest='export', help='Export your journal.  Options: json, text, markdown', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='The output of the file can be provided when using with --export', default=False, const=None)
@@ -54,10 +56,10 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.plain, args.tags, args.edit)):
         compose = False
         export = True
-    elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
+    elif any((args.start_date, args.end_date, args.shortmatch, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
     elif args.text and all(word[0] in config['tagsymbols'] for word in u" ".join(args.text).split()):
@@ -205,6 +207,7 @@ def run(manual_args=None):
         old_entries = journal.entries
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
+                       shortmatch=args.shortmatch,
                        strict=args.strict,
                        short=args.short,
                        starred=args.starred)
@@ -215,8 +218,8 @@ def run(manual_args=None):
         print(util.py2encode(journal.pprint()))
 
     # Various export modes
-    elif args.short:
-        print(util.py2encode(journal.pprint(short=True)))
+    elif args.short or args.plain:
+        print(util.py2encode(journal.pprint(short=args.short, plain=args.plain)))
 
     elif args.tags:
         print(util.py2encode(exporters.to_tag_list(journal)))
