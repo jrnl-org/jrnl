@@ -108,15 +108,11 @@ a:hover, a:active
     {
     background:transparent !important;
     }
-.highlight-output
+.highlight-output, .highlight-javascript, .highlight-sh
     {
     .pre-block;
     background: desaturate(lighten(@terminal,10), 10);
-    }
-.highlight-javascript
-    {
-    .pre-block;
-    background: desaturate(lighten(@terminal,10), 10);
+    pre {color: white;}
     }
 .highlight-python
     {

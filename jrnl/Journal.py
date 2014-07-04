@@ -221,8 +221,8 @@ class Journal(object):
             if (not tags or tagged(entry.tags))
             and (not starred or entry.starred)
             and (not shortmatch or entry.short() == shortmatch)
-            and (not start_date or entry.date > start_date)
-            and (not end_date or entry.date < end_date)
+            and (not start_date or entry.date >= start_date)
+            and (not end_date or entry.date <= end_date)
         ]
         if short:
             if tags:
