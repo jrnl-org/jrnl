@@ -4,12 +4,10 @@
 from __future__ import absolute_import
 from . import Entry
 from . import util
+from . import time
 import codecs
-try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime as pdt
 import re
 from datetime import datetime
-import dateutil
 import sys
 try:
     from Crypto.Cipher import AES
@@ -34,9 +32,6 @@ class Journal(object):
         }
         self.config.update(kwargs)
         # Set up date parser
-        consts = pdt.Constants(usePyICU=False)
-        consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
-        self.dateparse = pdt.Calendar(consts)
         self.key = None  # used to decrypt and encrypt the journal
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
@@ -212,8 +207,9 @@ class Journal(object):
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
         self.search_tags = set([tag.lower() for tag in tags])
-        end_date = self.parse_date(end_date)
-        start_date = self.parse_date(start_date)
+        end_date = time.parse(end_date, inclusive=True)
+        start_date = time.parse(start_date)
+
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
         result = [
@@ -239,43 +235,6 @@ class Journal(object):
                     e.body = ''
         self.entries = result
 
-    def parse_date(self, date_str):
-        """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
-        if not date_str:
-            return None
-        elif isinstance(date_str, datetime):
-            return date_str
-
-        try:
-            date = dateutil.parser.parse(date_str)
-            flag = 1 if date.hour == 0 and date.minute == 0 else 2
-            date = date.timetuple()
-        except:
-            date, flag = self.dateparse.parse(date_str)
-
-        if not flag:  # Oops, unparsable.
-            try:  # Try and parse this as a single year
-                year = int(date_str)
-                return datetime(year, 1, 1)
-            except ValueError:
-                return None
-            except TypeError:
-                return None
-
-        if flag is 1:  # Date found, but no time. Use the default time.
-            date = datetime(*date[:3], hour=self.config['default_hour'], minute=self.config['default_minute'])
-        else:
-            date = datetime(*date[:6])
-
-        # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
-        # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
-        # past dates
-        dt = datetime.now() - date
-        if dt.days < -28:
-            date = date.replace(date.year - 1)
-
-        return date
-
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
@@ -289,7 +248,7 @@ class Journal(object):
         if not date:
             if title.find(": ") > 0:
                 starred = "*" in title[:title.find(": ")]
-                date = self.parse_date(title[:title.find(": ")])
+                date = time.parse(title[:title.find(": ")], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
                 if date or starred:  # Parsed successfully, strip that from the raw text
                     title = title[title.find(": ")+1:].strip()
             elif title.strip().startswith("*"):
@@ -299,7 +258,7 @@ class Journal(object):
                 starred = True
                 title = title[:-1].strip()
         if not date:  # Still nothing? Meh, just live in the moment.
-            date = self.parse_date("now")
+            date = time.parse("now")
         entry = Entry.Entry(self, date, title, body, starred=starred)
         entry.modified = True
         self.entries.append(entry)
