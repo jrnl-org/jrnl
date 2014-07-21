@@ -2,10 +2,8 @@
 # encoding: utf-8
 import sys
 import os
-from tzlocal import get_localzone
 import getpass as gp
 import keyring
-import pytz
 import json
 if "win32" in sys.platform:
     import colorama
@@ -24,11 +22,13 @@ STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
 
+
 def getpass(prompt="Password: "):
     if not TEST:
         return gp.getpass(prompt)
     else:
         return py23_input(prompt)
+
 
 def get_password(validator, keychain=None, max_attempts=3):
     pwd_from_keychain = keychain and get_keychain(keychain)
@@ -150,4 +150,3 @@ def byte2int(b):
     """Converts a byte to an integer.
     This is equivalent to ord(bs[0]) on Python 2 and bs[0] on Python 3."""
     return ord(b)if PY2 else b
-
