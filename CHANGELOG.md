@@ -2,6 +2,10 @@ Changelog
 =========
 
 
+### 1.9 (July 21, 2014)
+
+* __1.9.0__ Improved: Greatly improved date parsing. Also added an `-on` option for filtering
+
 ### 1.8 (May 22, 2014)
 
 * __1.8.7__ Fixed: -from and -to filters are inclusive (thanks to @grplyler)
