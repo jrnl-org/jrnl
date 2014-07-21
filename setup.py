@@ -69,7 +69,9 @@ conditional_dependencies = {
     "pyreadline>=2.0": not readline_available and "win32" in sys.platform,
     "readline>=6.2": not readline_available and "win32" not in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
-    "argparse>=1.1.0": sys.version.startswith("2.6")
+    "argparse>=1.1.0": sys.version.startswith("2.6"),
+    "python-dateutil==1.5": sys.version.startswith("2."),
+    "python-dateutil>=2.2": sys.version.startswith("3."),
 }
 
 
@@ -84,7 +86,6 @@ setup(
         "six>=1.6.1",
         "tzlocal>=1.1",
         "keyring>=3.3",
-        "python-dateutil>=2.2"
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
         "encrypted": "pycrypto>=2.6"

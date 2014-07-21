@@ -110,9 +110,11 @@ def check_output_field_key(context, field, key):
     assert field in out_json
     assert key in out_json[field]
 
+
 @then('the output should be')
-def check_output(context):
-    text = context.text.strip().splitlines()
+@then('the output should be "{text}"')
+def check_output(context, text=None):
+    text = (text or context.text).strip().splitlines()
     out = context.stdout_capture.getvalue().strip().splitlines()
     assert len(text) == len(out), "Output has {} lines (expected: {})".format(len(out), len(text))
     for line_text, line_out in zip(text, out):
