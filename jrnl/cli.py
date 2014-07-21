@@ -34,6 +34,7 @@ def parse_args(args=None):
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
+    reading.add_argument('-on', dest='on_date', metavar="DATE", help='View entries on this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
@@ -41,7 +42,7 @@ def parse_args(args=None):
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
-    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=['text','txt','markdown','md','json'], help='Export your journal. TYPE can be json, markdown, or text.', default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=['text', 'txt', 'markdown', 'md', 'json'], help='Export your journal. TYPE can be json, markdown, or text.', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
@@ -57,7 +58,7 @@ def guess_mode(args, config):
     if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
         compose = False
         export = True
-    elif any((args.start_date, args.end_date, args.limit, args.strict, args.starred)):
+    elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
     elif args.text and all(word[0] in config['tagsymbols'] for word in u" ".join(args.text).split()):
@@ -203,6 +204,8 @@ def run(manual_args=None):
         journal.write()
     else:
         old_entries = journal.entries
+        if args.on_date:
+            args.start_date = args.end_date = args.on_date
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
