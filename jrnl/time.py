@@ -3,8 +3,9 @@ from dateutil.parser import parse as dateparse
 try: import parsedatetime.parsedatetime_consts as pdt
 except ImportError: import parsedatetime as pdt
 
-DEFAULT_FUTURE = datetime(datetime.now().year, 12, 31, 23, 59, 59)
-DEFAULT_PAST = datetime(datetime.now().year, 1, 1, 0, 0)
+FAKE_YEAR = 9999
+DEFAULT_FUTURE = datetime(FAKE_YEAR, 12, 31, 23, 59, 59)
+DEFAULT_PAST = datetime(FAKE_YEAR, 1, 1, 0, 0)
 
 consts = pdt.Constants(usePyICU=False)
 consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
@@ -20,9 +21,14 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
 
     default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
     date = None
+    year_present = False
     while not date:
         try:
             date = dateparse(date_str, default=default_date)
+            if date.year == FAKE_YEAR:
+                date = datetime(datetime.now().year, date.timetuple()[1:6])
+            else:
+                year_present = True
             flag = 1 if date.hour == date.minute == 0 else 2
             date = date.timetuple()
         except Exception as e:
@@ -50,6 +56,6 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
     # Rather then this, we would like to see parsedatetime patched so we can tell it to prefer
     # past dates
     dt = datetime.now() - date
-    if dt.days < -28:
+    if dt.days < -28 and not year_present:
         date = date.replace(date.year - 1)
     return date
