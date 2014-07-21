@@ -1,5 +1,8 @@
 *.py[cod]
 
+# vi:
+*.swp
+
 # C extensions
 *.so
 
@@ -44,6 +47,10 @@ env/
 env*/
 
 docs/_themes/jrnl/static/less/3L.less
+
+# wingide project files
+*.wpr
+*.wpu
 
 # PyCharm Project files
 .idea/

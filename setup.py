@@ -70,7 +70,7 @@ conditional_dependencies = {
     "readline>=6.2": not readline_available and "win32" not in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
     "argparse>=1.1.0": sys.version.startswith("2.6"),
-    "python-dateutil==1.5": sys.version.startswith("2."),
+    "python-dateutil>=1.5": sys.version.startswith("2."),
     "python-dateutil>=2.2": sys.version.startswith("3."),
 }
 
