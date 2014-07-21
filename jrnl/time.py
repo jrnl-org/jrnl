@@ -18,12 +18,19 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
     elif isinstance(date_str, datetime):
         return date_str
 
-    try:
-        date = dateparse(date_str, default=DEFAULT_FUTURE if inclusive else DEFAULT_PAST)
-        flag = 1 if date.hour == date.minute == 0 else 2
-        date = date.timetuple()
-    except ValueError:
-        date, flag = CALENDAR.parse(date_str)
+    default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
+    date = None
+    while not date:
+        try:
+            date = dateparse(date_str, default=default_date)
+            flag = 1 if date.hour == date.minute == 0 else 2
+            date = date.timetuple()
+        except Exception as e:
+            if e.args[0] == 'day is out of range for month':
+                y, m, d, H, M, S = default_date.timetuple()[:6]
+                default_date = datetime(y, m, d - 1, H, M, S)
+            else:
+                date, flag = CALENDAR.parse(date_str)
 
     if not flag:  # Oops, unparsable.
         try:  # Try and parse this as a single year
@@ -45,5 +52,4 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
     dt = datetime.now() - date
     if dt.days < -28:
         date = date.replace(date.year - 1)
-
     return date
