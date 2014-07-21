@@ -5,7 +5,7 @@ from __future__ import absolute_import
 import readline
 import glob
 import getpass
-import json
+import yaml
 import os
 from . import util
 
@@ -34,7 +34,7 @@ default_config = {
 }
 
 
-def upgrade_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
+def upgrade_config(config, config_path):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions."""
@@ -43,16 +43,17 @@ def upgrade_config(config, config_path=os.path.expanduser("~/.jrnl_conf")):
         for key in missing_keys:
             config[key] = default_config[key]
         with open(config_path, 'w') as f:
-            json.dump(config, f, indent=2)
+            yaml.safe_dump(config, f, indent=2, allow_unicode=True)
         print("[.jrnl_conf updated to newest version]")
 
 
-def save_config(config=default_config, config_path=os.path.expanduser("~/.jrnl_conf")):
+# def save_config(config=default_config, config_path):
+def save_config(config, config_path):
     with open(config_path, 'w') as f:
-        json.dump(config, f, indent=2)
+        yaml.safe_dump(config, f, indent=2, allow_unicode=True)
 
 
-def install_jrnl(config_path='~/.jrnl_config'):
+def install_jrnl(config_path):
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(os.path.expandvars(text))+'*')
         expansions = [e+"/" if os.path.isdir(e) else e for e in expansions]
@@ -89,9 +90,9 @@ def install_jrnl(config_path='~/.jrnl_config'):
 
     open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
 
-    # Write config to ~/.jrnl_conf
+    # Write config to ~/.jrnl_conf.yml
     with open(config_path, 'w') as f:
-        json.dump(default_config, f, indent=2)
+        yaml.dump(default_config, f, indent=2, allow_unicode=True)
     config = default_config
     if password:
         config['password'] = password

@@ -19,7 +19,8 @@ import argparse
 import sys
 
 xdg_config = os.environ.get('XDG_CONFIG_HOME')
-CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
+CONFIG_PATH = os.path.join(xdg_config, "jrnl.yml") if xdg_config else \
+              os.path.expanduser('~/.jrnl_config.yml')
 PYCRYPTO = install.module_exists("Crypto")
 
 
@@ -125,7 +126,7 @@ def run(manual_args=None):
     if not os.path.exists(CONFIG_PATH):
         config = install.install_jrnl(CONFIG_PATH)
     else:
-        config = util.load_and_fix_json(CONFIG_PATH)
+        config = util.load_config(CONFIG_PATH)
         install.upgrade_config(config, config_path=CONFIG_PATH)
 
     if args.ls:
