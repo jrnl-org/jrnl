@@ -43,14 +43,18 @@ def upgrade_config(config, config_path):
         for key in missing_keys:
             config[key] = default_config[key]
         with open(config_path, 'w') as f:
-            yaml.safe_dump(config, f, indent=2, allow_unicode=True)
+            yaml.dump(config, f, indent=2, default_flow_style=False)
+            # when converting from original json version,
+            #  needed to quiet the yaml explicit unicode marking
+            # yaml.safe_dump(config, f, indent=2, allow_unicode=True)
         print("[.jrnl_conf updated to newest version]")
 
 
 # def save_config(config=default_config, config_path):
 def save_config(config, config_path):
     with open(config_path, 'w') as f:
-        yaml.safe_dump(config, f, indent=2, allow_unicode=True)
+        # yaml.safe_dump(config, f, indent=2, allow_unicode=True)
+        yaml.dump(config, f, indent=2, default_flow_style=False)
 
 
 def install_jrnl(config_path):
@@ -92,7 +96,8 @@ def install_jrnl(config_path):
 
     # Write config to ~/.jrnl_conf.yml
     with open(config_path, 'w') as f:
-        yaml.dump(default_config, f, indent=2, allow_unicode=True)
+        # yaml.safe_dump(default_config, f, indent=2, allow_unicode=True)
+        yaml.dump(config, f, indent=2, default_flow_style=False)
     config = default_config
     if password:
         config['password'] = password
