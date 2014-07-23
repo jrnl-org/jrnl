@@ -83,6 +83,7 @@ setup(
     install_requires = [
         "parsedatetime>=1.2",
         "pytz>=2013b",
+        "PyYAML>=3.11",
         "six>=1.6.1",
         "tzlocal>=1.1",
         "keyring>=3.3",
