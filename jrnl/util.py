@@ -4,7 +4,8 @@ import sys
 import os
 import getpass as gp
 import keyring
-import json
+import yaml
+import StringIO
 if "win32" in sys.platform:
     import colorama
     colorama.init()
@@ -87,30 +88,20 @@ def yesno(prompt, default=True):
     raw = py23_input(prompt)
     return {'y': True, 'n': False}.get(raw.lower(), default)
 
-def load_and_fix_json(json_path):
-    """Tries to load a json object from a file.
+def load_config(yaml_path):
+    """Tries to load a yaml object from a file.
     If that fails, tries to fix common errors (no or extra , at end of the line).
     """
-    with open(json_path) as f:
-        json_str = f.read()
+    with open(yaml_path) as f:
+        yaml_str = f.read()
     config = fixed = None
     try:
-        return json.loads(json_str)
+        f = StringIO.StringIO(yaml_str)
+        return yaml.load(f)
     except ValueError as e:
-        # Attempt to fix extra ,
-        json_str = re.sub(r",[ \n]*}", "}", json_str)
-        # Attempt to fix missing ,
-        json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
-        try:
-            config = json.loads(json_str)
-            with open(json_path, 'w') as f:
-                json.dump(config, f, indent=2)
-            prompt("[Some errors in your jrnl config have been fixed for you.]")
-            return config
-        except ValueError as e:
-            prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
-            prompt("[Entry was NOT added to your journal]")
-            sys.exit(1)
+        prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(yaml_path, e.message))
+        prompt("[Entry was NOT added to your journal]")
+        sys.exit(1)
 
 def get_text_from_editor(config, template=""):
     tmpfile = os.path.join(tempfile.mktemp(prefix="jrnl"))
