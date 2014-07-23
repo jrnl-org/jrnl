@@ -122,7 +122,7 @@ def to_md(journal):
             month = e.date.month
             out.append(e.date.strftime("%B"))
             out.append('-' * len(e.date.strftime("%B")) + "\n")
-        out.append(e.to_md())
+        out.append(entry_to_md(e))
     result = "\n".join(out)
     return result
 
