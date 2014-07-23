@@ -37,5 +37,6 @@ Feature: Tagging
 		Then we should get no error
 		and the output should be
 			"""
+			@newline             : 1
 			@email               : 1
 			"""
