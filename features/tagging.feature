@@ -31,3 +31,11 @@ Feature: Tagging
             @c++                 : 1
             @c#                  : 1
             """
+	Scenario:  An email should not be a tag
+		Given we use the config "tags-237.json"
+		When we run "jrnl --tags"
+		Then we should get no error
+		and the output should be
+			"""
+			@email               : 1
+			"""
