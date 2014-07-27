@@ -120,25 +120,6 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 
-def open_journal(name, config):
-    """
-    Creates a normal, encrypted or DayOne journal based on the passed config.
-    """
-    if os.path.isdir(config['journal']):
-        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
-            from . import DayOneJournal
-            return DayOneJournal.DayOne(**config).open()
-        else:
-            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
-            sys.exit(1)
-
-    if not config['encrypt']:
-        return Journal.PlainJournal(name, **config).open()
-    else:
-        from . import EncryptedJournal
-        return EncryptedJournal.EncryptedJournal(name, **config).open()
-
-
 def run(manual_args=None):
     args = parse_args(manual_args)
     args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
