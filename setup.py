@@ -114,7 +114,7 @@ setup(
     # metadata for upload to PyPI
     author = "Manuel Ebert",
     author_email = "manuel@1450.me",
-    license = "MIT License",
+    license="LICENSE",
     keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://maebert.github.io/jrnl",
+    url = "http://www.jrnl.sh",
 )
