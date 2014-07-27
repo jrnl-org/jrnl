@@ -119,8 +119,6 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 
-
-
 def run(manual_args=None):
     args = parse_args(manual_args)
     args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]

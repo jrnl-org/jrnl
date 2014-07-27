@@ -67,15 +67,7 @@ class EncryptedJournal(Journal.Journal):
             key = make_key(password)
             return _decrypt(journal_encrypted, key)
 
-        text = None
-
-        if 'password' in self.config:
-            text = validate_password(self.config['password'])
-
-        if text is None:
-            text = util.get_password(keychain=self.name, validator=validate_password)
-
-        return text
+        return util.get_password(keychain=self.name, validator=validate_password)
 
     def _store(self, filename, text):
         key = make_key(self.config['password'])
