@@ -24,7 +24,6 @@ def parse_args(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
     parser.add_argument('-ls', dest='ls', action="store_true", help="displays accessible journals")
-    # yarko test:
     parser.add_argument('-c', '--config', dest='conf', action="store_true", help="shows current config file and path")
 
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
