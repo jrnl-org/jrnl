@@ -39,6 +39,10 @@ obj
 *.sln
 *.suo
 
+# wingIDE
+*.wpr
+*.wpu
+
 # virtaulenv
 env/
 env*/
