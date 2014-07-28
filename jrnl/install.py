@@ -6,6 +6,7 @@ import readline
 import glob
 import getpass
 import os
+import sys
 import xdg.BaseDirectory
 from . import util
 import yaml
@@ -58,6 +59,11 @@ def upgrade_config(config):
             config[key] = default_config[key]
         save_config(config)
         print("[.jrnl_conf updated to newest version]")
+
+def show_config():
+    with open(CONFIG_FILE_PATH) as f:
+        print "# ", CONFIG_FILE_PATH
+        sys.stdout.write(f.read())
 
 
 def save_config(config):
