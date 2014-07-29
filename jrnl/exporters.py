@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # encoding: utf-8
 
 from __future__ import absolute_import
@@ -65,10 +65,23 @@ def to_txt(journal):
     """Returns the complete text of the Journal."""
     return journal.pprint()
 
+def to_pelican(entry):
+    """Returns a markdown representation of the Journal with Pelican formatted
+    front matter"""
+    out = ''
+    out = out + 'Title: ' + entry.title + '\n'
+    out = out + 'Date: ' + str(entry.date) + '\n'
+    if entry.tags:
+        # drop tag symbol
+        out = out + 'Tags: ' + ', '.join([tag[1:] for tag in entry.tags]) + '\n'
+    out += '\n'
+    out += entry.body
+    return out
+
 
 def export(journal, format, output=None):
     """Exports the journal to various formats.
-    format should be one of json, txt, text, md, markdown.
+    format should be one of json, txt, text, md, markdown, pelican, pelican-md.
     If output is None, returns a unicode representation of the output.
     If output is a directory, exports entries into individual files.
     Otherwise, exports to the given output file.
@@ -78,37 +91,45 @@ def export(journal, format, output=None):
         "txt": to_txt,
         "text": to_txt,
         "md": to_md,
-        "markdown": to_md
+        "markdown": to_md,
+        "pelican": to_pelican,
+        "pelican-md": to_pelican
     }
     if format not in maps:
-        return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
+        return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', 'json', and 'pelican']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
-        content = maps[format](journal)
-        if output:
-            try:
-                with codecs.open(output, "w", "utf-8") as f:
-                    f.write(content)
-                return u"[Journal exported to {0}]".format(output)
-            except IOError as e:
-                return u"[ERROR: {0} {1}]".format(e.filename, e.strerror)
+        if format is ("pelican" or "pelican-md"):
+            return u"Pelican exports must be to a directory."
         else:
-            return content
+            content = maps[format](journal)
+            if output:
+                try:
+                    with codecs.open(output, "w", "utf-8") as f:
+                        f.write(content)
+                    return u"[Journal exported to {0}]".format(output)
+                except IOError as e:
+                    return u"[ERROR: {0} {1}]".format(e.filename, e.strerror)
+            else:
+                return content
 
 
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
-    Format should be either json, md or txt."""
+    Format should be either json, md, txt or pelican."""
     make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
     for e in journal.entries:
-        full_path = os.path.join(path, make_filename(e))
         if format == 'json':
             content = json.dumps(e.to_dict(), indent=2) + "\n"
         elif format in ('md', 'markdown'):
             content = e.to_md()
         elif format in ('txt', 'text'):
             content = e.__unicode__()
+        elif format in ('pelican', 'pelican-md'):
+            make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), 'md'))
+            content = to_pelican(e)
+        full_path = os.path.join(path, make_filename(e))
         with codecs.open(full_path, "w", "utf-8") as f:
             f.write(content)
     return u"[Journal exported individual files in {0}]".format(path)
