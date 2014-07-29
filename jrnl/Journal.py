@@ -28,7 +28,7 @@ class Journal(object):
             'timeformat': "%Y-%m-%d %H:%M",
             'tagsymbols': '@',
             'highlight': True,
-            'linewrap': 80,
+            'linewrap': 79,
         }
         self.config.update(kwargs)
         # Set up date parser
