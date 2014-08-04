@@ -84,14 +84,12 @@ setup(
         "pyxdg>=0.19",
         "parsedatetime>=1.2",
         "pytz>=2013b",
-        "six>=1.6.1",
+        "six>=1.7.4",
+        "cryptography==0.5.2",
         "tzlocal>=1.1",
         "PyYAML>=3.11",
         "keyring>=3.3",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
-    extras_require = {
-        "encrypted": "pycrypto>=2.6"
-    },
     long_description=__doc__,
     entry_points={
         'console_scripts': [
