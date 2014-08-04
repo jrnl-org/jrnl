@@ -103,7 +103,6 @@ def yesno(prompt, default=True):
 
 def load_config(config_path):
     """Tries to load a config file from YAML.
-    If that fails, fall back to JSON.
     """
     with open(config_path) as f:
         config = yaml.load(f)
