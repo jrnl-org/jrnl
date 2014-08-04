@@ -8,6 +8,8 @@ import getpass
 import os
 import xdg.BaseDirectory
 from . import util
+from . import upgrade
+from . import __version__
 import yaml
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
@@ -34,6 +36,7 @@ def module_exists(module_name):
         return True
 
 default_config = {
+    'jrnl_version': __version__,
     'journals': {
         "default": JOURNAL_FILE_PATH
     },
@@ -53,7 +56,7 @@ def upgrade_config(config):
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions."""
     missing_keys = set(default_config).difference(config)
-    if missing_keys:
+    if missing_keys or config['version'] != __version__:
         for key in missing_keys:
             config[key] = default_config[key]
         save_config(config)
@@ -61,25 +64,26 @@ def upgrade_config(config):
 
 
 def save_config(config):
+    config['version'] = __version__
     with open(CONFIG_FILE_PATH, 'w') as f:
         yaml.safe_dump(config, f, encoding='utf-8', allow_unicode=True, default_flow_style=False)
 
 
-def install_jrnl():
+def load_or_install_jrnl():
     """
     If jrnl is already installed, loads and returns a config object.
     Else, perform various prompts to install jrnl.
     """
-    if os.path.exists(CONFIG_FILE_PATH):
+    config_path = CONFIG_FILE_PATH if os.path.exists(CONFIG_FILE_PATH) else CONFIG_FILE_PATH_FALLBACK
+    if os.path.exists(config_path):
         config = util.load_config(CONFIG_FILE_PATH)
         upgrade_config(config)
+        upgrade.upgrade_jrnl_if_necessary()
         return config
-    elif os.path.exists(CONFIG_FILE_PATH_FALLBACK):  # Backwards compatibility with jrnl 1.x
-        config = util.load_config(CONFIG_FILE_PATH_FALLBACK)
-        upgrade_config(config)
-        save_config(config)
-        return config
+    else:
+        install()
 
+def install():
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
         expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
