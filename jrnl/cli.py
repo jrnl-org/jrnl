@@ -128,7 +128,7 @@ def run(manual_args=None):
         print(util.py2encode(version_str))
         sys.exit(0)
 
-    config = install.install_jrnl()
+    config = install.load_or_install_jrnl()
 
     if args.ls:
         print(util.py2encode(list_journals(config)))
