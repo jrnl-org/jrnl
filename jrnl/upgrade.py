@@ -6,6 +6,7 @@ import util
 from . import __version__
 import sys
 
+
 def upgrade_encrypted_journal(filename, key_plain):
     """Decrypts a journal in memory using the jrnl 1.x encryption scheme
     and returns it in plain text."""
@@ -31,14 +32,34 @@ def upgrade_jrnl_if_necessary(config_path):
     if not config.strip().startswith("{"):
         return
 
-    util.prompt("Welcome to jrnl {}".format(__version__))
-    util.prompt("jrnl will now upgrade your configuration and journal files.")
-    util.prompt("Please note that jrnl 1.x is NOT forward compatible with this version of jrnl.")
-    util.prompt("If you choose to proceed, you will not be able to use your journals with")
-    util.prompt("older versions of jrnl anymore.")
+    config = util.load_config(config_path)
+
+    util.prompt("""Welcome to jrnl {}
+                jrnl will now upgrade your configuration and journal files.
+                Please note that jrnl 1.x is NOT forward compatible with this version of jrnl.
+                If you choose to proceed, you will not be able to use your journals with
+                older versions of jrnl anymore.""".format(__version__))
+
+    encrypted_journals = {}
+    plain_journals = {}
+    for journal, journal_conf in config['journals'].items():
+        if isinstance(journal_conf, dict):
+            if journal_conf.get("encrypted"):
+                encrypted_journals[journal] = journal_conf.get("journal")
+            else:
+                plain_journals[journal] = journal_conf.get("journal")
+        else:
+            plain_journals[journal] = journal_conf.get("journal")
+    if encrypted_journals:
+        util.prompt("Following encrypted journals will be upgraded to jrnl {}:".format(__version__))
+        for journal, path in encrypted_journals.items():
+            util.prompt("    {:20} -> {}".format(journal, path))
+        if plain_journals:
+            util.prompt("Following plain text journals will be not be touched:")
+            for journal, path in plain_journals.items():
+                util.prompt("    {:20} -> {}".format(journal, path))
+
     cont = util.yesno("Continue upgrading jrnl?", default=False)
     if not cont:
         util.prompt("jrnl NOT upgraded, exiting.")
         sys.exit(1)
-
-    util.prompt("")
