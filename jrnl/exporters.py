@@ -68,14 +68,13 @@ def to_txt(journal):
 def to_pelican(entry):
     """Returns a markdown representation of the Journal with Pelican formatted
     front matter"""
-    out = ''
-    out = out + 'Title: ' + entry.title + '\n'
-    out = out + 'Date: ' + str(entry.date) + '\n'
+    out = u''
+    out += u'Title: {}\n'.format(entry.title)
+    out += u'Date: {}\n'.format(str(entry.date))
     if entry.tags:
         # drop tag symbol
-        out = out + 'Tags: ' + ', '.join([tag[1:] for tag in entry.tags]) + '\n'
-    out += '\n'
-    out += entry.body
+        out += u'Tags: {}\n'.format(', '.join([tag[1:] for tag in entry.tags]))
+    out += u'\n{}'.format(entry.body)
     return out
 
 
