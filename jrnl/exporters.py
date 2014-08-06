@@ -116,7 +116,7 @@ def export(journal, format, output=None):
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
     Format should be either json, md, txt or yaml."""
-	extention = 'md' if format == 'yaml' else format
+    extention = 'md' if format == 'yaml' else format
     make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), extention))
     for e in journal.entries:
         if format == 'json':
