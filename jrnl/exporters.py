@@ -11,7 +11,7 @@ import codecs
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
     # Astute reader: should the following line leave you as puzzled as me the first time
-    # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+    # I came across this construction, worry not and embrace the ensuing moment of enlightenment.
     tags = [tag
             for entry in journal.entries
             for tag in set(entry.tags)]
@@ -80,7 +80,7 @@ def to_yaml(entry):
 
 def export(journal, format, output=None):
     """Exports the journal to various formats.
-    format should be one of json, txt, text, md, markdown, yaml, yaml-md.
+    format should be one of json, txt, text, md, markdown, yaml.
     If output is None, returns a unicode representation of the output.
     If output is a directory, exports entries into individual files.
     Otherwise, exports to the given output file.
@@ -91,15 +91,14 @@ def export(journal, format, output=None):
         "text": to_txt,
         "md": to_md,
         "markdown": to_md,
-        "yaml": to_yaml,
-        "yaml-md": to_yaml
+        "yaml": to_yaml
     }
     if format not in maps:
         return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', 'json', and 'yaml']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
-        if format is ("yaml" or "yaml-md"):
+        if format is "yaml":
             return u"YAML exports must be to a directory."
         else:
             content = maps[format](journal)
@@ -117,7 +116,8 @@ def export(journal, format, output=None):
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
     Format should be either json, md, txt or yaml."""
-    make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
+	extention = 'md' if format == 'yaml' else format
+    make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), extention))
     for e in journal.entries:
         if format == 'json':
             content = json.dumps(e.to_dict(), indent=2) + "\n"
@@ -125,8 +125,7 @@ def write_files(journal, path, format):
             content = e.to_md()
         elif format in ('txt', 'text'):
             content = e.__unicode__()
-        elif format in ('yaml', 'yaml-md'):
-            make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), 'md'))
+        elif format == 'yaml':
             content = to_yaml(e)
         full_path = os.path.join(path, make_filename(e))
         with codecs.open(full_path, "w", "utf-8") as f:
