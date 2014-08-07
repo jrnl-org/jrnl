@@ -42,7 +42,6 @@ Feature: Tagging
             """
 
     Scenario:  Entry cans start and end with tags
-        Scenario: Writing an entry from command line
         Given we use the config "basic.json"
         When we run "jrnl today: @foo came over, we went to a @bar"
         When we run "jrnl --tags"
