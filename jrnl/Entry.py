@@ -17,7 +17,7 @@ class Entry:
         self.modified = False
 
     def parse_tags(self):
-        fulltext = " ".join([self.title, self.body]).lower()
+        fulltext =  " " + " ".join([self.title, self.body]).lower()
         tags = re.findall(r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=self.journal.config['tagsymbols']), fulltext, re.UNICODE)
         self.tags = tags
         return set(tags)

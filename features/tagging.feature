@@ -31,12 +31,23 @@ Feature: Tagging
             @c++                 : 1
             @c#                  : 1
             """
-	Scenario:  An email should not be a tag
-		Given we use the config "tags-237.json"
-		When we run "jrnl --tags"
-		Then we should get no error
-		and the output should be
-			"""
-			@newline             : 1
-			@email               : 1
-			"""
+    Scenario:  An email should not be a tag
+        Given we use the config "tags-237.json"
+        When we run "jrnl --tags"
+        Then we should get no error
+        and the output should be
+            """
+            @newline             : 1
+            @email               : 1
+            """
+
+    Scenario:  Entry cans start and end with tags
+        Scenario: Writing an entry from command line
+        Given we use the config "basic.json"
+        When we run "jrnl today: @foo came over, we went to a @bar"
+        When we run "jrnl --tags"
+        Then the output should be
+            """
+            @foo                 : 1
+            @bar                 : 1
+            """
