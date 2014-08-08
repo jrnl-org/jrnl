@@ -1,11 +1,12 @@
-import hashlib
 from . import Journal, util
 from cryptography.fernet import Fernet, InvalidToken
 import base64
+from passlib.hash import pbkdf2_sha256
 
 
 def make_key(password):
-    return base64.urlsafe_b64encode(hashlib.sha256(password.encode("utf-8")).digest())
+    derived_key = pbkdf2_sha256.encrypt(password.encode("utf-8"), rounds=10000, salt_size=16)
+    return base64.urlsafe_b64encode(derived_key)
 
 
 class EncryptedJournal(Journal.Journal):
