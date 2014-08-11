@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from __future__ import absolute_import
+from __future__ import print_function
 import readline
 import glob
 import getpass
@@ -62,7 +63,7 @@ def upgrade_config(config):
 
 def show_config():
     with open(CONFIG_FILE_PATH) as f:
-        print "# ", CONFIG_FILE_PATH
+        print("# ", CONFIG_FILE_PATH)
         sys.stdout.write(f.read())
 
 
