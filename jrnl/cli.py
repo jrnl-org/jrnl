@@ -263,6 +263,7 @@ def run(manual_args=None):
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
+        journal.sort()
         journal.write()
 
 if __name__ == "__main__":
