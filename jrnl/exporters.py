@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # encoding: utf-8
 
 from __future__ import absolute_import
@@ -11,7 +11,7 @@ import codecs
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
     # Astute reader: should the following line leave you as puzzled as me the first time
-    # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+    # I came across this construction, worry not and embrace the ensuing moment of enlightenment.
     tags = [tag
             for entry in journal.entries
             for tag in set(entry.tags)]
@@ -65,10 +65,22 @@ def to_txt(journal):
     """Returns the complete text of the Journal."""
     return journal.pprint()
 
+def to_yaml(entry):
+    """Returns a markdown representation of the Journal with YAML formatted
+    front matter"""
+    out = u''
+    out += u'Title: {}\n'.format(entry.title)
+    out += u'Date: {}\n'.format(str(entry.date))
+    if entry.tags:
+        # drop tag symbol
+        out += u'Tags: {}\n'.format(', '.join([tag[1:] for tag in entry.tags]))
+    out += u'---\n\n{}'.format(entry.body)
+    return out
+
 
 def export(journal, format, output=None):
     """Exports the journal to various formats.
-    format should be one of json, txt, text, md, markdown.
+    format should be one of json, txt, text, md, markdown, yaml.
     If output is None, returns a unicode representation of the output.
     If output is a directory, exports entries into individual files.
     Otherwise, exports to the given output file.
@@ -78,37 +90,44 @@ def export(journal, format, output=None):
         "txt": to_txt,
         "text": to_txt,
         "md": to_md,
-        "markdown": to_md
+        "markdown": to_md,
+        "yaml": to_yaml
     }
     if format not in maps:
-        return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
+        return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', 'json', and 'yaml']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
-        content = maps[format](journal)
-        if output:
-            try:
-                with codecs.open(output, "w", "utf-8") as f:
-                    f.write(content)
-                return u"[Journal exported to {0}]".format(output)
-            except IOError as e:
-                return u"[ERROR: {0} {1}]".format(e.filename, e.strerror)
+        if format is "yaml":
+            return u"YAML exports must be to a directory."
         else:
-            return content
+            content = maps[format](journal)
+            if output:
+                try:
+                    with codecs.open(output, "w", "utf-8") as f:
+                        f.write(content)
+                    return u"[Journal exported to {0}]".format(output)
+                except IOError as e:
+                    return u"[ERROR: {0} {1}]".format(e.filename, e.strerror)
+            else:
+                return content
 
 
 def write_files(journal, path, format):
     """Turns your journal into separate files for each entry.
-    Format should be either json, md or txt."""
-    make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), format))
+    Format should be either json, md, txt or yaml."""
+    extention = 'md' if format == 'yaml' else format
+    make_filename = lambda entry: e.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(e.title)), extention))
     for e in journal.entries:
-        full_path = os.path.join(path, make_filename(e))
         if format == 'json':
             content = json.dumps(e.to_dict(), indent=2) + "\n"
         elif format in ('md', 'markdown'):
             content = e.to_md()
         elif format in ('txt', 'text'):
             content = e.__unicode__()
+        elif format == 'yaml':
+            content = to_yaml(e)
+        full_path = os.path.join(path, make_filename(e))
         with codecs.open(full_path, "w", "utf-8") as f:
             f.write(content)
     return u"[Journal exported individual files in {0}]".format(path)

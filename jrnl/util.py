@@ -145,7 +145,6 @@ def int2byte(i):
     This is equivalent to chr() in Python 2 and bytes((i,)) in Python 3."""
     return chr(i) if PY2 else bytes((i,))
 
-
 def byte2int(b):
     """Converts a byte to an integer.
     This is equivalent to ord(bs[0]) on Python 2 and bs[0] on Python 3."""
