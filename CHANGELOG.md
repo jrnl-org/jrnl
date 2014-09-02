@@ -4,6 +4,7 @@ Changelog
 
 ### 1.9 (July 21, 2014)
 
+* __1.9.5__ Multi-word tags for DayOne Journals
 * __1.9.4__ Fixed: Order of journal entries in file correct after --edit'ing
 * __1.9.3__ Fixed: Tags at the beginning of lines
 * __1.9.2__ Fixed: Tag search ignores email-addresses (thanks to @mjhoffman65)
