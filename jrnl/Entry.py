@@ -16,9 +16,15 @@ class Entry:
         self.starred = starred
         self.modified = False
 
+    @staticmethod
+    def tag_regex(tagsymbols):
+        pattern = r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
+        return re.compile( pattern, re.UNICODE )
+
     def parse_tags(self):
         fulltext =  " " + " ".join([self.title, self.body]).lower()
-        tags = re.findall(r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=self.journal.config['tagsymbols']), fulltext, re.UNICODE)
+        tagsymbols = self.journal.config['tagsymbols']
+        tags = re.findall( Entry.tag_regex(tagsymbols), fulltext )
         self.tags = tags
         return set(tags)
 
