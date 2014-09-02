@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import Journal
 import os
@@ -75,7 +75,7 @@ class DayOne(Journal.Journal):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return u"\n".join([u"# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
+        return "\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates it's entries."""

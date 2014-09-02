@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import unicode_literals
 import re
 import textwrap
 from datetime import datetime
@@ -34,7 +35,7 @@ class Entry:
         title = date_str + " " + self.title.rstrip("\n ")
         if self.starred:
             title += " *"
-        return u"{title}{sep}{body}\n".format(
+        return "{title}{sep}{body}\n".format(
             title=title,
             sep="\n" if self.body.rstrip("\n ") else "",
             body=self.body.rstrip("\n ")
@@ -64,7 +65,7 @@ class Entry:
         if short:
             return title
         else:
-            return u"{title}{sep}{body}\n".format(
+            return "{title}{sep}{body}\n".format(
                 title=title,
                 sep="\n" if has_body else "",
                 body=body if has_body else "",
@@ -101,7 +102,7 @@ class Entry:
         space = "\n"
         md_head = "###"
 
-        return u"{md} {date}, {title} {body} {space}".format(
+        return "{md} {date}, {title} {body} {space}".format(
             md=md_head,
             date=date_str,
             title=self.title,
