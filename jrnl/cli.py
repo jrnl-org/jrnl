@@ -7,7 +7,7 @@
     license: MIT, see LICENSE for more details.
 """
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from . import Journal
 from . import DayOneJournal
 from . import util
@@ -61,7 +61,7 @@ def guess_mode(args, config):
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
-    elif args.text and all(word[0] in config['tagsymbols'] for word in u" ".join(args.text).split()):
+    elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
@@ -189,7 +189,7 @@ def run(manual_args=None):
            "entries" in os.listdir(config['journal']):
             journal = DayOneJournal.DayOne(**config)
         else:
-            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
             sys.exit(1)
     else:
         journal = Journal.Journal(journal_name, **config)
@@ -246,7 +246,7 @@ def run(manual_args=None):
 
     elif args.edit:
         if not config['editor']:
-            util.prompt(u"[You need to specify an editor in {0} to use the --edit function.]".format(CONFIG_PATH))
+            util.prompt("[You need to specify an editor in {0} to use the --edit function.]".format(CONFIG_PATH))
             sys.exit(1)
         other_entries = [e for e in old_entries if e not in journal.entries]
         # Edit
