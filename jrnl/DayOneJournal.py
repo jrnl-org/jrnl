@@ -65,7 +65,7 @@ class DayOne(Journal.Journal):
                     'Entry Text': entry.title + "\n" + entry.body,
                     'Time Zone': str(tzlocal.get_localzone()),
                     'UUID': entry.uuid,
-                    'Tags': [tag.strip(self.config['tagsymbols']) for tag in entry.tags]
+                    'Tags': [tag.strip(self.config['tagsymbols']).replace("_", " ") for tag in entry.tags]
                 }
                 plistlib.writePlist(entry_plist, filename)
         for entry in self._deleted_entries:
