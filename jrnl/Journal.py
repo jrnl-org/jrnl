@@ -165,9 +165,9 @@ class Journal(object):
                                 lambda match: util.colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub(r"(?u)([{tags}]\w+)".format(tags=self.config['tagsymbols']),
-                            lambda match: util.colorize(match.group(0)),
-                            pp)
+                pp = re.sub( Entry.Entry.tag_regex(self.config['tagsymbols']),
+                        lambda match: util.colorize(match.group(0)),
+                        pp)
         return pp
 
     def __repr__(self):
