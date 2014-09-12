@@ -1,0 +1,11 @@
+default_hour: 9
+default_minute: 0
+editor: ''
+encrypt: true
+highlight: true
+journals:
+  default: features/journals/encrypted.journal
+linewrap: 80
+password: bad doggie no biscuit
+tagsymbols: '@'
+timeformat: '%Y-%m-%d %H:%M'

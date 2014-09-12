@@ -1,8 +1,10 @@
 from behave import *
 from jrnl import cli, install, Journal, util
+from jrnl import __version__
 from dateutil import parser as date_parser
 import os
 import json
+import yaml
 import keyring
 keyring.set_keyring(keyring.backends.file.PlaintextKeyring())
 try:
@@ -48,6 +50,9 @@ def open_journal(journal_name="default"):
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
     install.CONFIG_FILE_PATH = os.path.abspath(full_path)
+    # Add jrnl version to file
+    with open(install.CONFIG_FILE_PATH, 'a') as cf:
+        cf.write("version: {}".format(__version__))
 
 
 @when('we run "{command}" and enter')
@@ -178,7 +183,7 @@ def check_journal_content(context, text, journal_name="default"):
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
     with open(install.CONFIG_FILE_PATH) as config_file:
-        config = json.load(config_file)
+        config = yaml.load(config_file)
     journal_path = config['journals'][journal_name]
     assert not os.path.exists(journal_path)
 

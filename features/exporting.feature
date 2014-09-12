@@ -1,7 +1,7 @@
 Feature: Exporting a Journal
 
     Scenario: Exporting to json
-        Given we use the config "tags.json"
+        Given we use the config "tags.yaml"
         When we run "jrnl --export json"
         Then we should get no error
         and the output should be parsable as json
@@ -11,7 +11,7 @@ Feature: Exporting a Journal
         and "tags" in the json output should contain "@dan"
 
     Scenario: Exporting using filters should only export parts of the journal
-        Given we use the config "tags.json"
+        Given we use the config "tags.yaml"
         When we run "jrnl -until 'may 2013' --export json"
         # Then we should get no error
         Then the output should be parsable as json
