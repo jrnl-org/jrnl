@@ -36,7 +36,7 @@ def module_exists(module_name):
         return True
 
 default_config = {
-    'jrnl_version': __version__,
+    'version': __version__,
     'journals': {
         "default": JOURNAL_FILE_PATH
     },
@@ -78,7 +78,7 @@ def load_or_install_jrnl():
     if os.path.exists(config_path):
         config = util.load_config(CONFIG_FILE_PATH)
         upgrade_config(config)
-        upgrade.upgrade_jrnl_if_necessary()
+        upgrade.upgrade_jrnl_if_necessary(CONFIG_FILE_PATH)
         return config
     else:
         install()
