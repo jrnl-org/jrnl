@@ -5,7 +5,7 @@ from passlib.hash import pbkdf2_sha256
 
 
 def make_key(password):
-    derived_key = pbkdf2_sha256.encrypt(password.encode("utf-8"), rounds=10000, salt_size=16)
+    derived_key = pbkdf2_sha256.encrypt(password.encode("utf-8"), rounds=10000, salt_size=32)
     return base64.urlsafe_b64encode(derived_key)
 
 

@@ -21,7 +21,7 @@ Feature: Basic reading and writing to a journal
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
     Scenario: Filtering for dates
-        Given we use the config "basic.json"
+        Given we use the config "basic.yaml"
         When we run "jrnl -on 2013-06-10 --short"
         Then the output should be "2013-06-10 15:40 Life is good."
         When we run "jrnl -on 'june 6 2013' --short"

@@ -1,0 +1,11 @@
+default_hour: 9
+default_minute: 0
+editor: ''
+encrypt: false
+highlight: true
+journals:
+  default: features/journals/empty_folder
+linewrap: 80
+password: ''
+tagsymbols: '@'
+timeformat: '%Y-%m-%d %H:%M'

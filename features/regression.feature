@@ -9,7 +9,7 @@ Feature: Zapped bugs should stay dead.
         Then the output should not contain "Life is good"
 
     Scenario: Opening an folder that's not a DayOne folder gives a nice error message
-        Given we use the config "empty_folder.json"
+        Given we use the config "empty_folder.yaml"
         When we run "jrnl Herro"
         Then we should get an error
         Then we should see the message "is a directory, but doesn't seem to be a DayOne journal either"
@@ -23,14 +23,14 @@ Feature: Zapped bugs should stay dead.
 
     Scenario: Date in the future should be parsed correctly
         # https://github.com/maebert/jrnl/issues/185
-        Given we use the config "basic.json"
+        Given we use the config "basic.yaml"
         When we run "jrnl 26/06/2019: Planet? Earth. Year? 2019."
         Then we should see the message "Entry added"
         and the journal should contain "2019-06-26 09:00 Planet?"
 
     Scenario: Loading entry with ambiguous time stamp
         #https://github.com/maebert/jrnl/issues/153
-        Given we use the config "bug153.json"
+        Given we use the config "bug153.yaml"
         When we run "jrnl -1"
         Then we should get no error
         and the output should be
@@ -50,7 +50,7 @@ Feature: Zapped bugs should stay dead.
 			"""
 
 	Scenario: Title with an embedded period on DayOne journal
-		Given we use the config "dayone.json"
+		Given we use the config "dayone.yaml"
 		When we run "jrnl 04-24-2014: Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch."
 		Then we should see the message "Entry added"
 		When we run "jrnl -1"
