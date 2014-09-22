@@ -32,6 +32,11 @@ While jrnl follows best practises, true security is an illusion. Specifically, j
 
     HISTIGNORE="jrnl *"
 
+If you are using zsh instead of bash, you can get the same behaviour adding this to your ``zshrc`` ::
+
+    setopt HIST_IGNORE_SPACE
+    alias jrnl=" jrnl"
+
 Manual decryption
 -----------------
 
