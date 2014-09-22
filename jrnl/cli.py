@@ -205,7 +205,8 @@ def run(manual_args=None):
     else:
         old_entries = journal.entries
         if args.on_date:
-            args.start_date = args.end_date = args.on_date
+            args.start_date = args.on_date
+            args.end_date = args.on_date + ' 23:59'
         journal.filter(tags=args.text,
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
