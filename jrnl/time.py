@@ -48,7 +48,10 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
             return None
 
     if flag is 1:  # Date found, but no time. Use the default time.
-        date = datetime(*date[:3], hour=default_hour or 0, minute=default_minute or 0)
+        date = datetime(*date[:3],
+                        hour=23 if inclusive else default_hour or 0,
+                        minute=59 if inclusive else default_minute or 0,
+                        second=59 if inclusive else 0)
     else:
         date = datetime(*date[:6])
 
