@@ -131,7 +131,10 @@ def run(manual_args=None):
     config = install.load_or_install_jrnl()
 
     if args.ls:
-        print(util.py2encode(list_journals(config)))
+        util.prnt(u"Journals defined in {}".format(install.CONFIG_FILE_PATH))
+        ml = min(max(len(k) for k in config['journals']), 20)
+        for journal, cfg in config['journals'].items():
+            print " * {:{}} -> {}".format(journal, ml, cfg['journal'] if isinstance(cfg, dict) else cfg)
         sys.exit(0)
 
     original_config = config.copy()
