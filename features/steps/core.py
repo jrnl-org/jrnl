@@ -50,9 +50,10 @@ def open_journal(journal_name="default"):
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
     install.CONFIG_FILE_PATH = os.path.abspath(full_path)
-    # Add jrnl version to file
-    with open(install.CONFIG_FILE_PATH, 'a') as cf:
-        cf.write("version: {}".format(__version__))
+    if config_file.endswith("yaml"):
+        # Add jrnl version to file for 2.x journals
+        with open(install.CONFIG_FILE_PATH, 'a') as cf:
+            cf.write("version: {}".format(__version__))
 
 
 @when('we run "{command}" and enter')

@@ -79,6 +79,11 @@ def py2encode(s):
     return s.encode("utf-8") if PY2 and type(s) is unicode else s
 
 
+def prnt(s):
+    """Encode and print a string"""
+    STDOUT.write(u(s + "\n"))
+
+
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
     if not msg.endswith("\n"):

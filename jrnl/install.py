@@ -77,8 +77,8 @@ def load_or_install_jrnl():
     config_path = CONFIG_FILE_PATH if os.path.exists(CONFIG_FILE_PATH) else CONFIG_FILE_PATH_FALLBACK
     if os.path.exists(config_path):
         config = util.load_config(CONFIG_FILE_PATH)
-        upgrade_config(config)
         upgrade.upgrade_jrnl_if_necessary(CONFIG_FILE_PATH)
+        upgrade_config(config)
         return config
     else:
         install()

@@ -45,7 +45,7 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        text = u"\n".join([e.__unicode__() for e in self.entries])
+        text = "\n".join([e.__unicode__() for e in self.entries])
         self._store(filename, text)
 
     def _load(self, filename):

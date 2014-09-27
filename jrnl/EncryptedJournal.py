@@ -1,12 +1,22 @@
 from . import Journal, util
 from cryptography.fernet import Fernet, InvalidToken
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.backends import default_backend
 import base64
-from passlib.hash import pbkdf2_sha256
+import os
 
 
 def make_key(password):
-    derived_key = pbkdf2_sha256.encrypt(password.encode("utf-8"), rounds=10000, salt_size=32)
-    return base64.urlsafe_b64encode(derived_key)
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=os.urandom(16),
+        iterations=100000,
+        backend=default_backend()
+    )
+    key = kdf.derive(password)
+    return base64.urlsafe_b64encode(key)
 
 
 class EncryptedJournal(Journal.Journal):
@@ -21,14 +31,15 @@ class EncryptedJournal(Journal.Journal):
         def validate_password(password):
             key = make_key(password)
             try:
-                return Fernet(key).decrypt(journal_encrypted)
-            except InvalidToken:
+                return Fernet(key).decrypt(journal_encrypted).decode('utf-8')
+            except (InvalidToken, IndexError):
+                print base64.urlsafe_b64decode(journal_encrypted)
                 return None
 
         return util.get_password(keychain=self.name, validator=validate_password)
 
     def _store(self, filename, text):
         key = make_key(self.config['password'])
-        journal = Fernet(key).encrypt(text)
+        journal = Fernet(key).encrypt(text.encode('utf-8'))
         with open(filename, 'w') as f:
             f.write(journal)
