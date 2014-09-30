@@ -71,15 +71,18 @@ def py2encode(s):
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
+    if not msg:
+        return
     if not msg.endswith("\n"):
         msg += "\n"
     STDERR.write(u(msg))
 
 def py23_input(msg=""):
-    STDERR.write(u(msg))
+    prompt(msg)
     return STDIN.readline().strip()
 
 def py23_read(msg=""):
+    prompt(msg)
     return STDIN.read()
 
 def yesno(prompt, default=True):
@@ -93,7 +96,7 @@ def load_and_fix_json(json_path):
     """
     with open(json_path) as f:
         json_str = f.read()
-    config = fixed = None
+    config =  None
     try:
         return json.loads(json_str)
     except ValueError as e:
