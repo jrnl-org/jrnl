@@ -6,7 +6,11 @@ Getting started
 Installation
 ------------
 
-Install *jrnl* using pip ::
+On OS X, the easiest way to install *jrnl* is using `Homebrew <http://brew.sh/>`_ ::
+
+    brew install jrnl
+
+On other platforms, install *jrnl* using pip ::
 
     pip install jrnl
 
