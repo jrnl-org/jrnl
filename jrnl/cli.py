@@ -156,6 +156,11 @@ def run(manual_args=None):
         config.update(journal_conf)
     else:  # But also just give them a string to point to the journal file
         config['journal'] = journal_conf
+
+    if config['journal'] is None:
+        util.prompt("You have not specified a journal. Either provide a default journal in your config file, or specify one of your journals on the command line.")
+        sys.exit(1)
+
     config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
     touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
