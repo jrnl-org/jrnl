@@ -259,7 +259,7 @@ def run(manual_args=None):
         if num_deleted:
             prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
         if num_edited:
-            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
+            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_edited == 1 else "entries"))
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
