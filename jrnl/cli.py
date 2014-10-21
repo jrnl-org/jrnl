@@ -165,6 +165,17 @@ def run(manual_args=None):
     touch_journal(config['journal'])
     mode_compose, mode_export = guess_mode(args, config)
 
+    # open journal file or folder
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or \
+           "entries" in os.listdir(config['journal']):
+            journal = DayOneJournal.DayOne(**config)
+        else:
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+    else:
+        journal = Journal.Journal(journal_name, **config)
+
     # How to quit writing?
     if "win32" in sys.platform:
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
@@ -187,17 +198,6 @@ def run(manual_args=None):
             args.text = [raw]
         else:
             mode_compose = False
-
-    # open journal file or folder
-    if os.path.isdir(config['journal']):
-        if config['journal'].strip("/").endswith(".dayone") or \
-           "entries" in os.listdir(config['journal']):
-            journal = DayOneJournal.DayOne(**config)
-        else:
-            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
-            sys.exit(1)
-    else:
-        journal = Journal.Journal(journal_name, **config)
 
     # Writing mode
     if mode_compose:
