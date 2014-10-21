@@ -124,10 +124,8 @@ def check_output(context, text=None):
 def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
     local_tz = tzlocal.get_localzone()
-    utc_time = date_parser.parse(text)
-    date = utc_time + local_tz._utcoffset
-    local_date = date.strftime("%Y-%m-%d %H:%M")
-    assert local_date in out, local_date
+    local_time = date_parser.parse(text).astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
+    assert local_time in out, local_time
 
 @then('the output should contain "{text}"')
 def check_output_inline(context, text):
