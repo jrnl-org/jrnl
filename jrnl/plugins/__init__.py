@@ -21,6 +21,16 @@ class PluginMeta(type):
         cls.PLUGINS.append(plugin)
         cls.PLUGIN_NAMES.extend(plugin.names)
 
+    def get_plugin_types_string(cls):
+        if not cls.PLUGIN_NAMES:
+            return "(nothing)"
+        elif len(cls.PLUGIN_NAMES) == 1:
+            return cls.PLUGIN_NAMES[0]
+        elif len(cls.PLUGIN_NAMES) == 2:
+            return cls.PLUGIN_NAMES[0] + " or " + cls.PLUGIN_NAMES[1]
+        else:
+            return ', '.join(cls.PLUGIN_NAMES[:-1]) + ", or " + cls.PLUGIN_NAMES[-1]
+
 
 class BaseExporter(object):
     __metaclass__ = PluginMeta
