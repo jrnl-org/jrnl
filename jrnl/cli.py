@@ -40,6 +40,8 @@ def parse_args(args=None):
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.BaseExporter.PLUGIN_NAMES, help='Export your journal. TYPE can be json, markdown, or text.', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
+    exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.BaseImporter.PLUGIN_NAMES, help='Import entries into your journal. TYPE can be jrnl, and it defaults to jrnl if nothing else is specified.', default=False, const='jrnl', nargs='?')
+    exporting.add_argument('-i', metavar='INPUT', dest='input', help='Optionally specifies input file when using --import.', default=False, const=None)
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--edit', dest='edit', help='Opens your editor to edit the selected entries.', action="store_true")
@@ -51,7 +53,12 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+    import_ = False
+    if args.import_ is not False:
+        compose = False
+        export = False
+        import_ = True
+    elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
         compose = False
         export = True
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
@@ -61,7 +68,7 @@ def guess_mode(args, config):
         # No date and only tags?
         compose = False
 
-    return compose, export
+    return compose, export, import_
 
 
 def encrypt(journal, filename=None):
@@ -162,7 +169,7 @@ def run(manual_args=None):
         config['journal'] = journal_conf
     config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
     touch_journal(config['journal'])
-    mode_compose, mode_export = guess_mode(args, config)
+    mode_compose, mode_export, mode_import = guess_mode(args, config)
 
     # How to quit writing?
     if "win32" in sys.platform:
@@ -189,15 +196,20 @@ def run(manual_args=None):
 
     journal = Journal.open_journal(journal_name, config)
 
+    # Import mode
+    if mode_import:
+        plugins.get_importer(args.import_).import_(journal, args.input)
+
     # Writing mode
-    if mode_compose:
+    elif mode_compose:
         raw = " ".join(args.text).strip()
         if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
         journal.new_entry(raw)
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
-    else:
+
+    if not mode_compose:
         old_entries = journal.entries
         if args.on_date:
             args.start_date = args.end_date = args.on_date
@@ -209,7 +221,7 @@ def run(manual_args=None):
         journal.limit(args.limit)
 
     # Reading mode
-    if not mode_compose and not mode_export:
+    if not mode_compose and not mode_export and not mode_import:
         print(util.py2encode(journal.pprint()))
 
     # Various export modes
