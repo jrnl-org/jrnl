@@ -109,6 +109,14 @@ class Journal(object):
         self.entries = self._parse(journal)
         self.sort()
 
+    def import_(self, other_journal_txt):
+        other_entries = self._parse(other_journal_txt)
+        entries_set = frozenset(self.entries)
+        for other_entry in other_entries:
+            if other_entry not in entries_set:
+                self.entries.append(other_entry)
+        self.sort()
+
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
 
