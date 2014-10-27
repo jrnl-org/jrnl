@@ -79,7 +79,7 @@ setup(
     name = "jrnl",
     version = get_version(),
     description = "A command line journal application that stores your journal in a plain text file",
-    packages = ['jrnl'],
+    packages = ['jrnl','jrnl.plugins'],
     install_requires = [
         "pyxdg>=0.19",
         "parsedatetime>=1.2",
