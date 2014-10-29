@@ -34,11 +34,7 @@ class Journal(object):
         return len(self.entries)
 
     def import_(self, other_journal_txt):
-        other_entries = self._parse(other_journal_txt)
-        entries_set = frozenset(self.entries)
-        for other_entry in other_entries:
-            if other_entry not in entries_set:
-                self.entries.append(other_entry)
+        self.entries = list(frozenset(self.entries) | frozenset(self._parse(other_journal_txt)))
         self.sort()
 
     def open(self, filename=None):
