@@ -22,7 +22,7 @@ class JRNLImporter(BaseImporter):
                 other_journal_txt = f.read()
         else:
             try:
-                other_journal_txt = sys.stdin.read()
+                other_journal_txt = util.py23_read()
             except KeyboardInterrupt:
                 util.prompt("[Entries NOT imported into journal.]")
                 sys.exit(0)
