@@ -33,6 +33,10 @@ class Journal(object):
         """Returns the number of entries"""
         return len(self.entries)
 
+    def import_(self, other_journal_txt):
+        self.entries = list(frozenset(self.entries) | frozenset(self._parse(other_journal_txt)))
+        self.sort()
+
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""

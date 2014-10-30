@@ -53,3 +53,10 @@ def get_exporter(format):
         if hasattr(exporter, "names") and format in exporter.names:
             return exporter
     return None
+
+
+def get_importer(format):
+    for importer in BaseImporter.PLUGINS:
+        if hasattr(importer, "names") and format in importer.names:
+            return importer
+    return None
