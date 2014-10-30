@@ -74,6 +74,9 @@ class Entry:
     def __repr__(self):
         return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
 
+    def __hash__(self):
+        return hash(self.__repr__())
+
     def __eq__(self, other):
         if not isinstance(other, Entry) \
            or self.title.strip() != other.title.strip() \
