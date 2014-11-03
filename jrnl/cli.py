@@ -43,7 +43,7 @@ def parse_args(args=None):
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.BaseExporter.PLUGIN_NAMES, help='Export your journal. TYPE can be %s.' % plugins.BaseExporter.get_plugin_types_string(), default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
-    exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.BaseImporter.PLUGIN_NAMES, help='Import entries into your journal. TYPE can be jrnl, and it defaults to jrnl if nothing else is specified.', default=False, const='jrnl', nargs='?')
+    exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.BaseImporter.PLUGIN_NAMES, help='Import entries into your journal. TYPE can be %s, and it defaults to jrnl if nothing else is specified.' % plugins.BaseImporter.get_plugin_types_string(), default=False, const='jrnl', nargs='?')
     exporting.add_argument('-i', metavar='INPUT', dest='input', help='Optionally specifies input file when using --import.', default=False, const=None)
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
