@@ -131,7 +131,7 @@ class Journal(object):
         if n:
             self.entries = self.entries[-n:]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, phrase=''):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -140,6 +140,8 @@ class Journal(object):
         start_date and end_date define a timespan by which to filter.
 
         starred limits journal to starred entries
+
+        phrase limits journal to entries with the given phrase
 
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
@@ -155,6 +157,7 @@ class Journal(object):
             and (not starred or entry.starred)
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
+            and (phrase in entry.title or phrase in entry.body)
         ]
         if short:
             if tags:
