@@ -97,26 +97,26 @@ def dist_github():
         "name": version,
         "body": "Changes in Version {}.{}: \n\n{}".format(version_tuple[0], version_tuple[1], changes_since_last_version)
     }
-    print "Preparing release {}...".format(version)
+    print("Preparing release {}...".format(version))
     username = keyring.get_password("github", "__default_user") or raw_input("Github username: ")
     password = keyring.get_password("github", username) or getpass.getpass()
     otp = raw_input("One Time Token: ")
     response = requests.post("https://api.github.com/repos/maebert/jrnl/releases", headers={"X-GitHub-OTP": otp}, json=payload, auth=(username, password))
     if response.status_code in (403, 404):
-        print "Authentication error."
+        print("Authentication error.")
     else:
         keyring.set_password("github", "__default_user", username)
         keyring.set_password("github", username, password)
         if response.status_code > 299:
             if  "message" in response.json():
-                print "Error: {}".format(response.json()['message'])
+                print("Error: {}".format(response.json()['message']))
                 for error_dict in response.json().get('errors', []):
-                    print "*", error_dict
+                    print("*", error_dict)
             else:
-                print "Unkown error"
-                print response.text
+                print("Unkown error")
+                print(response.text)
         else:
-            print "Release created."
+            print("Release created.")
     sys.exit()
 
 if sys.argv[-1] == 'publish':
