@@ -79,11 +79,11 @@ def prompt(msg):
 
 def py23_input(msg=""):
     prompt(msg)
-    return STDIN.readline().strip()
+    return u(STDIN.readline()).strip()
 
 def py23_read(msg=""):
     prompt(msg)
-    return STDIN.read()
+    return u(STDIN.read())
 
 def yesno(prompt, default=True):
     prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
