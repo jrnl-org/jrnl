@@ -11,6 +11,7 @@ from . import util
 from . import upgrade
 from . import __version__
 import yaml
+import logging
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'
@@ -24,6 +25,8 @@ CONFIG_FILE_PATH_FALLBACK = os.path.join(USER_HOME, ".jrnl_config")
 
 JOURNAL_PATH = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or USER_HOME
 JOURNAL_FILE_PATH = os.path.join(JOURNAL_PATH, DEFAULT_JOURNAL_NAME)
+
+log = logging.getLogger(__name__)
 
 
 def module_exists(module_name):
@@ -76,11 +79,13 @@ def load_or_install_jrnl():
     """
     config_path = CONFIG_FILE_PATH if os.path.exists(CONFIG_FILE_PATH) else CONFIG_FILE_PATH_FALLBACK
     if os.path.exists(config_path):
+        log.debug('Reading configuration from file %s', config_path)
         config = util.load_config(CONFIG_FILE_PATH)
         upgrade.upgrade_jrnl_if_necessary(CONFIG_FILE_PATH)
         upgrade_config(config)
         return config
     else:
+        log.debug('Configuration file not found, installing jrnl...')
         install()
 
 def install():
