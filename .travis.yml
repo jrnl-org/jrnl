@@ -5,8 +5,8 @@ python:
   - "3.3"
   - "3.4"
 install:
-  - "pip install -e . --use-mirrors"
-  - "pip install pycrypto>=2.6 --use-mirrors"
+  - "pip install -e ."
+  - "pip install pycrypto>=2.6"
   - "pip install -q behave"
 # command to run tests
 script:
