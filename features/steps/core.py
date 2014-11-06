@@ -2,9 +2,8 @@ from behave import *
 from jrnl import cli, Journal, util
 from dateutil import parser as date_parser
 import os
-import sys
+import codecs
 import json
-import pytz
 import keyring
 keyring.set_keyring(keyring.backends.file.PlaintextKeyring())
 try:
@@ -30,7 +29,7 @@ def _parse_args(command):
 def read_journal(journal_name="default"):
     with open(cli.CONFIG_PATH) as config_file:
         config = json.load(config_file)
-    with open(config['journals'][journal_name]) as journal_file:
+    with codecs.open(config['journals'][journal_name], 'r', 'utf-8') as journal_file:
         journal = journal_file.read()
     return journal
 
@@ -57,7 +56,7 @@ def run_with_input(context, command, inputs=None):
     buffer = StringIO(text.strip())
     util.STDIN = buffer
     try:
-        cli.run(args or None)
+        cli.run(args)
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -66,7 +65,7 @@ def run_with_input(context, command, inputs=None):
 def run(context, command):
     args = _parse_args(command)
     try:
-        cli.run(args or None)
+        cli.run(args)
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -184,7 +183,7 @@ def config_var(context, key, value, journal=None):
 @then('the journal should have {number:d} entry')
 @then('journal "{journal_name}" should have {number:d} entries')
 @then('journal "{journal_name}" should have {number:d} entry')
-def check_journal_content(context, number, journal_name="default"):
+def check_num_entries(context, number, journal_name="default"):
     journal = open_journal(journal_name)
     assert len(journal.entries) == number
 
