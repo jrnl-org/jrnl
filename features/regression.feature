@@ -59,3 +59,10 @@ Feature: Zapped bugs should stay dead.
 			2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
 			| I'm feeling sore because I forgot to stretch.
 			"""
+
+    Scenario: Writing an entry at the prompt with non-ascii characters
+        # https://github.com/maebert/jrnl/issues/295
+        Given we use the config "basic.json"
+        When we run "jrnl" and enter "Crème brûlée & Mötorhead"
+        Then we should get no error
+        and the journal should contain "Crème brûlée & Mötorhead"
