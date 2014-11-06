@@ -13,6 +13,7 @@ import tempfile
 import subprocess
 import codecs
 import unicodedata
+import logging
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -21,6 +22,8 @@ STDERR = sys.stderr
 STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
+
+log = logging.getLogger(__name__)
 
 
 def getpass(prompt="Password: "):
@@ -96,18 +99,22 @@ def load_and_fix_json(json_path):
     """
     with open(json_path) as f:
         json_str = f.read()
+        log.debug('Configuration file %s read correctly', json_path)
     config =  None
     try:
         return json.loads(json_str)
     except ValueError as e:
+        log.debug('Could not parse configuration %s: %s', json_str, e)
         # Attempt to fix extra ,
         json_str = re.sub(r",[ \n]*}", "}", json_str)
         # Attempt to fix missing ,
         json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
         try:
+            log.debug('Attempting to reload automatically fixed configuration file %s', json_str)
             config = json.loads(json_str)
             with open(json_path, 'w') as f:
                 json.dump(config, f, indent=2)
+                log.debug('Fixed configuration saved in file %s', json_path)
             prompt("[Some errors in your jrnl config have been fixed for you.]")
             return config
         except ValueError as e:
