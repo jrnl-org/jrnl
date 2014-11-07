@@ -104,13 +104,15 @@ def load_and_fix_json(json_path):
     try:
         return json.loads(json_str)
     except ValueError as e:
-        log.debug('Could not parse configuration %s: %s', json_str, e)
+        log.debug('Could not parse configuration %s: %s', json_str, e,
+                exc_info=True)
         # Attempt to fix extra ,
         json_str = re.sub(r",[ \n]*}", "}", json_str)
         # Attempt to fix missing ,
         json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
         try:
-            log.debug('Attempting to reload automatically fixed configuration file %s', json_str)
+            log.debug('Attempting to reload automatically fixed configuration file %s', 
+                    json_str)
             config = json.loads(json_str)
             with open(json_path, 'w') as f:
                 json.dump(config, f, indent=2)
@@ -118,6 +120,7 @@ def load_and_fix_json(json_path):
             prompt("[Some errors in your jrnl config have been fixed for you.]")
             return config
         except ValueError as e:
+            log.debug('Could not load fixed configuration: %s', e, exc_info=True)
             prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
             prompt("[Entry was NOT added to your journal]")
             sys.exit(1)
