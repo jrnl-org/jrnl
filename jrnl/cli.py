@@ -16,13 +16,16 @@ import jrnl
 import os
 import argparse
 import sys
+import logging
 
 PYCRYPTO = install.module_exists("Crypto")
+log = logging.getLogger(__name__)
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
     parser.add_argument('-ls', dest='ls', action="store_true", help="displays accessible journals")
+    parser.add_argument('-d', '--debug', dest='debug', action='store_true', help='execute in debug mode')
 
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
     composing.add_argument('text', metavar='', nargs="*")
@@ -102,6 +105,7 @@ def decrypt(journal, filename=None):
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
+        log.debug('Creating journal file %s', filename)
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
@@ -126,8 +130,15 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 
+def configure_logger(debug=False):
+    logging.basicConfig(level=logging.DEBUG if debug else logging.INFO,
+            format='%(levelname)-8s %(name)-12s %(message)s')
+    logging.getLogger('parsedatetime').setLevel(logging.INFO) # disable parsedatetime debug logging
+
+
 def run(manual_args=None):
     args = parse_args(manual_args)
+    configure_logger(args.debug)
     args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
     if args.version:
         version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
@@ -143,6 +154,7 @@ def run(manual_args=None):
             print " * {:{}} -> {}".format(journal, ml, cfg['journal'] if isinstance(cfg, dict) else cfg)
         sys.exit(0)
 
+    log.debug('Using configuration "%s"', config)
     original_config = config.copy()
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
@@ -162,14 +174,17 @@ def run(manual_args=None):
         except:
             pass
 
+    log.debug('Using journal "%s"', journal_name)
     journal_conf = config['journals'].get(journal_name)
     if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific jourlnal overrides %s', journal_conf)
         config.update(journal_conf)
     else:  # But also just give them a string to point to the journal file
         config['journal'] = journal_conf
     config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
     touch_journal(config['journal'])
     mode_compose, mode_export, mode_import = guess_mode(args, config)
+    log.debug('Using journal path %(journal)s', config)
 
     # How to quit writing?
     if "win32" in sys.platform:
@@ -205,6 +220,7 @@ def run(manual_args=None):
         raw = " ".join(args.text).strip()
         if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
+        log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
         journal.new_entry(raw)
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
