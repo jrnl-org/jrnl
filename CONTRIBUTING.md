@@ -12,7 +12,7 @@ If you find a typo or a mistake in the docs, just fix it right away and send a p
 Bugs
 ----
 
-They unfortunately happen. Specifically, I don't have a Windows machine to test on, so expect a few rough spots. If you found a bug, please [open a new issue](https://www.github.com/maebert/jrnl/issues/new) and describe it as well as possible. If you're a programmer and have a little time time spare, go ahead, fork the code and fix bugs you spot, it'll be much appreciated!
+They unfortunately happen. Specifically, I don't have a Windows machine to test on, so expect a few rough spots. If you found a bug, please [open a new issue](https://www.github.com/maebert/jrnl/issues/new) and describe it as well as possible. If you're a programmer and have a little time to spare, go ahead, fork the code and fix bugs you spot, it'll be much appreciated!
 
 
 Feature requests and ideas
