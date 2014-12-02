@@ -24,7 +24,6 @@ class Entry:
 
     @staticmethod
     def title_regex(self):
-        pattern = r'^(([^|]|[^\s])[^\n]*)'
         pattern = r'^20.*'
         return re.compile( pattern, re.UNICODE|re.MULTILINE )
 
