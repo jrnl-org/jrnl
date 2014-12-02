@@ -22,6 +22,12 @@ class Entry:
         pattern = r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
         return re.compile( pattern, re.UNICODE )
 
+    @staticmethod
+    def title_regex(self):
+        pattern = r'^(([^|]|[^\s])[^\n]*)'
+        pattern = r'^20.*'
+        return re.compile( pattern, re.UNICODE|re.MULTILINE )
+
     def parse_tags(self):
         fulltext =  " " + " ".join([self.title, self.body]).lower()
         tagsymbols = self.journal.config['tagsymbols']

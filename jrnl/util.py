@@ -138,9 +138,13 @@ def get_text_from_editor(config, template=""):
         prompt('[Nothing saved to file]')
     return raw
 
-def colorize(string):
-    """Returns the string wrapped in cyan ANSI escape"""
+def colorize_tags(string):
+    """Returns the tag string wrapped in cyan ANSI escape"""
     return u"\033[36m{}\033[39m".format(string)
+
+def colorize_titles(string):
+    """Returns the title string wrapped in cyan ANSI escape"""
+    return u"\033[1m\033[37m{}\033[0m".format(string)
 
 def slugify(string):
     """Slugifies a string.
