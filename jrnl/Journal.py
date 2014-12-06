@@ -112,6 +112,18 @@ class Journal(object):
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
 
+        def get_date_length(myline):
+            j=''
+            print 'myproc line is: ' + myline
+            for i in [x for x in myline.split(' ') ]:
+                try:
+                    dateutil.parser.parse(j+' ' +i)
+                    j=j+' ' +i
+                except:
+                    break
+            print 'j is ' + j
+            return len(j.strip())
+
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
         date_length = len(datetime.today().strftime(self.config['timeformat']))
@@ -123,6 +135,7 @@ class Journal(object):
         for line in journal_txt.splitlines():
             line = line.rstrip()
             try:
+                date_length=get_date_length(line)
                 # try to parse line as date => new entry begins
                 new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
 
