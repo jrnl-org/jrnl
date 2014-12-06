@@ -115,14 +115,12 @@ class Journal(object):
 
         def get_date_length(myline):
             j=''
-            print 'myproc line is: ' + myline
             for i in [x for x in myline.split(' ') ]:
                 try:
                     dateutil.parser.parse(j+' ' +i)
                     j=j+' ' +i
                 except:
                     break
-            print 'j is ' + j
             return len(j.strip())
 
         # Entries start with a line that looks like 'date title' - let's figure out how
