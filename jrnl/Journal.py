@@ -114,14 +114,14 @@ class Journal(object):
         """Parses a journal that's stored in a string and returns a list of entries"""
 
         def get_date_length(myline):
-            j=''
+            tmpdate=''
             for i in [x for x in myline.split(' ') ]:
                 try:
-                    dateutil.parser.parse(j+' ' +i)
-                    j=j+' ' +i
+                    dateutil.parser.parse(tmpdate + ' ' + i)
+                    tmpdate = tmpdate + ' ' + i
                 except:
                     break
-            return len(j.strip())
+            return len(tmpdate.strip())
 
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
