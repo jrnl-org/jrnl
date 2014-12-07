@@ -256,7 +256,7 @@ def run(manual_args=None):
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
-        if not args.encrypt or args.encrypt == config['journal]:
+        if not args.encrypt or args.encrypt == config['journal']:
             update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
