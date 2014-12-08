@@ -256,14 +256,14 @@ def run(manual_args=None):
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
-        if not args.encrypt:
+        if not args.encrypt or args.encrypt == config['journal']:
             update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
-        if not args.decrypt:
+        if not args.decrypt or args.decrypt == config['journal']:
             update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
