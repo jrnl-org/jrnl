@@ -65,16 +65,16 @@ def to_txt(journal):
     """Returns the complete text of the Journal."""
     return journal.pprint()
 
+
 def to_yaml(entry):
     """Returns a markdown representation of the Journal with YAML formatted
     front matter"""
-    out = u''
-    out += u'Title: {}\n'.format(entry.title)
+    out = u'Title: {}\n'.format(entry.title)
     out += u'Date: {}\n'.format(str(entry.date))
     if entry.tags:
         # drop tag symbol
         out += u'Tags: {}\n'.format(', '.join([tag[1:] for tag in entry.tags]))
-    out += u'---\n\n{}'.format(entry.body)
+    out += u'{}'.format(entry.body)
     return out
 
 

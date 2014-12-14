@@ -36,8 +36,12 @@ docs/_themes/jrnl/static/css/jrnl.css
 # MS Visual Studio (PyTools)
 obj
 *.pyproj
+*.pyproj.user
 *.sln
 *.suo
+
+# Sublime Text
+*.sublime-*
 
 # virtaulenv
 env/
@@ -50,3 +54,5 @@ docs/_themes/jrnl/static/less/3L.less
 
 # export testing director
 exp/
+
+extras/
