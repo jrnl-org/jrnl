@@ -4,6 +4,12 @@ Changelog
 
 ### 1.9 (July 21, 2014)
 
+* __1.9.8__ Fixes a problem with temporary files on windows
+* __1.9.7__ Fixes writing non-ascii entries on the prompt
+* __1.9.6__ Fuzzy time parsing improvements (thanks to @pcarranza)
+* __1.9.5__ Multi-word tags for DayOne Journals
+* __1.9.4__ Fixed: Order of journal entries in file correct after --edit'ing
+* __1.9.3__ Fixed: Tags at the beginning of lines
 * __1.9.2__ Fixed: Tag search ignores email-addresses (thanks to @mjhoffman65)
 * __1.9.1__ Fixed: Dates in the future can be parsed as well.
 * __1.9.0__ Improved: Greatly improved date parsing. Also added an `-on` option for filtering

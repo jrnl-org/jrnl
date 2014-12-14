@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import unicode_literals
 import re
 import textwrap
 from datetime import datetime
@@ -16,9 +17,15 @@ class Entry:
         self.starred = starred
         self.modified = False
 
+    @staticmethod
+    def tag_regex(tagsymbols):
+        pattern = r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
+        return re.compile( pattern, re.UNICODE )
+
     def parse_tags(self):
-        fulltext = " ".join([self.title, self.body]).lower()
-        tags = re.findall(r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=self.journal.config['tagsymbols']), fulltext, re.UNICODE)
+        fulltext =  " " + " ".join([self.title, self.body]).lower()
+        tagsymbols = self.journal.config['tagsymbols']
+        tags = re.findall( Entry.tag_regex(tagsymbols), fulltext )
         self.tags = tags
         return set(tags)
 
@@ -28,7 +35,7 @@ class Entry:
         title = date_str + " " + self.title.rstrip("\n ")
         if self.starred:
             title += " *"
-        return u"{title}{sep}{body}\n".format(
+        return "{title}{sep}{body}\n".format(
             title=title,
             sep="\n" if self.body.rstrip("\n ") else "",
             body=self.body.rstrip("\n ")
@@ -58,7 +65,7 @@ class Entry:
         if short:
             return title
         else:
-            return u"{title}{sep}{body}\n".format(
+            return "{title}{sep}{body}\n".format(
                 title=title,
                 sep="\n" if has_body else "",
                 body=body if has_body else "",
@@ -95,7 +102,7 @@ class Entry:
         space = "\n"
         md_head = "###"
 
-        return u"{md} {date}, {title} {body} {space}".format(
+        return "{md} {date}, {title} {body} {space}".format(
             md=md_head,
             date=date_str,
             title=self.title,

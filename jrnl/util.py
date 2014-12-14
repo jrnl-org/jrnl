@@ -13,6 +13,7 @@ import tempfile
 import subprocess
 import codecs
 import unicodedata
+import logging
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -21,6 +22,8 @@ STDERR = sys.stderr
 STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
+
+log = logging.getLogger(__name__)
 
 
 def getpass(prompt="Password: "):
@@ -71,16 +74,19 @@ def py2encode(s):
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
+    if not msg:
+        return
     if not msg.endswith("\n"):
         msg += "\n"
     STDERR.write(u(msg))
 
 def py23_input(msg=""):
-    STDERR.write(u(msg))
-    return STDIN.readline().strip()
+    prompt(msg)
+    return u(STDIN.readline()).strip()
 
 def py23_read(msg=""):
-    return STDIN.read()
+    prompt(msg)
+    return u(STDIN.read())
 
 def yesno(prompt, default=True):
     prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
@@ -93,27 +99,34 @@ def load_and_fix_json(json_path):
     """
     with open(json_path) as f:
         json_str = f.read()
-    config = fixed = None
+        log.debug('Configuration file %s read correctly', json_path)
+    config =  None
     try:
         return json.loads(json_str)
     except ValueError as e:
+        log.debug('Could not parse configuration %s: %s', json_str, e,
+                exc_info=True)
         # Attempt to fix extra ,
         json_str = re.sub(r",[ \n]*}", "}", json_str)
         # Attempt to fix missing ,
         json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
         try:
+            log.debug('Attempting to reload automatically fixed configuration file %s', 
+                    json_str)
             config = json.loads(json_str)
             with open(json_path, 'w') as f:
                 json.dump(config, f, indent=2)
+                log.debug('Fixed configuration saved in file %s', json_path)
             prompt("[Some errors in your jrnl config have been fixed for you.]")
             return config
         except ValueError as e:
+            log.debug('Could not load fixed configuration: %s', e, exc_info=True)
             prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
             prompt("[Entry was NOT added to your journal]")
             sys.exit(1)
 
 def get_text_from_editor(config, template=""):
-    tmpfile = os.path.join(tempfile.mktemp(prefix="jrnl"))
+    _, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)

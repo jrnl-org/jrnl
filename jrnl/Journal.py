@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import util
 from . import time
@@ -165,9 +165,9 @@ class Journal(object):
                                 lambda match: util.colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub(r"(?u)([{tags}]\w+)".format(tags=self.config['tagsymbols']),
-                            lambda match: util.colorize(match.group(0)),
-                            pp)
+                pp = re.sub( Entry.Entry.tag_regex(self.config['tagsymbols']),
+                        lambda match: util.colorize(match.group(0)),
+                        pp)
         return pp
 
     def __repr__(self):
@@ -176,7 +176,7 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        journal = u"\n".join([e.__unicode__() for e in self.entries])
+        journal = "\n".join([e.__unicode__() for e in self.entries])
         if self.config['encrypt']:
             journal = self._encrypt(journal)
             with open(filename, 'wb') as journal_file:
@@ -269,7 +269,7 @@ class Journal(object):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return u"\n".join([e.__unicode__() for e in self.entries])
+        return "\n".join([e.__unicode__() for e in self.entries])
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates it's entries."""

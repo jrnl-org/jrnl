@@ -7,7 +7,7 @@
     license: MIT, see LICENSE for more details.
 """
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from . import Journal
 from . import DayOneJournal
 from . import util
@@ -17,16 +17,19 @@ import jrnl
 import os
 import argparse
 import sys
+import logging
 
 xdg_config = os.environ.get('XDG_CONFIG_HOME')
 CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
 PYCRYPTO = install.module_exists("Crypto")
+log = logging.getLogger(__name__)
 
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
     parser.add_argument('-ls', dest='ls', action="store_true", help="displays accessible journals")
+    parser.add_argument('-d', '--debug', dest='debug', action='store_true', help='execute in debug mode')
 
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
     composing.add_argument('text', metavar='', nargs="*")
@@ -61,7 +64,7 @@ def guess_mode(args, config):
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
         # Any sign of displaying stuff?
         compose = False
-    elif args.text and all(word[0] in config['tagsymbols'] for word in u" ".join(args.text).split()):
+    elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
         # No date and only tags?
         compose = False
 
@@ -90,6 +93,7 @@ def decrypt(journal, filename=None):
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
+        log.debug('Creating journal file %s', filename)
         util.prompt("[Journal created at {0}]".format(filename))
         open(filename, 'a').close()
 
@@ -114,8 +118,15 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 
+def configure_logger(debug=False):
+    logging.basicConfig(level=logging.DEBUG if debug else logging.INFO,
+            format='%(levelname)-8s %(name)-12s %(message)s')
+    logging.getLogger('parsedatetime').setLevel(logging.INFO) # disable parsedatetime debug logging
+
+
 def run(manual_args=None):
     args = parse_args(manual_args)
+    configure_logger(args.debug)
     args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
     if args.version:
         version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
@@ -123,8 +134,10 @@ def run(manual_args=None):
         sys.exit(0)
 
     if not os.path.exists(CONFIG_PATH):
+        log.debug('Configuration file not found, installing jrnl...')
         config = install.install_jrnl(CONFIG_PATH)
     else:
+        log.debug('Reading configuration from file %s', CONFIG_PATH)
         config = util.load_and_fix_json(CONFIG_PATH)
         install.upgrade_config(config, config_path=CONFIG_PATH)
 
@@ -132,6 +145,7 @@ def run(manual_args=None):
         print(util.py2encode(list_journals(config)))
         sys.exit(0)
 
+    log.debug('Using configuration "%s"', config)
     original_config = config.copy()
     # check if the configuration is supported by available modules
     if config['encrypt'] and not PYCRYPTO:
@@ -151,14 +165,33 @@ def run(manual_args=None):
         except:
             pass
 
+    log.debug('Using journal "%s"', journal_name)
     journal_conf = config['journals'].get(journal_name)
     if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific jourlnal overrides %s', journal_conf)
         config.update(journal_conf)
     else:  # But also just give them a string to point to the journal file
         config['journal'] = journal_conf
+
+    if config['journal'] is None:
+        util.prompt("You have not specified a journal. Either provide a default journal in your config file, or specify one of your journals on the command line.")
+        sys.exit(1)
+
     config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
     touch_journal(config['journal'])
+    log.debug('Using journal path %(journal)s', config)
     mode_compose, mode_export = guess_mode(args, config)
+
+    # open journal file or folder
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or \
+           "entries" in os.listdir(config['journal']):
+            journal = DayOneJournal.DayOne(**config)
+        else:
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+    else:
+        journal = Journal.Journal(journal_name, **config)
 
     # How to quit writing?
     if "win32" in sys.platform:
@@ -183,22 +216,12 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
-    # open journal file or folder
-    if os.path.isdir(config['journal']):
-        if config['journal'].strip("/").endswith(".dayone") or \
-           "entries" in os.listdir(config['journal']):
-            journal = DayOneJournal.DayOne(**config)
-        else:
-            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
-            sys.exit(1)
-    else:
-        journal = Journal.Journal(journal_name, **config)
-
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
         if util.PY2 and type(raw) is not unicode:
             raw = raw.decode(sys.getfilesystemencoding())
+        log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
         journal.new_entry(raw)
         util.prompt("[Entry added to {0} journal]".format(journal_name))
         journal.write()
@@ -233,20 +256,20 @@ def run(manual_args=None):
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
-        if not args.encrypt:
+        if not args.encrypt or args.encrypt == config['journal']:
             update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
-        if not args.decrypt:
+        if not args.decrypt or args.decrypt == config['journal']:
             update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
             install.save_config(original_config, config_path=CONFIG_PATH)
 
     elif args.edit:
         if not config['editor']:
-            util.prompt(u"[You need to specify an editor in {0} to use the --edit function.]".format(CONFIG_PATH))
+            util.prompt("[You need to specify an editor in {0} to use the --edit function.]".format(CONFIG_PATH))
             sys.exit(1)
         other_entries = [e for e in old_entries if e not in journal.entries]
         # Edit
@@ -259,10 +282,11 @@ def run(manual_args=None):
         if num_deleted:
             prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
         if num_edited:
-            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
+            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_edited == 1 else "entries"))
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
+        journal.sort()
         journal.write()
 
 if __name__ == "__main__":

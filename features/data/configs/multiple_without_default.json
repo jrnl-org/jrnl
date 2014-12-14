@@ -1,0 +1,16 @@
+{
+  "default_hour": 9,
+  "timeformat": "%Y-%m-%d %H:%M",
+  "linewrap": 80,
+  "encrypt": false,
+  "editor": "",
+  "default_minute": 0,
+  "highlight": true,
+  "password": "",
+  "journals": {
+    "simple": "features/journals/simple.journal",
+    "work": "features/journals/work.journal",
+    "ideas": "features/journals/nothing.journal"
+  },
+  "tagsymbols": "@"
+}

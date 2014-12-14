@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 import os
 import json
 from .util import u, slugify
@@ -29,7 +29,7 @@ def to_tag_list(journal):
     elif min(tag_counts)[0] == 0:
         tag_counts = filter(lambda x: x[0] > 1, tag_counts)
         result += '[Removed tags that appear only once.]\n'
-    result += "\n".join(u"{0:20} : {1}".format(tag, n) for n, tag in sorted(tag_counts, reverse=True))
+    result += "\n".join("{0:20} : {1}".format(tag, n) for n, tag in sorted(tag_counts, reverse=True))
     return result
 
 
@@ -81,7 +81,7 @@ def export(journal, format, output=None):
         "markdown": to_md
     }
     if format not in maps:
-        return u"[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
+        return "[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
@@ -90,9 +90,9 @@ def export(journal, format, output=None):
             try:
                 with codecs.open(output, "w", "utf-8") as f:
                     f.write(content)
-                return u"[Journal exported to {0}]".format(output)
+                return "[Journal exported to {0}]".format(output)
             except IOError as e:
-                return u"[ERROR: {0} {1}]".format(e.filename, e.strerror)
+                return "[ERROR: {0} {1}]".format(e.filename, e.strerror)
         else:
             return content
 
@@ -111,4 +111,4 @@ def write_files(journal, path, format):
             content = e.__unicode__()
         with codecs.open(full_path, "w", "utf-8") as f:
             f.write(content)
-    return u"[Journal exported individual files in {0}]".format(path)
+    return "[Journal exported individual files in {0}]".format(path)
