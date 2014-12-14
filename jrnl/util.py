@@ -136,6 +136,8 @@ def slugify(string):
     """
     string = u(string)
     ascii_string = str(unicodedata.normalize('NFKD', string).encode('ascii', 'ignore'))
+    if PY3:
+        ascii_string = ascii_string[1:]     # removed the leading 'b'
     no_punctuation = re.sub(r'[^\w\s-]', '', ascii_string).strip().lower()
     slug = re.sub(r'[-\s]+', '-', no_punctuation)
     return u(slug)
