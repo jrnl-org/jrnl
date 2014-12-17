@@ -122,13 +122,14 @@ def load_config(config_path):
 
 def get_text_from_editor(config, template=""):
     tmpfile = os.path.join(tempfile.mktemp(prefix="jrnl", suffix=".txt"))
+    filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
     subprocess.call(config['editor'].split() + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
-    os.close(_);
+    os.close(filehandle);
     os.remove(tmpfile)
     if not raw:
         prompt('[Nothing saved to file]')
