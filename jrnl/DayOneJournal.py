@@ -58,7 +58,10 @@ class DayOne(Journal.Journal):
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
                 utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
-                filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
+                # make sure to upper() the uuid since uuid.uuid1 returns a lowercase string by default
+                # while dayone uses uppercase by default. On fully case preserving filesystems (e.g.
+                # linux) this results in duplicated entries when we save the file
+                filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
