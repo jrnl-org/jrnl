@@ -87,7 +87,8 @@ def install_jrnl(config_path='~/.jrnl_config'):
     except OSError:
         pass
 
-    open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
+    if not os.path.isdir(path):  # if it's a directory and exists (e.g. a DayOne journal, let it be)
+        open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
 
     # Write config to ~/.jrnl_conf
     with open(config_path, 'w') as f:
