@@ -121,7 +121,9 @@ def get_text_from_editor(config, template=""):
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    subprocess.call(config['editor'].split() + [tmpfile])
+    editor = config['editor']
+    args = editor if isinstance(editor, list) else editor.split()
+    subprocess.call(args + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
     os.close(filehandle)
