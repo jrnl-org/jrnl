@@ -67,12 +67,7 @@ def set_keychain(journal_name, password):
 
 def u(s):
     """Mock unicode function for python 2 and 3 compatibility."""
-    if PY3:
-        return str(s)
-    elif isinstance(s, basestring) and type(s) is not unicode:
-        return unicode(s.encode('string-escape'), "unicode_escape")
-    return unicode(s)
-
+    return s if PY3 or type(s) is unicode else s.decode("utf-8")
 
 def py2encode(s):
     """Encode in Python 2, but not in python 3."""
