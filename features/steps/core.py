@@ -1,4 +1,4 @@
-from behave import *
+from behave import given, when, then
 from jrnl import cli, install, Journal, util
 from jrnl import __version__
 from dateutil import parser as date_parser
@@ -64,7 +64,7 @@ def run_with_input(context, command, inputs=None):
     buffer = StringIO(text.strip())
     util.STDIN = buffer
     try:
-        cli.run(args or None)
+        cli.run(args or [])
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code

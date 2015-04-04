@@ -69,7 +69,6 @@ conditional_dependencies = {
     "pyreadline>=2.0": not readline_available and "win32" in sys.platform,
     "readline>=6.2": not readline_available and "win32" not in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
-    "argparse>=1.1.0": sys.version.startswith("2.6"),
     "python-dateutil==1.5": sys.version.startswith("2."),
     "python-dateutil>=2.2": sys.version.startswith("3."),
 }
@@ -85,7 +84,7 @@ setup(
         "parsedatetime>=1.2",
         "pytz>=2013b",
         "six>=1.7.4",
-        "cryptography==0.5.2",
+        "cryptography==0.8.1",
         "tzlocal>=1.1",
         "PyYAML>=3.11",
         "keyring>=3.3",

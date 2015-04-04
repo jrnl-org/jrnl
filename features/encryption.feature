@@ -5,12 +5,6 @@
             Then we should see the message "Password"
             and the output should contain "2013-06-10 15:40 Life is good"
 
-        Scenario: Upgrading a journal encrypted with jrnl 1.x
-            Given we use the config "encrypted_old.json"
-            When we run "jrnl -n 1" and enter "Y"
-            Then we should see the message "Password"
-            and the output should contain "2013-06-10 15:40 Life is good"
-
         Scenario: Decrypting a journal
             Given we use the config "encrypted.yaml"
             When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
@@ -34,4 +28,14 @@
             Then the config for journal "simple" should have "encrypt" set to "bool:True"
             When we run "jrnl simple -n 1"
             Then we should not see the message "Password"
+            and the output should contain "2013-06-10 15:40 Life is good"
+
+        Scenario: Upgrading a journal encrypted with jrnl 1.x
+            Given we use the config "encrypted_old.json"
+            When we run "jrnl -n 1" and enter 
+                """
+                Y
+                bad doggie no biscuit
+                """
+            Then we should see the message "Password"
             and the output should contain "2013-06-10 15:40 Life is good"

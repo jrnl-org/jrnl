@@ -12,23 +12,27 @@ from cryptography.fernet import Fernet
 def upgrade_encrypted_journal(filename, key_plain):
     """Decrypts a journal in memory using the jrnl 1.x encryption scheme
     and returns it in plain text."""
-    util.prompt( "UPGRADING JOURNAL")
+    util.prompt("UPGRADING JOURNAL")
+    print "UPGRADING SHIT", filename, key_plain
     with open(filename) as f:
         iv_cipher = f.read()
     iv, cipher = iv_cipher[:16], iv_cipher[16:]
     decryption_key = hashlib.sha256(key_plain.encode('utf-8')).digest()
-    decryptor = Cipher(algorithms.AES(decryption_key), modes.CBC(iv), default_backend())
-    plain_padded = decryptor.update(cipher)
+    decryptor = Cipher(algorithms.AES(decryption_key), modes.CBC(iv), default_backend()).decryptor()
     try:
-        plain_padded += decryptor.finalize()
-        unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
-        plain = unpadder.update(plain_padded)
-        plain += unpadder.finalize()
-    except ValueError:
+        plain_padded = decryptor.update(cipher) + decryptor.finalize()
+        if plain_padded[-1] == " ":
+            # Ancient versions of jrnl. Do not judge me.
+            plain = plain_padded.rstrip(" ")
+        else:
+            unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+            plain = unpadder.update(plain_padded) + unpadder.finalize()
+    except IndexError:
+        print "UH NO"
         return None
-
+    print "PLain", plain
     key = EncryptedJournal.make_key(key_plain)
-    journal = Fernet(key).encrypt(plain.encode('utf-8'))
+    journal = Fernet(key).encrypt(plain)
     with open(filename, 'w') as f:
         f.write(journal)
     return plain
