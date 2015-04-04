@@ -63,7 +63,9 @@ class EncryptedJournal(Journal.Journal):
             f.write(dummy)
 
 
-class LegacyEncryptedJournal(Journal.Journal):
+class LegacyEncryptedJournal(Journal.LegacyJournal):
+    """Legacy class to support opening journals encrypted with the jrnl 1.x
+    standard. You'll not be able to save these journals anymore."""
     def __init__(self, name='default', **kwargs):
         super(LegacyEncryptedJournal, self).__init__(name, **kwargs)
         self.config['encrypt'] = True
