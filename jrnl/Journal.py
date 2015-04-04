@@ -12,7 +12,7 @@ import re
 from datetime import datetime
 import logging
 
-log = logging.getLogger("jrnl")
+log = logging.getLogger(__name__)
 
 
 class Journal(object):
