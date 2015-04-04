@@ -53,6 +53,11 @@ class Journal(object):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
+
+        if not os.path.exists(filename):
+            util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+            self._create(filename)
+
         text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
@@ -101,7 +106,7 @@ class Journal(object):
                     current_entry = Entry.Entry(
                         self,
                         date=new_date,
-                        title=line[len(date_blob) + 1:],
+                        title=line[len(date_blob):],
                         starred=starred
                     )
             elif current_entry:
