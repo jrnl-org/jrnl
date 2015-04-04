@@ -126,6 +126,22 @@ def check_output_field_key(context, field, key):
     assert key in out_json[field]
 
 
+@then('the json output should contain {path} = "{value}"')
+def check_json_output_path(context, path, value):
+    """ E.g.
+    the json output should contain entries.0.title = "hello"
+    """
+    out = context.stdout_capture.getvalue()
+    struct = json.loads(out)
+
+    for node in path.split('.'):
+        try:
+            struct = struct[int(node)]
+        except ValueError:
+            struct = struct[node]
+    assert struct == value, struct
+
+
 @then('the output should be')
 @then('the output should be "{text}"')
 def check_output(context, text=None):
