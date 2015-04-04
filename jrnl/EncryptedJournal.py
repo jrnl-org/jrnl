@@ -4,14 +4,16 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 import base64
-import os
 
 
 def make_key(password):
+    if type(password) is unicode:
+        password = password.encode('utf-8')
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
-        salt=os.urandom(16),
+        # Salt is hard-coded
+        salt='\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8',
         iterations=100000,
         backend=default_backend()
     )
@@ -33,7 +35,6 @@ class EncryptedJournal(Journal.Journal):
             try:
                 return Fernet(key).decrypt(journal_encrypted).decode('utf-8')
             except (InvalidToken, IndexError):
-                print base64.urlsafe_b64decode(journal_encrypted)
                 return None
 
         return util.get_password(keychain=self.name, validator=validate_password)

@@ -80,13 +80,14 @@ def load_or_install_jrnl():
     config_path = CONFIG_FILE_PATH if os.path.exists(CONFIG_FILE_PATH) else CONFIG_FILE_PATH_FALLBACK
     if os.path.exists(config_path):
         log.debug('Reading configuration from file %s', config_path)
-        config = util.load_config(CONFIG_FILE_PATH)
-        upgrade.upgrade_jrnl_if_necessary(CONFIG_FILE_PATH)
+        config = util.load_config(config_path)
+        upgrade.upgrade_jrnl_if_necessary(config_path)
         upgrade_config(config)
         return config
     else:
         log.debug('Configuration file not found, installing jrnl...')
         install()
+
 
 def install():
     def autocomplete(text, state):
@@ -104,18 +105,14 @@ def install():
     default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
 
     # Encrypt it?
-    if module_exists("Crypto"):
-        password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
-        if password:
-            default_config['encrypt'] = True
-            if util.yesno("Do you want to store the password in your keychain?", default=True):
-                util.set_keychain("default", password)
-            else:
-                util.set_keychain("default", None)
-            print("Journal will be encrypted.")
-    else:
-        password = None
-        print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org or with 'pip install pycrypto' and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
+    password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+    if password:
+        default_config['encrypt'] = True
+        if util.yesno("Do you want to store the password in your keychain?", default=True):
+            util.set_keychain("default", password)
+        else:
+            util.set_keychain("default", None)
+        print("Journal will be encrypted.")
 
     path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
     try:
@@ -125,8 +122,8 @@ def install():
 
     open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
 
-    save_config(config)
     config = default_config
+    save_config(config)
     if password:
         config['password'] = password
     return config

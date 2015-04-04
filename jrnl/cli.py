@@ -18,8 +18,8 @@ import argparse
 import sys
 import logging
 
-PYCRYPTO = install.module_exists("Crypto")
 log = logging.getLogger(__name__)
+
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
@@ -131,9 +131,11 @@ def update_config(config, new_config, scope, force_local=False):
 
 
 def configure_logger(debug=False):
-    logging.basicConfig(level=logging.DEBUG if debug else logging.INFO,
-            format='%(levelname)-8s %(name)-12s %(message)s')
-    logging.getLogger('parsedatetime').setLevel(logging.INFO) # disable parsedatetime debug logging
+    logging.basicConfig(
+        level=logging.DEBUG if debug else logging.INFO,
+        format='%(levelname)-8s %(name)-12s %(message)s'
+    )
+    logging.getLogger('parsedatetime').setLevel(logging.INFO)  # disable parsedatetime debug logging
 
 
 def run(manual_args=None):
@@ -156,10 +158,6 @@ def run(manual_args=None):
 
     log.debug('Using configuration "%s"', config)
     original_config = config.copy()
-    # check if the configuration is supported by available modules
-    if config['encrypt'] and not PYCRYPTO:
-        util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
-        sys.exit(1)
 
     # If the first textual argument points to a journal file,
     # use this!
@@ -250,9 +248,6 @@ def run(manual_args=None):
     elif args.export is not False:
         exporter = plugins.get_exporter(args.export)
         print(exporter.export(journal, args.output))
-
-    elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
-        util.prompt("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
 
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)

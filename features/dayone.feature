@@ -13,6 +13,7 @@ Feature: DayOne Ingetration
             2013-07-17 11:38 This entry is starred!
             """
 
+    @skip
     Scenario: Entries without timezone information will be interpreted as in the current timezone
         Given we use the config "dayone.yaml"
         When we run "jrnl -until 'feb 2013'"

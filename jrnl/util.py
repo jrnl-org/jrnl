@@ -110,8 +110,7 @@ def load_config(config_path):
     """Tries to load a config file from YAML.
     """
     with open(config_path) as f:
-        config = yaml.load(f)
-    return config
+        return yaml.load(f)
 
 
 def get_text_from_editor(config, template=""):
