@@ -36,6 +36,7 @@
                 """
                 Y
                 bad doggie no biscuit
+                bad doggie no biscuit
                 """
             Then we should see the message "Password"
             and the output should contain "2013-06-10 15:40 Life is good"

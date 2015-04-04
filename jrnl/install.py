@@ -65,7 +65,7 @@ def upgrade_config(config):
         for key in missing_keys:
             config[key] = default_config[key]
         save_config(config)
-        print("[.jrnl_conf updated to newest version at {}]".format(CONFIG_FILE_PATH))
+        print("[Configuration updated to newest version at {}]".format(CONFIG_FILE_PATH))
 
 
 def save_config(config):
