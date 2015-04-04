@@ -58,6 +58,10 @@ class Journal(object):
     def _store(self, filename, text):
         raise NotImplementedError
 
+    @classmethod
+    def _create(cls, filename):
+        raise NotImplementedError
+
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
 
@@ -85,7 +89,7 @@ class Journal(object):
                 else:
                     starred = False
 
-                current_entry = Entry.Entry(self, date=new_date, title=line[date_length+1:], starred=starred)
+                current_entry = Entry.Entry(self, date=new_date, title=line[date_length + 1:], starred=starred)
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
@@ -114,9 +118,11 @@ class Journal(object):
                                 lambda match: util.colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub( Entry.Entry.tag_regex(self.config['tagsymbols']),
-                        lambda match: util.colorize(match.group(0)),
-                        pp)
+                pp = re.sub(
+                    Entry.Entry.tag_regex(self.config['tagsymbols']),
+                    lambda match: util.colorize(match.group(0)),
+                    pp
+                )
         return pp
 
     def __repr__(self):
@@ -164,7 +170,7 @@ class Journal(object):
                         matches = [m for m in re.finditer(tag, e.body)]
                         for m in matches:
                             date = e.date.strftime(self.config['timeformat'])
-                            excerpt = e.body[m.start():min(len(e.body), m.end()+60)]
+                            excerpt = e.body[m.start():min(len(e.body), m.end() + 60)]
                             res.append('{0} {1} ..'.format(date, excerpt))
                     e.body = "\n".join(res)
             else:
@@ -187,7 +193,7 @@ class Journal(object):
                 starred = "*" in title[:title.find(": ")]
                 date = time.parse(title[:title.find(": ")], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
                 if date or starred:  # Parsed successfully, strip that from the raw text
-                    title = title[title.find(": ")+1:].strip()
+                    title = title[title.find(": ") + 1:].strip()
             elif title.strip().startswith("*"):
                 starred = True
                 title = title[1:].strip()
@@ -222,6 +228,11 @@ class Journal(object):
 class PlainJournal(Journal):
     def __init__(self, name='default', **kwargs):
         super(PlainJournal, self).__init__(name, **kwargs)
+
+    @classmethod
+    def _create(cls, filename):
+        with codecs.open(filename, "a", "utf-8"):
+            pass
 
     def _load(self, filename):
         with codecs.open(filename, "r", "utf-8") as f:

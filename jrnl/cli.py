@@ -105,9 +105,8 @@ def decrypt(journal, filename=None):
 def touch_journal(filename):
     """If filename does not exist, touch the file"""
     if not os.path.exists(filename):
-        log.debug('Creating journal file %s', filename)
         util.prompt("[Journal created at {0}]".format(filename))
-        open(filename, 'a').close()
+        Journal.PlainJournal._create(filename)
 
 
 def list_journals(config):
