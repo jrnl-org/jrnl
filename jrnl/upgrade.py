@@ -1,37 +1,8 @@
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-import hashlib
 import util
 from . import __version__
-from . import EncryptedJournal
+from . import Journal
 import sys
-from cryptography.fernet import Fernet
-
-
-def upgrade_encrypted_journal(filename, key_plain):
-    """Decrypts a journal in memory using the jrnl 1.x encryption scheme
-    and returns it in plain text."""
-    with open(filename) as f:
-        iv_cipher = f.read()
-    iv, cipher = iv_cipher[:16], iv_cipher[16:]
-    decryption_key = hashlib.sha256(key_plain.encode('utf-8')).digest()
-    decryptor = Cipher(algorithms.AES(decryption_key), modes.CBC(iv), default_backend()).decryptor()
-    try:
-        plain_padded = decryptor.update(cipher) + decryptor.finalize()
-        if plain_padded[-1] == " ":
-            # Ancient versions of jrnl. Do not judge me.
-            plain = plain_padded.rstrip(" ")
-        else:
-            unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
-            plain = unpadder.update(plain_padded) + unpadder.finalize()
-    except ValueError:
-        return None
-    key = EncryptedJournal.make_key(key_plain)
-    journal = Fernet(key).encrypt(plain)
-    with open(filename, 'w') as f:
-        f.write(journal)
-    return plain
+from .EncryptedJournal import EncryptedJournal
 
 
 def upgrade_jrnl_if_necessary(config_path):
@@ -57,7 +28,6 @@ Please note that jrnl 1.x is NOT forward compatible with this version of jrnl.
 If you choose to proceed, you will not be able to use your journals with
 older versions of jrnl anymore.
 """.format(__version__))
-
     encrypted_journals = {}
     plain_journals = {}
     for journal, journal_conf in config['journals'].items():
@@ -86,9 +56,12 @@ older versions of jrnl anymore.
         util.prompt("jrnl NOT upgraded, exiting.")
         sys.exit(1)
 
-    for journal, path in encrypted_journals.items():
-        util.prompt("Enter password for {} journal (stored in {}).".format(journal, path))
-        util.get_password(keychain=journal, validator=lambda pwd: upgrade_encrypted_journal(path, pwd))
+    for journal_name, path in encrypted_journals.items():
+        util.prompt("Upgrading {} journal (stored in {}).".format(journal_name, path))
+        old_journal = Journal.open_journal(journal_name, config, legacy=True)
+        new_journal = EncryptedJournal.from_journal(old_journal)
+        new_journal.write()
+        # util.get_password(keychain=journal, validator=lambda pwd: upgrade_encrypted_journal(path, pwd))
 
     with open(config_path + ".backup", 'w') as config_backup:
         config_backup.write(config_file)

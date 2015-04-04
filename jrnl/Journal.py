@@ -10,6 +10,9 @@ import sys
 import codecs
 import re
 from datetime import datetime
+import logging
+
+log = logging.getLogger("jrnl")
 
 
 class Journal(object):
@@ -33,6 +36,15 @@ class Journal(object):
         """Returns the number of entries"""
         return len(self.entries)
 
+    @classmethod
+    def from_journal(cls, other):
+        """Creates a new journal by copying configuration and entries from
+        another journal object"""
+        new_journal = cls(other.name, **other.config)
+        new_journal.entries = other.entries
+        log.debug("Imported %d entries from %s to %s", len(new_journal), other.__class__.__name__, cls.__name__)
+        return new_journal
+
     def import_(self, other_journal_txt):
         self.entries = list(frozenset(self.entries) | frozenset(self._parse(other_journal_txt)))
         self.sort()
@@ -44,6 +56,7 @@ class Journal(object):
         text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
+        log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
     def write(self, filename=None):
@@ -72,7 +85,6 @@ class Journal(object):
         # Initialise our current entry
         entries = []
         current_entry = None
-
         for line in journal_txt.splitlines():
             line = line.rstrip()
             try:
@@ -94,7 +106,7 @@ class Journal(object):
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
                 if current_entry:
-                    current_entry.body += line + "\n"
+                    current_entry.body += line + u"\n"
 
         # Append last entry
         if current_entry:
@@ -243,10 +255,21 @@ class PlainJournal(Journal):
             f.write(text)
 
 
-def open_journal(name, config):
+def open_journal(name, config, legacy=False):
     """
     Creates a normal, encrypted or DayOne journal based on the passed config.
+    If legacy is True, it will open Journals with legacy classes build for
+    backwards compatibility with jrnl 1.x
     """
+    config = config.copy()
+    journal_conf = config['journals'].get(name)
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific journal overrides %s', journal_conf)
+        config.update(journal_conf)
+    else:  # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
+    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
+
     if os.path.isdir(config['journal']):
         if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
             from . import DayOneJournal
@@ -259,4 +282,6 @@ def open_journal(name, config):
         return PlainJournal(name, **config).open()
     else:
         from . import EncryptedJournal
+        if legacy:
+            return EncryptedJournal.LegacyEncryptedJournal(name, **config).open()
         return EncryptedJournal.EncryptedJournal(name, **config).open()

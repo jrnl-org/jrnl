@@ -1,6 +1,8 @@
 from . import Journal, util
 from cryptography.fernet import Fernet, InvalidToken
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import hashlib
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 import base64
@@ -38,7 +40,9 @@ class EncryptedJournal(Journal.Journal):
         def validate_password(password):
             key = make_key(password)
             try:
-                return Fernet(key).decrypt(journal_encrypted).decode('utf-8')
+                plain = Fernet(key).decrypt(journal_encrypted).decode('utf-8')
+                self.config['password'] = password
+                return plain
             except (InvalidToken, IndexError):
                 return None
         if password:
@@ -57,3 +61,33 @@ class EncryptedJournal(Journal.Journal):
         dummy = Fernet(key).encrypt("")
         with open(filename, 'w') as f:
             f.write(dummy)
+
+
+class LegacyEncryptedJournal(Journal.Journal):
+    def __init__(self, name='default', **kwargs):
+        super(LegacyEncryptedJournal, self).__init__(name, **kwargs)
+        self.config['encrypt'] = True
+
+    def _load(self, filename, password=None):
+        with open(filename) as f:
+            journal_encrypted = f.read()
+        iv, cipher = journal_encrypted[:16], journal_encrypted[16:]
+
+        def validate_password(password):
+            decryption_key = hashlib.sha256(password.encode('utf-8')).digest()
+            decryptor = Cipher(algorithms.AES(decryption_key), modes.CBC(iv), default_backend()).decryptor()
+            try:
+                plain_padded = decryptor.update(cipher) + decryptor.finalize()
+                self.config['password'] = password
+                if plain_padded[-1] == " ":
+                    # Ancient versions of jrnl. Do not judge me.
+                    plain = plain_padded.rstrip(" ")
+                else:
+                    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+                    plain = unpadder.update(plain_padded) + unpadder.finalize()
+                return plain.decode('utf-8')
+            except ValueError:
+                return None
+        if password:
+            return validate_password(password)
+        return util.get_password(keychain=self.name, validator=validate_password)
