@@ -50,3 +50,10 @@ class EncryptedJournal(Journal.Journal):
         journal = Fernet(key).encrypt(text.encode('utf-8'))
         with open(filename, 'w') as f:
             f.write(journal)
+
+    @classmethod
+    def _create(cls, filename, password):
+        key = make_key(password)
+        dummy = Fernet(key).encrypt("")
+        with open(filename, 'w') as f:
+            f.write(dummy)

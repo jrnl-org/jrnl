@@ -10,6 +10,8 @@ import xdg.BaseDirectory
 from . import util
 from . import upgrade
 from . import __version__
+from .Journal import PlainJournal
+from .EncryptedJournal import EncryptedJournal
 import yaml
 import logging
 
@@ -104,6 +106,12 @@ def install():
     journal_path = util.py23_input(path_query).strip() or JOURNAL_FILE_PATH
     default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
 
+    path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
+    try:
+        os.makedirs(path)
+    except OSError:
+        pass
+
     # Encrypt it?
     password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
     if password:
@@ -112,15 +120,10 @@ def install():
             util.set_keychain("default", password)
         else:
             util.set_keychain("default", None)
+        EncryptedJournal._create(default_config['journals']['default'], password)
         print("Journal will be encrypted.")
-
-    path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
-    try:
-        os.makedirs(path)
-    except OSError:
-        pass
-
-    open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
+    else:
+        PlainJournal._create(default_config['journals']['default'])
 
     config = default_config
     save_config(config)
