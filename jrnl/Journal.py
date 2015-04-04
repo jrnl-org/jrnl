@@ -252,6 +252,55 @@ class PlainJournal(Journal):
             f.write(text)
 
 
+class LegacyJournal(Journal):
+    """Legacy class to support opening journals formatted with the jrnl 1.x
+    standard. Main difference here is that in 1.x, timestamps were not cuddled
+    by square brackets, and the line break between the title and the rest of
+    the entry was not enforced. You'll not be able to save these journals anymore."""
+    def _load(self, filename):
+        with codecs.open(filename, "r", "utf-8") as f:
+            return f.read()
+
+    def _parse(self, journal_txt):
+        """Parses a journal that's stored in a string and returns a list of entries"""
+        # Entries start with a line that looks like 'date title' - let's figure out how
+        # long the date will be by constructing one
+        date_length = len(datetime.today().strftime(self.config['timeformat']))
+
+        # Initialise our current entry
+        entries = []
+        current_entry = None
+        for line in journal_txt.splitlines():
+            line = line.rstrip()
+            try:
+                # try to parse line as date => new entry begins
+                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+
+                # parsing successful => save old entry and create new one
+                if new_date and current_entry:
+                    entries.append(current_entry)
+
+                if line.endswith("*"):
+                    starred = True
+                    line = line[:-1]
+                else:
+                    starred = False
+
+                current_entry = Entry.Entry(self, date=new_date, title=line[date_length + 1:], starred=starred)
+            except ValueError:
+                # Happens when we can't parse the start of the line as an date.
+                # In this case, just append line to our body.
+                if current_entry:
+                    current_entry.body += line + u"\n"
+
+        # Append last entry
+        if current_entry:
+            entries.append(current_entry)
+        for entry in entries:
+            entry.parse_tags()
+        return entries
+
+
 def open_journal(name, config, legacy=False):
     """
     Creates a normal, encrypted or DayOne journal based on the passed config.
@@ -276,6 +325,8 @@ def open_journal(name, config, legacy=False):
             sys.exit(1)
 
     if not config['encrypt']:
+        if legacy:
+            return LegacyJournal(name, **config).open()
         return PlainJournal(name, **config).open()
     else:
         from . import EncryptedJournal
