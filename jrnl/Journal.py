@@ -77,36 +77,36 @@ class Journal(object):
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
-
-        # Entries start with a line that looks like 'date title' - let's figure out how
-        # long the date will be by constructing one
-        date_length = len(datetime.today().strftime(self.config['timeformat']))
-
         # Initialise our current entry
         entries = []
         current_entry = None
+        date_blob_re = re.compile("^\[.+\] ")
         for line in journal_txt.splitlines():
             line = line.rstrip()
-            try:
-                # try to parse line as date => new entry begins
-                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+            date_blob = date_blob_re.findall(line)
+            if date_blob:
+                date_blob = date_blob[0]
+                new_date = time.parse(date_blob.strip(" []"))
+                if new_date:
+                    # Found a date at the start of the line: This is a new entry.
+                    if current_entry:
+                        entries.append(current_entry)
 
-                # parsing successful => save old entry and create new one
-                if new_date and current_entry:
-                    entries.append(current_entry)
+                    if line.endswith("*"):
+                        starred = True
+                        line = line[:-1]
+                    else:
+                        starred = False
 
-                if line.endswith("*"):
-                    starred = True
-                    line = line[:-1]
-                else:
-                    starred = False
-
-                current_entry = Entry.Entry(self, date=new_date, title=line[date_length + 1:], starred=starred)
-            except ValueError:
-                # Happens when we can't parse the start of the line as an date.
-                # In this case, just append line to our body.
-                if current_entry:
-                    current_entry.body += line + u"\n"
+                    current_entry = Entry.Entry(
+                        self,
+                        date=new_date,
+                        title=line[len(date_blob) + 1:],
+                        starred=starred
+                    )
+            elif current_entry:
+                # Didn't find a date - keep on feeding to current entry.
+                current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -238,9 +238,6 @@ class Journal(object):
 
 
 class PlainJournal(Journal):
-    def __init__(self, name='default', **kwargs):
-        super(PlainJournal, self).__init__(name, **kwargs)
-
     @classmethod
     def _create(cls, filename):
         with codecs.open(filename, "a", "utf-8"):
