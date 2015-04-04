@@ -26,7 +26,12 @@ class EncryptedJournal(Journal.Journal):
         super(EncryptedJournal, self).__init__(name, **kwargs)
         self.config['encrypt'] = True
 
-    def _load(self, filename):
+    def _load(self, filename, password=None):
+        """Loads an encrypted journal from a file and tries to decrypt it.
+        If password is not provided, will look for password in the keychain
+        and otherwise ask the user to enter a password up to three times.
+        If the password is provided but wrong (or corrupt), this will simply
+        return None."""
         with open(filename) as f:
             journal_encrypted = f.read()
 
@@ -36,7 +41,8 @@ class EncryptedJournal(Journal.Journal):
                 return Fernet(key).decrypt(journal_encrypted).decode('utf-8')
             except (InvalidToken, IndexError):
                 return None
-
+        if password:
+            return validate_password(password)
         return util.get_password(keychain=self.name, validator=validate_password)
 
     def _store(self, filename, text):
