@@ -14,13 +14,16 @@ class JSONExporter(TextExporter):
 
     @classmethod
     def entry_to_dict(cls, entry):
-        return {
+        entry_dict = {
             'title': entry.title,
             'body': entry.body,
             'date': entry.date.strftime("%Y-%m-%d"),
             'time': entry.date.strftime("%H:%M"),
             'starred': entry.starred
         }
+        if hasattr(entry, "uuid"):
+            entry_dict['uuid'] = entry.uuid
+        return entry_dict
 
     @classmethod
     def export_entry(cls, entry):
