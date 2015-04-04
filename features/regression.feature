@@ -19,14 +19,14 @@ Feature: Zapped bugs should stay dead.
         Given we use the config "basic.yaml"
         When we run "jrnl 2013-11-30 15:42: Project Started."
         Then we should see the message "Entry added"
-        and the journal should contain "2013-11-30 15:42 Project Started."
+        and the journal should contain "[2013-11-30 15:42] Project Started."
 
     Scenario: Date in the future should be parsed correctly
         # https://github.com/maebert/jrnl/issues/185
         Given we use the config "basic.yaml"
         When we run "jrnl 26/06/2019: Planet? Earth. Year? 2019."
         Then we should see the message "Entry added"
-        and the journal should contain "2019-06-26 09:00 Planet?"
+        and the journal should contain "[2019-06-26 09:00] Planet?"
 
     Scenario: Loading entry with ambiguous time stamp
         #https://github.com/maebert/jrnl/issues/153
