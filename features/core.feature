@@ -39,7 +39,7 @@ Feature: Basic reading and writing to a journal
         Given we use the config "basic.yaml"
         When we run "jrnl" and enter "25 jul 2013: I saw Elvis. He's alive."
         Then we should get no error
-        and the journal should contain "2013-07-25 09:00 I saw Elvis."
+        and the journal should contain "[2013-07-25 09:00] I saw Elvis."
         and the journal should contain "He's alive."
 
     Scenario: Displaying the version number
