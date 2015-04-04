@@ -18,7 +18,7 @@ import argparse
 import sys
 import logging
 
-log = logging.getLogger("jrnl")
+log = logging.getLogger(__name__)
 
 
 def parse_args(args=None):
