@@ -86,7 +86,7 @@ def load_or_install_jrnl():
         return config
     else:
         log.debug('Configuration file not found, installing jrnl...')
-        install()
+        return install()
 
 
 def install():
