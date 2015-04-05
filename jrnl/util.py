@@ -99,7 +99,7 @@ def prompt(msg):
 
 
 def py23_input(msg=""):
-    STDERR.write(u(msg))
+    prompt(msg)
     return STDIN.readline().strip()
 
 
