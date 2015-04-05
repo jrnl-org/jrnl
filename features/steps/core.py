@@ -162,8 +162,10 @@ def check_output_time_inline(context, text):
     assert local_date in out, local_date
 
 
+@then('the output should contain')
 @then('the output should contain "{text}"')
-def check_output_inline(context, text):
+def check_output_inline(context, text=None):
+    text = text or context.text
     out = context.stdout_capture.getvalue()
     if isinstance(out, bytes):
         out = out.decode('utf-8')
