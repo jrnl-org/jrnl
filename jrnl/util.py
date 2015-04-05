@@ -121,7 +121,7 @@ def load_config(config_path):
 
 
 def get_text_from_editor(config, template=""):
-    tmpfile = os.path.join(tempfile.mktemp(prefix="jrnl"))
+    tmpfile = os.path.join(tempfile.mktemp(prefix="jrnl", suffix=".txt"))
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
