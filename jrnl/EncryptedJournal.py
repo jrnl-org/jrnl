@@ -9,13 +9,12 @@ import base64
 
 
 def make_key(password):
-    if type(password) is unicode:
-        password = password.encode('utf-8')
+    password = util.bytes(password)
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
         # Salt is hard-coded
-        salt='\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8',
+        salt=b'\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8',
         iterations=100000,
         backend=default_backend()
     )
@@ -34,7 +33,7 @@ class EncryptedJournal(Journal.Journal):
         and otherwise ask the user to enter a password up to three times.
         If the password is provided but wrong (or corrupt), this will simply
         return None."""
-        with open(filename) as f:
+        with open(filename, 'rb') as f:
             journal_encrypted = f.read()
 
         def validate_password(password):

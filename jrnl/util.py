@@ -75,8 +75,15 @@ def u(s):
 
 
 def py2encode(s):
-    """Encode in Python 2, but not in python 3."""
+    """Encodes to UTF-8 in Python 2 but not r."""
     return s.encode("utf-8") if PY2 and type(s) is unicode else s
+
+
+def bytes(s):
+    """Returns bytes, no matter what."""
+    if PY3:
+        return s.encode("utf-8") if type(s) is not bytes else s
+    return s.encode("utf-8") if type(s) is unicode else s
 
 
 def prnt(s):
