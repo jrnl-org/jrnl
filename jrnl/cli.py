@@ -13,7 +13,6 @@ from . import util
 from . import install
 from . import plugins
 import jrnl
-import os
 import argparse
 import sys
 import logging
