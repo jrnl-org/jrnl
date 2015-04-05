@@ -51,7 +51,7 @@ class EncryptedJournal(Journal.Journal):
     def _store(self, filename, text):
         key = make_key(self.config['password'])
         journal = Fernet(key).encrypt(text.encode('utf-8'))
-        with open(filename, 'w') as f:
+        with open(filename, 'wb') as f:
             f.write(journal)
 
     @classmethod
@@ -70,7 +70,7 @@ class LegacyEncryptedJournal(Journal.LegacyJournal):
         self.config['encrypt'] = True
 
     def _load(self, filename, password=None):
-        with open(filename) as f:
+        with open(filename, 'rb') as f:
             journal_encrypted = f.read()
         iv, cipher = journal_encrypted[:16], journal_encrypted[16:]
 
