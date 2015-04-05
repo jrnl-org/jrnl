@@ -58,8 +58,8 @@ older versions of jrnl anymore.
         else:
             plain_journals[journal_name] = path
 
+    longest_journal_name = max([len(journal) for journal in config['journals']])
     if encrypted_journals:
-        longest_journal_name = max([len(journal) for journal in config['journals']])
         util.prompt("\nFollowing encrypted journals will be upgraded to jrnl {}:".format(__version__))
         for journal, path in encrypted_journals.items():
             util.prompt("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name))

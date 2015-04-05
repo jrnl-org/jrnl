@@ -85,7 +85,7 @@ class Journal(object):
         # Initialise our current entry
         entries = []
         current_entry = None
-        date_blob_re = re.compile("^\[.+\] ")
+        date_blob_re = re.compile("^\[[^\\]]+\] ")
         for line in journal_txt.splitlines():
             line = line.rstrip()
             date_blob = date_blob_re.findall(line)
