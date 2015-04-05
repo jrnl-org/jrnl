@@ -167,7 +167,7 @@ def check_output_inline(context, text):
     out = context.stdout_capture.getvalue()
     if isinstance(out, bytes):
         out = out.decode('utf-8')
-    assert text in out
+    assert text in out, text
 
 
 @then('the output should not contain "{text}"')

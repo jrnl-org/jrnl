@@ -80,13 +80,13 @@ class LegacyEncryptedJournal(Journal.LegacyJournal):
             try:
                 plain_padded = decryptor.update(cipher) + decryptor.finalize()
                 self.config['password'] = password
-                if plain_padded[-1] == " ":
+                if plain_padded[-1] in (" ", 32):
                     # Ancient versions of jrnl. Do not judge me.
-                    plain = plain_padded.rstrip(" ")
+                    return plain_padded.decode('utf-8').rstrip(" ")
                 else:
                     unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
                     plain = unpadder.update(plain_padded) + unpadder.finalize()
-                return plain.decode('utf-8')
+                    return plain.decode('utf-8')
             except ValueError:
                 return None
         if password:
