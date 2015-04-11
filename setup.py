@@ -89,7 +89,9 @@ setup(
         "PyYAML>=3.11",
         "keyring>=3.3",
         "passlib>=1.6.2",
-        "python-dateutil>=2.2"
+        "python-dateutil>=2.2",
+        "pyyaml>=3.09",
+        "pyxdg>=0.25",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     long_description=__doc__,
     entry_points={
