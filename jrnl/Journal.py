@@ -10,6 +10,9 @@ import sys
 import codecs
 import re
 from datetime import datetime
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Journal(object):
@@ -33,6 +36,15 @@ class Journal(object):
         """Returns the number of entries"""
         return len(self.entries)
 
+    @classmethod
+    def from_journal(cls, other):
+        """Creates a new journal by copying configuration and entries from
+        another journal object"""
+        new_journal = cls(other.name, **other.config)
+        new_journal.entries = other.entries
+        log.debug("Imported %d entries from %s to %s", len(new_journal), other.__class__.__name__, cls.__name__)
+        return new_journal
+
     def import_(self, other_journal_txt):
         self.entries = list(frozenset(self.entries) | frozenset(self._parse(other_journal_txt)))
         self.sort()
@@ -41,9 +53,15 @@ class Journal(object):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
+
+        if not os.path.exists(filename):
+            util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+            self._create(filename)
+
         text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
+        log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
     def write(self, filename=None):
@@ -64,37 +82,36 @@ class Journal(object):
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
-
-        # Entries start with a line that looks like 'date title' - let's figure out how
-        # long the date will be by constructing one
-        date_length = len(datetime.today().strftime(self.config['timeformat']))
-
         # Initialise our current entry
         entries = []
         current_entry = None
-
+        date_blob_re = re.compile("^\[[^\\]]+\] ")
         for line in journal_txt.splitlines():
             line = line.rstrip()
-            try:
-                # try to parse line as date => new entry begins
-                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+            date_blob = date_blob_re.findall(line)
+            if date_blob:
+                date_blob = date_blob[0]
+                new_date = time.parse(date_blob.strip(" []"))
+                if new_date:
+                    # Found a date at the start of the line: This is a new entry.
+                    if current_entry:
+                        entries.append(current_entry)
 
-                # parsing successful => save old entry and create new one
-                if new_date and current_entry:
-                    entries.append(current_entry)
+                    if line.endswith("*"):
+                        starred = True
+                        line = line[:-1]
+                    else:
+                        starred = False
 
-                if line.endswith("*"):
-                    starred = True
-                    line = line[:-1]
-                else:
-                    starred = False
-
-                current_entry = Entry.Entry(self, date=new_date, title=line[date_length + 1:], starred=starred)
-            except ValueError:
-                # Happens when we can't parse the start of the line as an date.
-                # In this case, just append line to our body.
-                if current_entry:
-                    current_entry.body += line + "\n"
+                    current_entry = Entry.Entry(
+                        self,
+                        date=new_date,
+                        title=line[len(date_blob):],
+                        starred=starred
+                    )
+            elif current_entry:
+                # Didn't find a date - keep on feeding to current entry.
+                current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -226,9 +243,6 @@ class Journal(object):
 
 
 class PlainJournal(Journal):
-    def __init__(self, name='default', **kwargs):
-        super(PlainJournal, self).__init__(name, **kwargs)
-
     @classmethod
     def _create(cls, filename):
         with codecs.open(filename, "a", "utf-8"):
@@ -243,10 +257,70 @@ class PlainJournal(Journal):
             f.write(text)
 
 
-def open_journal(name, config):
+class LegacyJournal(Journal):
+    """Legacy class to support opening journals formatted with the jrnl 1.x
+    standard. Main difference here is that in 1.x, timestamps were not cuddled
+    by square brackets, and the line break between the title and the rest of
+    the entry was not enforced. You'll not be able to save these journals anymore."""
+    def _load(self, filename):
+        with codecs.open(filename, "r", "utf-8") as f:
+            return f.read()
+
+    def _parse(self, journal_txt):
+        """Parses a journal that's stored in a string and returns a list of entries"""
+        # Entries start with a line that looks like 'date title' - let's figure out how
+        # long the date will be by constructing one
+        date_length = len(datetime.today().strftime(self.config['timeformat']))
+
+        # Initialise our current entry
+        entries = []
+        current_entry = None
+        for line in journal_txt.splitlines():
+            line = line.rstrip()
+            try:
+                # try to parse line as date => new entry begins
+                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+
+                # parsing successful => save old entry and create new one
+                if new_date and current_entry:
+                    entries.append(current_entry)
+
+                if line.endswith("*"):
+                    starred = True
+                    line = line[:-1]
+                else:
+                    starred = False
+
+                current_entry = Entry.Entry(self, date=new_date, title=line[date_length + 1:], starred=starred)
+            except ValueError:
+                # Happens when we can't parse the start of the line as an date.
+                # In this case, just append line to our body.
+                if current_entry:
+                    current_entry.body += line + u"\n"
+
+        # Append last entry
+        if current_entry:
+            entries.append(current_entry)
+        for entry in entries:
+            entry.parse_tags()
+        return entries
+
+
+def open_journal(name, config, legacy=False):
     """
     Creates a normal, encrypted or DayOne journal based on the passed config.
+    If legacy is True, it will open Journals with legacy classes build for
+    backwards compatibility with jrnl 1.x
     """
+    config = config.copy()
+    journal_conf = config['journals'].get(name)
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific journal overrides %s', journal_conf)
+        config.update(journal_conf)
+    else:  # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
+    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
+
     if os.path.isdir(config['journal']):
         if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
             from . import DayOneJournal
@@ -256,7 +330,11 @@ def open_journal(name, config):
             sys.exit(1)
 
     if not config['encrypt']:
+        if legacy:
+            return LegacyJournal(name, **config).open()
         return PlainJournal(name, **config).open()
     else:
         from . import EncryptedJournal
+        if legacy:
+            return EncryptedJournal.LegacyEncryptedJournal(name, **config).open()
         return EncryptedJournal.EncryptedJournal(name, **config).open()

@@ -13,7 +13,6 @@ from . import util
 from . import install
 from . import plugins
 import jrnl
-import os
 import argparse
 import sys
 import logging
@@ -102,13 +101,6 @@ def decrypt(journal, filename=None):
     util.prompt("Journal decrypted to {0}.".format(filename or new_journal.config['journal']))
 
 
-def touch_journal(filename):
-    """If filename does not exist, touch the file"""
-    if not os.path.exists(filename):
-        util.prompt("[Journal created at {0}]".format(filename))
-        Journal.PlainJournal._create(filename)
-
-
 def list_journals(config):
     """List the journals specified in the configuration file"""
     sep = "\n"
@@ -147,7 +139,6 @@ def run(manual_args=None):
         sys.exit(0)
 
     config = install.load_or_install_jrnl()
-
     if args.ls:
         util.prnt(u"Journals defined in {}".format(install.CONFIG_FILE_PATH))
         ml = min(max(len(k) for k in config['journals']), 20)
@@ -163,6 +154,7 @@ def run(manual_args=None):
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
     if journal_name is not 'default':
         args.text = args.text[1:]
+
     # If the first remaining argument looks like e.g. '-3', interpret that as a limiter
     if not args.limit and args.text and args.text[0].startswith("-"):
         try:
@@ -172,16 +164,7 @@ def run(manual_args=None):
             pass
 
     log.debug('Using journal "%s"', journal_name)
-    journal_conf = config['journals'].get(journal_name)
-    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
-        log.debug('Updating configuration with specific jourlnal overrides %s', journal_conf)
-        config.update(journal_conf)
-    else:  # But also just give them a string to point to the journal file
-        config['journal'] = journal_conf
-    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
-    touch_journal(config['journal'])
     mode_compose, mode_export, mode_import = guess_mode(args, config)
-    log.debug('Using journal path %(journal)s', config)
 
     # How to quit writing?
     if "win32" in sys.platform:
@@ -206,6 +189,7 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
+    # This is where we finally open the journal!
     journal = Journal.open_journal(journal_name, config)
 
     # Import mode
