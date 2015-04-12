@@ -20,19 +20,19 @@ class Entry:
     @staticmethod
     def tag_regex(tagsymbols):
         pattern = r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
-        return re.compile( pattern, re.UNICODE )
+        return re.compile(pattern, re.UNICODE)
 
     def parse_tags(self):
-        fulltext =  " " + " ".join([self.title, self.body]).lower()
+        fulltext = " " + " ".join([self.title, self.body]).lower()
         tagsymbols = self.journal.config['tagsymbols']
-        tags = re.findall( Entry.tag_regex(tagsymbols), fulltext )
+        tags = re.findall(Entry.tag_regex(tagsymbols), fulltext)
         self.tags = tags
         return set(tags)
 
     def __unicode__(self):
         """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        title = date_str + " " + self.title.rstrip("\n ")
+        title = "[{}] {}".format(date_str, self.title.rstrip("\n "))
         if self.starred:
             title += " *"
         return "{title}{sep}{body}\n".format(
@@ -48,13 +48,14 @@ class Entry:
         if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
-                    textwrap.fill((line + " ") if (len(line) == 0) else line,
-                        self.journal.config['linewrap'],
-                        initial_indent="| ",
-                        subsequent_indent="| ",
-                        drop_whitespace=False)
-                    for line in self.body.rstrip(" \n").splitlines()
-                ])
+                textwrap.fill(
+                    (line + " ") if (len(line) == 0) else line,
+                    self.journal.config['linewrap'],
+                    initial_indent="| ",
+                    subsequent_indent="| ",
+                    drop_whitespace=False)
+                for line in self.body.rstrip(" \n").splitlines()
+            ])
         else:
             title = date_str + " " + self.title.rstrip("\n ")
             body = self.body.rstrip("\n ")
@@ -83,7 +84,7 @@ class Entry:
            or self.body.rstrip() != other.body.rstrip() \
            or self.date != other.date \
            or self.starred != other.starred:
-           return False
+            return False
         return True
 
     def __ne__(self, other):

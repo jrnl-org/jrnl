@@ -75,11 +75,11 @@ conditional_dependencies = {
 
 
 setup(
-    name = "jrnl",
-    version = get_version(),
-    description = "A command line journal application that stores your journal in a plain text file",
-    packages = ['jrnl'],
-    install_requires = [
+    name="jrnl",
+    version=get_version(),
+    description="A command line journal application that stores your journal in a plain text file",
+    packages=['jrnl'],
+    install_requires=[
         "pyxdg>=0.19",
         "parsedatetime>=1.2",
         "pytz>=2013b",
@@ -115,9 +115,9 @@ setup(
         'Topic :: Text Processing'
     ],
     # metadata for upload to PyPI
-    author = "Manuel Ebert",
-    author_email = "manuel@1450.me",
+    author="Manuel Ebert",
+    author_email="manuel@1450.me",
     license="LICENSE",
-    keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://www.jrnl.sh",
+    keywords="journal todo todo.txt jrnl".split(),
+    url="http://www.jrnl.sh",
 )

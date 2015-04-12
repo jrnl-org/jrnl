@@ -32,15 +32,10 @@ class PluginMeta(type):
         else:
             return ', '.join(plugin_names[:-1]) + ", or " + plugin_names[-1]
 
-
-class BaseExporter(object):
-    __metaclass__ = PluginMeta
-    names = []
-
-
-class BaseImporter(object):
-    __metaclass__ = PluginMeta
-    names = []
+# This looks a bit arcane, but is basically bilingual speak for defining a
+# class with meta class 'PluginMeta' for both Python 2 and 3.
+BaseExporter = PluginMeta(str('BaseExporter'), (), {'names': []})
+BaseImporter = PluginMeta(str('BaseImporter'), (), {'names': []})
 
 
 for module in glob.glob(os.path.dirname(__file__) + "/*.py"):

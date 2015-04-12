@@ -1,19 +1,20 @@
 from . import Journal, util
 from cryptography.fernet import Fernet, InvalidToken
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import hashlib
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 import base64
 
 
 def make_key(password):
-    if type(password) is unicode:
-        password = password.encode('utf-8')
+    password = util.bytes(password)
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
         # Salt is hard-coded
-        salt='\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8',
+        salt=b'\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8',
         iterations=100000,
         backend=default_backend()
     )
@@ -32,13 +33,15 @@ class EncryptedJournal(Journal.Journal):
         and otherwise ask the user to enter a password up to three times.
         If the password is provided but wrong (or corrupt), this will simply
         return None."""
-        with open(filename) as f:
+        with open(filename, 'rb') as f:
             journal_encrypted = f.read()
 
         def validate_password(password):
             key = make_key(password)
             try:
-                return Fernet(key).decrypt(journal_encrypted).decode('utf-8')
+                plain = Fernet(key).decrypt(journal_encrypted).decode('utf-8')
+                self.config['password'] = password
+                return plain
             except (InvalidToken, IndexError):
                 return None
         if password:
@@ -48,7 +51,7 @@ class EncryptedJournal(Journal.Journal):
     def _store(self, filename, text):
         key = make_key(self.config['password'])
         journal = Fernet(key).encrypt(text.encode('utf-8'))
-        with open(filename, 'w') as f:
+        with open(filename, 'wb') as f:
             f.write(journal)
 
     @classmethod
@@ -57,3 +60,35 @@ class EncryptedJournal(Journal.Journal):
         dummy = Fernet(key).encrypt("")
         with open(filename, 'w') as f:
             f.write(dummy)
+
+
+class LegacyEncryptedJournal(Journal.LegacyJournal):
+    """Legacy class to support opening journals encrypted with the jrnl 1.x
+    standard. You'll not be able to save these journals anymore."""
+    def __init__(self, name='default', **kwargs):
+        super(LegacyEncryptedJournal, self).__init__(name, **kwargs)
+        self.config['encrypt'] = True
+
+    def _load(self, filename, password=None):
+        with open(filename, 'rb') as f:
+            journal_encrypted = f.read()
+        iv, cipher = journal_encrypted[:16], journal_encrypted[16:]
+
+        def validate_password(password):
+            decryption_key = hashlib.sha256(password.encode('utf-8')).digest()
+            decryptor = Cipher(algorithms.AES(decryption_key), modes.CBC(iv), default_backend()).decryptor()
+            try:
+                plain_padded = decryptor.update(cipher) + decryptor.finalize()
+                self.config['password'] = password
+                if plain_padded[-1] in (" ", 32):
+                    # Ancient versions of jrnl. Do not judge me.
+                    return plain_padded.decode('utf-8').rstrip(" ")
+                else:
+                    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+                    plain = unpadder.update(plain_padded) + unpadder.finalize()
+                    return plain.decode('utf-8')
+            except ValueError:
+                return None
+        if password:
+            return validate_password(password)
+        return util.get_password(keychain=self.name, validator=validate_password)
