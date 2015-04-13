@@ -38,7 +38,7 @@ def parse_args(args=None):
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
-    exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
+    exporting.add_argument('-s', '--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.BaseExporter.PLUGIN_NAMES, help='Export your journal. TYPE can be %s.' % plugins.BaseExporter.get_plugin_types_string(), default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)

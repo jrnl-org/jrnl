@@ -47,3 +47,14 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -v"
         Then we should get no error
         Then the output should contain "version"
+
+    # The quotes around the date in the second run are intentional.  Without
+    # them, the behave will fail because it finds duplicate output.  I couldn't
+    # track down the issue after an hour of debugging, so I've submitted as-is.
+    Scenario: --short and -s display the short version of entries (only the title)
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on 2013-06-10 --short"
+        Then the output should be "2013-06-10 15:40 Life is good."
+        When we run "jrnl -on '2013-06-10' -s"
+        Then the output should be "2013-06-10 15:40 Life is good."
+
