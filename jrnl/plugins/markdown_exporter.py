@@ -11,14 +11,19 @@ class MarkdownExporter(TextExporter):
     extension = "md"
 
     @classmethod
-    def export_entry(cls, entry):
+    def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry."""
         date_str = entry.date.strftime(entry.journal.config['timeformat'])
         body_wrapper = "\n" if entry.body else ""
         body = body_wrapper + entry.body
 
+        if to_multifile is True:
+            heading = '#'
+        else:
+            heading = '###'
+
         return "{md} {date} {title} {body} {space}".format(
-            md="###",
+            md=heading,
             date=date_str,
             title=entry.title,
             body=body,
@@ -39,6 +44,6 @@ class MarkdownExporter(TextExporter):
                 month = e.date.month
                 out.append(e.date.strftime("%B"))
                 out.append('-' * len(e.date.strftime("%B")) + "\n")
-            out.append(cls.export_entry(e))
+            out.append(cls.export_entry(e, False))
         result = "\n".join(out)
         return result
