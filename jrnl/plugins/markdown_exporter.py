@@ -4,6 +4,8 @@
 from __future__ import absolute_import, unicode_literals
 from .text_exporter import TextExporter
 import re
+import sys
+import colorama
 
 
 class MarkdownExporter(TextExporter):
@@ -26,10 +28,13 @@ class MarkdownExporter(TextExporter):
         '''Increase heading levels in body text'''
         newbody = ''
         previous_line = ''
+        warn_on_heading_level = False
         for line in body.splitlines(True):
             if re.match(r"#+ ", line):
                 """ATX style headings"""
                 newbody = newbody + previous_line + heading + line
+                if re.match(r"#######+ ", heading + line):
+                    warn_on_heading_level = True
                 line = ''
             elif re.match(r"=+$", line) and not re.match(r"^$", previous_line):
                 """Setext style H1"""
@@ -42,7 +47,10 @@ class MarkdownExporter(TextExporter):
             else:
                 newbody = newbody + previous_line
             previous_line = line
-        newbody = newbody + previous_line
+        newbody = newbody + previous_line   # add very last line
+
+        if warn_on_heading_level is True:
+            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(colorama.Fore.YELLOW, colorama.Style.RESET_ALL, date_str, entry.title), file=sys.stderr)
 
         return "{md} {date} {title} {body} {space}".format(
             md=heading,
