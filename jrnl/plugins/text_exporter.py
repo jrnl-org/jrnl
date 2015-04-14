@@ -56,7 +56,7 @@ class TextExporter(BaseExporter):
         representation as unicode if output is None."""
         if output and os.path.isdir(output):  # multiple files
             return cls.write_files(journal, output)
-        elif output:
+        elif output:                          # single file
             return cls.write_file(journal, output)
         else:
             return cls.export_journal(journal)
