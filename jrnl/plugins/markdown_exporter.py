@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import re
 import sys
-import colorama
 
 
 class MarkdownExporter(TextExporter):
@@ -50,7 +49,7 @@ class MarkdownExporter(TextExporter):
         newbody = newbody + previous_line   # add very last line
 
         if warn_on_heading_level is True:
-            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(colorama.Fore.YELLOW, colorama.Style.RESET_ALL, date_str, entry.title), file=sys.stderr)
+            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format("\033[33m", "\033[0m", date_str, entry.title), file=sys.stderr)
 
         return "{md} {date} {title} {body} {space}".format(
             md=heading,
