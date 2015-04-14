@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import, unicode_literals
 from .text_exporter import TextExporter
+import re
 
 
 class MarkdownExporter(TextExporter):
@@ -22,11 +23,32 @@ class MarkdownExporter(TextExporter):
         else:
             heading = '###'
 
+        '''Increase heading levels in body text'''
+        newbody = ''
+        previous_line = ''
+        for line in body.splitlines(True):
+            if re.match(r"#+ ", line):
+                """ATX style headings"""
+                newbody = newbody + previous_line + heading + line
+                line = ''
+            elif re.match(r"=+$", line) and not re.match(r"^$", previous_line):
+                """Setext style H1"""
+                newbody = newbody + heading + "# " + previous_line
+                line = ''
+            elif re.match(r"-+$", line) and not re.match(r"^$", previous_line):
+                """Setext style H2"""
+                newbody = newbody + heading + "## " + previous_line
+                line = ''
+            else:
+                newbody = newbody + previous_line
+            previous_line = line
+        newbody = newbody + previous_line
+
         return "{md} {date} {title} {body} {space}".format(
             md=heading,
             date=date_str,
             title=entry.title,
-            body=body,
+            body=newbody,
             space=""
         )
 
