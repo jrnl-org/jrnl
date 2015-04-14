@@ -50,3 +50,6 @@ docs/_themes/jrnl/static/less/3L.less
 
 # export testing director
 exp/
+
+_extras/
+*.sublime-*
