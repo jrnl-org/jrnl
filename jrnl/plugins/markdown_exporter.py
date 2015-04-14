@@ -6,7 +6,7 @@ from .text_exporter import TextExporter
 
 
 class MarkdownExporter(TextExporter):
-    """This Exporter can convert entries and journals into json."""
+    """This Exporter can convert entries and journals into Markdown."""
     names = ["md", "markdown"]
     extension = "md"
 
@@ -27,7 +27,7 @@ class MarkdownExporter(TextExporter):
 
     @classmethod
     def export_journal(cls, journal):
-        """Returns a json representation of an entire journal."""
+        """Returns a Markdown representation of an entire journal."""
         out = []
         year, month = -1, -1
         for e in journal.entries:
