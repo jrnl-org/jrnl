@@ -30,7 +30,7 @@ Feature: Exporting a Journal
     Scenario: Increasing Headings on Markdown export
         Given we use the config "markdown-headings-335.yaml"
         When we run "jrnl --export markdown"
-        Then we should get error
+        Then we should see the message
         """
         WARNING: Headings increased past H6 on export - 2015-04-14 13:23 Heading Test
         """
