@@ -73,5 +73,5 @@ Feature: Exporting a Journal
         Stuff
 
         More stuff
-        more stuff agains
+        more stuff again
         """
