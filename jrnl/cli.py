@@ -7,7 +7,8 @@
     license: MIT, see LICENSE for more details.
 """
 
-from __future__ import absolute_import, unicode_literals
+from __future__ import unicode_literals
+from __future__ import absolute_import
 from . import Journal
 from . import util
 from . import install
@@ -103,9 +104,11 @@ def decrypt(journal, filename=None):
 
 def list_journals(config):
     """List the journals specified in the configuration file"""
-    sep = "\n"
-    journal_list = sep.join(config['journals'])
-    return journal_list
+    result = "Journals defined in {}\n".format(install.CONFIG_FILE_PATH)
+    ml = min(max(len(k) for k in config['journals']), 20)
+    for journal, cfg in config['journals'].items():
+        result += " * {:{}} -> {}\n".format(journal, ml, cfg['journal'] if isinstance(cfg, dict) else cfg)
+    return result
 
 
 def update_config(config, new_config, scope, force_local=False):
@@ -140,10 +143,7 @@ def run(manual_args=None):
 
     config = install.load_or_install_jrnl()
     if args.ls:
-        util.prnt(u"Journals defined in {}".format(install.CONFIG_FILE_PATH))
-        ml = min(max(len(k) for k in config['journals']), 20)
-        for journal, cfg in config['journals'].items():
-            print(" * {:{}} -> {}".format(journal, ml, cfg['journal'] if isinstance(cfg, dict) else cfg))
+        util.prnt(list_journals(config))
         sys.exit(0)
 
     log.debug('Using configuration "%s"', config)
@@ -154,6 +154,10 @@ def run(manual_args=None):
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
     if journal_name is not 'default':
         args.text = args.text[1:]
+    elif "default" not in config['journals']:
+        util.prompt("No default journal configured.")
+        util.prompt(list_journals(config))
+        sys.exit(1)
 
     # If the first remaining argument looks like e.g. '-3', interpret that as a limiter
     if not args.limit and args.text and args.text[0].startswith("-"):
