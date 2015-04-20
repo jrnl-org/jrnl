@@ -18,7 +18,9 @@ def _parse_args(command):
     nargs = []
     concats = []
     for a in command.split()[1:]:
-        if a.startswith("'"):
+        if a.startswith("'") and a.endswith("'"):
+            nargs.append(a.strip("'"))
+        elif a.startswith("'"):
             concats.append(a.strip("'"))
         elif a.endswith("'"):
             concats.append(a.strip("'"))
