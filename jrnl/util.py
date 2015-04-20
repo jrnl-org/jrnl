@@ -129,7 +129,7 @@ def get_text_from_editor(config, template=""):
     subprocess.call(config['editor'].split() + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
-    os.close(filehandle);
+    os.close(filehandle)
     os.remove(tmpfile)
     if not raw:
         prompt('[Nothing saved to file]')
