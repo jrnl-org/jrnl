@@ -32,7 +32,7 @@ If you just call jrnl you will be prompted to compose your entry - but you can a
 Links
 `````
 
-* `website & documentation <http://maebert.github.com/jrnl>`_
+* `website & documentation <http://www.jrnl.sh>`_
 * `GitHub Repo <https://github.com/maebert/jrnl>`_
 
 """
@@ -45,7 +45,7 @@ import os
 import sys
 import re
 try:
-    import readline
+    import readline  # NOQA
     readline_available = True
 except ImportError:
     readline_available = False
@@ -80,16 +80,14 @@ setup(
     description="A command line journal application that stores your journal in a plain text file",
     packages=['jrnl'],
     install_requires=[
-        "pyxdg>=0.19",
         "parsedatetime>=1.2",
         "pytz>=2013b",
         "six>=1.7.4",
         "cryptography==0.8.1",
         "tzlocal>=1.1",
-        "PyYAML>=3.11",
+        "pyyaml>=3.11",
         "keyring>=3.3",
         "passlib>=1.6.2",
-        "pyyaml>=3.09",
         "pyxdg>=0.25",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     long_description=__doc__,
