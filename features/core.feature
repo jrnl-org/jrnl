@@ -47,3 +47,14 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -v"
         Then we should get no error
         Then the output should contain "version"
+
+    Scenario: --short displays the short version of entries (only the title)
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on 2013-06-10 --short"
+        Then the output should be "2013-06-10 15:40 Life is good."
+
+    Scenario: -s displays the short version of entries (only the title)
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on 2013-06-10 -s"
+        Then the output should be "2013-06-10 15:40 Life is good."
+
