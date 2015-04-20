@@ -7,18 +7,18 @@ from .util import get_tags_count
 
 
 class TagExporter(TextExporter):
-    """This Exporter can convert entries and journals into json."""
+    """This Exporter can lists the tags for entries and journals, exported as a plain text file."""
     names = ["tags"]
     extension = "tags"
 
     @classmethod
     def export_entry(cls, entry):
-        """Returns a markdown representation of a single entry."""
+        """Returns a list of tags for a single entry."""
         return ", ".join(entry.tags)
 
     @classmethod
     def export_journal(cls, journal):
-        """Returns a json representation of an entire journal."""
+        """Returns a list of tags and their frequency for an entire journal."""
         tag_counts = get_tags_count(journal)
         result = ""
         if not tag_counts:

@@ -8,6 +8,7 @@ import importlib
 
 
 class PluginMeta(type):
+
     def __init__(cls, name, bases, attrs):
         """Called when a Plugin derived class is imported"""
         if not hasattr(cls, 'PLUGINS'):
