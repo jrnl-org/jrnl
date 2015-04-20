@@ -271,6 +271,3 @@ def run(manual_args=None):
         journal.entries += other_entries
         journal.sort()
         journal.write()
-
-if __name__ == "__main__":
-    run()
