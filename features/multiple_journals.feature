@@ -34,3 +34,8 @@ Feature: Multiple journals
         Then journal "ideas" should not exist
         When we run "jrnl ideas 23 july 2012: sell my junk on ebay and make lots of money"
         Then journal "ideas" should have 1 entry
+
+   Scenario: Don't crash if no default journal is specified
+        Given we use the config "bug343.yaml"
+        When we run "jrnl a long day in the office"
+        Then we should see the message "No default journal configured"
