@@ -61,7 +61,7 @@ Feature: Zapped bugs should stay dead.
 
 	Scenario: Title with an embedded period on DayOne journal
 		Given we use the config "dayone.yaml"
-		When we run "jrnl 04-24-2014: Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch."
+		When we run "jrnl 04-24-2014: "Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch.""
 		Then we should see the message "Entry added"
 		When we run "jrnl -1"
 		Then the output should be
