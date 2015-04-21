@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+from __future__ import absolute_import
+
 from behave import given, when, then
 from jrnl import cli, install, Journal, util
 from jrnl import __version__
@@ -12,23 +15,11 @@ try:
 except ImportError:
     from cStringIO import StringIO
 import tzlocal
+import shlex
 
 
-def _parse_args(command):
-    nargs = []
-    concats = []
-    for a in command.split()[1:]:
-        if a.startswith("'") and a.endswith("'"):
-            nargs.append(a.strip("'"))
-        elif a.startswith("'"):
-            concats.append(a.strip("'"))
-        elif a.endswith("'"):
-            concats.append(a.strip("'"))
-            nargs.append(u" ".join(concats))
-            concats = []
-        else:
-            nargs.append(a)
-    return nargs
+def ushlex(command):
+    return map(lambda s: s.decode('UTF8'), shlex.split(command.encode('utf8')))
 
 
 def read_journal(journal_name="default"):
@@ -62,7 +53,7 @@ def set_config(context, config_file):
 @when('we run "{command}" and enter "{inputs}"')
 def run_with_input(context, command, inputs=None):
     text = inputs or context.text
-    args = _parse_args(command)
+    args = ushlex(command)[1:]
     buffer = StringIO(text.strip())
     util.STDIN = buffer
     try:
@@ -74,7 +65,7 @@ def run_with_input(context, command, inputs=None):
 
 @when('we run "{command}"')
 def run(context, command):
-    args = _parse_args(command)
+    args = ushlex(command)[1:]
     try:
         cli.run(args or None)
         context.exit_status = 0

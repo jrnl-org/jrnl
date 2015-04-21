@@ -12,6 +12,8 @@ import tempfile
 import subprocess
 import codecs
 import unicodedata
+import shlex
+
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -121,9 +123,7 @@ def get_text_from_editor(config, template=""):
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    editor = config['editor']
-    args = editor if isinstance(editor, list) else editor.split()
-    subprocess.call(args + [tmpfile])
+    subprocess.call(shlex.split(config['editor']) + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
     os.close(filehandle)
