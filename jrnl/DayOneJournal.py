@@ -8,6 +8,7 @@ import os
 import re
 from datetime import datetime
 import time
+import fnmatch
 import plistlib
 import pytz
 import uuid
@@ -28,6 +29,10 @@ class DayOne(Journal.Journal):
 
     def open(self):
         filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
+        filenames = []
+        for root, dirnames, f in os.walk(self.config['journal']):
+            for filename in fnmatch.filter(f, '*.doentry'):
+                filenames.append(os.path.join(root, filename))
         self.entries = []
         for filename in filenames:
             with open(filename, 'rb') as plist_entry:
