@@ -16,9 +16,12 @@ except ImportError:
     from cStringIO import StringIO
 import tzlocal
 import shlex
+import sys
 
 
 def ushlex(command):
+    if sys.version_info[0] == 3:
+        return shlex.split(command)
     return map(lambda s: s.decode('UTF8'), shlex.split(command.encode('utf8')))
 
 
@@ -150,8 +153,7 @@ def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
     local_tz = tzlocal.get_localzone()
     utc_time = date_parser.parse(text)
-    date = utc_time + local_tz._utcoffset
-    local_date = date.strftime("%Y-%m-%d %H:%M")
+    local_date = utc_time.astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
     assert local_date in out, local_date
 
 
