@@ -68,15 +68,15 @@ class YAMLExporter(TextExporter):
            hasattr(entry, 'creator_software_agent'):
             dayone_attributes += 'creator:\n'
         if hasattr(entry, 'creator_device_agent'):
-            dayone_attributes += '    device agent: ' + entry.creator_device_agent + '\n'
+            dayone_attributes += '    device agent: {}\n'.format(entry.creator_device_agent)
         if hasattr(entry, 'creator_generation_date'):
-            dayone_attributes += '    generation date: ' + str(entry.creator_generation_date) + '\n'
+            dayone_attributes += '    generation date: {}\n'.format(str(entry.creator_generation_date))
         if hasattr(entry, 'creator_host_name'):
-            dayone_attributes += '    host name: ' + entry.creator_host_name + '\n'
+            dayone_attributes += '    host name: {}\n'.format(entry.creator_host_name)
         if hasattr(entry, 'creator_os_agent'):
-            dayone_attributes += '    os agent: ' + entry.creator_os_agent + '\n'
+            dayone_attributes += '    os agent: {}\n'.format(entry.creator_os_agent)
         if hasattr(entry, 'creator_software_agent'):
-            dayone_attributes += '    software agent: ' + entry.creator_software_agent + '\n'
+            dayone_attributes += '    software agent: {}\n'.format(entry.creator_software_agent)
 
         return "title: {title}\ndate: {date}\nstared: {stared}\ntags: {tags}\n{dayone} {body} {space}".format(
             date = date_str,
