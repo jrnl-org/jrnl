@@ -8,7 +8,7 @@ import sys
 import yaml
 
 
-class MarkdownExporter(TextExporter):
+class YAMLExporter(TextExporter):
     """This Exporter can convert entries and journals into Markdown with YAML front matter."""
     names = ["yaml"]
     extension = "md"
@@ -23,6 +23,10 @@ class MarkdownExporter(TextExporter):
         date_str = entry.date.strftime(entry.journal.config['timeformat'])
         body_wrapper = "\n" if entry.body else ""
         body = body_wrapper + entry.body
+
+        tagsymbols = entry.journal.config['tagsymbols']
+        # see also Entry.Entry.rag_regex
+        multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols), re.UNICODE)
 
         '''Increase heading levels in body text'''
         newbody = ''
@@ -43,6 +47,9 @@ class MarkdownExporter(TextExporter):
             elif re.match(r"-+$", line) and not re.match(r"^$", previous_line):
                 """Setext style H2"""
                 newbody = newbody + heading + "## " + previous_line
+                line = ''
+            elif multi_tag_regex.match(line):
+                """Tag only lines"""
                 line = ''
             else:
                 newbody = newbody + previous_line
