@@ -57,6 +57,7 @@ class DayOne(Journal.Journal):
                     entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
                     entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
+
                     """Extended DayOne attributes"""
                     try:
                         entry.creator_device_agent = dict_entry['Creator']['Device Agent']
@@ -87,7 +88,6 @@ class DayOne(Journal.Journal):
         for entry in self.entries:
             if entry.modified:
                 utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
-                filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
 
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
@@ -98,9 +98,11 @@ class DayOne(Journal.Journal):
                 if not hasattr(entry, "creator_host_name"):
                     entry.creator_host_name = socket.gethostname()
                 if not hasattr(entry, "creator_os_agent"):
-                    entry.creator_os_agent = '{} {}'.format(platform.system(), platform.release())
+                    entry.creator_os_agent = '{}/{}'.format(platform.system(), platform.release())
                 if not hasattr(entry, "creator_software_agent"):
-                    entry.creator_software_agent = '{} {}'.format(__title__, __version__)
+                    entry.creator_software_agent = '{}/{}'.format(__title__, __version__)
+
+                filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
                 
                 entry_plist = {
                     'Creation Date': utc_time,
