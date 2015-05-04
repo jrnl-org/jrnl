@@ -26,7 +26,7 @@ class MarkdownExporter(TextExporter):
 
         '''Increase heading levels in body text'''
         newbody = ''
-        heading = '###'
+        heading = '#'
         previous_line = ''
         warn_on_heading_level = False
         for line in entry.body.splitlines(True):
