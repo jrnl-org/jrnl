@@ -5,7 +5,6 @@ from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import re
 import sys
-import yaml
 
 
 class YAMLExporter(TextExporter):
@@ -58,8 +57,6 @@ class YAMLExporter(TextExporter):
 
         if warn_on_heading_level is True:
             print("{}WARNING{}: Headings increased past H6 on export - {} {}".format("\033[33m", "\033[0m", date_str, entry.title), file=sys.stderr)
-
-        # top = yaml.dump(entry)
 
         return "title: {title}\ndate: {date}\nstared: {stared}\ntags: {tags}\n{body} {space}".format(
             date=date_str,
