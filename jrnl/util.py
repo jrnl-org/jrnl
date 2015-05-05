@@ -23,6 +23,10 @@ STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
 
+WARNING_COLOR = "\033[33m"
+ERROR_COLOR = "\033[31m"
+RESET_COLOR = "\033[0m"
+
 
 def getpass(prompt="Password: "):
     if not TEST:

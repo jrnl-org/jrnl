@@ -5,10 +5,11 @@ from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import re
 import sys
+from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
 
 
 class YAMLExporter(TextExporter):
-    """This Exporter can convert entries and journals into Markdown with YAML front matter."""
+    """This Exporter can convert entries and journals into Markdown formatted text with YAML front matter."""
     names = ["yaml"]
     extension = "md"
 
@@ -56,11 +57,14 @@ class YAMLExporter(TextExporter):
         newbody = newbody + previous_line   # add very last line
 
         if warn_on_heading_level is True:
-            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format("\033[33m", "\033[0m", date_str, entry.title), file=sys.stderr)
+            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(WARNING_COLOR, RESET_COLOR, date_str, entry.title), file=sys.stderr)
 
         dayone_attributes = ''
         if hasattr(entry, "uuid"):
             dayone_attributes += 'uuid: ' + entry.uuid + '\n'
+            # TODO: copy over pictures, if present
+            # source directory is  entry.journal.config['journal']
+            # output directory is...?
 
         return "title: {title}\ndate: {date}\nstared: {stared}\ntags: {tags}\n{dayone} {body} {space}".format(
             date = date_str,
@@ -75,5 +79,5 @@ class YAMLExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
-        print("{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format("\033[31m", "\033[0m", file=sys.stderr))
+        print("{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(ERROR_COLOR, RESET_COLOR), file=sys.stderr)
         return
