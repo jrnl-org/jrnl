@@ -4,6 +4,7 @@
 from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import Journal
+from . import time as jrnl_time
 from . import __title__  # 'jrnl'
 from . import __version__
 import os
@@ -163,8 +164,14 @@ class DayOne(Journal.Journal):
                 current_entry.uuid = m.group(1).lower()
             else:
                 try:
-                    # assumes the date is in square brackets
-                    new_date = datetime.strptime(line[1:date_length + 1], self.config['timeformat'])
+                    date_blob_re = re.compile("^\[[^\\]]+\] ")
+                    date_blob = date_blob_re.findall(line)
+                    if date_blob:
+                        date_blob = date_blob[0]
+                        new_date = jrnl_time.parse(date_blob.strip(" []"))
+                        if new_date:
+                            # Found a date at the start of the line: This is a new entry.
+                            pass
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
