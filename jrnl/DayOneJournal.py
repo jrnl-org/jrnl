@@ -66,7 +66,7 @@ class DayOne(Journal.Journal):
                     try:
                         entry.creator_generation_date = dict_entry['Creator']['Generation Date']
                     except:
-                        pass
+                        entry.creator_generation_date = date
                     try:
                         entry.creator_host_name = dict_entry['Creator']['Host Name']
                     except:
@@ -77,6 +77,14 @@ class DayOne(Journal.Journal):
                         pass
                     try:
                         entry.creator_software_agent = dict_entry['Creator']['Software Agent']
+                    except:
+                        pass
+                    try:
+                        entry.location = dict_entry['Location']
+                    except:
+                        pass
+                    try:
+                        entry.weather = dict_entry['Weather']
                     except:
                         pass
                     self.entries.append(entry)
@@ -117,6 +125,10 @@ class DayOne(Journal.Journal):
                                 'OS Agent': entry.creator_os_agent,
                                 'Sofware Agent': entry.creator_software_agent}
                 }
+                if hasattr(entry, 'location'):
+                    entry_plist['Location'] = entry.location
+                if hasattr(entry, 'weather'):
+                    entry_plist['Weather'] = entry.weather
                 plistlib.writePlist(entry_plist, filename)
         for entry in self._deleted_entries:
             filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
@@ -128,7 +140,7 @@ class DayOne(Journal.Journal):
         return "\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
 
     def parse_editable_str(self, edited):
-        """Parses the output of self.editable_str and updates it's entries."""
+        """Parses the output of self.editable_str and updates its entries."""
         # Method: create a new list of entries from the edited text, then match
         # UUIDs of the new entries against self.entries, updating the entries
         # if the edited entries differ, and deleting entries from self.entries
@@ -151,11 +163,12 @@ class DayOne(Journal.Journal):
                 current_entry.uuid = m.group(1).lower()
             else:
                 try:
-                    new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+                    # assumes the date is in square brackets
+                    new_date = datetime.strptime(line[1:date_length + 1], self.config['timeformat'])
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
-                    current_entry.title = line[date_length + 1:]
+                    current_entry.title = line[date_length + 3:]
                     current_entry.date = new_date
                 except ValueError:
                     if current_entry:
