@@ -105,6 +105,7 @@ def py23_input(msg=""):
 
 
 def py23_read(msg=""):
+    print(msg)
     return STDIN.read()
 
 
