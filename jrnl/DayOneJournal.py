@@ -94,7 +94,6 @@ class DayOne(Journal.Journal):
         # UUIDs of the new entries against self.entries, updating the entries
         # if the edited entries differ, and deleting entries from self.entries
         # if they don't show up in the edited entries anymore.
-        date_length = len(datetime.today().strftime(self.config['timeformat']))
 
         # Initialise our current entry
         entries = []
@@ -111,23 +110,18 @@ class DayOne(Journal.Journal):
                 current_entry.modified = False
                 current_entry.uuid = m.group(1).lower()
             else:
-                try:
-                    date_blob_re = re.compile("^\[[^\\]]+\] ")
-                    date_blob = date_blob_re.findall(line)
-                    if date_blob:
-                        date_blob = date_blob[0]
-                        new_date = jrnl_time.parse(date_blob.strip(" []"))
-                        if new_date:
-                            # Found a date at the start of the line: This is a new entry.
-                            pass
+                date_blob_re = re.compile("^\[[^\\]]+\] ")
+                date_blob = date_blob_re.findall(line)
+                if date_blob:
+                    date_blob = date_blob[0]
+                    new_date = jrnl_time.parse(date_blob.strip(" []"))
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
-                    current_entry.title = line[date_length + 3:]
+                    current_entry.title = line[len(date_blob) - 1:]
                     current_entry.date = new_date
-                except ValueError:
-                    if current_entry:
-                        current_entry.body += line + "\n"
+                elif current_entry:
+                    current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
