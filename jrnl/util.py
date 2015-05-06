@@ -23,6 +23,10 @@ STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
 
+WARNING_COLOR = "\033[33m"
+ERROR_COLOR = "\033[31m"
+RESET_COLOR = "\033[0m"
+
 
 def getpass(prompt="Password: "):
     if not TEST:
@@ -101,6 +105,7 @@ def py23_input(msg=""):
 
 
 def py23_read(msg=""):
+    print(msg)
     return STDIN.read()
 
 
@@ -118,12 +123,11 @@ def load_config(config_path):
 
 
 def get_text_from_editor(config, template=""):
-    tmpfile = os.path.join(tempfile.mktemp(prefix="jrnl", suffix=".txt"))
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    subprocess.call(shlex.split(config['editor']) + [tmpfile])
+    subprocess.call(shlex.split(config['editor'], posix="win" not in sys.platform) + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
     os.close(filehandle)

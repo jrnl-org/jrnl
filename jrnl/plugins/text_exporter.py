@@ -6,6 +6,7 @@ import codecs
 from . import BaseExporter
 from ..util import u, slugify
 import os
+from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
 
 
 class TextExporter(BaseExporter):
@@ -31,7 +32,7 @@ class TextExporter(BaseExporter):
                 f.write(cls.export_journal(journal))
                 return "[Journal exported to {0}]".format(path)
         except IOError as e:
-            return "[ERROR: {0} {1}]".format(e.filename, e.strerror)
+            return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
 
     @classmethod
     def make_filename(cls, entry):
@@ -46,7 +47,7 @@ class TextExporter(BaseExporter):
                 with codecs.open(full_path, "w", "utf-8") as f:
                     f.write(cls.export_entry(entry))
             except IOError as e:
-                return "[ERROR: {0} {1}]".format(e.filename, e.strerror)
+                return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
         return "[Journal exported to {0}]".format(path)
 
     @classmethod
