@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import re
 import sys
+from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
 
 
 class MarkdownExporter(TextExporter):
@@ -49,7 +50,7 @@ class MarkdownExporter(TextExporter):
         newbody = newbody + previous_line   # add very last line
 
         if warn_on_heading_level is True:
-            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format("\033[33m", "\033[0m", date_str, entry.title), file=sys.stderr)
+            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(WARNING_COLOR, RESET_COLOR, date_str, entry.title), file=sys.stderr)
 
         return "{md} {date} {title} {body} {space}".format(
             md=heading,
