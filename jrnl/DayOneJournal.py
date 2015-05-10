@@ -146,7 +146,7 @@ class DayOne(Journal.Journal):
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
-                    current_entry.title = line[len(date_blob) - 1 :]
+                    current_entry.title = line[len(date_blob) - 1:].strip()
                     current_entry.date = new_date
                 elif current_entry:
                     current_entry.body += line + "\n"
