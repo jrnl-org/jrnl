@@ -17,8 +17,8 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            print("{}ERROR{}: YAML export must be to individual files. "
-                  "Please specify a directory to export to.".format("\033[31m", "\033[0m"), file=sys.stderr)
+            print("{}ERROR{}: YAML export must be to individual files. Please \
+                specify a directory to export to.".format(ERROR_COLOR, RESET_COLOR, file=sys.stderr))
             return
 
         date_str = entry.date.strftime(entry.journal.config['timeformat'])
@@ -29,13 +29,13 @@ class YAMLExporter(TextExporter):
         # see also Entry.Entry.rag_regex
         multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols))
 
-        '''Increase heading levels in body text'''
+        """Increase heading levels in body text"""
         newbody = ''
         heading = '#'
         previous_line = ''
         warn_on_heading_level = False
-        for line in entry.body.splitlines(True):
-            if re.match(r"^#+ ", line):
+        for line in body.splitlines(True):
+            if re.match(r"#+ ", line):
                 """ATX style headings"""
                 newbody = newbody + previous_line + heading + line
                 if re.match(r"^#######+ ", heading + line):
@@ -58,7 +58,8 @@ class YAMLExporter(TextExporter):
         newbody = newbody + previous_line   # add very last line
 
         if warn_on_heading_level is True:
-            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(WARNING_COLOR, RESET_COLOR, date_str, entry.title), file=sys.stderr)
+            print("{}WARNING{}: Headings increased past H6 on export - {} {}" \
+                .format(WARNING_COLOR, RESET_COLOR, date_str, entry.title), file=sys.stderr)
 
         dayone_attributes = ''
         if hasattr(entry, "uuid"):
@@ -80,5 +81,6 @@ class YAMLExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
-        print("{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(ERROR_COLOR, RESET_COLOR), file=sys.stderr)
+        print("{}ERROR{}: YAML export must be to individual files. \
+            Please specify a directory to export to.".format(ERROR_COLOR, RESET_COLOR), file=sys.stderr)
         return
