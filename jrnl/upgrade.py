@@ -100,4 +100,4 @@ older versions of jrnl anymore.
     util.prompt("\nUpgrading config...")
     backup(config_path)
 
-    util.prompt("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path))
+    util.prompt("\nWe're all done here and you can start enjoying jrnl 2.")
