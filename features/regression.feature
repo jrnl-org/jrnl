@@ -69,3 +69,12 @@ Feature: Zapped bugs should stay dead.
 			2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
 			| I'm feeling sore because I forgot to stretch.
 			"""
+
+    Scenario: DayOne tag searching should work with tags containing a mixture of upper and lower case.
+        # https://github.com/maebert/jrnl/issues/354
+        Given we use the config "dayone.yaml"
+        When we run "jrnl @plAy"
+        Then the output should contain
+            """
+            2013-05-17 11:39 This entry has tags!
+            """
