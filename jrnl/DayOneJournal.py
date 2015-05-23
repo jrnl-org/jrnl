@@ -50,7 +50,7 @@ class DayOne(Journal.Journal):
                     date = date + timezone.utcoffset(date, is_dst=False)
                     entry = Entry.Entry(self, date, text=dict_entry['Entry Text'], starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
-                    entry._tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
+                    entry._tags = [self.config['tagsymbols'][0] + tag.lower() for tag in dict_entry.get("Tags", [])]
 
                     self.entries.append(entry)
         self.sort()
