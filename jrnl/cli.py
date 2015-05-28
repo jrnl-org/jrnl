@@ -18,6 +18,7 @@ import jrnl
 import argparse
 import sys
 import logging
+import os
 
 log = logging.getLogger(__name__)
 
@@ -53,26 +54,183 @@ def parse_args(args=None):
     return parser.parse_args(args)
 
 
-def guess_mode(args, config):
-    """Guesses the mode (compose, read or export) from the given arguments"""
-    compose = True
-    export = False
-    import_ = False
-    if args.import_ is not False:
-        compose = False
-        export = False
-        import_ = True
-    elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
-        compose = False
-        export = True
-    elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
+class CommandEnum:
+    READ = 1
+    COMPOSE_NEW_ENTRY = 2
+    EDIT_EXISTING_ENTRY = 3 # Existing entries with external editor
+    EXPORT = 4
+    IMPORT = 5
+    LS = 6
+    VERSION = 7
+    LIST_TAGS = 8
+    ENCRYPT = 9
+    DECRYPT = 10
+
+
+def guess_command(args, config):
+    """Guess what the user wants to do from the given arguments"""
+
+    if args.version is not False:
+        return CommandEnum.VERSION
+    elif args.ls is not False:
+        return CommandEnum.LS
+    elif args.import_ is not False:
+        return CommandEnum.IMPORT
+    elif args.tags is not False:
+        return CommandEnum.LIST_TAGS
+    elif args.edit is not False:
+        return CommandEnum.EDIT_EXISTING_ENTRY
+    elif args.export is not False:
+        return CommandEnum.EXPORT
+    elif args.decrypt is not False:
+        return CommandEnum.DECRYPT
+    elif args.encrypt is not False:
+        return CommandEnum.ENCRYPT
+    elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred, args.short)):
         # Any sign of displaying stuff?
-        compose = False
+        return CommandEnum.READ
     elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
         # No date and only tags?
-        compose = False
+        return CommandEnum.READ
 
-    return compose, export, import_
+    return CommandEnum.COMPOSE_NEW_ENTRY
+
+
+def do_command_list_tags(journal_name, config, original_config, args):
+    log.debug("Running command 'list_tags'")
+
+    journal = Journal.open_journal(journal_name, config)
+    filter_journal(journal, args)
+
+    print(util.py2encode(plugins.get_exporter("tags").export(journal)))
+
+
+def do_command_read(journal_name, config, original_config, args):
+    log.debug("Running command 'read'")
+
+    journal = Journal.open_journal(journal_name, config)
+    filter_journal(journal, args)
+
+    print(util.py2encode(journal.pprint(short=args.short)))
+
+
+def do_command_new_entry(journal_name, config, original_config, args):
+    log.debug("Running command 'write'")
+
+    if args.text:
+        raw = " ".join(args.text).strip()
+    else:
+        if "win32" in sys.platform:
+            _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
+        else:
+            _exit_multiline_code = "press Ctrl+D"
+
+        if not sys.stdin.closed and not sys.stdin.isatty():
+            # Piping data into jrnl
+            raw = util.py23_read()
+        elif config['editor']:
+            raw = util.get_text_from_editor(config)
+        else:
+            try:
+                raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+            except KeyboardInterrupt:
+                util.prompt("[Entry NOT saved to journal.]")
+                sys.exit(0)
+        if raw:
+            args.text = [raw]
+        else:
+            print("No text exit...")
+            exit(0)
+
+    if util.PY2 and type(raw) is not unicode:
+        raw = raw.decode(sys.getfilesystemencoding())
+
+    journal = Journal.open_journal(journal_name, config)
+    log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
+    journal.new_entry(raw)
+    util.prompt("[Entry added to {0} journal]".format(journal_name))
+    journal.write()
+
+def do_command_edit_existing_entry(journal_name, config, original_config, args):
+    log.debug("Running command 'edit existing entry'")
+    journal = Journal.open_journal(journal_name, config)
+
+    if not config['editor']:
+        util.prompt("[{1}ERROR{2}: You need to specify an editor in {0} to use the --edit function.]".format(install.CONFIG_FILE_PATH, ERROR_COLOR, RESET_COLOR))
+        sys.exit(1)
+
+    old_entries = journal.entries
+    filter_journal(journal, args)
+    other_entries = [e for e in old_entries if e not in journal.entries]
+    # Edit
+    old_num_entries = len(journal)
+    edited = util.get_text_from_editor(config, journal.editable_str())
+    journal.parse_editable_str(edited)
+    num_deleted = old_num_entries - len(journal)
+    num_edited = len([e for e in journal.entries if e.modified])
+    prompts = []
+    if num_deleted:
+        prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
+    if num_edited:
+        prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
+    if prompts:
+        util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
+    journal.entries += other_entries
+    journal.sort()
+    journal.write()
+
+
+
+def do_command_import(journal_name, config, original_config, args):
+    log.debug("Running command 'import'")
+
+    journal = Journal.open_journal(journal_name, config)
+
+    plugins.get_importer(args.import_).import_(journal, args.input)
+
+
+def do_command_export(journal_name, config, original_config, args):
+    log.debug("Running command 'export'")
+
+    journal = Journal.open_journal(journal_name, config)
+    filter_journal(journal, args)
+
+    exporter = plugins.get_exporter(args.export)
+    print(exporter.export(journal, args.output))
+
+
+def do_command_encrypt(journal_name, config, original_config, args):
+    log.debug("Running command 'encrypt'")
+    journal = Journal.open_journal(journal_name, config)
+
+    encrypt(journal, filename=args.encrypt)
+    # Not encrypting to a separate file: update config!
+    if not args.encrypt:
+        update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
+        install.save_config(original_config)
+
+
+def do_command_decrypt(journal_name, config, original_config, args):
+    log.debug("Running command 'decrypt'")
+    journal = Journal.open_journal(journal_name, config)
+
+    decrypt(journal, filename=args.decrypt)
+    # Not decrypting to a separate file: update config!
+    if not args.decrypt:
+        update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
+        install.save_config(original_config)
+
+
+action_for = {
+    CommandEnum.LIST_TAGS: do_command_list_tags,
+    CommandEnum.READ: do_command_read,
+    CommandEnum.COMPOSE_NEW_ENTRY: do_command_new_entry,
+    CommandEnum.EDIT_EXISTING_ENTRY: do_command_edit_existing_entry,
+    CommandEnum.IMPORT: do_command_import,
+    CommandEnum.EXPORT: do_command_export,
+    CommandEnum.ENCRYPT: do_command_encrypt,
+    CommandEnum.DECRYPT: do_command_decrypt,
+}
 
 
 def encrypt(journal, filename=None):
@@ -133,25 +291,38 @@ def configure_logger(debug=False):
     logging.getLogger('parsedatetime').setLevel(logging.INFO)  # disable parsedatetime debug logging
 
 
+def filter_journal(journal, args):
+    log.debug("Performing filtering...")
+
+    if args.on_date:
+        args.start_date = args.end_date = args.on_date
+    journal.filter(tags=args.text,
+                   start_date=args.start_date, end_date=args.end_date,
+                   strict=args.strict,
+                   short=args.short,
+                   starred=args.starred)
+    journal.limit(args.limit)
+
 def run(manual_args=None):
     args = parse_args(manual_args)
     configure_logger(args.debug)
     args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
+
     if args.version:
         version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
         print(util.py2encode(version_str))
         sys.exit(0)
 
     config = install.load_or_install_jrnl()
+    log.debug('Using configuration "%s"', config)
+    original_config = config.copy()
+
     if args.ls:
         util.prnt(list_journals(config))
         sys.exit(0)
 
-    log.debug('Using configuration "%s"', config)
-    original_config = config.copy()
-
-    # If the first textual argument points to a journal file,
-    # use this!
+    # Guess journal name
+    # If the first textual argument points to a journal file, use this!
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
     if journal_name is not 'default':
         args.text = args.text[1:]
@@ -159,7 +330,9 @@ def run(manual_args=None):
         util.prompt("No default journal configured.")
         util.prompt(list_journals(config))
         sys.exit(1)
+    log.debug('Using journal "%s"', journal_name)
 
+    # Find limiter
     # If the first remaining argument looks like e.g. '-3', interpret that as a limiter
     if not args.limit and args.text and args.text[0].startswith("-"):
         try:
@@ -168,107 +341,12 @@ def run(manual_args=None):
         except:
             pass
 
-    log.debug('Using journal "%s"', journal_name)
-    mode_compose, mode_export, mode_import = guess_mode(args, config)
-
-    # How to quit writing?
-    if "win32" in sys.platform:
-        _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
+    # Guess and execute command
+    command = guess_command(args, config)
+    if command in action_for:
+        action_for[command](journal_name, config, original_config, args)
     else:
-        _exit_multiline_code = "press Ctrl+D"
+        print("Unknown command number: " + command)
+        exit(1)
 
-    if mode_compose and not args.text:
-        if not sys.stdin.isatty():
-            # Piping data into jrnl
-            raw = util.py23_read()
-        elif config['editor']:
-            raw = util.get_text_from_editor(config)
-        else:
-            try:
-                raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
-            except KeyboardInterrupt:
-                util.prompt("[Entry NOT saved to journal.]")
-                sys.exit(0)
-        if raw:
-            args.text = [raw]
-        else:
-            mode_compose = False
-
-    # This is where we finally open the journal!
-    journal = Journal.open_journal(journal_name, config)
-
-    # Import mode
-    if mode_import:
-        plugins.get_importer(args.import_).import_(journal, args.input)
-
-    # Writing mode
-    elif mode_compose:
-        raw = " ".join(args.text).strip()
-        if util.PY2 and type(raw) is not unicode:
-            raw = raw.decode(sys.getfilesystemencoding())
-        log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
-        journal.new_entry(raw)
-        util.prompt("[Entry added to {0} journal]".format(journal_name))
-        journal.write()
-
-    if not mode_compose:
-        old_entries = journal.entries
-        if args.on_date:
-            args.start_date = args.end_date = args.on_date
-        journal.filter(tags=args.text,
-                       start_date=args.start_date, end_date=args.end_date,
-                       strict=args.strict,
-                       short=args.short,
-                       starred=args.starred)
-        journal.limit(args.limit)
-
-    # Reading mode
-    if not mode_compose and not mode_export and not mode_import:
-        print(util.py2encode(journal.pprint()))
-
-    # Various export modes
-    elif args.short:
-        print(util.py2encode(journal.pprint(short=True)))
-
-    elif args.tags:
-        print(util.py2encode(plugins.get_exporter("tags").export(journal)))
-
-    elif args.export is not False:
-        exporter = plugins.get_exporter(args.export)
-        print(exporter.export(journal, args.output))
-
-    elif args.encrypt is not False:
-        encrypt(journal, filename=args.encrypt)
-        # Not encrypting to a separate file: update config!
-        if not args.encrypt:
-            update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
-            install.save_config(original_config)
-
-    elif args.decrypt is not False:
-        decrypt(journal, filename=args.decrypt)
-        # Not decrypting to a separate file: update config!
-        if not args.decrypt:
-            update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
-            install.save_config(original_config)
-
-    elif args.edit:
-        if not config['editor']:
-            util.prompt("[{1}ERROR{2}: You need to specify an editor in {0} to use the --edit function.]".format(install.CONFIG_FILE_PATH, ERROR_COLOR, RESET_COLOR))
-            sys.exit(1)
-        other_entries = [e for e in old_entries if e not in journal.entries]
-        # Edit
-        old_num_entries = len(journal)
-        edited = util.get_text_from_editor(config, journal.editable_str())
-        journal.parse_editable_str(edited)
-        num_deleted = old_num_entries - len(journal)
-        num_edited = len([e for e in journal.entries if e.modified])
-        prompts = []
-        if num_deleted:
-            prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
-        if num_edited:
-            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
-        if prompts:
-            util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
-        journal.entries += other_entries
-        journal.sort()
-        journal.write()
+    exit(0)
