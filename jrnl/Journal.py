@@ -179,20 +179,6 @@ class Journal(object):
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
         ]
-        if short:
-            if tags:
-                for e in self.entries:
-                    res = []
-                    for tag in tags:
-                        matches = [m for m in re.finditer(tag, e.body)]
-                        for m in matches:
-                            date = e.date.strftime(self.config['timeformat'])
-                            excerpt = e.body[m.start():min(len(e.body), m.end() + 60)]
-                            res.append('{0} {1} ..'.format(date, excerpt))
-                    e.body = "\n".join(res)
-            else:
-                for e in self.entries:
-                    e.body = ''
         self.entries = result
 
     def new_entry(self, raw, date=None, sort=True):
