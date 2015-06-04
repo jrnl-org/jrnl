@@ -158,10 +158,13 @@ class DayOne(Journal.Journal):
         # Now, update our current entries if they changed
         for entry in entries:
             entry._parse_text()
-            matched_entries = [e for e in self.entries if e.uuid.lower() == entry.uuid]
+            matched_entries = [e for e in self.entries if e.uuid.lower() == entry.uuid.lower()]
+            # tags in entry body
             if matched_entries:
                 # This entry is an existing entry
                 match = matched_entries[0]
+                # merge existing tags with tags pulled from the entry body
+                entry.tags = list(set(entry.tags + match.tags))
                 if match != entry:
                     self.entries.remove(match)
                     entry.modified = True
