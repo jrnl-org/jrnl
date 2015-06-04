@@ -184,8 +184,26 @@ class DayOne(Journal.Journal):
             if matched_entries:
                 # This entry is an existing entry
                 match = matched_entries[0]
+
                 # merge existing tags with tags pulled from the entry body
                 entry.tags = list(set(entry.tags + match.tags))
+
+                # extended Dayone metadata
+                if hasattr(match, "creator_device_agent"):
+                    entry.creator_device_agent = match.creator_device_agent
+                if hasattr(match, "creator_generation_date"):
+                    entry.creator_generation_date = match.creator_generation_date
+                if hasattr(match, "creator_host_name"):
+                    entry.creator_host_name = match.creator_host_name
+                if hasattr(match, "creator_os_agent"):
+                    entry.creator_os_agent = match.creator_os_agent
+                if hasattr(match, "creator_software_agent"):
+                    entry.creator_software_agent = match.creator_software_agent
+                if hasattr(match, 'location'):
+                    entry.location = match.location
+                if hasattr(match, 'weather'):
+                    entry.weather = match.weather
+
                 if match != entry:
                     self.entries.remove(match)
                     entry.modified = True
