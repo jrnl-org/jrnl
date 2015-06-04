@@ -5,6 +5,8 @@ from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import Journal
 from . import time as jrnl_time
+from . import __title__  # 'jrnl'
+from . import __version__
 import os
 import re
 from datetime import datetime
@@ -15,6 +17,8 @@ import pytz
 import uuid
 import tzlocal
 from xml.parsers.expat import ExpatError
+import socket
+import platform
 
 
 class DayOne(Journal.Journal):
@@ -52,6 +56,35 @@ class DayOne(Journal.Journal):
                     entry.uuid = dict_entry["UUID"]
                     entry._tags = [self.config['tagsymbols'][0] + tag.lower() for tag in dict_entry.get("Tags", [])]
 
+                    """Extended DayOne attributes"""
+                    try:
+                        entry.creator_device_agent = dict_entry['Creator']['Device Agent']
+                    except:
+                        pass
+                    try:
+                        entry.creator_generation_date = dict_entry['Creator']['Generation Date']
+                    except:
+                        entry.creator_generation_date = date
+                    try:
+                        entry.creator_host_name = dict_entry['Creator']['Host Name']
+                    except:
+                        pass
+                    try:
+                        entry.creator_os_agent = dict_entry['Creator']['OS Agent']
+                    except:
+                        pass
+                    try:
+                        entry.creator_software_agent = dict_entry['Creator']['Software Agent']
+                    except:
+                        pass
+                    try:
+                        entry.location = dict_entry['Location']
+                    except:
+                        pass
+                    try:
+                        entry.weather = dict_entry['Weather']
+                    except:
+                        pass
                     self.entries.append(entry)
         self.sort()
         return self
@@ -64,6 +97,16 @@ class DayOne(Journal.Journal):
 
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
+                if not hasattr(entry, "creator_device_agent"):
+                    entry.creator_device_agent = ''  # iPhone/iPhone5,3
+                if not hasattr(entry, "creator_generation_date"):
+                    entry.creator_generation_date = utc_time
+                if not hasattr(entry, "creator_host_name"):
+                    entry.creator_host_name = socket.gethostname()
+                if not hasattr(entry, "creator_os_agent"):
+                    entry.creator_os_agent = '{}/{}'.format(platform.system(), platform.release())
+                if not hasattr(entry, "creator_software_agent"):
+                    entry.creator_software_agent = '{}/{}'.format(__title__, __version__)
 
                 filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
 
@@ -73,8 +116,17 @@ class DayOne(Journal.Journal):
                     'Entry Text': entry.title + "\n" + entry.body,
                     'Time Zone': str(tzlocal.get_localzone()),
                     'UUID': entry.uuid.upper(),
-                    'Tags': [tag.strip(self.config['tagsymbols']).replace("_", " ") for tag in entry.tags]
+                    'Tags': [tag.strip(self.config['tagsymbols']).replace("_", " ") for tag in entry.tags],
+                    'Creator': {'Device Agent': entry.creator_device_agent,
+                                'Generation Date': entry.creator_generation_date,
+                                'Host Name': entry.creator_host_name,
+                                'OS Agent': entry.creator_os_agent,
+                                'Sofware Agent': entry.creator_software_agent}
                 }
+                if hasattr(entry, 'location'):
+                    entry_plist['Location'] = entry.location
+                if hasattr(entry, 'weather'):
+                    entry_plist['Weather'] = entry.weather
                 plistlib.writePlist(entry_plist, filename)
         for entry in self._deleted_entries:
             filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
