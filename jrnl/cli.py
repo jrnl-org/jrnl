@@ -54,7 +54,7 @@ def parse_args(args=None):
     return parser.parse_args(args)
 
 
-class CommandEnum:
+class CommandEnum(object):
     READ = 1
     COMPOSE_NEW_ENTRY = 2
     EDIT_EXISTING_ENTRY = 3 # Existing entries with external editor
