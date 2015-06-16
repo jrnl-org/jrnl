@@ -121,7 +121,7 @@ class DayOne(Journal.Journal):
                                 'Generation Date': entry.creator_generation_date,
                                 'Host Name': entry.creator_host_name,
                                 'OS Agent': entry.creator_os_agent,
-                                'Sofware Agent': entry.creator_software_agent}
+                                'Software Agent': entry.creator_software_agent}
                 }
                 if hasattr(entry, 'location'):
                     entry_plist['Location'] = entry.location
