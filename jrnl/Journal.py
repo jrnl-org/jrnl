@@ -313,12 +313,6 @@ def open_journal(name, config, legacy=False):
     backwards compatibility with jrnl 1.x
     """
     config = config.copy()
-    journal_conf = config['journals'].get(name)
-    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
-        log.debug('Updating configuration with specific journal overrides %s', journal_conf)
-        config.update(journal_conf)
-    else:  # But also just give them a string to point to the journal file
-        config['journal'] = journal_conf
     config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
 
     if os.path.isdir(config['journal']):

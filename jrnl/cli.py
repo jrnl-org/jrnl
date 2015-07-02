@@ -153,12 +153,15 @@ def run(manual_args=None):
     # If the first textual argument points to a journal file,
     # use this!
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
+
     if journal_name is not 'default':
         args.text = args.text[1:]
     elif "default" not in config['journals']:
         util.prompt("No default journal configured.")
         util.prompt(list_journals(config))
         sys.exit(1)
+
+    config = util.scope_config(config, journal_name)
 
     # If the first remaining argument looks like e.g. '-3', interpret that as a limiter
     if not args.limit and args.text and args.text[0].startswith("-"):
@@ -182,7 +185,14 @@ def run(manual_args=None):
             # Piping data into jrnl
             raw = util.py23_read()
         elif config['editor']:
-            raw = util.get_text_from_editor(config)
+            template = ""
+            if config['template']:
+                try:
+                    template = open(config['template']).read() 
+                except:
+                    util.prompt("[Could not read template at '']".format(config['template']))
+                    sys.exit(1)
+            raw = util.get_text_from_editor(config, template)
         else:
             try:
                 raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")

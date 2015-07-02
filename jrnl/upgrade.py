@@ -82,7 +82,7 @@ older versions of jrnl anymore.
     for journal_name, path in encrypted_journals.items():
         util.prompt("\nUpgrading encrypted '{}' journal stored in {}...".format(journal_name, path))
         backup(path, binary=True)
-        old_journal = Journal.open_journal(journal_name, config, legacy=True)
+        old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
         new_journal = EncryptedJournal.from_journal(old_journal)
         new_journal.write()
         util.prompt("  Done.")
@@ -90,7 +90,7 @@ older versions of jrnl anymore.
     for journal_name, path in plain_journals.items():
         util.prompt("\nUpgrading plain text '{}' journal stored in {}...".format(journal_name, path))
         backup(path)
-        old_journal = Journal.open_journal(journal_name, config, legacy=True)
+        old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
         new_journal = Journal.PlainJournal.from_journal(old_journal)
         new_journal.write()
         util.prompt("  Done.")
