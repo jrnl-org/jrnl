@@ -2,6 +2,7 @@ default_hour: 9
 default_minute: 0
 editor: ''
 encrypt: true
+template: false
 highlight: true
 journals:
   default: features/journals/encrypted.journal

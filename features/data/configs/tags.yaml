@@ -3,6 +3,7 @@ default_minute: 0
 editor: ''
 encrypt: false
 highlight: true
+template: false
 journals:
   default: features/journals/tags.journal
 linewrap: 80

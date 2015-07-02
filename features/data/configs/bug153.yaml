@@ -8,4 +8,5 @@ journals:
 linewrap: 80
 password: ''
 tagsymbols: '@'
+template: false
 timeformat: '%Y-%m-%d %H:%M'
