@@ -1,10 +1,11 @@
 default_hour: 9
-timeformat: "%Y-%m-%d %H:%M"
-linewrap: 80
-encrypt: false
-editor: ""
 default_minute: 0
+editor: ""
+encrypt: false
 highlight: true
 journals:
   default: features/journals/simple.journal
+linewrap: 80
 tagsymbols: "@"
+template: false
+timeformat: "%Y-%m-%d %H:%M"
