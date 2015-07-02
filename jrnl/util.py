@@ -13,6 +13,9 @@ import subprocess
 import codecs
 import unicodedata
 import shlex
+import logging
+
+log = logging.getLogger(__name__)
 
 
 PY3 = sys.version_info[0] == 3
@@ -120,6 +123,20 @@ def load_config(config_path):
     """
     with open(config_path) as f:
         return yaml.load(f)
+
+
+def scope_config(config, journal_name):
+    if journal_name not in config['journals']:
+        return config
+    config = config.copy()
+    journal_conf = config['journals'].get(journal_name)
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific journal overrides %s', journal_conf)
+        config.update(journal_conf)
+    else:  # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
+    config.pop('journals')
+    return config
 
 
 def get_text_from_editor(config, template=""):
