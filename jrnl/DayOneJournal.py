@@ -146,4 +146,3 @@ class DayOne(Journal.Journal):
         edited_uuids = [e.uuid for e in entries]
         self._deleted_entries = [e for e in self.entries if e.uuid not in edited_uuids]
         self.entries[:] = [e for e in self.entries if e.uuid in edited_uuids]
-        return entries
