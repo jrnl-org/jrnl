@@ -39,3 +39,6 @@ Or, if you want the option to encrypt your journal,
 
     pip install jrnl[encrypted]
 
+Alternatively, on OS X with [Homebrew](http://brew.sh/) installed:
+
+    brew install jrnl
