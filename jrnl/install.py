@@ -91,7 +91,7 @@ def load_or_install_jrnl():
         log.debug('Configuration file not found, installing jrnl...')
         return install()
 
-def create(journal_name, default_journal_file_path=None, config=None):
+def create(journal_name, default_file_path=None, config=None):
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
         expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
@@ -106,13 +106,12 @@ def create(journal_name, default_journal_file_path=None, config=None):
         config = default_config
 
     # Set up the default journal file path
-    if default_journal_file_path is None:
-        default_journal_file_path = JOURNAL_FILE_PATH
+    if default_file_path is None:
+        default_file_path = JOURNAL_FILE_PATH
 
     # Where to create the journal?
-    path_query = 'Path to your journal file (leave blank for {}): '.format(default_journal_file_path)
-    journal_path = util.py23_input(path_query).strip() or \
-                   default_journal_file_path
+    path_query = 'Path to your journal file (leave blank for {}): '.format(default_file_path)
+    journal_path = util.py23_input(path_query).strip() or default_file_path
     journal_path = os.path.expanduser(os.path.expandvars(journal_path))
     config['journals'][journal_name] = {'journal': journal_path}
 
@@ -129,7 +128,6 @@ def create(journal_name, default_journal_file_path=None, config=None):
     # Encrypt it?
     password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
     if password:
-        config['journals'][journal_name]['password'] = password
         config['journals'][journal_name]['encrypt'] = True
         if util.yesno("Do you want to store the password in your keychain?", default=True):
             util.set_keychain(journal_name, password)
@@ -141,6 +139,8 @@ def create(journal_name, default_journal_file_path=None, config=None):
         PlainJournal._create(journal_path)
 
     save_config(config)
+    if password:
+        config['password'] = password
     return config
 
 def install():

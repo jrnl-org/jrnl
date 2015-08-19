@@ -16,6 +16,7 @@ from . import plugins
 from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
 import jrnl
 import argparse
+import os
 import sys
 import logging
 
@@ -160,9 +161,9 @@ def run(manual_args=None):
             sys.exit(1)
 
         # create a config entry for the new journal
-        journal_file_path = os.path.join(os.path.expanduser('.'),
+        default_file_path = os.path.join(os.path.abspath('.'),
                                          install.DEFAULT_JOURNAL_NAME)
-        config = install.create(journal_name, journal_file_path, config)
+        config = install.create(journal_name, default_file_path, config)
         sys.exit(0)
 
     # If the first textual argument points to a journal file,
