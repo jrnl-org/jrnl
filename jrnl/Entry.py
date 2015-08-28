@@ -50,8 +50,9 @@ class Entry:
             body = "\n".join([
                     textwrap.fill(line,
                         self.journal.config['linewrap'],
-                        initial_indent="| ",
-                        subsequent_indent="| ") or "|"
+                        initial_indent=self.journal.config['indent'] + " ",
+                        subsequent_indent=self.journal.config['indent'] + " ")
+                            or self.journal.config['indent']
                     for line in self.body.rstrip(" \n").splitlines()
                 ])
         else:
