@@ -7,7 +7,7 @@ import textwrap
 from datetime import datetime
 
 
-class Entry:
+class Entry(object):
     def __init__(self, journal, date=None, title="", body="", starred=False):
         self.journal = journal  # Reference to journal mainly to access it's config
         self.date = date or datetime.now()
@@ -109,3 +109,25 @@ class Entry:
             body=body,
             space=space
         )
+
+
+class DayOneEntry(Entry):
+    def __init__(self, journal, *args, **kwargs):
+
+        # Make sure all our args are converted to kwargs before calling super
+        try:
+            kwargs['date'] = args[0]
+            kwargs['title'] = args[1]
+            kwargs['body'] = args[2]
+            kwargs['starred'] = args[3]
+        except IndexError:
+            pass
+
+        # store extra day one data inside the entry. This should be a dict containing all the data that
+        # day one stores but which is not relevant to jrnl
+        self.extra_data = None
+
+        if kwargs.get('extra_data'):
+            self.extra_data = kwargs.pop('extra_data')
+
+        super(DayOneEntry, self).__init__(journal, **kwargs)

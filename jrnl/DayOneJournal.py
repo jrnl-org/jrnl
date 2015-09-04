@@ -45,7 +45,7 @@ class DayOne(Journal.Journal):
                     raw = dict_entry['Entry Text']
                     sep = re.search("\n|[\?!.]+ +\n?", raw)
                     title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
-                    entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
+                    entry = Entry.DayOneEntry(self, date, title, body, starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
                     entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
                     self.entries.append(entry)
@@ -99,7 +99,7 @@ class DayOne(Journal.Journal):
             if m:
                 if current_entry:
                     entries.append(current_entry)
-                current_entry = Entry.Entry(self)
+                current_entry = Entry.DayOneEntry(self)
                 current_entry.modified = False
                 current_entry.uuid = m.group(1).lower()
             else:
@@ -111,8 +111,10 @@ class DayOne(Journal.Journal):
                     current_entry.title = line[date_length + 1:]
                     current_entry.date = new_date
                 except ValueError:
+                    # strptime failed to parse a date, so assume this line is part of the journal
+                    # entry
                     if current_entry:
-                        current_entry.body += line + "\n"
+                            current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
