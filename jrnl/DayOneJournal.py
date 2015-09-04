@@ -12,6 +12,7 @@ import plistlib
 import pytz
 import uuid
 import tzlocal
+import base64
 from xml.parsers.expat import ExpatError
 
 
@@ -20,6 +21,7 @@ class DayOne(Journal.Journal):
 
     # InvalidFileException was added to plistlib in Python3.4
     PLIST_EXCEPTIONS = (ExpatError, plistlib.InvalidFileException) if hasattr(plistlib, "InvalidFileException") else ExpatError
+    DAY_ONE_EXTRA_DATA_MARKER = "## DAY_ONE_DATA: "
 
     def __init__(self, **kwargs):
         self.entries = []
@@ -40,12 +42,20 @@ class DayOne(Journal.Journal):
                         timezone = pytz.timezone(dict_entry['Time Zone'])
                     except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                         timezone = tzlocal.get_localzone()
+                    do_to_jrnl_field_map = {
+                        'Creation Date': 'date',
+                        'Entry Text': 'title',
+                        'Starred': 'starred',
+                        'UUID': 'uuid'
+                    }
                     date = dict_entry['Creation Date']
                     date = date + timezone.utcoffset(date, is_dst=False)
                     raw = dict_entry['Entry Text']
                     sep = re.search("\n|[\?!.]+ +\n?", raw)
                     title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
-                    entry = Entry.DayOneEntry(self, date, title, body, starred=dict_entry["Starred"])
+                    extra_data = {k: v for k, v in dict_entry.iteritems() if k not in do_to_jrnl_field_map.keys()}
+                    entry = Entry.DayOneEntry(self, date, title, body, starred=dict_entry["Starred"],
+                                              extra_data=extra_data)
                     entry.uuid = dict_entry["UUID"]
                     entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
                     self.entries.append(entry)
@@ -70,6 +80,8 @@ class DayOne(Journal.Journal):
                     'UUID': entry.uuid,
                     'Tags': [tag.strip(self.config['tagsymbols']).replace("_", " ") for tag in entry.tags]
                 }
+                if entry.extra_data:
+                    entry_plist.update(entry.extra_data)
                 plistlib.writePlist(entry_plist, filename)
         for entry in self._deleted_entries:
             filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
@@ -78,7 +90,16 @@ class DayOne(Journal.Journal):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return "\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
+        output_str = ""
+        for entry in self.entries:
+            # use base64 and zlib encoding to compress the extra down a couple lines to minimize
+            # non-human readable gibberish in the output
+            day_one_data = base64.encodestring(
+                plistlib.writePlistToString(entry.extra_data).encode("zlib")).replace('\n', '')
+            output_str += "# {uuid}\n{body}\n\n{day_one_marker}{day_one_data}".format(
+                uuid=entry.uuid, body=entry.__unicode__(), day_one_marker=self.DAY_ONE_EXTRA_DATA_MARKER,
+                day_one_data=day_one_data)
+        return output_str
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates it's entries."""
@@ -114,6 +135,10 @@ class DayOne(Journal.Journal):
                     # strptime failed to parse a date, so assume this line is part of the journal
                     # entry
                     if current_entry:
+                        if line.startswith(self.DAY_ONE_EXTRA_DATA_MARKER):
+                            data = line[len(self.DAY_ONE_EXTRA_DATA_MARKER):]
+                            current_entry.extra_data = plistlib.readPlistFromString(base64.decodestring(data).decode("zlib"))
+                        else:
                             current_entry.body += line + "\n"
 
         # Append last entry
