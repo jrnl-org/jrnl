@@ -127,7 +127,11 @@ class DayOne(Journal.Journal):
                 match = matched_entries[0]
                 if match != entry:
                     self.entries.remove(match)
-                    entry.modified = True
+                    # DayOne's whitespace conventions are different from jrnl's, so compare 'split()'-ed entry
+                    # bodies instead of comparing the objects directly. This way whitespace differences won't
+                    # mark entries as modified
+                    if match.body.split() != entry.body.split():
+                        entry.modified = True
                     self.entries.append(entry)
             else:
                 # This entry seems to be new... save it.
