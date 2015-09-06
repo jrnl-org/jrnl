@@ -92,11 +92,11 @@ class DayOne(Journal.Journal):
         manually and later be parsed with eslf.parse_editable_str."""
         output_str = ""
         for entry in self.entries:
-            # use base64 and zlib encoding to compress the extra down a couple lines to minimize
+            # use base64 and zlib encoding to compress the extra data and minimize
             # non-human readable gibberish in the output
             day_one_data = base64.encodestring(
                 plistlib.writePlistToString(entry.extra_data).encode("zlib")).replace('\n', '')
-            output_str += "# {uuid}\n{body}\n\n{day_one_marker}{day_one_data}".format(
+            output_str += "# {uuid}\n{body}\n\n{day_one_marker}{day_one_data}\n".format(
                 uuid=entry.uuid, body=entry.__unicode__(), day_one_marker=self.DAY_ONE_EXTRA_DATA_MARKER,
                 day_one_data=day_one_data)
         return output_str
