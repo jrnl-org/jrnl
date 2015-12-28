@@ -17,6 +17,10 @@ class Entry:
         self.starred = starred
         self.modified = False
 
+    @property
+    def fulltext(self):
+        return self.title + " " + self.body
+    
     @staticmethod
     def tag_regex(tagsymbols):
         pattern = r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
