@@ -17,12 +17,12 @@ class TextExporter(BaseExporter):
     @classmethod
     def export_entry(cls, entry):
         """Returns a unicode representation of a single entry."""
-        return u.__unicode__()
+        return entry.__unicode__()
 
     @classmethod
     def export_journal(cls, journal):
         """Returns a unicode representation of an entire journal."""
-        return journal.pprint()
+        return "\n".join(cls.export_entry(entry) for entry in journal)
 
     @classmethod
     def write_file(cls, journal, path):
