@@ -29,6 +29,16 @@ class XMLExporter(JSONExporter):
             return entry_el
 
     @classmethod
+    def entry_to_xml(cls, entry, doc):
+        entry_el = doc.createElement('entry')
+        entry_el.setAttribute('date', entry.date.isoformat())
+        if hasattr(entry, "uuid"):
+            entry_el.setAttribute('uuid', u(entry.uuid))
+        entry_el.setAttribute('starred', u(entry.starred))
+        entry_el.appendChild(doc.createTextNode(entry.fulltext))
+        return entry_el
+
+    @classmethod
     def export_journal(cls, journal):
         """Returns an XML representation of an entire journal."""
         tags = get_tags_count(journal)
@@ -36,12 +46,12 @@ class XMLExporter(JSONExporter):
         xml = doc.createElement('journal')
         tags_el = doc.createElement('tags')
         entries_el = doc.createElement('entries')
-        for tag in tags:
+        for count, tag in tags:
             tag_el = doc.createElement('tag')
-            tag_el.setAttribute('name', tag[1])
-            count_node = doc.createTextNode(u(tag[0]))
-            tag.appendChild(count_node)
-            tags_el.appendChild(tag)
+            tag_el.setAttribute('name', tag)
+            count_node = doc.createTextNode(u(count))
+            tag_el.appendChild(count_node)
+            tags_el.appendChild(tag_el)
         for entry in journal.entries:
             entries_el.appendChild(cls.entry_to_xml(entry, doc))
         xml.appendChild(entries_el)
