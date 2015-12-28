@@ -36,6 +36,10 @@ class Journal(object):
         """Returns the number of entries"""
         return len(self.entries)
 
+    def __iter__(self):
+        """Iterates over the journal's entries."""
+        return (entry for entry in self.entries)
+
     @classmethod
     def from_journal(cls, other):
         """Creates a new journal by copying configuration and entries from
