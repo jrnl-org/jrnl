@@ -48,12 +48,9 @@ class DayOne(Journal.Journal):
                         timezone = tzlocal.get_localzone()
                     date = dict_entry['Creation Date']
                     date = date + timezone.utcoffset(date, is_dst=False)
-                    raw = dict_entry['Entry Text']
-                    sep = re.search("\n|[\?!.]+ +\n?", raw)
-                    title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
-                    entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
+                    entry = Entry.Entry(self, date, text=dict_entry['Entry Text'], starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
-                    entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
+                    entry._tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
 
                     self.entries.append(entry)
         self.sort()
@@ -129,7 +126,7 @@ class DayOne(Journal.Journal):
 
         # Now, update our current entries if they changed
         for entry in entries:
-            entry.parse_tags()
+            entry._parse_text()
             matched_entries = [e for e in self.entries if e.uuid.lower() == entry.uuid]
             if matched_entries:
                 # This entry is an existing entry

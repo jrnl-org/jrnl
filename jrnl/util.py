@@ -30,6 +30,18 @@ WARNING_COLOR = "\033[33m"
 ERROR_COLOR = "\033[31m"
 RESET_COLOR = "\033[0m"
 
+# Based on Segtok by Florian Leitner
+# https://github.com/fnl/segtok
+SENTENCE_SPLITTER = re.compile(r"""
+(                       # A sentence ends at one of two sequences:
+    [.!?\u203C\u203D\u2047\u2048\u2049\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
+    [\'\u2019\"\u201D]? # an optional right quote,
+    [\]\)]*             # optional closing brackets and
+    \s+                 # a sequence of required spaces.
+|                       # Otherwise,
+    \n                  # a sentence also terminates newlines.
+)""", re.UNICODE | re.VERBOSE)
+
 
 def getpass(prompt="Password: "):
     if not TEST:
@@ -186,3 +198,11 @@ def byte2int(b):
     """Converts a byte to an integer.
     This is equivalent to ord(bs[0]) on Python 2 and bs[0] on Python 3."""
     return ord(b)if PY2 else b
+
+
+def split_title(text):
+    """Splits the first sentence off from a text."""
+    punkt = SENTENCE_SPLITTER.search(text)
+    if not punkt:
+        return text, ""
+    return text[:punkt.end()].rstrip(), text[punkt.end():].lstrip()

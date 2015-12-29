@@ -88,40 +88,22 @@ class Journal(object):
         """Parses a journal that's stored in a string and returns a list of entries"""
         # Initialise our current entry
         entries = []
-        current_entry = None
-        date_blob_re = re.compile("^\[[^\\]]+\] ")
-        for line in journal_txt.splitlines():
-            line = line.rstrip()
-            date_blob = date_blob_re.findall(line)
-            if date_blob:
-                date_blob = date_blob[0]
-                new_date = time.parse(date_blob.strip(" []"))
-                if new_date:
-                    # Found a date at the start of the line: This is a new entry.
-                    if current_entry:
-                        entries.append(current_entry)
+        date_blob_re = re.compile("(?:^|\n)\[([^\\]]+)\] ")
+        last_entry_pos = 0
+        for match in date_blob_re.finditer(journal_txt):
+            date_blob = match.groups()[0]
+            new_date = time.parse(date_blob)
+            if new_date:
+                if entries:
+                    entries[-1].text = journal_txt[last_entry_pos:match.start()]
+                last_entry_pos = match.end()
+                entries.append(Entry.Entry(self, date=new_date))
+        # Finish the last entry
+        if entries:
+            entries[-1].text = journal_txt[last_entry_pos:]
 
-                    if line.endswith("*"):
-                        starred = True
-                        line = line[:-1]
-                    else:
-                        starred = False
-
-                    current_entry = Entry.Entry(
-                        self,
-                        date=new_date,
-                        title=line[len(date_blob):],
-                        starred=starred
-                    )
-            elif current_entry:
-                # Didn't find a date - keep on feeding to current entry.
-                current_entry.body += line + "\n"
-
-        # Append last entry
-        if current_entry:
-            entries.append(current_entry)
         for entry in entries:
-            entry.parse_tags()
+            entry._parse_text()
         return entries
 
     def __unicode__(self):
@@ -183,20 +165,7 @@ class Journal(object):
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
         ]
-        if short:
-            if tags:
-                for e in self.entries:
-                    res = []
-                    for tag in tags:
-                        matches = [m for m in re.finditer(tag, e.body)]
-                        for m in matches:
-                            date = e.date.strftime(self.config['timeformat'])
-                            excerpt = e.body[m.start():min(len(e.body), m.end() + 60)]
-                            res.append('{0} {1} ..'.format(date, excerpt))
-                    e.body = "\n".join(res)
-            else:
-                for e in self.entries:
-                    e.body = ''
+
         self.entries = result
 
     def new_entry(self, raw, date=None, sort=True):
@@ -207,23 +176,20 @@ class Journal(object):
         starred = False
         # Split raw text into title and body
         sep = re.search("\n|[\?!.]+ +\n?", raw)
-        title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
+        first_line = raw[:sep.end()].strip() if sep else raw
         starred = False
+
         if not date:
-            if title.find(": ") > 0:
-                starred = "*" in title[:title.find(": ")]
-                date = time.parse(title[:title.find(": ")], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
-                if date or starred:  # Parsed successfully, strip that from the raw text
-                    title = title[title.find(": ") + 1:].strip()
-            elif title.strip().startswith("*"):
-                starred = True
-                title = title[1:].strip()
-            elif title.strip().endswith("*"):
-                starred = True
-                title = title[:-1].strip()
+            colon_pos = first_line.find(": ")
+            if colon_pos > 0:
+                date = time.parse(raw[:colon_pos], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
+                if date:  # Parsed successfully, strip that from the raw text
+                    starred = raw[:colon_pos].strip().endswith("*")
+                    raw = raw[colon_pos + 1:].strip()
+        starred = starred or first_line.startswith("*") or first_line.endswith("*")
         if not date:  # Still nothing? Meh, just live in the moment.
             date = time.parse("now")
-        entry = Entry.Entry(self, date, title, body, starred=starred)
+        entry = Entry.Entry(self, date, raw, starred=starred)
         entry.modified = True
         self.entries.append(entry)
         if sort:
@@ -264,8 +230,7 @@ class PlainJournal(Journal):
 class LegacyJournal(Journal):
     """Legacy class to support opening journals formatted with the jrnl 1.x
     standard. Main difference here is that in 1.x, timestamps were not cuddled
-    by square brackets, and the line break between the title and the rest of
-    the entry was not enforced. You'll not be able to save these journals anymore."""
+    by square brackets. You'll not be able to save these journals anymore."""
     def _load(self, filename):
         with codecs.open(filename, "r", "utf-8") as f:
             return f.read()
@@ -295,18 +260,18 @@ class LegacyJournal(Journal):
                 else:
                     starred = False
 
-                current_entry = Entry.Entry(self, date=new_date, title=line[date_length + 1:], starred=starred)
+                current_entry = Entry.Entry(self, date=new_date, text=line[date_length + 1:], starred=starred)
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body.
                 if current_entry:
-                    current_entry.body += line + u"\n"
+                    current_entry.text += line + u"\n"
 
         # Append last entry
         if current_entry:
             entries.append(current_entry)
         for entry in entries:
-            entry.parse_tags()
+            entry._parse_text()
         return entries
 
 
