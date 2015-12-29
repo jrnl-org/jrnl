@@ -5,7 +5,7 @@ from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import re
 import sys
-from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
+from ..util import WARNING_COLOR, RESET_COLOR
 
 
 class MarkdownExporter(TextExporter):
@@ -52,7 +52,7 @@ class MarkdownExporter(TextExporter):
         if warn_on_heading_level is True:
             print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(WARNING_COLOR, RESET_COLOR, date_str, entry.title), file=sys.stderr)
 
-        return "{md} {date} {title} {body} {space}".format(
+        return "{md} {date} {title}\n{body} {space}".format(
             md=heading,
             date=date_str,
             title=entry.title,
