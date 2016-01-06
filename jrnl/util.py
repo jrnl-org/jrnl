@@ -28,7 +28,12 @@ log = logging.getLogger(__name__)
 
 def getpass(prompt="Password: "):
     if not TEST:
-        return gp.getpass(prompt)
+        try:
+            passwd = gp.getpass(prompt)
+        except TypeError:
+            passwd = gp.getpass(prompt.encode('ascii', 'ignore'))
+
+        return passwd
     else:
         return py23_input(prompt)
 
