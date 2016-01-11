@@ -15,7 +15,7 @@ If it is already encrypted, you will first be asked for the current password. Yo
 
     jrnl --decrypt
 
-will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, ie. ``jrnl --decrypt plain_text_copy.txt``, to leave your original file untouched.
+will replace your encrypted journal file by a Journal in plain text. You can also specify a filename, i.e. ``jrnl --decrypt plain_text_copy.txt``, to leave your original file untouched.
 
 
 Storing passwords in your keychain
@@ -28,9 +28,9 @@ If you don't initially store the password in the keychain but decide to do so at
 A note on security
 ------------------
 
-While jrnl follows best practises, true security is an illusion. Specifically, jrnl will leave traces in your memory and your shell history -- it's meant to keep journals secure in transit, for example when storing it on an `untrusted <http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/>`_ services such as Dropbox. If you're concerned about security, disable history logging for journal in your ``.bashrc`` ::
+While jrnl follows best practices, true security is an illusion. Specifically, jrnl will leave traces in your memory and your shell history -- it's meant to keep journals secure in transit, for example when storing it on an `untrusted <http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/>`_ services such as Dropbox. If you're concerned about security, disable history logging for journal in your ``.bashrc`` ::
 
-    HISTINGNORE="jrnl *"
+    HISTIGNORE="jrnl *:"
 
 Manual decryption
 -----------------
