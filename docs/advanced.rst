@@ -69,6 +69,12 @@ Instead of all entries being in a single file, each entry will live in a separat
     }
 
 
+Alfred Integration
+------------------
+
+You can use _jrnl_ with the popular `Alfred <https://www.alfredapp.com/>`_ app with `this handy workflow <http://www.packal.org/workflow/jrnl>`_.
+
+
 Multiple journal files
 ----------------------
 
