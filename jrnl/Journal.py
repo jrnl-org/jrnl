@@ -26,6 +26,7 @@ class Journal(object):
             'tagsymbols': '@',
             'highlight': True,
             'linewrap': 80,
+            'indent_character': '|',
         }
         self.config.update(kwargs)
         # Set up date parser
