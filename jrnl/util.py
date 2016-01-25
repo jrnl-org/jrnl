@@ -209,4 +209,4 @@ def split_title(text):
     punkt = SENTENCE_SPLITTER.search(text)
     if not punkt:
         return text, ""
-    return text[:punkt.end()].rstrip(), text[punkt.end():].lstrip()
+    return text[:punkt.end()].strip(), text[punkt.end():].strip()
