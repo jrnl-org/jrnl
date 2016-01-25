@@ -78,11 +78,11 @@ class Entry:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
                 textwrap.fill(
-                    (line + " ") if (len(line) == 0) else line,
+                    line,
                     self.journal.config['linewrap'],
                     initial_indent="| ",
                     subsequent_indent="| ",
-                    drop_whitespace=True)
+                    drop_whitespace=True) or "| "
                 for line in self.body.rstrip(" \n").splitlines()
             ])
         else:
