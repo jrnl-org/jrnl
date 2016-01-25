@@ -10,6 +10,7 @@ import os
 
 def backup(filename, binary=False):
     util.prompt("  Created a backup at {}.backup".format(filename))
+    filename = os.path.expanduser(os.path.expandvars(filename))
     with open(filename, 'rb' if binary else 'r') as original:
         contents = original.read()
     with open(filename + ".backup", 'wb' if binary else 'w') as backup:
