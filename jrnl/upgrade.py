@@ -6,10 +6,12 @@ from . import util
 from .EncryptedJournal import EncryptedJournal
 import sys
 import os
+import codecs
 
 
 def backup(filename, binary=False):
     util.prompt("  Created a backup at {}.backup".format(filename))
+    filename = os.path.expanduser(os.path.expandvars(filename))
     with open(filename, 'rb' if binary else 'r') as original:
         contents = original.read()
     with open(filename + ".backup", 'wb' if binary else 'w') as backup:
@@ -17,7 +19,7 @@ def backup(filename, binary=False):
 
 
 def upgrade_jrnl_if_necessary(config_path):
-    with open(config_path) as f:
+    with codecs.open(config_path, "r", "utf-8") as f:
         config_file = f.read()
     if not config_file.strip().startswith("{"):
         return
