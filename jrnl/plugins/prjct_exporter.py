@@ -2,8 +2,11 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals, print_function
-from .text_exporter import TextExporter
+
 import sys
+import re
+
+from .text_exporter import TextExporter
 from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
 
 
@@ -24,6 +27,17 @@ class PrjctExporter(TextExporter):
         date_str = entry.date.strftime(entry.journal.config['timeformat'])
         body_wrapper = "\n" if entry.body else ""
         body = body_wrapper + entry.body
+
+        tagsymbols = entry.journal.config['tagsymbols']
+        # see also Entry.Entry.rag_regex
+        multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols), re.UNICODE)
+
+        newbody = ''
+        for line in body.splitlines(True):
+            if multi_tag_regex.match(line):
+                """Tag only lines"""
+                line = ''
+            newbody = newbody + line
 
         # pass headings as is
 
@@ -49,7 +63,7 @@ class PrjctExporter(TextExporter):
                 author="",
                 location=location_str,
                 language="",
-                body=body,
+                body=newbody,
                 space="\n"
             )
 
