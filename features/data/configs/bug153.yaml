@@ -10,3 +10,4 @@ password: ''
 tagsymbols: '@'
 template: false
 timeformat: '%Y-%m-%d %H:%M'
+indent_character: "|"

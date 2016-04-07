@@ -8,3 +8,4 @@ journals:
 linewrap: 80
 tagsymbols: '@'
 timeformat: '%Y-%m-%d %H:%M'
+indent_character: "|"
