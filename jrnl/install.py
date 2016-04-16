@@ -54,6 +54,7 @@ default_config = {
     'tagsymbols': '@',
     'highlight': True,
     'linewrap': 79,
+    'indent_character': '|',
 }
 
 
