@@ -74,15 +74,16 @@ class Entry:
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
+        indent = self.journal.config['indent_character'].rstrip() + " "
         if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
                 textwrap.fill(
                     line,
                     self.journal.config['linewrap'],
-                    initial_indent="| ",
-                    subsequent_indent="| ",
-                    drop_whitespace=True) or "| "
+                    initial_indent=indent,
+                    subsequent_indent=indent,
+                    drop_whitespace=True) or indent
                 for line in self.body.rstrip(" \n").splitlines()
             ])
         else:
