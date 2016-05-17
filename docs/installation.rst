@@ -24,7 +24,7 @@ to install the dependencies for encrypting journals as well.
 
    Installing the encryption library, `pycrypto`, requires a `gcc` compiler. For this reason, jrnl will not install `pycrypto` unless explicitly told so like this. You can `install PyCrypto manually <https://www.dlitz.net/software/pycrypto/>`_ first or install it with ``pip install pycrypto`` if you have a `gcc` compiler.
 
-   Also note that when using zsh, you the correct syntax is ``pip install "jrnl[encrypted]"`` (note the quotes).
+   Also note that when using zsh, the correct syntax is ``pip install "jrnl[encrypted]"`` (note the quotes).
 
 The first time you run ``jrnl`` you will be asked where your journal file should be created and whether you wish to encrypt it.
 
