@@ -30,7 +30,7 @@ A note on security
 
 While jrnl follows best practises, true security is an illusion. Specifically, jrnl will leave traces in your memory and your shell history -- it's meant to keep journals secure in transit, for example when storing it on an `untrusted <http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/>`_ services such as Dropbox. If you're concerned about security, disable history logging for journal in your ``.bashrc`` ::
 
-    HISTIGNORE="jrnl *"
+    HISTIGNORE="$HISTIGNORE:jrnl *"
 
 If you are using zsh instead of bash, you can get the same behaviour adding this to your ``zshrc`` ::
 
@@ -40,7 +40,7 @@ If you are using zsh instead of bash, you can get the same behaviour adding this
 Manual decryption
 -----------------
 
-Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. So, to decrypt a journal file in python, run::
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. So, to decrypt a journal file in python, run ::
 
     import hashlib, Crypto.Cipher
     key = hashlib.sha256(my_password).digest()
