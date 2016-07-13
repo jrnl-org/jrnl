@@ -30,6 +30,8 @@ class DayOne(Journal.Journal):
         filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
         self.entries = []
         for filename in filenames:
+            if os.path.isdir(filename):
+                continue
             with open(filename, 'rb') as plist_entry:
                 try:
                     dict_entry = plistlib.readPlist(plist_entry)
