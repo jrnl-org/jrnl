@@ -15,6 +15,18 @@ import logging
 log = logging.getLogger(__name__)
 
 
+class Tag(object):
+    def __init__(self, name, count=0):
+        self.name = name
+        self.count = count
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return "<Tag '{}'>".format(self.name)
+
+
 class Journal(object):
     def __init__(self, name='default', **kwargs):
         self.config = {
@@ -140,6 +152,18 @@ class Journal(object):
         """Removes all but the last n entries"""
         if n:
             self.entries = self.entries[-n:]
+
+    @property
+    def tags(self):
+        """Returns a set of tuples (count, tag) for all tags present in the journal."""
+        # Astute reader: should the following line leave you as puzzled as me the first time
+        # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+        tags = [tag
+                for entry in self.entries
+                for tag in set(entry.tags)]
+        # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
+        tag_counts = set([(tags.count(tag), tag) for tag in tags])
+        return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
     def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
         """Removes all entries from the journal that don't match the filter.
