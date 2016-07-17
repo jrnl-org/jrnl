@@ -1,0 +1,34 @@
+---
+extension: json
+---
+
+{% block journal %}
+{
+  "tags": {
+   {% for tag in tags %}
+   "{{ tag.name }}": {{ tag.count }}{% if not __last_iteration %},{% endif %}
+   {% endfor %}
+  },
+  "entries": [
+    {% for entry in entries %}
+    {% include entry %}{% if not __last_iteration %},{% endif %}
+    {% endfor %}
+  ]
+}
+{% endblock %}
+
+{% block entry %}
+{
+  "title": "{{ entry.title }}",
+  "body": "{{ entry.body }}",
+  "date": "{{ entry.date.strftime('%Y-%m-%d') }}",
+  "time": "{{ entry.date.strftime('%H:%M') }}",
+  {% if entry.uuid %}
+  "uuid": "{{ entry.uuid }}",
+  {% endif %}
+  "starred": {{ "true" if entry.starred else "false" }}
+  }
+}
+{% endblock %}
+
+Hey There

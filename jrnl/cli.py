@@ -13,7 +13,8 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
-from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
+from .export import Exporter
+from .util import ERROR_COLOR, RESET_COLOR
 import jrnl
 import argparse
 import sys
@@ -188,7 +189,7 @@ def run(manual_args=None):
             template = ""
             if config['template']:
                 try:
-                    template = open(config['template']).read() 
+                    template = open(config['template']).read()
                 except:
                     util.prompt("[Could not read template at '']".format(config['template']))
                     sys.exit(1)
@@ -244,7 +245,7 @@ def run(manual_args=None):
         print(util.py2encode(plugins.get_exporter("tags").export(journal)))
 
     elif args.export is not False:
-        exporter = plugins.get_exporter(args.export)
+        exporter = Exporter(args.export)
         print(exporter.export(journal, args.output))
 
     elif args.encrypt is not False:
