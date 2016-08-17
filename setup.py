@@ -86,7 +86,7 @@ setup(
         "cryptography==1.4",
         "tzlocal>=1.2",
         "pyyaml>=3.11",
-        "keyring==7.3",
+        "keyring>=7.3",
         "passlib>=1.6.2",
         "pyxdg>=0.25",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
