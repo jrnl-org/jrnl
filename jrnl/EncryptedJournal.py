@@ -57,8 +57,8 @@ class EncryptedJournal(Journal.Journal):
     @classmethod
     def _create(cls, filename, password):
         key = make_key(password)
-        dummy = Fernet(key).encrypt("")
-        with open(filename, 'w') as f:
+        dummy = Fernet(key).encrypt(b"")
+        with open(filename, 'wb') as f:
             f.write(dummy)
 
 
