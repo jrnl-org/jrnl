@@ -2,57 +2,34 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
-import glob
-import os
-import importlib
 
+from .text_exporter import TextExporter
+from .jrnl_importer import JRNLImporter
+from .json_exporter import JSONExporter
+from .markdown_exporter import MarkdownExporter
+from .tag_exporter import TagExporter
+from .xml_exporter import XMLExporter
+from .yaml_exporter import YAMLExporter
+from .template_exporter import __all__ as template_exporters
 
-class PluginMeta(type):
+__exporters =[JSONExporter, MarkdownExporter, TagExporter, TextExporter, XMLExporter, YAMLExporter] + template_exporters
+__importers =[JRNLImporter]
 
-    def __init__(cls, name, bases, attrs):
-        """Called when a Plugin derived class is imported"""
-        if not hasattr(cls, 'PLUGINS'):
-            cls.PLUGINS = []
-            cls.PLUGIN_NAMES = []
-        else:
-            cls.__register_plugin(cls)
+__exporter_types = dict([(name, plugin) for plugin in __exporters for name in plugin.names])
+__importer_types = dict([(name, plugin) for plugin in __importers for name in plugin.names])
 
-    def __register_plugin(cls, plugin):
-        """Add the plugin to the plugin list and perform any registration logic"""
-        cls.PLUGINS.append(plugin)
-        cls.PLUGIN_NAMES.extend(plugin.names)
-
-    def get_plugin_types_string(cls):
-        plugin_names = sorted(cls.PLUGIN_NAMES)
-        if not plugin_names:
-            return "(nothing)"
-        elif len(plugin_names) == 1:
-            return plugin_names[0]
-        elif len(plugin_names) == 2:
-            return plugin_names[0] + " or " + plugin_names[1]
-        else:
-            return ', '.join(plugin_names[:-1]) + ", or " + plugin_names[-1]
-
-# This looks a bit arcane, but is basically bilingual speak for defining a
-# class with meta class 'PluginMeta' for both Python 2 and 3.
-BaseExporter = PluginMeta(str('BaseExporter'), (), {'names': []})
-BaseImporter = PluginMeta(str('BaseImporter'), (), {'names': []})
-
-
-for module in glob.glob(os.path.dirname(__file__) + "/*.py"):
-    importlib.import_module("." + os.path.basename(module)[:-3], "jrnl.plugins")
-del module
-
+EXPORT_FORMATS = sorted(__exporter_types.keys())
+IMPORT_FORMATS = sorted(__importer_types.keys())
 
 def get_exporter(format):
-    for exporter in BaseExporter.PLUGINS:
+    for exporter in __exporters:
         if hasattr(exporter, "names") and format in exporter.names:
             return exporter
     return None
 
 
 def get_importer(format):
-    for importer in BaseImporter.PLUGINS:
+    for importer in __importers:
         if hasattr(importer, "names") and format in importer.names:
             return importer
     return None

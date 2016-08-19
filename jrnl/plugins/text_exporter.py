@@ -3,13 +3,12 @@
 
 from __future__ import absolute_import, unicode_literals
 import codecs
-from . import BaseExporter
 from ..util import u, slugify
 import os
-from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
+from ..util import ERROR_COLOR, RESET_COLOR
 
 
-class TextExporter(BaseExporter):
+class TextExporter(object):
     """This Exporter can convert entries and journals into text files."""
     names = ["text", "txt"]
     extension = "txt"

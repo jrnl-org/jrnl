@@ -1,5 +1,6 @@
 import re
 import asteval
+import yaml
 
 VAR_RE = r"[_a-zA-Z][a-zA-Z0-9_]*"
 EXPRESSION_RE = r"[\[\]():.a-zA-Z0-9_]*"
@@ -17,6 +18,15 @@ class Template(object):
         self.template = template
         self.clean_template = None
         self.blocks = {}
+
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename) as f:
+            front_matter, body = f.read().strip("-\n").split("---", 2)
+            front_matter = yaml.load(front_matter)
+            template = cls(body)
+        template.__dict__.update(front_matter)
+        return template
 
     def render(self, **vars):
         if self.clean_template is None:
@@ -52,7 +62,7 @@ class Template(object):
         block_type = None
         if not stack:
             return self._expand_vars(template, **vars)
-        
+
         for pos, indent, typ in stack:
             nesting += indent
             if nesting == 1 and last_nesting == 0:
@@ -68,7 +78,7 @@ class Template(object):
                     result += self._save_block(template[start:pos], **vars)
                 start = pos
             last_nesting = nesting
-        
+
         result += self._expand_vars(template[stack[-1][0]:], **vars)
         return result
 
@@ -82,7 +92,7 @@ class Template(object):
         end_block = list(re.finditer(END_BLOCK_RE, template, re.M))[-1]
         expression = start_block.groups()[0]
         sub_template = self._strip_single_nl(template[start_block.end():end_block.start()])
-        
+
         safe_eval = self._eval_context(vars)
         if safe_eval(expression):
             return self._expand(sub_template)
@@ -94,15 +104,15 @@ class Template(object):
         if strip_r and template[-1] == "\n":
             template = template[:-1]
         return template
-        
+
     def _expand_loops(self, template, **vars):
         start_block = re.search(FOR_RE, template, re.M)
         end_block = list(re.finditer(END_BLOCK_RE, template, re.M))[-1]
         var_name, iterator = start_block.groups()
         sub_template = self._strip_single_nl(template[start_block.end():end_block.start()], strip_r=False)
-        
+
         safe_eval = self._eval_context(vars)
-        
+
         result = ''
         items = safe_eval(iterator)
         for idx, var in enumerate(items):

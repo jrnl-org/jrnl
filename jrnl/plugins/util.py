@@ -12,3 +12,16 @@ def get_tags_count(journal):
     # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
     tag_counts = set([(tags.count(tag), tag) for tag in tags])
     return tag_counts
+
+
+def oxford_list(lst):
+    """Return Human-readable list of things obeying the object comma)"""
+    lst = sorted(lst)
+    if not lst:
+        return "(nothing)"
+    elif len(lst) == 1:
+        return lst[0]
+    elif len(lst) == 2:
+        return lst[0] + " or " + lst[1]
+    else:
+        return ', '.join(lst[:-1]) + ", or " + lst[-1]
