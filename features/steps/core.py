@@ -5,11 +5,32 @@ from behave import given, when, then
 from jrnl import cli, install, Journal, util
 from jrnl import __version__
 from dateutil import parser as date_parser
+from collections import defaultdict
 import os
 import json
 import yaml
 import keyring
-keyring.set_keyring(keyring.backends.file.PlaintextKeyring())
+
+
+class TestKeyring(keyring.backend.KeyringBackend):
+    """A test keyring that just stores its valies in a hash
+    """
+    priority = 1
+    keys = defaultdict(dict)
+
+    def set_password(self, servicename, username, password):
+        self.keys[servicename][username] = password
+
+    def get_password(self, servicename, username):
+        return self.keys[servicename].get(username)
+
+    def delete_password(self, servicename, username, password):
+        self.keys[servicename][username] = None
+
+# set the keyring for keyring lib
+keyring.set_keyring(TestKeyring())
+
+
 try:
     from io import StringIO
 except ImportError:

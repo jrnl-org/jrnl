@@ -29,7 +29,6 @@ class Exporter(object):
 
     def export_journal(self, journal):
         """Returns a unicode representation of an entire journal."""
-        print("EXPORTING")
         return self.template.render_block("journal", **self._get_vars(journal))
 
     def write_file(self, journal, path):
