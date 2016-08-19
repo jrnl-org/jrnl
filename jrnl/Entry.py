@@ -48,7 +48,7 @@ class Entry:
         if self._tags is None:
             self._parse_text()
         return self._tags
-    
+
     @staticmethod
     def tag_regex(tagsymbols):
         pattern = r'(?u)(?:^|\s)([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
@@ -74,7 +74,10 @@ class Entry:
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
-        indent = self.journal.config['indent_character'].rstrip() + " "
+        if self.journal.config['indent_character']:
+            indent = self.journal.config['indent_character'].rstrip() + " "
+        else:
+            indent = ""
         if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
