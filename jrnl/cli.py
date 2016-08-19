@@ -21,6 +21,7 @@ import sys
 import logging
 
 log = logging.getLogger(__name__)
+logging.getLogger("keyring.backend").setLevel(logging.ERROR)
 
 
 def parse_args(args=None):
