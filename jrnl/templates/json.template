@@ -20,14 +20,13 @@ extension: json
 {% block entry %}
 {
   "title": "{{ entry.title }}",
-  "body": "{{ entry.body }}",
+  "body": "{{ entry.body.replace("\n", "\\n") }}",
   "date": "{{ entry.date.strftime('%Y-%m-%d') }}",
   "time": "{{ entry.date.strftime('%H:%M') }}",
   {% if entry.uuid %}
   "uuid": "{{ entry.uuid }}",
   {% endif %}
   "starred": {{ "true" if entry.starred else "false" }}
-  }
 }
 {% endblock %}
 
