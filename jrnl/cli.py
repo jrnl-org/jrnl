@@ -13,7 +13,6 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
-from .export import Exporter
 from .util import ERROR_COLOR, RESET_COLOR
 import jrnl
 import argparse
@@ -44,9 +43,9 @@ def parse_args(args=None):
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('-s', '--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
-    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.BaseExporter.PLUGIN_NAMES, help='Export your journal. TYPE can be {}.'.format(plugins.BaseExporter.get_plugin_types_string()), default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.EXPORT_FORMATS, help='Export your journal. TYPE can be {}.'.format(plugins.util.oxford_list(plugins.EXPORT_FORMATS)), default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
-    exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.BaseImporter.PLUGIN_NAMES, help='Import entries into your journal. TYPE can be {}, and it defaults to jrnl if nothing else is specified.'.format(plugins.BaseImporter.get_plugin_types_string()), default=False, const='jrnl', nargs='?')
+    exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.IMPORT_FORMATS, help='Import entries into your journal. TYPE can be {}, and it defaults to jrnl if nothing else is specified.'.format(plugins.util.oxford_list(plugins.IMPORT_FORMATS)), default=False, const='jrnl', nargs='?')
     exporting.add_argument('-i', metavar='INPUT', dest='input', help='Optionally specifies input file when using --import.', default=False, const=None)
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
@@ -246,7 +245,7 @@ def run(manual_args=None):
         print(util.py2encode(plugins.get_exporter("tags").export(journal)))
 
     elif args.export is not False:
-        exporter = Exporter(args.export)
+        exporter = plugins.get_exporter(args.export)
         print(exporter.export(journal, args.output))
 
     elif args.encrypt is not False:
