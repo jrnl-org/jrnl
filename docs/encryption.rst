@@ -40,13 +40,29 @@ If you are using zsh instead of bash, you can get the same behaviour adding this
 Manual decryption
 -----------------
 
-Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. So, to decrypt a journal file in python, run ::
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. Here's a Python script that you can use to decrypt your journal:: 
 
-    import hashlib, Crypto.Cipher
-    key = hashlib.sha256(my_password).digest()
-    with open("my_journal.txt") as f:
-        cipher = f.read()
-        crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
-        plain = crypto.decrypt(cipher[16:])
-        plain = plain.strip(plain[-1])
-        plain = plain.decode("utf-8")
+   #!/usr/bin/env python3
+
+   import argparse
+   from Crypto.Cipher import AES
+   import getpass
+   import hashlib
+   import sys
+
+   parser = argparse.ArgumentParser()
+   parser.add_argument("filepath", help="journal file to decrypt")
+   args = parser.parse_args()
+
+   pwd = getpass.getpass()
+   key = hashlib.sha256(pwd.encode('utf-8')).digest()
+
+   with open(args.filepath, 'rb') as f:
+       ciphertext = f.read()
+
+   crypto = AES.new(key, AES.MODE_CBC, ciphertext[:16])
+   plain = crypto.decrypt(ciphertext[16:])
+   plain = plain.strip(plain[-1:])
+   plain = plain.decode("utf-8")
+   print(plain)
+
