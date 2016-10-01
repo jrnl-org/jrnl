@@ -19,7 +19,7 @@ class Entry:
 
     @staticmethod
     def tag_regex(tagsymbols):
-        pattern = r'(?u)\s([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
+        pattern = r'(?u)\s([{tags}][-+*#&/\w]+)'.format(tags=tagsymbols)
         return re.compile( pattern, re.UNICODE )
 
     def parse_tags(self):
