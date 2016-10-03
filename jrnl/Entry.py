@@ -18,14 +18,19 @@ class Entry:
         self.modified = False
 
     @staticmethod
-    def tag_regex(tagsymbols):
-        pattern = r'(?u)\s([{tags}][-+*#&/\w]+)'.format(tags=tagsymbols)
+    def tag_regex(tagsymbols, tag_extras):
+        """Returns the user-configurable pattern to match tags, where:
+        tagsymbols mark the beginning of a tag, and
+        tag_extras are any additional characters to be allowed inside tags
+        (besides those already in the pattern below, namely [-+*#/\w])."""
+        pattern = r'(?u)\s([{tags}][-+*#/{chars}\w]+)'.format(tags=tagsymbols, chars=tag_extras)
         return re.compile( pattern, re.UNICODE )
 
     def parse_tags(self):
         fulltext =  " " + " ".join([self.title, self.body]).lower()
         tagsymbols = self.journal.config['tagsymbols']
-        tags = re.findall( Entry.tag_regex(tagsymbols), fulltext )
+        tag_extras = self.journal.config['tag_extras']
+        tags = re.findall( Entry.tag_regex(tagsymbols, tag_extras), fulltext )
         self.tags = tags
         return set(tags)
 

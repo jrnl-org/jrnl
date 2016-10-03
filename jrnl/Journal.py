@@ -27,6 +27,7 @@ class Journal(object):
             'default_minute': 0,
             'timeformat': "%Y-%m-%d %H:%M",
             'tagsymbols': '@',
+            'tag_extras': '$^&',
             'highlight': True,
             'linewrap': 80,
         }
@@ -165,7 +166,8 @@ class Journal(object):
                                 lambda match: util.colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub( Entry.Entry.tag_regex(self.config['tagsymbols']),
+                pp = re.sub( Entry.Entry.tag_regex(self.config['tagsymbols'],
+                                                   self.config['tag_extras']),
                         lambda match: util.colorize(match.group(0)),
                         pp)
         return pp
