@@ -5,7 +5,8 @@ import os
 import codecs
 import json
 import keyring
-keyring.set_keyring(keyring.backends.file.PlaintextKeyring())
+import keyrings
+keyring.set_keyring(keyrings.alt.file.PlaintextKeyring())
 try:
     from io import StringIO
 except ImportError:

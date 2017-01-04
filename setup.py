@@ -146,6 +146,7 @@ setup(
         "six>=1.6.1",
         "tzlocal>=1.1",
         "keyring>=3.3",
+        "keyrings.alt>=1.3",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
         "encrypted": "pycrypto>=2.6"
