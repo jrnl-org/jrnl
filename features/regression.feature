@@ -8,12 +8,6 @@ Feature: Zapped bugs should stay dead.
         When we run "jrnl -n 1"
         Then the output should not contain "Life is good"
 
-    Scenario: Opening an folder that's not a DayOne folder gives a nice error message
-        Given we use the config "empty_folder.yaml"
-        When we run "jrnl Herro"
-        Then we should get an error
-        Then we should see the message "is a directory, but doesn't seem to be a DayOne journal either"
-
     Scenario: Date with time should be parsed correctly
         # https://github.com/maebert/jrnl/issues/117
         Given we use the config "basic.yaml"
