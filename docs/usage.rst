@@ -98,6 +98,17 @@ the last five entries containing both ``@pineapple`` **and** ``@lubricant``. You
 
   ``jrnl @pinkie @WorldDomination`` will switch to viewing mode because although **no** command line arguments are given, all the input strings look like tags - *jrnl* will assume you want to filter by tag.
 
+Searching
+---------
+
+To search for a string ``"excellent idea"`` in all journal entries, use the ``-search`` argument::
+
+    jrnl -search "excellent idea"
+
+The ``-search`` argument can be combined with other filters, such as ``-from`` and ``-until``.
+
+Note that the searching is case-insensitive and doesn't accept any wildcards or regular expression syntax.
+
 Editing older entries
 ---------------------
 
