@@ -108,10 +108,17 @@ On OS X, you can use the fabulous `iA Writer <http://www.iawriter.com/mac>`_ to 
 
 .. code-block:: javascript
 
-    "editor": "open -b jp.informationarchitects.WriterForMacOSX -Wn"
+    "editor": "open -b pro.writer.mac -Wn"
 
 What does this do? ``open -b ...`` opens a file using the application identified by the bundle identifier (a unique string for every app out there). ``-Wn`` tells the application to wait until it's closed before passing back control, and to use a new instance of the application.
 
+If the ``pro.writer.mac`` bundle identifier is not found on your system, you can find the right string to use by inspecting iA Writer's ``Info.plist`` file in your shell:
+
+.. code-block:: sh
+
+    $ grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
+	    <key>CFBundleIdentifier</key>
+	    <string>pro.writer.mac</string>
 
 Notepad++ on Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
