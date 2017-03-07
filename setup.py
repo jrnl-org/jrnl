@@ -89,6 +89,7 @@ setup(
         "keyring>=7.3",
         "passlib>=1.6.2",
         "pyxdg>=0.25",
+        "asteval>=0.9.8",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     long_description=__doc__,
     entry_points={
