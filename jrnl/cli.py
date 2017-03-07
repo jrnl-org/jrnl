@@ -35,6 +35,7 @@ def parse_args(args=None):
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
+    reading.add_argument('-p', '-search', dest='search_plain', help='View entries containing a specific string')
     reading.add_argument('-on', dest='on_date', metavar="DATE", help='View entries on this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
@@ -66,7 +67,7 @@ def guess_mode(args, config):
     elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
         compose = False
         export = True
-    elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
+    elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred, args.search_plain)):
         # Any sign of displaying stuff?
         compose = False
     elif args.text and all(word[0] in config['tagsymbols'] for word in " ".join(args.text).split()):
@@ -234,7 +235,8 @@ def run(manual_args=None):
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
                        short=args.short,
-                       starred=args.starred)
+                       starred=args.starred,
+                       search_plain=args.search_plain)
         journal.limit(args.limit)
 
     # Reading mode

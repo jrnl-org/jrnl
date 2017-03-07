@@ -165,7 +165,7 @@ class Journal(object):
         tag_counts = set([(tags.count(tag), tag) for tag in tags])
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, search_plain=None):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -189,6 +189,7 @@ class Journal(object):
             and (not starred or entry.starred)
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
+            and (not search_plain or search_plain in entry.title or search_plain in entry.body)
         ]
 
         self.entries = result
