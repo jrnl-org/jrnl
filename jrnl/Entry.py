@@ -48,11 +48,11 @@ class Entry:
         if not short and self.journal.config['linewrap']:
             title = textwrap.fill(date_str + " " + self.title, self.journal.config['linewrap'])
             body = "\n".join([
-                    textwrap.fill((line + " ") if (len(line) == 0) else line,
+                    textwrap.fill(line,
                         self.journal.config['linewrap'],
-                        initial_indent="| ",
-                        subsequent_indent="| ",
-                        drop_whitespace=False)
+                        initial_indent=self.journal.config['indent'] + " ",
+                        subsequent_indent=self.journal.config['indent'] + " ")
+                            or self.journal.config['indent']
                     for line in self.body.rstrip(" \n").splitlines()
                 ])
         else:
