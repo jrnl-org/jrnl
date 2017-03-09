@@ -11,12 +11,16 @@ Optionally, your journal can be encrypted using the [256-bit AES](http://en.wiki
 
 ### Why keep a journal?
 
-Journals aren't only for 13-year old girls and people who have too much time on their summer vacation. A journal helps you to keep track of the things you get done and how you did them. Your imagination may be limitless, but your memory isn't. For personal use, make it a good habit to write at least 20 words a day. Just to reflect what made this day special, why you haven't wasted it. For professional use, consider a text-based journal to be the perfect complement to your GTD todo list - a documentation of what and how you've done it.
+Journals aren't only for 13-year old kids and people who have too much time on their summer vacation. A journal helps you to keep track of the things you get done and how you did them, improving recall, increasing self-awareness, and making it easier to stay focused on the task at hand without losing sight of the "big picture". Your imagination may be limitless, but your memory isn't. For personal use, make it a habit to write at least 20 words a day. For professional use, consider a text-based journal to be the perfect complement to your GTD todo list&mdash;a documentation of what and how you've done it. As Peter Lyon writes in [Leveling Up: Career Advancement for Software Developers](http://peterlyons.com/leveling_up#pillar3):
+
+> Don't skip this one. This is a simple technique that can make a huge difference. Start a work journal - it can be nothing more than a simple text file. You should have one single journal for everything you do for your job. Organize it chronologically: do NOT try to make separate journal files for different roles or clients or projects. Put EVERYTHING in ONE BIG FILE.
+
+In other words, journals are important! Start yours today.
 
 In a Nutshell
 -------------
 
-to make a new entry, just type
+To make a new entry, just type
 
     jrnl yesterday: Called in sick. Used the time to clean the house and spent 4h on writing my book.
 
