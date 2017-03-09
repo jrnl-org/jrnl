@@ -194,7 +194,7 @@ class Journal(object):
         if n:
             self.entries = self.entries[-n:]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, head=None):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -233,6 +233,15 @@ class Journal(object):
             else:
                 for e in self.entries:
                     e.body = ''
+
+        elif head is not None:
+            try:
+                head = int(head)
+                for e in self.entries:
+                    e.body = "\n".join(e.body.split('\n')[:head])
+            except ValueError:
+                pass
+
         self.entries = result
 
     def new_entry(self, raw, date=None, sort=True):
