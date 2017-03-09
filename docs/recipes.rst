@@ -9,7 +9,9 @@ Recipes
 Co-occurrence of tags
 ~~~~~~~~~~~~~~~~~~~~~
 
-If I want to find out how often I mentioned my flatmates Alberto and Melo in the same entry, I run ::
+If I want to find out how often I mentioned my flatmates Alberto and Melo in the same entry, I run
+
+.. code-block:: sh
 
     jrnl @alberto --tags | grep @melo
 
@@ -18,7 +20,9 @@ And will get something like ``@melo: 9``, meaning there are 9 entries where both
 Combining filters
 ~~~~~~~~~~~~~~~~~
 
-You can do things like ::
+You can do things like
+
+.. code-block:: sh
 
     jrnl @fixed -starred -n 10 -until "jan 2013" --short
 
@@ -27,11 +31,15 @@ To get a short summary of the 10 most recent, favourited entries before January 
 Statistics
 ~~~~~~~~~~
 
-How much did I write last year? ::
+How much did I write last year?
+
+.. code-block:: sh
 
     jrnl -from "jan 1 2013" -until "dec 31 2013" | wc -w
 
-Will give you the number of words you wrote in 2013. How long is my average entry? ::
+Will give you the number of words you wrote in 2013. How long is my average entry?
+
+.. code-block:: sh
 
     expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
 
@@ -40,7 +48,9 @@ This will first get the total number of words in the journal and divide it by th
 Importing older files
 ~~~~~~~~~~~~~~~~~~~~~
 
-If you want to import a file as an entry to jrnl, you can just do ``jrnl < entry.ext``. But what if you want the modification date of the file to be the date of the entry in jrnl? Try this ::
+If you want to import a file as an entry to jrnl, you can just do ``jrnl < entry.ext``. But what if you want the modification date of the file to be the date of the entry in jrnl? Try this
+
+.. code-block:: sh
 
     echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
 
