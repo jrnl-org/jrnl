@@ -35,7 +35,7 @@ def parse_args(args=None):
     reading = parser.add_argument_group('Reading', 'Specifying either of these parameters will display posts of your journal')
     reading.add_argument('-from', dest='start_date', metavar="DATE", help='View entries after this date')
     reading.add_argument('-until', '-to', dest='end_date', metavar="DATE", help='View entries before this date')
-    reading.add_argument('-p', '-search', dest='search_plain', help='View entries containing a specific string')
+    reading.add_argument('-S', '-search', dest='search_plain', help='View entries containing a specific string')
     reading.add_argument('-on', dest='on_date', metavar="DATE", help='View entries on this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
