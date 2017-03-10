@@ -206,7 +206,11 @@ def run(manual_args=None):
             mode_compose = False
 
     # This is where we finally open the journal!
-    journal = Journal.open_journal(journal_name, config)
+    try:
+        journal = Journal.open_journal(journal_name, config)
+    except KeyboardInterrupt:
+        util.prompt("[Interrupted while opening journal]".format(journal_name))
+        sys.exit(1)
 
     # Import mode
     if mode_import:
