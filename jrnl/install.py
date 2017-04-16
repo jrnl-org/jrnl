@@ -69,7 +69,14 @@ def install_jrnl(config_path='~/.jrnl_config'):
 
     # Encrypt it?
     if module_exists("Crypto"):
-        password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+        confirmed_password = False
+        while confirmed_password == False:
+            password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
+            password_conf = getpass.getpass("Confirm password: ")
+            if password == password_conf:
+                confirmed_password = True
+            else:
+                print("Password and confirmation did not match, try again.")
         if password:
             default_config['encrypt'] = True
             if util.yesno("Do you want to store the password in your keychain?", default=True):
