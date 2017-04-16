@@ -18,7 +18,7 @@ The configuration file is a simple JSON file with the following options and can 
 - ``journals``
       paths to your journal files
 - ``editor``
-    if set, executes this command to launch an external editor for writing your entries, e.g. ``vim``. Some editors require special options to work properly, see :doc:`FAQ <recipes>` for details.
+    if set, executes this command to launch an external editor for writing your entries, e.g. ``vim``. Some editors require special options to work properly, see :doc:`FAQ <recipes>` for details. This value can either be a string such as the earlier ``"editor": "vim"`` example or ``"editor": ["vim", "+set ft=markdown"]`` if you want to pass arguments to the editor.
 - ``encrypt``
     if ``true``, encrypts your journal using AES.
 - ``tagsymbols``
