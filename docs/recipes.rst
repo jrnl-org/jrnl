@@ -111,6 +111,15 @@ Similar to Sublime Text, MacVim must be started with a flag that tells the the p
 
     "editor": "mvim -f"
 
+Visual Studio Code
+~~~~~~
+
+Similar to Sublime Text and MacVim, VS Code must be started with a flag that tells the the process to wait until the file is closed before passing control back to journal. In the case of VS Code, this is ``-w``:
+
+.. code-block:: javascript
+
+    "editor": "code -w"    
+
 iA Writer
 ~~~~~~~~~
 
