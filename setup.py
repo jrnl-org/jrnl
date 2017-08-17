@@ -49,6 +49,10 @@ try:
     readline_available = True
 except ImportError:
     readline_available = False
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
 
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -167,8 +171,9 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Topic :: Office/Business :: News/Diary",
         "Topic :: Text Processing"
     ],
