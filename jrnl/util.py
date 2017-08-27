@@ -93,36 +93,34 @@ def yesno(prompt, default=True):
     raw = py23_input(prompt)
     return {'y': True, 'n': False}.get(raw.lower(), default)
 
-def load_and_fix_json(json_path):
+def load_and_fix_json(json_path, target_file):
     """Tries to load a json object from a file.
     If that fails, tries to fix common errors (no or extra , at end of the line).
     """
     with open(json_path) as f:
         json_str = f.read()
-        log.debug('Configuration file %s read correctly', json_path)
-    config =  None
+        log.debug('%s file %s read correctly', target_file, json_path)
+    data = None
     try:
         return json.loads(json_str)
     except ValueError as e:
-        log.debug('Could not parse configuration %s: %s', json_str, e,
-                exc_info=True)
+        log.debug('Could not parse %s %s: %s', target_file, json_str, e, exc_info=True)
         # Attempt to fix extra ,
         json_str = re.sub(r",[ \n]*}", "}", json_str)
         # Attempt to fix missing ,
         json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
         try:
-            log.debug('Attempting to reload automatically fixed configuration file %s', 
-                    json_str)
-            config = json.loads(json_str)
+            log.debug('Attempting to reload automatically fixed %s file %s', target_file, json_str)
+            data = json.loads(json_str)
             with open(json_path, 'w') as f:
-                json.dump(config, f, indent=2)
-                log.debug('Fixed configuration saved in file %s', json_path)
-            prompt("[Some errors in your jrnl config have been fixed for you.]")
-            return config
+                json.dump(data, f, indent=2)
+                log.debug('Fixed %s saved in file %s', target_file, json_path)
+            prompt("[Some errors in your {0} file have been fixed for you.]".format(target_file))
+            return data
         except ValueError as e:
-            log.debug('Could not load fixed configuration: %s', e, exc_info=True)
-            prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
-            prompt("[Entry was NOT added to your journal]")
+            log.debug('Could not load fixed %s: %s', target_file, e, exc_info=True)
+            prompt("[There seems to be something wrong with your {0} file at {1}: {2}]".format(target_file, json_path, e.message))
+            prompt("[Journal was NOT modified]")
             sys.exit(1)
 
 def get_text_from_editor(config, template=""):

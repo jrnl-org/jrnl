@@ -11,6 +11,7 @@ from __future__ import absolute_import, unicode_literals
 from . import Journal
 from . import DayOneJournal
 from . import util
+from . import importers
 from . import exporters
 from . import install
 import jrnl
@@ -45,6 +46,7 @@ def parse_args(args=None):
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
+    exporting.add_argument('--import-json', metavar='FILEPATH', dest='import_json', help='Import a journal from a JSON file.', default=False, const=None)
     exporting.add_argument('--export', metavar='TYPE', dest='export', choices=['text', 'txt', 'markdown', 'md', 'json'], help='Export your journal. TYPE can be json, markdown, or text.', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
@@ -58,7 +60,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    if args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+    if args.decrypt is not False or args.encrypt is not False or args.import_json is not False or args.export is not False or any((args.short, args.tags, args.edit)):
         compose = False
         export = True
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
@@ -138,7 +140,7 @@ def run(manual_args=None):
         config = install.install_jrnl(CONFIG_PATH)
     else:
         log.debug('Reading configuration from file %s', CONFIG_PATH)
-        config = util.load_and_fix_json(CONFIG_PATH)
+        config = util.load_and_fix_json(CONFIG_PATH, "configuration")
         install.upgrade_config(config, config_path=CONFIG_PATH)
 
     if args.ls:
@@ -246,6 +248,9 @@ def run(manual_args=None):
 
     elif args.tags:
         print(util.py2encode(exporters.to_tag_list(journal)))
+
+    elif args.import_json is not False:
+        importers.import_json(args.import_json, config)
 
     elif args.export is not False:
         print(util.py2encode(exporters.export(journal, args.export, args.output)))
