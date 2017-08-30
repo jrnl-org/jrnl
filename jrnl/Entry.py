@@ -109,3 +109,31 @@ class Entry:
             body=body,
             space=space
         )
+
+    def to_html(self):
+        html = "<!DOCTYPE html>\n"
+        html += "<html>\n"
+        html += "\t<head>\n"
+        html += "\t\t<style>\n"
+        html += "\t\t\tp{margin:0;}\n"
+        html += "\t\t\th2{margin:0}\n"
+        html += "\t\t\tbody{\n"
+        html += "\t\t\t\tbackground: #252a32;\n"
+        html += "\t\t\t\tmargin-top:5%;\n"
+        html += "\t\t\t\tmargin-bottom:5%;\n"
+        html += "\t\t\t\tmargin-left:5%;\n"
+        html += "\t\t\t\tmargin-right:5%;\n"
+        html += "\t\t\t}\n"
+        html += "\t\t</style>\n"
+        html += "\t</head>\n\n"
+        html += "\t<body>\n"
+        html += "\t\t<font color=\"white\">\n"
+        html += "\t\t\t<h1>Journal</h1>\n"
+        html += "\t\t\t<br>\n"
+        # date time title body
+        html +="\t\t\t\t<h2>" + self.date.strftime(self.journal.config['timeformat']) + "\t" + str(self.title) + "</h2>\n"
+        html +="\t\t\t\t<p class=\"tab\">" + str(self.body) + "</p>\n\t\t\t<br>\n\t\t\t<br>\n"
+        html +="\t\t</font>\n"
+        html +="\t</body>\n"
+        html +="</html>"
+        return html

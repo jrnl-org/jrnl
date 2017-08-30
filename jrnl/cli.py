@@ -47,7 +47,7 @@ def parse_args(args=None):
     exporting.add_argument('--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--import-json', metavar='FILEPATH', dest='import_json', help='Import a journal from a JSON file.', default=False, const=None)
-    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=['text', 'txt', 'markdown', 'md', 'json'], help='Export your journal. TYPE can be json, markdown, or text.', default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=['text', 'txt', 'markdown', 'md', 'json', 'html'], help='Export your journal. TYPE can be json, markdown, html, or text.', default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)

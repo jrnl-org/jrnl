@@ -66,9 +66,38 @@ def to_txt(journal):
     return journal.pprint()
 
 
+def to_html(journal):
+    html = "<!DOCTYPE html>\n"
+    html += "<html>\n"
+    html += "\t<head>\n"
+    html += "\t\t<style>\n"
+    html += "\t\t\tp{margin:0;}\n"
+    html += "\t\t\th2{margin:0}\n"
+    html += "\t\t\tbody{\n"
+    html += "\t\t\t\tbackground: #252a32;\n"
+    html += "\t\t\t\tmargin-top:5%;\n"
+    html += "\t\t\t\tmargin-bottom:5%;\n"
+    html += "\t\t\t\tmargin-left:5%;\n"
+    html += "\t\t\t\tmargin-right:5%;\n"
+    html += "\t\t\t}\n"
+    html += "\t\t</style>\n"
+    html += "\t</head>\n\n"
+    html += "\t<body>\n"
+    html += "\t\t<font color=\"white\">\n"
+    html += "\t\t\t<h1>Journal</h1>\n"
+    html += "\t\t\t<br>\n"
+    for element in journal.entries:
+        # date time title body
+        html += "\t\t\t\t<h2>" + str(element.date) + "\t" + element.title + "</h2>\n"
+        html += "\t\t\t\t<p class=\"tab\">" + element.body + "</p>\n\t\t\t<br>\n\t\t\t<br>\n"
+    html += "\t\t</font>\n"
+    html += "\t</body>\n"
+    html += "</html>"
+    return html
+
 def export(journal, format, output=None):
     """Exports the journal to various formats.
-    format should be one of json, txt, text, md, markdown.
+    format should be one of json, txt, text, md, markdown, html.
     If output is None, returns a unicode representation of the output.
     If output is a directory, exports entries into individual files.
     Otherwise, exports to the given output file.
@@ -78,10 +107,11 @@ def export(journal, format, output=None):
         "txt": to_txt,
         "text": to_txt,
         "md": to_md,
-        "markdown": to_md
+        "markdown": to_md,
+        "html": to_html
     }
     if format not in maps:
-        return "[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', and 'json']".format(format)
+        return "[ERROR: can't export to '{0}'. Valid options are 'md', 'txt', 'html', and 'json']".format(format)
     if output and os.path.isdir(output):  # multiple files
         return write_files(journal, output, format)
     else:
@@ -109,6 +139,8 @@ def write_files(journal, path, format):
             content = e.to_md()
         elif format in ('txt', 'text'):
             content = e.__unicode__()
+        elif format == 'html':
+            content = e.to_html()
         with codecs.open(full_path, "w", "utf-8") as f:
             f.write(content)
     return "[Journal exported individual files in {0}]".format(path)
