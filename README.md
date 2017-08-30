@@ -30,6 +30,9 @@ If you just call `jrnl`, you will be prompted to compose your entry - but you ca
 
 Installation
 ------------
+Install _jrnl_ from source:
+
+    sudo python setup.py install
 
 Install _jrnl_ using pip:
 
