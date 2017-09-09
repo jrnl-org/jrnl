@@ -16,11 +16,15 @@ import tempfile
 import subprocess
 import codecs
 import unicodedata
+<<<<<<< HEAD
 import shlex
 import logging
 
 log = logging.getLogger(__name__)
 
+=======
+import logging
+>>>>>>> master
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -30,6 +34,7 @@ STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
 
+<<<<<<< HEAD
 WARNING_COLOR = "\033[33m"
 ERROR_COLOR = "\033[31m"
 RESET_COLOR = "\033[0m"
@@ -45,6 +50,9 @@ SENTENCE_SPLITTER = re.compile(r"""
 |                       # Otherwise,
     \n                  # a sentence also terminates newlines.
 )""", re.UNICODE | re.VERBOSE)
+=======
+log = logging.getLogger(__name__)
+>>>>>>> master
 
 
 def getpass(prompt="Password: "):
@@ -116,6 +124,8 @@ def prnt(s):
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
+    if not msg:
+        return
     if not msg.endswith("\n"):
         msg += "\n"
     STDERR.write(u(msg))
@@ -123,12 +133,21 @@ def prompt(msg):
 
 def py23_input(msg=""):
     prompt(msg)
+<<<<<<< HEAD
     return STDIN.readline().strip()
+=======
+    return u(STDIN.readline()).strip()
+>>>>>>> master
 
 
 def py23_read(msg=""):
+<<<<<<< HEAD
     print(msg)
     return STDIN.read()
+=======
+    prompt(msg)
+    return u(STDIN.read())
+>>>>>>> master
 
 
 def yesno(prompt, default=True):
@@ -136,6 +155,7 @@ def yesno(prompt, default=True):
     raw = py23_input(prompt)
     return {'y': True, 'n': False}.get(raw.lower(), default)
 
+<<<<<<< HEAD
 
 def load_config(config_path):
     """Tries to load a config file from YAML.
@@ -160,6 +180,40 @@ def scope_config(config, journal_name):
 
 def get_text_from_editor(config, template=""):
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+=======
+def load_and_fix_json(json_path, target_file):
+    """Tries to load a json object from a file.
+    If that fails, tries to fix common errors (no or extra , at end of the line).
+    """
+    with open(json_path) as f:
+        json_str = f.read()
+        log.debug('%s file %s read correctly', target_file, json_path)
+    data = None
+    try:
+        return json.loads(json_str)
+    except ValueError as e:
+        log.debug('Could not parse %s %s: %s', target_file, json_str, e, exc_info=True)
+        # Attempt to fix extra ,
+        json_str = re.sub(r",[ \n]*}", "}", json_str)
+        # Attempt to fix missing ,
+        json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
+        try:
+            log.debug('Attempting to reload automatically fixed %s file %s', target_file, json_str)
+            data = json.loads(json_str)
+            with open(json_path, 'w') as f:
+                json.dump(data, f, indent=2)
+                log.debug('Fixed %s saved in file %s', target_file, json_path)
+            prompt("[Some errors in your {0} file have been fixed for you.]".format(target_file))
+            return data
+        except ValueError as e:
+            log.debug('Could not load fixed %s: %s', target_file, e, exc_info=True)
+            prompt("[There seems to be something wrong with your {0} file at {1}: {2}]".format(target_file, json_path, e.message))
+            prompt("[Journal was NOT modified]")
+            sys.exit(1)
+
+def get_text_from_editor(config, template=""):
+    _, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+>>>>>>> master
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)

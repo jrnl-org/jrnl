@@ -36,6 +36,8 @@ class DayOne(Journal.Journal):
                 filenames.append(os.path.join(root, filename))
         self.entries = []
         for filename in filenames:
+            if os.path.isdir(filename):
+                continue
             with open(filename, 'rb') as plist_entry:
                 try:
                     dict_entry = plistlib.readPlist(plist_entry)
@@ -64,9 +66,17 @@ class DayOne(Journal.Journal):
 
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
+<<<<<<< HEAD
 
                 filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
                 
+=======
+                utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
+                # make sure to upper() the uuid since uuid.uuid1 returns a lowercase string by default
+                # while dayone uses uppercase by default. On fully case preserving filesystems (e.g.
+                # linux) this results in duplicated entries when we save the file
+                filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
+>>>>>>> master
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,

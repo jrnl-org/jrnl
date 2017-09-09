@@ -3,6 +3,9 @@ Contributing
 
 If you use jrnl, you can totally make my day by just saying "thanks for the code" or by [tweeting about jrnl](https://twitter.com/intent/tweet?text=Write+your+memoirs+on+the+command+line.+Like+a+boss.+%23jrnl&url=http%3A%2F%2Fmaebert.github.io%2Fjrnl&via=maebert). It's your chance to make a programmer happy today! If you have a minute or two, let me know what you use jrnl for and how, it'll help me to make it even better. If you blog about jrnl, I'll send you a post card!
 
+> # Important:
+> ### Please develop new features against the `2.0-rc1` branch. PRs to the `master` branch will not get merged until version 2.0 is released.
+
 
 Docs & Typos
 ------------
@@ -12,7 +15,7 @@ If you find a typo or a mistake in the docs, just fix it right away and send a p
 Bugs
 ----
 
-They unfortunately happen. Specifically, I don't have a Windows machine to test on, so expect a few rough spots. If you found a bug, please [open a new issue](https://www.github.com/maebert/jrnl/issues/new) and describe it as well as possible. If you're a programmer and have a little time time spare, go ahead, fork the code and fix bugs you spot, it'll be much appreciated!
+They unfortunately happen. Specifically, I don't have a Windows machine to test on, so expect a few rough spots. If you found a bug, please [open a new issue](https://www.github.com/maebert/jrnl/issues/new) and describe it as well as possible. If you're a programmer and have a little time to spare, go ahead, fork the code and fix bugs you spot, it'll be much appreciated!
 
 
 Feature requests and ideas

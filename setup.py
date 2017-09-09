@@ -51,12 +51,7 @@ except ImportError:
     readline_available = False
 
 
-if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist upload")
-    sys.exit()
-
 base_dir = os.path.dirname(os.path.abspath(__file__))
-
 
 def get_version(filename="jrnl/__init__.py"):
     with open(os.path.join(base_dir, filename)) as initfile:
@@ -64,6 +59,71 @@ def get_version(filename="jrnl/__init__.py"):
             m = re.match("__version__ *= *['\"](.*)['\"]", line)
             if m:
                 return m.group(1)
+
+
+def get_changelog(filename="CHANGELOG.md"):
+    changelog = {}
+    current_version = None
+    with open(os.path.join(base_dir, filename)) as changelog_file:
+        for line in changelog_file.readlines():
+            if line.startswith("* __"):
+                parts = line.strip("* ").split(" ", 1)
+                if len(parts) == 2:
+                    current_version, changes = parts[0].strip("_\n"), parts[1]
+                    changelog[current_version] = [changes.strip()]
+                else:
+                    current_version = parts[0].strip("_\n")
+                    changelog[current_version] = []
+            elif line.strip() and current_version and not line.startswith("#"):
+                changelog[current_version].append(line.strip(" *\n"))
+    return changelog
+
+def dist_pypi():
+    os.system("python setup.py sdist upload")
+    sys.exit()
+
+def dist_github():
+    """Creates a release on the maebert/jrnl repository on github"""
+    import requests
+    import keyring
+    import getpass
+    version = get_version()
+    version_tuple = version.split(".")
+    changes_since_last_version = ["* __{}__: {}".format(key, "\n".join(changes)) for key, changes in get_changelog().items() if key.startswith("{}.{}".format(*version_tuple))]
+    changes_since_last_version = "\n".join(sorted(changes_since_last_version, reverse=True))
+    payload = {
+        "tag_name": version,
+        "target_commitish": "master",
+        "name": version,
+        "body": "Changes in Version {}.{}: \n\n{}".format(version_tuple[0], version_tuple[1], changes_since_last_version)
+    }
+    print("Preparing release {}...".format(version))
+    username = keyring.get_password("github", "__default_user") or raw_input("Github username: ")
+    password = keyring.get_password("github", username) or getpass.getpass()
+    otp = raw_input("One Time Token: ")
+    response = requests.post("https://api.github.com/repos/maebert/jrnl/releases", headers={"X-GitHub-OTP": otp}, json=payload, auth=(username, password))
+    if response.status_code in (403, 404):
+        print("Authentication error.")
+    else:
+        keyring.set_password("github", "__default_user", username)
+        keyring.set_password("github", username, password)
+        if response.status_code > 299:
+            if  "message" in response.json():
+                print("Error: {}".format(response.json()['message']))
+                for error_dict in response.json().get('errors', []):
+                    print("*", error_dict)
+            else:
+                print("Unkown error")
+                print(response.text)
+        else:
+            print("Release created.")
+    sys.exit()
+
+if sys.argv[-1] == 'publish':
+    dist_pypi()
+
+if sys.argv[-1] == 'github_release':
+    dist_github()
 
 conditional_dependencies = {
     "pyreadline>=2.0": not readline_available and "win32" in sys.platform,
@@ -75,6 +135,7 @@ conditional_dependencies = {
 
 
 setup(
+<<<<<<< HEAD
     name="jrnl",
     version=get_version(),
     description="A command line journal application that stores your journal in a plain text file",
@@ -90,27 +151,46 @@ setup(
         "passlib>=1.6.2",
         "pyxdg>=0.25",
         "asteval>=0.9.8",
+=======
+    name = "jrnl",
+    version = get_version(),
+    description = "A command line journal application that stores your journal in a plain text file",
+    packages = ['jrnl'],
+    install_requires = [
+        "parsedatetime>=1.2",
+        "pytz>=2013b",
+        "six>=1.6.1",
+        "tzlocal>=1.1",
+        "keyring>=3.3",
+        "keyrings.alt>=1.3",
+>>>>>>> master
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     long_description=__doc__,
     entry_points={
+<<<<<<< HEAD
         'console_scripts': [
             'jrnl = jrnl.cli:run',
         ],
+=======
+        "console_scripts": [
+            "jrnl = jrnl:run",
+        ]
+>>>>>>> master
     },
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: Console',
-        'Intended Audience :: End Users/Desktop',
-        'License :: OSI Approved :: MIT License',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Topic :: Office/Business :: News/Diary',
-        'Topic :: Text Processing'
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Intended Audience :: End Users/Desktop",
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.4",
+        "Topic :: Office/Business :: News/Diary",
+        "Topic :: Text Processing"
     ],
     # metadata for upload to PyPI
     author="Manuel Ebert",

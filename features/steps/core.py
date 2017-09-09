@@ -7,6 +7,7 @@ from jrnl import __version__
 from dateutil import parser as date_parser
 from collections import defaultdict
 import os
+<<<<<<< HEAD
 import json
 import yaml
 import keyring
@@ -31,6 +32,13 @@ class TestKeyring(keyring.backend.KeyringBackend):
 keyring.set_keyring(TestKeyring())
 
 
+=======
+import codecs
+import json
+import keyring
+import keyrings
+keyring.set_keyring(keyrings.alt.file.PlaintextKeyring())
+>>>>>>> master
 try:
     from io import StringIO
 except ImportError:
@@ -47,8 +55,14 @@ def ushlex(command):
 
 
 def read_journal(journal_name="default"):
+<<<<<<< HEAD
     config = util.load_config(install.CONFIG_FILE_PATH)
     with open(config['journals'][journal_name]) as journal_file:
+=======
+    with open(cli.CONFIG_PATH) as config_file:
+        config = json.load(config_file)
+    with codecs.open(config['journals'][journal_name], 'r', 'utf-8') as journal_file:
+>>>>>>> master
         journal = journal_file.read()
     return journal
 
@@ -81,7 +95,11 @@ def run_with_input(context, command, inputs=None):
     buffer = StringIO(text.strip())
     util.STDIN = buffer
     try:
+<<<<<<< HEAD
         cli.run(args or [])
+=======
+        cli.run(args)
+>>>>>>> master
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -91,7 +109,7 @@ def run_with_input(context, command, inputs=None):
 def run(context, command):
     args = ushlex(command)[1:]
     try:
-        cli.run(args or None)
+        cli.run(args)
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -180,9 +198,14 @@ def check_output(context, text=None):
 def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
     local_tz = tzlocal.get_localzone()
+<<<<<<< HEAD
     utc_time = date_parser.parse(text)
     local_date = utc_time.astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
     assert local_date in out, local_date
+=======
+    local_time = date_parser.parse(text).astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
+    assert local_time in out, local_time
+>>>>>>> master
 
 
 @then('the output should contain')
@@ -250,7 +273,11 @@ def config_var(context, key, value, journal=None):
 @then('the journal should have {number:d} entry')
 @then('journal "{journal_name}" should have {number:d} entries')
 @then('journal "{journal_name}" should have {number:d} entry')
+<<<<<<< HEAD
 def check_journal_entries(context, number, journal_name="default"):
+=======
+def check_num_entries(context, number, journal_name="default"):
+>>>>>>> master
     journal = open_journal(journal_name)
     assert len(journal.entries) == number
 

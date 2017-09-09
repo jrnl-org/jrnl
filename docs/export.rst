@@ -6,7 +6,9 @@ Import and Export
 Tag export
 ----------
 
-With::
+With
+
+.. code-block:: sh
 
     jrnl --tags
 
@@ -15,7 +17,7 @@ you'll get a list of all tags you used in your journal, sorted by most frequent.
 List of all entries
 -------------------
 
-::
+.. code-block:: sh
 
     jrnl --short
 
@@ -24,7 +26,9 @@ Will only display the date and title of each entry.
 JSON export
 -----------
 
-Can do::
+Can do
+
+.. code-block:: sh
 
     jrnl --export json
 
@@ -33,7 +37,9 @@ Why not create a `beautiful timeline <http://timeline.verite.co/>`_ of your jour
 Markdown export
 ---------------
 
-Use::
+Use
+
+.. code-block:: sh
 
     jrnl --export markdown
 
@@ -42,7 +48,7 @@ Markdown is a simple markup language that is human readable and can be used to b
 Text export
 -----------
 
-::
+.. code-block:: sh
 
     jrnl --export text
 
@@ -60,11 +66,15 @@ Why anyone would want to export stuff to XML is beyond me, but here you go.
 Export to files
 ---------------
 
-You can specify the output file of your exported journal using the `-o` argument::
+You can specify the output file of your exported journal using the `-o` argument
+
+.. code-block:: sh
 
     jrnl --export md -o journal.md
 
-The above command will generate a file named `journal.md`. If the `-o` argument is a directory, jrnl will export each entry into an individual file::
+The above command will generate a file named `journal.md`. If the `-o` argument is a directory, jrnl will export each entry into an individual file
+
+.. code-block:: sh
 
     jrnl --export json -o my_entries/
 

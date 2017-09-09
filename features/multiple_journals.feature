@@ -35,7 +35,14 @@ Feature: Multiple journals
         When we run "jrnl ideas 23 july 2012: sell my junk on ebay and make lots of money"
         Then journal "ideas" should have 1 entry
 
+<<<<<<< HEAD
    Scenario: Don't crash if no default journal is specified
         Given we use the config "bug343.yaml"
         When we run "jrnl a long day in the office"
         Then we should see the message "No default journal configured"
+=======
+   Scenario: Gracefully handle a config without a default journal
+        Given we use the config "multiple_without_default.json"
+        When we run "jrnl fork this repo and fix something"
+        Then we should see the message "You have not specified a journal. Either provide a default journal in your config file, or specify one of your journals on the command line."
+>>>>>>> master

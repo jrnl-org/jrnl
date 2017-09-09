@@ -122,3 +122,58 @@ class Entry:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+<<<<<<< HEAD
+=======
+
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'body': self.body,
+            'date': self.date.strftime("%Y-%m-%d"),
+            'time': self.date.strftime("%H:%M"),
+            'starred': self.starred
+        }
+
+    def to_md(self):
+        date_str = self.date.strftime(self.journal.config['timeformat'])
+        body_wrapper = "\n\n" if self.body else ""
+        body = body_wrapper + self.body
+        space = "\n"
+        md_head = "###"
+
+        return "{md} {date}, {title} {body} {space}".format(
+            md=md_head,
+            date=date_str,
+            title=self.title,
+            body=body,
+            space=space
+        )
+
+    def to_html(self):
+        html = "<!DOCTYPE html>\n"
+        html += "<html>\n"
+        html += "\t<head>\n"
+        html += "\t\t<style>\n"
+        html += "\t\t\tp{margin:0;}\n"
+        html += "\t\t\th2{margin:0}\n"
+        html += "\t\t\tbody{\n"
+        html += "\t\t\t\tbackground: #252a32;\n"
+        html += "\t\t\t\tmargin-top:5%;\n"
+        html += "\t\t\t\tmargin-bottom:5%;\n"
+        html += "\t\t\t\tmargin-left:5%;\n"
+        html += "\t\t\t\tmargin-right:5%;\n"
+        html += "\t\t\t}\n"
+        html += "\t\t</style>\n"
+        html += "\t</head>\n\n"
+        html += "\t<body>\n"
+        html += "\t\t<font color=\"white\">\n"
+        html += "\t\t\t<h1>Journal</h1>\n"
+        html += "\t\t\t<br>\n"
+        # date time title body
+        html +="\t\t\t\t<h2>" + self.date.strftime(self.journal.config['timeformat']) + "\t" + str(self.title) + "</h2>\n"
+        html +="\t\t\t\t<p class=\"tab\">" + str(self.body) + "</p>\n\t\t\t<br>\n\t\t\t<br>\n"
+        html +="\t\t</font>\n"
+        html +="\t</body>\n"
+        html +="</html>"
+        return html
+>>>>>>> master

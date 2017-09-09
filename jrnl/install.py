@@ -114,6 +114,7 @@ def install():
     except OSError:
         pass
 
+<<<<<<< HEAD
     # Encrypt it?
     password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
     if password:
@@ -126,6 +127,10 @@ def install():
         print("Journal will be encrypted.")
     else:
         PlainJournal._create(default_config['journals']['default'])
+=======
+    if not os.path.isdir(path):  # if it's a directory and exists (e.g. a DayOne journal, let it be)
+        open(default_config['journals']['default'], 'a').close()  # Touch to make sure it's there
+>>>>>>> master
 
     config = default_config
     save_config(config)

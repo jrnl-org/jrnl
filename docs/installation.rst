@@ -6,13 +6,37 @@ Getting started
 Installation
 ------------
 
-Install *jrnl* using pip ::
+On OS X, the easiest way to install *jrnl* is using `Homebrew <http://brew.sh/>`_
+
+.. code-block:: sh
+
+    brew install jrnl
+
+On other platforms, install *jrnl* using pip
+
+.. code-block:: sh
 
     pip install jrnl
 
+<<<<<<< HEAD
 Alternatively, on OS X with [Homebrew](http://brew.sh/) installed:
 
     brew install jrnl
+=======
+Or, if you want the option to encrypt your journal,
+
+.. code-block:: sh
+
+    pip install jrnl[encrypted]
+
+to install the dependencies for encrypting journals as well.
+
+.. note::
+
+   Installing the encryption library, `pycrypto`, requires a `gcc` compiler. For this reason, jrnl will not install `pycrypto` unless explicitly told so like this. You can `install PyCrypto manually <https://www.dlitz.net/software/pycrypto/>`_ first or install it with ``pip install pycrypto`` if you have a `gcc` compiler.
+
+   Also note that when using zsh, the correct syntax is ``pip install "jrnl[encrypted]"`` (note the quotes).
+>>>>>>> master
 
 The first time you run ``jrnl`` you will be asked where your journal file should be created and whether you wish to encrypt it.
 
@@ -20,7 +44,9 @@ The first time you run ``jrnl`` you will be asked where your journal file should
 Quickstart
 ----------
 
-to make a new entry, just type::
+to make a new entry, just type
+
+.. code-block:: sh
 
     jrnl yesterday: Called in sick. Used the time to clean the house and spent 4h on writing my book.
 

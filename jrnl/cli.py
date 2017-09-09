@@ -11,6 +11,11 @@ from __future__ import unicode_literals
 from __future__ import absolute_import
 from . import Journal
 from . import util
+<<<<<<< HEAD
+=======
+from . import importers
+from . import exporters
+>>>>>>> master
 from . import install
 from . import plugins
 from .util import ERROR_COLOR, RESET_COLOR
@@ -19,8 +24,15 @@ import argparse
 import sys
 import logging
 
+<<<<<<< HEAD
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
+=======
+xdg_config = os.environ.get('XDG_CONFIG_HOME')
+CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
+PYCRYPTO = install.module_exists("Crypto")
+log = logging.getLogger(__name__)
+>>>>>>> master
 
 
 def parse_args(args=None):
@@ -43,7 +55,12 @@ def parse_args(args=None):
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('-s', '--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
     exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
+<<<<<<< HEAD
     exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.EXPORT_FORMATS, help='Export your journal. TYPE can be {}.'.format(plugins.util.oxford_list(plugins.EXPORT_FORMATS)), default=False, const=None)
+=======
+    exporting.add_argument('--import-json', metavar='FILEPATH', dest='import_json', help='Import a journal from a JSON file.', default=False, const=None)
+    exporting.add_argument('--export', metavar='TYPE', dest='export', choices=['text', 'txt', 'markdown', 'md', 'json', 'html'], help='Export your journal. TYPE can be json, markdown, html, or text.', default=False, const=None)
+>>>>>>> master
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
     exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.IMPORT_FORMATS, help='Import entries into your journal. TYPE can be {}, and it defaults to jrnl if nothing else is specified.'.format(plugins.util.oxford_list(plugins.IMPORT_FORMATS)), default=False, const='jrnl', nargs='?')
     exporting.add_argument('-i', metavar='INPUT', dest='input', help='Optionally specifies input file when using --import.', default=False, const=None)
@@ -58,12 +75,16 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
+<<<<<<< HEAD
     import_ = False
     if args.import_ is not False:
         compose = False
         export = False
         import_ = True
     elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+=======
+    if args.decrypt is not False or args.encrypt is not False or args.import_json is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+>>>>>>> master
         compose = False
         export = True
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
@@ -98,10 +119,19 @@ def decrypt(journal, filename=None):
     journal.config['encrypt'] = False
     journal.config['password'] = ""
 
+<<<<<<< HEAD
     new_journal = Journal.PlainJournal(filename, **journal.config)
     new_journal.entries = journal.entries
     new_journal.write(filename)
     util.prompt("Journal decrypted to {0}.".format(filename or new_journal.config['journal']))
+=======
+def touch_journal(filename):
+    """If filename does not exist, touch the file"""
+    if not os.path.exists(filename):
+        log.debug('Creating journal file %s', filename)
+        util.prompt("[Journal created at {0}]".format(filename))
+        open(filename, 'a').close()
+>>>>>>> master
 
 
 def list_journals(config):
@@ -127,11 +157,17 @@ def update_config(config, new_config, scope, force_local=False):
 
 
 def configure_logger(debug=False):
+<<<<<<< HEAD
     logging.basicConfig(
         level=logging.DEBUG if debug else logging.INFO,
         format='%(levelname)-8s %(name)-12s %(message)s'
     )
     logging.getLogger('parsedatetime').setLevel(logging.INFO)  # disable parsedatetime debug logging
+=======
+    logging.basicConfig(level=logging.DEBUG if debug else logging.INFO,
+            format='%(levelname)-8s %(name)-12s %(message)s')
+    logging.getLogger('parsedatetime').setLevel(logging.INFO) # disable parsedatetime debug logging
+>>>>>>> master
 
 
 def run(manual_args=None):
@@ -143,7 +179,18 @@ def run(manual_args=None):
         print(util.py2encode(version_str))
         sys.exit(0)
 
+<<<<<<< HEAD
     config = install.load_or_install_jrnl()
+=======
+    if not os.path.exists(CONFIG_PATH):
+        log.debug('Configuration file not found, installing jrnl...')
+        config = install.install_jrnl(CONFIG_PATH)
+    else:
+        log.debug('Reading configuration from file %s', CONFIG_PATH)
+        config = util.load_and_fix_json(CONFIG_PATH, "configuration")
+        install.upgrade_config(config, config_path=CONFIG_PATH)
+
+>>>>>>> master
     if args.ls:
         util.prnt(list_journals(config))
         sys.exit(0)
@@ -173,7 +220,36 @@ def run(manual_args=None):
             pass
 
     log.debug('Using journal "%s"', journal_name)
+<<<<<<< HEAD
     mode_compose, mode_export, mode_import = guess_mode(args, config)
+=======
+    journal_conf = config['journals'].get(journal_name)
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific jourlnal overrides %s', journal_conf)
+        config.update(journal_conf)
+    else:  # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
+
+    if config['journal'] is None:
+        util.prompt("You have not specified a journal. Either provide a default journal in your config file, or specify one of your journals on the command line.")
+        sys.exit(1)
+
+    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
+    touch_journal(config['journal'])
+    log.debug('Using journal path %(journal)s', config)
+    mode_compose, mode_export = guess_mode(args, config)
+>>>>>>> master
+
+    # open journal file or folder
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or \
+           "entries" in os.listdir(config['journal']):
+            journal = DayOneJournal.DayOne(**config)
+        else:
+            util.prompt("[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+    else:
+        journal = Journal.Journal(journal_name, **config)
 
     # How to quit writing?
     if "win32" in sys.platform:
@@ -205,6 +281,7 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
+<<<<<<< HEAD
     # This is where we finally open the journal!
     try:
         journal = Journal.open_journal(journal_name, config)
@@ -216,6 +293,8 @@ def run(manual_args=None):
     if mode_import:
         plugins.get_importer(args.import_).import_(journal, args.input)
 
+=======
+>>>>>>> master
     # Writing mode
     elif mode_compose:
         raw = " ".join(args.text).strip()
@@ -248,6 +327,9 @@ def run(manual_args=None):
     elif args.tags:
         print(util.py2encode(plugins.get_exporter("tags").export(journal)))
 
+    elif args.import_json is not False:
+        importers.import_json(args.import_json, config)
+
     elif args.export is not False:
         exporter = plugins.get_exporter(args.export)
         print(exporter.export(journal, args.output))
@@ -255,14 +337,14 @@ def run(manual_args=None):
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)
         # Not encrypting to a separate file: update config!
-        if not args.encrypt:
+        if not args.encrypt or args.encrypt == config['journal']:
             update_config(original_config, {"encrypt": True}, journal_name, force_local=True)
             install.save_config(original_config)
 
     elif args.decrypt is not False:
         decrypt(journal, filename=args.decrypt)
         # Not decrypting to a separate file: update config!
-        if not args.decrypt:
+        if not args.decrypt or args.decrypt == config['journal']:
             update_config(original_config, {"encrypt": False}, journal_name, force_local=True)
             install.save_config(original_config)
 
@@ -281,7 +363,7 @@ def run(manual_args=None):
         if num_deleted:
             prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
         if num_edited:
-            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
+            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_edited == 1 else "entries"))
         if prompts:
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
