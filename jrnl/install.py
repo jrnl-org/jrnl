@@ -79,7 +79,7 @@ def install_jrnl(config_path='~/.jrnl_config'):
             print("Journal will be encrypted.")
     else:
         password = None
-        print("PyCrypto not found. To encrypt your journal, install the PyCrypto package from http://www.pycrypto.org or with 'pip install pycrypto' and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
+        print("pycryptodome not found. To encrypt your journal, install the pycryptodome package from https://www.pycryptodome.org or with 'pip install pycryptodome' and run 'jrnl --encrypt'. For now, your journal will be stored in plain text.")
 
     path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
     try:

@@ -10,7 +10,7 @@ python:
   - "nightly"
 install:
   - "pip install -e ."
-  - "pip install pycrypto>=2.6"
+  - "pip install pycryptodome>=3.4"
   - "pip install -q behave"
 # command to run tests
 script:

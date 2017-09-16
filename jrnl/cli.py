@@ -21,7 +21,7 @@ import logging
 
 xdg_config = os.environ.get('XDG_CONFIG_HOME')
 CONFIG_PATH = os.path.join(xdg_config, "jrnl") if xdg_config else os.path.expanduser('~/.jrnl_config')
-PYCRYPTO = install.module_exists("Crypto")
+PYCRYPTODOME = install.module_exists("Crypto")
 log = logging.getLogger(__name__)
 
 
@@ -148,8 +148,8 @@ def run(manual_args=None):
     log.debug('Using configuration "%s"', config)
     original_config = config.copy()
     # check if the configuration is supported by available modules
-    if config['encrypt'] and not PYCRYPTO:
-        util.prompt("According to your jrnl_conf, your journal is encrypted, however PyCrypto was not found. To open your journal, install the PyCrypto package from http://www.pycrypto.org.")
+    if config['encrypt'] and not PYCRYPTODOME:
+        util.prompt("According to your jrnl_conf, your journal is encrypted, however pycryptodome was not found. To open your journal, install the pycryptodome package from https://www.pycryptodome.org .")
         sys.exit(1)
 
     # If the first textual argument points to a journal file,
@@ -250,8 +250,8 @@ def run(manual_args=None):
     elif args.export is not False:
         print(util.py2encode(exporters.export(journal, args.export, args.output)))
 
-    elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTO:
-        util.prompt("PyCrypto not found. To encrypt or decrypt your journal, install the PyCrypto package from http://www.pycrypto.org.")
+    elif (args.encrypt is not False or args.decrypt is not False) and not PYCRYPTODOME:
+        util.prompt("pycryptodome not found. To encrypt or decrypt your journal, install the pycryptodome package from https://www.pycryptodome.org .")
 
     elif args.encrypt is not False:
         encrypt(journal, filename=args.encrypt)

@@ -149,7 +149,7 @@ setup(
         "keyrings.alt>=1.3",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
-        "encrypted": "pycrypto>=2.6"
+        "encrypted": "pycryptodome>=3.4"
     },
     long_description=__doc__,
     entry_points={

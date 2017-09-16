@@ -45,7 +45,7 @@ class Journal(object):
     def _decrypt(self, cipher):
         """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
         if not crypto_installed:
-            sys.exit("Error: PyCrypto is not installed.")
+            sys.exit("Error: pycryptodome is not installed.")
         if not cipher:
             return ""
         crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
@@ -71,8 +71,8 @@ class Journal(object):
     def _encrypt(self, plain):
         """Encrypt a plaintext string using self.key as the key"""
         if not crypto_installed:
-            sys.exit("Error: PyCrypto is not installed.")
-        Random.atfork()  # A seed for PyCrypto
+            sys.exit("Error: pycryptodome is not installed.")
+        Random.atfork()  # A seed for pycryptodome
         iv = Random.new().read(AES.block_size)
         crypto = AES.new(self.key, AES.MODE_CBC, iv)
         plain = plain.encode("utf-8")
