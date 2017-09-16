@@ -141,15 +141,15 @@ setup(
     description = "A command line journal application that stores your journal in a plain text file",
     packages = ['jrnl'],
     install_requires = [
-        "parsedatetime>=1.2",
-        "pytz>=2013b",
-        "six>=1.6.1",
-        "tzlocal>=1.1",
+        "parsedatetime>=2.4",
+        "pytz>=2017.2",
+        "six>=1.10.0",
+        "tzlocal>=1.4",
         "keyring>=3.3",
         "keyrings.alt>=1.3",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     extras_require = {
-        "encrypted": "pycryptodome>=3.4"
+        "encrypted": "pycryptodome>=3.4.5"
     },
     long_description=__doc__,
     entry_points={
