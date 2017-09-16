@@ -43,7 +43,11 @@ class DayOne(Journal.Journal):
                     except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                         timezone = tzlocal.get_localzone()
                     date = dict_entry['Creation Date']
-                    date = date + timezone.utcoffset(date, is_dst=False)
+                    try:
+                        date = date + timezone.utcoffset(date, is_dst=False)
+                    except TypeError:
+                        #(TODO) is_dst issue
+                        pass
                     raw = dict_entry['Entry Text']
                     sep = re.search("\n|[\?!.]+ +\n?", raw)
                     title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
