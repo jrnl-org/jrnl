@@ -12,6 +12,7 @@ install:
   - "pip install -e ."
   - "pip install pycryptodome>=3.4.5"
   - "pip install -q behave"
+  - "pip install pytz"
 # command to run tests
 script:
  - python --version
