@@ -75,7 +75,7 @@ def to_html(journal):
     html += "\t\t\th2{margin:0}\n"
     html += "\t\t\tbody{\n"
     html += "\t\t\t\tfont-family: sans-serif;\n"
-    html += "\t\t\t\tbackground: #252a32;\n"
+    html += "\t\t\t\tbackground: #1B2C3E;\n"
     html += "\t\t\t\tmargin-top:5%;\n"
     html += "\t\t\t\tmargin-bottom:5%;\n"
     html += "\t\t\t\tmargin-left:5%;\n"
