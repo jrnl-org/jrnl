@@ -87,10 +87,15 @@ def to_html(journal):
     html += "\t\t<font color=\"white\">\n"
     html += "\t\t\t<h1>Journal</h1>\n"
     html += "\t\t\t<br>\n"
-    for element in journal.entries:
+    iterator = 0
+    while iterator < len(journal.entries):
         # date time title body
+        element = journal.entries[iterator]
         html += "\t\t\t\t<h2>" + str(element.date) + "\t" + element.title + "</h2>\n"
-        html += "\t\t\t\t<p class=\"tab\">" + element.body + "</p>\n\t\t\t<br>\n\t\t\t<br>\n"
+        html += "\t\t\t\t<p class=\"tab\">" + element.body.strip() + "</p>\n"
+        if iterator < (len(journal.entries) - 1):
+            html += "\t\t\t<br>\n\t\t\t<br>\n"
+        iterator += 1
     html += "\t\t</font>\n"
     html += "\t</body>\n"
     html += "</html>"
