@@ -68,12 +68,10 @@ class MarkdownExporter(TextExporter):
         for e in journal.entries:
             if not e.date.year == year:
                 year = e.date.year
-                out.append(str(year))
-                out.append("=" * len(str(year)) + "\n")
+                out.append("# " + str(year))
             if not e.date.month == month:
                 month = e.date.month
-                out.append(e.date.strftime("%B"))
-                out.append('-' * len(e.date.strftime("%B")) + "\n")
+                out.append("## " + e.date.strftime("%B"))
             out.append(cls.export_entry(e, False))
         result = "\n".join(out)
         return result
