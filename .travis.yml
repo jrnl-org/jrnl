@@ -4,10 +4,13 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+  - "3.6"
+  - "nightly"
 install:
   - "pip install -e ."
   - "pip install -q behave"
+before_script:
+ - python --version
 # command to run tests
 script:
- - python --version
  - behave
