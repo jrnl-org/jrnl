@@ -13,8 +13,8 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
+from . import __title__, __version__
 from .util import ERROR_COLOR, RESET_COLOR
-import jrnl
 import argparse
 import sys
 import logging
@@ -139,7 +139,7 @@ def run(manual_args=None):
     configure_logger(args.debug)
     args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
     if args.version:
-        version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
+        version_str = "{0} version {1}".format(__title__, __version__)
         print(util.py2encode(version_str))
         sys.exit(0)
 
