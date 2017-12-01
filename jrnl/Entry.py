@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import re
 import textwrap
 from datetime import datetime
-from .util import split_title
+from .util import split_title, bold
 
 
 class Entry:
@@ -100,7 +100,7 @@ class Entry:
             return title
         else:
             return "{title}{sep}{body}\n".format(
-                title=title,
+                title=bold(title),
                 sep="\n" if has_body else "",
                 body=body if has_body else "",
             )

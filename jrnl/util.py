@@ -178,6 +178,11 @@ def colorize(string):
     return u"\033[36m{}\033[39m".format(string)
 
 
+def bold(string):
+    """Returns the string wrapped in bold ANSI escape"""
+    return u"\033[1m{}\033[0m".format(string)
+
+
 def slugify(string):
     """Slugifies a string.
     Based on public domain code from https://github.com/zacharyvoase/slugify
