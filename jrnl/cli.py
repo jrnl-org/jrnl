@@ -153,7 +153,7 @@ def run(manual_args=None):
 
     # If the first textual argument points to a journal file,
     # use this!
-    first_arg = args.text[0].replace(':', '')
+    first_arg = args.text[0].replace(':', '') if len(args.text) > 0 else None
     journal_name = first_arg if (args.text and first_arg in config['journals']) else 'default'
 
     if journal_name is not 'default':
