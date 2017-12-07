@@ -122,10 +122,11 @@ class Journal(object):
     def __unicode__(self):
         return self.pprint()
 
-    def pprint(self, short=False):
+    def pprint(self, short=False, desc=False):
         """Prettyprints the journal's entries"""
         sep = "\n"
-        pp = sep.join([e.pprint(short=short) for e in self.entries])
+        sorted_entries = sorted(self.entries, key=lambda entry: entry.date, reverse=desc)
+        pp = sep.join([e.pprint(short=short) for e in sorted_entries])
         if self.config['highlight']:  # highlight tags
             if self.search_tags:
                 for tag in self.search_tags:

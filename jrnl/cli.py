@@ -38,6 +38,7 @@ def parse_args(args=None):
     reading.add_argument('-on', dest='on_date', metavar="DATE", help='View entries on this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
+    reading.add_argument('-desc', dest='desc', action="store_true", help='Order entries downwards')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
@@ -238,13 +239,15 @@ def run(manual_args=None):
                        starred=args.starred)
         journal.limit(args.limit)
 
+    desc = args.desc if args.desc is not None else False
+
     # Reading mode
     if not mode_compose and not mode_export and not mode_import:
-        print(util.py2encode(journal.pprint()))
+        print(util.py2encode(journal.pprint(desc=desc)))
 
     # Various export modes
     elif args.short:
-        print(util.py2encode(journal.pprint(short=True)))
+        print(util.py2encode(journal.pprint(short=True, desc=desc)))
 
     elif args.tags:
         print(util.py2encode(plugins.get_exporter("tags").export(journal)))

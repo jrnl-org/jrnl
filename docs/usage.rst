@@ -77,6 +77,10 @@ everything that happened from the start of last year to the start of last march.
 
     jrnl -starred
 
+and to order them descendantly by date ::
+
+    jrnl -desc
+
 Using Tags
 ----------
 

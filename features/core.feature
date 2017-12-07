@@ -53,6 +53,18 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -on 2013-06-10 --short"
         Then the output should be "2013-06-10 15:40 Life is good."
 
+    Scenario: -desc displays the entries descendantly by date
+        Given we use the config "basic.yaml"
+        When we run "jrnl --desc"
+        Then the output should be 
+            """
+            2013-06-10 15:40 Life is good.
+            | But I'm better.
+
+            2013-06-09 15:39 My first entry.
+            | Everything is alright
+            """
+
     Scenario: -s displays the short version of entries (only the title)
         Given we use the config "basic.yaml"
         When we run "jrnl -on 2013-06-10 -s"
