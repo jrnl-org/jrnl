@@ -188,7 +188,7 @@ def run(manual_args=None):
     if mode_compose and partial_raw[1].strip() == '':
         if not sys.stdin.isatty():
             # Piping data into jrnl
-            raw = partial_raw + ': ' + util.py23_read()
+            raw = partial_raw[0] + ': ' + util.py23_read()
         elif config['editor']:
             template = ""
             if config['template']:
@@ -197,10 +197,10 @@ def run(manual_args=None):
                 except:
                     util.prompt("[Could not read template at '']".format(config['template']))
                     sys.exit(1)
-            raw = partial_raw + ': ' + util.get_text_from_editor(config, template)
+            raw = partial_raw[0] + ': ' + util.get_text_from_editor(config, template)
         else:
             try:
-                raw = partial_raw + ': ' + util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+                raw = partial_raw[0] + ': ' + util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
             except KeyboardInterrupt:
                 util.prompt("[Entry NOT saved to journal.]")
                 sys.exit(0)
