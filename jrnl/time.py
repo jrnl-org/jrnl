@@ -12,7 +12,7 @@ consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
 CALENDAR = pdt.Calendar(consts)
 
 
-def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
+def parse(date_str, inclusive=False, default_hour=None, default_minute=None, dayfirst=False):
     """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
     if not date_str:
         return None
@@ -24,7 +24,7 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
     year_present = False
     while not date:
         try:
-            date = dateparse(date_str, default=default_date)
+            date = dateparse(date_str, default=default_date, dayfirst=dayfirst)
             if date.year == FAKE_YEAR:
                 date = datetime(datetime.now().year, date.timetuple()[1:6])
             else:

@@ -179,8 +179,8 @@ class Journal(object):
         If strict is True, all tags must be present in an entry. If false, the
         entry is kept if any tag is present."""
         self.search_tags = set([tag.lower() for tag in tags])
-        end_date = time.parse(end_date, inclusive=True)
-        start_date = time.parse(start_date)
+        end_date = time.parse(end_date, inclusive=True, default_hour=self.config['default_hour'], default_minute=self.config['default_minute'], dayfirst=self.config['day_first'])
+        start_date = time.parse(start_date, default_hour=self.config['default_hour'], default_minute=self.config['default_minute'], dayfirst=self.config['day_first'])
 
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
@@ -208,7 +208,7 @@ class Journal(object):
         if not date:
             colon_pos = first_line.find(": ")
             if colon_pos > 0:
-                date = time.parse(raw[:colon_pos], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
+                date = time.parse(raw[:colon_pos], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'], dayfirst=self.config['day_first'])
                 if date:  # Parsed successfully, strip that from the raw text
                     starred = raw[:colon_pos].strip().endswith("*")
                     raw = raw[colon_pos + 1:].strip()
