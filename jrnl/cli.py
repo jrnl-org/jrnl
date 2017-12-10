@@ -38,6 +38,7 @@ def parse_args(args=None):
     reading.add_argument('-on', dest='on_date', metavar="DATE", help='View entries on this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
+    reading.add_argument('-desc', dest='desc', action="store_true", help='Order entries downwards')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
@@ -153,7 +154,8 @@ def run(manual_args=None):
 
     # If the first textual argument points to a journal file,
     # use this!
-    journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
+    first_arg = args.text[0].replace(':', '') if len(args.text) > 0 else None
+    journal_name = first_arg if (args.text and first_arg in config['journals']) else 'default'
 
     if journal_name is not 'default':
         args.text = args.text[1:]
@@ -181,10 +183,12 @@ def run(manual_args=None):
     else:
         _exit_multiline_code = "press Ctrl+D"
 
-    if mode_compose and not args.text:
+    partial_raw = " ".join(args.text).split(':')
+    
+    if mode_compose and partial_raw[1].strip() == '':
         if not sys.stdin.isatty():
             # Piping data into jrnl
-            raw = util.py23_read()
+            raw = partial_raw[0] + ': ' + util.py23_read()
         elif config['editor']:
             template = ""
             if config['template']:
@@ -193,10 +197,10 @@ def run(manual_args=None):
                 except:
                     util.prompt("[Could not read template at '']".format(config['template']))
                     sys.exit(1)
-            raw = util.get_text_from_editor(config, template)
+            raw = partial_raw[0] + ': ' + util.get_text_from_editor(config, template)
         else:
             try:
-                raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+                raw = partial_raw[0] + ': ' + util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
             except KeyboardInterrupt:
                 util.prompt("[Entry NOT saved to journal.]")
                 sys.exit(0)
@@ -237,13 +241,15 @@ def run(manual_args=None):
                        starred=args.starred)
         journal.limit(args.limit)
 
+    desc = args.desc if args.desc is not None else False
+
     # Reading mode
     if not mode_compose and not mode_export and not mode_import:
-        print(util.py2encode(journal.pprint()))
+        print(util.py2encode(journal.pprint(desc=desc)))
 
     # Various export modes
     elif args.short:
-        print(util.py2encode(journal.pprint(short=True)))
+        print(util.py2encode(journal.pprint(short=True, desc=desc)))
 
     elif args.tags:
         print(util.py2encode(plugins.get_exporter("tags").export(journal)))
