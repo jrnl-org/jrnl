@@ -11,8 +11,9 @@ from .tag_exporter import TagExporter
 from .xml_exporter import XMLExporter
 from .yaml_exporter import YAMLExporter
 from .template_exporter import __all__ as template_exporters
+from .fancy_exporter import FancyExporter
 
-__exporters =[JSONExporter, MarkdownExporter, TagExporter, TextExporter, XMLExporter, YAMLExporter] + template_exporters
+__exporters =[JSONExporter, MarkdownExporter, TagExporter, TextExporter, XMLExporter, YAMLExporter, FancyExporter] + template_exporters
 __importers =[JRNLImporter]
 
 __exporter_types = dict([(name, plugin) for plugin in __exporters for name in plugin.names])
