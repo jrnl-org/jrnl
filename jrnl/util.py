@@ -9,6 +9,7 @@ if "win32" in sys.platform:
     import colorama
     colorama.init()
 import re
+import threading
 import tempfile
 import subprocess
 import codecs
@@ -126,13 +127,15 @@ def load_and_fix_json(json_path):
             sys.exit(1)
 
 def get_text_from_editor(config, template=""):
-    _, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+    fd, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    subprocess.call(config['editor'].split() + [tmpfile])
+    process = subprocess.Popen(config['editor'].split() + [tmpfile])
+    process.wait()
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
+    os.close(fd)
     os.remove(tmpfile)
     if not raw:
         prompt('[Nothing saved to file]')
