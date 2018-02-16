@@ -12,7 +12,7 @@ If you find a typo or a mistake in the docs, just fix it right away and send a p
 Bugs
 ----
 
-They unfortunately happen. Specifically, I don't have a Windows machine to test on, so expect a few rough spots. If you found a bug, please [open a new issue](https://www.github.com/maebert/jrnl/issues/new) and describe it as well as possible. If you're a programmer and have a little time time spare, go ahead, fork the code and fix bugs you spot, it'll be much appreciated!
+They unfortunately happen. Specifically, I don't have a Windows machine to test on, so expect a few rough spots. If you found a bug, please [open a new issue](https://www.github.com/maebert/jrnl/issues/new) and describe it as well as possible. If you're a programmer and have a little time to spare, go ahead, fork the code and fix bugs you spot; it'll be much appreciated!
 
 
 Feature requests and ideas
@@ -32,4 +32,4 @@ Beyond that, it should also play nice with other software and tools -- however, 
 A short note for new programmers and programmers new to python
 --------------------------------------------------------------
 
-Although jrnl grew quite a bit since I first started working on it, the overall complexity (for an end-user program) is fairly low, and I hope you'll find the code easy enough to understand -- if you have a question, don't hesitate to ask! Python is known for it's great community and openness to novice programmers. Feel free to fork the code and play around with it. If you think you created something worth sharing, create a pull request. I never expect pull requests to be perfect, idiomatic, instantly mergeable code, and we can work through it together. Go for it!
+Although jrnl grew quite a bit since I first started working on it, the overall complexity (for an end-user program) is fairly low, and I hope you'll find the code easy enough to understand -- if you have a question, don't hesitate to ask! Python is known for its great community and openness to novice programmers. Feel free to fork the code and play around with it. If you think you created something worth sharing, create a pull request. I never expect pull requests to be perfect, idiomatic, instantly mergeable code, and we can work through it together. Go for it!
