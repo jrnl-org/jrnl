@@ -6,7 +6,7 @@ Advanced Usage
 Configuration File
 -------------------
 
-You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_config``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved under ``$XDG_CONFIG_HOME/jrnl``.
+You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_config``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved as ``$XDG_CONFIG_HOME/jrnl/.jrnl_config``.
 
 .. note::
 
