@@ -91,7 +91,7 @@ def run_with_input(context, command, inputs=None):
 def run(context, command):
     args = ushlex(command)[1:]
     try:
-        cli.run(args or None)
+        cli.run(args)
         context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code

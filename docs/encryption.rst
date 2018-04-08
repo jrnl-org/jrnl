@@ -7,11 +7,15 @@ Encrypting and decrypting
 -------------------------
 
 
-If you don't choose to encrypt your file when you run `jrnl` for the first time, you can encrypt your existing journal file or change its password using ::
+If you don't choose to encrypt your file when you run `jrnl` for the first time, you can encrypt your existing journal file or change its password using
+
+.. code-block:: sh
 
     jrnl --encrypt
 
-If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely, ::
+If it is already encrypted, you will first be asked for the current password. You can then enter a new password and your plain journal will replaced by the encrypted file. Conversely,
+
+.. code-block:: sh
 
     jrnl --decrypt
 
@@ -28,20 +32,48 @@ If you don't initially store the password in the keychain but decide to do so at
 A note on security
 ------------------
 
-While jrnl follows best practices, true security is an illusion. Specifically, jrnl will leave traces in your memory and your shell history -- it's meant to keep journals secure in transit, for example when storing it on an `untrusted <http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/>`_ services such as Dropbox. If you're concerned about security, disable history logging for journal in your ``.bashrc`` ::
+While jrnl follows best practises, true security is an illusion. Specifically, jrnl will leave traces in your memory and your shell history -- it's meant to keep journals secure in transit, for example when storing it on an `untrusted <http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/>`_ services such as Dropbox. If you're concerned about security, disable history logging for journal in your ``.bashrc``
 
-    HISTIGNORE="jrnl *:"
+.. code-block:: sh
+
+    HISTIGNORE="$HISTIGNORE:jrnl *"
+
+If you are using zsh instead of bash, you can get the same behaviour adding this to your ``zshrc``
+
+.. code-block:: sh
+
+    setopt HIST_IGNORE_SPACE
+    alias jrnl=" jrnl"
+
 
 Manual decryption
 -----------------
 
-Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. So, to decrypt a journal file in python, run::
+Should you ever want to decrypt your journal manually, you can do so with any program that supports the AES algorithm in CBC. The key used for encryption is the SHA-256-hash of your password, the IV (initialisation vector) is stored in the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and padded according to PKCS#7 before being encrypted. Here's a Python script that you can use to decrypt your journal
 
-    import hashlib, Crypto.Cipher
-    key = hashlib.sha256(my_password).digest()
-    with open("my_journal.txt") as f:
-        cipher = f.read()
-        crypto = AES.new(key, AES.MODE_CBC, iv = cipher[:16])
-        plain = crypto.decrypt(cipher[16:])
-        plain = plain.strip(plain[-1])
-        plain = plain.decode("utf-8")
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   import argparse
+   from Crypto.Cipher import AES
+   import getpass
+   import hashlib
+   import sys
+
+   parser = argparse.ArgumentParser()
+   parser.add_argument("filepath", help="journal file to decrypt")
+   args = parser.parse_args()
+
+   pwd = getpass.getpass()
+   key = hashlib.sha256(pwd.encode('utf-8')).digest()
+
+   with open(args.filepath, 'rb') as f:
+       ciphertext = f.read()
+
+   crypto = AES.new(key, AES.MODE_CBC, ciphertext[:16])
+   plain = crypto.decrypt(ciphertext[16:])
+   plain = plain.strip(plain[-1:])
+   plain = plain.decode("utf-8")
+   print(plain)
+

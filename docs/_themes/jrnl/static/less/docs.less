@@ -114,7 +114,7 @@ a:hover, a:active
     background: desaturate(lighten(@terminal,10), 10);
     pre {color: white;}
     }
-.highlight-python
+.highlight-python, .highlight-sh
     {
     .terminal;
     pre
@@ -223,12 +223,12 @@ div.footer
     {
         body:not(.landing){
             padding-top: 130px;
-            .highlight-output,.highlight-python, .highlight-javascript
+            .highlight-output, .highlight-python, .highlight-javascript, .highlight-sh
                 {
                 width: auto;
                 max-width: 500px;
                 }
-            .highlight-python
+            .highlight-python, .highlight-sh
                 {
                 pre { margin: -10px 0 10px 0;}
                 &:before

@@ -78,3 +78,9 @@ Feature: Zapped bugs should stay dead.
             """
             2013-05-17 11:39 This entry has tags!
             """
+    Scenario: Writing an entry at the prompt with non-ascii characters
+        # https://github.com/maebert/jrnl/issues/295
+        Given we use the config "basic.json"
+        When we run "jrnl" and enter "Crème brûlée & Mötorhead"
+        Then we should get no error
+        and the journal should contain "Crème brûlée & Mötorhead"

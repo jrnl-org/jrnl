@@ -3,6 +3,9 @@ Contributing
 
 If you use jrnl, you can totally make my day by just saying "thanks for the code" or by [tweeting about jrnl](https://twitter.com/intent/tweet?text=Write+your+memoirs+on+the+command+line.+Like+a+boss.+%23jrnl&url=http%3A%2F%2Fmaebert.github.io%2Fjrnl&via=maebert). It's your chance to make a programmer happy today! If you have a minute or two, let me know what you use jrnl for and how, it'll help me to make it even better. If you blog about jrnl, I'll send you a post card!
 
+> # Important:
+> ### Please develop new features against the `2.0-rc1` branch. PRs to the `master` branch will not get merged until version 2.0 is released.
+
 
 Docs & Typos
 ------------

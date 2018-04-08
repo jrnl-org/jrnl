@@ -1,3 +1,5 @@
+.PHONY: clean docs
+
 # A Makefile for commands I run frequently:
 
 clean:

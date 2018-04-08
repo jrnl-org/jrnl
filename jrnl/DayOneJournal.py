@@ -36,6 +36,8 @@ class DayOne(Journal.Journal):
                 filenames.append(os.path.join(root, filename))
         self.entries = []
         for filename in filenames:
+            if os.path.isdir(filename):
+                continue
             with open(filename, 'rb') as plist_entry:
                 try:
                     dict_entry = plistlib.readPlist(plist_entry)
@@ -66,7 +68,7 @@ class DayOne(Journal.Journal):
                     entry.uuid = uuid.uuid1().hex
 
                 filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
-                
+
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,

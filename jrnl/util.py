@@ -116,6 +116,8 @@ def prnt(s):
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
+    if not msg:
+        return
     if not msg.endswith("\n"):
         msg += "\n"
     STDERR.write(u(msg))
@@ -123,12 +125,12 @@ def prompt(msg):
 
 def py23_input(msg=""):
     prompt(msg)
-    return STDIN.readline().strip()
+    return u(STDIN.readline()).strip()
 
 
 def py23_read(msg=""):
-    print(msg)
-    return STDIN.read()
+    prompt(msg)
+    return u(STDIN.read())
 
 
 def yesno(prompt, default=True):

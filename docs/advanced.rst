@@ -6,7 +6,7 @@ Advanced Usage
 Configuration File
 -------------------
 
-You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_config``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved under ``$XDG_CONFIG_HOME/jrnl``.
+You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_config``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved as ``$XDG_CONFIG_HOME/jrnl/.jrnl_config``.
 
 .. note::
 
@@ -90,12 +90,11 @@ You can configure _jrnl_ to use with multiple journals (eg. ``private`` and ``wo
       }
     }
 
-The ``default`` journal gets created the first time you start _jrnl_. Now you can access the ``work`` journal by using ``jrnl work`` instead of ``jrnl``, eg. ::
+The ``default`` journal gets created the first time you start _jrnl_. Now you can access the ``work`` journal by using ``jrnl work`` instead of ``jrnl``, eg.
+
+.. code-block:: sh
 
     jrnl work at 10am: Meeting with @Steve
-
-::
-
     jrnl work -n 3
 
 will both use ``~/work.txt``, while ``jrnl -n 3`` will display the last three entries from ``~/journal.txt`` (and so does ``jrnl default -n 3``).
