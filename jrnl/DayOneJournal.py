@@ -7,7 +7,7 @@ from . import Journal
 from . import time as jrnl_time
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import fnmatch
 import plistlib
@@ -49,7 +49,11 @@ class DayOne(Journal.Journal):
                     except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                         timezone = tzlocal.get_localzone()
                     date = dict_entry['Creation Date']
-                    date = date + timezone.utcoffset(date, is_dst=False)
+                    if timezone != pytz.timezone('UTC'):
+                        time_offset = timezone.utcoffset(date)
+                    else:
+                        time_offset = timedelta(0)
+                    date = date + time_offset
                     entry = Entry.Entry(self, date, text=dict_entry['Entry Text'], starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
                     entry._tags = [self.config['tagsymbols'][0] + tag.lower() for tag in dict_entry.get("Tags", [])]

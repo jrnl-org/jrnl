@@ -43,4 +43,4 @@ Feature: Multiple journals
    Scenario: Gracefully handle a config without a default journal
         Given we use the config "multiple_without_default.yaml"
         When we run "jrnl fork this repo and fix something"
-        Then we should see the message "You have not specified a journal. Either provide a default journal in your config file, or specify one of your journals on the command line."
+        Then the output should contain "You have not specified a journal. Either provide a default journal in your config file, or specify one of your journals on the command line."
