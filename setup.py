@@ -129,8 +129,6 @@ conditional_dependencies = {
     "pyreadline>=2.0": not readline_available and "win32" in sys.platform,
     "readline>=6.2": not readline_available and "win32" not in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
-    "python-dateutil==1.5": sys.version.startswith("2."),
-    "python-dateutil>=2.2": sys.version.startswith("3."),
 }
 
 
@@ -150,6 +148,7 @@ setup(
         "passlib>=1.6.2",
         "pyxdg>=0.25",
         "asteval>=0.9.8",
+        "python-dateutil>=2.2",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
     long_description=__doc__,
     entry_points={

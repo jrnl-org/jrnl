@@ -18,6 +18,7 @@ import codecs
 import unicodedata
 import shlex
 import logging
+from six import string_types
 
 log = logging.getLogger(__name__)
 
@@ -92,7 +93,7 @@ def set_keychain(journal_name, password):
 
 def u(s):
     """Mock unicode function for python 2 and 3 compatibility."""
-    if not isinstance(s, str):
+    if not isinstance(s, string_types):
         s = str(s)
     return s if PY3 or type(s) is unicode else s.decode("utf-8")
 
