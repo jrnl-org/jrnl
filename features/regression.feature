@@ -80,7 +80,7 @@ Feature: Zapped bugs should stay dead.
             """
     Scenario: Writing an entry at the prompt with non-ascii characters
         # https://github.com/maebert/jrnl/issues/295
-        Given we use the config "basic.json"
+        Given we use the config "basic.yaml"
         When we run "jrnl" and enter "Crème brûlée & Mötorhead"
         Then we should get no error
         and the journal should contain "Crème brûlée & Mötorhead"
