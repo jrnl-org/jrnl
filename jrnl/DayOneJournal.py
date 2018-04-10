@@ -50,7 +50,7 @@ class DayOne(Journal.Journal):
                         timezone = tzlocal.get_localzone()
                     date = dict_entry['Creation Date']
                     if timezone != pytz.timezone('UTC'):
-                        time_offset = timezone.utcoffset(date)
+                        time_offset = timezone.utcoffset(date, is_dst=False)
                     else:
                         time_offset = timedelta(0)
                     date = date + time_offset
