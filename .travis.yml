@@ -6,7 +6,9 @@ python:
   - "3.5"
   - "3.6"
   - "3.7-dev"
-  - "nightly"
+  # - "nightly"
+  - "pypy2.7"
+  - "pypy3.5"
 install:
   - "pip install setuptools -U"
   - "pip install -e ."
@@ -15,3 +17,12 @@ install:
 script:
  - python --version
  - behave
+
+ matrix:
+  allow_failures:
+    python: "3.7-dev"
+    # python: "nightly"
+    python: "pypy2.7"
+    python: "pypy3.5"
+sudo: false
+cache: pip
