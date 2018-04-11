@@ -10,6 +10,7 @@ import os
 import json
 import yaml
 import keyring
+import codecs
 
 
 class TestKeyring(keyring.backend.KeyringBackend):
@@ -48,7 +49,7 @@ def ushlex(command):
 
 def read_journal(journal_name="default"):
     config = util.load_config(install.CONFIG_FILE_PATH)
-    with open(config['journals'][journal_name]) as journal_file:
+    with codecs.open(config['journals'][journal_name], 'r', 'utf-8') as journal_file:
         journal = journal_file.read()
     return journal
 
@@ -69,7 +70,7 @@ def set_config(context, config_file):
     install.CONFIG_FILE_PATH = os.path.abspath(full_path)
     if config_file.endswith("yaml"):
         # Add jrnl version to file for 2.x journals
-        with open(install.CONFIG_FILE_PATH, 'a') as cf:
+        with codecs.open(install.CONFIG_FILE_PATH, 'a', 'utf-8') as cf:
             cf.write("version: {}".format(__version__))
 
 

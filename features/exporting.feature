@@ -27,23 +27,22 @@ Feature: Exporting a Journal
         and the output should be parsable as json
         and the json output should contain entries.0.uuid = "4BB1F46946AD439996C9B59DE7C4DDC1"
 
-    @skip
-    Scenario: Exporting using custom templates
-        Given we use the config "basic.yaml"
-        Given we load template "sample.template"
-        When we run "jrnl --export sample"
-        Then the output should be
-        """
-        My first entry.
-        ---------------
-
-        Everything is alright
-
-        Life is good.
-        -------------
-
-        But I'm better.
-        """
+    # Scenario: Exporting using custom templates
+    #     Given we use the config "basic.yaml"
+    #     Given we load template "sample.template"
+    #     When we run "jrnl --export sample"
+    #     Then the output should be
+    #     """
+    #     My first entry.
+    #     ---------------
+    #
+    #     Everything is alright
+    #
+    #     Life is good.
+    #     -------------
+    #
+    #     But I'm better.
+    #     """
 
     Scenario: Increasing Headings on Markdown export
         Given we use the config "markdown-headings-335.yaml"
