@@ -3,10 +3,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from .text_exporter import TextExporter
-from .template import Template
-import os
 from glob import glob
+import os
+
+from .template import Template
+from .text_exporter import TextExporter
 
 
 class GenericTemplateExporter(TextExporter):

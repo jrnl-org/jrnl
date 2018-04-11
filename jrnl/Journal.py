@@ -2,15 +2,15 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
-from . import Entry
-from . import util
-from . import time
-import os
-import sys
+
 import codecs
-import re
 from datetime import datetime
 import logging
+import os
+import re
+import sys
+
+from . import Entry, time, util
 
 log = logging.getLogger(__name__)
 

@@ -2,11 +2,12 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
-from .util import ERROR_COLOR, RESET_COLOR
-from .util import slugify, u
-from .template import Template
-import os
+
 import codecs
+import os
+
+from .template import Template
+from .util import ERROR_COLOR, RESET_COLOR, slugify, u
 
 
 class Exporter(object):

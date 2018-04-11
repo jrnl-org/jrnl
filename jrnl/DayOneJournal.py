@@ -2,19 +2,21 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
-from . import Entry
-from . import Journal
-from . import time as jrnl_time
-import os
-import re
+
 from datetime import datetime, timedelta
-import time
 import fnmatch
+import os
 import plistlib
-import pytz
+import re
+import time
 import uuid
-import tzlocal
 from xml.parsers.expat import ExpatError
+
+import pytz
+import tzlocal
+
+from . import Entry, Journal
+from . import time as jrnl_time
 
 
 class DayOne(Journal.Journal):

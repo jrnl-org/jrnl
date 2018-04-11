@@ -1,24 +1,25 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
-import sys
-import os
+import codecs
 import getpass as gp
+import logging
+import os
+import re
+import shlex
+import subprocess
+import sys
+import tempfile
+import unicodedata
+
+from six import string_types
 import yaml
+
 if "win32" in sys.platform:
     import colorama
     colorama.init()
-import re
-import tempfile
-import subprocess
-import codecs
-import unicodedata
-import shlex
-import logging
-from six import string_types
 
 log = logging.getLogger(__name__)
 

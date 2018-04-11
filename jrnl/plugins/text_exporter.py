@@ -2,10 +2,11 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
+
 import codecs
-from ..util import u, slugify
 import os
-from ..util import ERROR_COLOR, RESET_COLOR
+
+from ..util import ERROR_COLOR, RESET_COLOR, slugify, u
 
 
 class TextExporter(object):

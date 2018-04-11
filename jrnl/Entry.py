@@ -2,9 +2,11 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
+
+from datetime import datetime
 import re
 import textwrap
-from datetime import datetime
+
 from .util import split_title
 
 

@@ -1,13 +1,15 @@
 from __future__ import absolute_import, unicode_literals
 
-from . import Journal, util
+import base64
+import hashlib
+
 from cryptography.fernet import Fernet, InvalidToken
+from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-import hashlib
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.backends import default_backend
-import base64
+
+from . import Journal, util
 
 
 def make_key(password):

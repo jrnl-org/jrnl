@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
     # Astute reader: should the following line leave you as puzzled as me the first time

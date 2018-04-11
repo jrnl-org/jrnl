@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals, print_function
-from .text_exporter import TextExporter
+from __future__ import absolute_import, print_function, unicode_literals
+
 import re
 import sys
-from ..util import WARNING_COLOR, RESET_COLOR
+
+from ..util import RESET_COLOR, WARNING_COLOR
+from .text_exporter import TextExporter
 
 
 class MarkdownExporter(TextExporter):

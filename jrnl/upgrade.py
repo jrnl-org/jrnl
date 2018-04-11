@@ -1,12 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 
-from . import __version__
-from . import Journal
-from . import util
-from .EncryptedJournal import EncryptedJournal
-import sys
-import os
 import codecs
+import os
+import sys
+
+from . import Journal, __version__, util
+from .EncryptedJournal import EncryptedJournal
 
 
 def backup(filename, binary=False):

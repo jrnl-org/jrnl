@@ -7,21 +7,17 @@
     license: MIT, see LICENSE for more details.
 """
 
-from __future__ import unicode_literals
-from __future__ import absolute_import
-from . import Journal
-from . import util
-from . import install
-from . import plugins
-from .util import ERROR_COLOR, RESET_COLOR
-import jrnl
+from __future__ import absolute_import, unicode_literals
+
 import argparse
-import sys
 import logging
 import os
-from . import DayOneJournal
-from . import EncryptedJournal
-from . import Journal
+import sys
+
+import jrnl
+
+from . import DayOneJournal, EncryptedJournal, Journal, install, plugins, util
+from .util import ERROR_COLOR, RESET_COLOR
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)

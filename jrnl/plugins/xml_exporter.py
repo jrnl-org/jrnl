@@ -2,10 +2,12 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
+
+from xml.dom import minidom
+
+from ..util import u
 from .json_exporter import JSONExporter
 from .util import get_tags_count
-from ..util import u
-from xml.dom import minidom
 
 
 class XMLExporter(JSONExporter):

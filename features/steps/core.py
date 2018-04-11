@@ -1,16 +1,19 @@
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
-from behave import given, when, then
-from jrnl import cli, install, Journal, util, plugins
-from jrnl import __version__
-from dateutil import parser as date_parser
-from collections import defaultdict
-import os
-import json
-import yaml
-import keyring
 import codecs
+from collections import defaultdict
+import json
+import os
+import shlex
+import sys
+
+from behave import given, then, when
+from dateutil import parser as date_parser
+import keyring
+import tzlocal
+import yaml
+
+from jrnl import Journal, __version__, cli, install, plugins, util
 
 
 class TestKeyring(keyring.backend.KeyringBackend):
@@ -36,9 +39,6 @@ try:
     from io import StringIO
 except ImportError:
     from cStringIO import StringIO
-import tzlocal
-import shlex
-import sys
 
 
 def ushlex(command):

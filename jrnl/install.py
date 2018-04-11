@@ -2,18 +2,19 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
-import readline
-import glob
+
 import getpass
-import os
-import xdg.BaseDirectory
-from . import util
-from . import upgrade
-from . import __version__
-from .Journal import PlainJournal
-from .EncryptedJournal import EncryptedJournal
-import yaml
+import glob
 import logging
+import os
+import readline
+
+import xdg.BaseDirectory
+import yaml
+
+from . import __version__, upgrade, util
+from .EncryptedJournal import EncryptedJournal
+from .Journal import PlainJournal
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'

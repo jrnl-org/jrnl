@@ -37,13 +37,15 @@ Links
 
 """
 
+import os
+import re
+import sys
+
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
-import os
-import sys
-import re
+
 try:
     import readline  # NOQA
     readline_available = True

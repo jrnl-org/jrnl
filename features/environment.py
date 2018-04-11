@@ -1,9 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 
-from behave import *
-import shutil
 import os
+import shutil
+
+from behave import *
+
 import jrnl
+
 try:
     from io import StringIO
 except ImportError:
