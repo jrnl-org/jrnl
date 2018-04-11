@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import absolute_import, unicode_literals
 
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""

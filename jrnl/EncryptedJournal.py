@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from . import Journal, util
 from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.primitives import hashes, padding

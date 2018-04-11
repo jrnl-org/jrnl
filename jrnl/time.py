@@ -1,7 +1,10 @@
+from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from dateutil.parser import parse as dateparse
-try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime as pdt
+try:
+    import parsedatetime.parsedatetime_consts as pdt
+except ImportError:
+    import parsedatetime as pdt
 
 FAKE_YEAR = 9999
 DEFAULT_FUTURE = datetime(FAKE_YEAR, 12, 31, 23, 59, 59)

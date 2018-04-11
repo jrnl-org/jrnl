@@ -5,7 +5,7 @@
 """
 jrnl is a simple journal application for your command line.
 """
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
 __title__ = 'jrnl'
 __version__ = '2.0.0-rc1'
