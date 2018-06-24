@@ -50,12 +50,10 @@ def to_md(journal):
     for e in journal.entries:
         if not e.date.year == year:
             year = e.date.year
-            out.append(str(year))
-            out.append("=" * len(str(year)) + "\n")
+            out.append('# %s' % str(year))
         if not e.date.month == month:
             month = e.date.month
-            out.append(e.date.strftime("%B"))
-            out.append('-' * len(e.date.strftime("%B")) + "\n")
+            out.append('## %s' % e.date.strftime("%B"))
         out.append(e.to_md())
     result = "\n".join(out)
     return result
