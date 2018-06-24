@@ -28,6 +28,7 @@ default_config = {
     'default_hour': 9,
     'default_minute': 0,
     'timeformat': "%Y-%m-%d %H:%M",
+    'locale': "en_US",
     'tagsymbols': '@',
     'highlight': True,
     'linewrap': 79,
