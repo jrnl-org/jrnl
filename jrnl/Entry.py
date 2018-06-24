@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import re
 import textwrap
 from datetime import datetime
+import locale
 
 
 class Entry:
@@ -16,6 +17,8 @@ class Entry:
         self.tags = self.parse_tags()
         self.starred = starred
         self.modified = False
+        locale.setlocale(locale.LC_TIME, self.journal.config['locale'])
+
 
     @staticmethod
     def tag_regex(tagsymbols):
