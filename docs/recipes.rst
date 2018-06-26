@@ -123,3 +123,30 @@ To set `Notepad++ <http://notepad-plus-plus.org/>`_ as your editor, edit the jrn
       "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession",
 
 The double backslashes are needed so jrnl can read the file path correctly. The ``-multiInst -nosession`` options will cause jrnl to open its own Notepad++ window.
+
+Visual Studio Code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To set `Visual Studo Code <https://code.visualstudio.com/>`_ as your editor on Linux, edit ``.jrnl_config`` like this: 
+
+.. code-block:: javascript
+
+	"editor": "/usr/bin/code --wait",
+
+The --wait argument tells VS Code to wait for files to be written out before handing back control to jrnl.
+
+On MacOS you will need to add VS Code to your PATH. You can do that by adding:
+
+.. code-block:: bash
+
+	export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+to your .bash_profile, or by running the **Install 'code' command in PATH** command from the command pallet in VS Code.
+
+Then you can add:
+
+.. code-block:: javascript
+	
+	"editor": "code --wait",
+	
+to ``.jrnl_config``. See also `the Visual Studio Code documentation <https://code.visualstudio.com/docs/setup/mac>`_.
