@@ -36,8 +36,6 @@ class Journal(object):
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
 
-        self.open()
-
     def __len__(self):
         """Returns the number of entries"""
         return len(self.entries)
