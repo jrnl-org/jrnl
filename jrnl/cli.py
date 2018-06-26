@@ -216,6 +216,8 @@ def run(manual_args=None):
         else:
             mode_compose = False
 
+    journal.open()
+
     # Writing mode
     if mode_compose:
         raw = " ".join(args.text).strip()
