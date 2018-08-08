@@ -130,7 +130,10 @@ def get_text_from_editor(config, template=""):
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    subprocess.call(config['editor'].split() + [tmpfile])
+    try:
+        subprocess.call(config['editor'].split() + [tmpfile])
+    except AttributeError:
+        subprocess.call(config['editor'] + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
     os.remove(tmpfile)
