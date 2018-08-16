@@ -163,7 +163,10 @@ def get_text_from_editor(config, template=""):
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    subprocess.call(shlex.split(config['editor'], posix="win" not in sys.platform) + [tmpfile])
+    try:
+        subprocess.call(shlex.split(config['editor'], posix="win" not in sys.platform) + [tmpfile])
+    except AttributeError:
+        subprocess.call(config['editor'] + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
     os.close(filehandle)
