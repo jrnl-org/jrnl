@@ -5,9 +5,14 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
-  - "nightly"
+matrix:
+  include:
+    - python: "3.7"
+      dist: xenial    # required for Python >= 3.7 (travis-ci/travis-ci#9069)
+      sudo: required  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
+    - python: "nightly"
+      dist: xenial    # required for Python >= 3.7 (travis-ci/travis-ci#9069)
+      sudo: required  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
 install:
   - "pip install -e ."
   - "pip install pycrypto>=2.6"
