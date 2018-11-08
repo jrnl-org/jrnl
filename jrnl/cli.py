@@ -83,7 +83,7 @@ def encrypt(journal, filename=None):
 
 
 def decrypt(journal, filename=None):
-    """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
+    """ Decrypts into new file. If filename is not set, we decrypt the journal file itself. """
     journal.config['encrypt'] = False
     journal.config['password'] = ""
     journal.write(filename)
