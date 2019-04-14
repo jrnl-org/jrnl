@@ -225,7 +225,7 @@ def check_journal_content(context, text, journal_name="default"):
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
     with open(install.CONFIG_FILE_PATH) as config_file:
-        config = yaml.load(config_file)
+        config = yaml.load(config_file, Loader=yaml.FullLoader)
     journal_path = config['journals'][journal_name]
     assert not os.path.exists(journal_path)
 
