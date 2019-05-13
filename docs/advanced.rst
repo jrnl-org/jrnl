@@ -8,6 +8,8 @@ Configuration File
 
 You can configure the way jrnl behaves in a configuration file. By default, this is ``~/.jrnl_config``. If you have the ``XDG_CONFIG_HOME`` variable set, the configuration file will be saved under ``$XDG_CONFIG_HOME/jrnl``.
 
+The default path can be overridden with the ``JRNLRC`` environment variable. This can be useful if you want to keep project specific configurations and automatically switch to them using e.g. ``direnv``.
+
 .. note::
 
     On Windows, The configuration file is typically found at ``C:\Users\[Your Username]\.jrnl_config``.

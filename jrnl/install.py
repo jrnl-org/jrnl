@@ -19,10 +19,12 @@ DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'
 XDG_RESOURCE = 'jrnl'
 
+ENV_JRNLRC = os.environ.get('JRNLRC')
+
 USER_HOME = os.path.expanduser('~')
 
 CONFIG_PATH = xdg.BaseDirectory.save_config_path(XDG_RESOURCE) or USER_HOME
-CONFIG_FILE_PATH = os.path.join(CONFIG_PATH, DEFAULT_CONFIG_NAME)
+CONFIG_FILE_PATH = ENV_JRNLRC or os.path.join(CONFIG_PATH, DEFAULT_CONFIG_NAME)
 CONFIG_FILE_PATH_FALLBACK = os.path.join(USER_HOME, ".jrnl_config")
 
 JOURNAL_PATH = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or USER_HOME
