@@ -1,4 +1,4 @@
-jrnl [![Build Status](http://img.shields.io/travis/maebert/jrnl.svg?style=flat)](https://travis-ci.org/maebert/jrnl)  [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
+jrnl [![Backers on Open Collective](https://opencollective.com/jrnl/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/jrnl/sponsors/badge.svg)](#sponsors) [![Build Status](http://img.shields.io/travis/maebert/jrnl.svg?style=flat)](https://travis-ci.org/maebert/jrnl)  [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
 _For news on updates or to get help, [read the docs](http://maebert.github.io/jrnl/overview.html), follow [@maebert](https://twitter.com/maebert) or [submit an issue](https://github.com/maebert/jrnl/issues/new) on Github._
@@ -42,3 +42,33 @@ Or, if you want the option to encrypt your journal,
 Alternatively, on OS X with [Homebrew](http://brew.sh/) installed:
 
     brew install jrnl
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/maebert/jrnl/graphs/contributors"><img src="https://opencollective.com/jrnl/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/jrnl#backer)]
+
+<a href="https://opencollective.com/jrnl#backers" target="_blank"><img src="https://opencollective.com/jrnl/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/jrnl#sponsor)]
+
+<a href="https://opencollective.com/jrnl/sponsor/0/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/1/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/2/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/3/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/4/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/5/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/6/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/7/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/8/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/jrnl/sponsor/9/website" target="_blank"><img src="https://opencollective.com/jrnl/sponsor/9/avatar.svg"></a>
+
+
