@@ -20,13 +20,6 @@ Feature: Exporting a Journal
         and "tags" in the json output should contain "@journal"
         and "tags" in the json output should not contain "@dan"
 
-    Scenario: Exporting dayone to json
-        Given we use the config "dayone.yaml"
-        When we run "jrnl --export json"
-        Then we should get no error
-        and the output should be parsable as json
-        and the json output should contain entries.0.uuid = "4BB1F46946AD439996C9B59DE7C4DDC1"
-
     Scenario: Exporting using custom templates
         Given we use the config "basic.yaml"
         Given we load template "sample.template"
