@@ -1,8 +1,7 @@
+dist: xenial   # required for Python >= 3.7
 language: python
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
+  - "3.7"
 install:
   - "pip install -e ."
   - "pip install -q behave"
