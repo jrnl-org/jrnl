@@ -1,4 +1,4 @@
-jrnl [![Build Status](http://img.shields.io/travis/maebert/jrnl.svg?style=flat)](https://travis-ci.org/maebert/jrnl)  [![Downloads](http://img.shields.io/pypi/dm/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
+jrnl-plus [![Build Status](https://travis-ci.com/jrnl-plus/jrnl-plus.svg?branch=master)](https://travis-ci.com/jrnl-plus/jrnl-plus)
 ====
 
 _For news on updates or to get help, [read the docs](http://maebert.github.io/jrnl), follow [@maebert](https://twitter.com/maebert) or [submit an issue](https://github.com/maebert/jrnl/issues/new) on Github._
