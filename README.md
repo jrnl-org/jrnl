@@ -1,4 +1,4 @@
-jrnl [![Build Status](http://img.shields.io/travis/maebert/jrnl.svg?style=flat)](https://travis-ci.org/maebert/jrnl)  [![Downloads](http://img.shields.io/pypi/dm/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
+jrnl-plus [![Build Status](https://travis-ci.com/jrnl-plus/jrnl-plus.svg?branch=master)](https://travis-ci.com/jrnl-plus/jrnl-plus)
 ====
 This is a test for direct commits to master.
 
