@@ -29,10 +29,9 @@ If you just call `jrnl`, you will be prompted to compose your entry - but you ca
 
 Authors
 -------
-This project is a fork of [jrnl](https://github.com/maebert/jrnl) by Manuel Ebert ([maebert](https://github.com/maebert)).
-
 Current maintainers:
 
  * Jonathan Wren ([wren](https://github.com/wren))
  * Micah Ellison ([micahellison](https://github.com/micahellison))
- 
+
+Original maintainer: Manuel Ebert ([maebert](https://github.com/maebert)) (original repo: [jrnl](https://github.com/maebert/jrnl))
