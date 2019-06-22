@@ -1,4 +1,4 @@
-jrnl-plus
+jrnl-plus [![Build Status](https://travis-ci.com/jrnl-plus/jrnl-plus.svg?branch=master)](https://travis-ci.com/jrnl-plus/jrnl-plus)
 ====
 
 _This project is currently in beta and might be unstable. Use at your own risk!_
