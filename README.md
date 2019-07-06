@@ -27,7 +27,7 @@ If you just call `jrnl`, you will be prompted to compose your entry - but you ca
 
 Known Issues
 ------------
-jrnl used to support integration with Day One, but no longer supports it since Day One 2 was released with a different backend. [See the GitHub issue for more information](https://github.com/jrnl-org/jrnl/issues/590).
+jrnl used to support integration with Day One, but no longer supports it since Day One 2 was released with a different backend. [See the GitHub issue for more information](https://github.com/jrnl-org/jrnl/issues/409).
 
 Authors
 -------
