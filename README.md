@@ -1,8 +1,6 @@
 jrnl [![Build Status](https://travis-ci.com/jrnl-org/jrnl.svg?branch=master)](https://travis-ci.com/jrnl-org/jrnl) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
-_This project is currently in beta and might be unstable. Use at your own risk!_
-
 _To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new) on Github._
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
@@ -26,6 +24,10 @@ and hit return. `yesterday:` will be interpreted as a timestamp. Everything unti
     Used the time to clean the house and spent 4h on writing my book.
 
 If you just call `jrnl`, you will be prompted to compose your entry - but you can also configure _jrnl_ to use your external editor.
+
+Known Issues
+------------
+jrnl used to support integration with Day One, but no longer supports it since Day One 2 was released with a different backend. [See the GitHub issue for more information](https://github.com/jrnl-org/jrnl/issues/590).
 
 Authors
 -------
