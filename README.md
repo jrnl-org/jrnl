@@ -1,4 +1,4 @@
-jrnl [![Build Status](https://travis-ci.com/jrnl-plus/jrnl-plus.svg?branch=master)](https://travis-ci.com/jrnl-plus/jrnl-plus)
+jrnl [![Build Status](https://travis-ci.com/jrnl-org/jrnl.svg?branch=master)](https://travis-ci.com/jrnl-org/jrnl) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
 _This project is currently in beta and might be unstable. Use at your own risk!_
