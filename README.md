@@ -1,9 +1,9 @@
-jrnl-plus [![Build Status](https://travis-ci.com/jrnl-plus/jrnl-plus.svg?branch=master)](https://travis-ci.com/jrnl-plus/jrnl-plus)
+jrnl [![Build Status](https://travis-ci.com/jrnl-plus/jrnl-plus.svg?branch=master)](https://travis-ci.com/jrnl-plus/jrnl-plus)
 ====
 
 _This project is currently in beta and might be unstable. Use at your own risk!_
 
-_To get help, [submit an issue](https://github.com/jrnl-plus/jrnl-plus/issues/new) on Github._
+_To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new) on Github._
 
 *jrnl* is a simple journal application for your command line. Journals are stored as human readable plain text files - you can put them into a Dropbox folder for instant syncing and you can be assured that your journal will still be readable in 2050, when all your fancy iPad journal applications will long be forgotten.
 
@@ -34,4 +34,6 @@ Current maintainers:
  * Jonathan Wren ([wren](https://github.com/wren))
  * Micah Ellison ([micahellison](https://github.com/micahellison))
 
-Original maintainer: Manuel Ebert ([maebert](https://github.com/maebert)) (original repo: [jrnl](https://github.com/maebert/jrnl))
+Original maintainer:
+
+ * Manuel Ebert ([maebert](https://github.com/maebert))
