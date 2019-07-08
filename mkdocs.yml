@@ -1,0 +1,11 @@
+site_name: jrnl
+theme: readthedocs
+extra_css:
+    - https://fonts.googleapis.com/css?family=Merriweather|Open+Sans
+    - assets/theme.css
+    - assets/highlight.css
+markdown_extensions:
+  - admonition
+repo_url: https://github.com/jrnl-org/jrnl/
+site_author: Manuel Ebert
+site_description: Never Worry about Money Again.
