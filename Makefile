@@ -11,28 +11,11 @@ clean:
 	rm -f *.html
 
 html:
-	curl https://raw.githubusercontent.com/mateuszkocz/3l/master/3L/3L.less > docs/_themes/jrnl/static/less/3L.less ;\
-	lessc --clean-css docs/_themes/jrnl/static/less/jrnl.less docs/_themes/jrnl/static/css/jrnl.css ;\
-	cd docs ;\
-	make html ;\
-	cd .. ;\
-	open docs/_build/html/index.html ;\
+	mkdocs serve
 
 # Build GitHub Page from docs
 docs:
-	git checkout gh-pages ; \
-	git checkout master docs ; \
-	git checkout master jrnl ; \
-	curl https://raw.githubusercontent.com/mateuszkocz/3l/master/3L/3L.less > docs/_themes/jrnl/static/less/3L.less ;\
-	lessc --clean-css docs/_themes/jrnl/static/less/jrnl.less docs/_themes/jrnl/static/css/jrnl.css ; \
-	cd docs ; \
-	make html ; \
-	cd .. ; \
-	cp -r docs/_build/html/* . ; \
-	git add -A ; \
-	git commit -m "Updated docs from master" ; \
-	git push -u origin gh-pages ; \
-	git checkout master
+	mkdocs gh-deploy
 
 # Upload to pipy
 dist:
