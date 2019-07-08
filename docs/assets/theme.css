@@ -45,8 +45,8 @@ p {
 /* No-one likes lines that are 400 characters long. */
 div.rst-content {max-width: 54em;}
 
-.wy-side-nav-search, .wy-nav-top {
-  background-color: var(--sidebar-dark) !important;
+.wy-side-nav-search, .wy-nav-top, .wy-menu-vertical li.current {
+  background-color: transparent;
 }
 .wy-side-nav-search a.icon-home {
   width: 100%;
@@ -93,7 +93,7 @@ a.icon-home:before {
   border-right: 1em solid white;
 }
 
-.rst-versions, .rst-versions .rst-current-version { background: var(--sidebar); !important; }
+.rst-versions, .rst-versions .rst-current-version { background: #47375d; }
 .wy-menu-vertical span {
     color: white !important;
     font-size: 1.2em;
@@ -103,7 +103,7 @@ a.icon-home:before {
 
 
 .wy-nav-side {
-  background: var(--sidebar);
+  background-image: linear-gradient(0deg, #47375d 0%, #7C5685 100%);
   font-weight: 300 !important;
 }
 
@@ -121,10 +121,6 @@ footer {display: none;}
 
 .wy-side-nav-search input[type=text]::placeholder, form .search-query::placeholder {
   color: var(--off-white) !important;
-}
-
-.wy-menu-vertical li.current {
-  background: var(--sidebar) !important;
 }
 
 .toctree-l2 a:first-child {display: none;}
