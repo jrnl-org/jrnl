@@ -38,11 +38,11 @@ def parse_args(args=None):
     reading.add_argument('-on', dest='on_date', metavar="DATE", help='View entries on this date')
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
+    reading.add_argument('-s', '--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
+    reading.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
-    exporting.add_argument('-s', '--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
-    exporting.add_argument('--tags', dest='tags', action="store_true", help='Returns a list of all tags and number of occurences')
     exporting.add_argument('--export', metavar='TYPE', dest='export', choices=plugins.EXPORT_FORMATS, help='Export your journal. TYPE can be {}.'.format(plugins.util.oxford_list(plugins.EXPORT_FORMATS)), default=False, const=None)
     exporting.add_argument('-o', metavar='OUTPUT', dest='output', help='Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.', default=False, const=None)
     exporting.add_argument('--import', metavar='TYPE', dest='import_', choices=plugins.IMPORT_FORMATS, help='Import entries into your journal. TYPE can be {}, and it defaults to jrnl if nothing else is specified.'.format(plugins.util.oxford_list(plugins.IMPORT_FORMATS)), default=False, const='jrnl', nargs='?')
