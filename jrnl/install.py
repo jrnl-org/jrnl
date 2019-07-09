@@ -6,6 +6,7 @@ import readline
 import glob
 import getpass
 import os
+import sys
 import xdg.BaseDirectory
 from . import util
 from . import upgrade
@@ -93,7 +94,7 @@ def load_or_install_jrnl():
         return install()
 
 
-def install():
+def create(journal_name, default_file_path=None, config=None):
     def autocomplete(text, state):
         expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
         expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
@@ -103,12 +104,25 @@ def install():
     readline.parse_and_bind("tab: complete")
     readline.set_completer(autocomplete)
 
-    # Where to create the journal?
-    path_query = 'Path to your journal file (leave blank for {}): '.format(JOURNAL_FILE_PATH)
-    journal_path = util.py23_input(path_query).strip() or JOURNAL_FILE_PATH
-    default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
+     # Take the default config if none is provided
+    if config is None:
+        config = default_config
 
-    path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
+    # Set up the default journal file path
+    if default_file_path is None:
+        default_file_path = JOURNAL_FILE_PATH
+
+
+    # Where to create the journal?
+    path_query = 'Path to your journal file (leave blank for {}): '.format(default_file_path)
+    journal_path = util.py23_input(path_query).strip() or default_file_path
+    journal_path = os.path.expanduser(os.path.expandvars(journal_path))
+
+    config['journals'][journal_name] = {'journal': journal_path}
+    if os.path.exists(journal_path) and not util.yesno("File {} already exists. Do you still want to use it?".format(journal_path), default=False):
+        sys.exit(1)
+
+    path = os.path.split(config['journals'][journal_name]['journal'])[0]  # If the folder doesn't exist, create it
     try:
         os.makedirs(path)
     except OSError:
@@ -117,18 +131,21 @@ def install():
     # Encrypt it?
     password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
     if password:
-        default_config['encrypt'] = True
+        config['journals'][journal_name] = True
         if util.yesno("Do you want to store the password in your keychain?", default=True):
-            util.set_keychain("default", password)
+            util.set_keychain(journal_name, password)
         else:
-            util.set_keychain("default", None)
-        EncryptedJournal._create(default_config['journals']['default'], password)
+            util.set_keychain(journal_name, None)
+        EncryptedJournal._create(journal_path, password)
         print("Journal will be encrypted.")
     else:
-        PlainJournal._create(default_config['journals']['default'])
+        PlainJournal._create(journal_path)
 
     config = default_config
     save_config(config)
     if password:
         config['password'] = password
     return config
+
+def install():
+    return create('default')

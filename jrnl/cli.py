@@ -15,6 +15,7 @@ from . import install
 from . import plugins
 from .util import ERROR_COLOR, RESET_COLOR
 import jrnl
+from os.path import abspath, join, exists
 import argparse
 import sys
 import logging
@@ -28,6 +29,7 @@ def parse_args(args=None):
     parser.add_argument('-v', '--version', dest='version', action="store_true", help="prints version information and exits")
     parser.add_argument('-ls', dest='ls', action="store_true", help="displays accessible journals")
     parser.add_argument('-d', '--debug', dest='debug', action='store_true', help='execute in debug mode')
+    parser.add_argument('-create', help='create a new journal', metavar='NAME')
 
     composing = parser.add_argument_group('Composing', 'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."')
     composing.add_argument('text', metavar='', nargs="*")
@@ -151,14 +153,34 @@ def run(manual_args=None):
     log.debug('Using configuration "%s"', config)
     original_config = config.copy()
 
+    if args.create:
+        journal_name = args.create
+
+        # if the journal with the same name already exists
+        if journal_name in config['journals']:
+            util.prompt("Journal with `{0}` name already exists.".format(journal_name))
+            sys.exit(1)
+
+        # create a config entry for the new journal
+        default_file_path = join(abspath('.'),install.DEFAULT_JOURNAL_NAME)
+        config = install.create(journal_name, default_file_path, config)
+        sys.exit(0)
+
     # If the first textual argument points to a journal file,
     # use this!
-    journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
-
-    if journal_name is not 'default':
+    if args.text and args.text[0] in config['journals']:
+        journal_name = args.text[0]
         args.text = args.text[1:]
-    elif "default" not in config['journals']:
+    # If the current folder contains .jrnl file, read the journal name from it
         util.prompt("No default journal configured.")
+    elif exists('.jrnl'):
+        with open('.jrnl', 'r') as fp:
+            journal_name = fp.read().strip()
+    else:
+        journal_name = 'default'
+
+    if journal_name not in config['journals']:
+        util.prompt("No '{}' journal configured.".format(journal_name))
         util.prompt(list_journals(config))
         sys.exit(1)
 
