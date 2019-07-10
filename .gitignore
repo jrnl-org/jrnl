@@ -17,6 +17,7 @@ develop-eggs
 .installed.cfg
 lib
 lib64
+.python-version
 
 # Installer logs
 pip-log.txt
@@ -28,10 +29,8 @@ Icon
 _build
 _sources
 _static
-*.html
 objects.inv
 searchindex.js
-docs/_themes/jrnl/static/css/jrnl.css
 
 # MS Visual Studio (PyTools)
 obj
@@ -43,8 +42,6 @@ obj
 env/
 env*/
 
-docs/_themes/jrnl/static/less/3L.less
-
 # PyCharm Project files
 .idea/
 
@@ -53,3 +50,4 @@ exp/
 
 _extras/
 *.sublime-*
+site/

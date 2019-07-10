@@ -4,8 +4,8 @@
 /* ------------------------------------------------------------ */
 
 :root {
-  --sidebar: #47375d;
-  --sidebar-dark: #47375d;
+  --sidebar: #604385;
+  --sidebar-dark: #604385;
   --off-white: rgba(255,255,255,.7);
 }
 
@@ -93,7 +93,7 @@ a.icon-home:before {
   border-right: 1em solid white;
 }
 
-.rst-versions, .rst-versions .rst-current-version { background: #47375d; }
+.rst-versions, .rst-versions .rst-current-version { display: none; }
 .wy-menu-vertical span {
     color: white !important;
     font-size: 1.2em;
@@ -103,8 +103,9 @@ a.icon-home:before {
 
 
 .wy-nav-side {
-  background-image: linear-gradient(0deg, #47375d 0%, #7C5685 100%);
+  background-image: linear-gradient(211deg, #95699C 0%, #604385 100%);
   font-weight: 300 !important;
+  height: 100%;
 }
 
 
