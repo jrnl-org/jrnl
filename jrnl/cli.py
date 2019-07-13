@@ -63,7 +63,7 @@ def guess_mode(args, config):
         compose = False
         export = False
         import_ = True
-    elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+    elif args.decrypt is not False or args.encrypt is not False or args.export is not False or args.edit:
         compose = False
         export = True
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
