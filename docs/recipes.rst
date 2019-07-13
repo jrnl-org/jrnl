@@ -81,7 +81,7 @@ Select a previous entry to display
 
 .. code-block:: sh
 
-    jrnl -on "$(jrnl --short | fzf | cut -d' ' -f1,2)"
+    jrnl -on "$(jrnl --short | fzf --ansi --tac | cut -d' ' -f1,2)"
 
 External editors
 ----------------
