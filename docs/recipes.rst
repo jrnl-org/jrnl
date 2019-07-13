@@ -74,6 +74,14 @@ Another nice solution that allows you to define individual prompts comes from `J
     log_question 'What did I achieve today?'
     log_question 'What did I make progress with?'
 
+Filtering with FZF
+~~~~~~~~~~~~~~~~~~
+
+Select a previous entry to display
+
+.. code-block:: sh
+
+    jrnl -on "$(jrnl --short | fzf | cut -d' ' -f1,2)"
 
 External editors
 ----------------
