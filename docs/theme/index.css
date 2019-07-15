@@ -59,7 +59,7 @@ h3 { font-weight: 400; }
     background-position: -4em -1em;
 }
 
-#upper {
+header {
     background-image: linear-gradient(211deg, #95699C 0%, #604385 100%);
     color: white;
     border: 0px solid transparent;
@@ -139,7 +139,7 @@ h3 { font-weight: 400; }
 }
 
 #title {
-    max-width: 690px;
+    max-width: 630px;
     margin: 0 auto;
     padding: 0px 20px;
 }
@@ -150,7 +150,7 @@ h3 { font-weight: 400; }
     padding: 0px 20px;
 }
 
-#upper img {
+header img {
     float: left;
     margin-right: 30px;
 }
@@ -160,11 +160,11 @@ h1 {
     font-weight: 300;
 }
 
-#nav {
+nav {
     text-align: center;
 }
 
-#nav a#twitter-nav {
+nav a#twitter-nav {
     display: none;
 }
 
@@ -173,7 +173,7 @@ a {
     text-decoration: underline;
 }
 
-#nav a {
+nav a {
     font-size: 14pt;
     line-height: 40pt;
     margin: 0 40px;
@@ -183,7 +183,7 @@ a:hover {
     color: #A3629F;
 }
 
-#nav a.cta {
+nav a.cta {
     display: inline-block;
     color: white;
     background-image: linear-gradient(259deg, #A3629F 0%, #604385 100%);
@@ -196,15 +196,15 @@ a:hover {
     text-decoration: none;
 }
 
-#nav a.cta:hover {
+nav a.cta:hover {
     text-decoration: none;
     background-image: linear-gradient(259deg, #AE57A8 0%, #68419C 100%);
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25);
     color: #f7f8f9;
 }
 
-#lower {
-    padding: 50px 0;
+main {
+    padding: 50px 0 0 0;
 }
 
 
@@ -218,28 +218,28 @@ a:hover {
 
 }
 
-.flex .item {
+.flex section {
     /*margin: 20px;*/
     margin-top: 40px;
     width: 32%;
 }
 
-.flex .item:first-child {
+.flex section:first-child {
     margin-left: 0px;
 }
-.flex .item:last-child {
+.flex section:last-child {
     margin-right: 0px;
 }
 
 
-.flex .item i {
+.flex section i {
     float: left;
     left: 0;
     display: block;
     margin: 0px auto 10px auto;
 }
 
-.flex .item h3 {
+.flex section h3 {
     margin-top: 0;
     font-size: 14pt;
     color: #684688;
@@ -248,51 +248,59 @@ a:hover {
     margin-left: 40px;
 }
 
-.flex .item p {
+.flex section p {
     padding-left: 40px;
     color: #888;
     font-size: 12pt;
     margin: 0;
 }
 
+footer {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 20px 20px 20px;
+    font-size: 10pt;
+    opacity: .5;
+    text-align: center;
+}
 
 @media screen and (max-width: 680px) {
     .flex {
         display: block;
         padding: 0;
     }
-    .flex .item {
+    .flex section {
         width: 100%;
     }
 
-    #lower {
+    main {
         padding: 20px;
         margin: 0;
         width: calc(100% - 40px);
     }
 
-    #nav a,
-    #nav a#twitter-nav {
+    nav a,
+    nav a#twitter-nav {
         display: inline-block;
         margin: 0px 10px;
     }
 
-    #nav a.cta {
+    nav a.cta {
         display: block;
         margin: 20px;
     }
 
-    #upper #twitter {
+    header #twitter {
         display: none;
     }
 
-    #upper #logo {
+    header #logo {
         display: block;
         float: none;
         margin: 0px auto;
     }
 
-    #upper #title br {
+    header #title br {
         display: none;
     }
 
