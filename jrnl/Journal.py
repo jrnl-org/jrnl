@@ -5,17 +5,26 @@ from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import util
 from . import time
+import os
+import sys
 import codecs
 import re
 from datetime import datetime
-import sys
-try:
-    from Crypto.Cipher import AES
-    from Crypto import Random
-    crypto_installed = True
-except ImportError:
-    crypto_installed = False
-import hashlib
+import logging
+
+log = logging.getLogger(__name__)
+
+
+class Tag(object):
+    def __init__(self, name, count=0):
+        self.name = name
+        self.count = count
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return "<Tag '{}'>".format(self.name)
 
 
 class Journal(object):
@@ -29,125 +38,85 @@ class Journal(object):
             'tagsymbols': '@',
             'highlight': True,
             'linewrap': 80,
+            'indent_character': '|',
         }
         self.config.update(kwargs)
         # Set up date parser
-        self.key = None  # used to decrypt and encrypt the journal
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
-
-        self.open()
 
     def __len__(self):
         """Returns the number of entries"""
         return len(self.entries)
 
-    def _decrypt(self, cipher):
-        """Decrypts a cipher string using self.key as the key and the first 16 byte of the cipher as the IV"""
-        if not crypto_installed:
-            sys.exit("Error: PyCrypto is not installed.")
-        if not cipher:
-            return ""
-        crypto = AES.new(self.key, AES.MODE_CBC, cipher[:16])
-        try:
-            plain = crypto.decrypt(cipher[16:])
-        except ValueError:
-            util.prompt("ERROR: Your journal file seems to be corrupted. You do have a backup, don't you?")
-            sys.exit(1)
+    def __iter__(self):
+        """Iterates over the journal's entries."""
+        return (entry for entry in self.entries)
 
-        padding_length = util.byte2int(plain[-1])
-        if padding_length > AES.block_size and padding_length != 32:
-            # 32 is the space character and is kept for backwards compatibility
-            return None
-        elif padding_length == 32:
-            plain = plain.strip()
-        elif plain[-padding_length:] != util.int2byte(padding_length) * padding_length:
-            # Invalid padding!
-            return None
-        else:
-            plain = plain[:-padding_length]
-        return plain.decode("utf-8")
+    @classmethod
+    def from_journal(cls, other):
+        """Creates a new journal by copying configuration and entries from
+        another journal object"""
+        new_journal = cls(other.name, **other.config)
+        new_journal.entries = other.entries
+        log.debug("Imported %d entries from %s to %s", len(new_journal), other.__class__.__name__, cls.__name__)
+        return new_journal
 
-    def _encrypt(self, plain):
-        """Encrypt a plaintext string using self.key as the key"""
-        if not crypto_installed:
-            sys.exit("Error: PyCrypto is not installed.")
-        Random.atfork()  # A seed for PyCrypto
-        iv = Random.new().read(AES.block_size)
-        crypto = AES.new(self.key, AES.MODE_CBC, iv)
-        plain = plain.encode("utf-8")
-        padding_length = AES.block_size - len(plain) % AES.block_size
-        plain += util.int2byte(padding_length) * padding_length
-        return iv + crypto.encrypt(plain)
-
-    def make_key(self, password):
-        """Creates an encryption key from the default password or prompts for a new password."""
-        self.key = hashlib.sha256(password.encode("utf-8")).digest()
+    def import_(self, other_journal_txt):
+        self.entries = list(frozenset(self.entries) | frozenset(self._parse(other_journal_txt)))
+        self.sort()
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config['journal']
 
-        if self.config['encrypt']:
-            with open(filename, "rb") as f:
-                journal_encrypted = f.read()
+        if not os.path.exists(filename):
+            util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+            self._create(filename)
 
-            def validate_password(password):
-                self.make_key(password)
-                return self._decrypt(journal_encrypted)
-
-            # Soft-deprecated:
-            journal = None
-            if 'password' in self.config:
-                journal = validate_password(self.config['password'])
-            if journal is None:
-                journal = util.get_password(keychain=self.name, validator=validate_password)
-        else:
-            with codecs.open(filename, "r", "utf-8") as f:
-                journal = f.read()
-        self.entries = self._parse(journal)
+        text = self._load(filename)
+        self.entries = self._parse(text)
         self.sort()
+        log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
+        return self
+
+    def write(self, filename=None):
+        """Dumps the journal into the config file, overwriting it"""
+        filename = filename or self.config['journal']
+        text = "\n".join([e.__unicode__() for e in self.entries])
+        self._store(filename, text)
+
+    def _load(self, filename):
+        raise NotImplementedError
+
+    def _store(self, filename, text):
+        raise NotImplementedError
+
+    @classmethod
+    def _create(cls, filename):
+        raise NotImplementedError
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
-
-        # Entries start with a line that looks like 'date title' - let's figure out how
-        # long the date will be by constructing one
-        date_length = len(datetime.today().strftime(self.config['timeformat']))
-
         # Initialise our current entry
         entries = []
-        current_entry = None
+        date_blob_re = re.compile("(?:^|\n)\[([^\\]]+)\] ")
+        last_entry_pos = 0
+        for match in date_blob_re.finditer(journal_txt):
+            date_blob = match.groups()[0]
+            new_date = time.parse(date_blob)
+            if new_date:
+                if entries:
+                    entries[-1].text = journal_txt[last_entry_pos:match.start()]
+                last_entry_pos = match.end()
+                entries.append(Entry.Entry(self, date=new_date))
+        # Finish the last entry
+        if entries:
+            entries[-1].text = journal_txt[last_entry_pos:]
 
-        for line in journal_txt.splitlines():
-            line = line.rstrip()
-            try:
-                # try to parse line as date => new entry begins
-                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
-
-                # parsing successful => save old entry and create new one
-                if new_date and current_entry:
-                    entries.append(current_entry)
-
-                if line.endswith("*"):
-                    starred = True
-                    line = line[:-1]
-                else:
-                    starred = False
-
-                current_entry = Entry.Entry(self, date=new_date, title=line[date_length+1:], starred=starred)
-            except ValueError:
-                # Happens when we can't parse the start of the line as an date.
-                # In this case, just append line to our body.
-                if current_entry:
-                    current_entry.body += line + "\n"
-
-        # Append last entry
-        if current_entry:
-            entries.append(current_entry)
         for entry in entries:
-            entry.parse_tags()
+            entry._parse_text()
         return entries
 
     def __unicode__(self):
@@ -165,25 +134,15 @@ class Journal(object):
                                 lambda match: util.colorize(match.group(0)),
                                 pp, re.UNICODE)
             else:
-                pp = re.sub( Entry.Entry.tag_regex(self.config['tagsymbols']),
-                        lambda match: util.colorize(match.group(0)),
-                        pp)
+                pp = re.sub(
+                    Entry.Entry.tag_regex(self.config['tagsymbols']),
+                    lambda match: util.colorize(match.group(0)),
+                    pp
+                )
         return pp
 
     def __repr__(self):
         return "<Journal with {0} entries>".format(len(self.entries))
-
-    def write(self, filename=None):
-        """Dumps the journal into the config file, overwriting it"""
-        filename = filename or self.config['journal']
-        journal = "\n".join([e.__unicode__() for e in self.entries])
-        if self.config['encrypt']:
-            journal = self._encrypt(journal)
-            with open(filename, 'wb') as journal_file:
-                journal_file.write(journal)
-        else:
-            with codecs.open(filename, 'w', "utf-8") as journal_file:
-                journal_file.write(journal)
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -193,6 +152,18 @@ class Journal(object):
         """Removes all but the last n entries"""
         if n:
             self.entries = self.entries[-n:]
+
+    @property
+    def tags(self):
+        """Returns a set of tuples (count, tag) for all tags present in the journal."""
+        # Astute reader: should the following line leave you as puzzled as me the first time
+        # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+        tags = [tag
+                for entry in self.entries
+                for tag in set(entry.tags)]
+        # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
+        tag_counts = set([(tags.count(tag), tag) for tag in tags])
+        return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
     def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
         """Removes all entries from the journal that don't match the filter.
@@ -219,20 +190,7 @@ class Journal(object):
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
         ]
-        if short:
-            if tags:
-                for e in self.entries:
-                    res = []
-                    for tag in tags:
-                        matches = [m for m in re.finditer(tag, e.body)]
-                        for m in matches:
-                            date = e.date.strftime(self.config['timeformat'])
-                            excerpt = e.body[m.start():min(len(e.body), m.end()+60)]
-                            res.append('{0} {1} ..'.format(date, excerpt))
-                    e.body = "\n".join(res)
-            else:
-                for e in self.entries:
-                    e.body = ''
+
         self.entries = result
 
     def new_entry(self, raw, date=None, sort=True):
@@ -243,23 +201,20 @@ class Journal(object):
         starred = False
         # Split raw text into title and body
         sep = re.search("\n|[\?!.]+ +\n?", raw)
-        title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
+        first_line = raw[:sep.end()].strip() if sep else raw
         starred = False
+
         if not date:
-            if title.find(": ") > 0:
-                starred = "*" in title[:title.find(": ")]
-                date = time.parse(title[:title.find(": ")], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
-                if date or starred:  # Parsed successfully, strip that from the raw text
-                    title = title[title.find(": ")+1:].strip()
-            elif title.strip().startswith("*"):
-                starred = True
-                title = title[1:].strip()
-            elif title.strip().endswith("*"):
-                starred = True
-                title = title[:-1].strip()
+            colon_pos = first_line.find(": ")
+            if colon_pos > 0:
+                date = time.parse(raw[:colon_pos], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
+                if date:  # Parsed successfully, strip that from the raw text
+                    starred = raw[:colon_pos].strip().endswith("*")
+                    raw = raw[colon_pos + 1:].strip()
+        starred = starred or first_line.startswith("*") or first_line.endswith("*")
         if not date:  # Still nothing? Meh, just live in the moment.
             date = time.parse("now")
-        entry = Entry.Entry(self, date, title, body, starred=starred)
+        entry = Entry.Entry(self, date, raw, starred=starred)
         entry.modified = True
         self.entries.append(entry)
         if sort:
@@ -280,3 +235,94 @@ class Journal(object):
         for entry in mod_entries:
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
         self.entries = mod_entries
+
+
+class PlainJournal(Journal):
+    @classmethod
+    def _create(cls, filename):
+        with codecs.open(filename, "a", "utf-8"):
+            pass
+
+    def _load(self, filename):
+        with codecs.open(filename, "r", "utf-8") as f:
+            return f.read()
+
+    def _store(self, filename, text):
+        with codecs.open(filename, 'w', "utf-8") as f:
+            f.write(text)
+
+
+class LegacyJournal(Journal):
+    """Legacy class to support opening journals formatted with the jrnl 1.x
+    standard. Main difference here is that in 1.x, timestamps were not cuddled
+    by square brackets. You'll not be able to save these journals anymore."""
+    def _load(self, filename):
+        with codecs.open(filename, "r", "utf-8") as f:
+            return f.read()
+
+    def _parse(self, journal_txt):
+        """Parses a journal that's stored in a string and returns a list of entries"""
+        # Entries start with a line that looks like 'date title' - let's figure out how
+        # long the date will be by constructing one
+        date_length = len(datetime.today().strftime(self.config['timeformat']))
+
+        # Initialise our current entry
+        entries = []
+        current_entry = None
+        for line in journal_txt.splitlines():
+            line = line.rstrip()
+            try:
+                # try to parse line as date => new entry begins
+                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+
+                # parsing successful => save old entry and create new one
+                if new_date and current_entry:
+                    entries.append(current_entry)
+
+                if line.endswith("*"):
+                    starred = True
+                    line = line[:-1]
+                else:
+                    starred = False
+
+                current_entry = Entry.Entry(self, date=new_date, text=line[date_length + 1:], starred=starred)
+            except ValueError:
+                # Happens when we can't parse the start of the line as an date.
+                # In this case, just append line to our body.
+                if current_entry:
+                    current_entry.text += line + u"\n"
+
+        # Append last entry
+        if current_entry:
+            entries.append(current_entry)
+        for entry in entries:
+            entry._parse_text()
+        return entries
+
+
+def open_journal(name, config, legacy=False):
+    """
+    Creates a normal, encrypted or DayOne journal based on the passed config.
+    If legacy is True, it will open Journals with legacy classes build for
+    backwards compatibility with jrnl 1.x
+    """
+    config = config.copy()
+    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
+
+    if os.path.isdir(config['journal']):
+        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
+            from . import DayOneJournal
+            return DayOneJournal.DayOne(**config).open()
+        else:
+            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            sys.exit(1)
+
+    if not config['encrypt']:
+        if legacy:
+            return LegacyJournal(name, **config).open()
+        return PlainJournal(name, **config).open()
+    else:
+        from . import EncryptedJournal
+        if legacy:
+            return EncryptedJournal.LegacyEncryptedJournal(name, **config).open()
+        return EncryptedJournal.EncryptedJournal(name, **config).open()

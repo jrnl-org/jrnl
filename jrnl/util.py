@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
+
+from __future__ import unicode_literals
+from __future__ import absolute_import
+
 import sys
 import os
 import getpass as gp
-import keyring
-import json
+import yaml
 if "win32" in sys.platform:
     import colorama
     colorama.init()
@@ -13,7 +16,10 @@ import tempfile
 import subprocess
 import codecs
 import unicodedata
+import shlex
 import logging
+
+log = logging.getLogger(__name__)
 
 PY3 = sys.version_info[0] == 3
 PY2 = sys.version_info[0] == 2
@@ -23,12 +29,26 @@ STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
 
-log = logging.getLogger(__name__)
+WARNING_COLOR = "\033[33m"
+ERROR_COLOR = "\033[31m"
+RESET_COLOR = "\033[0m"
+
+# Based on Segtok by Florian Leitner
+# https://github.com/fnl/segtok
+SENTENCE_SPLITTER = re.compile(r"""
+(                       # A sentence ends at one of two sequences:
+    [.!?\u203C\u203D\u2047\u2048\u2049\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
+    [\'\u2019\"\u201D]? # an optional right quote,
+    [\]\)]*             # optional closing brackets and
+    \s+                 # a sequence of required spaces.
+|                       # Otherwise,
+    \n                  # a sentence also terminates newlines.
+)""", re.UNICODE | re.VERBOSE)
 
 
 def getpass(prompt="Password: "):
     if not TEST:
-        return gp.getpass(prompt)
+        return gp.getpass(bytes(prompt))
     else:
         return py23_input(prompt)
 
@@ -52,10 +72,14 @@ def get_password(validator, keychain=None, max_attempts=3):
         prompt("Extremely wrong password.")
         sys.exit(1)
 
+
 def get_keychain(journal_name):
+    import keyring
     return keyring.get_password('jrnl', journal_name)
 
+
 def set_keychain(journal_name, password):
+    import keyring
     if password is None:
         try:
             keyring.delete_password('jrnl', journal_name)
@@ -64,13 +88,30 @@ def set_keychain(journal_name, password):
     elif not TEST:
         keyring.set_password('jrnl', journal_name, password)
 
+
 def u(s):
     """Mock unicode function for python 2 and 3 compatibility."""
-    return s if PY3 or type(s) is unicode else unicode(s.encode('string-escape'), "unicode_escape")
+    if not isinstance(s, str):
+        s = str(s)
+    return s if PY3 or type(s) is unicode else s.decode("utf-8")
+
 
 def py2encode(s):
-    """Encode in Python 2, but not in python 3."""
+    """Encodes to UTF-8 in Python 2 but not in Python 3."""
     return s.encode("utf-8") if PY2 and type(s) is unicode else s
+
+
+def bytes(s):
+    """Returns bytes, no matter what."""
+    if PY3:
+        return s.encode("utf-8") if type(s) is not bytes else s
+    return s.encode("utf-8") if type(s) is unicode else s
+
+
+def prnt(s):
+    """Encode and print a string"""
+    STDOUT.write(u(s + "\n"))
+
 
 def prompt(msg):
     """Prints a message to the std err stream defined in util."""
@@ -80,67 +121,67 @@ def prompt(msg):
         msg += "\n"
     STDERR.write(u(msg))
 
+
 def py23_input(msg=""):
     prompt(msg)
-    return u(STDIN.readline()).strip()
+    return STDIN.readline().strip()
+
 
 def py23_read(msg=""):
-    prompt(msg)
-    return u(STDIN.read())
+    print(msg)
+    return STDIN.read()
+
 
 def yesno(prompt, default=True):
     prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
     raw = py23_input(prompt)
     return {'y': True, 'n': False}.get(raw.lower(), default)
 
-def load_and_fix_json(json_path):
-    """Tries to load a json object from a file.
-    If that fails, tries to fix common errors (no or extra , at end of the line).
+
+def load_config(config_path):
+    """Tries to load a config file from YAML.
     """
-    with open(json_path) as f:
-        json_str = f.read()
-        log.debug('Configuration file %s read correctly', json_path)
-    config =  None
-    try:
-        return json.loads(json_str)
-    except ValueError as e:
-        log.debug('Could not parse configuration %s: %s', json_str, e,
-                exc_info=True)
-        # Attempt to fix extra ,
-        json_str = re.sub(r",[ \n]*}", "}", json_str)
-        # Attempt to fix missing ,
-        json_str = re.sub(r"([^{,]) *\n *(\")", r"\1,\n \2", json_str)
-        try:
-            log.debug('Attempting to reload automatically fixed configuration file %s', 
-                    json_str)
-            config = json.loads(json_str)
-            with open(json_path, 'w') as f:
-                json.dump(config, f, indent=2)
-                log.debug('Fixed configuration saved in file %s', json_path)
-            prompt("[Some errors in your jrnl config have been fixed for you.]")
-            return config
-        except ValueError as e:
-            log.debug('Could not load fixed configuration: %s', e, exc_info=True)
-            prompt("[There seems to be something wrong with your jrnl config at {0}: {1}]".format(json_path, e.message))
-            prompt("[Entry was NOT added to your journal]")
-            sys.exit(1)
+    with open(config_path) as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
+
+
+def scope_config(config, journal_name):
+    if journal_name not in config['journals']:
+        return config
+    config = config.copy()
+    journal_conf = config['journals'].get(journal_name)
+    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+        log.debug('Updating configuration with specific journal overrides %s', journal_conf)
+        config.update(journal_conf)
+    else:  # But also just give them a string to point to the journal file
+        config['journal'] = journal_conf
+    config.pop('journals')
+    return config
+
 
 def get_text_from_editor(config, template=""):
-    _, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+    filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+
     with codecs.open(tmpfile, 'w', "utf-8") as f:
         if template:
             f.write(template)
-    subprocess.call(config['editor'].split() + [tmpfile])
+    try:
+        subprocess.call(shlex.split(config['editor'], posix="win" not in sys.platform) + [tmpfile])
+    except AttributeError:
+        subprocess.call(config['editor'] + [tmpfile])
     with codecs.open(tmpfile, "r", "utf-8") as f:
         raw = f.read()
+    os.close(filehandle)
     os.remove(tmpfile)
     if not raw:
         prompt('[Nothing saved to file]')
     return raw
 
+
 def colorize(string):
     """Returns the string wrapped in cyan ANSI escape"""
     return u"\033[36m{}\033[39m".format(string)
+
 
 def slugify(string):
     """Slugifies a string.
@@ -149,9 +190,12 @@ def slugify(string):
     """
     string = u(string)
     ascii_string = str(unicodedata.normalize('NFKD', string).encode('ascii', 'ignore'))
+    if PY3:
+        ascii_string = ascii_string[1:]     # removed the leading 'b'
     no_punctuation = re.sub(r'[^\w\s-]', '', ascii_string).strip().lower()
     slug = re.sub(r'[-\s]+', '-', no_punctuation)
     return u(slug)
+
 
 def int2byte(i):
     """Converts an integer to a byte.
@@ -163,3 +207,11 @@ def byte2int(b):
     """Converts a byte to an integer.
     This is equivalent to ord(bs[0]) on Python 2 and bs[0] on Python 3."""
     return ord(b)if PY2 else b
+
+
+def split_title(text):
+    """Splits the first sentence off from a text."""
+    punkt = SENTENCE_SPLITTER.search(text)
+    if not punkt:
+        return text, ""
+    return text[:punkt.end()].strip(), text[punkt.end():].strip()

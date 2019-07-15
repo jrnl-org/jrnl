@@ -32,7 +32,7 @@ If you just call jrnl you will be prompted to compose your entry - but you can a
 Links
 `````
 
-* `website & documentation <http://maebert.github.com/jrnl>`_
+* `website & documentation <http://www.jrnl.sh>`_
 * `GitHub Repo <https://github.com/maebert/jrnl>`_
 
 """
@@ -45,7 +45,7 @@ import os
 import sys
 import re
 try:
-    import readline
+    import readline  # NOQA
     readline_available = True
 except ImportError:
     readline_available = False
@@ -129,33 +129,33 @@ conditional_dependencies = {
     "pyreadline>=2.0": not readline_available and "win32" in sys.platform,
     "readline>=6.2": not readline_available and "win32" not in sys.platform,
     "colorama>=0.2.5": "win32" in sys.platform,
-    "argparse>=1.1.0": sys.version.startswith("2.6"),
     "python-dateutil==1.5": sys.version.startswith("2."),
     "python-dateutil>=2.2": sys.version.startswith("3."),
 }
 
 
 setup(
-    name = "jrnl",
-    version = get_version(),
-    description = "A command line journal application that stores your journal in a plain text file",
-    packages = ['jrnl'],
-    install_requires = [
-        "parsedatetime>=1.2",
-        "pytz>=2013b",
-        "six>=1.6.1",
-        "tzlocal>=1.1",
-        "keyring>=3.3",
-        "keyrings.alt>=1.3",
+    name="jrnl",
+    version=get_version(),
+    description="A command line journal application that stores your journal in a plain text file",
+    packages=['jrnl', 'jrnl.plugins'],
+    install_requires=[
+        "parsedatetime>=1.5",
+        "pytz>=2015.7",
+        "six>=1.10.0",
+        "cryptography==1.4",
+        "tzlocal>=1.2",
+        "pyyaml>=3.11",
+        "keyring>=7.3",
+        "passlib>=1.6.2",
+        "pyxdg>=0.25",
+        "asteval>=0.9.8",
     ] + [p for p, cond in conditional_dependencies.items() if cond],
-    extras_require = {
-        "encrypted": "pycrypto>=2.6"
-    },
     long_description=__doc__,
     entry_points={
-        "console_scripts": [
-            "jrnl = jrnl:run",
-        ]
+        'console_scripts': [
+            'jrnl = jrnl.cli:run',
+        ],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -173,9 +173,9 @@ setup(
         "Topic :: Text Processing"
     ],
     # metadata for upload to PyPI
-    author = "Manuel Ebert",
-    author_email = "manuel@1450.me",
+    author="Manuel Ebert",
+    author_email="manuel@1450.me",
     license="LICENSE",
-    keywords = "journal todo todo.txt jrnl".split(),
-    url = "http://www.jrnl.sh",
+    keywords="journal todo todo.txt jrnl".split(),
+    url="http://www.jrnl.sh",
 )

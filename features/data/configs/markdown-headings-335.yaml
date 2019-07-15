@@ -1,0 +1,13 @@
+default_hour: 9
+default_minute: 0
+editor: ''
+encrypt: false
+highlight: true
+template: false
+journals:
+  default: features/journals/markdown-headings-335.journal
+linewrap: 80
+password: ''
+tagsymbols: '@'
+timeformat: '%Y-%m-%d %H:%M'
+indent_character: "|"

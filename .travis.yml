@@ -1,16 +1,9 @@
+dist: xenial   # required for Python >= 3.7
 language: python
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
-  - "nightly"
+  - "3.7"
 install:
   - "pip install -e ."
-  - "pip install pycrypto>=2.6"
   - "pip install -q behave"
 # command to run tests
 script:

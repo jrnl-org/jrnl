@@ -4,10 +4,12 @@
 from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import Journal
+from . import time as jrnl_time
 import os
 import re
 from datetime import datetime
 import time
+import fnmatch
 import plistlib
 import pytz
 import uuid
@@ -28,6 +30,10 @@ class DayOne(Journal.Journal):
 
     def open(self):
         filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
+        filenames = []
+        for root, dirnames, f in os.walk(self.config['journal']):
+            for filename in fnmatch.filter(f, '*.doentry'):
+                filenames.append(os.path.join(root, filename))
         self.entries = []
         for filename in filenames:
             if os.path.isdir(filename):
@@ -44,32 +50,31 @@ class DayOne(Journal.Journal):
                         timezone = tzlocal.get_localzone()
                     date = dict_entry['Creation Date']
                     date = date + timezone.utcoffset(date, is_dst=False)
-                    raw = dict_entry['Entry Text']
-                    sep = re.search("\n|[\?!.]+ +\n?", raw)
-                    title, body = (raw[:sep.end()], raw[sep.end():]) if sep else (raw, "")
-                    entry = Entry.Entry(self, date, title, body, starred=dict_entry["Starred"])
+                    entry = Entry.Entry(self, date, text=dict_entry['Entry Text'], starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
-                    entry.tags = [self.config['tagsymbols'][0] + tag for tag in dict_entry.get("Tags", [])]
+                    entry._tags = [self.config['tagsymbols'][0] + tag.lower() for tag in dict_entry.get("Tags", [])]
+
                     self.entries.append(entry)
         self.sort()
+        return self
 
     def write(self):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
             if entry.modified:
+                utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
+
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
-                utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
-                # make sure to upper() the uuid since uuid.uuid1 returns a lowercase string by default
-                # while dayone uses uppercase by default. On fully case preserving filesystems (e.g.
-                # linux) this results in duplicated entries when we save the file
+
                 filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
+                
                 entry_plist = {
                     'Creation Date': utc_time,
                     'Starred': entry.starred if hasattr(entry, 'starred') else False,
                     'Entry Text': entry.title + "\n" + entry.body,
                     'Time Zone': str(tzlocal.get_localzone()),
-                    'UUID': entry.uuid,
+                    'UUID': entry.uuid.upper(),
                     'Tags': [tag.strip(self.config['tagsymbols']).replace("_", " ") for tag in entry.tags]
                 }
                 plistlib.writePlist(entry_plist, filename)
@@ -83,12 +88,11 @@ class DayOne(Journal.Journal):
         return "\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
 
     def parse_editable_str(self, edited):
-        """Parses the output of self.editable_str and updates it's entries."""
+        """Parses the output of self.editable_str and updates its entries."""
         # Method: create a new list of entries from the edited text, then match
         # UUIDs of the new entries against self.entries, updating the entries
         # if the edited entries differ, and deleting entries from self.entries
         # if they don't show up in the edited entries anymore.
-        date_length = len(datetime.today().strftime(self.config['timeformat']))
 
         # Initialise our current entry
         entries = []
@@ -105,16 +109,18 @@ class DayOne(Journal.Journal):
                 current_entry.modified = False
                 current_entry.uuid = m.group(1).lower()
             else:
-                try:
-                    new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+                date_blob_re = re.compile("^\[[^\\]]+\] ")
+                date_blob = date_blob_re.findall(line)
+                if date_blob:
+                    date_blob = date_blob[0]
+                    new_date = jrnl_time.parse(date_blob.strip(" []"))
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
-                    current_entry.title = line[date_length + 1:]
+                    current_entry.title = line[len(date_blob) - 1:]
                     current_entry.date = new_date
-                except ValueError:
-                    if current_entry:
-                        current_entry.body += line + "\n"
+                elif current_entry:
+                    current_entry.body += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -122,7 +128,7 @@ class DayOne(Journal.Journal):
 
         # Now, update our current entries if they changed
         for entry in entries:
-            entry.parse_tags()
+            entry._parse_text()
             matched_entries = [e for e in self.entries if e.uuid.lower() == entry.uuid]
             if matched_entries:
                 # This entry is an existing entry

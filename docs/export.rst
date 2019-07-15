@@ -54,6 +54,15 @@ Text export
 
 Pretty-prints your entire journal.
 
+XML export
+-----------
+
+::
+
+    jrnl --export xml
+
+Why anyone would want to export stuff to XML is beyond me, but here you go.
+
 Export to files
 ---------------
 
