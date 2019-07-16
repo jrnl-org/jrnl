@@ -83,7 +83,7 @@ setup(
         "parsedatetime>=1.5",
         "pytz>=2015.7",
         "six>=1.10.0",
-        "cryptography==1.4",
+        "cryptography>=1.4",
         "tzlocal>=1.2",
         "pyyaml>=3.11",
         "keyring>=7.3",
