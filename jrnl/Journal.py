@@ -99,8 +99,14 @@ class Journal(object):
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
+
+        # Return empty array if the journal is blank
+        if not journal_txt:
+            return []
+
         # Initialise our current entry
         entries = []
+
         date_blob_re = re.compile("(?:^|\n)\[([^\\]]+)\] ")
         last_entry_pos = 0
         for match in date_blob_re.finditer(journal_txt):
@@ -111,9 +117,14 @@ class Journal(object):
                     entries[-1].text = journal_txt[last_entry_pos:match.start()]
                 last_entry_pos = match.end()
                 entries.append(Entry.Entry(self, date=new_date))
-        # Finish the last entry
-        if entries:
-            entries[-1].text = journal_txt[last_entry_pos:]
+
+        
+        # If no entries were found, treat all the existing text as an entry made now
+        if not entries:
+            entries.append(Entry.Entry(self, date=time.parse("now")))
+
+        # Fill in the text of the last entry
+        entries[-1].text = journal_txt[last_entry_pos:]
 
         for entry in entries:
             entry._parse_text()
