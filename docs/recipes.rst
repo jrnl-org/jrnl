@@ -74,6 +74,14 @@ Another nice solution that allows you to define individual prompts comes from `J
     log_question 'What did I achieve today?'
     log_question 'What did I make progress with?'
 
+Display random entry
+~~~~~~~~~~~~~~~~~~~~
+
+You can use this to select one title at random and then display the whole entry:
+
+.. code-block:: sh
+
+    jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
 
 External editors
 ----------------
