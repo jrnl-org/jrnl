@@ -93,6 +93,15 @@ log_question 'What did I achieve today?'
 log_question 'What did I make progress with?'
 ```
 
+### Filtering with FZF
+
+Use the search powers of [fzf](https://github.com/junegunn/fzf) to select an
+entry from the list of titles and display the full entry.
+
+``` sh
+jrnl -on "$(jrnl --short | fzf --ansi --tac | cut -d' ' -f1,2)"
+```
+
 ## External editors
 
 To use external editors for writing and editing journal entries, set
