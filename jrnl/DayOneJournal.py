@@ -51,7 +51,16 @@ class DayOne(Journal.Journal):
                     except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                         timezone = tzlocal.get_localzone()
                     date = dict_entry['Creation Date']
-                    date = date + timezone.utcoffset(date, is_dst=False)
+                    try:
+                        date = date + timezone.utcoffset(date, is_dst=False)
+                    except TypeError:
+                        # The above converts the date to UTC. However, if the
+                        # timezone is already in UTC, you can't call
+                        # timezone.utcoffset() with the is_dst parameter
+                        # ("utcoffset() got an unexpected keyword argument
+                        # 'is_dst'"), but we already have our date in UTC, so
+                        # nothing more needs to be done.
+                        pass
                     entry = Entry.Entry(self, date, text=dict_entry['Entry Text'], starred=dict_entry["Starred"])
                     entry.uuid = dict_entry["UUID"]
                     entry._tags = [self.config['tagsymbols'][0] + tag.lower().replace(" ", "_") for tag in dict_entry.get("Tags", [])]
