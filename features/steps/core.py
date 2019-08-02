@@ -190,6 +190,9 @@ def check_output_time_inline(context, text):
 def check_output_inline(context, text=None):
     text = text or context.text
     out = context.stdout_capture.getvalue()
+    # make line endings consistent
+    text = os.linesep.join(text.splitlines())
+    out = os.linesep.join(out.splitlines())
     if isinstance(out, bytes):
         out = out.decode('utf-8')
     assert text in out, text

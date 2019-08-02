@@ -65,13 +65,14 @@ Feature: Zapped bugs should stay dead.
 			"""
 
     Scenario: DayOne tag searching should work with tags containing a mixture of upper and lower case.
-        # https://github.com/maebert/jrnl/issues/354
+        # https://github.com/jrnl-org/jrnl/issues/354
         Given we use the config "dayone.yaml"
         When we run "jrnl @plAy"
         Then the output should contain
             """
             2013-05-17 11:39 This entry has tags!
             """
+            
     Scenario: Integers in square brackets should not be read as dates 
         Given we use the config "brackets.yaml"
         When we run "jrnl -1"
