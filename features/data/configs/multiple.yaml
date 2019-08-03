@@ -9,6 +9,9 @@ journals:
   ideas: features/journals/nothing.journal
   simple: features/journals/simple.journal
   work: features/journals/work.journal
+  new_encrypted:
+    encrypt: true
+    journal: features/journals/new_encrypted.journal
 linewrap: 80
 password: ''
 tagsymbols: '@'
