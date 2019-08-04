@@ -96,7 +96,10 @@ log_question 'What did I make progress with?'
 ### Filtering with FZF
 
 Use the search powers of [fzf](https://github.com/junegunn/fzf) to select an
-entry from the list of titles and display the full entry.
+entry from the list of titles and display the full entry. The invocation of
+`cut` needs to match the format of the timestamp. For timestamps that have a
+space between data and time components, select fields 1 and 2 as shown. For
+timestamps that have no whitespace, select only field 1.
 
 ``` sh
 jrnl -on "$(jrnl --short | fzf --ansi --tac | cut -d' ' -f1,2)"
