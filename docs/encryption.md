@@ -56,6 +56,12 @@ setopt HIST_IGNORE_SPACE
 alias jrnl=" jrnl"
 ```
 
+The fish shell does not support automatically preventing logging like
+this. To prevent `jrnl` commands being logged by fish, you must make
+sure to type a space before every `jrnl` command you enter. To delete
+existing `jrnl` commands from fish’s history, run
+`history delete --prefix 'jrnl '`.
+
 ## Manual decryption
 
 Should you ever want to decrypt your journal manually, you can do so
