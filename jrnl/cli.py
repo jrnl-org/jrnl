@@ -13,7 +13,7 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
-from .util import ERROR_COLOR, RESET_COLOR
+from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 import jrnl
 import argparse
 import sys
@@ -143,7 +143,12 @@ def run(manual_args=None):
         print(util.py2encode(version_str))
         sys.exit(0)
 
-    config = install.load_or_install_jrnl()
+    try:
+        config = install.load_or_install_jrnl()
+    except UserAbort as err:
+        util.prompt("\n{}".format(err))
+        sys.exit(1)
+
     if args.ls:
         util.prnt(list_journals(config))
         sys.exit(0)
