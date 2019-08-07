@@ -4,7 +4,7 @@ from . import __version__
 from . import Journal
 from . import util
 from .EncryptedJournal import EncryptedJournal
-import sys
+from .util import UserAbort
 import os
 import codecs
 
@@ -76,10 +76,12 @@ older versions of jrnl anymore.
         for journal, path in other_journals.items():
             util.prompt("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name))
 
-    cont = util.yesno("\nContinue upgrading jrnl?", default=False)
-    if not cont:
-        util.prompt("jrnl NOT upgraded, exiting.")
-        sys.exit(1)
+    try:
+        cont = util.yesno("\nContinue upgrading jrnl?", default=False)
+        if not cont:
+            raise KeyboardInterrupt
+    except KeyboardInterrupt:
+        raise UserAbort("jrnl NOT upgraded, exiting.")
 
     for journal_name, path in encrypted_journals.items():
         util.prompt("\nUpgrading encrypted '{}' journal stored in {}...".format(journal_name, path))
