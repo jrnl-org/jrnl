@@ -283,6 +283,7 @@ class LegacyJournal(Journal):
         # Initialise our current entry
         entries = []
         current_entry = None
+        new_date_format_regex = re.compile(r'(^\[[^\]]+\].*?$)')
         for line in journal_txt.splitlines():
             line = line.rstrip()
             try:
@@ -302,7 +303,9 @@ class LegacyJournal(Journal):
                 current_entry = Entry.Entry(self, date=new_date, text=line[date_length + 1:], starred=starred)
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
-                # In this case, just append line to our body.
+                # In this case, just append line to our body (after some
+                # escaping for the new format).
+                line = new_date_format_regex.sub(r' \1', line)
                 if current_entry:
                     current_entry.text += line + u"\n"
 
