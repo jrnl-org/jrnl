@@ -39,3 +39,8 @@ Feature: Multiple journals
         Given we use the config "bug343.yaml"
         When we run "jrnl a long day in the office"
         Then we should see the message "No default journal configured"
+
+   Scenario: Don't crash if no file exists for a configured encrypted journal
+        Given we use the config "multiple.yaml"
+        When we run "jrnl new_encrypted Adding first entry" and enter "these three eyes"
+	Then we should see the message "Journal 'new_encrypted' created"
