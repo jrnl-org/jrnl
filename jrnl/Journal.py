@@ -118,7 +118,6 @@ class Journal(object):
                 last_entry_pos = match.end()
                 entries.append(Entry.Entry(self, date=new_date))
 
-        
         # If no entries were found, treat all the existing text as an entry made now
         if not entries:
             entries.append(Entry.Entry(self, date=time.parse("now")))
@@ -218,7 +217,11 @@ class Journal(object):
         if not date:
             colon_pos = first_line.find(": ")
             if colon_pos > 0:
-                date = time.parse(raw[:colon_pos], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
+                date = time.parse(
+                    raw[:colon_pos],
+                    default_hour=self.config['default_hour'],
+                    default_minute=self.config['default_minute']
+                )
                 if date:  # Parsed successfully, strip that from the raw text
                     starred = raw[:colon_pos].strip().endswith("*")
                     raw = raw[colon_pos + 1:].strip()
@@ -280,6 +283,7 @@ class LegacyJournal(Journal):
         # Initialise our current entry
         entries = []
         current_entry = None
+        new_date_format_regex = re.compile(r'(^\[[^\]]+\].*?$)')
         for line in journal_txt.splitlines():
             line = line.rstrip()
             try:
@@ -299,7 +303,9 @@ class LegacyJournal(Journal):
                 current_entry = Entry.Entry(self, date=new_date, text=line[date_length + 1:], starred=starred)
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
-                # In this case, just append line to our body.
+                # In this case, just append line to our body (after some
+                # escaping for the new format).
+                line = new_date_format_regex.sub(r' \1', line)
                 if current_entry:
                     current_entry.text += line + u"\n"
 
@@ -325,7 +331,10 @@ def open_journal(name, config, legacy=False):
             from . import DayOneJournal
             return DayOneJournal.DayOne(**config).open()
         else:
-            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            util.prompt(
+                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal'])
+            )
+
             sys.exit(1)
 
     if not config['encrypt']:
