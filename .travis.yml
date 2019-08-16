@@ -1,11 +1,21 @@
 dist: xenial   # required for Python >= 3.7
 language: python
-python:
-  - "3.7"
+python: "3.7"
+before_install:
+  - pip install poetry
 install:
-  - "pip install -e ."
-  - "pip install -q behave"
-# command to run tests
+  - poetry install
 script:
- - python --version
- - behave
+ - poetry run python --version
+ - poetry run behave
+before_deploy:
+  - pip install poetry
+  - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
+  - poetry build
+deploy:
+  provider: script
+  script: poetry publish
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
