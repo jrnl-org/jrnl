@@ -84,8 +84,19 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        text = "\n".join([e.__unicode__() for e in self.entries])
+        text = self._to_text()
         self._store(filename, text)
+
+    def validate_parsing(self):
+        """Confirms that the jrnl is still parsed correctly after being dumped to text."""
+        new_entries = self._parse(self._to_text())
+        for i, entry in enumerate(self.entries):
+            if entry != new_entries[i]:
+                return False
+        return True
+
+    def _to_text(self):
+        return "\n".join([e.__unicode__() for e in self.entries])
 
     def _load(self, filename):
         raise NotImplementedError
