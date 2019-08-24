@@ -86,7 +86,7 @@ def load_or_install_jrnl():
     if os.path.exists(config_path):
         log.debug('Reading configuration from file %s', config_path)
         config = util.load_config(config_path)
-        
+
         try:
             upgrade.upgrade_jrnl_if_necessary(config_path)
         except upgrade.UpgradeValidationException:
@@ -94,7 +94,7 @@ def load_or_install_jrnl():
             sys.exit(1)
 
         upgrade_config(config)
-        
+
         return config
     else:
         log.debug('Configuration file not found, installing jrnl...')
