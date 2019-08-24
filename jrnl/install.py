@@ -90,7 +90,10 @@ def load_or_install_jrnl():
         try:
             upgrade.upgrade_jrnl_if_necessary(config_path)
         except upgrade.UpgradeValidationException:
-            util.prompt("Aborting upgrade. Exiting.")
+            util.prompt("Aborting upgrade.")
+            util.prompt("Please tell us about this problem at the following URL:")
+            util.prompt("https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException")
+            util.prompt("Exiting.")
             sys.exit(1)
 
         upgrade_config(config)
