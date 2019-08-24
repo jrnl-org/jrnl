@@ -135,13 +135,11 @@ that journal.
     this option will most likely result in your journal file being
     impossible to load.
 
-### Known Issues
+## Known Issues
 
-  - The Windows shell prior to Windows 7 has issues with unicode
-    encoding. If you want to use non-ascii characters, change the
-    codepage with `chcp 1252` before using
-    `jrnl` (Thanks to Yves Pouplard for
-    solving this!)
-  - `jrnl`relies on the PyCrypto
-    package to encrypt journals, which has some known problems with
-    installing on Windows and within virtual environments.
+### Unicode on Windows
+
+The Windows shell prior to Windows 7 has issues with unicode encoding.
+To use non-ascii characters, first tweak Python to recognize the encoding by adding `'cp65001': 'utf_8'`, to `Lib/encoding/aliases.py`. Then, change the codepage with `chcp 1252` before using `jrnl`.
+
+(Related issue: [#486](https://github.com/jrnl-org/jrnl/issues/486))

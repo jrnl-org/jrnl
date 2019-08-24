@@ -15,9 +15,8 @@ And will get something like `@melo: 9`, meaning there are 9 entries
 where both `@alberto` and `@melo` are tagged. How does this work? First,
 `jrnl @alberto` will filter the journal to only entries containing the
 tag `@alberto`, and then the `--tags` option will print out how often
-each tag occurred in this <span class="title-ref">filtered</span>
-journal. Finally, we pipe this to `grep` which will only display the
-line containing `@melo`.
+each tag occurred in this filtered journal. Finally, we pipe this to
+`grep` which will only display the line containing `@melo`.
 
 ### Combining filters
 
@@ -66,17 +65,19 @@ If you do that often, consider creating a function in your `.bashrc` or
 
 ``` sh
 jrnlimport () {
-    echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
+  echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
 }
 ```
 
 ### Using templates
 
 Say you always want to use the same template for creating new entries.
-If you have an `external editor <advanced>` set up, you can use this :
+If you have an [external editor](../advanced) set up, you can use this:
 
-    jrnl < my_template.txt
-    $ jrnl -1 --edit
+```sh
+jrnl < my_template.txt
+jrnl -1 --edit
+```
 
 Another nice solution that allows you to define individual prompts comes
 from [Jacobo de
@@ -105,8 +106,10 @@ close the file to save the changes to jrnl.
 To use Sublime Text, install the command line tools for Sublime Text and
 configure your `.jrnl_config` like this:
 
-``` javascript
-"editor": "subl -w"
+``` json
+{
+  "editor": "subl -w"
+}
 ```
 
 Note the `-w` flag to make sure jrnl waits for Sublime Text to close the
@@ -118,8 +121,10 @@ Similar to Sublime Text, MacVim must be started with a flag that tells
 the the process to wait until the file is closed before passing control
 back to journal. In the case of MacVim, this is `-f`:
 
-``` javascript
-"editor": "mvim -f"
+``` json
+{
+  "editor": "mvim -f"
+}
 ```
 
 ### iA Writer
@@ -128,8 +133,10 @@ On OS X, you can use the fabulous [iA
 Writer](http://www.iawriter.com/mac) to write entries. Configure your
 `.jrnl_config` like this:
 
-``` javascript
-"editor": "open -b pro.writer.mac -Wn"
+``` json
+{
+  "editor": "open -b pro.writer.mac -Wn"
+}
 ```
 
 What does this do? `open -b ...` opens a file using the application
@@ -142,9 +149,7 @@ you can find the right string to use by inspecting iA Writer's
 `Info.plist` file in your shell:
 
 ``` sh
-$ grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
-    <key>CFBundleIdentifier</key>
-    <string>pro.writer.mac</string>
+grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
 ```
 
 ### Notepad++ on Windows
@@ -152,8 +157,10 @@ $ grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
 To set [Notepad++](http://notepad-plus-plus.org/) as your editor, edit
 the jrnl config file (`.jrnl_config`) like this:
 
-``` javascript
-"editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession",
+``` json
+{
+  "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession",
+}
 ```
 
 The double backslashes are needed so jrnl can read the file path
@@ -164,9 +171,9 @@ its own Notepad++ window.
 
 To set [Visual Studo Code](https://code.visualstudio.com) as your editor on Linux, edit `.jrnl_config` like this:
 
-```javascript
+```json
 {
-    "editor": "/usr/bin/code --wait",
+  "editor": "/usr/bin/code --wait",
 }
 ```
 
@@ -183,7 +190,7 @@ Then you can add:
 
 ```javascript
 {
-    "editor": "code --wait",
+  "editor": "code --wait",
 }
 ```
 
