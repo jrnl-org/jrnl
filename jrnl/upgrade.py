@@ -96,12 +96,14 @@ older versions of jrnl anymore.
 
     # loop through lists to validate
     failed_journals = [j for j in all_journals if not j.validate_parsing()]
+
     if len(failed_journals) > 0:
         util.prompt("\nThe following journal{} failed to upgrade:\n{}".format(
             's' if len(failed_journals) > 1 else '', "\n".join(j.name for j in failed_journals))
         )
 
-        util.prompt("Aborting upgrade.")
+        raise UpgradeValidationException
+
         return
 
     # write all journals - or - don't
@@ -112,3 +114,7 @@ older versions of jrnl anymore.
     backup(config_path)
 
     util.prompt("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path))
+
+class UpgradeValidationException(Exception):
+    """Raised when the contents of an upgraded journal do not match the old journal"""
+    pass
