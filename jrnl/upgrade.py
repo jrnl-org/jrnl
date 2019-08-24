@@ -104,8 +104,6 @@ older versions of jrnl anymore.
 
         raise UpgradeValidationException
 
-        return
-
     # write all journals - or - don't
     for j in all_journals:
         j.write()
