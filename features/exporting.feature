@@ -42,11 +42,9 @@ Feature: Exporting a Journal
         When we run "jrnl --export markdown"
         Then the output should be
         """
-        2015
-        ====
+        # 2015
 
-        April
-        -----
+        ## April
 
         ### 2015-04-14 13:23 Heading Test
 
