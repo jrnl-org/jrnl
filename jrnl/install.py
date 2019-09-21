@@ -12,6 +12,7 @@ from . import upgrade
 from . import __version__
 from .Journal import PlainJournal
 from .EncryptedJournal import EncryptedJournal
+from .util import UserAbort
 import yaml
 import logging
 import sys
@@ -101,7 +102,11 @@ def load_or_install_jrnl():
         return config
     else:
         log.debug('Configuration file not found, installing jrnl...')
-        return install()
+        try:
+            config = install()
+        except KeyboardInterrupt:
+            raise UserAbort("Installation aborted")
+        return config
 
 
 def install():
