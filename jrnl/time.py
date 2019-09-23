@@ -19,6 +19,10 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
     elif isinstance(date_str, datetime):
         return date_str
 
+    # Don't try to parse anything with 6 or less characters. It's probably a markdown footnote
+    if len(date_str) <= 6:
+        return None
+
     default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
     date = None
     year_present = False

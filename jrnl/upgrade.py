@@ -4,7 +4,7 @@ from . import __version__
 from . import Journal
 from . import util
 from .EncryptedJournal import EncryptedJournal
-import sys
+from .util import UserAbort
 import os
 import codecs
 
@@ -44,6 +44,7 @@ older versions of jrnl anymore.
     encrypted_journals = {}
     plain_journals = {}
     other_journals = {}
+    all_journals = []
 
     for journal_name, journal_conf in config['journals'].items():
         if isinstance(journal_conf, dict):
@@ -76,28 +77,44 @@ older versions of jrnl anymore.
         for journal, path in other_journals.items():
             util.prompt("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name))
 
-    cont = util.yesno("\nContinue upgrading jrnl?", default=False)
-    if not cont:
-        util.prompt("jrnl NOT upgraded, exiting.")
-        sys.exit(1)
+    try:
+        cont = util.yesno("\nContinue upgrading jrnl?", default=False)
+        if not cont:
+            raise KeyboardInterrupt
+    except KeyboardInterrupt:
+        raise UserAbort("jrnl NOT upgraded, exiting.")
 
     for journal_name, path in encrypted_journals.items():
         util.prompt("\nUpgrading encrypted '{}' journal stored in {}...".format(journal_name, path))
         backup(path, binary=True)
         old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
-        new_journal = EncryptedJournal.from_journal(old_journal)
-        new_journal.write()
-        util.prompt("  Done.")
+        all_journals.append(EncryptedJournal.from_journal(old_journal))
 
     for journal_name, path in plain_journals.items():
         util.prompt("\nUpgrading plain text '{}' journal stored in {}...".format(journal_name, path))
         backup(path)
         old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
-        new_journal = Journal.PlainJournal.from_journal(old_journal)
-        new_journal.write()
-        util.prompt("  Done.")
+        all_journals.append(Journal.PlainJournal.from_journal(old_journal))
+
+    # loop through lists to validate
+    failed_journals = [j for j in all_journals if not j.validate_parsing()]
+
+    if len(failed_journals) > 0:
+        util.prompt("\nThe following journal{} failed to upgrade:\n{}".format(
+            's' if len(failed_journals) > 1 else '', "\n".join(j.name for j in failed_journals))
+        )
+
+        raise UpgradeValidationException
+
+    # write all journals - or - don't
+    for j in all_journals:
+        j.write()
 
     util.prompt("\nUpgrading config...")
     backup(config_path)
 
     util.prompt("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path))
+
+class UpgradeValidationException(Exception):
+    """Raised when the contents of an upgraded journal do not match the old journal"""
+    pass

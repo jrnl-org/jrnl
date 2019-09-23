@@ -43,32 +43,22 @@ Feature: Zapped bugs should stay dead.
             | Hope to get a lot of traffic.
             """
 
-	Scenario: Upgrade and parse journals with square brackets
-		Given we use the config "upgrade_from_195.json"
-		When we run "jrnl -2" and enter "Y"
-		Then the output should contain
-            """
-            2010-06-10 15:00 A life without chocolate is like a bad analogy.
+    Scenario: Integers in square brackets should not be read as dates 
+        Given we use the config "brackets.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "[1] line starting with 1"
 
-            2013-06-10 15:40 He said "[this] is the best time to be alive".
-            """
+    Scenario: Journals with unreadable dates should still be viewable 
+        Given we use the config "unreadabledates.yaml"
+        When we run "jrnl -2"
+        Then the output should contain "I've lost track of time."
+        Then the output should contain "Time has no meaning."
 
-	Scenario: Title with an embedded period on DayOne journal
-		Given we use the config "dayone.yaml"
-		When we run "jrnl 04-24-2014: "Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch.""
-		Then we should see the message "Entry added"
-		When we run "jrnl -1"
-		Then the output should be
-			"""
-			2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
-			| I'm feeling sore because I forgot to stretch.
-			"""
+    Scenario: Journals with readable dates AND unreadable dates should still contain all data.
+        Given we use the config "mostlyreadabledates.yaml"
+        When we run "jrnl -3"
+        Then the output should contain "Time machines are possible."
+        When we run "jrnl -1"
+        Then the output should contain "I'm going to activate the machine."
+        Then the output should contain "I've crossed so many timelines. Is there any going back?"
 
-    Scenario: DayOne tag searching should work with tags containing a mixture of upper and lower case.
-        # https://github.com/maebert/jrnl/issues/354
-        Given we use the config "dayone.yaml"
-        When we run "jrnl @plAy"
-        Then the output should contain
-            """
-            2013-05-17 11:39 This entry has tags!
-            """

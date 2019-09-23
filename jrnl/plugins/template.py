@@ -23,7 +23,7 @@ class Template(object):
     def from_file(cls, filename):
         with open(filename) as f:
             front_matter, body = f.read().strip("-\n").split("---", 2)
-            front_matter = yaml.load(front_matter)
+            front_matter = yaml.load(front_matter, Loader=yaml.FullLoader)
             template = cls(body)
         template.__dict__.update(front_matter)
         return template
@@ -39,7 +39,8 @@ class Template(object):
         return self._expand(self.blocks[block], **vars)
 
     def _eval_context(self, vars):
-        e = asteval.Interpreter(symtable=vars, use_numpy=False, writer=None)
+        e = asteval.Interpreter(use_numpy=False, writer=None)
+        e.symtable.update(vars)
         e.symtable['__last_iteration'] = vars.get("__last_iteration", False)
         return e
 
