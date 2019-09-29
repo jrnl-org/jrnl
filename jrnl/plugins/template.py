@@ -39,7 +39,8 @@ class Template(object):
         return self._expand(self.blocks[block], **vars)
 
     def _eval_context(self, vars):
-        e = asteval.Interpreter(symtable=vars, use_numpy=False, writer=None)
+        e = asteval.Interpreter(use_numpy=False, writer=None)
+        e.symtable.update(vars)
         e.symtable['__last_iteration'] = vars.get("__last_iteration", False)
         return e
 

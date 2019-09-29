@@ -5,7 +5,13 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import hashlib
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
+import sys
+import os
 import base64
+import getpass
+import logging
+
+log = logging.getLogger()
 
 
 def make_key(password):
@@ -26,6 +32,33 @@ class EncryptedJournal(Journal.Journal):
     def __init__(self, name='default', **kwargs):
         super(EncryptedJournal, self).__init__(name, **kwargs)
         self.config['encrypt'] = True
+
+    def open(self, filename=None):
+        """Opens the journal file defined in the config and parses it into a list of Entries.
+        Entries have the form (date, title, body)."""
+        filename = filename or self.config['journal']
+
+        if not os.path.exists(filename):
+            password = util.getpass("Enter password for new journal: ")
+            if password:
+                if util.yesno("Do you want to store the password in your keychain?", default=True):
+                    util.set_keychain(self.name, password)
+                else:
+                    util.set_keychain(self.name, None)
+                self.config['password'] = password
+                text = ""
+                self._store(filename, text)
+                util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+            else:
+                util.prompt("No password supplied for encrypted journal")
+                sys.exit(1)
+        else:
+            text = self._load(filename)
+        self.entries = self._parse(text)
+        self.sort()
+        log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
+        return self
+
 
     def _load(self, filename, password=None):
         """Loads an encrypted journal from a file and tries to decrypt it.

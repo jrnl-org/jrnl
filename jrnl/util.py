@@ -47,6 +47,10 @@ SENTENCE_SPLITTER = re.compile(r"""
 )""", re.UNICODE | re.VERBOSE)
 
 
+class UserAbort(Exception):
+    pass
+
+
 def getpass(prompt="Password: "):
     if not TEST:
         return gp.getpass(bytes(prompt))

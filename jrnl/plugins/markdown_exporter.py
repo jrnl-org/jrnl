@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
+import os
 import re
 import sys
 from ..util import WARNING_COLOR, RESET_COLOR
@@ -30,17 +31,17 @@ class MarkdownExporter(TextExporter):
         previous_line = ''
         warn_on_heading_level = False
         for line in body.splitlines(True):
-            if re.match(r"#+ ", line):
+            if re.match(r"^#+ ", line):
                 """ATX style headings"""
                 newbody = newbody + previous_line + heading + line
-                if re.match(r"#######+ ", heading + line):
+                if re.match(r"^#######+ ", heading + line):
                     warn_on_heading_level = True
                 line = ''
-            elif re.match(r"=+$", line) and not re.match(r"^$", previous_line):
+            elif re.match(r"^=+$", line.rstrip()) and not re.match(r"^$", previous_line.strip()):
                 """Setext style H1"""
                 newbody = newbody + heading + "# " + previous_line
                 line = ''
-            elif re.match(r"-+$", line) and not re.match(r"^$", previous_line):
+            elif re.match(r"^-+$", line.rstrip()) and not re.match(r"^$", previous_line.strip()):
                 """Setext style H2"""
                 newbody = newbody + heading + "## " + previous_line
                 line = ''
@@ -68,12 +69,12 @@ class MarkdownExporter(TextExporter):
         for e in journal.entries:
             if not e.date.year == year:
                 year = e.date.year
-                out.append(str(year))
-                out.append("=" * len(str(year)) + "\n")
+                out.append("# " + str(year))
+                out.append("")
             if not e.date.month == month:
                 month = e.date.month
-                out.append(e.date.strftime("%B"))
-                out.append('-' * len(e.date.strftime("%B")) + "\n")
+                out.append("## " + e.date.strftime("%B"))
+                out.append("")
             out.append(cls.export_entry(e, False))
         result = "\n".join(out)
         return result

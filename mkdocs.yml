@@ -1,0 +1,23 @@
+site_name: jrnl
+theme:
+  name: readthedocs
+  custom_dir: docs/theme
+  static_templates:
+      - index.html
+extra_css:
+    - https://fonts.googleapis.com/css?family=Open+Sans:300,600
+    - assets/theme.css
+    - assets/highlight.css
+markdown_extensions:
+  - admonition
+repo_url: https://github.com/jrnl-org/jrnl/
+site_author: Manuel Ebert
+site_description: Never Worry about Money Again.
+nav:
+  - Overview: overview.md
+  - Quickstart: installation.md
+  - Basic Usage: usage.md
+  - Encryption: encryption.md
+  - Import and Export: export.md
+  - Advanced Usage: advanced.md
+  - Recipes: recipes.md

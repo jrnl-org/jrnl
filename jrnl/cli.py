@@ -13,7 +13,7 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
-from .util import ERROR_COLOR, RESET_COLOR
+from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 import jrnl
 import argparse
 import sys
@@ -39,6 +39,7 @@ def parse_args(args=None):
     reading.add_argument('-and', dest='strict', action="store_true", help='Filter by tags using AND (default: OR)')
     reading.add_argument('-starred', dest='starred', action="store_true", help='Show only starred entries')
     reading.add_argument('-n', dest='limit', default=None, metavar="N", help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.", nargs="?", type=int)
+    reading.add_argument('-not', dest='excluded', nargs='+', default=[], metavar="E", help="Exclude entries with these tags")
 
     exporting = parser.add_argument_group('Export / Import', 'Options for transmogrifying your journal')
     exporting.add_argument('-s', '--short', dest='short', action="store_true", help='Show only titles or line containing the search tags')
@@ -143,7 +144,12 @@ def run(manual_args=None):
         print(util.py2encode(version_str))
         sys.exit(0)
 
-    config = install.load_or_install_jrnl()
+    try:
+        config = install.load_or_install_jrnl()
+    except UserAbort as err:
+        util.prompt("\n{}".format(err))
+        sys.exit(1)
+
     if args.ls:
         util.prnt(list_journals(config))
         sys.exit(0)
@@ -234,7 +240,8 @@ def run(manual_args=None):
                        start_date=args.start_date, end_date=args.end_date,
                        strict=args.strict,
                        short=args.short,
-                       starred=args.starred)
+                       starred=args.starred,
+                       exclude=args.excluded)
         journal.limit(args.limit)
 
     # Reading mode
