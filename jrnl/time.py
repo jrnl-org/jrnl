@@ -12,15 +12,16 @@ consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
 CALENDAR = pdt.Calendar(consts)
 
 
-def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
+def parse(date_str, inclusive=False, default_hour=None, default_minute=None, bracketed=False):
     """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
     if not date_str:
         return None
     elif isinstance(date_str, datetime):
         return date_str
 
-    # Don't try to parse anything with 6 or less characters. It's probably a markdown footnote
-    if len(date_str) <= 6:
+    # Don't try to parse anything with 6 or less characters and was parsed from the existing journal. 
+    # It's probably a markdown footnote
+    if len(date_str) <= 6 and bracketed:
         return None
 
     default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
@@ -52,7 +53,10 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
             return None
 
     if flag is 1:  # Date found, but no time. Use the default time.
-        date = datetime(*date[:3], hour=default_hour or 0, minute=default_minute or 0)
+        date = datetime(*date[:3], 
+                        hour=23 if inclusive else default_hour or 0, 
+                        minute=59 if inclusive else default_minute or 0,
+                        second=59 if inclusive else 0)
     else:
         date = datetime(*date[:6])
 
