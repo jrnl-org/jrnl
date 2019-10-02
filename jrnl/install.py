@@ -12,8 +12,10 @@ from . import upgrade
 from . import __version__
 from .Journal import PlainJournal
 from .EncryptedJournal import EncryptedJournal
+from .util import UserAbort
 import yaml
 import logging
+import sys
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'
@@ -85,12 +87,26 @@ def load_or_install_jrnl():
     if os.path.exists(config_path):
         log.debug('Reading configuration from file %s', config_path)
         config = util.load_config(config_path)
-        upgrade.upgrade_jrnl_if_necessary(config_path)
+
+        try:
+            upgrade.upgrade_jrnl_if_necessary(config_path)
+        except upgrade.UpgradeValidationException:
+            util.prompt("Aborting upgrade.")
+            util.prompt("Please tell us about this problem at the following URL:")
+            util.prompt("https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException")
+            util.prompt("Exiting.")
+            sys.exit(1)
+
         upgrade_config(config)
+
         return config
     else:
         log.debug('Configuration file not found, installing jrnl...')
-        return install()
+        try:
+            config = install()
+        except KeyboardInterrupt:
+            raise UserAbort("Installation aborted")
+        return config
 
 
 def install():

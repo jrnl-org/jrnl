@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
+import os
 import re
 import sys
 from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
@@ -38,14 +39,14 @@ class YAMLExporter(TextExporter):
             if re.match(r"#+ ", line):
                 """ATX style headings"""
                 newbody = newbody + previous_line + heading + line
-                if re.match(r"#######+ ", heading + line):
+                if re.match(r"^#######+ ", heading + line):
                     warn_on_heading_level = True
                 line = ''
-            elif re.match(r"=+$", line) and not re.match(r"^$", previous_line):
+            elif re.match(r"^=+$", line.rstrip()) and not re.match(r"^$", previous_line.strip()):
                 """Setext style H1"""
                 newbody = newbody + heading + "# " + previous_line
                 line = ''
-            elif re.match(r"-+$", line) and not re.match(r"^$", previous_line):
+            elif re.match(r"^-+$", line.rstrip()) and not re.match(r"^$", previous_line.strip()):
                 """Setext style H2"""
                 newbody = newbody + heading + "## " + previous_line
                 line = ''

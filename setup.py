@@ -85,7 +85,7 @@ setup(
         "six>=1.10.0",
         "cryptography>=1.4",
         "tzlocal>=1.2",
-        "pyyaml>=3.11",
+        "pyyaml>=5.1",
         "keyring>=7.3",
         "passlib>=1.6.2",
         "pyxdg>=0.25",

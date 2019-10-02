@@ -84,8 +84,19 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        text = "\n".join([e.__unicode__() for e in self.entries])
+        text = self._to_text()
         self._store(filename, text)
+
+    def validate_parsing(self):
+        """Confirms that the jrnl is still parsed correctly after being dumped to text."""
+        new_entries = self._parse(self._to_text())
+        for i, entry in enumerate(self.entries):
+            if entry != new_entries[i]:
+                return False
+        return True
+
+    def _to_text(self):
+        return "\n".join([e.__unicode__() for e in self.entries])
 
     def _load(self, filename):
         raise NotImplementedError
@@ -118,7 +129,6 @@ class Journal(object):
                 last_entry_pos = match.end()
                 entries.append(Entry.Entry(self, date=new_date))
 
-        
         # If no entries were found, treat all the existing text as an entry made now
         if not entries:
             entries.append(Entry.Entry(self, date=time.parse("now")))
@@ -176,7 +186,7 @@ class Journal(object):
         tag_counts = set([(tags.count(tag), tag) for tag in tags])
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, exclude=[]):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -187,19 +197,24 @@ class Journal(object):
         starred limits journal to starred entries
 
         If strict is True, all tags must be present in an entry. If false, the
-        entry is kept if any tag is present."""
+
+        exclude is a list of the tags which should not appear in the results.
+        entry is kept if any tag is present, unless they appear in exclude."""
         self.search_tags = set([tag.lower() for tag in tags])
+        excluded_tags = set([tag.lower() for tag in exclude])
         end_date = time.parse(end_date, inclusive=True)
         start_date = time.parse(start_date)
 
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
+        excluded = lambda tags: len([tag for tag in tags if tag in excluded_tags]) > 0
         result = [
             entry for entry in self.entries
             if (not tags or tagged(entry.tags))
             and (not starred or entry.starred)
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
+            and (not exclude or not excluded(entry.tags))
         ]
 
         self.entries = result
@@ -218,7 +233,11 @@ class Journal(object):
         if not date:
             colon_pos = first_line.find(": ")
             if colon_pos > 0:
-                date = time.parse(raw[:colon_pos], default_hour=self.config['default_hour'], default_minute=self.config['default_minute'])
+                date = time.parse(
+                    raw[:colon_pos],
+                    default_hour=self.config['default_hour'],
+                    default_minute=self.config['default_minute']
+                )
                 if date:  # Parsed successfully, strip that from the raw text
                     starred = raw[:colon_pos].strip().endswith("*")
                     raw = raw[colon_pos + 1:].strip()
@@ -280,6 +299,7 @@ class LegacyJournal(Journal):
         # Initialise our current entry
         entries = []
         current_entry = None
+        new_date_format_regex = re.compile(r'(^\[[^\]]+\].*?$)')
         for line in journal_txt.splitlines():
             line = line.rstrip()
             try:
@@ -299,7 +319,9 @@ class LegacyJournal(Journal):
                 current_entry = Entry.Entry(self, date=new_date, text=line[date_length + 1:], starred=starred)
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
-                # In this case, just append line to our body.
+                # In this case, just append line to our body (after some
+                # escaping for the new format).
+                line = new_date_format_regex.sub(r' \1', line)
                 if current_entry:
                     current_entry.text += line + u"\n"
 
@@ -325,7 +347,10 @@ def open_journal(name, config, legacy=False):
             from . import DayOneJournal
             return DayOneJournal.DayOne(**config).open()
         else:
-            util.prompt(u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']))
+            util.prompt(
+                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal'])
+            )
+
             sys.exit(1)
 
     if not config['encrypt']:
