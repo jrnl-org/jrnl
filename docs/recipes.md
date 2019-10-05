@@ -96,17 +96,17 @@ log_question 'What did I make progress with?'
 ## External editors
 
 To use external editors for writing and editing journal entries, set
-them up in your `.jrnl_config` (see `advanced usage <advanced>` for
+them up in your `jrnl.yaml` (see `advanced usage <advanced>` for
 details). Generally, after writing an entry, you will have to save and
 close the file to save the changes to jrnl.
 
 ### Sublime Text
 
 To use Sublime Text, install the command line tools for Sublime Text and
-configure your `.jrnl_config` like this:
+configure your `jrnl.yaml` like this:
 
-``` javascript
-"editor": "subl -w"
+``` yaml
+editor: "subl -w"
 ```
 
 Note the `-w` flag to make sure jrnl waits for Sublime Text to close the
@@ -118,18 +118,18 @@ Similar to Sublime Text, MacVim must be started with a flag that tells
 the the process to wait until the file is closed before passing control
 back to journal. In the case of MacVim, this is `-f`:
 
-``` javascript
-"editor": "mvim -f"
+``` yaml
+editor: "mvim -f"
 ```
 
 ### iA Writer
 
 On OS X, you can use the fabulous [iA
 Writer](http://www.iawriter.com/mac) to write entries. Configure your
-`.jrnl_config` like this:
+`jrnl.yaml` like this:
 
-``` javascript
-"editor": "open -b pro.writer.mac -Wn"
+``` yaml
+editor: "open -b pro.writer.mac -Wn"
 ```
 
 What does this do? `open -b ...` opens a file using the application
@@ -150,10 +150,10 @@ $ grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
 ### Notepad++ on Windows
 
 To set [Notepad++](http://notepad-plus-plus.org/) as your editor, edit
-the jrnl config file (`.jrnl_config`) like this:
+the jrnl config file (`jrnl.yaml`) like this:
 
-``` javascript
-"editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession",
+``` yaml
+editor: "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession"
 ```
 
 The double backslashes are needed so jrnl can read the file path
@@ -162,12 +162,10 @@ its own Notepad++ window.
 
 ### Visual Studio Code
 
-To set [Visual Studo Code](https://code.visualstudio.com) as your editor on Linux, edit `.jrnl_config` like this:
+To set [Visual Studo Code](https://code.visualstudio.com) as your editor on Linux, edit `jrnl.yaml` like this:
 
-```javascript
-{
-    "editor": "/usr/bin/code --wait",
-}
+``` yaml
+editor: "/usr/bin/code --wait"
 ```
 
 The `--wait` argument tells VS Code to wait for files to be written out before handing back control to jrnl.
@@ -181,10 +179,8 @@ to your `.bash_profile`, or by running the **Install 'code' command in PATH** co
 
 Then you can add:
 
-```javascript
-{
-    "editor": "code --wait",
-}
+``` yaml
+editor: "code --wait"
 ```
 
-to ``.jrnl_config``. See also the [Visual Studio Code documentation](https://code.visualstudio.com/docs/setup/mac)
+to ``jrnl.yaml``. See also the [Visual Studio Code documentation](https://code.visualstudio.com/docs/setup/mac)

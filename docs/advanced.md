@@ -3,15 +3,19 @@
 ## Configuration File
 
 You can configure the way jrnl behaves in a configuration file. By
-default, this is `~/.jrnl_config`. If you have the `XDG_CONFIG_HOME`
+default, this is `~/.config/jrnl/jrnl.yaml`. If you have the `XDG_CONFIG_HOME`
 variable set, the configuration file will be saved as
-`$XDG_CONFIG_HOME/jrnl/.jrnl_config`.
+`$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
 
 !!! note
-    On Windows, The configuration file is typically found at `C:\Users\[Your Username]\.jrnl_config`.
+    On Windows, the configuration file is typically found at `%USERPROFILE%\.config\jrnl\jrnl.yaml`.
 
-The configuration file is a simple JSON file with the following options
-and can be edited with any plain text editor.
+The configuration file is a YAML file with the following options
+and can be edited with a plain text editor.
+
+!!! note
+    Backup your config file before editing. Changes to the config file
+    have destructive effects on your journal!
 
   - `journals`
     paths to your journal files
@@ -51,46 +55,16 @@ and can be edited with any plain text editor.
   Or use the built-in prompt or an external editor to compose your
   entries.
 
-## DayOne Integration
-
-Using your DayOne journal instead of a flat text file is dead simple --
-instead of pointing to a text file, change your `.jrnl_config` to point
-to your DayOne journal. This is a folder named something like
-`Journal_dayone` or `Journal.dayone`, and it's located at
-
-  - `~/Library/Application Support/Day One/` by default
-  - `~/Dropbox/Apps/Day One/` if you're syncing with Dropbox and
-  - `~/Library/Mobile
-    Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/` if you're
-    syncing with iCloud.
-
-Instead of all entries being in a single file, each entry will live in a
-separate `plist` file. So your `.jrnl_config` should look like this:
-
-``` javascript
-{
-  ...
-  "journals": {
-    "default": "~/journal.txt",
-    "dayone": "~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/Journal_dayone"
-  }
-}
-```
-
 ## Multiple journal files
 
 You can configure `jrnl`to use with multiple journals (eg.
-`private` and `work`) by defining more journals in your `.jrnl_config`,
+`private` and `work`) by defining more journals in your `jrnl.yaml`,
 for example:
 
-``` javascript
-{
-...
-  "journals": {
-    "default": "~/journal.txt",
-    "work":    "~/work.txt"
-  }
-}
+``` yaml
+journals:
+  default: ~\journal.txt
+  work: ~\work.txt
 ```
 
 The `default` journal gets created the first time you start `jrnl`
@@ -106,26 +80,22 @@ will both use `~/work.txt`, while `jrnl -n 3` will display the last
 three entries from `~/journal.txt` (and so does `jrnl default -n 3`).
 
 You can also override the default options for each individual journal.
-If you `.jrnl_config` looks like this:
+If your `jrnl.yaml` looks like this:
 
-``` javascript
-{
-  ...
-  "encrypt": false
-  "journals": {
-    "default": "~/journal.txt",
-    "work": {
-      "journal": "~/work.txt",
-      "encrypt": true
-    },
-    "food": "~/my_recipes.txt",
-}
+``` yaml
+encrypt: false
+journals:
+default: ~/journal.txt
+work:
+  journal: ~/work.txt
+  encrypt: true
+food: ~/my_recipes.txt
 ```
 
 Your `default` and your `food` journals won't be encrypted, however your
 `work` journal will! You can override all options that are present at
-the top level of `.jrnl_config`, just make sure that at the very least
-you specify a `"journal": ...` key that points to the journal file of
+the top level of `jrnl.yaml`, just make sure that at the very least
+you specify a `journal: ...` key that points to the journal file of
 that journal.
 
 !!! note
