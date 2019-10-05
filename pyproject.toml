@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "jrnl"
+version = "2.1"
+description = "Collect your thoughts and notes without leaving the command line."
+authors = [
+    "Manuel Ebert <manuel@1450.me>",
+    "Jonathan Wren <jonathan@nowandwren.com>",
+    "Micah Ellison <micahellison@gmail.com>"
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://jrnl.sh"
+repository = "https://github.com/jrnl-org/jrnl"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pyxdg = "^0.26.0"
+cryptography = "^2.7"
+passlib = "^1.7"
+parsedatetime = "^2.4"
+keyring = "^19.0"
+pytz = "^2019.1"
+tzlocal = "^1.5"
+asteval = "^0.9.14"
+colorama = {version = "^0.4.1",platform = "win32"}
+python-dateutil = "^2.8"
+pyyaml = "^5.1"
+
+[tool.poetry.dev-dependencies]
+behave = "^1.2"
+mkdocs = "^1.0"
+flake8 = "^3.7"
+black = {version = "^18.3-alpha.0",allows-prereleases = true}
+
+[tool.poetry.scripts]
+jrnl = 'jrnl.cli:run'
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
