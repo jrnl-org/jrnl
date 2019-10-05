@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "jrnl"
-version = "2.0.0"
+version = "2.1"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "Manuel Ebert <manuel@1450.me>",
-    "Jonathan Wren",
-    "Micah Ellison"
+    "Jonathan Wren <jonathan@nowandwren.com>",
+    "Micah Ellison <micahellison@gmail.com>"
 ]
 license = "MIT"
 readme = "README.md"
