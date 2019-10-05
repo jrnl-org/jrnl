@@ -43,17 +43,6 @@ Feature: Zapped bugs should stay dead.
             | Hope to get a lot of traffic.
             """
 
-    Scenario: Upgrade and parse journals with square brackets
-        Given we use the config "upgrade_from_195.json"
-        When we run "jrnl -9" and enter "Y"
-        Then the output should contain
-            """
-            2010-06-10 15:00 A life without chocolate is like a bad analogy.
-
-            2013-06-10 15:40 He said "[this] is the best time to be alive".
-            """
-        Then the journal should have 2 entries
-
     Scenario: Integers in square brackets should not be read as dates 
         Given we use the config "brackets.yaml"
         When we run "jrnl -1"

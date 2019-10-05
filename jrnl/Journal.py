@@ -84,8 +84,19 @@ class Journal(object):
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config['journal']
-        text = "\n".join([e.__unicode__() for e in self.entries])
+        text = self._to_text()
         self._store(filename, text)
+
+    def validate_parsing(self):
+        """Confirms that the jrnl is still parsed correctly after being dumped to text."""
+        new_entries = self._parse(self._to_text())
+        for i, entry in enumerate(self.entries):
+            if entry != new_entries[i]:
+                return False
+        return True
+
+    def _to_text(self):
+        return "\n".join([e.__unicode__() for e in self.entries])
 
     def _load(self, filename):
         raise NotImplementedError
@@ -175,7 +186,7 @@ class Journal(object):
         tag_counts = set([(tags.count(tag), tag) for tag in tags])
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, exclude=[]):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -186,19 +197,24 @@ class Journal(object):
         starred limits journal to starred entries
 
         If strict is True, all tags must be present in an entry. If false, the
-        entry is kept if any tag is present."""
+
+        exclude is a list of the tags which should not appear in the results.
+        entry is kept if any tag is present, unless they appear in exclude."""
         self.search_tags = set([tag.lower() for tag in tags])
+        excluded_tags = set([tag.lower() for tag in exclude])
         end_date = time.parse(end_date, inclusive=True)
         start_date = time.parse(start_date)
 
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
+        excluded = lambda tags: len([tag for tag in tags if tag in excluded_tags]) > 0
         result = [
             entry for entry in self.entries
             if (not tags or tagged(entry.tags))
             and (not starred or entry.starred)
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
+            and (not exclude or not excluded(entry.tags))
         ]
 
         self.entries = result

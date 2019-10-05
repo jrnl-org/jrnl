@@ -37,7 +37,8 @@ jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
 !!! note
     Most shell contains a certain number of reserved characters, such as `#`
     and `*`. Unbalanced quotes, parenthesis, and so on will also get into
-    the way of your editing. For writing longer entries, just enter `jrnl`
+    the way of your editing.
+    For writing longer entries, just enter `jrnl`
     and hit `return`. Only then enter the text of your journal entry.
     Alternatively, `use an external editor <advanced>`).
 
@@ -75,9 +76,9 @@ The following options are equivalent:
   - `jrnl Best day of my life.*`
 
 !!! note
-   Just make sure that the asterisk sign is **not** surrounded by
-   whitespaces, e.g. `jrnl Best day of my life! *` will **not** work (the
-   reason being that the `*` sign has a special meaning on most shells).
+    Just make sure that the asterisk sign is **not** surrounded by
+    whitespaces, e.g. `jrnl Best day of my life! *` will **not** work (the
+    reason being that the `*` sign has a special meaning on most shells).
 
 ## Viewing
 
@@ -126,9 +127,9 @@ You can change which symbols you'd like to use for tagging in the
 configuration.
 
 !!! note
-   `jrnl @pinkie @WorldDomination` will switch to viewing mode because
-   although **no** command line arguments are given, all the input strings
-   look like tags - *jrnl* will assume you want to filter by tag.
+    `jrnl @pinkie @WorldDomination` will switch to viewing mode because
+    although **no** command line arguments are given, all the input strings
+    look like tags - *jrnl* will assume you want to filter by tag.
 
 ## Editing older entries
 
@@ -157,3 +158,4 @@ jrnl @girlfriend -until 'june 2012' --edit
 ```
 
 Just select all text, press delete, and everything is gone...
+

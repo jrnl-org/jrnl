@@ -15,9 +15,8 @@ And will get something like `@melo: 9`, meaning there are 9 entries
 where both `@alberto` and `@melo` are tagged. How does this work? First,
 `jrnl @alberto` will filter the journal to only entries containing the
 tag `@alberto`, and then the `--tags` option will print out how often
-each tag occurred in this <span class="title-ref">filtered</span>
-journal. Finally, we pipe this to `grep` which will only display the
-line containing `@melo`.
+each tag occurred in this filtered journal. Finally, we pipe this to
+`grep` which will only display the line containing `@melo`.
 
 ### Combining filters
 
@@ -66,17 +65,19 @@ If you do that often, consider creating a function in your `.bashrc` or
 
 ``` sh
 jrnlimport () {
-    echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
+  echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
 }
 ```
 
 ### Using templates
 
 Say you always want to use the same template for creating new entries.
-If you have an `external editor <advanced>` set up, you can use this :
+If you have an [external editor](../advanced) set up, you can use this:
 
-    jrnl < my_template.txt
-    $ jrnl -1 --edit
+```sh
+jrnl < my_template.txt
+jrnl -1 --edit
+```
 
 Another nice solution that allows you to define individual prompts comes
 from [Jacobo de
@@ -142,9 +143,7 @@ you can find the right string to use by inspecting iA Writer's
 `Info.plist` file in your shell:
 
 ``` sh
-$ grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
-    <key>CFBundleIdentifier</key>
-    <string>pro.writer.mac</string>
+grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
 ```
 
 ### Notepad++ on Windows

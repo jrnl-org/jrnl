@@ -11,11 +11,11 @@ clean:
 	rm -f *.html
 
 html:
-	mkdocs serve
+	poetry run mkdocs serve
 
 # Build GitHub Page from docs
 docs:
-	mkdocs gh-deploy
+	poetry run mkdocs gh-deploy
 
 format: ## check style with flake8
 	poetry run black features jrnl
@@ -31,7 +31,7 @@ dist: clean ## builds source and wheel package
 
 release: dist ## package and upload a release
 	poetry publish
-	mkdocs gh-deploy
+	poetry run mkdocs gh-deploy
 
 install: clean ## install the package to the active Python's site-packages
 	poetry install

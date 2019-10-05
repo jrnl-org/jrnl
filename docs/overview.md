@@ -13,7 +13,7 @@ AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
 ## Why keep a journal?
 
-Journals aren't just for angsty teenagers and people who have too much
+Journals aren't just for people who have too much
 time on their summer vacation. A journal helps you to keep track of the
 things you get done and how you did them. Your imagination may be
 limitless, but your memory isn't.
