@@ -65,7 +65,7 @@ def upgrade_config(config):
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions."""
     missing_keys = set(default_config).difference(config)
-    if missing_keys or config['version'] != __version__:
+    if missing_keys:
         for key in missing_keys:
             config[key] = default_config[key]
         save_config(config)
