@@ -8,18 +8,22 @@ install:
   - poetry version
   - poetry install
 script:
- - poetry run python --version
- - poetry run behave
+  - poetry run python --version
+  - poetry run behave
 before_deploy:
   - pip install poetry
   - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
   - poetry version $TRAVIS_TAG
-  - make build
+  - poetry build
 deploy:
-  provider: script
-  script: make release
-  skip_cleanup: true
-  draft: true
-  on:
-    branch: master
-    tags: true
+  - provider: script
+    script: poetry publish
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    on:
+      branch: master
