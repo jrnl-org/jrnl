@@ -12,10 +12,10 @@ before_deploy:
   - pip install poetry
   - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
   - poetry version $TRAVIS_TAG
-  - poetry build
+  - make build
 deploy:
   provider: script
-  script: poetry publish
+  script: make release
   skip_cleanup: true
   draft: true
   on:
