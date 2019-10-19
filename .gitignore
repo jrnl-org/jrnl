@@ -1,0 +1,54 @@
+*.py[cod]
+
+# C extensions
+*.so
+.python-version
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+.python-version
+
+# Installer logs
+pip-log.txt
+.DS_Store
+.travis-solo
+Icon
+
+# Documentation
+_build
+_sources
+_static
+objects.inv
+searchindex.js
+
+# MS Visual Studio (PyTools)
+obj
+*.pyproj
+*.sln
+*.suo
+
+# virtaulenv
+env/
+env*/
+
+# PyCharm Project files
+.idea/
+
+# export testing director
+exp/
+
+_extras/
+*.sublime-*
+site/

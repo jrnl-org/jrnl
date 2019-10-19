@@ -1,0 +1,13 @@
+default_hour: 9
+default_minute: 0
+editor: ''
+encrypt: true
+template: false
+highlight: true
+journals:
+  default: features/journals/encrypted.journal
+linewrap: 80
+password: ''
+tagsymbols: '@'
+timeformat: '%Y-%m-%d %H:%M'
+indent_character: "|"

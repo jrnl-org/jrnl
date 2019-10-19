@@ -1,0 +1,18 @@
+---
+extension: txt
+---
+
+{% block journal %}
+{% for entry in entries %}
+{% include entry %}
+{% endfor %}
+
+{% endblock %}
+
+{% block entry %}
+{{ entry.title }}
+{{ "-" * len(entry.title) }}
+
+{{ entry.body }}
+
+{% endblock %}
