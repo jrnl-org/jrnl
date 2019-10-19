@@ -22,8 +22,3 @@ deploy:
     on:
       branch: master
       tags: true
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    on:
-      branch: master
