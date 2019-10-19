@@ -26,10 +26,10 @@ lint: ## check style with flake8
 test: ## Run behave tests
 	poetry run behave
 
-dist: clean ## builds source and wheel package
+build:
 	poetry build
 
-release: dist ## package and upload a release
+release:
 	poetry publish
 	poetry run mkdocs gh-deploy
 
