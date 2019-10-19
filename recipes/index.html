@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Manuel Ebert">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Recipes - jrnl</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet">
+  <link href="../assets/theme.css" rel="stylesheet">
+  <link href="../assets/highlight.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Recipes";
+    var mkdocs_page_input_path = "recipes.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> jrnl</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../overview/">Overview</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../installation/">Quickstart</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../usage/">Basic Usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../encryption/">Encryption</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../export/">Import and Export</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../advanced/">Advanced Usage</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Recipes</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#faq">FAQ</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#recipes">Recipes</a></li>
+        
+            <li><a class="toctree-l3" href="#external-editors">External editors</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">jrnl</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Recipes</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/jrnl-org/jrnl/edit/master/docs/recipes.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="faq">FAQ</h1>
+<h2 id="recipes">Recipes</h2>
+<h3 id="co-occurrence-of-tags">Co-occurrence of tags</h3>
+<p>If I want to find out how often I mentioned my flatmates Alberto and
+Melo in the same entry, I run</p>
+<pre><code class="sh">jrnl @alberto --tags | grep @melo
+</code></pre>
+
+<p>And will get something like <code>@melo: 9</code>, meaning there are 9 entries
+where both <code>@alberto</code> and <code>@melo</code> are tagged. How does this work? First,
+<code>jrnl @alberto</code> will filter the journal to only entries containing the
+tag <code>@alberto</code>, and then the <code>--tags</code> option will print out how often
+each tag occurred in this filtered journal. Finally, we pipe this to
+<code>grep</code> which will only display the line containing <code>@melo</code>.</p>
+<h3 id="combining-filters">Combining filters</h3>
+<p>You can do things like</p>
+<pre><code class="sh">jrnl @fixed -starred -n 10 -until &quot;jan 2013&quot; --short
+</code></pre>
+
+<p>To get a short summary of the 10 most recent, favourited entries before
+January 1, 2013 that are tagged with <code>@fixed</code>.</p>
+<h3 id="statistics">Statistics</h3>
+<p>How much did I write last year?</p>
+<pre><code class="sh">jrnl -from &quot;jan 1 2013&quot; -until &quot;dec 31 2013&quot; | wc -w
+</code></pre>
+
+<p>Will give you the number of words you wrote in 2013. How long is my
+average entry?</p>
+<pre><code class="sh">expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
+</code></pre>
+
+<p>This will first get the total number of words in the journal and divide
+it by the number of entries (this works because <code>jrnl --short</code> will
+print exactly one line per entry).</p>
+<h3 id="importing-older-files">Importing older files</h3>
+<p>If you want to import a file as an entry to jrnl, you can just do <code>jrnl
+&lt; entry.ext</code>. But what if you want the modification date of the file to
+be the date of the entry in jrnl? Try this</p>
+<pre><code class="sh">echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
+</code></pre>
+
+<p>The first part will format the modification date of <code>entry.txt</code>, and
+then combine it with the contents of the file before piping it to jrnl.
+If you do that often, consider creating a function in your <code>.bashrc</code> or
+<code>.bash_profile</code></p>
+<pre><code class="sh">jrnlimport () {
+  echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
+}
+</code></pre>
+
+<h3 id="using-templates">Using templates</h3>
+<p>Say you always want to use the same template for creating new entries.
+If you have an <a href="../advanced">external editor</a> set up, you can use this:</p>
+<pre><code class="sh">jrnl &lt; my_template.txt
+jrnl -1 --edit
+</code></pre>
+
+<p>Another nice solution that allows you to define individual prompts comes
+from <a href="https://github.com/maebert/jrnl/issues/194#issuecomment-47402869">Jacobo de
+Vera</a>:</p>
+<pre><code class="sh">function log_question()
+{
+   echo $1
+   read
+   jrnl today: ${1}. $REPLY
+}
+log_question 'What did I achieve today?'
+log_question 'What did I make progress with?'
+</code></pre>
+
+<h2 id="external-editors">External editors</h2>
+<p>To use external editors for writing and editing journal entries, set
+them up in your <code>.jrnl_config</code> (see <code>advanced usage &lt;advanced&gt;</code> for
+details). Generally, after writing an entry, you will have to save and
+close the file to save the changes to jrnl.</p>
+<h3 id="sublime-text">Sublime Text</h3>
+<p>To use Sublime Text, install the command line tools for Sublime Text and
+configure your <code>.jrnl_config</code> like this:</p>
+<pre><code class="json">{
+  &quot;editor&quot;: &quot;subl -w&quot;
+}
+</code></pre>
+
+<p>Note the <code>-w</code> flag to make sure jrnl waits for Sublime Text to close the
+file before writing into the journal.</p>
+<h3 id="macvim">MacVim</h3>
+<p>Similar to Sublime Text, MacVim must be started with a flag that tells
+the the process to wait until the file is closed before passing control
+back to journal. In the case of MacVim, this is <code>-f</code>:</p>
+<pre><code class="json">{
+  &quot;editor&quot;: &quot;mvim -f&quot;
+}
+</code></pre>
+
+<h3 id="ia-writer">iA Writer</h3>
+<p>On OS X, you can use the fabulous <a href="http://www.iawriter.com/mac">iA
+Writer</a> to write entries. Configure your
+<code>.jrnl_config</code> like this:</p>
+<pre><code class="json">{
+  &quot;editor&quot;: &quot;open -b pro.writer.mac -Wn&quot;
+}
+</code></pre>
+
+<p>What does this do? <code>open -b ...</code> opens a file using the application
+identified by the bundle identifier (a unique string for every app out
+there). <code>-Wn</code> tells the application to wait until it's closed before
+passing back control, and to use a new instance of the application.</p>
+<p>If the <code>pro.writer.mac</code> bundle identifier is not found on your system,
+you can find the right string to use by inspecting iA Writer's
+<code>Info.plist</code> file in your shell:</p>
+<pre><code class="sh">grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
+</code></pre>
+
+<h3 id="notepad-on-windows">Notepad++ on Windows</h3>
+<p>To set <a href="http://notepad-plus-plus.org/">Notepad++</a> as your editor, edit
+the jrnl config file (<code>.jrnl_config</code>) like this:</p>
+<pre><code class="json">{
+  &quot;editor&quot;: &quot;C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession&quot;,
+}
+</code></pre>
+
+<p>The double backslashes are needed so jrnl can read the file path
+correctly. The <code>-multiInst -nosession</code> options will cause jrnl to open
+its own Notepad++ window.</p>
+<h3 id="visual-studio-code">Visual Studio Code</h3>
+<p>To set <a href="https://code.visualstudio.com">Visual Studo Code</a> as your editor on Linux, edit <code>.jrnl_config</code> like this:</p>
+<pre><code class="json">{
+  &quot;editor&quot;: &quot;/usr/bin/code --wait&quot;,
+}
+</code></pre>
+
+<p>The <code>--wait</code> argument tells VS Code to wait for files to be written out before handing back control to jrnl.</p>
+<p>On MacOS you will need to add VS Code to your PATH. You can do that by adding:</p>
+<pre><code class="sh">export PATH=&quot;\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin&quot;
+</code></pre>
+
+<p>to your <code>.bash_profile</code>, or by running the <strong>Install 'code' command in PATH</strong> command from the command pallet in VS Code.</p>
+<p>Then you can add:</p>
+<pre><code class="javascript">{
+  &quot;editor&quot;: &quot;code --wait&quot;,
+}
+</code></pre>
+
+<p>to <code>.jrnl_config</code>. See also the <a href="https://code.visualstudio.com/docs/setup/mac">Visual Studio Code documentation</a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../advanced/" class="btn btn-neutral" title="Advanced Usage"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../advanced/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

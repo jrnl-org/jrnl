@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Manuel Ebert">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Import and Export - jrnl</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet">
+  <link href="../assets/theme.css" rel="stylesheet">
+  <link href="../assets/highlight.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Import and Export";
+    var mkdocs_page_input_path = "export.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> jrnl</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../overview/">Overview</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../installation/">Quickstart</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../usage/">Basic Usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../encryption/">Encryption</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Import and Export</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#import-and-export">Import and Export</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#tag-export">Tag export</a></li>
+        
+            <li><a class="toctree-l3" href="#list-of-all-entries">List of all entries</a></li>
+        
+            <li><a class="toctree-l3" href="#json-export">JSON export</a></li>
+        
+            <li><a class="toctree-l3" href="#markdown-export">Markdown export</a></li>
+        
+            <li><a class="toctree-l3" href="#text-export">Text export</a></li>
+        
+            <li><a class="toctree-l3" href="#export-to-files">Export to files</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../advanced/">Advanced Usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../recipes/">Recipes</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">jrnl</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Import and Export</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/jrnl-org/jrnl/edit/master/docs/export.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="import-and-export">Import and Export</h1>
+<h2 id="tag-export">Tag export</h2>
+<p>With</p>
+<pre><code class="sh">jrnl --tags
+</code></pre>
+
+<p>you'll get a list of all tags you used in your journal, sorted by most
+frequent. Tags occurring several times in the same entry are only
+counted as one.</p>
+<h2 id="list-of-all-entries">List of all entries</h2>
+<pre><code class="sh">jrnl --short
+</code></pre>
+
+<p>Will only display the date and title of each entry.</p>
+<h2 id="json-export">JSON export</h2>
+<p>Can do</p>
+<pre><code class="sh">jrnl --export json
+</code></pre>
+
+<p>Why not create a <a href="http://timeline.verite.co/">beautiful timeline</a> of
+your journal?</p>
+<h2 id="markdown-export">Markdown export</h2>
+<p>Use</p>
+<pre><code class="sh">jrnl --export markdown
+</code></pre>
+
+<p>Markdown is a simple markup language that is human readable and can be
+used to be rendered to other formats (html, pdf). This README for
+example is formatted in markdown and github makes it look nice.</p>
+<h2 id="text-export">Text export</h2>
+<pre><code class="sh">jrnl --export text
+</code></pre>
+
+<p>Pretty-prints your entire journal.</p>
+<h2 id="export-to-files">Export to files</h2>
+<p>You can specify the output file of your exported journal using the
+<code>-o</code> argument</p>
+<pre><code class="sh">jrnl --export md -o journal.md
+</code></pre>
+
+<p>The above command will generate a file named <code>journal.md</code>. If the<code>-o</code> argument is a directory, jrnl will export each entry into an individual file</p>
+<pre><code class="sh">jrnl --export json -o my_entries/
+</code></pre>
+
+<p>The contents of <code>my\_entries/</code> will then look like this:</p>
+<pre><code class="output">my_entries/
+|- 2013_06_03_a-beautiful-day.json
+|- 2013_06_07_dinner-with-gabriel.json
+|- ...
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../advanced/" class="btn btn-neutral float-right" title="Advanced Usage">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../encryption/" class="btn btn-neutral" title="Encryption"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../encryption/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../advanced/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

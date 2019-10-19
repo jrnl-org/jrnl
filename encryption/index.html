@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Manuel Ebert">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Encryption - jrnl</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet">
+  <link href="../assets/theme.css" rel="stylesheet">
+  <link href="../assets/highlight.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Encryption";
+    var mkdocs_page_input_path = "encryption.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> jrnl</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../overview/">Overview</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../installation/">Quickstart</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../usage/">Basic Usage</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Encryption</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#encryption">Encryption</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#encrypting-and-decrypting">Encrypting and decrypting</a></li>
+        
+            <li><a class="toctree-l3" href="#storing-passwords-in-your-keychain">Storing passwords in your keychain</a></li>
+        
+            <li><a class="toctree-l3" href="#a-note-on-security">A note on security</a></li>
+        
+            <li><a class="toctree-l3" href="#manual-decryption">Manual decryption</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../export/">Import and Export</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../advanced/">Advanced Usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../recipes/">Recipes</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">jrnl</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Encryption</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/jrnl-org/jrnl/edit/master/docs/encryption.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="encryption">Encryption</h1>
+<h2 id="encrypting-and-decrypting">Encrypting and decrypting</h2>
+<p>If you don't choose to encrypt your file when you run
+<code>jrnl</code> for the first time, you can encrypt
+your existing journal file or change its password using</p>
+<pre><code class="sh">jrnl --encrypt
+</code></pre>
+
+<p>If it is already encrypted, you will first be asked for the current
+password. You can then enter a new password and your plain journal will
+replaced by the encrypted file. Conversely,</p>
+<pre><code class="sh">jrnl --decrypt
+</code></pre>
+
+<p>will replace your encrypted journal file by a Journal in plain text. You
+can also specify a filename, ie. <code>jrnl --decrypt plain_text_copy.txt</code>,
+to leave your original file untouched.</p>
+<h2 id="storing-passwords-in-your-keychain">Storing passwords in your keychain</h2>
+<p>Whenever you encrypt your journal, you are asked whether you want to
+store the encryption password in your keychain. If you do this, you
+won't have to enter your password every time you want to write or read
+your journal.</p>
+<p>If you don't initially store the password in the keychain but decide to
+do so at a later point -- or maybe want to store it on one computer but
+not on another -- you can simply run <code>jrnl --encrypt</code> on an encrypted
+journal and use the same password again.</p>
+<h2 id="a-note-on-security">A note on security</h2>
+<p>While jrnl follows best practises, true security is an illusion.
+Specifically, jrnl will leave traces in your memory and your shell
+history -- it's meant to keep journals secure in transit, for example
+when storing it on an
+<a href="http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/">untrusted</a>
+services such as Dropbox. If you're concerned about security, disable
+history logging for journal in your <code>.bashrc</code></p>
+<pre><code class="sh">HISTIGNORE=&quot;$HISTIGNORE:jrnl *&quot;
+</code></pre>
+
+<p>If you are using zsh instead of bash, you can get the same behaviour
+adding this to your <code>zshrc</code></p>
+<pre><code class="sh">setopt HIST_IGNORE_SPACE
+alias jrnl=&quot; jrnl&quot;
+</code></pre>
+
+<h2 id="manual-decryption">Manual decryption</h2>
+<p>Should you ever want to decrypt your journal manually, you can do so
+with any program that supports the AES algorithm in CBC. The key used
+for encryption is the SHA-256-hash of your password, the IV
+(initialisation vector) is stored in the first 16 bytes of the encrypted
+file. The plain text is encoded in UTF-8 and padded according to PKCS#7
+before being encrypted. Here's a Python script that you can use to
+decrypt your journal</p>
+<pre><code class="python">#!/usr/bin/env python3
+
+import argparse
+from Crypto.Cipher import AES
+import getpass
+import hashlib
+import sys
+
+parser = argparse.ArgumentParser()
+parser.add_argument(&quot;filepath&quot;, help=&quot;journal file to decrypt&quot;)
+args = parser.parse_args()
+
+pwd = getpass.getpass()
+key = hashlib.sha256(pwd.encode('utf-8')).digest()
+
+with open(args.filepath, 'rb') as f:
+    ciphertext = f.read()
+
+crypto = AES.new(key, AES.MODE_CBC, ciphertext[:16])
+plain = crypto.decrypt(ciphertext[16:])
+plain = plain.strip(plain[-1:])
+plain = plain.decode(&quot;utf-8&quot;)
+print(plain)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../export/" class="btn btn-neutral float-right" title="Import and Export">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../usage/" class="btn btn-neutral" title="Basic Usage"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../usage/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../export/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
