@@ -13,10 +13,6 @@ clean:
 html:
 	poetry run mkdocs serve
 
-# Build GitHub Page from docs
-docs:
-	poetry run mkdocs gh-deploy
-
 format: ## check style with flake8
 	poetry run black features jrnl
 
@@ -26,12 +22,8 @@ lint: ## check style with flake8
 test: ## Run behave tests
 	poetry run behave
 
-dist: clean ## builds source and wheel package
+build:
 	poetry build
-
-release: dist ## package and upload a release
-	poetry publish
-	poetry run mkdocs gh-deploy
 
 install: clean ## install the package to the active Python's site-packages
 	poetry install
