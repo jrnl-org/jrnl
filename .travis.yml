@@ -4,6 +4,8 @@ python: "3.7"
 before_install:
   - pip install poetry
 install:
+  # we run `poetry version` here to appease poetry about '0.0.0-source'
+  - poetry version
   - poetry install
 script:
  - poetry run python --version
