@@ -347,11 +347,8 @@ def open_journal(name, config, legacy=False):
             from . import DayOneJournal
             return DayOneJournal.DayOne(**config).open()
         else:
-            util.prompt(
-                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal'])
-            )
-
-            sys.exit(1)
+            from . import FolderJournal
+            return FolderJournal.Folder(**config).open()
 
     if not config['encrypt']:
         if legacy:
