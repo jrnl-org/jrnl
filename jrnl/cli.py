@@ -186,7 +186,7 @@ def run(manual_args=None):
         journal_name = 'default'
 
     if journal_name not in config['journals']:
-        util.prompt("No '{}' journal configured.".format(journal_name))
+        util.prompt("No {} journal configured.".format(journal_name))
         util.prompt(list_journals(config))
         sys.exit(1)
 
