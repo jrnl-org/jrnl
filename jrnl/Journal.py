@@ -152,12 +152,12 @@ class Journal(object):
                 for tag in self.search_tags:
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
-                                lambda match: util.colorize(match.group(0)),
+                                lambda match: util.colorize_cyan(match.group(0)),
                                 pp, re.UNICODE)
             else:
                 pp = re.sub(
                     Entry.Entry.tag_regex(self.config['tagsymbols']),
-                    lambda match: util.colorize(match.group(0)),
+                    lambda match: util.colorize_cyan(match.group(0)),
                     pp
                 )
         return pp

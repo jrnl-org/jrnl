@@ -180,9 +180,20 @@ def get_text_from_editor(config, template=""):
     return raw
 
 
-def colorize(string):
+def colorize_cyan(string):
     """Returns the string wrapped in cyan ANSI escape"""
     return u"\033[36m{}\033[39m".format(string)
+
+
+def colorize_red(string):
+    """Returns the string wrapped in red ANSI escape"""
+    return u"\033[91m{}\033[0m".format(string)
+
+
+def bold(string):
+    """Returns the string wrapped in bold ANSI escape. Bug / feature that it
+    also colors the text blue, for some unknown reason."""
+    return u"\033[1m{}\033[0m".format(string)
 
 
 def slugify(string):
