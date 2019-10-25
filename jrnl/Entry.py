@@ -82,7 +82,7 @@ class Entry:
             # Color date red and make sure first line of title is bolded
             title = textwrap.fill(colorize_red(date_str) + " " + bold(self.title), self.journal.config['linewrap'])
             # Make sure all lines after the first are bolded, too
-            title = "".join([bold(part) + "\n" for part in title.split("\n")])
+            title = "".join([bold(part) + "\n" for part in title.split("\n")]).strip()
             body = "\n".join([
                 textwrap.fill(
                     line,
