@@ -119,7 +119,11 @@ class Journal:
         last_entry_pos = 0
         for match in date_blob_re.finditer(journal_txt):
             date_blob = match.groups()[0]
-            new_date = time.parse(date_blob)
+            try:
+                new_date = datetime.strptime(date_blob, self.config["timeformat"])
+            except ValueError:
+                new_date = time.parse(date_blob)
+
             if new_date:
                 if entries:
                     entries[-1].text = journal_txt[last_entry_pos:match.start()]
