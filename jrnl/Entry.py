@@ -3,7 +3,7 @@
 
 from __future__ import unicode_literals
 import re
-import textwrap
+import ansiwrap
 from datetime import datetime
 from .util import split_title, bold, colorize_red
 
@@ -80,11 +80,11 @@ class Entry:
             indent = ""
         if not short and self.journal.config['linewrap']:
             # Color date red and make sure first line of title is bolded
-            title = textwrap.fill(colorize_red(date_str) + " " + bold(self.title), self.journal.config['linewrap'])
+            title = ansiwrap.fill(colorize_red(date_str) + " " + bold(self.title), self.journal.config['linewrap'])
             # Make sure all lines after the first are bolded, too
             title = "".join([bold(part) + "\n" for part in title.split("\n")]).strip()
             body = "\n".join([
-                textwrap.fill(
+                ansiwrap.fill(
                     line,
                     self.journal.config['linewrap'],
                     initial_indent=indent,

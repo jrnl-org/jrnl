@@ -5,8 +5,10 @@ from behave import given, when, then
 from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
 from dateutil import parser as date_parser
+from ansiwrap import strip_color
 from collections import defaultdict
 import os
+import re
 import json
 import yaml
 import keyring
@@ -170,7 +172,7 @@ def check_json_output_path(context, path, value):
 @then('the output should be "{text}"')
 def check_output(context, text=None):
     text = (text or context.text).strip().splitlines()
-    out = context.stdout_capture.getvalue().strip().splitlines()
+    out = strip_color(context.stdout_capture.getvalue().strip()).splitlines()
     assert len(text) == len(out), "Output has {} lines (expected: {})".format(len(out), len(text))
     for line_text, line_out in zip(text, out):
         assert line_text.strip() == line_out.strip(), [line_text.strip(), line_out.strip()]
@@ -178,7 +180,7 @@ def check_output(context, text=None):
 
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
-    out = context.stdout_capture.getvalue()
+    out = strip_color(context.stdout_capture.getvalue())
     local_tz = tzlocal.get_localzone()
     utc_time = date_parser.parse(text)
     local_date = utc_time.astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
@@ -189,7 +191,7 @@ def check_output_time_inline(context, text):
 @then('the output should contain "{text}"')
 def check_output_inline(context, text=None):
     text = text or context.text
-    out = context.stdout_capture.getvalue()
+    out = strip_color(context.stdout_capture.getvalue())
     if isinstance(out, bytes):
         out = out.decode('utf-8')
     assert text in out, text
