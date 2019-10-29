@@ -7,6 +7,7 @@ try:
 except ImportError:
     from cStringIO import StringIO
 
+
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     context.messages = StringIO()
@@ -19,7 +20,6 @@ def before_scenario(context, scenario):
         if os.path.exists(working_dir):
             shutil.rmtree(working_dir)
 
-
     for folder in ("configs", "journals"):
         original = os.path.join("features", "data", folder)
         working_dir = os.path.join("features", folder)
@@ -31,6 +31,7 @@ def before_scenario(context, scenario):
                 shutil.copytree(source, os.path.join(working_dir, filename))
             else:
                 shutil.copy2(source, working_dir)
+
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
