@@ -217,3 +217,12 @@ def split_title(text):
     if not punkt:
         return text, ""
     return text[:punkt.end()].strip(), text[punkt.end():].strip()
+
+
+def pretty_print_entries(entries):
+    """Similar to Entry.pprint(short=True), except this function takes a
+    list of strings representing Entry objects instead of the actual objects
+    :param entries: List of strings in format of "DATE TITLE" """
+    for entry in entries:
+        print("->", entry)
+    print("")

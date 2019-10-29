@@ -63,3 +63,10 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
     if dt.days < -28 and not year_present:
         date = date.replace(date.year - 1)
     return date
+
+
+def from_same_minute(time1: datetime, time2: datetime) -> bool:
+    """Compares two datetimes, disregarding the seconds. Returns true if the
+    two datetimes are on the same day, during the same hour and minute."""
+    delta = abs(time1 - time2)
+    return delta.days == 0 and delta.seconds <= 60 and time1.min == time2.min

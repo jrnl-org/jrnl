@@ -13,11 +13,15 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
+from . import time
 from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 import jrnl
 import argparse
 import sys
 import logging
+import inquirer
+from pprint import pprint
+from inquirer.themes import GreenPassion
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
@@ -51,6 +55,7 @@ def parse_args(args=None):
     exporting.add_argument('--encrypt', metavar='FILENAME', dest='encrypt', help='Encrypts your existing journal with a new password', nargs='?', default=False, const=None)
     exporting.add_argument('--decrypt', metavar='FILENAME', dest='decrypt', help='Decrypts your journal and stores it in plain text', nargs='?', default=False, const=None)
     exporting.add_argument('--edit', dest='edit', help='Opens your editor to edit the selected entries.', action="store_true")
+    exporting.add_argument('--delete', dest='delete', action="store_true", help='Opens an interactive interface for deleting entries.')
 
     return parser.parse_args(args)
 
@@ -64,7 +69,7 @@ def guess_mode(args, config):
         compose = False
         export = False
         import_ = True
-    elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit)):
+    elif args.decrypt is not False or args.encrypt is not False or args.export is not False or any((args.short, args.tags, args.edit, args.delete)):
         compose = False
         export = True
     elif any((args.start_date, args.end_date, args.on_date, args.limit, args.strict, args.starred)):
@@ -293,4 +298,35 @@ def run(manual_args=None):
             util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
         journal.entries += other_entries
         journal.sort()
+        journal.write()
+
+    elif args.delete:
+        # Display all journal entry titles in a list and let user select one or more of them
+        questions = [
+            inquirer.Checkbox('entries_to_delete',
+                              message="Which entries would you like to delete? (Use arrow keys to select, Enter to confirm)",
+                              choices=journal.pprint(short=True).split("\n"),
+                              ),
+        ]
+        raw_entries_to_delete = inquirer.prompt(questions, theme=GreenPassion())["entries_to_delete"]
+
+        # Confirm deletion
+        util.pretty_print_entries(raw_entries_to_delete)
+
+        confirmation = "Are you sure you'd like to delete "
+        if len(raw_entries_to_delete) == 0:
+            return
+        elif len(raw_entries_to_delete) == 1:
+            confirmation += "this entry?"
+        else:
+            confirmation += "these entries?"
+
+        if not util.yesno(confirmation):
+            return
+
+        # Actually delete them
+        # The best we can do seems to be matching time stamps and title
+        entries_to_delete = [(time.parse(" ".join(entry.split()[:2])), " ".join(entry.split()[2:]))
+                             for entry in raw_entries_to_delete]
+        journal.remove_entries_by_title_and_time(entries_to_delete)
         journal.write()

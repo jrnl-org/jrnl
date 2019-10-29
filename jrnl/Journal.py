@@ -44,6 +44,7 @@ class Journal(object):
         # Set up date parser
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
+        self.entries = []
 
     def __len__(self):
         """Returns the number of entries"""
@@ -219,12 +220,31 @@ class Journal(object):
 
         self.entries = result
 
+    def remove_entries_by_title_and_time(self, entries_for_removal: list):
+        """
+        Removes entries from the journal based on their titles and time. Times will
+        be datetime objects, however, they'll have the seconds stripped from them.
+        :param entries_for_removal: List of tuples in format of [(date, title), ... ]
+        """
+        # Removal algorithm optimized using the fact that all entries for removal are in sorted
+        #       order and the entries in the journal are also in sorted order.
+        cleaned_entries = []
+        entries_for_removal_idx = 0
+        for entry in self.entries:
+            if entries_for_removal_idx < len(entries_for_removal) and \
+                    time.from_same_minute(entry.date, entries_for_removal[entries_for_removal_idx][0]) and \
+                    entry.title == entries_for_removal[entries_for_removal_idx][1]:
+                entries_for_removal_idx += 1
+            else:
+                cleaned_entries.append(entry)
+
+        self.entries = cleaned_entries
+
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
-        starred = False
         # Split raw text into title and body
         sep = re.search("\n|[\?!.]+ +\n?", raw)
         first_line = raw[:sep.end()].strip() if sep else raw
