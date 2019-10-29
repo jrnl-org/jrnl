@@ -18,6 +18,7 @@ import codecs
 import unicodedata
 import shlex
 import logging
+from PyInquirer import prompt as selection_prompt
 
 log = logging.getLogger(__name__)
 
@@ -226,3 +227,20 @@ def pretty_print_entries(entries):
     for entry in entries:
         print("->", entry)
     print("")
+
+
+def prompt_checklist(name, choices, message):
+    formatted_choices = []
+    for choice in choices:
+        formatted_choices.append({"name": choice})
+
+    questions = [
+        {
+            'type'    : 'checkbox',
+            'qmark'   : '?',
+            'message' : message,
+            'name'    : name,
+            'choices' : formatted_choices
+        }
+    ]
+    return selection_prompt(questions)[name]

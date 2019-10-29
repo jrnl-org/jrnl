@@ -19,9 +19,6 @@ import jrnl
 import argparse
 import sys
 import logging
-import inquirer
-from pprint import pprint
-from inquirer.themes import GreenPassion
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
@@ -302,13 +299,12 @@ def run(manual_args=None):
 
     elif args.delete:
         # Display all journal entry titles in a list and let user select one or more of them
-        questions = [
-            inquirer.Checkbox('entries_to_delete',
-                              message="Which entries would you like to delete? (Use arrow keys to select, Enter to confirm)",
-                              choices=journal.pprint(short=True).split("\n"),
-                              ),
-        ]
-        raw_entries_to_delete = inquirer.prompt(questions, theme=GreenPassion())["entries_to_delete"]
+        entries = journal.pprint(short=True).split("\n")
+        raw_entries_to_delete = util.prompt_checklist(
+            name="entries_to_delete",
+            choices=entries,
+            message="Which entries would you like to delete? (Use arrow keys to select, Enter to confirm)"
+        )
 
         # Confirm deletion
         util.pretty_print_entries(raw_entries_to_delete)
