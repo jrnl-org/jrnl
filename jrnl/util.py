@@ -80,7 +80,10 @@ def get_password(validator, keychain=None, max_attempts=3):
 
 def get_keychain(journal_name):
     import keyring
-    return keyring.get_password('jrnl', journal_name)
+    try:
+        return keyring.get_password('jrnl', journal_name)
+    except RuntimeError:
+        return ""
 
 
 def set_keychain(journal_name, password):
@@ -88,7 +91,7 @@ def set_keychain(journal_name, password):
     if password is None:
         try:
             keyring.delete_password('jrnl', journal_name)
-        except:
+        except RuntimeError:
             pass
     elif not TEST:
         keyring.set_password('jrnl', journal_name, password)
