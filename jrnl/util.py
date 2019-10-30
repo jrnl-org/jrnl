@@ -39,12 +39,18 @@ class UserAbort(Exception):
     pass
 
 
-getpass = gp.getpass
+def create_password():
+    while True:
+        pw = gp.getpass("Enter password for new journal: ")
+        if pw == gp.getpass("Enter password again: "):
+            return pw
+
+        gp.getpass("Passwords did not match, please try again")
 
 
 def get_password(validator, keychain=None, max_attempts=3):
     pwd_from_keychain = keychain and get_keychain(keychain)
-    password = pwd_from_keychain or getpass()
+    password = pwd_from_keychain or gp.getpass()
     result = validator(password)
     # Password is bad:
     if result is None and pwd_from_keychain:
@@ -52,7 +58,7 @@ def get_password(validator, keychain=None, max_attempts=3):
     attempt = 1
     while result is None and attempt < max_attempts:
         print("Wrong password, try again.", file=sys.stderr)
-        password = getpass()
+        password = gp.getpass()
         result = validator(password)
         attempt += 1
     if result is not None:

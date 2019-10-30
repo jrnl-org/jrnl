@@ -69,7 +69,7 @@ def upgrade_config(config):
         for key in missing_keys:
             config[key] = default_config[key]
         save_config(config)
-        print("[Configuration updated to newest version at {}]".format(CONFIG_FILE_PATH))
+        print("[Configuration updated to newest version at {}]".format(CONFIG_FILE_PATH), file=sys.stderr)
 
 
 def save_config(config):
@@ -139,7 +139,7 @@ def install():
         else:
             util.set_keychain("default", None)
         EncryptedJournal._create(default_config['journals']['default'], password)
-        print("Journal will be encrypted.")
+        print("Journal will be encrypted.", file=sys.stderr)
     else:
         PlainJournal._create(default_config['journals']['default'])
 

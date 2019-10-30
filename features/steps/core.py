@@ -28,7 +28,7 @@ class TestKeyring(keyring.backend.KeyringBackend):
     def get_password(self, servicename, username):
         return self.keys[servicename].get(username)
 
-    def delete_password(self, servicename, username, password):
+    def delete_password(self, servicename, username):
         self.keys[servicename][username] = None
 
 
@@ -93,7 +93,7 @@ def run_with_input(context, command, inputs1="", inputs2=""):
     text = iter((inputs1, inputs2)) if inputs1 else iter(context.text.split("\n"))
     args = ushlex(command)[1:]
     with patch("builtins.input", side_effect=_mock_input(text)) as mock_input:
-        with patch("jrnl.util.getpass", side_effect=_mock_getpass(text)) as mock_getpass:
+        with patch("jrnl.util.gp.getpass", side_effect=_mock_getpass(text)) as mock_getpass:
             with patch("sys.stdin.read", side_effect=text) as mock_read:
                 try:
                     cli.run(args or [])

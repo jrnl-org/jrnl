@@ -79,7 +79,7 @@ def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
     from . import EncryptedJournal
 
-    journal.config['password'] = util.getpass("Enter new password: ")
+    journal.config['password'] = util.create_password()
     journal.config['encrypt'] = True
 
     new_journal = EncryptedJournal.EncryptedJournal(None, **journal.config)
@@ -89,7 +89,7 @@ def encrypt(journal, filename=None):
     if util.yesno("Do you want to store the password in your keychain?", default=True):
         util.set_keychain(journal.name, journal.config['password'])
 
-    print("Journal encrypted to {0}.".format(filename or new_journal.config['journal']))
+    print("Journal encrypted to {0}.".format(filename or new_journal.config['journal']), file=sys.stderr)
 
 
 def decrypt(journal, filename=None):
@@ -100,7 +100,7 @@ def decrypt(journal, filename=None):
     new_journal = Journal.PlainJournal(filename, **journal.config)
     new_journal.entries = journal.entries
     new_journal.write(filename)
-    print("Journal decrypted to {0}.".format(filename or new_journal.config['journal']))
+    print("Journal decrypted to {0}.".format(filename or new_journal.config['journal']), file=sys.stderr)
 
 
 def list_journals(config):
@@ -199,7 +199,7 @@ def run(manual_args=None):
             raw = util.get_text_from_editor(config, template)
         else:
             try:
-                print("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+                print("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n", file=sys.stderr)
                 raw = sys.stdin.read()
             except KeyboardInterrupt:
                 print("[Entry NOT saved to journal.]", file=sys.stderr)

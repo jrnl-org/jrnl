@@ -38,7 +38,7 @@ class EncryptedJournal(Journal.Journal):
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
-            password = util.getpass("Enter password for new journal: ")
+            password = util.create_password()
             if password:
                 if util.yesno("Do you want to store the password in your keychain?", default=True):
                     util.set_keychain(self.name, password)

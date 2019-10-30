@@ -111,10 +111,10 @@ older versions of jrnl anymore.
     for j in all_journals:
         j.write()
 
-    print("\nUpgrading config...")
+    print("\nUpgrading config...", file=sys.stderr)
     backup(config_path)
 
-    print("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path))
+    print("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path), file=sys.stderr)
 
 class UpgradeValidationException(Exception):
     """Raised when the contents of an upgraded journal do not match the old journal"""

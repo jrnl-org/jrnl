@@ -71,7 +71,7 @@ class Journal:
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
-            print("[Journal '{0}' created at {1}]".format(self.name, filename))
+            print("[Journal '{0}' created at {1}]".format(self.name, filename), file=sys.stderr)
             self._create(filename)
 
         text = self._load(filename)
