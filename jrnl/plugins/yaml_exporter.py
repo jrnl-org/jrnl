@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import os
 import re
@@ -27,7 +26,7 @@ class YAMLExporter(TextExporter):
 
         tagsymbols = entry.journal.config['tagsymbols']
         # see also Entry.Entry.rag_regex
-        multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols), re.UNICODE)
+        multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols))
 
         '''Increase heading levels in body text'''
         newbody = ''

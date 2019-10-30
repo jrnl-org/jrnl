@@ -7,8 +7,6 @@
     license: MIT, see LICENSE for more details.
 """
 
-from __future__ import unicode_literals
-from __future__ import absolute_import
 from . import Journal
 from . import util
 from . import install
@@ -91,7 +89,7 @@ def encrypt(journal, filename=None):
     if util.yesno("Do you want to store the password in your keychain?", default=True):
         util.set_keychain(journal.name, journal.config['password'])
 
-    util.prompt("Journal encrypted to {0}.".format(filename or new_journal.config['journal']))
+    print("Journal encrypted to {0}.".format(filename or new_journal.config['journal']))
 
 
 def decrypt(journal, filename=None):
@@ -102,7 +100,7 @@ def decrypt(journal, filename=None):
     new_journal = Journal.PlainJournal(filename, **journal.config)
     new_journal.entries = journal.entries
     new_journal.write(filename)
-    util.prompt("Journal decrypted to {0}.".format(filename or new_journal.config['journal']))
+    print("Journal decrypted to {0}.".format(filename or new_journal.config['journal']))
 
 
 def list_journals(config):
@@ -138,20 +136,19 @@ def configure_logger(debug=False):
 def run(manual_args=None):
     args = parse_args(manual_args)
     configure_logger(args.debug)
-    args.text = [p.decode('utf-8') if util.PY2 and not isinstance(p, unicode) else p for p in args.text]
     if args.version:
         version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
-        print(util.py2encode(version_str))
+        print(version_str)
         sys.exit(0)
 
     try:
         config = install.load_or_install_jrnl()
     except UserAbort as err:
-        util.prompt("\n{}".format(err))
+        print("\n{}".format(err), file=sys.stderr)
         sys.exit(1)
 
     if args.ls:
-        util.prnt(list_journals(config))
+        print(list_journals(config))
         sys.exit(0)
 
     log.debug('Using configuration "%s"', config)
@@ -164,8 +161,8 @@ def run(manual_args=None):
     if journal_name is not 'default':
         args.text = args.text[1:]
     elif "default" not in config['journals']:
-        util.prompt("No default journal configured.")
-        util.prompt(list_journals(config))
+        print("No default journal configured.", file=sys.stderr)
+        print(list_journals(config), file=sys.stderr)
         sys.exit(1)
 
     config = util.scope_config(config, journal_name)
@@ -175,12 +172,12 @@ def run(manual_args=None):
         try:
             args.limit = int(args.text[0].lstrip("-"))
             args.text = args.text[1:]
-        except:
+        except ValueError:
             pass
 
     log.debug('Using journal "%s"', journal_name)
     mode_compose, mode_export, mode_import = guess_mode(args, config)
-
+    
     # How to quit writing?
     if "win32" in sys.platform:
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
@@ -190,21 +187,22 @@ def run(manual_args=None):
     if mode_compose and not args.text:
         if not sys.stdin.isatty():
             # Piping data into jrnl
-            raw = util.py23_read()
+            raw = sys.stdin.read()
         elif config['editor']:
             template = ""
             if config['template']:
                 try:
                     template = open(config['template']).read()
-                except:
-                    util.prompt("[Could not read template at '']".format(config['template']))
+                except IOError:
+                    print("[Could not read template at '']".format(config['template']), file=sys.stderr)
                     sys.exit(1)
             raw = util.get_text_from_editor(config, template)
         else:
             try:
-                raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+                print("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
+                raw = sys.stdin.read()
             except KeyboardInterrupt:
-                util.prompt("[Entry NOT saved to journal.]")
+                print("[Entry NOT saved to journal.]", file=sys.stderr)
                 sys.exit(0)
         if raw:
             args.text = [raw]
@@ -215,7 +213,7 @@ def run(manual_args=None):
     try:
         journal = Journal.open_journal(journal_name, config)
     except KeyboardInterrupt:
-        util.prompt("[Interrupted while opening journal]".format(journal_name))
+        print("[Interrupted while opening journal]".format(journal_name), file=sys.stderr)
         sys.exit(1)
 
     # Import mode
@@ -225,11 +223,9 @@ def run(manual_args=None):
     # Writing mode
     elif mode_compose:
         raw = " ".join(args.text).strip()
-        if util.PY2 and type(raw) is not unicode:
-            raw = raw.decode(sys.getfilesystemencoding())
         log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
         journal.new_entry(raw)
-        util.prompt("[Entry added to {0} journal]".format(journal_name))
+        print("[Entry added to {0} journal]".format(journal_name), file=sys.stderr)
         journal.write()
 
     if not mode_compose:
@@ -246,14 +242,14 @@ def run(manual_args=None):
 
     # Reading mode
     if not mode_compose and not mode_export and not mode_import:
-        print(util.py2encode(journal.pprint()))
+        print(journal.pprint())
 
     # Various export modes
     elif args.short:
-        print(util.py2encode(journal.pprint(short=True)))
+        print(journal.pprint(short=True))
 
     elif args.tags:
-        print(util.py2encode(plugins.get_exporter("tags").export(journal)))
+        print(plugins.get_exporter("tags").export(journal))
 
     elif args.export is not False:
         exporter = plugins.get_exporter(args.export)
@@ -275,7 +271,8 @@ def run(manual_args=None):
 
     elif args.edit:
         if not config['editor']:
-            util.prompt("[{1}ERROR{2}: You need to specify an editor in {0} to use the --edit function.]".format(install.CONFIG_FILE_PATH, ERROR_COLOR, RESET_COLOR))
+            print("[{1}ERROR{2}: You need to specify an editor in {0} to use the --edit function.]"
+                  .format(install.CONFIG_FILE_PATH, ERROR_COLOR, RESET_COLOR), file=sys.stderr)
             sys.exit(1)
         other_entries = [e for e in old_entries if e not in journal.entries]
         # Edit
@@ -290,7 +287,7 @@ def run(manual_args=None):
         if num_edited:
             prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
         if prompts:
-            util.prompt("[{0}]".format(", ".join(prompts).capitalize()))
+            print("[{0}]".format(", ".join(prompts).capitalize()), file=sys.stderr)
         journal.entries += other_entries
         journal.sort()
         journal.write()

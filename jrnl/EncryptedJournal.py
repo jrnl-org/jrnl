@@ -8,14 +8,13 @@ from cryptography.hazmat.backends import default_backend
 import sys
 import os
 import base64
-import getpass
 import logging
 
 log = logging.getLogger()
 
 
 def make_key(password):
-    password = util.bytes(password)
+    password = password.encode("utf-8")
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
@@ -48,9 +47,9 @@ class EncryptedJournal(Journal.Journal):
                 self.config['password'] = password
                 text = ""
                 self._store(filename, text)
-                util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+                print("[Journal '{0}' created at {1}]".format(self.name, filename), file=sys.stderr)
             else:
-                util.prompt("No password supplied for encrypted journal")
+                print("No password supplied for encrypted journal", file=sys.stderr)
                 sys.exit(1)
         else:
             text = self._load(filename)
@@ -58,7 +57,6 @@ class EncryptedJournal(Journal.Journal):
         self.sort()
         log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
-
 
     def _load(self, filename, password=None):
         """Loads an encrypted journal from a file and tries to decrypt it.

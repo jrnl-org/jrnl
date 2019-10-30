@@ -1,26 +1,25 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
 import codecs
-from ..util import u, slugify
+from ..util import slugify
 import os
 from ..util import ERROR_COLOR, RESET_COLOR
 
 
-class TextExporter(object):
+class TextExporter:
     """This Exporter can convert entries and journals into text files."""
     names = ["text", "txt"]
     extension = "txt"
 
     @classmethod
     def export_entry(cls, entry):
-        """Returns a unicode representation of a single entry."""
-        return entry.__unicode__()
+        """Returns a string representation of a single entry."""
+        return str(entry)
 
     @classmethod
     def export_journal(cls, journal):
-        """Returns a unicode representation of an entire journal."""
+        """Returns a string representation of an entire journal."""
         return "\n".join(cls.export_entry(entry) for entry in journal)
 
     @classmethod
@@ -35,7 +34,7 @@ class TextExporter(object):
 
     @classmethod
     def make_filename(cls, entry):
-        return entry.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(entry.title)), cls.extension))
+        return entry.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(str(entry.title)), cls.extension))
 
     @classmethod
     def write_files(cls, journal, path):
@@ -53,7 +52,7 @@ class TextExporter(object):
     def export(cls, journal, output=None):
         """Exports to individual files if output is an existing path, or into
         a single file if output is a file name, or returns the exporter's
-        representation as unicode if output is None."""
+        representation as string if output is None."""
         if output and os.path.isdir(output):  # multiple files
             return cls.write_files(journal, output)
         elif output:                          # single file

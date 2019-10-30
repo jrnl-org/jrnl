@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+import sys
 
 from . import __version__
 from . import Journal
@@ -10,7 +10,7 @@ import codecs
 
 
 def backup(filename, binary=False):
-    util.prompt("  Created a backup at {}.backup".format(filename))
+    print("  Created a backup at {}.backup".format(filename), file=sys.stderr)
     filename = os.path.expanduser(os.path.expandvars(filename))
     with open(filename, 'rb' if binary else 'r') as original:
         contents = original.read()
@@ -26,7 +26,7 @@ def upgrade_jrnl_if_necessary(config_path):
 
     config = util.load_config(config_path)
 
-    util.prompt("""Welcome to jrnl {}.
+    print("""Welcome to jrnl {}.
 
 It looks like you've been using an older version of jrnl until now. That's
 okay - jrnl will now upgrade your configuration and journal files. Afterwards
@@ -63,19 +63,19 @@ older versions of jrnl anymore.
 
     longest_journal_name = max([len(journal) for journal in config['journals']])
     if encrypted_journals:
-        util.prompt("\nFollowing encrypted journals will be upgraded to jrnl {}:".format(__version__))
+        print("\nFollowing encrypted journals will be upgraded to jrnl {}:".format(__version__), file=sys.stderr)
         for journal, path in encrypted_journals.items():
-            util.prompt("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name))
+            print("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name), file=sys.stderr)
 
     if plain_journals:
-        util.prompt("\nFollowing plain text journals will upgraded to jrnl {}:".format(__version__))
+        print("\nFollowing plain text journals will upgraded to jrnl {}:".format(__version__), file=sys.stderr)
         for journal, path in plain_journals.items():
-            util.prompt("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name))
+            print("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name), file=sys.stderr)
 
     if other_journals:
-        util.prompt("\nFollowing journals will be not be touched:")
+        print("\nFollowing journals will be not be touched:", file=sys.stderr)
         for journal, path in other_journals.items():
-            util.prompt("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name))
+            print("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name), file=sys.stderr)
 
     try:
         cont = util.yesno("\nContinue upgrading jrnl?", default=False)
@@ -85,13 +85,13 @@ older versions of jrnl anymore.
         raise UserAbort("jrnl NOT upgraded, exiting.")
 
     for journal_name, path in encrypted_journals.items():
-        util.prompt("\nUpgrading encrypted '{}' journal stored in {}...".format(journal_name, path))
+        print("\nUpgrading encrypted '{}' journal stored in {}...".format(journal_name, path), file=sys.stderr)
         backup(path, binary=True)
         old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
         all_journals.append(EncryptedJournal.from_journal(old_journal))
 
     for journal_name, path in plain_journals.items():
-        util.prompt("\nUpgrading plain text '{}' journal stored in {}...".format(journal_name, path))
+        print("\nUpgrading plain text '{}' journal stored in {}...".format(journal_name, path), file=sys.stderr)
         backup(path)
         old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
         all_journals.append(Journal.PlainJournal.from_journal(old_journal))
@@ -100,8 +100,9 @@ older versions of jrnl anymore.
     failed_journals = [j for j in all_journals if not j.validate_parsing()]
 
     if len(failed_journals) > 0:
-        util.prompt("\nThe following journal{} failed to upgrade:\n{}".format(
-            's' if len(failed_journals) > 1 else '', "\n".join(j.name for j in failed_journals))
+        print("\nThe following journal{} failed to upgrade:\n{}".format(
+            's' if len(failed_journals) > 1 else '', "\n".join(j.name for j in failed_journals)),
+            file=sys.stderr
         )
 
         raise UpgradeValidationException
@@ -110,10 +111,10 @@ older versions of jrnl anymore.
     for j in all_journals:
         j.write()
 
-    util.prompt("\nUpgrading config...")
+    print("\nUpgrading config...")
     backup(config_path)
 
-    util.prompt("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path))
+    print("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path))
 
 class UpgradeValidationException(Exception):
     """Raised when the contents of an upgraded journal do not match the old journal"""

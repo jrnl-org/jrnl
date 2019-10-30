@@ -91,10 +91,10 @@ def load_or_install_jrnl():
         try:
             upgrade.upgrade_jrnl_if_necessary(config_path)
         except upgrade.UpgradeValidationException:
-            util.prompt("Aborting upgrade.")
-            util.prompt("Please tell us about this problem at the following URL:")
-            util.prompt("https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException")
-            util.prompt("Exiting.")
+            print("Aborting upgrade.", file=sys.stderr)
+            print("Please tell us about this problem at the following URL:", file=sys.stderr)
+            print("https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException", file=sys.stderr)
+            print("Exiting.", file=sys.stderr)
             sys.exit(1)
 
         upgrade_config(config)
@@ -121,7 +121,7 @@ def install():
 
     # Where to create the journal?
     path_query = 'Path to your journal file (leave blank for {}): '.format(JOURNAL_FILE_PATH)
-    journal_path = util.py23_input(path_query).strip() or JOURNAL_FILE_PATH
+    journal_path = input(path_query).strip() or JOURNAL_FILE_PATH
     default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
 
     path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
