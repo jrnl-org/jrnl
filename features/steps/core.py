@@ -26,7 +26,7 @@ class TestKeyring(keyring.backend.KeyringBackend):
     def get_password(self, servicename, username):
         return self.keys[servicename].get(username)
 
-    def delete_password(self, servicename, username, password):
+    def delete_password(self, servicename, username):
         self.keys[servicename][username] = None
 
 
@@ -102,29 +102,33 @@ def _mock_input(inputs):
 
 @when('we run "{command}" and enter')
 @when('we run "{command}" and enter ""')
-@when('we run "{command}" and enter "{inputs1}"')
-@when('we run "{command}" and enter "{inputs1}" and "{inputs2}"')
-def run_with_input(context, command, inputs1="", inputs2=""):
+@when('we run "{command}" and enter "{inputs}"')
+def run_with_input(context, command, inputs=""):
     # create an iterator through all inputs. These inputs will be fed one by one
     # to the mocked calls for 'input()', 'util.getpass()' and 'sys.stdin.read()'
-    if inputs1:
-        text = iter((inputs1, inputs2))
-    elif context.text:
+    if context.text:
         text = iter(context.text.split("\n"))
     else:
-        text = iter(("", ""))
+        text = iter([inputs])
+
     args = ushlex(command)[1:]
-    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input:
-        with patch("jrnl.util.getpass", side_effect=_mock_getpass(text)) as mock_getpass:
-            with patch("sys.stdin.read", side_effect=text) as mock_read:
+    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input,\
+         patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass,\
+         patch("sys.stdin.read", side_effect=text) as mock_read:
                 try:
                     cli.run(args or [])
                     context.exit_status = 0
                 except SystemExit as e:
                     context.exit_status = e.code
 
-                # assert at least one of the mocked input methods got called
+                # at least one of the mocked input methods got called
                 assert mock_input.called or mock_getpass.called or mock_read.called
+                # all inputs were used
+                try:
+                    next(text)
+                    assert False, "Not all inputs were consumed"
+                except StopIteration:
+                    pass
 
 
 
