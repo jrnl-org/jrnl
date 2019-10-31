@@ -42,5 +42,10 @@ Feature: Multiple journals
 
    Scenario: Don't crash if no file exists for a configured encrypted journal
         Given we use the config "multiple.yaml"
-        When we run "jrnl new_encrypted Adding first entry" and enter "these three eyes" and "y"
+        When we run "jrnl new_encrypted Adding first entry" and enter
+        """
+        these three eyes
+        these three eyes
+        n
+        """
 	Then we should see the message "Journal 'new_encrypted' created"
