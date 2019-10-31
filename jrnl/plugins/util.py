@@ -10,7 +10,7 @@ def get_tags_count(journal):
             for entry in journal.entries
             for tag in set(entry.tags)]
     # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
-    tag_counts = set([(tags.count(tag), tag) for tag in tags])
+    tag_counts = {(tags.count(tag), tag) for tag in tags}
     return tag_counts
 
 

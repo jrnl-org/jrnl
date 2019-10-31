@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import Journal
 from . import time as jrnl_time
@@ -26,7 +24,7 @@ class DayOne(Journal.Journal):
     def __init__(self, **kwargs):
         self.entries = []
         self._deleted_entries = []
-        super(DayOne, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def open(self):
         filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
@@ -83,7 +81,7 @@ class DayOne(Journal.Journal):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return "\n".join(["# {0}\n{1}".format(e.uuid, e.__unicode__()) for e in self.entries])
+        return "\n".join([f"# {e.uuid}\n{str(e)}" for e in self.entries])
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates its entries."""
@@ -107,7 +105,7 @@ class DayOne(Journal.Journal):
                 current_entry.modified = False
                 current_entry.uuid = m.group(1).lower()
             else:
-                date_blob_re = re.compile("^\[[^\\]]+\] ")
+                date_blob_re = re.compile("^\\[[^\\]]+\\] ")
                 date_blob = date_blob_re.findall(line)
                 if date_blob:
                     date_blob = date_blob[0]

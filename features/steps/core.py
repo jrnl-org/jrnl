@@ -1,5 +1,4 @@
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from unittest.mock import patch
 
 from behave import given, when, then
 from jrnl import cli, install, Journal, util, plugins
@@ -10,10 +9,13 @@ import os
 import json
 import yaml
 import keyring
+import tzlocal
+import shlex
+import sys
 
 
 class TestKeyring(keyring.backend.KeyringBackend):
-    """A test keyring that just stores its valies in a hash"""
+    """A test keyring that just stores its values in a hash"""
 
     priority = 1
     keys = defaultdict(dict)
@@ -29,15 +31,6 @@ class TestKeyring(keyring.backend.KeyringBackend):
 
 # set the keyring for keyring lib
 keyring.set_keyring(TestKeyring())
-
-
-try:
-    from io import StringIO
-except ImportError:
-    from cStringIO import StringIO
-import tzlocal
-import shlex
-import sys
 
 
 def ushlex(command):
@@ -73,18 +66,41 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
+def _mock_getpass(inputs):
+    def prompt_return(prompt="Password: "):
+        print(prompt)
+        return next(inputs)
+    return prompt_return
+
+
+def _mock_input(inputs):
+    def prompt_return(prompt=""):
+        val = next(inputs)
+        print(prompt, val)
+        return val
+    return prompt_return
+
+
 @when('we run "{command}" and enter')
-@when('we run "{command}" and enter "{inputs}"')
-def run_with_input(context, command, inputs=None):
-    text = inputs or context.text
+@when('we run "{command}" and enter "{inputs1}"')
+@when('we run "{command}" and enter "{inputs1}" and "{inputs2}"')
+def run_with_input(context, command, inputs1="", inputs2=""):
+    # create an iterator through all inputs. These inputs will be fed one by one
+    # to the mocked calls for 'input()', 'util.getpass()' and 'sys.stdin.read()'
+    text = iter((inputs1, inputs2)) if inputs1 else iter(context.text.split("\n"))
     args = ushlex(command)[1:]
-    buffer = StringIO(text.strip())
-    util.STDIN = buffer
-    try:
-        cli.run(args or [])
-        context.exit_status = 0
-    except SystemExit as e:
-        context.exit_status = e.code
+    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input:
+        with patch("jrnl.util.getpass", side_effect=_mock_getpass(text)) as mock_getpass:
+            with patch("sys.stdin.read", side_effect=text) as mock_read:
+                try:
+                    cli.run(args or [])
+                    context.exit_status = 0
+                except SystemExit as e:
+                    context.exit_status = e.code
+
+                # assert at least one of the mocked input methods got called
+                assert mock_input.called or mock_getpass.called or mock_read.called
+
 
 
 @when('we run "{command}"')
@@ -190,28 +206,24 @@ def check_output_time_inline(context, text):
 def check_output_inline(context, text=None):
     text = text or context.text
     out = context.stdout_capture.getvalue()
-    if isinstance(out, bytes):
-        out = out.decode('utf-8')
     assert text in out, text
 
 
 @then('the output should not contain "{text}"')
 def check_output_not_inline(context, text):
     out = context.stdout_capture.getvalue()
-    if isinstance(out, bytes):
-        out = out.decode('utf-8')
     assert text not in out
 
 
 @then('we should see the message "{text}"')
 def check_message(context, text):
-    out = context.messages.getvalue()
+    out = context.stderr_capture.getvalue()
     assert text in out, [text, out]
 
 
 @then('we should not see the message "{text}"')
 def check_not_message(context, text):
-    out = context.messages.getvalue()
+    out = context.stderr_capture.getvalue()
     assert text not in out, [text, out]
 
 

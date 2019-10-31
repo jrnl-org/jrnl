@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
-from __future__ import unicode_literals
 import re
 import textwrap
 from datetime import datetime
@@ -51,14 +49,14 @@ class Entry:
 
     @staticmethod
     def tag_regex(tagsymbols):
-        pattern = r'(?u)(?:^|\s)([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
-        return re.compile(pattern, re.UNICODE)
+        pattern = fr'(?u)(?:^|\s)([{tagsymbols}][-+*#/\w]+)'
+        return re.compile(pattern)
 
     def _parse_tags(self):
         tagsymbols = self.journal.config['tagsymbols']
-        return set(tag.lower() for tag in re.findall(Entry.tag_regex(tagsymbols), self.text))
+        return {tag.lower() for tag in re.findall(Entry.tag_regex(tagsymbols), self.text)}
 
-    def __unicode__(self):
+    def __str__(self):
         """Returns a string representation of the entry to be written into a journal file."""
         date_str = self.date.strftime(self.journal.config['timeformat'])
         title = "[{}] {}".format(date_str, self.title.rstrip("\n "))
@@ -106,7 +104,7 @@ class Entry:
             )
 
     def __repr__(self):
-        return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
+        return "<Entry '{}' on {}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
 
     def __hash__(self):
         return hash(self.__repr__())
