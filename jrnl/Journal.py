@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import util
 from . import time
@@ -15,7 +14,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Tag(object):
+class Tag:
     def __init__(self, name, count=0):
         self.name = name
         self.count = count
@@ -27,7 +26,7 @@ class Tag(object):
         return "<Tag '{}'>".format(self.name)
 
 
-class Journal(object):
+class Journal:
     def __init__(self, name='default', **kwargs):
         self.config = {
             'journal': "journal.txt",
@@ -72,7 +71,7 @@ class Journal(object):
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
-            util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+            print("[Journal '{0}' created at {1}]".format(self.name, filename), file=sys.stderr)
             self._create(filename)
 
         text = self._load(filename)
@@ -96,7 +95,7 @@ class Journal(object):
         return True
 
     def _to_text(self):
-        return "\n".join([e.__unicode__() for e in self.entries])
+        return "\n".join([str(e) for e in self.entries])
 
     def _load(self, filename):
         raise NotImplementedError
@@ -140,9 +139,6 @@ class Journal(object):
             entry._parse_text()
         return entries
 
-    def __unicode__(self):
-        return self.pprint()
-
     def pprint(self, short=False):
         """Prettyprints the journal's entries"""
         sep = "\n"
@@ -153,7 +149,7 @@ class Journal(object):
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
                                 lambda match: util.colorize(match.group(0)),
-                                pp, re.UNICODE)
+                                pp)
             else:
                 pp = re.sub(
                     Entry.Entry.tag_regex(self.config['tagsymbols']),
@@ -161,6 +157,9 @@ class Journal(object):
                     pp
                 )
         return pp
+
+    def __str__(self):
+        return self.pprint()
 
     def __repr__(self):
         return "<Journal with {0} entries>".format(len(self.entries))
@@ -254,7 +253,7 @@ class Journal(object):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return "\n".join([e.__unicode__() for e in self.entries])
+        return "\n".join([str(e) for e in self.entries])
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates it's entries."""
@@ -347,8 +346,9 @@ def open_journal(name, config, legacy=False):
             from . import DayOneJournal
             return DayOneJournal.DayOne(**config).open()
         else:
-            util.prompt(
-                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal'])
+            print(
+                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']),
+                file=sys.stderr
             )
 
             sys.exit(1)

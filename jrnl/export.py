@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
 from .util import ERROR_COLOR, RESET_COLOR
-from .util import slugify, u
-from .template import Template
+from .util import slugify
+from .plugins.template import Template
 import os
 import codecs
 
 
-class Exporter(object):
+class Exporter:
     """This Exporter can convert entries and journals into text files."""
     def __init__(self, format):
         with open("jrnl/templates/" + format + ".template") as f:
@@ -17,8 +16,8 @@ class Exporter(object):
             self.template = Template(body)
 
     def export_entry(self, entry):
-        """Returns a unicode representation of a single entry."""
-        return entry.__unicode__()
+        """Returns a string representation of a single entry."""
+        return str(entry)
 
     def _get_vars(self, journal):
         return {
@@ -28,7 +27,7 @@ class Exporter(object):
         }
 
     def export_journal(self, journal):
-        """Returns a unicode representation of an entire journal."""
+        """Returns a string representation of an entire journal."""
         return self.template.render_block("journal", **self._get_vars(journal))
 
     def write_file(self, journal, path):
@@ -41,7 +40,7 @@ class Exporter(object):
             return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
 
     def make_filename(self, entry):
-        return entry.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(u(entry.title)), self.extension))
+        return entry.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(entry.title), self.extension))
 
     def write_files(self, journal, path):
         """Exports a journal into individual files for each entry."""
@@ -57,7 +56,7 @@ class Exporter(object):
     def export(self, journal, format="text", output=None):
         """Exports to individual files if output is an existing path, or into
         a single file if output is a file name, or returns the exporter's
-        representation as unicode if output is None."""
+        representation as string if output is None."""
         if output and os.path.isdir(output):  # multiple files
             return self.write_files(journal, output)
         elif output:                          # single file

@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import unicode_literals
-from __future__ import absolute_import
-
 import sys
 import os
 import getpass as gp
@@ -21,15 +18,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-
-PY3 = sys.version_info[0] == 3
-PY2 = sys.version_info[0] == 2
-STDIN = sys.stdin
-STDERR = sys.stderr
-STDOUT = sys.stdout
-TEST = False
-__cached_tz = None
-
 WARNING_COLOR = "\033[33m"
 ERROR_COLOR = "\033[31m"
 RESET_COLOR = "\033[0m"
@@ -44,18 +32,14 @@ SENTENCE_SPLITTER = re.compile(r"""
     \s+                 # a sequence of required spaces.
 |                       # Otherwise,
     \n                  # a sentence also terminates newlines.
-)""", re.UNICODE | re.VERBOSE)
+)""", re.VERBOSE)
 
 
 class UserAbort(Exception):
     pass
 
 
-def getpass(prompt="Password: "):
-    if not TEST:
-        return gp.getpass(bytes(prompt))
-    else:
-        return py23_input(prompt)
+getpass = gp.getpass
 
 
 def get_password(validator, keychain=None, max_attempts=3):
@@ -67,14 +51,14 @@ def get_password(validator, keychain=None, max_attempts=3):
         set_keychain(keychain, None)
     attempt = 1
     while result is None and attempt < max_attempts:
-        prompt("Wrong password, try again.")
-        password = getpass()
+        print("Wrong password, try again.", file=sys.stderr)
+        password = gp.getpass()
         result = validator(password)
         attempt += 1
     if result is not None:
         return result
     else:
-        prompt("Extremely wrong password.")
+        print("Extremely wrong password.", file=sys.stderr)
         sys.exit(1)
 
 
@@ -88,57 +72,16 @@ def set_keychain(journal_name, password):
     if password is None:
         try:
             keyring.delete_password('jrnl', journal_name)
-        except:
+        except RuntimeError:
             pass
-    elif not TEST:
+    else:
         keyring.set_password('jrnl', journal_name, password)
 
 
-def u(s):
-    """Mock unicode function for python 2 and 3 compatibility."""
-    if not isinstance(s, str):
-        s = str(s)
-    return s if PY3 or type(s) is unicode else s.decode("utf-8")
-
-
-def py2encode(s):
-    """Encodes to UTF-8 in Python 2 but not in Python 3."""
-    return s.encode("utf-8") if PY2 and type(s) is unicode else s
-
-
-def bytes(s):
-    """Returns bytes, no matter what."""
-    if PY3:
-        return s.encode("utf-8") if type(s) is not bytes else s
-    return s.encode("utf-8") if type(s) is unicode else s
-
-
-def prnt(s):
-    """Encode and print a string"""
-    STDOUT.write(u(s + "\n"))
-
-
-def prompt(msg):
-    """Prints a message to the std err stream defined in util."""
-    if not msg.endswith("\n"):
-        msg += "\n"
-    STDERR.write(u(msg))
-
-
-def py23_input(msg=""):
-    prompt(msg)
-    return STDIN.readline().strip()
-
-
-def py23_read(msg=""):
-    print(msg)
-    return STDIN.read()
-
-
 def yesno(prompt, default=True):
-    prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
-    raw = py23_input(prompt)
-    return {'y': True, 'n': False}.get(raw.lower(), default)
+    prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'}"
+    response = input(prompt)
+    return {"y": True, "n": False}.get(response.lower(), default)
 
 
 def load_config(config_path):
@@ -176,7 +119,7 @@ def get_text_from_editor(config, template=""):
     os.close(filehandle)
     os.remove(tmpfile)
     if not raw:
-        prompt('[Nothing saved to file]')
+        print('[Nothing saved to file]', file=sys.stderr)
     return raw
 
 
@@ -188,27 +131,11 @@ def colorize(string):
 def slugify(string):
     """Slugifies a string.
     Based on public domain code from https://github.com/zacharyvoase/slugify
-    and ported to deal with all kinds of python 2 and 3 strings
     """
-    string = u(string)
-    ascii_string = str(unicodedata.normalize('NFKD', string).encode('ascii', 'ignore'))
-    if PY3:
-        ascii_string = ascii_string[1:]     # removed the leading 'b'
-    no_punctuation = re.sub(r'[^\w\s-]', '', ascii_string).strip().lower()
+    normalized_string = str(unicodedata.normalize('NFKD', string))
+    no_punctuation = re.sub(r'[^\w\s-]', '', normalized_string).strip().lower()
     slug = re.sub(r'[-\s]+', '-', no_punctuation)
-    return u(slug)
-
-
-def int2byte(i):
-    """Converts an integer to a byte.
-    This is equivalent to chr() in Python 2 and bytes((i,)) in Python 3."""
-    return chr(i) if PY2 else bytes((i,))
-
-
-def byte2int(b):
-    """Converts a byte to an integer.
-    This is equivalent to ord(bs[0]) on Python 2 and bs[0] on Python 3."""
-    return ord(b)if PY2 else b
+    return slug
 
 
 def split_title(text):
