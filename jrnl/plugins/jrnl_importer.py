@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import codecs
 import sys
 from .. import util
 
@@ -16,7 +15,7 @@ class JRNLImporter:
         old_cnt = len(journal.entries)
         old_entries = journal.entries
         if input:
-            with codecs.open(input, "r", "utf-8") as f:
+            with open(input, "r", encoding="utf-8") as f:
                 other_journal_txt = f.read()
         else:
             try:

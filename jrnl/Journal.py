@@ -5,7 +5,6 @@ from . import util
 from . import time
 import os
 import sys
-import codecs
 import re
 from datetime import datetime
 import logging
@@ -268,15 +267,15 @@ class Journal:
 class PlainJournal(Journal):
     @classmethod
     def _create(cls, filename):
-        with codecs.open(filename, "a", "utf-8"):
+        with open(filename, "a", encoding="utf-8"):
             pass
 
     def _load(self, filename):
-        with codecs.open(filename, "r", "utf-8") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
     def _store(self, filename, text):
-        with codecs.open(filename, 'w', "utf-8") as f:
+        with open(filename, 'w', encoding="utf-8") as f:
             f.write(text)
 
 
@@ -285,7 +284,7 @@ class LegacyJournal(Journal):
     standard. Main difference here is that in 1.x, timestamps were not cuddled
     by square brackets. You'll not be able to save these journals anymore."""
     def _load(self, filename):
-        with codecs.open(filename, "r", "utf-8") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
     def _parse(self, journal_txt):

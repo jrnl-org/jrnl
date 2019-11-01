@@ -4,7 +4,6 @@ from .util import ERROR_COLOR, RESET_COLOR
 from .util import slugify
 from .plugins.template import Template
 import os
-import codecs
 
 
 class Exporter:
@@ -32,7 +31,7 @@ class Exporter:
     def write_file(self, journal, path):
         """Exports a journal into a single file."""
         try:
-            with codecs.open(path, "w", "utf-8") as f:
+            with open(path, "w", encoding="utf-8") as f:
                 f.write(self.export_journal(journal))
                 return f"[Journal exported to {path}]"
         except OSError as e:
@@ -46,7 +45,7 @@ class Exporter:
         for entry in journal.entries:
             try:
                 full_path = os.path.join(path, self.make_filename(entry))
-                with codecs.open(full_path, "w", "utf-8") as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(self.export_entry(entry))
             except OSError as e:
                 return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"

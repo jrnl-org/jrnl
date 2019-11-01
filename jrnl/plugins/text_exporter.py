@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import codecs
 from ..util import slugify
 import os
 from ..util import ERROR_COLOR, RESET_COLOR
@@ -26,7 +25,7 @@ class TextExporter:
     def write_file(cls, journal, path):
         """Exports a journal into a single file."""
         try:
-            with codecs.open(path, "w", "utf-8") as f:
+            with open(path, "w", encoding="utf-8") as f:
                 f.write(cls.export_journal(journal))
                 return f"[Journal exported to {path}]"
         except IOError as e:
@@ -42,7 +41,7 @@ class TextExporter:
         for entry in journal.entries:
             try:
                 full_path = os.path.join(path, cls.make_filename(entry))
-                with codecs.open(full_path, "w", "utf-8") as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(cls.export_entry(entry))
             except IOError as e:
                 return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)

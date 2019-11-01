@@ -6,7 +6,6 @@ from . import util
 from .EncryptedJournal import EncryptedJournal
 from .util import UserAbort
 import os
-import codecs
 
 
 def backup(filename, binary=False):
@@ -19,7 +18,7 @@ def backup(filename, binary=False):
 
 
 def upgrade_jrnl_if_necessary(config_path):
-    with codecs.open(config_path, "r", "utf-8") as f:
+    with open(config_path, "r", encoding="utf-8") as f:
         config_file = f.read()
     if not config_file.strip().startswith("{"):
         return

@@ -10,7 +10,6 @@ if "win32" in sys.platform:
 import re
 import tempfile
 import subprocess
-import codecs
 import unicodedata
 import shlex
 import logging
@@ -106,14 +105,14 @@ def scope_config(config, journal_name):
 
 def get_text_from_editor(config, template=""):
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
-    with codecs.open(tmpfile, 'w', "utf-8") as f:
+    with open(tmpfile, 'w', encoding="utf-8") as f:
         if template:
             f.write(template)
     try:
         subprocess.call(shlex.split(config['editor'], posix="win" not in sys.platform) + [tmpfile])
     except AttributeError:
         subprocess.call(config['editor'] + [tmpfile])
-    with codecs.open(tmpfile, "r", "utf-8") as f:
+    with open(tmpfile, "r", encoding="utf-8") as f:
         raw = f.read()
     os.close(filehandle)
     os.remove(tmpfile)
