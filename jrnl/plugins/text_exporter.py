@@ -28,9 +28,9 @@ class TextExporter:
         try:
             with codecs.open(path, "w", "utf-8") as f:
                 f.write(cls.export_journal(journal))
-                return "[Journal exported to {0}]".format(path)
+                return f"[Journal exported to {path}]"
         except IOError as e:
-            return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
+            return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"
 
     @classmethod
     def make_filename(cls, entry):

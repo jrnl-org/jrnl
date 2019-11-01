@@ -23,7 +23,7 @@ class Tag:
         return self.name
 
     def __repr__(self):
-        return "<Tag '{}'>".format(self.name)
+        return f"<Tag '{self.name}'>"
 
 
 class Journal:

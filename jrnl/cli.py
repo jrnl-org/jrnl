@@ -144,7 +144,7 @@ def run(manual_args=None):
     try:
         config = install.load_or_install_jrnl()
     except UserAbort as err:
-        print("\n{}".format(err), file=sys.stderr)
+        print(f"\n{err}", file=sys.stderr)
         sys.exit(1)
 
     if args.ls:

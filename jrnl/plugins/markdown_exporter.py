@@ -50,15 +50,11 @@ class MarkdownExporter(TextExporter):
         newbody = newbody + previous_line   # add very last line
 
         if warn_on_heading_level is True:
-            print("{}WARNING{}: Headings increased past H6 on export - {} {}".format(WARNING_COLOR, RESET_COLOR, date_str, entry.title), file=sys.stderr)
+            print(f"{WARNING_COLOR}WARNING{RESET_COLOR}: "
+                  f"Headings increased past H6 on export - {date_str} {entry.title}",
+                  file=sys.stderr)
 
-        return "{md} {date} {title}\n{body} {space}".format(
-            md=heading,
-            date=date_str,
-            title=entry.title,
-            body=newbody,
-            space=""
-        )
+        return f"{heading} {date_str} {entry.title}\n{newbody} "
 
     @classmethod
     def export_journal(cls, journal):
