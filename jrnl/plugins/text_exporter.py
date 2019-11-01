@@ -34,7 +34,7 @@ class TextExporter:
 
     @classmethod
     def make_filename(cls, entry):
-        return entry.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(str(entry.title)), cls.extension))
+        return entry.date.strftime("%Y-%m-%d_{}.{}".format(slugify(str(entry.title)), cls.extension))
 
     @classmethod
     def write_files(cls, journal, path):
@@ -46,7 +46,7 @@ class TextExporter:
                     f.write(cls.export_entry(entry))
             except IOError as e:
                 return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
-        return "[Journal exported to {0}]".format(path)
+        return "[Journal exported to {}]".format(path)
 
     @classmethod
     def export(cls, journal, output=None):

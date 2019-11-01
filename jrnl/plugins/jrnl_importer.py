@@ -26,5 +26,5 @@ class JRNLImporter:
                 sys.exit(0)
         journal.import_(other_journal_txt)
         new_cnt = len(journal.entries)
-        print("[{0} imported to {1} journal]".format(new_cnt - old_cnt, journal.name), file=sys.stderr)
+        print("[{} imported to {} journal]".format(new_cnt - old_cnt, journal.name), file=sys.stderr)
         journal.write()
