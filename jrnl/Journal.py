@@ -224,7 +224,7 @@ class Journal:
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        sep = re.search("\n|[\\?!.]+ +\n?", raw)
+        sep = re.search(r"\n|[?!.]+ +\n?", raw)
         first_line = raw[:sep.end()].strip() if sep else raw
         starred = False
 
