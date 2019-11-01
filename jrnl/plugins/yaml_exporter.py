@@ -17,7 +17,8 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            print("{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format("\033[31m", "\033[0m", file=sys.stderr))
+            print("{}ERROR{}: YAML export must be to individual files. "
+                  "Please specify a directory to export to.".format("\033[31m", "\033[0m"), file=sys.stderr)
             return
 
         date_str = entry.date.strftime(entry.journal.config['timeformat'])
