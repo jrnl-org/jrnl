@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
 import re
 import textwrap
@@ -50,12 +49,12 @@ class Entry:
 
     @staticmethod
     def tag_regex(tagsymbols):
-        pattern = r'(?u)(?:^|\s)([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
+        pattern = fr'(?u)(?:^|\s)([{tagsymbols}][-+*#/\w]+)'
         return re.compile(pattern)
 
     def _parse_tags(self):
         tagsymbols = self.journal.config['tagsymbols']
-        return set(tag.lower() for tag in re.findall(Entry.tag_regex(tagsymbols), self.text))
+        return {tag.lower() for tag in re.findall(Entry.tag_regex(tagsymbols), self.text)}
 
     def __str__(self):
         """Returns a string representation of the entry to be written into a journal file."""
@@ -105,7 +104,7 @@ class Entry:
             )
 
     def __repr__(self):
-        return "<Entry '{0}' on {1}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
+        return "<Entry '{}' on {}>".format(self.title.strip(), self.date.strftime("%Y-%m-%d %H:%M"))
 
     def __hash__(self):
         return hash(self.__repr__())

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
 from . import Entry
 from . import util
@@ -71,7 +70,7 @@ class Journal:
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
-            print("[Journal '{0}' created at {1}]".format(self.name, filename), file=sys.stderr)
+            print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
             self._create(filename)
 
         text = self._load(filename)
@@ -117,7 +116,7 @@ class Journal:
         # Initialise our current entry
         entries = []
 
-        date_blob_re = re.compile("(?:^|\n)\[([^\\]]+)\] ")
+        date_blob_re = re.compile("(?:^|\n)\\[([^\\]]+)\\] ")
         last_entry_pos = 0
         for match in date_blob_re.finditer(journal_txt):
             date_blob = match.groups()[0]
@@ -162,7 +161,7 @@ class Journal:
         return self.pprint()
 
     def __repr__(self):
-        return "<Journal with {0} entries>".format(len(self.entries))
+        return f"<Journal with {len(self.entries)} entries>"
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -182,7 +181,7 @@ class Journal:
                 for entry in self.entries
                 for tag in set(entry.tags)]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
-        tag_counts = set([(tags.count(tag), tag) for tag in tags])
+        tag_counts = {(tags.count(tag), tag) for tag in tags}
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
     def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, exclude=[]):
@@ -199,8 +198,8 @@ class Journal:
 
         exclude is a list of the tags which should not appear in the results.
         entry is kept if any tag is present, unless they appear in exclude."""
-        self.search_tags = set([tag.lower() for tag in tags])
-        excluded_tags = set([tag.lower() for tag in exclude])
+        self.search_tags = {tag.lower() for tag in tags}
+        excluded_tags = {tag.lower() for tag in exclude}
         end_date = time.parse(end_date, inclusive=True)
         start_date = time.parse(start_date)
 
@@ -225,7 +224,7 @@ class Journal:
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         starred = False
         # Split raw text into title and body
-        sep = re.search("\n|[\?!.]+ +\n?", raw)
+        sep = re.search("\n|[\\?!.]+ +\n?", raw)
         first_line = raw[:sep.end()].strip() if sep else raw
         starred = False
 
@@ -322,7 +321,7 @@ class LegacyJournal(Journal):
                 # escaping for the new format).
                 line = new_date_format_regex.sub(r' \1', line)
                 if current_entry:
-                    current_entry.text += line + u"\n"
+                    current_entry.text += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -347,7 +346,7 @@ def open_journal(name, config, legacy=False):
             return DayOneJournal.DayOne(**config).open()
         else:
             print(
-                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal']),
+                f"[Error: {config['journal']} is a directory, but doesn't seem to be a DayOne journal either.",
                 file=sys.stderr
             )
 

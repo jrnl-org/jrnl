@@ -10,7 +10,7 @@ import codecs
 
 
 def backup(filename, binary=False):
-    print("  Created a backup at {}.backup".format(filename), file=sys.stderr)
+    print(f"  Created a backup at {filename}.backup", file=sys.stderr)
     filename = os.path.expanduser(os.path.expandvars(filename))
     with open(filename, 'rb' if binary else 'r') as original:
         contents = original.read()
@@ -63,12 +63,12 @@ older versions of jrnl anymore.
 
     longest_journal_name = max([len(journal) for journal in config['journals']])
     if encrypted_journals:
-        print("\nFollowing encrypted journals will be upgraded to jrnl {}:".format(__version__), file=sys.stderr)
+        print(f"\nFollowing encrypted journals will be upgraded to jrnl {__version__}:", file=sys.stderr)
         for journal, path in encrypted_journals.items():
             print("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name), file=sys.stderr)
 
     if plain_journals:
-        print("\nFollowing plain text journals will upgraded to jrnl {}:".format(__version__), file=sys.stderr)
+        print(f"\nFollowing plain text journals will upgraded to jrnl {__version__}:", file=sys.stderr)
         for journal, path in plain_journals.items():
             print("    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name), file=sys.stderr)
 
@@ -85,13 +85,13 @@ older versions of jrnl anymore.
         raise UserAbort("jrnl NOT upgraded, exiting.")
 
     for journal_name, path in encrypted_journals.items():
-        print("\nUpgrading encrypted '{}' journal stored in {}...".format(journal_name, path), file=sys.stderr)
+        print(f"\nUpgrading encrypted '{journal_name}' journal stored in {path}...", file=sys.stderr)
         backup(path, binary=True)
         old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
         all_journals.append(EncryptedJournal.from_journal(old_journal))
 
     for journal_name, path in plain_journals.items():
-        print("\nUpgrading plain text '{}' journal stored in {}...".format(journal_name, path), file=sys.stderr)
+        print(f"\nUpgrading plain text '{journal_name}' journal stored in {path}...", file=sys.stderr)
         backup(path)
         old_journal = Journal.open_journal(journal_name, util.scope_config(config, journal_name), legacy=True)
         all_journals.append(Journal.PlainJournal.from_journal(old_journal))
@@ -114,7 +114,7 @@ older versions of jrnl anymore.
     print("\nUpgrading config...", file=sys.stderr)
     backup(config_path)
 
-    print("\nWe're all done here and you can start enjoying jrnl 2.".format(config_path), file=sys.stderr)
+    print("\nWe're all done here and you can start enjoying jrnl 2.", file=sys.stderr)
 
 
 class UpgradeValidationException(Exception):

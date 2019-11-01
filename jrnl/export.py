@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
 from .util import ERROR_COLOR, RESET_COLOR
 from .util import slugify
@@ -35,12 +34,12 @@ class Exporter:
         try:
             with codecs.open(path, "w", "utf-8") as f:
                 f.write(self.export_journal(journal))
-                return "[Journal exported to {0}]".format(path)
-        except IOError as e:
-            return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
+                return f"[Journal exported to {path}]"
+        except OSError as e:
+            return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"
 
     def make_filename(self, entry):
-        return entry.date.strftime("%Y-%m-%d_{0}.{1}".format(slugify(entry.title), self.extension))
+        return entry.date.strftime("%Y-%m-%d_{}.{}".format(slugify(entry.title), self.extension))
 
     def write_files(self, journal, path):
         """Exports a journal into individual files for each entry."""
@@ -49,9 +48,9 @@ class Exporter:
                 full_path = os.path.join(path, self.make_filename(entry))
                 with codecs.open(full_path, "w", "utf-8") as f:
                     f.write(self.export_entry(entry))
-            except IOError as e:
-                return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
-        return "[Journal exported to {0}]".format(path)
+            except OSError as e:
+                return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"
+        return f"[Journal exported to {path}]"
 
     def export(self, journal, format="text", output=None):
         """Exports to individual files if output is an existing path, or into

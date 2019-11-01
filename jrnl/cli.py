@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
 """
     jrnl
@@ -89,7 +88,7 @@ def encrypt(journal, filename=None):
     if util.yesno("Do you want to store the password in your keychain?", default=True):
         util.set_keychain(journal.name, journal.config['password'])
 
-    print("Journal encrypted to {0}.".format(filename or new_journal.config['journal']), file=sys.stderr)
+    print("Journal encrypted to {}.".format(filename or new_journal.config['journal']), file=sys.stderr)
 
 
 def decrypt(journal, filename=None):
@@ -100,12 +99,12 @@ def decrypt(journal, filename=None):
     new_journal = Journal.PlainJournal(filename, **journal.config)
     new_journal.entries = journal.entries
     new_journal.write(filename)
-    print("Journal decrypted to {0}.".format(filename or new_journal.config['journal']), file=sys.stderr)
+    print("Journal decrypted to {}.".format(filename or new_journal.config['journal']), file=sys.stderr)
 
 
 def list_journals(config):
     """List the journals specified in the configuration file"""
-    result = "Journals defined in {}\n".format(install.CONFIG_FILE_PATH)
+    result = f"Journals defined in {install.CONFIG_FILE_PATH}\n"
     ml = min(max(len(k) for k in config['journals']), 20)
     for journal, cfg in config['journals'].items():
         result += " * {:{}} -> {}\n".format(journal, ml, cfg['journal'] if isinstance(cfg, dict) else cfg)
@@ -137,7 +136,7 @@ def run(manual_args=None):
     args = parse_args(manual_args)
     configure_logger(args.debug)
     if args.version:
-        version_str = "{0} version {1}".format(jrnl.__title__, jrnl.__version__)
+        version_str = f"{jrnl.__title__} version {jrnl.__version__}"
         print(version_str)
         sys.exit(0)
 
@@ -158,7 +157,7 @@ def run(manual_args=None):
     # use this!
     journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
 
-    if journal_name is not 'default':
+    if journal_name != 'default':
         args.text = args.text[1:]
     elif "default" not in config['journals']:
         print("No default journal configured.", file=sys.stderr)
@@ -193,8 +192,8 @@ def run(manual_args=None):
             if config['template']:
                 try:
                     template = open(config['template']).read()
-                except IOError:
-                    print("[Could not read template at '']".format(config['template']), file=sys.stderr)
+                except OSError:
+                    print(f"[Could not read template at '{config['template']}']", file=sys.stderr)
                     sys.exit(1)
             raw = util.get_text_from_editor(config, template)
         else:
@@ -213,7 +212,7 @@ def run(manual_args=None):
     try:
         journal = Journal.open_journal(journal_name, config)
     except KeyboardInterrupt:
-        print("[Interrupted while opening journal]".format(journal_name), file=sys.stderr)
+        print(f"[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)
 
     # Import mode
@@ -225,7 +224,7 @@ def run(manual_args=None):
         raw = " ".join(args.text).strip()
         log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
         journal.new_entry(raw)
-        print("[Entry added to {0} journal]".format(journal_name), file=sys.stderr)
+        print(f"[Entry added to {journal_name} journal]", file=sys.stderr)
         journal.write()
 
     if not mode_compose:
@@ -283,11 +282,11 @@ def run(manual_args=None):
         num_edited = len([e for e in journal.entries if e.modified])
         prompts = []
         if num_deleted:
-            prompts.append("{0} {1} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
+            prompts.append("{} {} deleted".format(num_deleted, "entry" if num_deleted == 1 else "entries"))
         if num_edited:
-            prompts.append("{0} {1} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
+            prompts.append("{} {} modified".format(num_edited, "entry" if num_deleted == 1 else "entries"))
         if prompts:
-            print("[{0}]".format(", ".join(prompts).capitalize()), file=sys.stderr)
+            print("[{}]".format(", ".join(prompts).capitalize()), file=sys.stderr)
         journal.entries += other_entries
         journal.sort()
         journal.write()

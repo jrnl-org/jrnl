@@ -29,7 +29,7 @@ def make_key(password):
 
 class EncryptedJournal(Journal.Journal):
     def __init__(self, name='default', **kwargs):
-        super(EncryptedJournal, self).__init__(name, **kwargs)
+        super().__init__(name, **kwargs)
         self.config['encrypt'] = True
 
     def open(self, filename=None):
@@ -47,7 +47,7 @@ class EncryptedJournal(Journal.Journal):
                 self.config['password'] = password
                 text = ""
                 self._store(filename, text)
-                print("[Journal '{0}' created at {1}]".format(self.name, filename), file=sys.stderr)
+                print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
             else:
                 print("No password supplied for encrypted journal", file=sys.stderr)
                 sys.exit(1)
@@ -97,7 +97,7 @@ class LegacyEncryptedJournal(Journal.LegacyJournal):
     """Legacy class to support opening journals encrypted with the jrnl 1.x
     standard. You'll not be able to save these journals anymore."""
     def __init__(self, name='default', **kwargs):
-        super(LegacyEncryptedJournal, self).__init__(name, **kwargs)
+        super().__init__(name, **kwargs)
         self.config['encrypt'] = True
 
     def _load(self, filename, password=None):

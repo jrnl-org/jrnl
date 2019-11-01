@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
 from . import Entry
 from . import Journal
@@ -25,7 +24,7 @@ class DayOne(Journal.Journal):
     def __init__(self, **kwargs):
         self.entries = []
         self._deleted_entries = []
-        super(DayOne, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def open(self):
         filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
@@ -106,7 +105,7 @@ class DayOne(Journal.Journal):
                 current_entry.modified = False
                 current_entry.uuid = m.group(1).lower()
             else:
-                date_blob_re = re.compile("^\[[^\\]]+\] ")
+                date_blob_re = re.compile("^\\[[^\\]]+\\] ")
                 date_blob = date_blob_re.findall(line)
                 if date_blob:
                     date_blob = date_blob[0]

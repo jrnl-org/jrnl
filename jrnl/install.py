@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
-from __future__ import absolute_import
 import readline
 import glob
 import getpass
@@ -69,7 +67,7 @@ def upgrade_config(config):
         for key in missing_keys:
             config[key] = default_config[key]
         save_config(config)
-        print("[Configuration updated to newest version at {}]".format(CONFIG_FILE_PATH), file=sys.stderr)
+        print(f"[Configuration updated to newest version at {CONFIG_FILE_PATH}]", file=sys.stderr)
 
 
 def save_config(config):
@@ -120,7 +118,7 @@ def install():
     readline.set_completer(autocomplete)
 
     # Where to create the journal?
-    path_query = 'Path to your journal file (leave blank for {}): '.format(JOURNAL_FILE_PATH)
+    path_query = f'Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): '
     journal_path = input(path_query).strip() or JOURNAL_FILE_PATH
     default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
 
