@@ -6,7 +6,8 @@
     license: MIT, see LICENSE for more details.
 """
 
-from . import Journal
+from .Journal import PlainJournal, open_journal
+from .EncryptedJournal import EncryptedJournal
 from . import util
 from . import install
 from . import plugins
@@ -76,17 +77,10 @@ def guess_mode(args, config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
-    from . import EncryptedJournal
-
-    journal.config['password'] = util.create_password()
     journal.config['encrypt'] = True
 
-    new_journal = EncryptedJournal.EncryptedJournal(None, **journal.config)
-    new_journal.entries = journal.entries
+    new_journal = EncryptedJournal.from_journal(journal)
     new_journal.write(filename)
-
-    if util.yesno("Do you want to store the password in your keychain?", default=True):
-        util.set_keychain(journal.name, journal.config['password'])
 
     print("Journal encrypted to {}.".format(filename or new_journal.config['journal']), file=sys.stderr)
 
@@ -94,10 +88,8 @@ def encrypt(journal, filename=None):
 def decrypt(journal, filename=None):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     journal.config['encrypt'] = False
-    journal.config['password'] = ""
 
-    new_journal = Journal.PlainJournal(filename, **journal.config)
-    new_journal.entries = journal.entries
+    new_journal = PlainJournal.from_journal(journal)
     new_journal.write(filename)
     print("Journal decrypted to {}.".format(filename or new_journal.config['journal']), file=sys.stderr)
 
@@ -155,11 +147,12 @@ def run(manual_args=None):
 
     # If the first textual argument points to a journal file,
     # use this!
-    journal_name = args.text[0] if (args.text and args.text[0] in config['journals']) else 'default'
 
-    if journal_name != 'default':
+    journal_name = install.DEFAULT_JOURNAL_KEY
+    if args.text and args.text[0] in config['journals']:
+        journal_name = args.text[0]
         args.text = args.text[1:]
-    elif "default" not in config['journals']:
+    elif install.DEFAULT_JOURNAL_KEY not in config['journals']:
         print("No default journal configured.", file=sys.stderr)
         print(list_journals(config), file=sys.stderr)
         sys.exit(1)
@@ -210,7 +203,7 @@ def run(manual_args=None):
 
     # This is where we finally open the journal!
     try:
-        journal = Journal.open_journal(journal_name, config)
+        journal = open_journal(journal_name, config)
     except KeyboardInterrupt:
         print(f"[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)

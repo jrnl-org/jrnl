@@ -7,7 +7,6 @@ highlight: true
 journals:
   default: features/journals/dayone.dayone
 linewrap: 80
-password: ''
 tagsymbols: '@'
 timeformat: '%Y-%m-%d %H:%M'
 indent_character: "|"

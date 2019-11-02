@@ -19,6 +19,7 @@ if "win32" not in sys.platform:
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'
+DEFAULT_JOURNAL_KEY = 'default'
 XDG_RESOURCE = 'jrnl'
 
 USER_HOME = os.path.expanduser('~')
@@ -45,7 +46,7 @@ def module_exists(module_name):
 default_config = {
     'version': __version__,
     'journals': {
-        "default": JOURNAL_FILE_PATH
+        DEFAULT_JOURNAL_KEY: JOURNAL_FILE_PATH
     },
     'editor': os.getenv('VISUAL') or os.getenv('EDITOR') or "",
     'encrypt': False,
@@ -118,32 +119,23 @@ def install():
     # Where to create the journal?
     path_query = f'Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): '
     journal_path = input(path_query).strip() or JOURNAL_FILE_PATH
-    default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
+    default_config['journals'][DEFAULT_JOURNAL_KEY] = os.path.expanduser(os.path.expandvars(journal_path))
 
-    path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
+    path = os.path.split(default_config['journals'][DEFAULT_JOURNAL_KEY])[0]  # If the folder doesn't exist, create it
     try:
         os.makedirs(path)
     except OSError:
         pass
 
     # Encrypt it?
-    password = getpass.getpass("Enter password for journal (leave blank for no encryption): ")
-    if password:
+    encrypt = util.yesno("Do you want to encrypt your journal? You can always change this later", default=False)
+    if encrypt:
         default_config['encrypt'] = True
-        if util.yesno("Do you want to store the password in your keychain?", default=True):
-            util.set_keychain("default", password)
-        else:
-            util.set_keychain("default", None)
-        EncryptedJournal._create(default_config['journals']['default'], password)
         print("Journal will be encrypted.", file=sys.stderr)
-    else:
-        PlainJournal._create(default_config['journals']['default'])
 
-    config = default_config
-    save_config(config)
-    if password:
-        config['password'] = password
-    return config
+    save_config(default_config)
+    return default_config
+
 
 def autocomplete(text, state):
     expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')

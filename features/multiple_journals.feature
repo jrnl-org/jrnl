@@ -48,4 +48,4 @@ Feature: Multiple journals
         these three eyes
         n
         """
-	Then we should see the message "Journal 'new_encrypted' created"
+	Then we should see the message "Encrypted journal 'new_encrypted' created"
