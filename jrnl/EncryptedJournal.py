@@ -1,4 +1,5 @@
-from . import Journal, util
+from . import util
+from .Journal import Journal, LegacyJournal
 from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.primitives import hashes, padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -9,6 +10,8 @@ import sys
 import os
 import base64
 import logging
+from typing import Optional
+
 
 log = logging.getLogger()
 
@@ -27,10 +30,11 @@ def make_key(password):
     return base64.urlsafe_b64encode(key)
 
 
-class EncryptedJournal(Journal.Journal):
+class EncryptedJournal(Journal):
     def __init__(self, name='default', **kwargs):
         super().__init__(name, **kwargs)
         self.config['encrypt'] = True
+        self.password = None
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
@@ -38,27 +42,17 @@ class EncryptedJournal(Journal.Journal):
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
-            password = util.create_password()
-            if password:
-                if util.yesno("Do you want to store the password in your keychain?", default=True):
-                    util.set_keychain(self.name, password)
-                else:
-                    util.set_keychain(self.name, None)
-                self.config['password'] = password
-                text = ""
-                self._store(filename, text)
-                print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
-            else:
-                print("No password supplied for encrypted journal", file=sys.stderr)
-                sys.exit(1)
-        else:
-            text = self._load(filename)
+            self.create_file(filename)
+            self.password = util.create_password(self.name)
+            print(f"Encrypted journal '{self.name}' created at {filename}", file=sys.stderr)
+
+        text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
         log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
-    def _load(self, filename, password=None):
+    def _load(self, filename):
         """Loads an encrypted journal from a file and tries to decrypt it.
         If password is not provided, will look for password in the keychain
         and otherwise ask the user to enter a password up to three times.
@@ -67,50 +61,52 @@ class EncryptedJournal(Journal.Journal):
         with open(filename, 'rb') as f:
             journal_encrypted = f.read()
 
-        def validate_password(password):
+        def decrypt_journal(password):
             key = make_key(password)
             try:
                 plain = Fernet(key).decrypt(journal_encrypted).decode('utf-8')
-                self.config['password'] = password
+                self.password = password
                 return plain
             except (InvalidToken, IndexError):
                 return None
-        if password:
-            return validate_password(password)
-        return util.get_password(keychain=self.name, validator=validate_password)
+
+        if self.password:
+            return decrypt_journal(self.password)
+
+        return util.decrypt_content(keychain=self.name, decrypt_func=decrypt_journal)
 
     def _store(self, filename, text):
-        key = make_key(self.config['password'])
+        key = make_key(self.password)
         journal = Fernet(key).encrypt(text.encode('utf-8'))
         with open(filename, 'wb') as f:
             f.write(journal)
 
     @classmethod
-    def _create(cls, filename, password):
-        key = make_key(password)
-        dummy = Fernet(key).encrypt(b"")
-        with open(filename, 'wb') as f:
-            f.write(dummy)
+    def from_journal(cls, other: Journal):
+        new_journal = super().from_journal(other)
+        new_journal.password = other.password if hasattr(other, "password") else util.create_password(other.name)
+        return new_journal
 
 
-class LegacyEncryptedJournal(Journal.LegacyJournal):
+class LegacyEncryptedJournal(LegacyJournal):
     """Legacy class to support opening journals encrypted with the jrnl 1.x
     standard. You'll not be able to save these journals anymore."""
     def __init__(self, name='default', **kwargs):
         super().__init__(name, **kwargs)
         self.config['encrypt'] = True
+        self.password = None
 
-    def _load(self, filename, password=None):
+    def _load(self, filename):
         with open(filename, 'rb') as f:
             journal_encrypted = f.read()
         iv, cipher = journal_encrypted[:16], journal_encrypted[16:]
 
-        def validate_password(password):
+        def decrypt_journal(password):
             decryption_key = hashlib.sha256(password.encode('utf-8')).digest()
             decryptor = Cipher(algorithms.AES(decryption_key), modes.CBC(iv), default_backend()).decryptor()
             try:
                 plain_padded = decryptor.update(cipher) + decryptor.finalize()
-                self.config['password'] = password
+                self.password = password
                 if plain_padded[-1] in (" ", 32):
                     # Ancient versions of jrnl. Do not judge me.
                     return plain_padded.decode('utf-8').rstrip(" ")
@@ -120,6 +116,6 @@ class LegacyEncryptedJournal(Journal.LegacyJournal):
                     return plain.decode('utf-8')
             except ValueError:
                 return None
-        if password:
-            return validate_password(password)
-        return util.get_password(keychain=self.name, validator=validate_password)
+        if self.password:
+            return decrypt_journal(self.password)
+        return util.decrypt_content(keychain=self.name, decrypt_func=decrypt_journal)

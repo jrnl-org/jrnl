@@ -7,7 +7,6 @@ highlight: true
 journals:
   default: features/journals/empty_folder
 linewrap: 80
-password: ''
 tagsymbols: '@'
 timeformat: '%Y-%m-%d %H:%M'
 indent_character: "|"
