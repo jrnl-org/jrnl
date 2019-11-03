@@ -157,7 +157,6 @@ def create(journal_name, default_file_path=None, config=None):
     else:
         PlainJournal._create(journal_path)
 
-    config = default_config
     save_config(config)
     if password:
         config['password'] = password
