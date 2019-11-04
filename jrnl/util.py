@@ -77,7 +77,7 @@ def set_keychain(journal_name, password):
 
 
 def yesno(prompt, default=True):
-    prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'}"
+    prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'} "
     response = input(prompt)
     return {"y": True, "n": False}.get(response.lower(), default)
 
