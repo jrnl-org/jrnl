@@ -18,7 +18,6 @@ import codecs
 import unicodedata
 import shlex
 import logging
-from PyInquirer import prompt as selection_prompt
 
 log = logging.getLogger(__name__)
 
@@ -218,29 +217,3 @@ def split_title(text):
     if not punkt:
         return text, ""
     return text[:punkt.end()].strip(), text[punkt.end():].strip()
-
-
-def pretty_print_entries(entries):
-    """Similar to Entry.pprint(short=True), except this function takes a
-    list of strings representing Entry objects instead of the actual objects
-    :param entries: List of strings in format of "DATE TITLE" """
-    for entry in entries:
-        print("->", entry)
-    print("")
-
-
-def prompt_checklist(name, choices, message):
-    formatted_choices = []
-    for choice in choices:
-        formatted_choices.append({"name": choice})
-
-    questions = [
-        {
-            'type'    : 'checkbox',
-            'qmark'   : '?',
-            'message' : message,
-            'name'    : name,
-            'choices' : formatted_choices
-        }
-    ]
-    return selection_prompt(questions)[name]

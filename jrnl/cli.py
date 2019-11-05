@@ -13,7 +13,6 @@ from . import Journal
 from . import util
 from . import install
 from . import plugins
-from . import time
 from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 import jrnl
 import argparse
@@ -298,31 +297,5 @@ def run(manual_args=None):
         journal.write()
 
     elif args.delete:
-        # Display all journal entry titles in a list and let user select one or more of them
-        entries = journal.pprint(short=True).split("\n")
-        raw_entries_to_delete = util.prompt_checklist(
-            name="entries_to_delete",
-            choices=entries,
-            message="Which entries would you like to delete? (Use arrow keys to select, Enter to confirm)"
-        )
-
-        # Confirm deletion
-        util.pretty_print_entries(raw_entries_to_delete)
-
-        confirmation = "Are you sure you'd like to delete "
-        if len(raw_entries_to_delete) == 0:
-            return
-        elif len(raw_entries_to_delete) == 1:
-            confirmation += "this entry?"
-        else:
-            confirmation += "these entries?"
-
-        if not util.yesno(confirmation):
-            return
-
-        # Actually delete them
-        # The best we can do seems to be matching time stamps and title
-        entries_to_delete = [(time.parse(" ".join(entry.split()[:2])), " ".join(entry.split()[2:]))
-                             for entry in raw_entries_to_delete]
-        journal.remove_entries_by_title_and_time(entries_to_delete)
+        journal.prompt_delete_entries()
         journal.write()

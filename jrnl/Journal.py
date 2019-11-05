@@ -220,25 +220,16 @@ class Journal(object):
 
         self.entries = result
 
-    def remove_entries_by_title_and_time(self, entries_for_removal: list):
-        """
-        Removes entries from the journal based on their titles and time. Times will
-        be datetime objects, however, they'll have the seconds stripped from them.
-        :param entries_for_removal: List of tuples in format of [(date, title), ... ]
-        """
-        # Removal algorithm optimized using the fact that all entries for removal are in sorted
-        #       order and the entries in the journal are also in sorted order.
-        cleaned_entries = []
-        entries_for_removal_idx = 0
+    def prompt_delete_entries(self):
+        """Prompts for deletion of entries in a journal."""
+        print("Confirm each entry you want to delete [N/y]:")
+        to_delete: List[Entry] = []
         for entry in self.entries:
-            if entries_for_removal_idx < len(entries_for_removal) and \
-                    time.from_same_minute(entry.date, entries_for_removal[entries_for_removal_idx][0]) and \
-                    entry.title == entries_for_removal[entries_for_removal_idx][1]:
-                entries_for_removal_idx += 1
-            else:
-                cleaned_entries.append(entry)
+            response = input("jrnl: Delete entry '{}'? ".format(entry.pprint(short=True)))
+            if response == "y":
+                to_delete.append(entry)
 
-        self.entries = cleaned_entries
+        self.entries = [entry for entry in self.entries if entry not in to_delete]
 
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
