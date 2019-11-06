@@ -171,7 +171,7 @@ def verify_config(config):
     for key, color in config["colors"].items():
         upper_color = color.upper()
         if upper_color == "NONE":
-            pass
+            continue
         if not getattr(colorama.Fore, upper_color, None):
             print("[{2}ERROR{3}: {0} set to invalid color: {1}]".format(key, color, ERROR_COLOR, RESET_COLOR), file=sys.stderr)
             all_valid_colors = False
