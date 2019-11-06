@@ -59,8 +59,10 @@ default_config = {
     'linewrap': 79,
     'indent_character': '|',
     'colors': {
-        'date': 'red',
-        'title': 'blue',
+        'date': 'none',
+        'title': 'none',
+        'body': 'none',
+        'tags': 'none',
     },
 }
 

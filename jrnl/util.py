@@ -173,9 +173,7 @@ def verify_config(config):
         if upper_color == "NONE":
             pass
         if not getattr(colorama.Fore, upper_color, None):
-            # TODO: Not sure whether both of these should stay or not.
-            print("[{2}ERROR{3}: {0} set to invalid color: {1}]".format(key, color, ERROR_COLOR, RESET_COLOR))
-            log.error("Invalid color configuration value for '{0}'.".format(key))
+            print("[{2}ERROR{3}: {0} set to invalid color: {1}]".format(key, color, ERROR_COLOR, RESET_COLOR), file=sys.stderr)
             all_valid_colors = False
     return all_valid_colors
 
