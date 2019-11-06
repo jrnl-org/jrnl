@@ -11,3 +11,6 @@ password: ''
 tagsymbols: '@'
 timeformat: '%Y-%m-%d %H:%M'
 indent_character: "|"
+colors:
+  date: red
+  title: green
