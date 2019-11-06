@@ -8,7 +8,6 @@ from dateutil import parser as date_parser
 from ansiwrap import strip_color
 from collections import defaultdict
 import os
-import re
 import json
 import yaml
 import keyring

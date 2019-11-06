@@ -8,8 +8,8 @@ import sys
 import os
 import getpass as gp
 import yaml
+import colorama
 if "win32" in sys.platform:
-    import colorama
     colorama.init()
 import re
 import tempfile
@@ -30,9 +30,9 @@ STDOUT = sys.stdout
 TEST = False
 __cached_tz = None
 
-WARNING_COLOR = "\033[33m"
-ERROR_COLOR = "\033[31m"
-RESET_COLOR = "\033[0m"
+WARNING_COLOR = colorama.Fore.YELLOW
+ERROR_COLOR = colorama.Fore.RED
+RESET_COLOR = colorama.Fore.RESET
 
 # Based on Segtok by Florian Leitner
 # https://github.com/fnl/segtok
@@ -162,6 +162,21 @@ def scope_config(config, journal_name):
     return config
 
 
+def verify_config(config):
+    """
+    Ensures the keys set for colors are valid colorama.Fore attributes.
+    :return: True if all keys are set correctly, False otherwise
+    """
+    all_valid_colors = True
+    for key, color in config["colors"].items():
+        if not getattr(colorama.Fore, color.upper(), None):
+            # TODO: Not sure whether both of these should stay or not.
+            print("[{2}ERROR{3}: {0} set to invalid color: {1}]".format(key, color, ERROR_COLOR, RESET_COLOR))
+            log.error("Invalid color configuration value for '{0}'.".format(key))
+            all_valid_colors = False
+    return all_valid_colors
+
+
 def get_text_from_editor(config, template=""):
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
     with codecs.open(tmpfile, 'w', "utf-8") as f:
@@ -180,20 +195,15 @@ def get_text_from_editor(config, template=""):
     return raw
 
 
-def colorize_cyan(string):
-    """Returns the string wrapped in cyan ANSI escape"""
-    return u"\033[36m{}\033[39m".format(string)
-
-
-def colorize_red(string):
-    """Returns the string wrapped in red ANSI escape"""
-    return u"\033[91m{}\033[0m".format(string)
-
-
-def bold(string):
-    """Returns the string wrapped in bold ANSI escape. Bug / feature that it
-    also colors the text blue, for some unknown reason."""
-    return u"\033[1m{}\033[0m".format(string)
+def colorize(string, color, bold=False):
+    """Returns the string colored with colorama.Fore.color. If the color set
+    by the user doesn't exist in the colorama.Fore attributes, the colorization
+    is done with WHITE."""
+    color_escape = getattr(colorama.Fore, color.upper(), colorama.Fore.WHITE)
+    if not bold:
+        return color_escape + string + colorama.Fore.RESET
+    else:
+        return colorama.Style.BRIGHT + color_escape + string + colorama.Style.RESET_ALL
 
 
 def slugify(string):

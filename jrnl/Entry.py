@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import re
 import ansiwrap
 from datetime import datetime
-from .util import split_title, bold, colorize_red
+from .util import split_title, colorize
 
 
 class Entry:
@@ -79,10 +79,10 @@ class Entry:
         else:
             indent = ""
         if not short and self.journal.config['linewrap']:
-            # Color date red and make sure first line of title is bolded
-            title = ansiwrap.fill(colorize_red(date_str) + " " + bold(self.title), self.journal.config['linewrap'])
-            # Make sure all lines after the first are bolded, too
-            title = "".join([bold(part) + "\n" for part in title.split("\n")]).strip()
+            # Color date and color / bold title and make sure first line of title is bolded
+            title = ansiwrap.fill(colorize(date_str, self.journal.config['colors']['date']) + " " +
+                                  colorize(self.title, self.journal.config['colors']['title'], bold=True),
+                                  self.journal.config['linewrap'])
             body = "\n".join([
                 ansiwrap.fill(
                     line,
@@ -93,7 +93,8 @@ class Entry:
                 for line in self.body.rstrip(" \n").splitlines()
             ])
         else:
-            title = colorize_red(date_str) + " " + bold(self.title.rstrip("\n "))
+            title = colorize(date_str, self.journal.config['colors']['date']) + " " +\
+                    colorize(self.title.rstrip("\n"), self.journal.config['colors']['title'], bold=True)
             body = self.body.rstrip("\n ")
 
         # Suppress bodies that are just blanks and new lines.
