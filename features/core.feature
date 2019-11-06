@@ -58,3 +58,12 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -on 2013-06-10 -s"
         Then the output should be "2013-06-10 15:40 Life is good."
 
+    Scenario: Invalid color configuration
+        Given we use the config "invalid_color.yaml"
+        When we run "jrnl -on 2013-06-10 -s"
+        Then the output should be
+        """
+        [ERROR: date set to invalid color: not-a-color]
+        [ERROR: title set to invalid color: also-not-a-color]
+        2013-06-10 15:40 Life is good.
+        """

@@ -8,6 +8,7 @@ from dateutil import parser as date_parser
 from ansiwrap import strip_color
 from collections import defaultdict
 import os
+import ast
 import json
 import yaml
 import keyring
@@ -234,12 +235,17 @@ def journal_doesnt_exist(context, journal_name="default"):
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value, journal=None):
-    t, value = value.split(":")
-    value = {
-        "bool": lambda v: v.lower() == "true",
-        "int": int,
-        "str": str
-    }[t](value)
+    if not value[0] == "{":
+        t, value = value.split(":")
+        value = {
+            "bool": lambda v: v.lower() == "true",
+            "int": int,
+            "str": str
+        }[t](value)
+    else:
+        # Handle value being a dictionary
+        value = ast.literal_eval(value)
+
     config = util.load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
