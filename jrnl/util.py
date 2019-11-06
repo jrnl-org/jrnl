@@ -164,12 +164,15 @@ def scope_config(config, journal_name):
 
 def verify_config(config):
     """
-    Ensures the keys set for colors are valid colorama.Fore attributes.
+    Ensures the keys set for colors are valid colorama.Fore attributes, or "None"
     :return: True if all keys are set correctly, False otherwise
     """
     all_valid_colors = True
     for key, color in config["colors"].items():
-        if not getattr(colorama.Fore, color.upper(), None):
+        upper_color = color.upper()
+        if upper_color == "NONE":
+            pass
+        if not getattr(colorama.Fore, upper_color, None):
             # TODO: Not sure whether both of these should stay or not.
             print("[{2}ERROR{3}: {0} set to invalid color: {1}]".format(key, color, ERROR_COLOR, RESET_COLOR))
             log.error("Invalid color configuration value for '{0}'.".format(key))
@@ -196,10 +199,15 @@ def get_text_from_editor(config, template=""):
 
 
 def colorize(string, color, bold=False):
-    """Returns the string colored with colorama.Fore.color. If the color set
-    by the user doesn't exist in the colorama.Fore attributes, the colorization
-    is done with WHITE."""
-    color_escape = getattr(colorama.Fore, color.upper(), colorama.Fore.WHITE)
+    """Returns the string colored with colorama.Fore.color. If the color set by
+    the user is "NONE", it returns the string without any modification. Otherwise,
+    If the color set by the user doesn't exist in the colorama.Fore attributes,
+    the colorization is done with WHITE."""
+    upper_color = color.upper()
+    if upper_color == "NONE":
+        return string
+
+    color_escape = getattr(colorama.Fore, upper_color, colorama.Fore.WHITE)
     if not bold:
         return color_escape + string + colorama.Fore.RESET
     else:
