@@ -84,7 +84,7 @@ class Entry:
                             self.journal.config['colors']['date'])
 
         if not short and self.journal.config['linewrap']:
-            # Color date and color / bold title
+            # Color date / title and bold title
             title = ansiwrap.fill(date_str + " " +
                                   highlight_tags_maintain_background_color(self,
                                                                            self.title,
@@ -102,14 +102,13 @@ class Entry:
                     initial_indent=indent,
                     subsequent_indent=indent,
                     drop_whitespace=True) or indent
-                for line in body.splitlines()
+                for line in body.rstrip(" \n").splitlines()
             ])
         else:
-            title = date_str + " " + \
-                    highlight_tags_maintain_background_color(self,
-                                                             self.title.rstrip("\n"),
-                                                             self.journal.config['colors']['title'],
-                                                             bold=True)
+            title = date_str + " " + highlight_tags_maintain_background_color(self,
+                                                                              self.title.rstrip("\n"),
+                                                                              self.journal.config['colors']['title'],
+                                                                              bold=True)
             body = highlight_tags_maintain_background_color(self,
                                                             self.body.rstrip("\n "),
                                                             self.journal.config['colors']['body'],
