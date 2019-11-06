@@ -25,4 +25,4 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
     Scenario: Upgrading a config without colors to colors
         Given we use the config "no_colors.yaml"
         When we run "jrnl -n 1"
-        Then the config should have "colors" set to "{'date':'red', 'title':'blue'}"
+        Then the config should have "colors" set to "{'date':'none', 'title':'none', 'body':'none', 'tags':'none'}"

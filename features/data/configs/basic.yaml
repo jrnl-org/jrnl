@@ -13,3 +13,5 @@ indent_character: "|"
 colors:
   date: red
   title: green
+  body: yellow
+  tags: black

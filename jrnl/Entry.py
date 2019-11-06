@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import re
 import ansiwrap
 from datetime import datetime
-from .util import split_title, colorize
+from .util import split_title, colorize, highlight_tags_maintain_background_color
 
 
 class Entry:
@@ -73,16 +73,28 @@ class Entry:
     def pprint(self, short=False):
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
-        date_str = self.date.strftime(self.journal.config['timeformat'])
+
+        # Handle indentation
         if self.journal.config['indent_character']:
             indent = self.journal.config['indent_character'].rstrip() + " "
         else:
             indent = ""
+
+        date_str = colorize(self.date.strftime(self.journal.config['timeformat']),
+                            self.journal.config['colors']['date'])
+
         if not short and self.journal.config['linewrap']:
-            # Color date and color / bold title and make sure first line of title is bolded
-            title = ansiwrap.fill(colorize(date_str, self.journal.config['colors']['date']) + " " +
-                                  colorize(self.title, self.journal.config['colors']['title'], bold=True),
+            # Color date and color / bold title
+            title = ansiwrap.fill(date_str + " " +
+                                  highlight_tags_maintain_background_color(self,
+                                                                           self.title,
+                                                                           self.journal.config['colors']['title'],
+                                                                           bold=True),
                                   self.journal.config['linewrap'])
+            body = highlight_tags_maintain_background_color(self,
+                                                            self.body.rstrip(" \n"),
+                                                            self.journal.config['colors']['body'],
+                                                            bold=False)
             body = "\n".join([
                 ansiwrap.fill(
                     line,
@@ -90,12 +102,18 @@ class Entry:
                     initial_indent=indent,
                     subsequent_indent=indent,
                     drop_whitespace=True) or indent
-                for line in self.body.rstrip(" \n").splitlines()
+                for line in body.splitlines()
             ])
         else:
-            title = colorize(date_str, self.journal.config['colors']['date']) + " " +\
-                    colorize(self.title.rstrip("\n"), self.journal.config['colors']['title'], bold=True)
-            body = self.body.rstrip("\n ")
+            title = date_str + " " + \
+                    highlight_tags_maintain_background_color(self,
+                                                             self.title.rstrip("\n"),
+                                                             self.journal.config['colors']['title'],
+                                                             bold=True)
+            body = highlight_tags_maintain_background_color(self,
+                                                            self.body.rstrip("\n "),
+                                                            self.journal.config['colors']['body'],
+                                                            bold=False)
 
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
@@ -106,7 +124,7 @@ class Entry:
             return "{title}{sep}{body}\n".format(
                 title=title,
                 sep="\n" if has_body else "",
-                body=colorize(body, self.journal.config['colors']['body']) if has_body else "",
+                body=body if has_body else "",
             )
 
     def __repr__(self):

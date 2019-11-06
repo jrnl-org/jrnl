@@ -212,6 +212,44 @@ def colorize(string, color, bold=False):
         return colorama.Style.BRIGHT + color_escape + string + colorama.Style.RESET_ALL
 
 
+def highlight_tags_maintain_background_color(entry, text, color, bold=False):
+    """
+    Takes a string and colorizes the tags in it based upon the config value for
+    color.tags, while colorizing the rest of the text based on color.
+    :param entry: Entry object, for access to journal config
+    :param text: Text to be colorized
+    :param color: Color for non-tag text, passed to colorize()
+    :param bold: Bold flag text, passed to colorize()
+    :return: Colorized str
+    """
+    config = entry.journal.config
+    if config['highlight']:  # highlight tags
+        if entry.journal.search_tags:
+            for tag in entry.search_tags:
+                text_split = re.split(re.compile(re.escape(tag), re.IGNORECASE),
+                                      text,
+                                      flags=re.UNICODE)
+                text = [colorize(part.strip(),
+                                 color,
+                                 bold)
+                        if len(part) > 0 and part[0] not in config['tagsymbols']
+                        else colorize(part.strip(),
+                                      config['colors']['tags'],
+                                      not bold)
+                        for part in text_split]
+        else:
+            text_split = re.split(entry.tag_regex(config['tagsymbols']), text)
+            text = [colorize(part.strip(),
+                             color,
+                             bold)
+                    if len(part) > 0 and part[0] not in config['tagsymbols']
+                    else colorize(part.strip(),
+                                  config['colors']['tags'],
+                                  not bold)
+                    for part in text_split]
+    return " ".join(text)
+
+
 def slugify(string):
     """Slugifies a string.
     Based on public domain code from https://github.com/zacharyvoase/slugify

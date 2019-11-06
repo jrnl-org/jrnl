@@ -13,3 +13,5 @@ indent_character: "|"
 colors:
   date: not-a-color
   title: also-not-a-color
+  body: still-no-color
+  tags: me-too
