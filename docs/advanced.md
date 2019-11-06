@@ -31,8 +31,9 @@ and can be edited with any plain text editor.
   - `highlight`
     if `true`, tags will be highlighted in cyan.
   - `linewrap`
-    controls the width of the output. Set to `false` if you don't
-    want to wrap long lines.
+    controls the width of the output. Set to `false` if you don't want to wrap long lines.
+  - `colors`
+    dictionary that controls the colors used to display journal entries. It has two subkeys, which are: `date` and `title`. Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, and `WHITE`. `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output).
 
 !!! note
     Although it seems intuitive to use the `#`
