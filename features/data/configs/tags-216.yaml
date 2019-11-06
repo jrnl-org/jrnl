@@ -12,7 +12,7 @@ tagsymbols: '@'
 timeformat: '%Y-%m-%d %H:%M'
 indent_character: "|"
 colors:
-  date: red
-  title: green
-  body: yellow
-  tags: black
+  date: none
+  title: none
+  body: none
+  tags: none
