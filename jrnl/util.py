@@ -222,30 +222,32 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
     :param bold: Bold flag text, passed to colorize()
     :return: Colorized str
     """
+    def colorized_text_generator(fragments):
+        """Efficiently generate colorized tags / text from text fragments.
+        :param fragments: List of strings representing parts of entry (tag or word)."""
+        # Taken from @shobrook. Thanks, buddy :)
+        for fragment in fragments:
+            for part in fragment.strip().split(" "):
+                if part and part[0] not in config['tagsymbols']:
+                    yield colorize(part.strip(), color, bold)
+                else:
+                    yield colorize(part.strip(), config['colors']['tags'], not bold)
+
     config = entry.journal.config
     if config['highlight']:  # highlight tags
         if entry.journal.search_tags:
-            search_texts = []
+            text_fragments = []
             for tag in entry.search_tags:
-                search_texts.append(re.split(re.compile(re.escape(tag), re.IGNORECASE),
-                                             text,
-                                             flags=re.UNICODE))
+                text_fragments.append(re.split(re.compile(re.escape(tag), re.IGNORECASE),
+                                               text,
+                                               flags=re.UNICODE))
         else:
-            search_texts = re.split(entry.tag_regex(config['tagsymbols']), text)
+            text_fragments = re.split(entry.tag_regex(config['tagsymbols']), text)
 
-        pretty_printed_entries = []
-        for text in search_texts:
-            colorized_parts = (colorize(part.strip(),
-                                        color,
-                                        bold)
-                               if part and part[0] not in config['tagsymbols']
-                               else colorize(part.strip(),
-                                             config['colors']['tags'],
-                                             not bold)
-                               for part in text.strip().split(" "))
+        return " ".join(colorized_text_generator(text_fragments))
 
-            pretty_printed_entries.append(" ".join(colorized_parts))
-        return " ".join(pretty_printed_entries)
+    else:
+        return text
 
 
 def slugify(string):
