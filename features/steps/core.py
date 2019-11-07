@@ -5,8 +5,8 @@ from behave import given, when, then
 from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
 from dateutil import parser as date_parser
-from ansiwrap import strip_color
 from collections import defaultdict
+from codecs import encode, decode
 import os
 import ast
 import json
@@ -167,12 +167,22 @@ def check_json_output_path(context, path, value):
             struct = struct[node]
     assert struct == value, struct
 
+def process_ANSI_escapes(text):
+    """Escapes and 'unescapes' a string with ANSI escapes so that behave stdout
+    comparisons work properly. This will render colors, and works with unicode
+    characters. https://stackoverflow.com/a/57192592
+    :param str text: The text to be escaped and unescaped
+    :return: Colorized / escaped text
+    :rtype: str
+    """
+    return decode(encode(text, 'latin-1', 'backslashreplace'), 'unicode-escape')
+
 
 @then('the output should be')
 @then('the output should be "{text}"')
 def check_output(context, text=None):
     text = (text or context.text).strip().splitlines()
-    out = strip_color(context.stdout_capture.getvalue().strip()).splitlines()
+    out = process_ANSI_escapes(context.stdout_capture.getvalue().strip()).splitlines()
     assert len(text) == len(out), "Output has {} lines (expected: {})".format(len(out), len(text))
     for line_text, line_out in zip(text, out):
         assert line_text.strip() == line_out.strip(), [line_text.strip(), line_out.strip()]
@@ -180,7 +190,7 @@ def check_output(context, text=None):
 
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
-    out = strip_color(context.stdout_capture.getvalue())
+    out = process_ANSI_escapes(context.stdout_capture.getvalue())
     local_tz = tzlocal.get_localzone()
     utc_time = date_parser.parse(text)
     local_date = utc_time.astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
@@ -191,7 +201,7 @@ def check_output_time_inline(context, text):
 @then('the output should contain "{text}"')
 def check_output_inline(context, text=None):
     text = text or context.text
-    out = strip_color(context.stdout_capture.getvalue())
+    out = process_ANSI_escapes(context.stdout_capture.getvalue())
     if isinstance(out, bytes):
         out = out.decode('utf-8')
     assert text in out, text
