@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import re
 import ansiwrap
 from datetime import datetime
-from .util import split_title, colorize, highlight_tags_maintain_background_color
+from .util import split_title, colorize, highlight_tags_with_background_color
 
 
 class Entry:
@@ -86,15 +86,15 @@ class Entry:
         if not short and self.journal.config['linewrap']:
             # Color date / title and bold title
             title = ansiwrap.fill(date_str + " " +
-                                  highlight_tags_maintain_background_color(self,
-                                                                           self.title,
-                                                                           self.journal.config['colors']['title'],
-                                                                           bold=True),
+                                  highlight_tags_with_background_color(self,
+                                                                       self.title,
+                                                                       self.journal.config['colors']['title'],
+                                                                       bold=True),
                                   self.journal.config['linewrap'])
-            body = highlight_tags_maintain_background_color(self,
-                                                            self.body.rstrip(" \n"),
-                                                            self.journal.config['colors']['body'],
-                                                            bold=False)
+            body = highlight_tags_with_background_color(self,
+                                                        self.body.rstrip(" \n"),
+                                                        self.journal.config['colors']['body'],
+                                                        bold=False)
             body_text = [colorize(
                 ansiwrap.fill(
                     line,
@@ -106,8 +106,8 @@ class Entry:
                          for line in body.rstrip(" \n").splitlines()]
 
             # ansiwrap doesn't handle lines with only the "\n" character and some
-            # ANSI escapes properly, so we have this nasty hack here to make sure the
-            # beginning of each line has the indent character, and it's colored
+            # ANSI escapes properly, so we have this hack here to make sure the
+            # beginning of each line has the indent character and it's colored
             # properly. textwrap doesn't have this issue, however, it doesn't wrap
             # the strings properly as it counts ANSI escapes as literal characters.
             # TL;DR: I'm sorry.
@@ -116,14 +116,14 @@ class Entry:
                               else line
                               for line in body_text])
         else:
-            title = date_str + " " + highlight_tags_maintain_background_color(self,
-                                                                              self.title.rstrip("\n"),
-                                                                              self.journal.config['colors']['title'],
-                                                                              bold=True)
-            body = highlight_tags_maintain_background_color(self,
-                                                            self.body.rstrip("\n "),
-                                                            self.journal.config['colors']['body'],
-                                                            bold=False)
+            title = date_str + " " + highlight_tags_with_background_color(self,
+                                                                          self.title.rstrip("\n"),
+                                                                          self.journal.config['colors']['title'],
+                                                                          bold=True)
+            body = highlight_tags_with_background_color(self,
+                                                        self.body.rstrip("\n "),
+                                                        self.journal.config['colors']['body'],
+                                                        bold=False)
 
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
