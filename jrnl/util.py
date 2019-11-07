@@ -198,14 +198,12 @@ def get_text_from_editor(config, template=""):
 
 def colorize(string, color, bold=False):
     """Returns the string colored with colorama.Fore.color. If the color set by
-    the user is "NONE", it returns the string without any modification. Otherwise,
-    If the color set by the user doesn't exist in the colorama.Fore attributes,
-    the colorization is done with WHITE."""
-    upper_color = color.upper()
-    if upper_color == "NONE":
+    the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
+    it returns the string without any modification."""
+    color_escape = getattr(colorama.Fore, color.upper(), None)
+    if not color_escape:
         return string
 
-    color_escape = getattr(colorama.Fore, upper_color, colorama.Fore.WHITE)
     if not bold:
         return color_escape + string + colorama.Fore.RESET
     else:
