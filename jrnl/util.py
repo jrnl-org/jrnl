@@ -17,6 +17,7 @@ import subprocess
 import codecs
 import unicodedata
 import shlex
+from string import punctuation
 import logging
 
 log = logging.getLogger(__name__)
@@ -222,14 +223,17 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
     """
     def colorized_text_generator(fragments):
         """Efficiently generate colorized tags / text from text fragments.
-        :param fragments: List of strings representing parts of entry (tag or word)."""
-        # Taken from @shobrook. Thanks, buddy :)
+        Taken from @shobrook. Thanks, buddy :)
+        :param fragments: List of strings representing parts of entry (tag or word).
+        :rtype: List of tuples
+        :returns [(colorized_str, original_str)]"""
         for fragment in fragments:
             for part in fragment.strip().split(" "):
+                part = part.strip()
                 if part and part[0] not in config['tagsymbols']:
-                    yield colorize(part.strip(), color, bold)
-                else:
-                    yield colorize(part.strip(), config['colors']['tags'], not bold)
+                    yield (colorize(part, color, bold), part)
+                elif part:
+                    yield (colorize(part, config['colors']['tags'], not bold), part)
 
     config = entry.journal.config
     if config['highlight']:  # highlight tags
@@ -242,8 +246,17 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         else:
             text_fragments = re.split(entry.tag_regex(config['tagsymbols']), text)
 
-        return " ".join(colorized_text_generator(text_fragments))
+        final_text = ""
+        previous_piece = ""
+        for colorized_piece, piece in colorized_text_generator(text_fragments):
+            if piece in punctuation and previous_piece[0] not in config['tagsymbols']:
+                final_text = final_text.strip() + colorized_piece
+            else:
+                final_text += colorized_piece + " "
 
+            previous_piece = piece
+
+        return final_text
     else:
         return text
 
