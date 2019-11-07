@@ -233,17 +233,19 @@ def highlight_tags_maintain_background_color(entry, text, color, bold=False):
         else:
             search_texts = re.split(entry.tag_regex(config['tagsymbols']), text)
 
-        # TODO: Condense this all into a list comprehension once the broken regression test is fixed.
+        # TODO: Condense this all into a list comprehension
         pretty_printed_entries = []
         for text in search_texts:
-            pretty_printed_entries.append(" ".join([colorize(part.strip(),
-                                                   color,
-                                                   bold)
-                                          if len(part) > 0 and part[0] not in config['tagsymbols']
-                                          else colorize(part.strip(),
-                                                        config['colors']['tags'],
-                                                        not bold)
-                                          for part in text.split()]))
+            colorized_parts = [colorize(part.strip(),
+                                        color,
+                                        bold)
+                               if len(part) > 0 and part[0] not in config['tagsymbols']
+                               else colorize(part.strip(),
+                                             config['colors']['tags'],
+                                             not bold)
+                               for part in text.strip().split(" ")]
+
+            pretty_printed_entries.append(" ".join(colorized_parts))
         return " ".join(pretty_printed_entries)
 
 

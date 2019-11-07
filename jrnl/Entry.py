@@ -95,15 +95,26 @@ class Entry:
                                                             self.body.rstrip(" \n"),
                                                             self.journal.config['colors']['body'],
                                                             bold=False)
-            body = "\n".join([
+            body_text = [colorize(
                 ansiwrap.fill(
                     line,
                     self.journal.config['linewrap'],
                     initial_indent=indent,
                     subsequent_indent=indent,
-                    drop_whitespace=True) or indent
-                for line in body.rstrip(" \n").splitlines()
-            ])
+                    drop_whitespace=True),
+                self.journal.config['colors']['body']) or indent
+                         for line in body.rstrip(" \n").splitlines()]
+
+            # ansiwrap doesn't handle lines with only the "\n" character and some
+            # ANSI escapes properly, so we have this nasty hack here to make sure the
+            # beginning of each line has the indent character, and it's colored
+            # properly. textwrap doesn't have this issue, however, it doesn't wrap
+            # the strings properly as it counts ANSI escapes as literal characters.
+            # TL;DR: I'm sorry.
+            body = "\n".join([colorize(indent, self.journal.config['colors']['body']) + line
+                              if not ansiwrap.strip_color(line).startswith(indent)
+                              else line
+                              for line in body_text])
         else:
             title = date_str + " " + highlight_tags_maintain_background_color(self,
                                                                               self.title.rstrip("\n"),
@@ -134,10 +145,10 @@ class Entry:
 
     def __eq__(self, other):
         if not isinstance(other, Entry) \
-           or self.title.strip() != other.title.strip() \
-           or self.body.rstrip() != other.body.rstrip() \
-           or self.date != other.date \
-           or self.starred != other.starred:
+                or self.title.strip() != other.title.strip() \
+                or self.body.rstrip() != other.body.rstrip() \
+                or self.date != other.date \
+                or self.starred != other.starred:
             return False
         return True
 
