@@ -54,6 +54,8 @@ older versions of jrnl anymore.
             encrypt = config.get('encrypt')
             path = journal_conf
 
+        path = os.path.expanduser(path)
+
         if encrypt:
             encrypted_journals[journal_name] = path
         elif os.path.isdir(path):
