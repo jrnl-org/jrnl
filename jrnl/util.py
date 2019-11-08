@@ -249,10 +249,13 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         final_text = ""
         previous_piece = ""
         for colorized_piece, piece in colorized_text_generator(text_fragments):
-            if piece in punctuation and previous_piece[0] not in config['tagsymbols']:
-                final_text = final_text.strip() + colorized_piece
+            # If it's punctuation and the previous word was a tag, add it directly after the tag.
+            # TODO: This logic seems flawed...
+            if piece in punctuation and previous_piece[0] in config['tagsymbols']:
+                final_text = final_text.lstrip() + colorized_piece
             else:
-                final_text += colorized_piece + " "
+                # Otherwise just append it.
+                final_text += " " + colorized_piece
 
             previous_piece = piece
 
