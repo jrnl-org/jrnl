@@ -256,6 +256,7 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
             else:
                 # Otherwise just append it.
                 final_text += " " + colorized_piece
+                final_text = final_text.lstrip()
 
             previous_piece = piece
 
