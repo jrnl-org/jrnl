@@ -52,3 +52,4 @@ exp/
 _extras/
 *.sublime-*
 site/
+jrnl/VERSION.txt
