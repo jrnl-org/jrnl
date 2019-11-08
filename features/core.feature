@@ -13,6 +13,19 @@ Feature: Basic reading and writing to a journal
             | But I'm better.
             """
 
+    Scenario: Printing a journal that has multiline entries
+        Given we use the config "multiline.yaml"
+        When we run "jrnl -n 1"
+        Then we should get no error
+        and the output should be
+            """
+            2013-06-09 15:39 Multiple line entry.
+            | This is the first line.
+            | This line doesn't have any ending punctuation
+            |
+            | There is a blank line above this.
+            """
+
     Scenario: Writing an entry from command line
         Given we use the config "basic.yaml"
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
