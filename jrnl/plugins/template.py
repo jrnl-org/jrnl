@@ -1,5 +1,4 @@
 import re
-import asteval
 import yaml
 
 VAR_RE = r"[_a-zA-Z][a-zA-Z0-9_]*"
@@ -39,6 +38,7 @@ class Template:
         return self._expand(self.blocks[block], **vars)
 
     def _eval_context(self, vars):
+        import asteval
         e = asteval.Interpreter(use_numpy=False, writer=None)
         e.symtable.update(vars)
         e.symtable['__last_iteration'] = vars.get("__last_iteration", False)

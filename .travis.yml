@@ -113,6 +113,7 @@ jobs:
       before_deploy:
         - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
         - poetry version "$TRAVIS_TAG"
+        - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
         - poetry build
       deploy:
         - provider: script
