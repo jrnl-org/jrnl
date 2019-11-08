@@ -228,8 +228,8 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         :rtype: List of tuples
         :returns [(colorized_str, original_str)]"""
         for fragment in fragments:
-            for part in fragment.strip().split(" "):
-                part = part.strip()
+            for part in fragment.lstrip().split(" "):
+                # part = part.strip()
                 if part and part[0] not in config['tagsymbols']:
                     yield (colorize(part, color, bold), part)
                 elif part:
@@ -240,7 +240,7 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         if entry.journal.search_tags:
             text_fragments = []
             for tag in entry.search_tags:
-                text_fragments.append(re.split(re.compile(re.escape(tag), re.IGNORECASE),
+                text_fragments.extend(re.split(re.compile(re.escape(tag), re.IGNORECASE),
                                                text,
                                                flags=re.UNICODE))
         else:
@@ -248,19 +248,22 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
 
         final_text = ""
         previous_piece = ""
+        # [print("FRAG: '" + repr(frag) + "'") for frag in text_fragments]
         for colorized_piece, piece in colorized_text_generator(text_fragments):
             # If it's punctuation and the previous word was a tag, add it directly after the tag.
             # TODO: This logic seems flawed...
             if piece in punctuation and previous_piece[0] in config['tagsymbols']:
-                final_text = final_text.lstrip() + colorized_piece
+                # print("PUNCT, POST TAG: '" + colorized_piece + "'")
+                final_text += colorized_piece
             else:
                 # Otherwise just append it.
+                # print("NOT PUNCT OR NOT POST TAG: '" + colorized_piece + "'")
                 final_text += " " + colorized_piece
                 final_text = final_text.lstrip()
 
             previous_piece = piece
-
-        return final_text
+        # print("DONE")
+        return final_text.lstrip()
     else:
         return text
 
