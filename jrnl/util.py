@@ -17,7 +17,7 @@ import subprocess
 import codecs
 import unicodedata
 import shlex
-from string import punctuation
+from string import punctuation, whitespace
 import logging
 
 log = logging.getLogger(__name__)
@@ -197,6 +197,10 @@ def get_text_from_editor(config, template=""):
     return raw
 
 
+def text_debug(msg, text):
+    print(f"{msg} : {repr(text)}")
+
+
 def colorize(string, color, bold=False):
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
@@ -228,8 +232,7 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         :rtype: List of tuples
         :returns [(colorized_str, original_str)]"""
         for fragment in fragments:
-            for part in fragment.lstrip().split(" "):
-                # part = part.strip()
+            for part in fragment.lstrip(" ").lstrip("\t").split(" "):
                 if part and part[0] not in config['tagsymbols']:
                     yield (colorize(part, color, bold), part)
                 elif part:
@@ -248,21 +251,24 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
 
         final_text = ""
         previous_piece = ""
-        # [print("FRAG: '" + repr(frag) + "'") for frag in text_fragments]
+        [text_debug("FRAG BEFORE COLORIZED_GEN", frag) for frag in text_fragments]
         for colorized_piece, piece in colorized_text_generator(text_fragments):
             # If it's punctuation and the previous word was a tag, add it directly after the tag.
             # TODO: This logic seems flawed...
-            if piece in punctuation and previous_piece[0] in config['tagsymbols']:
-                # print("PUNCT, POST TAG: '" + colorized_piece + "'")
+            text_debug("PIECE", piece)
+            if all(char in punctuation + whitespace for char in piece) \
+                    or previous_piece.endswith("\n") \
+                    or (previous_piece and previous_piece[0] in config['tagsymbols']):
+                text_debug("ALL PUNCT OR POST TAG", colorized_piece)
                 final_text += colorized_piece
             else:
                 # Otherwise just append it.
-                # print("NOT PUNCT OR NOT POST TAG: '" + colorized_piece + "'")
+                text_debug("NOT PUNCT OR NOT POST TAG", colorized_piece)
                 final_text += " " + colorized_piece
                 final_text = final_text.lstrip()
 
             previous_piece = piece
-        # print("DONE")
+        print("DONE")
         return final_text.lstrip()
     else:
         return text
