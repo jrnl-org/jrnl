@@ -1,6 +1,8 @@
 dist: xenial   # required for Python >= 3.7
 language: python
 python: "3.7"
+git:
+  depth: false
 before_install:
   - pip install poetry
 install:
@@ -26,4 +28,4 @@ after_deploy:
   - git config --global user.name "Jrnl Bot"
   - git add pyproject.toml
   - git commit -m "Incrementing version to ${TRAVIS_TAG}"
-  - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl master
+  - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
