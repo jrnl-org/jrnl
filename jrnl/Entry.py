@@ -81,7 +81,7 @@ class Entry:
             indent = ""
 
         date_str = colorize(self.date.strftime(self.journal.config['timeformat']),
-                            self.journal.config['colors']['date'])
+                            self.journal.config['colors']['date'], bold=True)
 
         if not short and self.journal.config['linewrap']:
             # Color date / title and bold title
