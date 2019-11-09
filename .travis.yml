@@ -11,14 +11,19 @@ script:
   - poetry run python --version
   - poetry run behave
 before_deploy:
-  - pip install poetry
   - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
   - poetry version $TRAVIS_TAG
   - poetry build
 deploy:
   - provider: script
-    script: poetry publish
+    script: echo "fake deploy"
     skip_cleanup: true
     on:
       branch: master
       tags: true
+after_deploy:
+  - git config --global user.email "jrnl.bot@gmail.com"
+  - git config --global user.name "Jrnl Bot"
+  - git add pyproject.toml
+  - git commit -m "Incrementing version to ${TRAVIS_TAG}"
+  - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl master
