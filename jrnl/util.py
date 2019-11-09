@@ -210,14 +210,14 @@ def colorize(string, color, bold=False):
         return colorama.Style.BRIGHT + color_escape + string + colorama.Style.RESET_ALL
 
 
-def highlight_tags_with_background_color(entry, text, color, bold=False):
+def highlight_tags_with_background_color(entry, text, color, is_title=False):
     """
     Takes a string and colorizes the tags in it based upon the config value for
     color.tags, while colorizing the rest of the text based on `color`.
     :param entry: Entry object, for access to journal config
     :param text: Text to be colorized
     :param color: Color for non-tag text, passed to colorize()
-    :param bold: Bold flag text, passed to colorize()
+    :param is_title: Boolean flag indicating if the text is a title or not
     :return: Colorized str
     """
     def colorized_text_generator(fragments):
@@ -228,9 +228,9 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         :returns [(colorized_str, original_str)]"""
         for part in fragments:
             if part and part[0] not in config['tagsymbols']:
-                yield (colorize(part, color, bold), part)
+                yield (colorize(part, color, bold=is_title), part)
             elif part:
-                yield (colorize(part, config['colors']['tags'], not bold), part)
+                yield (colorize(part, config['colors']['tags'], bold=True), part)
 
     config = entry.journal.config
     if config['highlight']:  # highlight tags

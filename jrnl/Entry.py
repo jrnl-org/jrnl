@@ -89,12 +89,11 @@ class Entry:
                                   highlight_tags_with_background_color(self,
                                                                        self.title,
                                                                        self.journal.config['colors']['title'],
-                                                                       bold=True),
+                                                                       is_title=True),
                                   self.journal.config['linewrap'])
             body = highlight_tags_with_background_color(self,
                                                         self.body.rstrip(" \n"),
-                                                        self.journal.config['colors']['body'],
-                                                        bold=False)
+                                                        self.journal.config['colors']['body'])
             body_text = [colorize(
                 ansiwrap.fill(
                     line,
@@ -119,11 +118,10 @@ class Entry:
             title = date_str + " " + highlight_tags_with_background_color(self,
                                                                           self.title.rstrip("\n"),
                                                                           self.journal.config['colors']['title'],
-                                                                          bold=True)
+                                                                          is_title=True)
             body = highlight_tags_with_background_color(self,
                                                         self.body.rstrip("\n "),
-                                                        self.journal.config['colors']['body'],
-                                                        bold=False)
+                                                        self.journal.config['colors']['body'])
 
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(char in (" ", "\n") for char in self.body)
