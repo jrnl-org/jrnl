@@ -51,7 +51,6 @@ class Entry:
 
     @staticmethod
     def tag_regex(tagsymbols):
-        # pattern = r'(?:^|\s)([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
         pattern = r'(?<!\S)([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
         return re.compile(pattern, re.UNICODE)
 

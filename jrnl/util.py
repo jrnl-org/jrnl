@@ -197,10 +197,6 @@ def get_text_from_editor(config, template=""):
     return raw
 
 
-def text_debug(msg, text):
-    print(f"{msg} : {repr(text)}")
-
-
 def colorize(string, color, bold=False):
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
@@ -208,8 +204,7 @@ def colorize(string, color, bold=False):
     color_escape = getattr(colorama.Fore, color.upper(), None)
     if not color_escape:
         return string
-
-    if not bold:
+    elif not bold:
         return color_escape + string + colorama.Fore.RESET
     else:
         return colorama.Style.BRIGHT + color_escape + string + colorama.Style.RESET_ALL
@@ -232,7 +227,6 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         :rtype: List of tuples
         :returns [(colorized_str, original_str)]"""
         for part in fragments:
-            # part = part.rstrip()
             if part and part[0] not in config['tagsymbols']:
                 yield (colorize(part, color, bold), part)
             elif part:
@@ -249,26 +243,23 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         else:
             text_fragments = re.split(entry.tag_regex(config['tagsymbols']), text)
 
+        # Colorizing tags inside of other blocks of text
         final_text = ""
         previous_piece = ""
-        [text_debug("FRAG BEFORE COLORIZED_GEN", frag) for frag in text_fragments]
         for colorized_piece, piece in colorized_text_generator(text_fragments):
-            # If it's punctuation and the previous word was a tag, add it directly after the tag.
-            # TODO: This logic seems flawed...
-            text_debug("PIECE", piece)
+            # If this piece is entirely punctuation or whitespace or the start
+            # of a line or the previous piece was a tag or this piece is a tag,
+            # then add it to the final text without a leading space.
             if all(char in punctuation + whitespace for char in piece) \
                     or previous_piece.endswith("\n") \
-                    or (previous_piece and previous_piece[0] in config['tagsymbols']):
-                text_debug("ALL PUNCT OR POST TAG", colorized_piece)
+                    or (previous_piece and previous_piece[0] in config['tagsymbols']) \
+                    or piece[0] in config['tagsymbols']:
                 final_text += colorized_piece
             else:
-                # Otherwise just append it.
-                text_debug("NOT PUNCT OR NOT POST TAG", colorized_piece)
+                # Otherwise add a leading space and then append the piece.
                 final_text += " " + colorized_piece
-                final_text = final_text.lstrip()
 
             previous_piece = piece
-        print("DONE")
         return final_text.lstrip()
     else:
         return text
