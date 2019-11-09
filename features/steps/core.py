@@ -118,7 +118,7 @@ def has_error(context):
 
 @then('we should get no error')
 def no_error(context):
-    assert context.exit_status is 0, context.exit_status
+    assert context.exit_status == 0, context.exit_status
 
 
 @then('the output should be parsable as json')
