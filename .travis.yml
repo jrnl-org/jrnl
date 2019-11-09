@@ -26,6 +26,7 @@ deploy:
 after_deploy:
   - git config --global user.email "jrnl.bot@gmail.com"
   - git config --global user.name "Jrnl Bot"
+  - git checkout master
   - git add pyproject.toml
   - git commit -m "Incrementing version to ${TRAVIS_TAG}"
   - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
