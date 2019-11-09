@@ -26,21 +26,6 @@ Feature: Basic reading and writing to a journal
             | There is a blank line above this.
             """
 
-    Scenario: Printing a journal that has multiline entries with tags
-        Given we use the config "multiline-tags.yaml"
-        When we run "jrnl -n 1"
-        Then we should get no error
-        and the output should be
-            """
-            [2013-06-09 15:39] Multiple @line entry with @tags.
-            | Tag with @punctuation. afterwards
-            | @TagOnLineAloneWithOutPunctuation
-            | @TagOnLineAloneWithPunctuation.
-            | Text before @tag. And After.
-            | @hi. Hello
-            | hi Hello
-            """
-
     Scenario: Writing an entry from command line
         Given we use the config "basic.yaml"
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
