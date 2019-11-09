@@ -231,12 +231,12 @@ def highlight_tags_with_background_color(entry, text, color, bold=False):
         :param fragments: List of strings representing parts of entry (tag or word).
         :rtype: List of tuples
         :returns [(colorized_str, original_str)]"""
-        for fragment in fragments:
-            for part in fragment.lstrip(" ").lstrip("\t").split(" "):
-                if part and part[0] not in config['tagsymbols']:
-                    yield (colorize(part, color, bold), part)
-                elif part:
-                    yield (colorize(part, config['colors']['tags'], not bold), part)
+        for part in fragments:
+            # part = part.rstrip()
+            if part and part[0] not in config['tagsymbols']:
+                yield (colorize(part, color, bold), part)
+            elif part:
+                yield (colorize(part, config['colors']['tags'], not bold), part)
 
     config = entry.journal.config
     if config['highlight']:  # highlight tags
