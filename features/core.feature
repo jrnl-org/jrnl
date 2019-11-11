@@ -58,3 +58,15 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -on 2013-06-10 -s"
         Then the output should be "2013-06-10 15:40 Life is good."
 
+    Scenario: Creating a journal that already exists fails
+        Given we use the config "basic.yaml"
+        When we run "jrnl -create default"
+        Then we should see the message "Journal with `default` name already exists."
+
+    Scenario: Creating a journal that doesn't exits pass
+        Given we use the config "basic.yaml"
+        When we run "jrnl -create random" and enter
+        "
+        /data/journals/random.journal
+        random
+        "
