@@ -18,13 +18,13 @@ Unfortunately, bugs happen. If you found one, please [open a new issue](https://
 Feature requests and ideas
 --------------------------
 
-So, you have an idea for a great feature? Awesome! We'd love to hear from you! Please [open a new issue](https://github.com/jrnl-org/jrnl/issues) and describe the goal of the feature, and any relvant use cases. We'll discuss the issue with you, and decide if it's a good fit for the project.
+So, you have an idea for a great feature? Awesome! We'd love to hear from you! Please [open a new issue](https://github.com/jrnl-org/jrnl/issues) and describe the goal of the feature, and any relevant use cases. We'll discuss the issue with you, and decide if it's a good fit for the project.
 
 When discussing new features, please keep in mind our design goals. jrnl strives to do one thing well. To us, that means:
 
 * be _slim_
 * have a simple interface
-* avoid dupicating functionality
+* avoid duplicating functionality
 
 
 A short note for new programmers and programmers new to python
