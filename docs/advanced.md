@@ -77,6 +77,8 @@ separate `plist` file. So your `.jrnl_config` should look like this:
 }
 ```
 
+**Note**: At present, only *Dayone Classic* (i.e. version 1) is supported.
+
 ## Multiple journal files
 
 You can configure `jrnl`to use with multiple journals (eg.
