@@ -3,7 +3,7 @@ Changelog
 
 ## 2.0
 
-* Cryptographical backend changed from PyCrypto to cryptography.io
+* Cryptographic backend changed from PyCrypto to cryptography.io
 * Config now respects XDG conventions and may move accordingly
 * Config now saved as YAML
 * Config name changed from `journals.jrnl_name.journal` to `journals.jrnl_name.path`
