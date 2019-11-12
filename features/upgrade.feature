@@ -21,3 +21,14 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             """
         Then the output should contain "Password"
         and the output should contain "2013-06-10 15:40 Life is good"
+
+    Scenario: Upgrade and parse journals with little endian date format
+        Given we use the config "upgrade_from_195_little_endian_dates.json"
+        When we run "jrnl -9" and enter "Y"
+        Then the output should contain
+            """
+            10.06.2010 15:00 A life without chocolate is like a bad analogy.
+
+            10.06.2013 15:40 He said "[this] is the best time to be alive".
+            """
+        Then the journal should have 2 entries
