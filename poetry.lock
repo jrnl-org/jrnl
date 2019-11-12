@@ -385,7 +385,7 @@ pytz = "*"
 
 [metadata]
 content-hash = "9896cf59c7552b6ad95219ee5555c7445a3fab39c2e4f4c6f3d991a36635e44b"
-python-versions = "^3.7"
+python-versions = ">=3.6.0, <3.8.0"
 
 [metadata.hashes]
 appdirs = ["9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92", "d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e"]
