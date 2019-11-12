@@ -51,7 +51,7 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None):
         except TypeError:
             return None
 
-    if flag is 1:  # Date found, but no time. Use the default time.
+    if flag == 1:  # Date found, but no time. Use the default time.
         date = datetime(*date[:3], hour=default_hour or 0, minute=default_minute or 0)
     else:
         date = datetime(*date[:6])
