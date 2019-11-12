@@ -1,8 +1,10 @@
 dist: xenial   # required for Python >= 3.7
 language: python
 python: "3.7"
+git:
+  depth: false
 before_install:
-  - pip install poetry
+  - pip install poetry~=0.12.17
 install:
   # we run `poetry version` here to appease poetry about '0.0.0-source'
   - poetry version
@@ -11,7 +13,6 @@ script:
   - poetry run python --version
   - poetry run behave
 before_deploy:
-  - pip install poetry
   - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
   - poetry version $TRAVIS_TAG
   - poetry build
@@ -22,3 +23,10 @@ deploy:
     on:
       branch: master
       tags: true
+after_deploy:
+  - git config --global user.email "jrnl.bot@gmail.com"
+  - git config --global user.name "Jrnl Bot"
+  - git checkout master
+  - git add pyproject.toml
+  - git commit -m "Incrementing version to ${TRAVIS_TAG}"
+  - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master

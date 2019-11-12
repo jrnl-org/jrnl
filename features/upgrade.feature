@@ -13,14 +13,14 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
 
     Scenario: Upgrading a journal encrypted with jrnl 1.x
         Given we use the config "encrypted_old.json"
-        When we run "jrnl -n 1" and enter 
+        When we run "jrnl -n 1" and enter
             """
             Y
             bad doggie no biscuit
             bad doggie no biscuit
             """
-        Then we should see the message "Password"
-        And the output should contain "2013-06-10 15:40 Life is good"
+        Then the output should contain "Password"
+        and the output should contain "2013-06-10 15:40 Life is good"
 
     Scenario: Upgrade and parse journals with little endian date format
         Given we use the config "upgrade_from_195_little_endian_dates.json"

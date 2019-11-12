@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
 from .text_exporter import TextExporter
 import json
 from .util import get_tags_count
@@ -35,7 +34,7 @@ class JSONExporter(TextExporter):
         """Returns a json representation of an entire journal."""
         tags = get_tags_count(journal)
         result = {
-            "tags": dict((tag, count) for count, tag in tags),
+            "tags": {tag: count for count, tag in tags},
             "entries": [cls.entry_to_dict(e) for e in journal.entries]
         }
         return json.dumps(result, indent=2)
