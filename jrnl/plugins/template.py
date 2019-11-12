@@ -13,7 +13,7 @@ BLOCK_RE = r"{% *block +(.+?) *%}((?:.|\n)+?){% *endblock *%}"
 INCLUDE_RE = r"{% *include +(.+?) *%}"
 
 
-class Template(object):
+class Template:
     def __init__(self, template):
         self.template = template
         self.clean_template = None
