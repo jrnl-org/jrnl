@@ -381,8 +381,8 @@ version = "1.5.1"
 pytz = "*"
 
 [metadata]
-content-hash = "22be2bc81609baae93ffdee9d5cb4d455d9cae13f56cf10eacc36258a1ea510a"
-python-versions = "^3.7"
+content-hash = "9896cf59c7552b6ad95219ee5555c7445a3fab39c2e4f4c6f3d991a36635e44b"
+python-versions = ">=3.6.0, <3.8.0"
 
 [metadata.hashes]
 ansiwrap = ["7b053567c88e1ad9eed030d3ac41b722125e4c1271c8a99ade797faff1f49fb1", "ca0c740734cde59bf919f8ff2c386f74f9a369818cdc60efe94893d01ea8d9b7"]
