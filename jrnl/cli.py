@@ -200,6 +200,8 @@ def run(manual_args=None):
                     util.prompt("[Could not read template at '']".format(config['template']))
                     sys.exit(1)
             raw = util.get_text_from_editor(config, template)
+            if not raw:
+                sys.exit()
         else:
             try:
                 raw = util.py23_read("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n")
