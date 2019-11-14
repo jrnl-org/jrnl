@@ -2,6 +2,14 @@ import shutil
 import os
 
 
+def before_feature(context, feature):
+    # add "skip" tag
+    # https://stackoverflow.com/a/42721605/4276230
+    if "skip" in feature.tags:
+        feature.skip("Marked with @skip")
+        return
+
+
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     # Clean up in case something went wrong
@@ -21,6 +29,12 @@ def before_scenario(context, scenario):
                 shutil.copytree(source, os.path.join(working_dir, filename))
             else:
                 shutil.copy2(source, working_dir)
+
+    # add "skip" tag
+    # https://stackoverflow.com/a/42721605/4276230
+    if "skip" in scenario.effective_tags:
+        scenario.skip("Marked with @skip")
+        return
 
 
 def after_scenario(context, scenario):
