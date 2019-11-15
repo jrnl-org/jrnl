@@ -6,6 +6,7 @@ from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
 from dateutil import parser as date_parser
 from collections import defaultdict
+import mock
 import os
 import json
 import yaml
@@ -26,6 +27,7 @@ class TestKeyring(keyring.backend.KeyringBackend):
 
     def delete_password(self, servicename, username, password):
         self.keys[servicename][username] = None
+
 
 # set the keyring for keyring lib
 keyring.set_keyring(TestKeyring())
@@ -71,6 +73,12 @@ def set_config(context, config_file):
         # Add jrnl version to file for 2.x journals
         with open(install.CONFIG_FILE_PATH, 'a') as cf:
             cf.write("version: {}".format(__version__))
+
+
+@when('we open the editor and exit')
+@mock.patch('jrnl.util.get_text_from_editor', return_value="")
+def open_editor_and_exit_without_entering_text(context, dead_param_to_satisfy_behave):
+    run(context, "jrnl")
 
 
 @when('we run "{command}" and enter')
@@ -164,6 +172,11 @@ def check_json_output_path(context, path, value):
         except ValueError:
             struct = struct[node]
     assert struct == value, struct
+
+
+@then('the output should be empty')
+def check_empty_output(context, text=None):
+    assert (text or context.text) is None
 
 
 @then('the output should be')
