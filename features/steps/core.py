@@ -1,12 +1,12 @@
 from __future__ import unicode_literals
 from __future__ import absolute_import
+from unittest.mock import patch
 
 from behave import given, when, then
 from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
 from dateutil import parser as date_parser
 from collections import defaultdict
-import mock
 import os
 import json
 import yaml
@@ -76,9 +76,9 @@ def set_config(context, config_file):
 
 
 @when('we open the editor and exit')
-@mock.patch('jrnl.util.get_text_from_editor', return_value="")
-def open_editor_and_exit_without_entering_text(context, dead_param_to_satisfy_behave):
-    run(context, "jrnl")
+def open_editor_and_exit_without_entering_text(context):
+    with patch('jrnl.util.get_text_from_editor', return_value=""):
+        run(context, "jrnl")
 
 
 @when('we run "{command}" and enter')
