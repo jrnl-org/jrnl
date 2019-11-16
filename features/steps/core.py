@@ -74,7 +74,7 @@ def open_editor_and_enter(context, text=""):
     print("open_editor_and_enter called")
     def _mock_editor_function(command):
         print("_mock_editor_function called")
-        tmpfile = command.split()[-1]
+        tmpfile = command[-1]
         print("TMPFILE:", tmpfile)
         with open(tmpfile, "w+") as f:
             f.write(text)
