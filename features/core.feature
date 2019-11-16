@@ -23,8 +23,8 @@ Feature: Basic reading and writing to a journal
     # Note that the expected output is actually "[Nothing saved to file]" but due to mocking limitations, we expect no output here.
     Scenario: Writing an empty entry from the editor
         Given we use the config "editor.yaml"
-        When we open the editor and exit
-        Then the output should be empty
+        When we open the editor and enter ""
+        Then we should see the message "[Nothing saved to file]"
 
     Scenario: Filtering for dates
         Given we use the config "basic.yaml"

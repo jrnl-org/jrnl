@@ -67,9 +67,11 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
-@when('we open the editor and exit')
-def open_editor_and_exit_without_entering_text(context):
-    with patch('jrnl.util.get_text_from_editor', return_value=""):
+@when('we open the editor and enter')
+@when('we open the editor and enter {text}')
+def open_editor_and_enter(context, text=""):
+    text = (text or context.text)
+    with patch('subprocess.call', return_value=text):
         run(context, "jrnl")
 
 
