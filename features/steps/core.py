@@ -78,6 +78,7 @@ def open_editor_and_enter(context, text=""):
         print("TMPFILE:", tmpfile)
         with open(tmpfile, "w+") as f:
             f.write(text)
+        return tmpfile
 
     with patch('subprocess.call', side_effect=_mock_editor_function):
         run(context, "jrnl")
