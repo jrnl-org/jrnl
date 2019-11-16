@@ -218,8 +218,6 @@ def check_output_time_inline(context, text):
 def check_output_inline(context, text=None):
     text = text or context.text
     out = process_ANSI_escapes(context.stdout_capture.getvalue())
-    if isinstance(out, bytes):
-        out = out.decode('utf-8')
     assert text in out, text
 
 
