@@ -202,11 +202,6 @@ def check_json_output_path(context, path, value):
     assert struct == value, struct
 
 
-@then('the output should be empty')
-def check_empty_output(context):
-    assert context.stdout_capture is None
-
-
 @then('the output should be')
 @then('the output should be "{text}"')
 def check_output(context, text=None):
