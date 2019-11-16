@@ -196,8 +196,6 @@ def run(manual_args=None):
                     print(f"[Could not read template at '{config['template']}']", file=sys.stderr)
                     sys.exit(1)
             raw = util.get_text_from_editor(config, template)
-            if not raw:
-                sys.exit()
         else:
             try:
                 print("[Compose Entry; " + _exit_multiline_code + " to finish writing]\n", file=sys.stderr)
@@ -208,7 +206,7 @@ def run(manual_args=None):
         if raw:
             args.text = [raw]
         else:
-            mode_compose = False
+            sys.exit()
 
     # This is where we finally open the journal!
     try:
