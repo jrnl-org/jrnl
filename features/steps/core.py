@@ -68,7 +68,7 @@ def set_config(context, config_file):
 
 
 @when('we open the editor and enter')
-@when('we open the editor and enter {text}')
+@when('we open the editor and enter "{text}"')
 def open_editor_and_enter(context, text=""):
     text = (text or context.text)
     print("open_editor_and_enter called")
