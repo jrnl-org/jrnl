@@ -73,16 +73,13 @@ def open_editor_and_enter(context, text=""):
     text = (text or context.text)
     print("open_editor_and_enter called")
     def _mock_editor_function(command):
-        print("_mock_editor_function called")
         tmpfile = command[-1]
-        print("TMPFILE:", tmpfile)
         with open(tmpfile, "w+") as f:
             if text is not None:
                 f.write(text)
             else:
                 f.write("")
 
-        print("File contents:", open(tmpfile, "r").read())
         return tmpfile
 
     with patch('subprocess.call', side_effect=_mock_editor_function):
