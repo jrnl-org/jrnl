@@ -49,8 +49,8 @@ class Entry:
 
     @staticmethod
     def tag_regex(tagsymbols):
-        pattern = r'(?<!\S)([{tags}][-+*#/\w]+)'.format(tags=tagsymbols)
-        return re.compile(pattern, re.UNICODE)
+        pattern = fr'(?u)(?<!\S)([{tagsymbols}][-+*#/\w]+)'
+        return re.compile(pattern)
 
     def _parse_tags(self):
         tagsymbols = self.journal.config['tagsymbols']
