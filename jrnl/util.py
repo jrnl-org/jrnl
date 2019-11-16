@@ -17,8 +17,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-PY3 = sys.version_info[0] == 3
-PY2 = sys.version_info[0] == 2
 STDIN = sys.stdin
 STDERR = sys.stderr
 STDOUT = sys.stdout
