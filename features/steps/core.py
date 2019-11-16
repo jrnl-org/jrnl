@@ -67,7 +67,7 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
-@when('we open the editor and enter nothing')
+@when('we open the editor and enter ""')
 @when('we open the editor and enter "{text}"')
 def open_editor_and_enter(context, text=""):
     text = (text or context.text)
@@ -77,7 +77,10 @@ def open_editor_and_enter(context, text=""):
         tmpfile = command[-1]
         print("TMPFILE:", tmpfile)
         with open(tmpfile, "w+") as f:
-            f.write(text)
+            if text is not None:
+                f.write(text)
+            else:
+                f.write("")
 
         print("File contents:", open(tmpfile, "r").read())
         return tmpfile
