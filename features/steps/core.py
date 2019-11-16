@@ -190,8 +190,8 @@ def check_json_output_path(context, path, value):
 
 
 @then('the output should be empty')
-def check_empty_output(context, text=None):
-    assert (text or context.text) is None
+def check_empty_output(context):
+    assert context.stdout_capture is None
 
 
 @then('the output should be')
