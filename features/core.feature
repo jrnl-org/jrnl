@@ -27,7 +27,7 @@ Feature: Basic reading and writing to a journal
 
     Scenario: Writing an empty entry from the command line
         Given we use the config "basic.yaml"
-        When we run "jrnl ''"
+        When we run "jrnl" and enter ""
         Then we should get no error
         And the output should be
             """
