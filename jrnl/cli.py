@@ -176,7 +176,7 @@ def run(manual_args=None):
 
     log.debug('Using journal "%s"', journal_name)
     mode_compose, mode_export, mode_import = guess_mode(args, config)
-    
+
     # How to quit writing?
     if "win32" in sys.platform:
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
