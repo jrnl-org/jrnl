@@ -31,6 +31,7 @@ Feature: Basic reading and writing to a journal
         Then we should get no error
         And the output should be
             """
+
             """
 
     Scenario: Filtering for dates
