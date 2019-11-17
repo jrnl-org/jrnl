@@ -29,9 +29,8 @@ Feature: Basic reading and writing to a journal
         Given we use the config "basic.yaml"
         When we run "jrnl ''"
         Then we should get no error
-        And the unstripped output should be
+        And the output should be
             """
-
             """
 
     Scenario: Filtering for dates

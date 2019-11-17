@@ -210,15 +210,6 @@ def check_output(context, text=None):
     for line_text, line_out in zip(text, out):
         assert line_text.strip() == line_out.strip(), [line_text.strip(), line_out.strip()]
 
-@then('the unstripped output should be')
-@then('the unstripped output should be "{text}"')
-def check_output(context, text=None):
-    text = (text or context.text).splitlines()
-    out = context.stdout_capture.getvalue().splitlines()
-    assert len(text) == len(out), "Output has {} lines (expected: {})".format(len(out), len(text))
-    for line_text, line_out in zip(text, out):
-        assert line_text == line_out, [line_text, line_out]
-
 
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
