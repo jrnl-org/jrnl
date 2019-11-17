@@ -17,12 +17,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-STDIN = sys.stdin
-STDERR = sys.stderr
-STDOUT = sys.stdout
-TEST = False
-__cached_tz = None
-
 WARNING_COLOR = colorama.Fore.YELLOW
 ERROR_COLOR = colorama.Fore.RED
 RESET_COLOR = colorama.Fore.RESET
