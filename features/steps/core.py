@@ -112,7 +112,7 @@ def run_with_input(context, command, inputs1="", inputs2=""):
     elif context.text:
         text = iter(context.text.split("\n"))
     else:
-        text = ""
+        text = iter(("", ""))
     args = ushlex(command)[1:]
     with patch("builtins.input", side_effect=_mock_input(text)) as mock_input:
         with patch("jrnl.util.getpass", side_effect=_mock_getpass(text)) as mock_getpass:
