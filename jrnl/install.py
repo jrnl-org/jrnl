@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import readline
 import glob
 import getpass
 import os
@@ -14,6 +13,9 @@ from .util import UserAbort
 import yaml
 import logging
 import sys
+if "win32" not in sys.platform:
+    # readline is not included in Windows Active Python
+    import readline 
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'
@@ -108,14 +110,10 @@ def load_or_install_jrnl():
 
 
 def install():
-    def autocomplete(text, state):
-        expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
-        expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
-        expansions.append(None)
-        return expansions[state]
-    readline.set_completer_delims(' \t\n;')
-    readline.parse_and_bind("tab: complete")
-    readline.set_completer(autocomplete)
+    if "win32" not in sys.platform:
+        readline.set_completer_delims(' \t\n;')
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(autocomplete)
 
     # Where to create the journal?
     path_query = f'Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): '
@@ -146,3 +144,9 @@ def install():
     if password:
         config['password'] = password
     return config
+
+def autocomplete(text, state):
+    expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
+    expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
+    expansions.append(None)
+    return expansions[state]
