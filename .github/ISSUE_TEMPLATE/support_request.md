@@ -2,7 +2,7 @@
 name: Support Request
 about: Get help with jrnl
 title: ''
-labels: support, ":new:"
+labels: ":new:, support"
 assignees: ''
 
 ---
@@ -24,4 +24,3 @@ If you would fill out the below points, that would make our process a whole lot 
 * **What have you tried?**
 
 * **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
-
