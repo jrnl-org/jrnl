@@ -29,6 +29,7 @@ class TestKeyring(keyring.backend.KeyringBackend):
     def delete_password(self, servicename, username, password):
         self.keys[servicename][username] = None
 
+
 # set the keyring for keyring lib
 keyring.set_keyring(TestKeyring())
 
@@ -66,6 +67,24 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
+@when('we open the editor and enter ""')
+@when('we open the editor and enter "{text}"')
+def open_editor_and_enter(context, text=""):
+    text = (text or context.text)
+    def _mock_editor_function(command):
+        tmpfile = command[-1]
+        with open(tmpfile, "w+") as f:
+            if text is not None:
+                f.write(text)
+            else:
+                f.write("")
+
+        return tmpfile
+
+    with patch('subprocess.call', side_effect=_mock_editor_function):
+        run(context, "jrnl")
+
+
 def _mock_getpass(inputs):
     def prompt_return(prompt="Password: "):
         print(prompt)
@@ -82,12 +101,18 @@ def _mock_input(inputs):
 
 
 @when('we run "{command}" and enter')
+@when('we run "{command}" and enter ""')
 @when('we run "{command}" and enter "{inputs1}"')
 @when('we run "{command}" and enter "{inputs1}" and "{inputs2}"')
 def run_with_input(context, command, inputs1="", inputs2=""):
     # create an iterator through all inputs. These inputs will be fed one by one
     # to the mocked calls for 'input()', 'util.getpass()' and 'sys.stdin.read()'
-    text = iter((inputs1, inputs2)) if inputs1 else iter(context.text.split("\n"))
+    if inputs1:
+        text = iter((inputs1, inputs2))
+    elif context.text:
+        text = iter(context.text.split("\n"))
+    else:
+        text = iter(("", ""))
     args = ushlex(command)[1:]
     with patch("builtins.input", side_effect=_mock_input(text)) as mock_input:
         with patch("jrnl.util.getpass", side_effect=_mock_getpass(text)) as mock_getpass:
