@@ -10,7 +10,9 @@ try:
 except ImportError:
     import parsedatetime as pdt
 import time
+from codecs import encode, decode
 import os
+import ast
 import json
 import yaml
 import keyring
@@ -184,11 +186,69 @@ def no_error(context):
     assert context.exit_status == 0, context.exit_status
 
 
+@then("the output should be parsable as json")
+def check_output_json(context):
+    out = context.stdout_capture.getvalue()
+    assert json.loads(out), out
+
+
+@then('"{field}" in the json output should have {number:d} elements')
+@then('"{field}" in the json output should have 1 element')
+def check_output_field(context, field, number=1):
+    out = context.stdout_capture.getvalue()
+    out_json = json.loads(out)
+    assert field in out_json, [field, out_json]
+    assert len(out_json[field]) == number, len(out_json[field])
+
+
+@then('"{field}" in the json output should not contain "{key}"')
+def check_output_field_not_key(context, field, key):
+    out = context.stdout_capture.getvalue()
+    out_json = json.loads(out)
+    assert field in out_json
+    assert key not in out_json[field]
+
+
+@then('"{field}" in the json output should contain "{key}"')
+def check_output_field_key(context, field, key):
+    out = context.stdout_capture.getvalue()
+    out_json = json.loads(out)
+    assert field in out_json
+    assert key in out_json[field]
+
+
+@then('the json output should contain {path} = "{value}"')
+def check_json_output_path(context, path, value):
+    """ E.g.
+    the json output should contain entries.0.title = "hello"
+    """
+    out = context.stdout_capture.getvalue()
+    struct = json.loads(out)
+
+    for node in path.split("."):
+        try:
+            struct = struct[int(node)]
+        except ValueError:
+            struct = struct[node]
+    assert struct == value, struct
+
+
+def process_ANSI_escapes(text):
+    """Escapes and 'unescapes' a string with ANSI escapes so that behave stdout
+    comparisons work properly. This will render colors, and works with unicode
+    characters. https://stackoverflow.com/a/57192592
+    :param str text: The text to be escaped and unescaped
+    :return: Colorized / escaped text
+    :rtype: str
+    """
+    return decode(encode(text, "latin-1", "backslashreplace"), "unicode-escape")
+
+
 @then("the output should be")
 @then('the output should be "{text}"')
 def check_output(context, text=None):
     text = (text or context.text).strip().splitlines()
-    out = context.stdout_capture.getvalue().strip().splitlines()
+    out = process_ANSI_escapes(context.stdout_capture.getvalue().strip()).splitlines()
     assert len(text) == len(out), "Output has {} lines (expected: {})".format(
         len(out), len(text)
     )
@@ -201,7 +261,7 @@ def check_output(context, text=None):
 
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
-    out = context.stdout_capture.getvalue()
+    out = process_ANSI_escapes(context.stdout_capture.getvalue())
     local_tz = tzlocal.get_localzone()
     date, flag = CALENDAR.parse(text)
     output_date = time.strftime("%Y-%m-%d %H:%M", date)
@@ -213,7 +273,7 @@ def check_output_time_inline(context, text):
 @then('the output should contain "{text}" or "{text2}"')
 def check_output_inline(context, text=None, text2=None):
     text = text or context.text
-    out = context.stdout_capture.getvalue()
+    out = process_ANSI_escapes(context.stdout_capture.getvalue())
     assert text in out or text2 in out, text or text2
 
 
@@ -253,8 +313,15 @@ def journal_doesnt_exist(context, journal_name="default"):
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value, journal=None):
-    t, value = value.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
+    if not value[0] == "{":
+        t, value = value.split(":")
+        value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](
+            value
+        )
+    else:
+        # Handle value being a dictionary
+        value = ast.literal_eval(value)
+
     config = util.load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
