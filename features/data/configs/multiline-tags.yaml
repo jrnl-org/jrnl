@@ -4,7 +4,7 @@ editor: ""
 encrypt: false
 highlight: true
 journals:
-  default: features/journals/simple.journal
+  default: features/journals/multiline-tags.journal
 linewrap: 80
 tagsymbols: "@"
 template: false
