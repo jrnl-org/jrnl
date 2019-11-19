@@ -2,7 +2,7 @@
 name: Support Request
 about: Get help with jrnl
 title: ''
-labels: support, :new:
+labels: support, ":new:"
 assignees: ''
 
 ---

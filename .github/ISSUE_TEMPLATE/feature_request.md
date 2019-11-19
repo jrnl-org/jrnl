@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for jrnl
 title: ''
-labels: enhancement, :new:
+labels: enhancement, ":new:"
 assignees: ''
 
 ---
