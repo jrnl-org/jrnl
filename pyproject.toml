@@ -22,9 +22,10 @@ keyring = "^19.0"
 pytz = "^2019.1"
 tzlocal = "^1.5"
 asteval = "^0.9.14"
-colorama = {version = "^0.4.1",platform = "win32"}
+colorama = "^0.4.1"
 python-dateutil = "^2.8"
 pyyaml = "^5.1"
+ansiwrap = "^0.8.4"
 
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
