@@ -141,9 +141,9 @@
               
                 <h1 id="encryption">Encryption</h1>
 <h2 id="encrypting-and-decrypting">Encrypting and decrypting</h2>
-<p>If you don't choose to encrypt your file when you run
+<p>If you don’t choose to encrypt your file when you run
 <code>jrnl</code> for the first time, you can encrypt
-your existing journal file or change its password using</p>
+your existing journal file or change its password using this:</p>
 <pre><code class="sh">jrnl --encrypt
 </code></pre>
 
@@ -153,43 +153,48 @@ replaced by the encrypted file. Conversely,</p>
 <pre><code class="sh">jrnl --decrypt
 </code></pre>
 
-<p>will replace your encrypted journal file by a Journal in plain text. You
-can also specify a filename, ie. <code>jrnl --decrypt plain_text_copy.txt</code>,
+<p>will replace your encrypted journal file with a journal in plain text. You
+can also specify a filename, i.e. <code>jrnl --decrypt plain_text_copy.txt</code>,
 to leave your original file untouched.</p>
 <h2 id="storing-passwords-in-your-keychain">Storing passwords in your keychain</h2>
 <p>Whenever you encrypt your journal, you are asked whether you want to
 store the encryption password in your keychain. If you do this, you
-won't have to enter your password every time you want to write or read
+won’t have to enter your password every time you want to write or read
 your journal.</p>
-<p>If you don't initially store the password in the keychain but decide to
-do so at a later point -- or maybe want to store it on one computer but
-not on another -- you can simply run <code>jrnl --encrypt</code> on an encrypted
+<p>If you don’t initially store the password in the keychain but decide to
+do so at a later point – or maybe want to store it on one computer but
+not on another – you can simply run <code>jrnl --encrypt</code> on an encrypted
 journal and use the same password again.</p>
 <h2 id="a-note-on-security">A note on security</h2>
 <p>While jrnl follows best practises, true security is an illusion.
 Specifically, jrnl will leave traces in your memory and your shell
-history -- it's meant to keep journals secure in transit, for example
+history – it’s meant to keep journals secure in transit, for example
 when storing it on an
 <a href="http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/">untrusted</a>
-services such as Dropbox. If you're concerned about security, disable
-history logging for journal in your <code>.bashrc</code></p>
+services such as Dropbox. If you’re concerned about security, disable
+history logging for journal in your <code>.bashrc</code>:</p>
 <pre><code class="sh">HISTIGNORE=&quot;$HISTIGNORE:jrnl *&quot;
 </code></pre>
 
-<p>If you are using zsh instead of bash, you can get the same behaviour
-adding this to your <code>zshrc</code></p>
+<p>If you are using zsh instead of bash, you can get the same behaviour by
+adding this to your <code>zshrc</code>:</p>
 <pre><code class="sh">setopt HIST_IGNORE_SPACE
 alias jrnl=&quot; jrnl&quot;
 </code></pre>
 
+<p>The fish shell does not support automatically preventing logging like
+this. To prevent <code>jrnl</code> commands being logged by fish, you must make
+sure to type a space before every <code>jrnl</code> command you enter. To delete
+existing <code>jrnl</code> commands from fish’s history, run
+<code>history delete --prefix 'jrnl '</code>.</p>
 <h2 id="manual-decryption">Manual decryption</h2>
 <p>Should you ever want to decrypt your journal manually, you can do so
 with any program that supports the AES algorithm in CBC. The key used
 for encryption is the SHA-256-hash of your password, the IV
 (initialisation vector) is stored in the first 16 bytes of the encrypted
 file. The plain text is encoded in UTF-8 and padded according to PKCS#7
-before being encrypted. Here's a Python script that you can use to
-decrypt your journal</p>
+before being encrypted. Here’s a Python script that you can use to
+decrypt your journal:</p>
 <pre><code class="python">#!/usr/bin/env python3
 
 import argparse

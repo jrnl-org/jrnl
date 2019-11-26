@@ -87,8 +87,6 @@
         
             <li><a class="toctree-l3" href="#configuration-file">Configuration File</a></li>
         
-            <li><a class="toctree-l3" href="#dayone-integration">DayOne Integration</a></li>
-        
             <li><a class="toctree-l3" href="#multiple-journal-files">Multiple journal files</a></li>
         
             <li><a class="toctree-l3" href="#known-issues">Known Issues</a></li>
@@ -142,15 +140,20 @@
                 <h1 id="advanced-usage">Advanced Usage</h1>
 <h2 id="configuration-file">Configuration File</h2>
 <p>You can configure the way jrnl behaves in a configuration file. By
-default, this is <code>~/.jrnl_config</code>. If you have the <code>XDG_CONFIG_HOME</code>
+default, this is <code>~/.config/jrnl/jrnl.yaml</code>. If you have the <code>XDG_CONFIG_HOME</code>
 variable set, the configuration file will be saved as
-<code>$XDG_CONFIG_HOME/jrnl/.jrnl_config</code>.</p>
+<code>$XDG_CONFIG_HOME/jrnl/jrnl.yaml</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>On Windows, The configuration file is typically found at <code>C:\Users\[Your Username]\.jrnl_config</code>.</p>
+<p>On Windows, the configuration file is typically found at <code>%USERPROFILE%\.config\jrnl\jrnl.yaml</code>.</p>
 </div>
-<p>The configuration file is a simple JSON file with the following options
-and can be edited with any plain text editor.</p>
+<p>The configuration file is a YAML file with the following options
+and can be edited with a plain text editor.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Backup your config file before editing. Changes to the config file
+have destructive effects on your journal!</p>
+</div>
 <ul>
 <li><code>journals</code>
     paths to your journal files</li>
@@ -191,40 +194,13 @@ you type</p>
 </div>
 <p>Or use the built-in prompt or an external editor to compose your
   entries.</p>
-<h2 id="dayone-integration">DayOne Integration</h2>
-<p>Using your DayOne journal instead of a flat text file is dead simple --
-instead of pointing to a text file, change your <code>.jrnl_config</code> to point
-to your DayOne journal. This is a folder named something like
-<code>Journal_dayone</code> or <code>Journal.dayone</code>, and it's located at</p>
-<ul>
-<li><code>~/Library/Application Support/Day One/</code> by default</li>
-<li><code>~/Dropbox/Apps/Day One/</code> if you're syncing with Dropbox and</li>
-<li><code>~/Library/Mobile
-    Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/</code> if you're
-    syncing with iCloud.</li>
-</ul>
-<p>Instead of all entries being in a single file, each entry will live in a
-separate <code>plist</code> file. So your <code>.jrnl_config</code> should look like this:</p>
-<pre><code class="javascript">{
-  ...
-  &quot;journals&quot;: {
-    &quot;default&quot;: &quot;~/journal.txt&quot;,
-    &quot;dayone&quot;: &quot;~/Library/Mobile Documents/5U8NS4GX82~com~dayoneapp~dayone/Documents/Journal_dayone&quot;
-  }
-}
-</code></pre>
-
 <h2 id="multiple-journal-files">Multiple journal files</h2>
 <p>You can configure <code>jrnl</code>to use with multiple journals (eg.
-<code>private</code> and <code>work</code>) by defining more journals in your <code>.jrnl_config</code>,
+<code>private</code> and <code>work</code>) by defining more journals in your <code>jrnl.yaml</code>,
 for example:</p>
-<pre><code class="javascript">{
-...
-  &quot;journals&quot;: {
-    &quot;default&quot;: &quot;~/journal.txt&quot;,
-    &quot;work&quot;:    &quot;~/work.txt&quot;
-  }
-}
+<pre><code class="yaml">journals:
+  default: ~\journal.txt
+  work: ~\work.txt
 </code></pre>
 
 <p>The <code>default</code> journal gets created the first time you start <code>jrnl</code>
@@ -237,24 +213,20 @@ jrnl work -n 3
 <p>will both use <code>~/work.txt</code>, while <code>jrnl -n 3</code> will display the last
 three entries from <code>~/journal.txt</code> (and so does <code>jrnl default -n 3</code>).</p>
 <p>You can also override the default options for each individual journal.
-If you <code>.jrnl_config</code> looks like this:</p>
-<pre><code class="javascript">{
-  ...
-  &quot;encrypt&quot;: false
-  &quot;journals&quot;: {
-    &quot;default&quot;: &quot;~/journal.txt&quot;,
-    &quot;work&quot;: {
-      &quot;journal&quot;: &quot;~/work.txt&quot;,
-      &quot;encrypt&quot;: true
-    },
-    &quot;food&quot;: &quot;~/my_recipes.txt&quot;,
-}
+If your <code>jrnl.yaml</code> looks like this:</p>
+<pre><code class="yaml">encrypt: false
+journals:
+default: ~/journal.txt
+work:
+  journal: ~/work.txt
+  encrypt: true
+food: ~/my_recipes.txt
 </code></pre>
 
 <p>Your <code>default</code> and your <code>food</code> journals won't be encrypted, however your
 <code>work</code> journal will! You can override all options that are present at
-the top level of <code>.jrnl_config</code>, just make sure that at the very least
-you specify a <code>"journal": ...</code> key that points to the journal file of
+the top level of <code>jrnl.yaml</code>, just make sure that at the very least
+you specify a <code>journal: ...</code> key that points to the journal file of
 that journal.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

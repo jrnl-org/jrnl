@@ -170,8 +170,7 @@ average entry?</p>
 it by the number of entries (this works because <code>jrnl --short</code> will
 print exactly one line per entry).</p>
 <h3 id="importing-older-files">Importing older files</h3>
-<p>If you want to import a file as an entry to jrnl, you can just do <code>jrnl
-&lt; entry.ext</code>. But what if you want the modification date of the file to
+<p>If you want to import a file as an entry to jrnl, you can just do <code>jrnl &lt; entry.ext</code>. But what if you want the modification date of the file to
 be the date of the entry in jrnl? Try this</p>
 <pre><code class="sh">echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
 </code></pre>
@@ -205,17 +204,24 @@ log_question 'What did I achieve today?'
 log_question 'What did I make progress with?'
 </code></pre>
 
+<h3 id="display-random-entry">Display random entry</h3>
+<p>You can use this to select one title at random and then display the whole
+entry. The invocation of <code>cut</code> needs to match the format of the timestamp.
+For timestamps that have a space between data and time components, select
+fields 1 and 2 as shown. For timestamps that have no whitespace, select
+only field 1.</p>
+<pre><code class="sh">jrnl -on &quot;$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)&quot;
+</code></pre>
+
 <h2 id="external-editors">External editors</h2>
 <p>To use external editors for writing and editing journal entries, set
-them up in your <code>.jrnl_config</code> (see <code>advanced usage &lt;advanced&gt;</code> for
+them up in your <code>jrnl.yaml</code> (see <code>advanced usage &lt;advanced&gt;</code> for
 details). Generally, after writing an entry, you will have to save and
 close the file to save the changes to jrnl.</p>
 <h3 id="sublime-text">Sublime Text</h3>
 <p>To use Sublime Text, install the command line tools for Sublime Text and
-configure your <code>.jrnl_config</code> like this:</p>
-<pre><code class="json">{
-  &quot;editor&quot;: &quot;subl -w&quot;
-}
+configure your <code>jrnl.yaml</code> like this:</p>
+<pre><code class="yaml">editor: &quot;subl -w&quot;
 </code></pre>
 
 <p>Note the <code>-w</code> flag to make sure jrnl waits for Sublime Text to close the
@@ -224,18 +230,15 @@ file before writing into the journal.</p>
 <p>Similar to Sublime Text, MacVim must be started with a flag that tells
 the the process to wait until the file is closed before passing control
 back to journal. In the case of MacVim, this is <code>-f</code>:</p>
-<pre><code class="json">{
-  &quot;editor&quot;: &quot;mvim -f&quot;
-}
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<pre><code class="yaml">editor: &quot;mvim -f&quot;
 </code></pre>
 
 <h3 id="ia-writer">iA Writer</h3>
 <p>On OS X, you can use the fabulous <a href="http://www.iawriter.com/mac">iA
 Writer</a> to write entries. Configure your
-<code>.jrnl_config</code> like this:</p>
-<pre><code class="json">{
-  &quot;editor&quot;: &quot;open -b pro.writer.mac -Wn&quot;
-}
+<code>jrnl.yaml</code> like this:</p>
+<pre><code class="yaml">editor: &quot;open -b pro.writer.mac -Wn&quot;
 </code></pre>
 
 <p>What does this do? <code>open -b ...</code> opens a file using the application
@@ -250,20 +253,16 @@ you can find the right string to use by inspecting iA Writer's
 
 <h3 id="notepad-on-windows">Notepad++ on Windows</h3>
 <p>To set <a href="http://notepad-plus-plus.org/">Notepad++</a> as your editor, edit
-the jrnl config file (<code>.jrnl_config</code>) like this:</p>
-<pre><code class="json">{
-  &quot;editor&quot;: &quot;C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession&quot;,
-}
+the jrnl config file (<code>jrnl.yaml</code>) like this:</p>
+<pre><code class="yaml">editor: &quot;C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession&quot;
 </code></pre>
 
 <p>The double backslashes are needed so jrnl can read the file path
 correctly. The <code>-multiInst -nosession</code> options will cause jrnl to open
 its own Notepad++ window.</p>
 <h3 id="visual-studio-code">Visual Studio Code</h3>
-<p>To set <a href="https://code.visualstudio.com">Visual Studo Code</a> as your editor on Linux, edit <code>.jrnl_config</code> like this:</p>
-<pre><code class="json">{
-  &quot;editor&quot;: &quot;/usr/bin/code --wait&quot;,
-}
+<p>To set <a href="https://code.visualstudio.com">Visual Studo Code</a> as your editor on Linux, edit <code>jrnl.yaml</code> like this:</p>
+<pre><code class="yaml">editor: &quot;/usr/bin/code --wait&quot;
 </code></pre>
 
 <p>The <code>--wait</code> argument tells VS Code to wait for files to be written out before handing back control to jrnl.</p>
@@ -273,12 +272,10 @@ its own Notepad++ window.</p>
 
 <p>to your <code>.bash_profile</code>, or by running the <strong>Install 'code' command in PATH</strong> command from the command pallet in VS Code.</p>
 <p>Then you can add:</p>
-<pre><code class="javascript">{
-  &quot;editor&quot;: &quot;code --wait&quot;,
-}
+<pre><code class="yaml">editor: &quot;code --wait&quot;
 </code></pre>
 
-<p>to <code>.jrnl_config</code>. See also the <a href="https://code.visualstudio.com/docs/setup/mac">Visual Studio Code documentation</a></p>
+<p>to <code>jrnl.yaml</code>. See also the <a href="https://code.visualstudio.com/docs/setup/mac">Visual Studio Code documentation</a></p>
               
             </div>
           </div>

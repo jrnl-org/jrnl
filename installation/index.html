@@ -146,22 +146,10 @@
 <pre><code class="sh">pip install jrnl
 </code></pre>
 
-<p>Or, if you want the option to encrypt your journal,</p>
-<pre><code class="sh">pip install jrnl[encrypted]
-</code></pre>
-
-<p>to install the dependencies for encrypting journals as well.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Installing the encryption library, <code>pycrypto</code>, requires a <code>gcc</code> compiler. For this reason, jrnl will
-not install <code>pycrypto</code> unless explicitly told so like this. You can <a href="https://www.dlitz.net/software/pycrypto/">install PyCrypto manually</a>
-first or install it with <code>pip install pycrypto</code> if you have a <code>gcc</code> compiler.
-Also note that when using zsh, the correct syntax is <code>pip install "jrnl[encrypted]"</code> (note the quotes).</p>
-</div>
 <p>The first time you run <code>jrnl</code> you will be asked where your journal file
 should be created and whether you wish to encrypt it.</p>
 <h2 id="quickstart">Quickstart</h2>
-<p>to make a new entry, just type</p>
+<p>To make a new entry, just type</p>
 <pre><code class="sh">jrnl yesterday: Called in sick. Used the time to clean the house and spent 4h on writing my book.
 </code></pre>
 

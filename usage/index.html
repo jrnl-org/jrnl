@@ -169,13 +169,13 @@ editor -- or by just writing an entry on the prompt, such as</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+</div>
 <p>Most shell contains a certain number of reserved characters, such as <code>#</code>
 and <code>*</code>. Unbalanced quotes, parenthesis, and so on will also get into
 the way of your editing.
 For writing longer entries, just enter <code>jrnl</code>
 and hit <code>return</code>. Only then enter the text of your journal entry.
 Alternatively, <code>use an external editor &lt;advanced&gt;</code>).</p>
-</div>
 <p>You can also import an entry directly from a file</p>
 <pre><code class="sh">jrnl &lt; my_entry.txt
 </code></pre>
@@ -205,10 +205,10 @@ The following options are equivalent:</p>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+</div>
 <p>Just make sure that the asterisk sign is <strong>not</strong> surrounded by
 whitespaces, e.g. <code>jrnl Best day of my life! *</code> will <strong>not</strong> work (the
 reason being that the <code>*</code> sign has a special meaning on most shells).</p>
-</div>
 <h2 id="viewing">Viewing</h2>
 <pre><code class="sh">jrnl -n 10
 </code></pre>
@@ -243,15 +243,15 @@ You can change which symbols you'd like to use for tagging in the
 configuration.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+</div>
 <p><code>jrnl @pinkie @WorldDomination</code> will switch to viewing mode because
 although <strong>no</strong> command line arguments are given, all the input strings
 look like tags - <em>jrnl</em> will assume you want to filter by tag.</p>
-</div>
 <h2 id="editing-older-entries">Editing older entries</h2>
 <p>You can edit selected entries after you wrote them. This is particularly
-useful when your journal file is encrypted or if you're using a DayOne
-journal. To use this feature, you need to have an editor configured in
-your journal configuration file (see <code>advanced usage &lt;advanced&gt;</code>)</p>
+useful when your journal file is encrypted. To use this feature, you need
+to have an editor configured in your journal configuration file (see
+<code>advanced usage &lt;advanced&gt;</code>)</p>
 <pre><code class="sh">jrnl -until 1950 @texas -and @history --edit
 </code></pre>
 
@@ -267,24 +267,6 @@ encrypt) your edited journal after you save and exit the editor.</p>
 </code></pre>
 
 <p>Just select all text, press delete, and everything is gone...</p>
-<h3 id="editing-dayone-journals">Editing DayOne Journals</h3>
-<p>DayOne journals can be edited exactly the same way, however the output
-looks a little bit different because of the way DayOne stores its
-entries:</p>
-<pre><code class="md"># af8dbd0d43fb55458f11aad586ea2abf
-2013-05-02 15:30 I told everyone I built my @robot wife for sex.
-But late at night when we're alone we mostly play Battleship.
-
-# 2391048fe24111e1983ed49a20be6f9e
-2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
-I just figured I'd be on the other side.
-</code></pre>
-
-<p>The long strings starting with hash symbol are the so-called UUIDs,
-unique identifiers for each entry. Don't touch them. If you do, then the
-old entry would get deleted and a new one written, which means that you
-could lose DayOne data that jrnl can't handle (such as as the entry's
-geolocation).</p>
               
             </div>
           </div>
