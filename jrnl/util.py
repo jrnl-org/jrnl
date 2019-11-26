@@ -62,7 +62,10 @@ def get_password(validator, keychain=None, max_attempts=3):
 
 def get_keychain(journal_name):
     import keyring
-    return keyring.get_password('jrnl', journal_name)
+    try:
+        return keyring.get_password('jrnl', journal_name)
+    except RuntimeError:
+        return ""
 
 
 def set_keychain(journal_name, password):

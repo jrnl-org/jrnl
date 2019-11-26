@@ -122,7 +122,8 @@ class Journal:
             try:
                 new_date = datetime.strptime(date_blob, self.config["timeformat"])
             except ValueError:
-                new_date = time.parse(date_blob)
+                # Passing in a date that had brackets around it
+                new_date = time.parse(date_blob, bracketed=True)
 
             if new_date:
                 if entries:
