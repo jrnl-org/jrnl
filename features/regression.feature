@@ -62,6 +62,13 @@ Feature: Zapped bugs should stay dead.
         Then the output should contain "I'm going to activate the machine."
         Then the output should contain "I've crossed so many timelines. Is there any going back?"
 
+    Scenario: Viewing today's entries does not print the entire journal
+        # https://github.com/jrnl-org/jrnl/issues/741
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on today"
+        Then the output should not contain "Life is good"
+        Then the output should not contain "But I'm better."
+
     Scenario: Create entry using day of the week as entry date.
     	Given we use the config "basic.yaml"
     	When we run "jrnl monday: This is an entry on a Monday."
