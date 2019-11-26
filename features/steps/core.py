@@ -5,6 +5,9 @@ from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
 from dateutil import parser as date_parser
 from collections import defaultdict
+try: import parsedatetime.parsedatetime_consts as pdt
+except ImportError: import parsedatetime as pdt
+import time
 import os
 import json
 import yaml
@@ -12,6 +15,10 @@ import keyring
 import tzlocal
 import shlex
 import sys
+
+consts = pdt.Constants(usePyICU=False)
+consts.DOWParseStyle = -1 # Prefers past weekdays
+CALENDAR = pdt.Calendar(consts)
 
 
 class TestKeyring(keyring.backend.KeyringBackend):
@@ -221,9 +228,9 @@ def check_output(context, text=None):
 def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
     local_tz = tzlocal.get_localzone()
-    utc_time = date_parser.parse(text)
-    local_date = utc_time.astimezone(local_tz).strftime("%Y-%m-%d %H:%M")
-    assert local_date in out, local_date
+    date, flag = CALENDAR.parse(text)
+    output_date = time.strftime("%Y-%m-%d %H:%M",date)
+    assert output_date in out, output_date
 
 
 @then('the output should contain')
