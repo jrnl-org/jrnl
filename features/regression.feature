@@ -62,3 +62,50 @@ Feature: Zapped bugs should stay dead.
         Then the output should contain "I'm going to activate the machine."
         Then the output should contain "I've crossed so many timelines. Is there any going back?"
 
+    Scenario: Create entry using day of the week as entry date.
+    	Given we use the config "basic.yaml"
+    	When we run "jrnl monday: This is an entry on a Monday."
+    	Then we should see the message "Entry added"
+    	When we run "jrnl -1"
+        Then the output should contain "monday at 9am" in the local time
+        Then the output should contain "This is an entry on a Monday."
+
+    Scenario: Create entry using day of the week abbreviations as entry date.
+    	Given we use the config "basic.yaml"
+    	When we run "jrnl fri: This is an entry on a Friday."
+    	Then we should see the message "Entry added"
+    	When we run "jrnl -1"
+        Then the output should contain "friday at 9am" in the local time 
+
+    Scenario: Displaying entries using -on today should display entries created today.
+        Given we use the config "basic.yaml"
+        When we run "jrnl today: Adding an entry right now." 
+        Then we should see the message "Entry added"
+        When we run "jrnl -on today"
+        Then the output should contain "Adding an entry right now."
+
+    Scenario: Displaying entries using -from day should display correct entries
+        Given we use the config "basic.yaml"
+        When we run "jrnl yesterday: This thing happened yesterday" 
+        Then we should see the message "Entry added"
+        When we run "jrnl today at 11:59pm: Adding an entry right now."
+        Then we should see the message "Entry added"
+        When we run "jrnl tomorrow: A future entry."
+        Then we should see the message "Entry added"
+        When we run "jrnl -from today"
+        Then the output should contain "Adding an entry right now."
+        Then the output should contain "A future entry."
+        Then the output should not contain "This thing happened yesterday"
+
+    Scenario: Displaying entries using -from and -to day should display correct entries
+        Given we use the config "basic.yaml"
+        When we run "jrnl yesterday: This thing happened yesterday" 
+        Then we should see the message "Entry added"
+        When we run "jrnl today at 11:59pm: Adding an entry right now."
+        Then we should see the message "Entry added"
+        When we run "jrnl tomorrow: A future entry."
+        Then we should see the message "Entry added"
+        When we run "jrnl -from yesterday -to today"
+        Then the output should contain "This thing happened yesterday"
+        Then the output should contain "Adding an entry right now."
+        Then the output should not contain "A future entry."
