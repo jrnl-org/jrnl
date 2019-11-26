@@ -19,7 +19,6 @@ If you find a typo or a mistake in the docs, please fix it right away and send a
 
 Unfortunately, bugs happen. If you found one, please [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) and describe it as well as possible. If you're a programmer with some time, go ahead and send us a pull request that references the issue! We'll review as quickly as we can.
 
-
 ## Feature requests and ideas
 
 So, you have an idea for a great feature? Awesome! We'd love to hear from you! Please [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) and describe the goal of the feature, and any relevant use cases. We'll discuss the issue with you, and decide if it's a good fit for the project.
@@ -30,7 +29,6 @@ When discussing new features, please keep in mind our design goals. jrnl strives
 * have a simple interface
 * avoid duplicating functionality
 
-
 ## New programmers and programmers new to python
 
 Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.
@@ -39,8 +37,9 @@ If you have a question, please don't hesitate to ask! Python is known for its we
 
 ## Developing jrnl
 
-The jrnl source uses [poetry](https://poetry.eustace.io/) for dependency management.
+The jrnl source uses [poetry](https://poetry.eustace.io/) for dependency management. You will need to install it to develop journal.
 
- * To run the source: `python3 -m jrnl`
- * To run tests: `make test` or `poetry run behave` if on Windows
- * To build and install: `poetry install` then `poetry shell`
+ * To run tests: `make test` (or `poetry run behave` if on Windows)
+ * To run the source: `poetry install` then `poetry shell` then run `jrnl` with or without arguments as necessary
+
+For testing, jrnl uses [behave](https://behave.readthedocs.io/).
