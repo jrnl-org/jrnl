@@ -1,5 +1,4 @@
 dist: xenial   # required for Python >= 3.7
-language: python
 jobs:
   include:
     - name: "Python 3.6 on Linux"
@@ -8,26 +7,30 @@ jobs:
       python: 3.7
     - name: "Python 3.8 on Linux"
       python: 3.8
-    - name: "Python, developmental version, on Linux"
+    - name: "Python dev on Linux"
       python: nightly
     - name: "Python 3.7.4 on MacOS"
       os: osx
       osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
       language: shell       # 'language: python' is an error on Travis CI macOS
+      before_install:
+        - pip3 install poetry~=0.12.17
     - name: "Python 3.8.0 on Windows"
       os: windows
       langage: shell       # 'language: python' is an error on Travis CI Windows
       before_install:
         - choco install python --version 3.8.0
         - python -m pip install --upgrade pip
+        - pip install poetry~=0.12.17
   allow_failures:
     - python: 3.8
     - python: nightly
 git:
   depth: false
 cache: pip
-install:
+before_install:
   - pip install poetry~=0.12.17
+install:
   # we run `poetry version` here to appease poetry about '0.0.0-source'
   - poetry version
   - poetry install
