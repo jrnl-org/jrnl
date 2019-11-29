@@ -45,9 +45,17 @@ p {
 /* No-one likes lines that are 400 characters long. */
 div.rst-content {max-width: 54em;}
 
-.wy-side-nav-search, .wy-nav-top, .wy-menu-vertical li.current {
+.wy-side-nav-search, .wy-menu-vertical li.current {
   background-color: transparent;
 }
+.wy-nav-top {
+  background-image: linear-gradient(-211deg, #95699C 0%, #604385 100%);
+}
+
+.wy-nav-top .fa-bars {
+  line-height: 50px;
+}
+
 .wy-side-nav-search a.icon-home {
   width: 100%;
   max-width: 250px;
