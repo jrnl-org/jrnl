@@ -60,8 +60,6 @@ before_install:
   - date
   - pip install poetry~=0.12.17
 install:
-  # we run `poetry version` here to appease poetry about '0.0.0-source'
-  - poetry version
   - poetry install
   - poetry run python --version
 script:
