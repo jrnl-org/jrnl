@@ -18,6 +18,16 @@ script:
   - poetry run behave
 
 aliases:
+  test_mac: &test_mac
+    os: osx
+    language: shell
+    osx_image: xcode11.2
+    before_install:
+      - eval "$(pyenv init -)"
+      - pyenv install -s $JRNL_PYTHON_VERSION
+      - pyenv global $JRNL_PYTHON_VERSION
+      - pip install --upgrade pip
+      - pip --version
   test_windows: &test_windows
     os: windows
     language: shell
@@ -46,10 +56,20 @@ jobs:
       python: 3.8
     - name: Python nightly on Linux
       python: nightly
-    - name: Python 3.7.4 on MacOS
-      os: osx
-      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
-      language: shell       # 'language: python' is an error on Travis CI macOS
+
+    - <<: *test_mac
+      name: Python 3.6 on MacOS
+      env:
+        - JRNL_PYTHON_VERSION=3.6.8
+    - <<: *test_mac
+      name: Python 3.7 on MacOS
+      env:
+        - JRNL_PYTHON_VERSION=3.7.4
+    - <<: *test_mac
+      name: Python 3.8 on MacOS
+      env:
+        - JRNL_PYTHON_VERSION=3.8.0
+
     - <<: *test_windows
       name: Python 3.6 on Windows
       env:
