@@ -33,6 +33,7 @@ jobs:
       env:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
     - stage: "Deploy"
+      if: branch = master AND tag IS present
       before_deploy:
         - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
         - poetry version "$TRAVIS_TAG"
@@ -40,10 +41,6 @@ jobs:
       deploy:
         - provider: script
           script: poetry publish
-          skip_cleanup: true
-          on:
-            branch: master
-            tags: true
       after_deploy:
         - git config --global user.email "jrnl.bot@gmail.com"
         - git config --global user.name "Jrnl Bot"
