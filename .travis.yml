@@ -3,26 +3,26 @@ os: linux
 language: python
 jobs:
   include:
-    - stage: "Test"
-      name: "Python 3.6 on Linux"
+    - stage: Test
+    - name: Python 3.6 on Linux
       python: 3.6
-    - name: "Python 3.7 on Linux"
+    - name: Python 3.7 on Linux
       python: 3.7
-    - name: "Python 3.7 on Linux, not UTC"
+    - name: Python 3.7 on Linux, not UTC
       python: 3.7
       env:
         - TZ=America/Edmonton
-    - name: "Python 3.8 on Linux"
+    - name: Python 3.8 on Linux
       python: 3.8
-    - name: "Python dev on Linux"
+    - name: Python nightly on Linux
       python: nightly
-    - name: "Python 3.7.4 on MacOS"
+    - name: Python 3.7.4 on MacOS
       os: osx
       osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
       language: shell       # 'language: python' is an error on Travis CI macOS
       before_install:
         - pip3 install poetry~=0.12.17  # 'pip' points to Python 2 on MacOS
-    - name: "Python 3.7.5 on Windows"
+    - name: Python 3.7 on Windows
       os: windows
       language: shell       # 'language: python' is an error on Travis CI Windows
       before_install:
@@ -32,7 +32,7 @@ jobs:
         - pip install poetry~=0.12.17
       env:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
-    - stage: "Deploy"
+    - stage: Deploy
       if: branch = master AND tag IS present
       before_deploy:
         - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
