@@ -1,7 +1,28 @@
 dist: xenial   # required for Python >= 3.7
 os: linux
 language: python
+cache: pip
+
+git:
+  depth: false
+
+before_install:
+  - date
+  - pip install poetry~=0.12.17
+
+install:
+  - poetry install
+  - poetry run python --version
+
+script:
+  - poetry run behave
+
 jobs:
+  allow_failures:
+    - python: 3.8
+    - python: nightly
+    - os: windows
+
   include:
     - stage: Test
     - name: Python 3.6 on Linux
@@ -32,6 +53,7 @@ jobs:
         - pip install poetry~=0.12.17
       env:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
     - stage: Deploy
       if: branch = master AND tag IS present
       before_deploy:
@@ -48,19 +70,4 @@ jobs:
         - git add pyproject.toml
         - git commit -m "Incrementing version to ${TRAVIS_TAG}"
         - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
-  allow_failures:
-    - python: 3.8
-    - python: nightly
-    - os: windows
-git:
-  depth: false
-cache: pip
-before_install:
-  - date
-  - pip install poetry~=0.12.17
-install:
-  - poetry install
-  - poetry run python --version
-script:
-  - poetry run behave
 
