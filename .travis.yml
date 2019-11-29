@@ -32,8 +32,8 @@ jobs:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
     - stage: "Deploy"
       before_deploy:
-        - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
-        - poetry version $TRAVIS_TAG
+        - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
+        - poetry version "$TRAVIS_TAG"
         - poetry build
       deploy:
         - provider: script
