@@ -78,7 +78,7 @@ def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
     from . import EncryptedJournal
 
-    journal.config['password'] = util.getpass("Enter new password: ")
+    journal.config['password'] = util.create_password()
     journal.config['encrypt'] = True
 
     new_journal = EncryptedJournal.EncryptedJournal(None, **journal.config)
