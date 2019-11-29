@@ -30,6 +30,25 @@ jobs:
         - pip install poetry~=0.12.17
       env:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+    - stage: "Deploy"
+      before_deploy:
+        - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
+        - poetry version $TRAVIS_TAG
+        - poetry build
+      deploy:
+        - provider: script
+          script: poetry publish
+          skip_cleanup: true
+          on:
+            branch: master
+            tags: true
+      after_deploy:
+        - git config --global user.email "jrnl.bot@gmail.com"
+        - git config --global user.name "Jrnl Bot"
+        - git checkout master
+        - git add pyproject.toml
+        - git commit -m "Incrementing version to ${TRAVIS_TAG}"
+        - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
   allow_failures:
     - python: 3.8
     - python: nightly
@@ -47,21 +66,4 @@ install:
   - poetry run python --version
 script:
   - poetry run behave
-before_deploy:
-  - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
-  - poetry version $TRAVIS_TAG
-  - poetry build
-deploy:
-  - provider: script
-    script: poetry publish
-    skip_cleanup: true
-    on:
-      branch: master
-      tags: true
-after_deploy:
-  - git config --global user.email "jrnl.bot@gmail.com"
-  - git config --global user.name "Jrnl Bot"
-  - git checkout master
-  - git add pyproject.toml
-  - git commit -m "Incrementing version to ${TRAVIS_TAG}"
-  - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
+
