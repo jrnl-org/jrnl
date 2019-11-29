@@ -1,4 +1,5 @@
 site_name: jrnl
+google_analytics: ['UA-153567313-1', 'jrnl.sh']
 theme:
   name: readthedocs
   custom_dir: docs/theme

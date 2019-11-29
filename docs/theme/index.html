@@ -21,7 +21,7 @@
     <meta name="og:site_name" content="jrnl - The Command Line Journal">
     <meta name="og:type" content="website">
     <meta name="viewport" content="width=device-width">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="index.css">
     <link rel="shortcut icon" href="img/favicon.ico">
     <script type="application/ld+json">
@@ -36,6 +36,13 @@
         "installUrl": "https://jrnl.sh/installation",
         "softwareVersion": "2.0.0rc2"
     }
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153567313-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-153567313-1');
     </script>
 </head>
 
@@ -57,7 +64,7 @@
     <main>
         <nav>
             <a href="overview">Documentation</a>
-            <a href="http://github.com/jrnl-org/jrnl" title="View on Github">Fork me on GitHub</a>
+            <a href="https://github.com/jrnl-org/jrnl" title="View on Github">Fork me on GitHub</a>
             <a id="twitter-nav" href="https://twitter.com/intent/tweet?text=Write+your+memoirs+on+the+command+line.+Like+a+boss.+%23jrnl&url=http%3A%2F%2Fjrnl.sh&via=maebert">Tell your friends on twitter</a>
             <a href="installation" class="cta">Download</a>
         </nav>
@@ -83,6 +90,11 @@
                 <p>Sync your journals with Dropbox and capture your thoughts where ever you are</p>
             </section>
             <section>
+                <i class="icon dayone"></i>
+                <h3>DayOne compatible.</h3>
+                <p>Read, write and search your DayOne journal from the command line.</p>
+            </section>
+            <section>
                 <i class="icon github"></i>
                 <h3>Free &amp; Open Source.</h3>
                 <p>jrnl is made by a bunch of really friendly and remarkably attractive people. Maybe even <a href="https://www.github.com/jrnl-org/jrnl" title="Fork jrnl on GitHub">you</a>?</p>
@@ -97,7 +109,7 @@
     <footer>
         jrnl is made with love by <a rel="author" href="http://www.1450.me">Manuel Ebert</a> and <a href="https://github.com/jrnl-org/jrnl/graphs/contributors" title="Contributors">many other fabulous people</a>. If you need help, <a href="https://github.com/jrnl-org/jrnl/issues/new" title="Open a new issue on Github">submit an issue</a> on Github.
     </footer>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <script>
     new Typed("#typed", {
         strings: [

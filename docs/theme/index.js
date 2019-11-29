@@ -1,1 +1,0 @@
-var typed2 =
