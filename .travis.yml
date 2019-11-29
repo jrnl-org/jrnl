@@ -2,7 +2,8 @@ dist: xenial   # required for Python >= 3.7
 language: python
 jobs:
   include:
-    - name: "Python 3.6 on Linux"
+    - stage: "Test"
+      name: "Python 3.6 on Linux"
       python: 3.6
     - name: "Python 3.7 on Linux"
       python: 3.7
