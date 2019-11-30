@@ -43,48 +43,54 @@ jobs:
     - os: windows
 
   include:
-    - stage: Test
+    # Python 3.6 Tests
     - name: Python 3.6 on Linux
       python: 3.6
-    - name: Python 3.7 on Linux
-      python: 3.7
-    - name: Python 3.7 on Linux, not UTC
-      python: 3.7
-      env:
-        - TZ=America/Edmonton
-    - name: Python 3.8 on Linux
-      python: 3.8
-    - name: Python nightly on Linux
-      python: nightly
-
     - <<: *test_mac
       name: Python 3.6 on MacOS
       env:
         - JRNL_PYTHON_VERSION=3.6.8
-    - <<: *test_mac
-      name: Python 3.7 on MacOS
-      env:
-        - JRNL_PYTHON_VERSION=3.7.4
-    - <<: *test_mac
-      name: Python 3.8 on MacOS
-      env:
-        - JRNL_PYTHON_VERSION=3.8.0
-
     - <<: *test_windows
       name: Python 3.6 on Windows
       env:
         - JRNL_PYTHON_VERSION=3.6.8
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+
+    # Python 3.7 Tests
+    - name: Python 3.7 on Linux
+      python: 3.7
+    - <<: *test_mac
+      name: Python 3.7 on MacOS
+      env:
+        - JRNL_PYTHON_VERSION=3.7.4
     - <<: *test_windows
       name: Python 3.7 on Windows
       env:
         - JRNL_PYTHON_VERSION=3.7.5
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
+    # Python 3.8 Tests
+    - name: Python 3.8 on Linux
+      python: 3.8
+    - <<: *test_mac
+      name: Python 3.8 on MacOS
+      env:
+        - JRNL_PYTHON_VERSION=3.8.0
     - <<: *test_windows
       name: Python 3.8 on Windows
       env:
         - JRNL_PYTHON_VERSION=3.8.0
         - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+
+    # ... and beyond!
+    - name: Python nightly on Linux
+      python: nightly
+
+    # Specialty tests
+    - name: Python 3.7 on Linux, not UTC
+      python: 3.7
+      env:
+        - TZ=America/Edmonton
 
     - stage: Deploy
       if: branch = master AND tag IS present
