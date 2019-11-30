@@ -76,7 +76,7 @@ jobs:
       name: Python 3.7 on MacOS
       python: 3.7
       env:
-        - JRNL_PYTHON_VERSION=3.7.4
+        - JRNL_PYTHON_VERSION=3.7.5
     - <<: *test_windows
       name: Python 3.7 on Windows
       python: 3.7
