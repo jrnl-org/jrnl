@@ -1,7 +1,9 @@
 dist: xenial   # required for Python >= 3.7
 os: linux
 language: python
-cache: pip
+
+cache:
+  - pip
 
 git:
   depth: false
@@ -22,6 +24,9 @@ aliases:
     os: osx
     language: shell
     osx_image: xcode11.2
+    cache:
+      directories:
+        - $HOME/.pyenv/versions
     before_install:
       - eval "$(pyenv init -)"
       - pyenv install -s $JRNL_PYTHON_VERSION
@@ -31,6 +36,11 @@ aliases:
   test_windows: &test_windows
     os: windows
     language: shell
+    cache:
+      directories:
+        - /c/Python36
+        - /c/Python37
+        - /c/Python38
     before_install:
       - choco install python --version $JRNL_PYTHON_VERSION
       - python -m pip install --upgrade pip
