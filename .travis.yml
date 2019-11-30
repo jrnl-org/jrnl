@@ -47,6 +47,7 @@ aliases:
       - pip --version
 
 jobs:
+  fast_finish: true
   allow_failures:
     - python: 3.8
     - python: nightly
