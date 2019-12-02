@@ -187,7 +187,7 @@ class Journal:
         tag_counts = {(tags.count(tag), tag) for tag in tags}
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, search_plain=None, exclude=[]):
+    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, contains=None, exclude=[]):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -209,6 +209,8 @@ class Journal:
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
         excluded = lambda tags: len([tag for tag in tags if tag in excluded_tags]) > 0
+        if contains:
+            contains_lower = contains.casefold() 
 
         result = [
             entry for entry in self.entries
@@ -217,7 +219,7 @@ class Journal:
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
             and (not exclude or not excluded(entry.tags))
-            and (not search_plain or (search_plain.lower() in entry.title.lower() or search_plain.lower() in entry.body.lower()))
+            and (not contains or (contains_lower in entry.title.casefold() or contains_lower in entry.body.casefold()))
         ]
 
         self.entries = result
