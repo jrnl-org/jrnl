@@ -52,4 +52,4 @@ exp/
 _extras/
 *.sublime-*
 site/
-jrnl/VERSION.txt
+jrnl/__version__.py

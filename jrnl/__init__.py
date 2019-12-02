@@ -2,11 +2,8 @@
 # encoding: utf-8
 
 import os
-
+try:
+    from .__version__ import __version__
+except ImportError:
+    __version__ = "source"
 __title__ = "jrnl"
-__version__ = "source"
-
-version_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "VERSION.txt")
-if os.path.exists(version_path):
-    with open(version_path) as version_file:
-        __version__ = version_file.read()

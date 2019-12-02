@@ -13,7 +13,7 @@ script:
 before_deploy:
   - pip install poetry
   - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
-  - echo $TRAVIS_TAG > jrnl/VERSION.txt
+  - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
   - poetry version $TRAVIS_TAG
   - poetry build
 deploy:
