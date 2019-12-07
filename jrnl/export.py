@@ -8,6 +8,7 @@ import os
 
 class Exporter:
     """This Exporter can convert entries and journals into text files."""
+
     def __init__(self, format):
         with open("jrnl/templates/" + format + ".template") as f:
             front_matter, body = f.read().strip("-\n").split("---", 2)
@@ -18,11 +19,7 @@ class Exporter:
         return str(entry)
 
     def _get_vars(self, journal):
-        return {
-            'journal': journal,
-            'entries': journal.entries,
-            'tags': journal.tags
-        }
+        return {"journal": journal, "entries": journal.entries, "tags": journal.tags}
 
     def export_journal(self, journal):
         """Returns a string representation of an entire journal."""
@@ -38,7 +35,9 @@ class Exporter:
             return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"
 
     def make_filename(self, entry):
-        return entry.date.strftime("%Y-%m-%d_{}.{}".format(slugify(entry.title), self.extension))
+        return entry.date.strftime(
+            "%Y-%m-%d_{}.{}".format(slugify(entry.title), self.extension)
+        )
 
     def write_files(self, journal, path):
         """Exports a journal into individual files for each entry."""
@@ -57,7 +56,7 @@ class Exporter:
         representation as string if output is None."""
         if output and os.path.isdir(output):  # multiple files
             return self.write_files(journal, output)
-        elif output:                          # single file
+        elif output:  # single file
             return self.write_file(journal, output)
         else:
             return self.export_journal(journal)
