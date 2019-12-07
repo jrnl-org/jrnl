@@ -108,9 +108,7 @@ class Entry:
             return title
         else:
             return "{title}{sep}{body}\n".format(
-                title=title,
-                sep="\n" if has_body else "",
-                body=body if has_body else "",
+                title=title, sep="\n" if has_body else "", body=body if has_body else ""
             )
 
     def __repr__(self):
