@@ -53,8 +53,17 @@ jobs:
     - os: windows
 
   include:
+    - stage: Lint
+      name: Lint, via Black
+      python: 3.8
+      install:
+        - pip install black
+      script:
+        - black .
+
     # Python 3.6 Tests
-    - name: Python 3.6 on Linux
+    - stage: Tests
+      name: Python 3.6 on Linux
       python: 3.6
     - <<: *test_mac
       name: Python 3.6 on MacOS
