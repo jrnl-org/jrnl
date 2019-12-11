@@ -1,25 +1,127 @@
 dist: xenial   # required for Python >= 3.7
+os: linux
 language: python
-python: "3.7"
+
+cache:
+  - pip
+
+git:
+  depth: false
+
 before_install:
-  - pip install poetry
+  - date
+
 install:
-  # we run `poetry version` here to appease poetry about '0.0.0-source'
-  - poetry version
+  - pip install poetry~=0.12.17
   - poetry install
-script:
   - poetry run python --version
+
+script:
   - poetry run behave
-before_deploy:
-  - pip install poetry
-  - poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
-  - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
-  - poetry version $TRAVIS_TAG
-  - poetry build
-deploy:
-  - provider: script
-    script: poetry publish
-    skip_cleanup: true
-    on:
-      branch: master
-      tags: true
+
+aliases:
+  test_mac: &test_mac
+    os: osx
+    language: shell
+    osx_image: xcode11.2
+    cache:
+      directories:
+        - $HOME/.pyenv/versions
+    before_install:
+      - eval "$(pyenv init -)"
+      - pyenv install -s $JRNL_PYTHON_VERSION
+      - pyenv global $JRNL_PYTHON_VERSION
+      - pip install --upgrade pip
+      - pip --version
+  test_windows: &test_windows
+    os: windows
+    language: shell
+    cache:
+      directories:
+        - /c/Python36
+        - /c/Python37
+        - /c/Python38
+    before_install:
+      - choco install python --version $JRNL_PYTHON_VERSION
+      - python -m pip install --upgrade pip
+      - pip --version
+
+jobs:
+  fast_finish: true
+  allow_failures:
+    - python: nightly
+    - os: windows
+
+  include:
+    # Python 3.6 Tests
+    - name: Python 3.6 on Linux
+      python: 3.6
+    - <<: *test_mac
+      name: Python 3.6 on MacOS
+      python: 3.6
+      env:
+        - JRNL_PYTHON_VERSION=3.6.8
+    - <<: *test_windows
+      name: Python 3.6 on Windows
+      python: 3.6
+      env:
+        - JRNL_PYTHON_VERSION=3.6.8
+        - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+
+    # Python 3.7 Tests
+    - name: Python 3.7 on Linux
+      python: 3.7
+    - <<: *test_mac
+      name: Python 3.7 on MacOS
+      python: 3.7
+      env:
+        - JRNL_PYTHON_VERSION=3.7.5
+    - <<: *test_windows
+      name: Python 3.7 on Windows
+      python: 3.7
+      env:
+        - JRNL_PYTHON_VERSION=3.7.5
+        - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
+    # Python 3.8 Tests
+    - name: Python 3.8 on Linux
+      python: 3.8
+    - <<: *test_mac
+      name: Python 3.8 on MacOS
+      python: 3.8
+      env:
+        - JRNL_PYTHON_VERSION=3.8.0
+    - <<: *test_windows
+      name: Python 3.8 on Windows
+      python: 3.8
+      env:
+        - JRNL_PYTHON_VERSION=3.8.0
+        - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+
+    # ... and beyond!
+    - name: Python nightly on Linux
+      python: nightly
+
+    # Specialty tests
+    - name: Python 3.7 on Linux, not UTC
+      python: 3.7
+      env:
+        - TZ=America/Edmonton
+
+    - stage: Deploy
+      if: branch = master AND tag IS present
+      before_deploy:
+        - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
+        - poetry version "$TRAVIS_TAG"
+        - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
+        - poetry build
+      deploy:
+        - provider: script
+          script: poetry publish
+      after_deploy:
+        - git config --global user.email "jrnl.bot@gmail.com"
+        - git config --global user.name "Jrnl Bot"
+        - git checkout master
+        - git add pyproject.toml
+        - git commit -m "Incrementing version to ${TRAVIS_TAG}"
+        - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master

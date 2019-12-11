@@ -1,4 +1,14 @@
-#Feature Request
+---
+name: Feature request
+about: Suggest an idea for jrnl
+title: ''
+labels: ":new:, enhancement"
+assignees: ''
+
+---
+
+## Feature Request
+
 Hello! Thank you for reporting an issue!
 If you would fill out the below points, that would make our process a whole lot easier!
 

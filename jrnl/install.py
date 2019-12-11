@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
-from __future__ import absolute_import
-import readline
 import glob
 import getpass
 import os
@@ -16,6 +13,9 @@ from .util import UserAbort
 import yaml
 import logging
 import sys
+if "win32" not in sys.platform:
+    # readline is not included in Windows Active Python
+    import readline 
 
 DEFAULT_CONFIG_NAME = 'jrnl.yaml'
 DEFAULT_JOURNAL_NAME = 'journal.txt'
@@ -69,7 +69,7 @@ def upgrade_config(config):
         for key in missing_keys:
             config[key] = default_config[key]
         save_config(config)
-        print("[Configuration updated to newest version at {}]".format(CONFIG_FILE_PATH))
+        print(f"[Configuration updated to newest version at {CONFIG_FILE_PATH}]", file=sys.stderr)
 
 
 def save_config(config):
@@ -91,10 +91,10 @@ def load_or_install_jrnl():
         try:
             upgrade.upgrade_jrnl_if_necessary(config_path)
         except upgrade.UpgradeValidationException:
-            util.prompt("Aborting upgrade.")
-            util.prompt("Please tell us about this problem at the following URL:")
-            util.prompt("https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException")
-            util.prompt("Exiting.")
+            print("Aborting upgrade.", file=sys.stderr)
+            print("Please tell us about this problem at the following URL:", file=sys.stderr)
+            print("https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException", file=sys.stderr)
+            print("Exiting.", file=sys.stderr)
             sys.exit(1)
 
         upgrade_config(config)
@@ -110,18 +110,14 @@ def load_or_install_jrnl():
 
 
 def install():
-    def autocomplete(text, state):
-        expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
-        expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
-        expansions.append(None)
-        return expansions[state]
-    readline.set_completer_delims(' \t\n;')
-    readline.parse_and_bind("tab: complete")
-    readline.set_completer(autocomplete)
+    if "win32" not in sys.platform:
+        readline.set_completer_delims(' \t\n;')
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(autocomplete)
 
     # Where to create the journal?
-    path_query = 'Path to your journal file (leave blank for {}): '.format(JOURNAL_FILE_PATH)
-    journal_path = util.py23_input(path_query).strip() or JOURNAL_FILE_PATH
+    path_query = f'Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): '
+    journal_path = input(path_query).strip() or JOURNAL_FILE_PATH
     default_config['journals']['default'] = os.path.expanduser(os.path.expandvars(journal_path))
 
     path = os.path.split(default_config['journals']['default'])[0]  # If the folder doesn't exist, create it
@@ -139,7 +135,7 @@ def install():
         else:
             util.set_keychain("default", None)
         EncryptedJournal._create(default_config['journals']['default'], password)
-        print("Journal will be encrypted.")
+        print("Journal will be encrypted.", file=sys.stderr)
     else:
         PlainJournal._create(default_config['journals']['default'])
 
@@ -148,3 +144,9 @@ def install():
     if password:
         config['password'] = password
     return config
+
+def autocomplete(text, state):
+    expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + '*')
+    expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
+    expansions.append(None)
+    return expansions[state]

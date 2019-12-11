@@ -1,24 +1,22 @@
-from behave import *
 import shutil
 import os
-import jrnl
-try:
-    from io import StringIO
-except ImportError:
-    from cStringIO import StringIO
+
+
+def before_feature(context, feature):
+    # add "skip" tag
+    # https://stackoverflow.com/a/42721605/4276230
+    if "skip" in feature.tags:
+        feature.skip("Marked with @skip")
+        return
+
 
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
-    context.messages = StringIO()
-    jrnl.util.STDERR = context.messages
-    jrnl.util.TEST = True
-
     # Clean up in case something went wrong
     for folder in ("configs", "journals"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
             shutil.rmtree(working_dir)
-
 
     for folder in ("configs", "journals"):
         original = os.path.join("features", "data", folder)
@@ -32,10 +30,15 @@ def before_scenario(context, scenario):
             else:
                 shutil.copy2(source, working_dir)
 
+    # add "skip" tag
+    # https://stackoverflow.com/a/42721605/4276230
+    if "skip" in scenario.effective_tags:
+        scenario.skip("Marked with @skip")
+        return
+
+
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
-    context.messages.close()
-    context.messages = None
     for folder in ("configs", "journals"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
