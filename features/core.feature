@@ -41,6 +41,7 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -on 'june 6 2013' --short"
         Then the output should be "2013-06-10 15:40 Life is good."
 
+    @skip_win
     Scenario: Emoji support
         Given we use the config "basic.yaml"
         When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
