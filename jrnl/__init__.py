@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-import pkg_resources
-
-dist = pkg_resources.get_distribution('jrnl')
-__title__ = dist.project_name
-__version__ = dist.version
-
+import os
+try:
+    from .__version__ import __version__
+except ImportError:
+    __version__ = "source"
+__title__ = "jrnl"
