@@ -41,6 +41,7 @@ class Journal:
         # Set up date parser
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
+        self.entries = []
 
     def __len__(self):
         """Returns the number of entries"""
@@ -69,9 +70,9 @@ class Journal:
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
+            self.create_file(filename)
             print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
-            self._create(filename)
-
+        
         text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
@@ -92,6 +93,11 @@ class Journal:
                 return False
         return True
 
+    @staticmethod
+    def create_file(filename):
+        with open(filename, "w"):
+            pass
+
     def _to_text(self):
         return "\n".join([str(e) for e in self.entries])
 
@@ -99,10 +105,6 @@ class Journal:
         raise NotImplementedError
 
     def _store(self, filename, text):
-        raise NotImplementedError
-
-    @classmethod
-    def _create(cls, filename):
         raise NotImplementedError
 
     def _parse(self, journal_txt):
@@ -274,11 +276,6 @@ class Journal:
 
 
 class PlainJournal(Journal):
-    @classmethod
-    def _create(cls, filename):
-        with open(filename, "a", encoding="utf-8"):
-            pass
-
     def _load(self, filename):
         with open(filename, "r", encoding="utf-8") as f:
             return f.read()

@@ -4,8 +4,10 @@ import sys
 import os
 import getpass as gp
 import yaml
+
 if "win32" in sys.platform:
     import colorama
+
     colorama.init()
 import re
 import tempfile
@@ -13,6 +15,7 @@ import subprocess
 import unicodedata
 import shlex
 import logging
+from typing import Optional, Callable
 
 log = logging.getLogger(__name__)
 
@@ -37,19 +40,29 @@ class UserAbort(Exception):
     pass
 
 
-def create_password():
+def create_password(journal_name: str, prompt: str = "Enter password for new journal: ") -> str:
     while True:
-        pw = gp.getpass("Enter password for new journal: ")
-        if pw == gp.getpass("Enter password again: "):
-            return pw
+        pw = gp.getpass(prompt)
+        if not pw:
+            print("Password can't be an empty string!", file=sys.stderr)
+            continue
+        elif pw == gp.getpass("Enter password again: "):
+            break
 
         print("Passwords did not match, please try again", file=sys.stderr)
 
+    if yesno("Do you want to store the password in your keychain?", default=True):
+        set_keychain(journal_name, pw)
+    else:
+        set_keychain(journal_name, None)
 
-def get_password(validator, keychain=None, max_attempts=3):
+    return pw
+
+
+def decrypt_content(decrypt_func: Callable[[str], Optional[str]], keychain: str = None, max_attempts: int = 3) -> str:
     pwd_from_keychain = keychain and get_keychain(keychain)
     password = pwd_from_keychain or gp.getpass()
-    result = validator(password)
+    result = decrypt_func(password)
     # Password is bad:
     if result is None and pwd_from_keychain:
         set_keychain(keychain, None)
@@ -57,7 +70,7 @@ def get_password(validator, keychain=None, max_attempts=3):
     while result is None and attempt < max_attempts:
         print("Wrong password, try again.", file=sys.stderr)
         password = gp.getpass()
-        result = validator(password)
+        result = decrypt_func(password)
         attempt += 1
     if result is not None:
         return result
