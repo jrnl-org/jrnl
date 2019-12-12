@@ -53,17 +53,15 @@ jobs:
     - os: windows
 
   include:
-    - stage: Lint
+    - stage: Lint & Tests
       name: Lint, via Black
       python: 3.8
-      install:
-        - pip install black
+      # black is automatically installed by peotry
       script:
-        - black .
+        - black --check . --verbose
 
     # Python 3.6 Tests
-    - stage: Tests
-      name: Python 3.6 on Linux
+    - name: Python 3.6 on Linux
       python: 3.6
     - <<: *test_mac
       name: Python 3.6 on MacOS
