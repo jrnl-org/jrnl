@@ -5,8 +5,11 @@ from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
 from dateutil import parser as date_parser
 from collections import defaultdict
-try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime as pdt
+
+try:
+    import parsedatetime.parsedatetime_consts as pdt
+except ImportError:
+    import parsedatetime as pdt
 import time
 import os
 import json
@@ -17,7 +20,7 @@ import shlex
 import sys
 
 consts = pdt.Constants(usePyICU=False)
-consts.DOWParseStyle = -1 # Prefers past weekdays
+consts.DOWParseStyle = -1  # Prefers past weekdays
 CALENDAR = pdt.Calendar(consts)
 
 
@@ -44,23 +47,27 @@ keyring.set_keyring(TestKeyring())
 def ushlex(command):
     if sys.version_info[0] == 3:
         return shlex.split(command)
-    return map(lambda s: s.decode('UTF8'), shlex.split(command.encode('utf8')))
+    return map(lambda s: s.decode("UTF8"), shlex.split(command.encode("utf8")))
 
 
 def read_journal(journal_name="default"):
     config = util.load_config(install.CONFIG_FILE_PATH)
-    with open(config['journals'][journal_name]) as journal_file:
+    with open(config["journals"][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
 
 
 def open_journal(journal_name="default"):
     config = util.load_config(install.CONFIG_FILE_PATH)
-    journal_conf = config['journals'][journal_name]
-    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
+    journal_conf = config["journals"][journal_name]
+
+    # We can override the default config on a by-journal basis
+    if type(journal_conf) is dict:
         config.update(journal_conf)
-    else:  # But also just give them a string to point to the journal file
-        config['journal'] = journal_conf
+    # But also just give them a string to point to the journal file
+    else:
+        config["journal"] = journal_conf
+
     return Journal.open_journal(journal_name, config)
 
 
@@ -70,14 +77,15 @@ def set_config(context, config_file):
     install.CONFIG_FILE_PATH = os.path.abspath(full_path)
     if config_file.endswith("yaml"):
         # Add jrnl version to file for 2.x journals
-        with open(install.CONFIG_FILE_PATH, 'a') as cf:
+        with open(install.CONFIG_FILE_PATH, "a") as cf:
             cf.write("version: {}".format(__version__))
 
 
 @when('we open the editor and enter ""')
 @when('we open the editor and enter "{text}"')
 def open_editor_and_enter(context, text=""):
-    text = (text or context.text)
+    text = text or context.text
+
     def _mock_editor_function(command):
         tmpfile = command[-1]
         with open(tmpfile, "w+") as f:
@@ -88,7 +96,7 @@ def open_editor_and_enter(context, text=""):
 
         return tmpfile
 
-    with patch('subprocess.call', side_effect=_mock_editor_function):
+    with patch("subprocess.call", side_effect=_mock_editor_function):
         run(context, "jrnl")
 
 
@@ -96,6 +104,7 @@ def _mock_getpass(inputs):
     def prompt_return(prompt="Password: "):
         print(prompt)
         return next(inputs)
+
     return prompt_return
 
 
@@ -104,6 +113,7 @@ def _mock_input(inputs):
         val = next(inputs)
         print(prompt, val)
         return val
+
     return prompt_return
 
 
@@ -119,24 +129,26 @@ def run_with_input(context, command, inputs=""):
         text = iter([inputs])
 
     args = ushlex(command)[1:]
+    # fmt: off
+    # black needs the 'on' and 'off' to be at the same indentation level
     with patch("builtins.input", side_effect=_mock_input(text)) as mock_input,\
          patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass,\
          patch("sys.stdin.read", side_effect=text) as mock_read:
-                try:
-                    cli.run(args or [])
-                    context.exit_status = 0
-                except SystemExit as e:
-                    context.exit_status = e.code
+            try:
+                cli.run(args or [])
+                context.exit_status = 0
+            except SystemExit as e:
+                context.exit_status = e.code
 
-                # at least one of the mocked input methods got called
-                assert mock_input.called or mock_getpass.called or mock_read.called
-                # all inputs were used
-                try:
-                    next(text)
-                    assert False, "Not all inputs were consumed"
-                except StopIteration:
-                    pass
-
+            # at least one of the mocked input methods got called
+            assert mock_input.called or mock_getpass.called or mock_read.called
+            # all inputs were used
+            try:
+                next(text)
+                assert False, "Not all inputs were consumed"
+            except StopIteration:
+                pass
+    # fmt: on
 
 
 @when('we run "{command}"')
@@ -158,20 +170,20 @@ def load_template(context, filename):
 
 @when('we set the keychain password of "{journal}" to "{password}"')
 def set_keychain(context, journal, password):
-    keyring.set_password('jrnl', journal, password)
+    keyring.set_password("jrnl", journal, password)
 
 
-@then('we should get an error')
+@then("we should get an error")
 def has_error(context):
     assert context.exit_status != 0, context.exit_status
 
 
-@then('we should get no error')
+@then("we should get no error")
 def no_error(context):
     assert context.exit_status == 0, context.exit_status
 
 
-@then('the output should be parsable as json')
+@then("the output should be parsable as json")
 def check_output_json(context):
     out = context.stdout_capture.getvalue()
     assert json.loads(out), out
@@ -210,7 +222,7 @@ def check_json_output_path(context, path, value):
     out = context.stdout_capture.getvalue()
     struct = json.loads(out)
 
-    for node in path.split('.'):
+    for node in path.split("."):
         try:
             struct = struct[int(node)]
         except ValueError:
@@ -218,14 +230,19 @@ def check_json_output_path(context, path, value):
     assert struct == value, struct
 
 
-@then('the output should be')
+@then("the output should be")
 @then('the output should be "{text}"')
 def check_output(context, text=None):
     text = (text or context.text).strip().splitlines()
     out = context.stdout_capture.getvalue().strip().splitlines()
-    assert len(text) == len(out), "Output has {} lines (expected: {})".format(len(out), len(text))
+    assert len(text) == len(out), "Output has {} lines (expected: {})".format(
+        len(out), len(text)
+    )
     for line_text, line_out in zip(text, out):
-        assert line_text.strip() == line_out.strip(), [line_text.strip(), line_out.strip()]
+        assert line_text.strip() == line_out.strip(), [
+            line_text.strip(),
+            line_out.strip(),
+        ]
 
 
 @then('the output should contain "{text}" in the local time')
@@ -233,11 +250,11 @@ def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
     local_tz = tzlocal.get_localzone()
     date, flag = CALENDAR.parse(text)
-    output_date = time.strftime("%Y-%m-%d %H:%M",date)
+    output_date = time.strftime("%Y-%m-%d %H:%M", date)
     assert output_date in out, output_date
 
 
-@then('the output should contain')
+@then("the output should contain")
 @then('the output should contain "{text}"')
 def check_output_inline(context, text=None):
     text = text or context.text
@@ -274,7 +291,7 @@ def check_journal_content(context, text, journal_name="default"):
 def journal_doesnt_exist(context, journal_name="default"):
     with open(install.CONFIG_FILE_PATH) as config_file:
         config = yaml.load(config_file, Loader=yaml.FullLoader)
-    journal_path = config['journals'][journal_name]
+    journal_path = config["journals"][journal_name]
     assert not os.path.exists(journal_path)
 
 
@@ -282,11 +299,7 @@ def journal_doesnt_exist(context, journal_name="default"):
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value, journal=None):
     t, value = value.split(":")
-    value = {
-        "bool": lambda v: v.lower() == "true",
-        "int": int,
-        "str": str
-    }[t](value)
+    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
     config = util.load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
@@ -294,8 +307,8 @@ def config_var(context, key, value, journal=None):
     assert config[key] == value
 
 
-@then('the journal should have {number:d} entries')
-@then('the journal should have {number:d} entry')
+@then("the journal should have {number:d} entries")
+@then("the journal should have {number:d} entry")
 @then('journal "{journal_name}" should have {number:d} entries')
 @then('journal "{journal_name}" should have {number:d} entry')
 def check_journal_entries(context, number, journal_name="default"):
@@ -303,6 +316,6 @@ def check_journal_entries(context, number, journal_name="default"):
     assert len(journal.entries) == number
 
 
-@then('fail')
+@then("fail")
 def debug_fail(context):
     assert False

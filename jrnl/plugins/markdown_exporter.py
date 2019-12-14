@@ -10,24 +10,25 @@ from ..util import WARNING_COLOR, RESET_COLOR
 
 class MarkdownExporter(TextExporter):
     """This Exporter can convert entries and journals into Markdown."""
+
     names = ["md", "markdown"]
     extension = "md"
 
     @classmethod
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry."""
-        date_str = entry.date.strftime(entry.journal.config['timeformat'])
+        date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
         body = body_wrapper + entry.body
 
         if to_multifile is True:
-            heading = '#'
+            heading = "#"
         else:
-            heading = '###'
+            heading = "###"
 
-        '''Increase heading levels in body text'''
-        newbody = ''
-        previous_line = ''
+        """Increase heading levels in body text"""
+        newbody = ""
+        previous_line = ""
         warn_on_heading_level = False
         for line in body.splitlines(True):
             if re.match(r"^#+ ", line):
@@ -35,24 +36,30 @@ class MarkdownExporter(TextExporter):
                 newbody = newbody + previous_line + heading + line
                 if re.match(r"^#######+ ", heading + line):
                     warn_on_heading_level = True
-                line = ''
-            elif re.match(r"^=+$", line.rstrip()) and not re.match(r"^$", previous_line.strip()):
+                line = ""
+            elif re.match(r"^=+$", line.rstrip()) and not re.match(
+                r"^$", previous_line.strip()
+            ):
                 """Setext style H1"""
                 newbody = newbody + heading + "# " + previous_line
-                line = ''
-            elif re.match(r"^-+$", line.rstrip()) and not re.match(r"^$", previous_line.strip()):
+                line = ""
+            elif re.match(r"^-+$", line.rstrip()) and not re.match(
+                r"^$", previous_line.strip()
+            ):
                 """Setext style H2"""
                 newbody = newbody + heading + "## " + previous_line
-                line = ''
+                line = ""
             else:
                 newbody = newbody + previous_line
             previous_line = line
-        newbody = newbody + previous_line   # add very last line
+        newbody = newbody + previous_line  # add very last line
 
         if warn_on_heading_level is True:
-            print(f"{WARNING_COLOR}WARNING{RESET_COLOR}: "
-                  f"Headings increased past H6 on export - {date_str} {entry.title}",
-                  file=sys.stderr)
+            print(
+                f"{WARNING_COLOR}WARNING{RESET_COLOR}: "
+                f"Headings increased past H6 on export - {date_str} {entry.title}",
+                file=sys.stderr,
+            )
 
         return f"{heading} {date_str} {entry.title}\n{newbody} "
 
