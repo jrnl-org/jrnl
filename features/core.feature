@@ -20,6 +20,19 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -n 1"
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
+    Scenario: Writing an empty entry from the editor
+        Given we use the config "editor.yaml"
+        When we open the editor and enter ""
+        Then we should see the message "[Nothing saved to file]"
+
+    Scenario: Writing an empty entry from the command line
+        Given we use the config "basic.yaml"
+        When we run "jrnl" and enter ""
+        Then the output should be
+            """
+
+            """
+
     Scenario: Filtering for dates
         Given we use the config "basic.yaml"
         When we run "jrnl -on 2013-06-10 --short"

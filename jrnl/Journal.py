@@ -1,13 +1,10 @@
 #!/usr/bin/env python
-# encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
 from . import Entry
 from . import util
 from . import time
 import os
 import sys
-import codecs
 import re
 from datetime import datetime
 import logging
@@ -15,7 +12,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Tag(object):
+class Tag:
     def __init__(self, name, count=0):
         self.name = name
         self.count = count
@@ -24,10 +21,10 @@ class Tag(object):
         return self.name
 
     def __repr__(self):
-        return "<Tag '{}'>".format(self.name)
+        return f"<Tag '{self.name}'>"
 
 
-class Journal(object):
+class Journal:
     def __init__(self, name='default', **kwargs):
         self.config = {
             'journal': "journal.txt",
@@ -73,7 +70,7 @@ class Journal(object):
         filename = filename or self.config['journal']
 
         if not os.path.exists(filename):
-            util.prompt("[Journal '{0}' created at {1}]".format(self.name, filename))
+            print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
             self._create(filename)
 
         text = self._load(filename)
@@ -97,7 +94,7 @@ class Journal(object):
         return True
 
     def _to_text(self):
-        return "\n".join([e.__unicode__() for e in self.entries])
+        return "\n".join([str(e) for e in self.entries])
 
     def _load(self, filename):
         raise NotImplementedError
@@ -119,11 +116,16 @@ class Journal(object):
         # Initialise our current entry
         entries = []
 
-        date_blob_re = re.compile("(?:^|\n)\[([^\\]]+)\] ")
+        date_blob_re = re.compile("(?:^|\n)\\[([^\\]]+)\\] ")
         last_entry_pos = 0
         for match in date_blob_re.finditer(journal_txt):
             date_blob = match.groups()[0]
-            new_date = time.parse(date_blob)
+            try:
+                new_date = datetime.strptime(date_blob, self.config["timeformat"])
+            except ValueError:
+                # Passing in a date that had brackets around it
+                new_date = time.parse(date_blob, bracketed=True)
+
             if new_date:
                 if entries:
                     entries[-1].text = journal_txt[last_entry_pos:match.start()]
@@ -141,9 +143,6 @@ class Journal(object):
             entry._parse_text()
         return entries
 
-    def __unicode__(self):
-        return self.pprint()
-
     def pprint(self, short=False):
         """Prettyprints the journal's entries"""
         sep = "\n"
@@ -154,7 +153,7 @@ class Journal(object):
                     tagre = re.compile(re.escape(tag), re.IGNORECASE)
                     pp = re.sub(tagre,
                                 lambda match: util.colorize(match.group(0)),
-                                pp, re.UNICODE)
+                                pp)
             else:
                 pp = re.sub(
                     Entry.Entry.tag_regex(self.config['tagsymbols']),
@@ -163,8 +162,11 @@ class Journal(object):
                 )
         return pp
 
+    def __str__(self):
+        return self.pprint()
+
     def __repr__(self):
-        return "<Journal with {0} entries>".format(len(self.entries))
+        return f"<Journal with {len(self.entries)} entries>"
 
     def sort(self):
         """Sorts the Journal's entries by date"""
@@ -184,7 +186,7 @@ class Journal(object):
                 for entry in self.entries
                 for tag in set(entry.tags)]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
-        tag_counts = set([(tags.count(tag), tag) for tag in tags])
+        tag_counts = {(tags.count(tag), tag) for tag in tags}
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
     def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, exclude=[]):
@@ -201,8 +203,8 @@ class Journal(object):
 
         exclude is a list of the tags which should not appear in the results.
         entry is kept if any tag is present, unless they appear in exclude."""
-        self.search_tags = set([tag.lower() for tag in tags])
-        excluded_tags = set([tag.lower() for tag in exclude])
+        self.search_tags = {tag.lower() for tag in tags}
+        excluded_tags = {tag.lower() for tag in exclude}
         end_date = time.parse(end_date, inclusive=True)
         start_date = time.parse(start_date)
 
@@ -237,7 +239,7 @@ class Journal(object):
 
         raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
         # Split raw text into title and body
-        sep = re.search("\n|[\?!.]+ +\n?", raw)
+        sep = re.search(r"\n|[?!.]+ +\n?", raw)
         first_line = raw[:sep.end()].strip() if sep else raw
         starred = False
 
@@ -265,7 +267,7 @@ class Journal(object):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return "\n".join([e.__unicode__() for e in self.entries])
+        return "\n".join([str(e) for e in self.entries])
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates it's entries."""
@@ -281,15 +283,15 @@ class Journal(object):
 class PlainJournal(Journal):
     @classmethod
     def _create(cls, filename):
-        with codecs.open(filename, "a", "utf-8"):
+        with open(filename, "a", encoding="utf-8"):
             pass
 
     def _load(self, filename):
-        with codecs.open(filename, "r", "utf-8") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
     def _store(self, filename, text):
-        with codecs.open(filename, 'w', "utf-8") as f:
+        with open(filename, 'w', encoding="utf-8") as f:
             f.write(text)
 
 
@@ -298,7 +300,7 @@ class LegacyJournal(Journal):
     standard. Main difference here is that in 1.x, timestamps were not cuddled
     by square brackets. You'll not be able to save these journals anymore."""
     def _load(self, filename):
-        with codecs.open(filename, "r", "utf-8") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
     def _parse(self, journal_txt):
@@ -334,7 +336,7 @@ class LegacyJournal(Journal):
                 # escaping for the new format).
                 line = new_date_format_regex.sub(r' \1', line)
                 if current_entry:
-                    current_entry.text += line + u"\n"
+                    current_entry.text += line + "\n"
 
         # Append last entry
         if current_entry:
@@ -358,8 +360,9 @@ def open_journal(name, config, legacy=False):
             from . import DayOneJournal
             return DayOneJournal.DayOne(**config).open()
         else:
-            util.prompt(
-                u"[Error: {0} is a directory, but doesn't seem to be a DayOne journal either.".format(config['journal'])
+            print(
+                f"[Error: {config['journal']} is a directory, but doesn't seem to be a DayOne journal either.",
+                file=sys.stderr
             )
 
             sys.exit(1)

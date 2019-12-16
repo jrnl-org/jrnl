@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals, print_function
 from .text_exporter import TextExporter
 import os
 import re
@@ -18,7 +17,8 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            print("{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format("\033[31m", "\033[0m", file=sys.stderr))
+            print("{}ERROR{}: YAML export must be to individual files. "
+                  "Please specify a directory to export to.".format("\033[31m", "\033[0m"), file=sys.stderr)
             return
 
         date_str = entry.date.strftime(entry.journal.config['timeformat'])
@@ -27,7 +27,7 @@ class YAMLExporter(TextExporter):
 
         tagsymbols = entry.journal.config['tagsymbols']
         # see also Entry.Entry.rag_regex
-        multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols), re.UNICODE)
+        multi_tag_regex = re.compile(r'(?u)^\s*([{tags}][-+*#/\w]+\s*)+$'.format(tags=tagsymbols))
 
         '''Increase heading levels in body text'''
         newbody = ''
