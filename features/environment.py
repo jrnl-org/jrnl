@@ -10,7 +10,6 @@ def before_feature(context, feature):
         return
 
 
-
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     # Clean up in case something went wrong
