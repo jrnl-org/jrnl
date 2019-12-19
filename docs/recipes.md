@@ -197,3 +197,13 @@ editor: "code --wait"
 ```
 
 to `jrnl.yaml`. See also the [Visual Studio Code documentation](https://code.visualstudio.com/docs/setup/mac)
+
+### Typora
+
+To set [Typora](https://typora.io) as your editor on MacOS, edit `jrnl_config` like this 
+
+```yaml
+editor: "open -a typora -w"
+```
+Note the `-w` flag to make sure jrnl waits for Typora to close the
+file before writing into the journal.
