@@ -7,6 +7,7 @@ from .util import get_tags_count
 
 class TagExporter(TextExporter):
     """This Exporter can lists the tags for entries and journals, exported as a plain text file."""
+
     names = ["tags"]
     extension = "tags"
 
@@ -21,9 +22,11 @@ class TagExporter(TextExporter):
         tag_counts = get_tags_count(journal)
         result = ""
         if not tag_counts:
-            return '[No tags found in journal.]'
+            return "[No tags found in journal.]"
         elif min(tag_counts)[0] == 0:
             tag_counts = filter(lambda x: x[0] > 1, tag_counts)
-            result += '[Removed tags that appear only once.]\n'
-        result += "\n".join("{:20} : {}".format(tag, n) for n, tag in sorted(tag_counts, reverse=True))
+            result += "[Removed tags that appear only once.]\n"
+        result += "\n".join(
+            "{:20} : {}".format(tag, n) for n, tag in sorted(tag_counts, reverse=True)
+        )
         return result
