@@ -19,7 +19,11 @@ class DayOne(Journal.Journal):
     """A special Journal handling DayOne files"""
 
     # InvalidFileException was added to plistlib in Python3.4
-    PLIST_EXCEPTIONS = (ExpatError, plistlib.InvalidFileException) if hasattr(plistlib, "InvalidFileException") else ExpatError
+    PLIST_EXCEPTIONS = (
+        (ExpatError, plistlib.InvalidFileException)
+        if hasattr(plistlib, "InvalidFileException")
+        else ExpatError
+    )
 
     def __init__(self, **kwargs):
         self.entries = []
@@ -27,28 +31,39 @@ class DayOne(Journal.Journal):
         super().__init__(**kwargs)
 
     def open(self):
-        filenames = [os.path.join(self.config['journal'], "entries", f) for f in os.listdir(os.path.join(self.config['journal'], "entries"))]
+        filenames = [
+            os.path.join(self.config["journal"], "entries", f)
+            for f in os.listdir(os.path.join(self.config["journal"], "entries"))
+        ]
         filenames = []
-        for root, dirnames, f in os.walk(self.config['journal']):
-            for filename in fnmatch.filter(f, '*.doentry'):
+        for root, dirnames, f in os.walk(self.config["journal"]):
+            for filename in fnmatch.filter(f, "*.doentry"):
                 filenames.append(os.path.join(root, filename))
         self.entries = []
         for filename in filenames:
-            with open(filename, 'rb') as plist_entry:
+            with open(filename, "rb") as plist_entry:
                 try:
                     dict_entry = plistlib.readPlist(plist_entry)
                 except self.PLIST_EXCEPTIONS:
                     pass
                 else:
                     try:
-                        timezone = pytz.timezone(dict_entry['Time Zone'])
+                        timezone = pytz.timezone(dict_entry["Time Zone"])
                     except (KeyError, pytz.exceptions.UnknownTimeZoneError):
                         timezone = tzlocal.get_localzone()
-                    date = dict_entry['Creation Date']
+                    date = dict_entry["Creation Date"]
                     date = date + timezone.utcoffset(date, is_dst=False)
-                    entry = Entry.Entry(self, date, text=dict_entry['Entry Text'], starred=dict_entry["Starred"])
+                    entry = Entry.Entry(
+                        self,
+                        date,
+                        text=dict_entry["Entry Text"],
+                        starred=dict_entry["Starred"],
+                    )
                     entry.uuid = dict_entry["UUID"]
-                    entry._tags = [self.config['tagsymbols'][0] + tag.lower() for tag in dict_entry.get("Tags", [])]
+                    entry._tags = [
+                        self.config["tagsymbols"][0] + tag.lower()
+                        for tag in dict_entry.get("Tags", [])
+                    ]
 
                     self.entries.append(entry)
         self.sort()
@@ -58,24 +73,33 @@ class DayOne(Journal.Journal):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
             if entry.modified:
-                utc_time = datetime.utcfromtimestamp(time.mktime(entry.date.timetuple()))
+                utc_time = datetime.utcfromtimestamp(
+                    time.mktime(entry.date.timetuple())
+                )
 
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
 
-                filename = os.path.join(self.config['journal'], "entries", entry.uuid.upper() + ".doentry")
-                
+                filename = os.path.join(
+                    self.config["journal"], "entries", entry.uuid.upper() + ".doentry"
+                )
+
                 entry_plist = {
-                    'Creation Date': utc_time,
-                    'Starred': entry.starred if hasattr(entry, 'starred') else False,
-                    'Entry Text': entry.title + "\n" + entry.body,
-                    'Time Zone': str(tzlocal.get_localzone()),
-                    'UUID': entry.uuid.upper(),
-                    'Tags': [tag.strip(self.config['tagsymbols']).replace("_", " ") for tag in entry.tags]
+                    "Creation Date": utc_time,
+                    "Starred": entry.starred if hasattr(entry, "starred") else False,
+                    "Entry Text": entry.title + "\n" + entry.body,
+                    "Time Zone": str(tzlocal.get_localzone()),
+                    "UUID": entry.uuid.upper(),
+                    "Tags": [
+                        tag.strip(self.config["tagsymbols"]).replace("_", " ")
+                        for tag in entry.tags
+                    ],
                 }
                 plistlib.writePlist(entry_plist, filename)
         for entry in self._deleted_entries:
-            filename = os.path.join(self.config['journal'], "entries", entry.uuid + ".doentry")
+            filename = os.path.join(
+                self.config["journal"], "entries", entry.uuid + ".doentry"
+            )
             os.remove(filename)
 
     def editable_str(self):
@@ -113,7 +137,7 @@ class DayOne(Journal.Journal):
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
-                    current_entry.title = line[len(date_blob) - 1:]
+                    current_entry.title = line[len(date_blob) - 1 :]
                     current_entry.date = new_date
                 elif current_entry:
                     current_entry.body += line + "\n"
