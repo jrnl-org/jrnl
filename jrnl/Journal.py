@@ -231,18 +231,16 @@ class Journal:
         result = [
             entry
             for entry in self.entries
-            if (
-                (not tags or tagged(entry.tags))
-                and (not starred or entry.starred)
-                and (not start_date or entry.date >= start_date)
-                and (not end_date or entry.date <= end_date)
-                and (not exclude or not excluded(entry.tags))
-                and (
-                    not contains
-                    or (
-                        contains_lower in entry.title.casefold()
-                        or contains_lower in entry.body.casefold()
-                    )
+            if (not tags or tagged(entry.tags))
+            and (not starred or entry.starred)
+            and (not start_date or entry.date >= start_date)
+            and (not end_date or entry.date <= end_date)
+            and (not exclude or not excluded(entry.tags))
+            and (
+                not contains
+                or (
+                    contains_lower in entry.title.casefold()
+                    or contains_lower in entry.body.casefold()
                 )
             )
         ]

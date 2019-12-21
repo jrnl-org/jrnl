@@ -61,11 +61,12 @@ def open_journal(journal_name="default"):
     config = util.load_config(install.CONFIG_FILE_PATH)
     journal_conf = config["journals"][journal_name]
 
-    # We can override the default config on a by-journal basis
+
     if type(journal_conf) is dict:
+         # We can override the default config on a by-journal basis
         config.update(journal_conf)
-    # But also just give them a string to point to the journal file
     else:
+        # But also just give them a string to point to the journal file
         config["journal"] = journal_conf
 
     return Journal.open_journal(journal_name, config)
@@ -129,25 +130,27 @@ def run_with_input(context, command, inputs=""):
         text = iter([inputs])
 
     args = ushlex(command)[1:]
-    # fmt: off
-    # black needs the 'on' and 'off' to be at the same indentation level
-    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input,\
-         patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass,\
-         patch("sys.stdin.read", side_effect=text) as mock_read:
-            try:
-                cli.run(args or [])
-                context.exit_status = 0
-            except SystemExit as e:
-                context.exit_status = e.code
 
-            # at least one of the mocked input methods got called
-            assert mock_input.called or mock_getpass.called or mock_read.called
-            # all inputs were used
-            try:
-                next(text)
-                assert False, "Not all inputs were consumed"
-            except StopIteration:
-                pass
+    # fmt: off
+    # see: https://github.com/psf/black/issues/557
+    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
+         patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
+         patch("sys.stdin.read", side_effect=text) as mock_read:
+
+        try:
+            cli.run(args or [])
+            context.exit_status = 0
+        except SystemExit as e:
+            context.exit_status = e.code
+
+        # at least one of the mocked input methods got called
+        assert mock_input.called or mock_getpass.called or mock_read.called
+        # all inputs were used
+        try:
+            next(text)
+            assert False, "Not all inputs were consumed"
+        except StopIteration:
+            pass
     # fmt: on
 
 
