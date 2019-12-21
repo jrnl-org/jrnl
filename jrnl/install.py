@@ -138,9 +138,8 @@ def install():
         os.path.expandvars(journal_path)
     )
 
-    path = os.path.split(default_config["journals"][DEFAULT_JOURNAL_KEY])[
-        0
-    ]  # If the folder doesn't exist, create it
+    # If the folder doesn't exist, create it
+    path = os.path.split(default_config["journals"][DEFAULT_JOURNAL_KEY])[0]
     try:
         os.makedirs(path)
     except OSError:

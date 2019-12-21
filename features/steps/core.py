@@ -60,12 +60,15 @@ def read_journal(journal_name="default"):
 def open_journal(journal_name="default"):
     config = util.load_config(install.CONFIG_FILE_PATH)
     journal_conf = config["journals"][journal_name]
-    if (
-        type(journal_conf) is dict
-    ):  # We can override the default config on a by-journal basis
+
+
+    if type(journal_conf) is dict:
+         # We can override the default config on a by-journal basis
         config.update(journal_conf)
-    else:  # But also just give them a string to point to the journal file
+    else:
+        # But also just give them a string to point to the journal file
         config["journal"] = journal_conf
+
     return Journal.open_journal(journal_name, config)
 
 

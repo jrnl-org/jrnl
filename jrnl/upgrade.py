@@ -26,7 +26,7 @@ def upgrade_jrnl_if_necessary(config_path):
     config = util.load_config(config_path)
 
     print(
-        """Welcome to jrnl {}.
+        f"""Welcome to jrnl {__version__}.
 
 It looks like you've been using an older version of jrnl until now. That's
 okay - jrnl will now upgrade your configuration and journal files. Afterwards
@@ -40,10 +40,9 @@ you can enjoy all of the great new features that come with jrnl 2:
 Please note that jrnl 1.x is NOT forward compatible with this version of jrnl.
 If you choose to proceed, you will not be able to use your journals with
 older versions of jrnl anymore.
-""".format(
-            __version__
-        )
+"""
     )
+
     encrypted_journals = {}
     plain_journals = {}
     other_journals = {}
