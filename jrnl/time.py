@@ -1,7 +1,10 @@
 from datetime import datetime
 from dateutil.parser import parse as dateparse
-try: import parsedatetime.parsedatetime_consts as pdt
-except ImportError: import parsedatetime as pdt
+
+try:
+    import parsedatetime.parsedatetime_consts as pdt
+except ImportError:
+    import parsedatetime as pdt
 
 FAKE_YEAR = 9999
 DEFAULT_FUTURE = datetime(FAKE_YEAR, 12, 31, 23, 59, 59)
@@ -12,14 +15,16 @@ consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
 CALENDAR = pdt.Calendar(consts)
 
 
-def parse(date_str, inclusive=False, default_hour=None, default_minute=None, bracketed=False):
+def parse(
+    date_str, inclusive=False, default_hour=None, default_minute=None, bracketed=False
+):
     """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
     if not date_str:
         return None
     elif isinstance(date_str, datetime):
         return date_str
 
-    # Don't try to parse anything with 6 or less characters and was parsed from the existing journal. 
+    # Don't try to parse anything with 6 or less characters and was parsed from the existing journal.
     # It's probably a markdown footnote
     if len(date_str) <= 6 and bracketed:
         return None
@@ -37,7 +42,7 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None, bra
             flag = 1 if date.hour == date.minute == 0 else 2
             date = date.timetuple()
         except Exception as e:
-            if e.args[0] == 'day is out of range for month':
+            if e.args[0] == "day is out of range for month":
                 y, m, d, H, M, S = default_date.timetuple()[:6]
                 default_date = datetime(y, m, d - 1, H, M, S)
             else:
@@ -53,10 +58,12 @@ def parse(date_str, inclusive=False, default_hour=None, default_minute=None, bra
             return None
 
     if flag is 1:  # Date found, but no time. Use the default time.
-        date = datetime(*date[:3], 
-                        hour=23 if inclusive else default_hour or 0, 
-                        minute=59 if inclusive else default_minute or 0,
-                        second=59 if inclusive else 0)
+        date = datetime(
+            *date[:3],
+            hour=23 if inclusive else default_hour or 0,
+            minute=59 if inclusive else default_minute or 0,
+            second=59 if inclusive else 0
+        )
     else:
         date = datetime(*date[:6])
 

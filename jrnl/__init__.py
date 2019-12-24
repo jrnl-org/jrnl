@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+
 try:
     from .__version__ import __version__
 except ImportError:
