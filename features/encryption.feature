@@ -12,6 +12,7 @@
             Then we should see the message "Journal decrypted"
             And the journal should have 2 entries
 
+        @skip_win
         Scenario: Encrypting a journal
             Given we use the config "basic.yaml"
             When we run "jrnl --encrypt" and enter
@@ -26,6 +27,7 @@
             Then the output should contain "Password"
             And the output should contain "2013-06-10 15:40 Life is good"
 
+        @skip_win
         Scenario: Mistyping your password
             Given we use the config "basic.yaml"
             When we run "jrnl --encrypt" and enter

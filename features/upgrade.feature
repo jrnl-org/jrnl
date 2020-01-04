@@ -1,5 +1,6 @@
 Feature: Upgrading Journals from 1.x.x to 2.x.x
 
+    @skip_win
     Scenario: Upgrade and parse journals with square brackets
         Given we use the config "upgrade_from_195.json"
         When we run "jrnl -9" and enter "Y"
@@ -11,6 +12,7 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             """
         Then the journal should have 2 entries
 
+    @skip_win
     Scenario: Upgrading a journal encrypted with jrnl 1.x
         Given we use the config "encrypted_old.json"
         When we run "jrnl -n 1" and enter
@@ -22,6 +24,7 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
         Then the output should contain "Password"
         and the output should contain "2013-06-10 15:40 Life is good"
 
+    @skip_win
     Scenario: Upgrade and parse journals with little endian date format
         Given we use the config "upgrade_from_195_little_endian_dates.json"
         When we run "jrnl -9" and enter "Y"
