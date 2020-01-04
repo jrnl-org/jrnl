@@ -43,6 +43,7 @@
             Then the output should contain "Password"
             And the output should contain "2013-06-10 15:40 Life is good"
 
+        @skip_win
         Scenario: Storing a password in Keychain
             Given we use the config "multiple.yaml"
             When we run "jrnl simple --encrypt" and enter
