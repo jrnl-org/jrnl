@@ -130,8 +130,6 @@ Similar to Sublime Text, MacVim must be started with a flag that tells
 the the process to wait until the file is closed before passing control
 back to journal. In the case of MacVim, this is `-f`:
 
-<<<<<<< HEAD
-
 ```yaml
 editor: "mvim -f"
 ```
