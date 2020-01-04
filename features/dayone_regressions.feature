@@ -24,6 +24,7 @@ Feature: Zapped Dayone bugs stay dead!
 			| I'm feeling sore because I forgot to stretch.
 			"""
 
+    @skip_win
     Scenario: Opening an folder that's not a DayOne folder gives a nice error message
         Given we use the config "empty_folder.yaml"
         When we run "jrnl Herro"
