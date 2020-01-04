@@ -14,6 +14,7 @@ def before_feature(context, feature):
         feature.skip("Skipping on Windows")
         return
 
+
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     # Clean up in case something went wrong
@@ -43,6 +44,7 @@ def before_scenario(context, scenario):
     if "skip_win" in scenario.effective_tags and "win32" in sys.platform:
         scenario.skip("Skipping on Windows")
         return
+
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
