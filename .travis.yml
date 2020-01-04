@@ -53,8 +53,7 @@ jobs:
     - os: windows
 
   include:
-    - stage: Lint & Tests
-      name: Lint, via Black
+    - name: Lint, via Black
       python: 3.8
       script:
         - black --version
