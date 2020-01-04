@@ -20,6 +20,7 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -n 1"
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
+    @skip_win
     Scenario: Writing an empty entry from the editor
         Given we use the config "editor.yaml"
         When we open the editor and enter ""
@@ -39,14 +40,6 @@ Feature: Basic reading and writing to a journal
         Then the output should be "2013-06-10 15:40 Life is good."
         When we run "jrnl -on 'june 6 2013' --short"
         Then the output should be "2013-06-10 15:40 Life is good."
-
-    Scenario: Emoji support
-        Given we use the config "basic.yaml"
-        When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1"
-        Then the output should contain "🌞"
-        and the output should contain "🐘"
 
     Scenario: Writing an entry at the prompt
         Given we use the config "basic.yaml"
