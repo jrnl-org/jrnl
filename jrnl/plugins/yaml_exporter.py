@@ -40,7 +40,7 @@ class YAMLExporter(TextExporter):
         previous_line = ""
         warn_on_heading_level = False
         for line in body.splitlines(True):
-            if re.match(r"#+ ", line):
+            if re.match(r"^#+ ", line):
                 """ATX style headings"""
                 newbody = newbody + previous_line + heading + line
                 if re.match(r"^#######+ ", heading + line):
@@ -85,18 +85,20 @@ class YAMLExporter(TextExporter):
             or hasattr(entry, "creator_software_agent")
         ):
             dayone_attributes += "creator:\n"
-        if hasattr(entry, "creator_device_agent"):
-            dayone_attributes += f"    device agent: {entry.creator_device_agent}\n"
-        if hasattr(entry, "creator_generation_date"):
-            dayone_attributes += "    generation date: {}\n".format(
-                str(entry.creator_generation_date)
-            )
-        if hasattr(entry, "creator_host_name"):
-            dayone_attributes += f"    host name: {entry.creator_host_name}\n"
-        if hasattr(entry, "creator_os_agent"):
-            dayone_attributes += f"    os agent: {entry.creator_os_agent}\n"
-        if hasattr(entry, "creator_software_agent"):
-            dayone_attributes += f"    software agent: {entry.creator_software_agent}\n"
+            if hasattr(entry, "creator_device_agent"):
+                dayone_attributes += f"    device agent: {entry.creator_device_agent}\n"
+            if hasattr(entry, "creator_generation_date"):
+                dayone_attributes += "    generation date: {}\n".format(
+                    str(entry.creator_generation_date)
+                )
+            if hasattr(entry, "creator_host_name"):
+                dayone_attributes += f"    host name: {entry.creator_host_name}\n"
+            if hasattr(entry, "creator_os_agent"):
+                dayone_attributes += f"    os agent: {entry.creator_os_agent}\n"
+            if hasattr(entry, "creator_software_agent"):
+                dayone_attributes += (
+                    f"    software agent: {entry.creator_software_agent}\n"
+                )
 
         # TODO: copy over pictures, if present
         # source directory is  entry.journal.config['journal']
