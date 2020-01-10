@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from .dayone2_importer import DayOne2Importer
 from .text_exporter import TextExporter
 from .jrnl_importer import JRNLImporter
 from .json_exporter import JSONExporter
@@ -20,7 +21,9 @@ __exporters = [
     YAMLExporter,
     FancyExporter,
 ] + template_exporters
-__importers = [JRNLImporter]
+
+__importers = [DayOne2Importer,
+               JRNLImporter]
 
 __exporter_types = {name: plugin for plugin in __exporters for name in plugin.names}
 __importer_types = {name: plugin for plugin in __importers for name in plugin.names}
@@ -36,8 +39,8 @@ def get_exporter(format):
     return None
 
 
-def get_importer(format):
+def get_importer(file_format, path):
     for importer in __importers:
-        if hasattr(importer, "names") and format in importer.names:
-            return importer
+        if hasattr(importer, "names") and file_format in importer.names:
+            return importer(path)
     return None

@@ -133,20 +133,9 @@ def parse_args(args=None):
         metavar="TYPE",
         dest="import_",
         choices=plugins.IMPORT_FORMATS,
-        help="Import entries into your journal. TYPE can be {}, and it defaults to jrnl if nothing else is specified.".format(
-            plugins.util.oxford_list(plugins.IMPORT_FORMATS)
-        ),
+        help="Import entries into your journal. TYPE can be one of "\
+             "{0}".format(plugins.util.oxford_list(plugins.IMPORT_FORMATS)),
         default=False,
-        const="jrnl",
-        nargs="?",
-    )
-    exporting.add_argument(
-        "-i",
-        metavar="INPUT",
-        dest="input",
-        help="Optionally specifies input file when using --import.",
-        default=False,
-        const=None,
     )
     exporting.add_argument(
         "--encrypt",
@@ -181,14 +170,14 @@ def guess_mode(args, config):
     compose = True
     export = False
     import_ = False
-    if args.import_ is not False:
+    if args.import_:
         compose = False
         export = False
         import_ = True
     elif (
-        args.decrypt is not False
-        or args.encrypt is not False
-        or args.export is not False
+        args.decrypt
+        or args.encrypt
+        or args.export
         or any((args.short, args.tags, args.edit))
     ):
         compose = False
@@ -357,6 +346,10 @@ def run(manual_args=None):
         else:
             sys.exit()
 
+    # Import mode
+    if args.import_:
+        return plugins.get_importer(args.import_, args.text)
+
     # This is where we finally open the journal!
     try:
         journal = open_journal(journal_name, config)
@@ -364,12 +357,8 @@ def run(manual_args=None):
         print(f"[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)
 
-    # Import mode
-    if mode_import:
-        plugins.get_importer(args.import_).import_(journal, args.input)
-
     # Writing mode
-    elif mode_compose:
+    if mode_compose:
         raw = " ".join(args.text).strip()
         log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
         journal.new_entry(raw)

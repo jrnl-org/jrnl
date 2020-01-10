@@ -385,6 +385,12 @@ def open_journal(name, config, legacy=False):
 
             sys.exit(1)
 
+    elif config["journal"].strip("/").endswith(".json"):
+        # Loads a Day One v2.0 journal
+        from .dayone2 import DayOne2
+
+        return DayOne2(**config).open()
+
     if not config["encrypt"]:
         if legacy:
             return LegacyJournal(name, **config).open()

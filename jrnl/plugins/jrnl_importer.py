@@ -10,13 +10,16 @@ class JRNLImporter:
 
     names = ["jrnl"]
 
-    @staticmethod
-    def import_(journal, input=None):
+    def __init__(self, input):
+        self.input = input
+        self.import_(self.input)
+
+    def import_(self, journal, input=None):
         """Imports from an existing file if input is specified, and
         standard input otherwise."""
         old_cnt = len(journal.entries)
         old_entries = journal.entries
-        if input:
+        if self.input:
             with open(input, "r", encoding="utf-8") as f:
                 other_journal_txt = f.read()
         else:
