@@ -111,7 +111,7 @@ def load_or_install_jrnl():
             print("Exiting.", file=sys.stderr)
             sys.exit(1)
 
-        if config.get('version') and config.get('version') < __version__:
+        if config.get("version") and config.get("version") < __version__:
             upgraded_user_config = upgrade_config(config)
             save_config(upgraded_user_config)
 
