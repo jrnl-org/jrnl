@@ -35,3 +35,16 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             10.06.2013 15:40 He said "[this] is the best time to be alive".
             """
         Then the journal should have 2 entries
+
+    @skip_win
+    Scenario: Successful upgrade with missing journal
+        Given we use the config "upgrade_from_195_with_missing_journal.json"
+        When we run "jrnl -ls" and enter "Y Y"
+        Then we should see the message "Journal 'missing' created"
+        Then we should see the message "We're all done here"
+
+    @skip_win
+    Scenario: Aborted upgrade with missing journal
+        Given we use the config "upgrade_from_195_with_missing_journal.json"
+        When we run "jrnl -ls" and enter "Y N"
+        Then we should see the message "jrnl NOT upgraded, exiting."
