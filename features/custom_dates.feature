@@ -29,7 +29,10 @@ Feature: Reading and writing to journal with custom date formats
 
     Scenario: Writing an entry at the prompt
         Given we use the config "little_endian_dates.yaml"
-        When we run "jrnl" and enter "2013-05-10: I saw Elvis. He's alive."
+        When we run "jrnl" and enter
+        """
+        2013-05-10: I saw Elvis. He's alive.
+        """
         Then we should get no error
         And the journal should contain "[10.05.2013 09:00] I saw Elvis."
         And the journal should contain "He's alive."

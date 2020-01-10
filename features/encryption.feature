@@ -1,13 +1,19 @@
     Feature: Encrypted journals
         Scenario: Loading an encrypted journal
             Given we use the config "encrypted.yaml"
-            When we run "jrnl -n 1" and enter "bad doggie no biscuit"
+            When we run "jrnl -n 1" and enter
+            """
+            bad doggie no biscuit
+            """
             Then the output should contain "Password"
             And the output should contain "2013-06-10 15:40 Life is good"
 
         Scenario: Decrypting a journal
             Given we use the config "encrypted.yaml"
-            When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
+            When we run "jrnl --decrypt" and enter
+            """"
+            bad doggie no biscuit
+            """
             Then the config for journal "default" should have "encrypt" set to "bool:False"
             Then we should see the message "Journal decrypted"
             And the journal should have 2 entries
@@ -23,7 +29,10 @@
             """
             Then we should see the message "Journal encrypted"
             And the config for journal "default" should have "encrypt" set to "bool:True"
-            When we run "jrnl -n 1" and enter "swordfish"
+            When we run "jrnl -n 1" and enter
+            """
+            swordfish
+            """
             Then the output should contain "Password"
             And the output should contain "2013-06-10 15:40 Life is good"
 
@@ -41,7 +50,10 @@
             Then we should see the message "Passwords did not match"
             And we should see the message "Journal encrypted"
             And the config for journal "default" should have "encrypt" set to "bool:True"
-            When we run "jrnl -n 1" and enter "swordfish"
+            When we run "jrnl -n 1" and enter
+            """
+            swordfish
+            """
             Then the output should contain "Password"
             And the output should contain "2013-06-10 15:40 Life is good"
 

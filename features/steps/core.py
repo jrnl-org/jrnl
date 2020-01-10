@@ -126,7 +126,7 @@ def run_with_input(context, command, inputs=""):
     if context.text:
         text = iter(context.text.split("\n"))
     else:
-        text = iter([inputs])
+        text = iter(inputs.split(" "))
 
     args = ushlex(command)[1:]
 
