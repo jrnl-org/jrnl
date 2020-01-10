@@ -169,13 +169,13 @@ editor -- or by just writing an entry on the prompt, such as</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p>Most shell contains a certain number of reserved characters, such as <code>#</code>
 and <code>*</code>. Unbalanced quotes, parenthesis, and so on will also get into
 the way of your editing.
 For writing longer entries, just enter <code>jrnl</code>
 and hit <code>return</code>. Only then enter the text of your journal entry.
 Alternatively, <code>use an external editor &lt;advanced&gt;</code>).</p>
+</div>
 <p>You can also import an entry directly from a file</p>
 <pre><code class="sh">jrnl &lt; my_entry.txt
 </code></pre>
@@ -205,10 +205,10 @@ The following options are equivalent:</p>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p>Just make sure that the asterisk sign is <strong>not</strong> surrounded by
 whitespaces, e.g. <code>jrnl Best day of my life! *</code> will <strong>not</strong> work (the
 reason being that the <code>*</code> sign has a special meaning on most shells).</p>
+</div>
 <h2 id="viewing">Viewing</h2>
 <pre><code class="sh">jrnl -n 10
 </code></pre>
@@ -243,10 +243,10 @@ You can change which symbols you'd like to use for tagging in the
 configuration.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p><code>jrnl @pinkie @WorldDomination</code> will switch to viewing mode because
 although <strong>no</strong> command line arguments are given, all the input strings
 look like tags - <em>jrnl</em> will assume you want to filter by tag.</p>
+</div>
 <h2 id="editing-older-entries">Editing older entries</h2>
 <p>You can edit selected entries after you wrote them. This is particularly
 useful when your journal file is encrypted. To use this feature, you need
