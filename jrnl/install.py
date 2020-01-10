@@ -10,6 +10,7 @@ from . import __version__
 from .Journal import PlainJournal
 from .EncryptedJournal import EncryptedJournal
 from .util import UserAbort
+from collections.abc import Mapping
 import yaml
 import logging
 import sys
@@ -61,19 +62,16 @@ default_config = {
 }
 
 
-def upgrade_config(config):
-    """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
+def upgrade_config(user_config, new_config=default_config):
+    """Checks if there are keys missing in a given config dict, and returns a config dict with them added.
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions."""
-    missing_keys = set(default_config).difference(config)
-    if missing_keys:
-        for key in missing_keys:
-            config[key] = default_config[key]
-        save_config(config)
-        print(
-            f"[Configuration updated to newest version at {CONFIG_FILE_PATH}]",
-            file=sys.stderr,
-        )
+    for k, v in new_config.items():
+        new_value = user_config.get(k)
+        if isinstance(v, Mapping) and isinstance(new_value, Mapping):
+            user_config[k] = v
+            upgrade_config(new_value, v)
+    return user_config
 
 
 def save_config(config):
@@ -113,7 +111,9 @@ def load_or_install_jrnl():
             print("Exiting.", file=sys.stderr)
             sys.exit(1)
 
-        upgrade_config(config)
+        if config.get('version') and config.get('version') < __version__:
+            upgraded_user_config = upgrade_config(config)
+            save_config(upgraded_user_config)
 
         return config
     else:
