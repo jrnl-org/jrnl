@@ -1,0 +1,9 @@
+project=jrnl
+user=jrnl-org
+base=CHANGELOG.md
+issues=false
+issues-wo-labels=false
+include-labels=bug,enhancement,documentation,build,deprecated
+release-url='https://pypi.org/project/jrnl/%s/'
+add-sections={ "build": { "prefix": "**Build:**", "labels": ["build"]}, "docs": { "prefix": "**Updated documentation:**", "labels": ["documentation"]}}
+exclude-tags-regex=(alpha|beta|rc)
