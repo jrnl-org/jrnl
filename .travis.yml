@@ -117,7 +117,7 @@ jobs:
     - stage: Deploy
       if: branch = master AND tag IS present
       before_deploy:
-        - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
+        - poetry config pypi-token.pypi "$PYPI_TOKEN"
         - poetry version "$TRAVIS_TAG"
         - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
         - poetry build
