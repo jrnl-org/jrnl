@@ -114,6 +114,14 @@ jobs:
       env:
         - TZ=America/Edmonton
 
+    # Changelog for Unreleased changes
+    - stage: Update Changelog
+      if: (tag IS present) OR (branch = develop AND type NOT IN (pull_request))
+      install:
+        - echo 'Skipping install'
+      script:
+        - ./.build/generate_changelog.sh
+
     - stage: Deploy
       before_deploy:
         - poetry config pypi-token.pypi "$PYPI_TOKEN"
