@@ -123,6 +123,7 @@ jobs:
         - ./.build/generate_changelog.sh
 
     - stage: Deploy
+      if: tag IS present
       before_deploy:
         - poetry config pypi-token.pypi "$PYPI_TOKEN"
         - poetry version "$TRAVIS_TAG"
