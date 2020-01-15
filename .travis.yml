@@ -114,6 +114,20 @@ jobs:
       env:
         - TZ=America/Edmonton
 
+    # Changelog for Unreleased changes
+    - stage: Update Changelog
+      if: branch = develop AND type NOT IN (push, pull_request)
+      script:
+        - echo "Updating CHANGELOG.md (unreleased)"
+        - echo "For Reasons"
+
+    # Changelog for a tagged release
+    - stage: Update Changelog
+      if: branch = master AND tag IS present
+      script:
+        - echo "Updating CHANGELOG.md (release)"
+        - echo "For Reasons"
+
     - stage: Deploy
       if: branch = master AND tag IS present
       before_deploy:
@@ -129,5 +143,5 @@ jobs:
         - git config --global user.name "Jrnl Bot"
         - git checkout master
         - git add pyproject.toml
-        - git commit -m "Incrementing version to ${TRAVIS_TAG}"
+        - git commit -m "Incrementing version to ${TRAVIS_TAG} [ci skip]"
         - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
