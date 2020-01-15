@@ -116,7 +116,7 @@ jobs:
 
     # Changelog for Unreleased changes
     - stage: Update Changelog
-      if: branch = develop AND type NOT IN (push, pull_request)
+      if: branch = develop AND type NOT IN (pull_request)
       script:
         - echo "Updating CHANGELOG.md (unreleased)"
         - echo "For Reasons"
