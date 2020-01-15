@@ -114,16 +114,28 @@ jobs:
       env:
         - TZ=America/Edmonton
 
+    # Changelog for Unreleased changes
+    - stage: Update Changelog
+      if: (tag IS present) OR (branch = develop AND type NOT IN (pull_request))
+      install:
+        - echo 'Skipping install'
+      script:
+        - ./.build/generate_changelog.sh
+
     - stage: Deploy
-      if: branch = master AND tag IS present
+      if: tag IS present
       before_deploy:
-        - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
+        - poetry config pypi-token.pypi "$PYPI_TOKEN"
         - poetry version "$TRAVIS_TAG"
         - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
         - poetry build
       deploy:
         - provider: script
           script: poetry publish
+          skip_cleanup: true
+          on:
+            branch: master
+            tags: true
       after_deploy:
         - git config --global user.email "jrnl.bot@gmail.com"
         - git config --global user.name "Jrnl Bot"
