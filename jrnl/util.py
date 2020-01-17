@@ -142,21 +142,26 @@ def scope_config(config, journal_name):
 
 def get_text_from_editor(config, template=""):
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+    os.close(filehandle)
+
     with open(tmpfile, "w", encoding="utf-8") as f:
         if template:
             f.write(template)
+
     try:
         subprocess.call(
             shlex.split(config["editor"], posix="win" not in sys.platform) + [tmpfile]
         )
     except AttributeError:
         subprocess.call(config["editor"] + [tmpfile])
+
     with open(tmpfile, "r", encoding="utf-8") as f:
         raw = f.read()
-    os.close(filehandle)
     os.remove(tmpfile)
+
     if not raw:
         print("[Nothing saved to file]", file=sys.stderr)
+
     return raw
 
 
