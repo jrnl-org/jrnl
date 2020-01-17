@@ -14,6 +14,7 @@
 **Fixed bugs:**
 
 - Close temp file before passing it to editor to prevent file locking issues in Windows [\#792](https://github.com/jrnl-org/jrnl/pull/792) ([micahellison](https://github.com/micahellison))
+- Fix crash while encrypting a journal on first run without saving password [\#789](https://github.com/jrnl-org/jrnl/pull/789) ([dbxnr](https://github.com/dbxnr))
 
 **Build:**
 
