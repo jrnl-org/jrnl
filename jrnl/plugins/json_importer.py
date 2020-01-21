@@ -30,7 +30,7 @@ class JSONImporter(PlainJournal, TextExporter):
 
     def import_file(self):
         """Reads a JSON file and returns a dict."""
-        if os.path.exists(self.path):
+        if os.path.exists(self.path) and Path(self.path).suffix == '.json':
             try:
                 with open(self.path) as f:
                     return json.load(f)
