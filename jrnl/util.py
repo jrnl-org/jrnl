@@ -103,7 +103,7 @@ def set_keychain(journal_name, password):
     if password is None:
         try:
             keyring.delete_password("jrnl", journal_name)
-        except RuntimeError:
+        except keyring.errors.PasswordDeleteError:
             pass
     else:
         keyring.set_password("jrnl", journal_name, password)
