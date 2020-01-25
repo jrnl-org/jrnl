@@ -7,6 +7,7 @@ cache:
 
 git:
   depth: false
+  autocrlf: false
 
 before_install:
   - date
