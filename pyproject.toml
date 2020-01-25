@@ -7,6 +7,9 @@ authors = [
     "Jonathan Wren <jonathan@nowandwren.com>",
     "Micah Ellison <micahellison@gmail.com>"
 ]
+maintainers = [
+    "Jonathan Wren and Micah Ellison <jrnl-sh@googlegroups.com>",
+]
 license = "MIT"
 readme = "README.md"
 homepage = "https://jrnl.sh"
