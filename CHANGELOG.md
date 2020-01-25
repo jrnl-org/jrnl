@@ -12,6 +12,11 @@
 - Password confirmation [\#706](https://github.com/jrnl-org/jrnl/pull/706) ([pspeter](https://github.com/pspeter))
 - Pretty print journal entries [\#692](https://github.com/jrnl-org/jrnl/pull/692) ([alichtman](https://github.com/alichtman))
 
+**Fixed bugs:**
+
+- Close temp file before passing it to editor to prevent file locking issues in Windows [\#792](https://github.com/jrnl-org/jrnl/pull/792) ([micahellison](https://github.com/micahellison))
+- Fix crash while encrypting a journal on first run without saving password [\#789](https://github.com/jrnl-org/jrnl/pull/789) ([dbxnr](https://github.com/dbxnr))
+
 **Build:**
 
 - Change PyPI auth method in build pipeline [\#807](https://github.com/jrnl-org/jrnl/pull/807) ([wren](https://github.com/wren))
