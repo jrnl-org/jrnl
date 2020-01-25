@@ -29,7 +29,6 @@
 - Reduce startup time by 55% [\#719](https://github.com/jrnl-org/jrnl/pull/719) ([maebert](https://github.com/maebert))
 - Refactor password logic to prevent accidental password leakage [\#708](https://github.com/jrnl-org/jrnl/pull/708) ([pspeter](https://github.com/pspeter))
 - Password confirmation [\#706](https://github.com/jrnl-org/jrnl/pull/706) ([pspeter](https://github.com/pspeter))
-- Pretty print journal entries [\#692](https://github.com/jrnl-org/jrnl/pull/692) ([alichtman](https://github.com/alichtman))
 
 **Fixed bugs:**
 
