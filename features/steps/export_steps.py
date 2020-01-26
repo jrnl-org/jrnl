@@ -1,4 +1,5 @@
 import json
+from xml.etree import ElementTree
 
 from behave import then
 
@@ -49,3 +50,34 @@ def check_json_output_path(context, path, value):
             struct = struct[node]
     assert struct == value, struct
 
+
+@then('the output should be a valid XML string')
+def assert_valid_xml_string(context):
+    output = context.stdout_capture.getvalue()
+    xml_tree = ElementTree.fromstring(output)
+    assert xml_tree, output
+
+
+@then('"entries" node in the xml output should have {number:d} elements')
+def assert_xml_output_entries_count(context, number):
+    output = context.stdout_capture.getvalue()
+    xml_tree = ElementTree.fromstring(output)
+
+    xml_tags = (node.tag for node in xml_tree)
+    assert "entries" in xml_tags, str(list(xml_tags))
+
+    actual_entry_count = len(xml_tree.find("entries"))
+    assert actual_entry_count == number, actual_entry_count
+
+
+@then('"tags" in the xml output should contain {expected_tags_json_list}')
+def assert_xml_output_tags(context, expected_tags_json_list):
+    output = context.stdout_capture.getvalue()
+    xml_tree = ElementTree.fromstring(output)
+
+    xml_tags = (node.tag for node in xml_tree)
+    assert "tags" in xml_tags, str(list(xml_tags))
+
+    expected_tags = json.loads(expected_tags_json_list)
+    actual_tags = set(t.attrib["name"] for t in xml_tree.find("tags"))
+    assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
