@@ -19,11 +19,10 @@ class YAMLExporter(TextExporter):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
             print(
-                "{}ERROR{}: YAML export must be to individual files. "
-                "Please specify a directory to export to.".format(
-                    "\033[31m", "\033[0m"
-                ),
-                file=sys.stderr,
+                "{}ERROR{}: YAML export must be to individual files. Please \
+                specify a directory to export to.".format(
+                    ERROR_COLOR, RESET_COLOR, file=sys.stderr
+                )
             )
             return
 
@@ -33,16 +32,14 @@ class YAMLExporter(TextExporter):
 
         tagsymbols = entry.journal.config["tagsymbols"]
         # see also Entry.Entry.rag_regex
-        multi_tag_regex = re.compile(
-            r"(?u)^\s*([{tags}][-+*#/\w]+\s*)+$".format(tags=tagsymbols)
-        )
+        multi_tag_regex = re.compile(fr"(?u)^\s*([{tagsymbols}][-+*#/\w]+\s*)+$")
 
         """Increase heading levels in body text"""
         newbody = ""
         heading = "#"
         previous_line = ""
         warn_on_heading_level = False
-        for line in entry.body.splitlines(True):
+        for line in body.splitlines(True):
             if re.match(r"^#+ ", line):
                 """ATX style headings"""
                 newbody = newbody + previous_line + heading + line
@@ -80,9 +77,32 @@ class YAMLExporter(TextExporter):
         dayone_attributes = ""
         if hasattr(entry, "uuid"):
             dayone_attributes += "uuid: " + entry.uuid + "\n"
-            # TODO: copy over pictures, if present
-            # source directory is  entry.journal.config['journal']
-            # output directory is...?
+        if (
+            hasattr(entry, "creator_device_agent")
+            or hasattr(entry, "creator_generation_date")
+            or hasattr(entry, "creator_host_name")
+            or hasattr(entry, "creator_os_agent")
+            or hasattr(entry, "creator_software_agent")
+        ):
+            dayone_attributes += "creator:\n"
+            if hasattr(entry, "creator_device_agent"):
+                dayone_attributes += f"    device agent: {entry.creator_device_agent}\n"
+            if hasattr(entry, "creator_generation_date"):
+                dayone_attributes += "    generation date: {}\n".format(
+                    str(entry.creator_generation_date)
+                )
+            if hasattr(entry, "creator_host_name"):
+                dayone_attributes += f"    host name: {entry.creator_host_name}\n"
+            if hasattr(entry, "creator_os_agent"):
+                dayone_attributes += f"    os agent: {entry.creator_os_agent}\n"
+            if hasattr(entry, "creator_software_agent"):
+                dayone_attributes += (
+                    f"    software agent: {entry.creator_software_agent}\n"
+                )
+
+        # TODO: copy over pictures, if present
+        # source directory is  entry.journal.config['journal']
+        # output directory is...?
 
         return "title: {title}\ndate: {date}\nstared: {stared}\ntags: {tags}\n{dayone} {body} {space}".format(
             date=date_str,
