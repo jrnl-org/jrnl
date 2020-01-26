@@ -4,21 +4,20 @@ Feature: Exporting a Journal
         Given we use the config "tags.yaml"
         When we run "jrnl --export json"
         Then we should get no error
-        and the output should be parsable as json
-        and "entries" in the json output should have 2 elements
-        and "tags" in the json output should contain "@idea"
-        and "tags" in the json output should contain "@journal"
-        and "tags" in the json output should contain "@dan"
+        And the output should be parsable as json
+        And "entries" in the json output should have 2 elements
+        And "tags" in the json output should contain "@idea"
+        And "tags" in the json output should contain "@journal"
+        And "tags" in the json output should contain "@dan"
 
     Scenario: Exporting using filters should only export parts of the journal
         Given we use the config "tags.yaml"
         When we run "jrnl -until 'may 2013' --export json"
-        # Then we should get no error
         Then the output should be parsable as json
-        and "entries" in the json output should have 1 element
-        and "tags" in the json output should contain "@idea"
-        and "tags" in the json output should contain "@journal"
-        and "tags" in the json output should not contain "@dan"
+        And "entries" in the json output should have 1 element
+        And "tags" in the json output should contain "@idea"
+        And "tags" in the json output should contain "@journal"
+        And "tags" in the json output should not contain "@dan"
 
     Scenario: Exporting using custom templates
         Given we use the config "basic.yaml"
