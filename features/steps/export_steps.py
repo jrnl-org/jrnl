@@ -1,7 +1,9 @@
 import json
+import os
+import shutil
 from xml.etree import ElementTree
 
-from behave import then
+from behave import then, given
 
 
 @then("the output should be parsable as json")
@@ -81,3 +83,39 @@ def assert_xml_output_tags(context, expected_tags_json_list):
     expected_tags = json.loads(expected_tags_json_list)
     actual_tags = set(t.attrib["name"] for t in xml_tree.find("tags"))
     assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
+
+
+@given('we created a directory named "{dir_name}"')
+def create_directory(context, dir_name):
+    shutil.rmtree(dir_name)
+    os.mkdir(dir_name)
+
+
+@then('"{dir_name}" should contain the files {expected_files_json_list}')
+def assert_dir_contains_files(context, dir_name, expected_files_json_list):
+    actual_files = os.listdir(dir_name)
+    expected_files = json.loads(expected_files_json_list)
+    assert actual_files == expected_files, [actual_files, expected_files]
+
+
+@then('the content of exported yaml "{file_path}" should be')
+def assert_exported_yaml_file_content(context, file_path):
+    expected_content = context.text.strip().splitlines()
+
+    with open(file_path, "r") as f:
+        actual_content = f.read().strip().splitlines()
+
+    for actual_line, expected_line in zip(actual_content, expected_content):
+        if actual_line.startswith('tags: ') and expected_line.startswith('tags: '):
+            assert_equal_tags_ignoring_order(actual_line, expected_line)
+        else:
+            assert actual_line.strip() == expected_line.strip(), [
+                actual_line.strip(),
+                expected_line.strip(),
+            ]
+
+
+def assert_equal_tags_ignoring_order(actual_line, expected_line):
+    actual_tags = set(tag.strip() for tag in actual_line[len('tags: '):].split(','))
+    expected_tags = set(tag.strip() for tag in expected_line[len('tags: '):].split(','))
+    assert actual_tags == expected_tags, [actual_tags, expected_tags]
