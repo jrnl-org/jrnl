@@ -87,7 +87,8 @@ def assert_xml_output_tags(context, expected_tags_json_list):
 
 @given('we created a directory named "{dir_name}"')
 def create_directory(context, dir_name):
-    shutil.rmtree(dir_name)
+    if os.path.exists(dir_name):
+        shutil.rmtree(dir_name)
     os.mkdir(dir_name)
 
 
