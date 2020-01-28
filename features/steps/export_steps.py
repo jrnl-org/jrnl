@@ -53,7 +53,7 @@ def check_json_output_path(context, path, value):
     assert struct == value, struct
 
 
-@then('the output should be a valid XML string')
+@then("the output should be a valid XML string")
 def assert_valid_xml_string(context):
     output = context.stdout_capture.getvalue()
     xml_tree = ElementTree.fromstring(output)
@@ -106,7 +106,7 @@ def assert_exported_yaml_file_content(context, file_path):
         actual_content = f.read().strip().splitlines()
 
     for actual_line, expected_line in zip(actual_content, expected_content):
-        if actual_line.startswith('tags: ') and expected_line.startswith('tags: '):
+        if actual_line.startswith("tags: ") and expected_line.startswith("tags: "):
             assert_equal_tags_ignoring_order(actual_line, expected_line)
         else:
             assert actual_line.strip() == expected_line.strip(), [
@@ -116,6 +116,8 @@ def assert_exported_yaml_file_content(context, file_path):
 
 
 def assert_equal_tags_ignoring_order(actual_line, expected_line):
-    actual_tags = set(tag.strip() for tag in actual_line[len('tags: '):].split(','))
-    expected_tags = set(tag.strip() for tag in expected_line[len('tags: '):].split(','))
+    actual_tags = set(tag.strip() for tag in actual_line[len("tags: ") :].split(","))
+    expected_tags = set(
+        tag.strip() for tag in expected_line[len("tags: ") :].split(",")
+    )
     assert actual_tags == expected_tags, [actual_tags, expected_tags]
