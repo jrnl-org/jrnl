@@ -13,7 +13,7 @@ jrnl @alberto --tags | grep @melo
 
 And will get something like `@melo: 9`, meaning there are 9 entries
 where both `@alberto` and `@melo` are tagged. How does this work? First,
-`jrnl @alberto` will filter the journal to only entries containing **the**
+`jrnl @alberto` will filter the journal to only entries containing the
 tag `@alberto`, and then the `--tags` option will print out how often
 each tag occurred in this filtered journal. Finally, we pipe this to
 `grep` which will only display the line containing `@melo`.
@@ -104,18 +104,16 @@ template file's path in double quotes:
 
 ```sh
 ...
-tagsymbols: "@"
 template: "/path/to/template.txt"
-timeformat: '%Y-%m-%d %H:%M'
-version: "2.1.1"
+...
 ```
 
 Changes can be saved as you continue writing the journal entry and will be
 logged as a new entry in the journal you specified in the original argument.
 
 !!! tip 
-To read your journal entry or to verify the entry saved, you can use this 
-command: `jrnl -n 1' (Check out [Import and Export](../export/#export-to-files) for more export options).
+    To read your journal entry or to verify the entry saved, you can use this 
+    command: `jrnl -n 1` (Check out [Import and Export](../export/#export-to-files) for more export options).
 
 ```sh
 jrnl -n 1
