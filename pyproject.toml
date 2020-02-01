@@ -38,7 +38,3 @@ black = {version = "^19.10b0",allow-prereleases = true}
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:run'
 
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
-
