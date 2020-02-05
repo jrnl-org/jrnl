@@ -2,6 +2,24 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...HEAD)
+
+**Implemented enhancements:**
+
+- Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
+
+**Build:**
+
+- Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
+
+**Updated documentation:**
+
+- Updating/clarifying template explanation [\#829](https://github.com/jrnl-org/jrnl/pull/829) ([heymajor](https://github.com/heymajor))
+
+# Changelog
+
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...HEAD)
 
 **Implemented enhancements:**
