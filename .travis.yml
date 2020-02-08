@@ -51,7 +51,6 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: nightly
-    - os: windows
 
   include:
     - name: Lint, via Black
@@ -74,6 +73,7 @@ jobs:
       env:
         - JRNL_PYTHON_VERSION=3.6.8
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+        - PYTHONIOENCODING=UTF-8
 
     # Python 3.7 Tests
     - name: Python 3.7 on Linux
@@ -89,6 +89,7 @@ jobs:
       env:
         - JRNL_PYTHON_VERSION=3.7.5
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+        - PYTHONIOENCODING=UTF-8
 
     # Python 3.8 Tests
     - name: Python 3.8 on Linux
@@ -104,6 +105,7 @@ jobs:
       env:
         - JRNL_PYTHON_VERSION=3.8.0
         - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        - PYTHONIOENCODING=UTF-8
 
     # ... and beyond!
     - name: Python nightly on Linux
