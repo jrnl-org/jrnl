@@ -1,15 +1,15 @@
 # Basic Usage
 
 `jrnl` has two modes: **composing** and **viewing**. Basically, whenever
-you *don't* supply any arguments that start
+you _don't_ supply any arguments that start
 with a dash or double-dash, you're in composing mode, meaning you can
 write your entry on the command line or an editor of your choice.
 
 We intentionally break a convention on command line arguments: all
-arguments starting with a *single dash*
-will *filter* your journal before viewing
+arguments starting with a _single dash_
+will _filter_ your journal before viewing
 it, and can be combined arbitrarily. Arguments with a
-*double dash* will control how your journal
+_double dash_ will control how your journal
 is displayed or exported and are mutually exclusive (ie. you can only
 specify one way to display or export your journal at a time).
 
@@ -17,7 +17,7 @@ specify one way to display or export your journal at a time).
 
 You can list the journals accessible by jrnl
 
-``` sh
+```sh
 jrnl -ls
 ```
 
@@ -30,7 +30,7 @@ Composing mode is entered by either starting `jrnl` without any
 arguments -- which will prompt you to write an entry or launch your
 editor -- or by just writing an entry on the prompt, such as
 
-``` sh
+```sh
 jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
 ```
 
@@ -44,7 +44,7 @@ jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
 
 You can also import an entry directly from a file
 
-``` sh
+```sh
 jrnl < my_entry.txt
 ```
 
@@ -52,28 +52,28 @@ jrnl < my_entry.txt
 
 Timestamps that work:
 
-  - at 6am
-  - yesterday
-  - last monday
-  - sunday at noon
-  - 2 march 2012
-  - 7 apr
-  - 5/20/1998 at 23:42
+- at 6am
+- yesterday
+- last monday
+- sunday at noon
+- 2 march 2012
+- 7 apr
+- 5/20/1998 at 23:42
 
 ### Starring entries
 
 To mark an entry as a favourite, simply "star" it
 
-``` sh
+```sh
 jrnl last sunday *: Best day of my life.
 ```
 
 If you don't want to add a date (ie. your entry will be dated as now),
 The following options are equivalent:
 
-  - `jrnl *: Best day of my life.`
-  - `jrnl *Best day of my life.`
-  - `jrnl Best day of my life.*`
+- `jrnl *: Best day of my life.`
+- `jrnl *Best day of my life.`
+- `jrnl Best day of my life.*`
 
 !!! note
     Just make sure that the asterisk sign is **not** surrounded by
@@ -82,21 +82,21 @@ The following options are equivalent:
 
 ## Viewing
 
-``` sh
+```sh
 jrnl -n 10
 ```
 
 will list you the ten latest entries (if you're lazy, `jrnl -10` will do
 the same),
 
-``` sh
+```sh
 jrnl -from "last year" -until march
 ```
 
 everything that happened from the start of last year to the start of
 last march. To only see your favourite entries, use
 
-``` sh
+```sh
 jrnl -starred
 ```
 
@@ -105,20 +105,20 @@ jrnl -starred
 Keep track of people, projects or locations, by tagging them with an `@`
 in your entries
 
-``` sh
+```sh
 jrnl Had a wonderful day on the @beach with @Tom and @Anna.
 ```
 
 You can filter your journal entries just like this:
 
-``` sh
+```sh
 jrnl @pinkie @WorldDomination
 ```
 
 Will print all entries in which either `@pinkie` or `@WorldDomination`
 occurred.
 
-``` sh
+```sh
 jrnl -n 5 -and @pineapple @lubricant
 ```
 
@@ -129,16 +129,16 @@ configuration.
 !!! note
     `jrnl @pinkie @WorldDomination` will switch to viewing mode because
     although **no** command line arguments are given, all the input strings
-    look like tags - *jrnl* will assume you want to filter by tag.
+    look like tags - _jrnl_ will assume you want to filter by tag.
 
 ## Editing older entries
 
 You can edit selected entries after you wrote them. This is particularly
-useful when your journal file is encrypted or if you're using a DayOne
-journal. To use this feature, you need to have an editor configured in
-your journal configuration file (see `advanced usage <advanced>`)
+useful when your journal file is encrypted. To use this feature, you need
+to have an editor configured in your journal configuration file (see
+`advanced usage <advanced>`)
 
-``` sh
+```sh
 jrnl -until 1950 @texas -and @history --edit
 ```
 
@@ -153,30 +153,8 @@ encrypt) your edited journal after you save and exit the editor.
 
 You can also use this feature for deleting entries from your journal
 
-``` sh
+```sh
 jrnl @girlfriend -until 'june 2012' --edit
 ```
 
 Just select all text, press delete, and everything is gone...
-
-### Editing DayOne Journals
-
-DayOne journals can be edited exactly the same way, however the output
-looks a little bit different because of the way DayOne stores its
-entries:
-
-```md
-# af8dbd0d43fb55458f11aad586ea2abf
-2013-05-02 15:30 I told everyone I built my @robot wife for sex.
-But late at night when we're alone we mostly play Battleship.
-
-# 2391048fe24111e1983ed49a20be6f9e
-2013-08-10 03:22 I had all kinds of plans in case of a @zombie attack.
-I just figured I'd be on the other side.
-```
-
-The long strings starting with hash symbol are the so-called UUIDs,
-unique identifiers for each entry. Don't touch them. If you do, then the
-old entry would get deleted and a new one written, which means that you
-could lose DayOne data that jrnl can't handle (such as as the entry's
-geolocation).

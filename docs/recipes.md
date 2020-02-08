@@ -7,7 +7,7 @@
 If I want to find out how often I mentioned my flatmates Alberto and
 Melo in the same entry, I run
 
-``` sh
+```sh
 jrnl @alberto --tags | grep @melo
 ```
 
@@ -22,7 +22,7 @@ each tag occurred in this filtered journal. Finally, we pipe this to
 
 You can do things like
 
-``` sh
+```sh
 jrnl @fixed -starred -n 10 -until "jan 2013" --short
 ```
 
@@ -33,14 +33,14 @@ January 1, 2013 that are tagged with `@fixed`.
 
 How much did I write last year?
 
-``` sh
+```sh
 jrnl -from "jan 1 2013" -until "dec 31 2013" | wc -w
 ```
 
 Will give you the number of words you wrote in 2013. How long is my
 average entry?
 
-``` sh
+```sh
 expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
 ```
 
@@ -50,11 +50,10 @@ print exactly one line per entry).
 
 ### Importing older files
 
-If you want to import a file as an entry to jrnl, you can just do `jrnl
-< entry.ext`. But what if you want the modification date of the file to
+If you want to import a file as an entry to jrnl, you can just do `jrnl < entry.ext`. But what if you want the modification date of the file to
 be the date of the entry in jrnl? Try this
 
-``` sh
+```sh
 echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
 ```
 
@@ -63,7 +62,7 @@ then combine it with the contents of the file before piping it to jrnl.
 If you do that often, consider creating a function in your `.bashrc` or
 `.bash_profile`
 
-``` sh
+```sh
 jrnlimport () {
   echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
 }
@@ -71,19 +70,61 @@ jrnlimport () {
 
 ### Using templates
 
-Say you always want to use the same template for creating new entries.
-If you have an [external editor](../advanced) set up, you can use this:
+!!! note
+    Templates require an [external editor](../advanced) be configured. 
+
+A template is a code snippet that makes it easier to enter use repeated text 
+each time a new journal entry is started. There are two ways you can utilize
+templates in your entries.  
+
+#### 1. Command line arguments
+
+If you had a `template.txt` file with the following contents:
 
 ```sh
-jrnl < my_template.txt
-jrnl -1 --edit
+My Personal Journal
+Title: 
+
+Body:
 ```
 
-Another nice solution that allows you to define individual prompts comes
-from [Jacobo de
-Vera](https://github.com/maebert/jrnl/issues/194#issuecomment-47402869):
+The `template.txt` file could be used to create a new entry with these 
+command line arguements:
 
-``` sh
+```sh
+jrnl < template.txt     # Imports template.txt as the most recent entry
+jrnl -1 --edit          # Opens the most recent entry in the editor 
+```
+
+#### 2. Include the template file in `jrnl.yaml`
+
+A more efficient way to work with a template file is to declare the file
+in your config file by changing the `template` setting from `false` to the
+template file's path in double quotes:
+
+```sh
+...
+template: "/path/to/template.txt"
+...
+```
+
+Changes can be saved as you continue writing the journal entry and will be
+logged as a new entry in the journal you specified in the original argument.
+
+!!! tip 
+    To read your journal entry or to verify the entry saved, you can use this 
+    command: `jrnl -n 1` (Check out [Import and Export](../export/#export-to-files) for more export options).
+
+```sh
+jrnl -n 1
+```
+
+### Prompts on shell reload
+
+If you'd like to be prompted each time you refresh your shell, you can include
+this in your `.bash_profile`:
+
+```sh
 function log_question()
 {
    echo $1
@@ -94,22 +135,38 @@ log_question 'What did I achieve today?'
 log_question 'What did I make progress with?'
 ```
 
+Whenever your shell is reloaded, you will be prompted to answer each of the 
+questions in the example above. Each answer will be logged as a separate 
+journal entry at the `default_hour` and `default_minute` listed in your 
+`jrnl.yaml` [config file](../advanced/#configuration-file).
+
+### Display random entry
+
+You can use this to select one title at random and then display the whole
+entry. The invocation of `cut` needs to match the format of the timestamp.
+For timestamps that have a space between data and time components, select
+fields 1 and 2 as shown. For timestamps that have no whitespace, select
+only field 1.
+
+```sh
+jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
+```
+
 ## External editors
 
-To use external editors for writing and editing journal entries, set
-them up in your `.jrnl_config` (see `advanced usage <advanced>` for
-details). Generally, after writing an entry, you will have to save and
-close the file to save the changes to jrnl.
+Configure your preferred external editor by updating the `editor` option 
+in your `jrnl.yaml` file. (See [advanced usage](../advanced) for details). 
+
+!!! note
+    To save and log any entry edits, save and close the file.
 
 ### Sublime Text
 
 To use Sublime Text, install the command line tools for Sublime Text and
-configure your `.jrnl_config` like this:
+configure your `jrnl.yaml` like this:
 
-``` json
-{
-  "editor": "subl -w"
-}
+```yaml
+editor: "subl -w"
 ```
 
 Note the `-w` flag to make sure jrnl waits for Sublime Text to close the
@@ -121,22 +178,18 @@ Similar to Sublime Text, MacVim must be started with a flag that tells
 the the process to wait until the file is closed before passing control
 back to journal. In the case of MacVim, this is `-f`:
 
-``` json
-{
-  "editor": "mvim -f"
-}
+```yaml
+editor: "mvim -f"
 ```
 
 ### iA Writer
 
 On OS X, you can use the fabulous [iA
 Writer](http://www.iawriter.com/mac) to write entries. Configure your
-`.jrnl_config` like this:
+`jrnl.yaml` like this:
 
-``` json
-{
-  "editor": "open -b pro.writer.mac -Wn"
-}
+```yaml
+editor: "open -b pro.writer.mac -Wn"
 ```
 
 What does this do? `open -b ...` opens a file using the application
@@ -148,19 +201,17 @@ If the `pro.writer.mac` bundle identifier is not found on your system,
 you can find the right string to use by inspecting iA Writer's
 `Info.plist` file in your shell:
 
-``` sh
+```sh
 grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
 ```
 
 ### Notepad++ on Windows
 
 To set [Notepad++](http://notepad-plus-plus.org/) as your editor, edit
-the jrnl config file (`.jrnl_config`) like this:
+the jrnl config file (`jrnl.yaml`) like this:
 
-``` json
-{
-  "editor": "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession",
-}
+```yaml
+editor: "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession"
 ```
 
 The double backslashes are needed so jrnl can read the file path
@@ -169,12 +220,10 @@ its own Notepad++ window.
 
 ### Visual Studio Code
 
-To set [Visual Studo Code](https://code.visualstudio.com) as your editor on Linux, edit `.jrnl_config` like this:
+To set [Visual Studo Code](https://code.visualstudio.com) as your editor on Linux, edit `jrnl.yaml` like this:
 
-```json
-{
-  "editor": "/usr/bin/code --wait",
-}
+```yaml
+editor: "/usr/bin/code --wait"
 ```
 
 The `--wait` argument tells VS Code to wait for files to be written out before handing back control to jrnl.
@@ -184,14 +233,13 @@ On MacOS you will need to add VS Code to your PATH. You can do that by adding:
 ```sh
 export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 ```
+
 to your `.bash_profile`, or by running the **Install 'code' command in PATH** command from the command pallet in VS Code.
 
 Then you can add:
 
-```javascript
-{
-  "editor": "code --wait",
-}
+```yaml
+editor: "code --wait"
 ```
 
-to ``.jrnl_config``. See also the [Visual Studio Code documentation](https://code.visualstudio.com/docs/setup/mac)
+to `jrnl.yaml`. See also the [Visual Studio Code documentation](https://code.visualstudio.com/docs/setup/mac)

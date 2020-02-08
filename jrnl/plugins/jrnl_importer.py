@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
-import codecs
 import sys
 from .. import util
 
-class JRNLImporter(object):
+
+class JRNLImporter:
     """This plugin imports entries from other jrnl files."""
+
     names = ["jrnl"]
 
     @staticmethod
@@ -17,15 +17,18 @@ class JRNLImporter(object):
         old_cnt = len(journal.entries)
         old_entries = journal.entries
         if input:
-            with codecs.open(input, "r", "utf-8") as f:
+            with open(input, "r", encoding="utf-8") as f:
                 other_journal_txt = f.read()
         else:
             try:
-                other_journal_txt = util.py23_read()
+                other_journal_txt = sys.stdin.read()
             except KeyboardInterrupt:
-                util.prompt("[Entries NOT imported into journal.]")
+                print("[Entries NOT imported into journal.]", file=sys.stderr)
                 sys.exit(0)
         journal.import_(other_journal_txt)
         new_cnt = len(journal.entries)
-        util.prompt("[{0} imported to {1} journal]".format(new_cnt - old_cnt, journal.name))
+        print(
+            "[{} imported to {} journal]".format(new_cnt - old_cnt, journal.name),
+            file=sys.stderr,
+        )
         journal.write()

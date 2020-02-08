@@ -1,34 +1,23 @@
 #!/usr/bin/env python
-# encoding: utf-8
-
-from __future__ import unicode_literals
-from __future__ import absolute_import
 
 import sys
 import os
 import getpass as gp
 import yaml
+
 if "win32" in sys.platform:
     import colorama
+
     colorama.init()
 import re
 import tempfile
 import subprocess
-import codecs
 import unicodedata
 import shlex
 import logging
+from typing import Optional, Callable
 
 log = logging.getLogger(__name__)
-
-
-PY3 = sys.version_info[0] == 3
-PY2 = sys.version_info[0] == 2
-STDIN = sys.stdin
-STDERR = sys.stderr
-STDOUT = sys.stdout
-TEST = False
-__cached_tz = None
 
 WARNING_COLOR = "\033[33m"
 ERROR_COLOR = "\033[31m"
@@ -36,7 +25,8 @@ RESET_COLOR = "\033[0m"
 
 # Based on Segtok by Florian Leitner
 # https://github.com/fnl/segtok
-SENTENCE_SPLITTER = re.compile(r"""
+SENTENCE_SPLITTER = re.compile(
+    r"""
 (                       # A sentence ends at one of two sequences:
     [.!?\u203C\u203D\u2047\u2048\u2049\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
     [\'\u2019\"\u201D]? # an optional right quote,
@@ -44,101 +34,85 @@ SENTENCE_SPLITTER = re.compile(r"""
     \s+                 # a sequence of required spaces.
 |                       # Otherwise,
     \n                  # a sentence also terminates newlines.
-)""", re.UNICODE | re.VERBOSE)
+)""",
+    re.VERBOSE,
+)
 
 
 class UserAbort(Exception):
     pass
 
 
-def getpass(prompt="Password: "):
-    if not TEST:
-        return gp.getpass(bytes(prompt))
+def create_password(
+    journal_name: str, prompt: str = "Enter password for new journal: "
+) -> str:
+    while True:
+        pw = gp.getpass(prompt)
+        if not pw:
+            print("Password can't be an empty string!", file=sys.stderr)
+            continue
+        elif pw == gp.getpass("Enter password again: "):
+            break
+
+        print("Passwords did not match, please try again", file=sys.stderr)
+
+    if yesno("Do you want to store the password in your keychain?", default=True):
+        set_keychain(journal_name, pw)
     else:
-        return py23_input(prompt)
+        set_keychain(journal_name, None)
+
+    return pw
 
 
-def get_password(validator, keychain=None, max_attempts=3):
+def decrypt_content(
+    decrypt_func: Callable[[str], Optional[str]],
+    keychain: str = None,
+    max_attempts: int = 3,
+) -> str:
     pwd_from_keychain = keychain and get_keychain(keychain)
-    password = pwd_from_keychain or getpass()
-    result = validator(password)
+    password = pwd_from_keychain or gp.getpass()
+    result = decrypt_func(password)
     # Password is bad:
     if result is None and pwd_from_keychain:
         set_keychain(keychain, None)
     attempt = 1
     while result is None and attempt < max_attempts:
-        prompt("Wrong password, try again.")
-        password = getpass()
-        result = validator(password)
+        print("Wrong password, try again.", file=sys.stderr)
+        password = gp.getpass()
+        result = decrypt_func(password)
         attempt += 1
     if result is not None:
         return result
     else:
-        prompt("Extremely wrong password.")
+        print("Extremely wrong password.", file=sys.stderr)
         sys.exit(1)
 
 
 def get_keychain(journal_name):
     import keyring
-    return keyring.get_password('jrnl', journal_name)
+
+    try:
+        return keyring.get_password("jrnl", journal_name)
+    except RuntimeError:
+        return ""
 
 
 def set_keychain(journal_name, password):
     import keyring
+
     if password is None:
         try:
-            keyring.delete_password('jrnl', journal_name)
-        except:
+            keyring.delete_password("jrnl", journal_name)
+        except keyring.errors.PasswordDeleteError:
             pass
-    elif not TEST:
-        keyring.set_password('jrnl', journal_name, password)
-
-
-def u(s):
-    """Mock unicode function for python 2 and 3 compatibility."""
-    if not isinstance(s, str):
-        s = str(s)
-    return s if PY3 or type(s) is unicode else s.decode("utf-8")
-
-
-def py2encode(s):
-    """Encodes to UTF-8 in Python 2 but not in Python 3."""
-    return s.encode("utf-8") if PY2 and type(s) is unicode else s
-
-
-def bytes(s):
-    """Returns bytes, no matter what."""
-    if PY3:
-        return s.encode("utf-8") if type(s) is not bytes else s
-    return s.encode("utf-8") if type(s) is unicode else s
-
-
-def prnt(s):
-    """Encode and print a string"""
-    STDOUT.write(u(s + "\n"))
-
-
-def prompt(msg):
-    """Prints a message to the std err stream defined in util."""
-    if not msg.endswith("\n"):
-        msg += "\n"
-    STDERR.write(u(msg))
-
-
-def py23_input(msg=""):
-    prompt(msg)
-    return STDIN.readline().strip()
-
-
-def py23_read(msg=""):
-    print(msg)
-    return STDIN.read()
+    else:
+        keyring.set_password("jrnl", journal_name, password)
 
 
 def yesno(prompt, default=True):
-    prompt = prompt.strip() + (" [Y/n]" if default else " [y/N]")
-    raw = py23_input(prompt)
-    return {'y': True, 'n': False}.get(raw.lower(), default)
+    prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'} "
+    response = input(prompt)
+    return {"y": True, "n": False}.get(response.lower(), default)
 
 
 def load_config(config_path):
@@ -149,66 +123,61 @@ def load_config(config_path):
 
 
 def scope_config(config, journal_name):
-    if journal_name not in config['journals']:
+    if journal_name not in config["journals"]:
         return config
     config = config.copy()
-    journal_conf = config['journals'].get(journal_name)
-    if type(journal_conf) is dict:  # We can override the default config on a by-journal basis
-        log.debug('Updating configuration with specific journal overrides %s', journal_conf)
+    journal_conf = config["journals"].get(journal_name)
+    if (
+        type(journal_conf) is dict
+    ):  # We can override the default config on a by-journal basis
+        log.debug(
+            "Updating configuration with specific journal overrides %s", journal_conf
+        )
         config.update(journal_conf)
     else:  # But also just give them a string to point to the journal file
-        config['journal'] = journal_conf
-    config.pop('journals')
+        config["journal"] = journal_conf
+    config.pop("journals")
     return config
 
 
 def get_text_from_editor(config, template=""):
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
-    with codecs.open(tmpfile, 'w', "utf-8") as f:
+    os.close(filehandle)
+
+    with open(tmpfile, "w", encoding="utf-8") as f:
         if template:
             f.write(template)
+
     try:
-        subprocess.call(shlex.split(config['editor'], posix="win" not in sys.platform) + [tmpfile])
+        subprocess.call(
+            shlex.split(config["editor"], posix="win" not in sys.platform) + [tmpfile]
+        )
     except AttributeError:
-        subprocess.call(config['editor'] + [tmpfile])
-    with codecs.open(tmpfile, "r", "utf-8") as f:
+        subprocess.call(config["editor"] + [tmpfile])
+
+    with open(tmpfile, "r", encoding="utf-8") as f:
         raw = f.read()
-    os.close(filehandle)
     os.remove(tmpfile)
+
     if not raw:
-        prompt('[Nothing saved to file]')
+        print("[Nothing saved to file]", file=sys.stderr)
+
     return raw
 
 
 def colorize(string):
     """Returns the string wrapped in cyan ANSI escape"""
-    return u"\033[36m{}\033[39m".format(string)
+    return f"\033[36m{string}\033[39m"
 
 
 def slugify(string):
     """Slugifies a string.
     Based on public domain code from https://github.com/zacharyvoase/slugify
-    and ported to deal with all kinds of python 2 and 3 strings
     """
-    string = u(string)
-    ascii_string = str(unicodedata.normalize('NFKD', string).encode('ascii', 'ignore'))
-    if PY3:
-        ascii_string = ascii_string[1:]     # removed the leading 'b'
-    no_punctuation = re.sub(r'[^\w\s-]', '', ascii_string).strip().lower()
-    slug = re.sub(r'[-\s]+', '-', no_punctuation)
-    return u(slug)
-
-
-def int2byte(i):
-    """Converts an integer to a byte.
-    This is equivalent to chr() in Python 2 and bytes((i,)) in Python 3."""
-    return chr(i) if PY2 else bytes((i,))
-
-
-def byte2int(b):
-    """Converts a byte to an integer.
-    This is equivalent to ord(bs[0]) on Python 2 and bs[0] on Python 3."""
-    return ord(b)if PY2 else b
+    normalized_string = str(unicodedata.normalize("NFKD", string))
+    no_punctuation = re.sub(r"[^\w\s-]", "", normalized_string).strip().lower()
+    slug = re.sub(r"[-\s]+", "-", no_punctuation)
+    return slug
 
 
 def split_title(text):
@@ -216,4 +185,4 @@ def split_title(text):
     punkt = SENTENCE_SPLITTER.search(text)
     if not punkt:
         return text, ""
-    return text[:punkt.end()].strip(), text[punkt.end():].strip()
+    return text[: punkt.end()].strip(), text[punkt.end() :].strip()
