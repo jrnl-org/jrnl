@@ -10,12 +10,12 @@
 
 **Build:**
 
+- Remove poetry from build system in pyproject config to fix `brew install` [\#830](https://github.com/jrnl-org/jrnl/pull/830) ([wren](https://github.com/wren))
 - Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
 
 **Updated documentation:**
 
 - Updating/clarifying template explanation [\#829](https://github.com/jrnl-org/jrnl/pull/829) ([heymajor](https://github.com/heymajor))
-
 
 ## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
 
