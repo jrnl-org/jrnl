@@ -4,21 +4,20 @@ Feature: Exporting a Journal
         Given we use the config "tags.yaml"
         When we run "jrnl --export json"
         Then we should get no error
-        and the output should be parsable as json
-        and "entries" in the json output should have 2 elements
-        and "tags" in the json output should contain "@idea"
-        and "tags" in the json output should contain "@journal"
-        and "tags" in the json output should contain "@dan"
+        And the output should be parsable as json
+        And "entries" in the json output should have 2 elements
+        And "tags" in the json output should contain "@idea"
+        And "tags" in the json output should contain "@journal"
+        And "tags" in the json output should contain "@dan"
 
     Scenario: Exporting using filters should only export parts of the journal
         Given we use the config "tags.yaml"
         When we run "jrnl -until 'may 2013' --export json"
-        # Then we should get no error
         Then the output should be parsable as json
-        and "entries" in the json output should have 1 element
-        and "tags" in the json output should contain "@idea"
-        and "tags" in the json output should contain "@journal"
-        and "tags" in the json output should not contain "@dan"
+        And "entries" in the json output should have 1 element
+        And "tags" in the json output should contain "@idea"
+        And "tags" in the json output should contain "@journal"
+        And "tags" in the json output should not contain "@dan"
 
     Scenario: Exporting using custom templates
         Given we use the config "basic.yaml"
@@ -82,4 +81,58 @@ Feature: Exporting a Journal
 
         More stuff
         more stuff again
+        """
+
+    Scenario: Exporting to XML
+        Given we use the config "tags.yaml"
+        When we run "jrnl --export xml"
+        Then the output should be a valid XML string
+        And "entries" node in the xml output should have 2 elements
+        And "tags" in the xml output should contain ["@idea", "@journal", "@dan"]
+
+    Scenario: Exporting tags
+        Given we use the config "tags.yaml"
+        When we run "jrnl --export tags"
+        Then the output should be
+        """
+        @idea                : 2
+        @journal             : 1
+        @dan                 : 1
+        """
+
+    Scenario: Exporting fancy
+        Given we use the config "tags.yaml"
+        When we run "jrnl --export fancy"
+        Then the output should be
+        """
+        ┎──────────────────────────────────────────────────────────────╮2013-04-09 15:39
+        ┃ I have an @idea:                                             ╘═══════════════╕
+        ┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+        ┃ (1) write a command line @journal software                                   │
+        ┃ (2) ???                                                                      │
+        ┃ (3) PROFIT!                                                                  │
+        ┖──────────────────────────────────────────────────────────────────────────────┘
+        ┎──────────────────────────────────────────────────────────────╮2013-06-10 15:40
+        ┃ I met with @dan.                                             ╘═══════════════╕
+        ┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+        ┃ As alway's he shared his latest @idea on how to rule the world with me.      │
+        ┃ inst                                                                         │
+        ┖──────────────────────────────────────────────────────────────────────────────┘
+        """
+
+    Scenario: Export to yaml
+        Given we use the config "tags.yaml"
+        And we created a directory named "exported_journal"
+        When we run "jrnl --export yaml -o exported_journal"
+        Then "exported_journal" should contain the files ["2013-04-09_i-have-an-idea.md", "2013-06-10_i-met-with-dan.md"]
+        And the content of exported yaml "exported_journal/2013-04-09_i-have-an-idea.md" should be
+        """
+        title: I have an @idea:
+        date: 2013-04-09 15:39
+        stared: False
+        tags: idea, journal
+
+        (1) write a command line @journal software
+        (2) ???
+        (3) PROFIT!
         """
