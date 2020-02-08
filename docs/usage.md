@@ -119,10 +119,10 @@ Will print all entries in which either `@pinkie` or `@WorldDomination`
 occurred.
 
 ```sh
-jrnl -n 5 -and @pineapple @lubricant
+jrnl -n 5 -and @pinkie @WorldDomination
 ```
 
-the last five entries containing both `@pineapple` **and** `@lubricant`.
+the last five entries containing both `@pinkie` **and** `@worldDomination`.
 You can change which symbols you'd like to use for tagging in the
 configuration.
 
@@ -154,7 +154,7 @@ encrypt) your edited journal after you save and exit the editor.
 You can also use this feature for deleting entries from your journal
 
 ```sh
-jrnl @girlfriend -until 'june 2012' --edit
+jrnl @texas -until 'june 2012' --edit
 ```
 
 Just select all text, press delete, and everything is gone...
