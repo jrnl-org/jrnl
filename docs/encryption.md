@@ -60,7 +60,7 @@ If you are using `fish` instead of `bash` or `zsh`, you can get the same behavio
 adding this to your `fish` configuration:
 
 ``` sh
-abbr jrnl=" jrnl"
+abbr jrnl " jrnl"
 ```
 
 To delete existing `jrnl` commands from `fish`’s history, run
