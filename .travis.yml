@@ -9,8 +9,14 @@ git:
   depth: false
   autocrlf: false
 
+addons:
+  apt:
+    packages:
+      - tree
+
 before_install:
   - date
+  - tree
 
 install:
   - pip install poetry
