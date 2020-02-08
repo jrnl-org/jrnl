@@ -16,11 +16,11 @@
 
 - Updating/clarifying template explanation [\#829](https://github.com/jrnl-org/jrnl/pull/829) ([heymajor](https://github.com/heymajor))
 
-# Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2-beta2...v2.2)
+
 
 **Implemented enhancements:**
 
@@ -37,6 +37,8 @@
 
 **Build:**
 
+- Fix issue where jrnl would always out 'source' for version, fix Poetry config to build and publish properly [\#820](https://github.com/jrnl-org/jrnl/pull/820) ([wren](https://github.com/wren))
+- Unpin poetry [\#808](https://github.com/jrnl-org/jrnl/pull/808) ([wren](https://github.com/wren))
 - Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
 - Change PyPI auth method in build pipeline [\#807](https://github.com/jrnl-org/jrnl/pull/807) ([wren](https://github.com/wren))
 - Automagically update the changelog you see before your very eyes! [\#806](https://github.com/jrnl-org/jrnl/pull/806) ([wren](https://github.com/wren))
@@ -50,6 +52,7 @@
 
 **Updated documentation:**
 
+- Explain how fish can be configured to exclude jrnl commands from history by default [\#809](https://github.com/jrnl-org/jrnl/pull/809) ([aureooms](https://github.com/aureooms))
 - Remove merge marker in recipes.md [\#782](https://github.com/jrnl-org/jrnl/pull/782) ([markphelps](https://github.com/markphelps))
 - Fix merge conflict left-over [\#767](https://github.com/jrnl-org/jrnl/pull/767) ([thejspr](https://github.com/thejspr))
 - Display header in docs on mobile devices [\#763](https://github.com/jrnl-org/jrnl/pull/763) ([maebert](https://github.com/maebert))
