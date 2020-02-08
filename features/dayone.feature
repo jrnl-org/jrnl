@@ -1,7 +1,5 @@
 Feature: Dayone specific implementation details.
 
-    # fails when system time is UTC (as on Travis-CI)
-    @skip
     Scenario: Loading a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
@@ -15,7 +13,7 @@ Feature: Dayone specific implementation details.
             2013-07-17 11:38 This entry is starred!
             """
 
-    # fails when system time is UTC (as on Travis-CI)
+    # broken still
     @skip
     Scenario: Entries without timezone information will be interpreted as in the current timezone
         Given we use the config "dayone.yaml"
@@ -23,7 +21,6 @@ Feature: Dayone specific implementation details.
         Then we should get no error
         and the output should contain "2013-01-17T18:37Z" in the local time
 
-    @skip
     Scenario: Writing into Dayone
         Given we use the config "dayone.yaml"
         When we run "jrnl 01 may 1979: Being born hurts."
@@ -33,8 +30,6 @@ Feature: Dayone specific implementation details.
             1979-05-01 09:00 Being born hurts.
             """
 
-    # fails when system time is UTC (as on Travis-CI)
-    @skip
     Scenario: Loading tags from a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl --tags"
@@ -44,8 +39,6 @@ Feature: Dayone specific implementation details.
             @play                : 1
             """
 
-    # fails when system time is UTC (as on Travis-CI)
-    @skip
     Scenario: Saving tags from a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl A hard day at @work"
@@ -56,8 +49,6 @@ Feature: Dayone specific implementation details.
             @play                : 1
             """
 
-    # fails when system time is UTC (as on Travis-CI)
-    @skip
     Scenario: Filtering by tags from a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl @work"
@@ -66,8 +57,6 @@ Feature: Dayone specific implementation details.
             2013-05-17 11:39 This entry has tags!
             """
 
-    # fails when system time is UTC (as on Travis-CI)
-    @skip
     Scenario: Exporting dayone to json
         Given we use the config "dayone.yaml"
         When we run "jrnl --export json"
