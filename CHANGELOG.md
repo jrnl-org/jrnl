@@ -19,7 +19,7 @@
 
 ## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2-beta2...v2.2)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...v2.2)
 
 
 **Implemented enhancements:**
@@ -59,7 +59,7 @@
 
 ## [v2.1.1](https://pypi.org/project/jrnl/v2.1.1/) (2019-11-26)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1-beta...v2.1.1)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.post2...v2.1.1)
 
 **Implemented enhancements:**
 
@@ -82,7 +82,7 @@
 
 ## [v2.1.post2](https://pypi.org/project/jrnl/v2.1.post2/) (2019-11-11)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1-beta6...v2.1.post2)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.1...v2.1.post2)
 
 **Fixed bugs:**
 
@@ -100,7 +100,7 @@
 
 ## [v2.0.1](https://pypi.org/project/jrnl/v2.0.1/) (2019-09-26)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.1-beta...v2.0.1)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.0...v2.0.1)
 
 **Implemented enhancements:**
 
@@ -118,7 +118,9 @@
 
 ## [v2.0.0](https://pypi.org/project/jrnl/v2.0.0/) (2019-08-24)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0-rc4...v2.0.0)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/1.9.8...v2.0.0)
+
+🚨 **BREAKING CHANGES** 🚨
 
 **Implemented enhancements:**
 - Change cryptographic backend from PyCrypto to cryptography.io
