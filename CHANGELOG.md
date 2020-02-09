@@ -15,13 +15,18 @@
 
 **Build:**
 
+- Stop multipe changelog generators from crashing into each other [\#845](https://github.com/jrnl-org/jrnl/pull/845) ([wren](https://github.com/wren))
+- Don't re-run tests on deployment [\#839](https://github.com/jrnl-org/jrnl/pull/839) ([wren](https://github.com/wren))
+- Put back build lines in Poetry config [\#838](https://github.com/jrnl-org/jrnl/pull/838) ([wren](https://github.com/wren))
+- Restore emoji test [\#837](https://github.com/jrnl-org/jrnl/pull/837) ([micahellison](https://github.com/micahellison))
 - Fix crashing unicode Travis tests on Windows and fail build if Windows tests fail [\#836](https://github.com/jrnl-org/jrnl/pull/836) ([micahellison](https://github.com/micahellison))
 - Remove poetry from build system in pyproject config to fix `brew install` [\#830](https://github.com/jrnl-org/jrnl/pull/830) ([wren](https://github.com/wren))
 - Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
-- Automagically update the changelog you see before your very eyes! [\#806](https://github.com/jrnl-org/jrnl/pull/806) ([wren](https://github.com/wren))
 
 **Updated documentation:**
 
+- Update site description [\#841](https://github.com/jrnl-org/jrnl/pull/841) ([wren](https://github.com/wren))
+- Get rid of dumb sex joke [\#840](https://github.com/jrnl-org/jrnl/pull/840) ([wren](https://github.com/wren))
 - Updating/clarifying template explanation [\#829](https://github.com/jrnl-org/jrnl/pull/829) ([heymajor](https://github.com/heymajor))
 
 ## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
