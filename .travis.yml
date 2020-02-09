@@ -131,6 +131,8 @@ jobs:
         - poetry version "$TRAVIS_TAG"
         - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
         - poetry build
+      script:
+        - echo "Deployment starting..."
       deploy:
         - provider: script
           script: poetry publish
