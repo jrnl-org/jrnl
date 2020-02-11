@@ -175,9 +175,9 @@ def guess_mode(args, config):
         export = False
         import_ = True
     elif (
-        args.decrypt
-        or args.encrypt
-        or args.export
+        args.decrypt is not False
+        or args.encrypt is not False
+        or args.export is not False
         or any((args.short, args.tags, args.edit))
     ):
         compose = False
