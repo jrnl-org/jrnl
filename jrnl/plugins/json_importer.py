@@ -6,6 +6,7 @@ from pathlib import Path
 
 from jrnl.Journal import PlainJournal
 from jrnl.plugins.text_exporter import TextExporter
+from jrnl.plugins.util import add_journal_to_config
 
 
 class JSONImporter(PlainJournal, TextExporter):
@@ -28,7 +29,8 @@ class JSONImporter(PlainJournal, TextExporter):
         if self.validate_schema():
             self.data = self.parse_json()
             self.create_file(self.filename + ".txt")
-            return self.export(self.journal, self.filename + ".txt")
+            new_path = self.export(self.journal, self.filename + ".txt")
+            add_journal_to_config(self.type, new_path)
 
     def import_file(self):
         """Reads a JSON file and returns a dict."""
