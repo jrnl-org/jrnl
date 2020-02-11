@@ -19,24 +19,26 @@ class JSONImporter(PlainJournal, TextExporter):
         self.json = self.import_file()
 
     def __str__(self):
-        return f"{self.type} journal with {len(self.journal)} " \
-               f"entries located at {self.path}"
+        return (
+            f"{self.type} journal with {len(self.journal)} "
+            f"entries located at {self.path}"
+        )
 
     def _convert(self):
         if self.validate_schema():
             self.data = self.parse_json()
-            self.create_file(self.filename + '.txt')
-            return self.export(self.journal, self.filename + '.txt')
+            self.create_file(self.filename + ".txt")
+            return self.export(self.journal, self.filename + ".txt")
 
     def import_file(self):
         """Reads a JSON file and returns a dict."""
-        if os.path.exists(self.path) and Path(self.path).suffix == '.json':
+        if os.path.exists(self.path) and Path(self.path).suffix == ".json":
             try:
                 with open(self.path) as f:
                     return json.load(f)
             except json.JSONDecodeError:
                 print(f"{self.path} is not valid JSON.")
-        elif Path(self.path).suffix != '.json':
+        elif Path(self.path).suffix != ".json":
             print(f"{self.path} must be a JSON file.")
         else:
             print(f"{self.path} does not exist.")

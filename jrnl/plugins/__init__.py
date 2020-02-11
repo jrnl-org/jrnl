@@ -22,8 +22,7 @@ __exporters = [
     FancyExporter,
 ] + template_exporters
 
-__importers = [DayOne2Importer,
-               JRNLImporter]
+__importers = [DayOne2Importer, JRNLImporter]
 
 __exporter_types = {name: plugin for plugin in __exporters for name in plugin.names}
 __importer_types = {name: plugin for plugin in __importers for name in plugin.names}

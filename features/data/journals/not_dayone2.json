@@ -1,0 +1,17 @@
+{
+    "articles": [
+        {
+            "audio_files": [],
+            "creation_date": "2020-01-10T12:22:12Z",
+            "photo": [],
+            "favourites": false,
+            "tag": [],
+            "body": "Entry Number One.",
+            "time_zone": "Europe/London",
+            "id": "EBB5A5F4057F461E8F176E18AB7E0493"
+        }
+    ],
+    "metadata": {
+        "version": "1.2"
+    }
+}

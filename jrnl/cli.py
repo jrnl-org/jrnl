@@ -133,8 +133,8 @@ def parse_args(args=None):
         metavar="TYPE",
         dest="import_",
         choices=plugins.IMPORT_FORMATS,
-        help="Import entries into your journal. TYPE can be one of "\
-             "{0}".format(plugins.util.oxford_list(plugins.IMPORT_FORMATS)),
+        help="Import entries into your journal. TYPE can be one of "
+        "{0}".format(plugins.util.oxford_list(plugins.IMPORT_FORMATS)),
         default=False,
     )
     exporting.add_argument(
