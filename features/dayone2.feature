@@ -23,11 +23,18 @@ Feature: Day One 2.0 implementation details.
     Scenario: Converted journal is validated
         Given we use the config "basic.yaml"
         When we run "jrnl --import dayone2 features/data/journals/dayone2.json"
-        When we run "jrnl dayone2 -n 10"
-        Then the output should contain
-            """
-            10-01-2020 12:21 Entry Number Two.
-            | With some body.
+        Then we should get no error
+        When we run "jrnl dayone2 -n 2"
+        Then we should get no error
+        and the output should contain "10-01-2020 12:21 Entry Number Two."
 
-            10-01-2020 12:22 Entry Number One.
+    Scenario: Check tags are handled correctly
+        Given we use the config "basic.yaml"
+        When we run "jrnl --import dayone2 features/data/journals/dayone2.json"
+        When we run "jrnl dayone2 --tags"
+        Then we should get no error
+        and the output should contain
+            """
+            @great               : 2
+            @awesome             : 1
             """

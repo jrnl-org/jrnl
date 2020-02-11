@@ -26,7 +26,7 @@ class DayOne2Importer(JSONImporter):
         self.convert_journal()
 
     def convert_journal(self):
-        print(self._convert())
+        self._convert()
 
     def validate_schema(self):
         try:
@@ -42,13 +42,14 @@ class DayOne2Importer(JSONImporter):
 
     def parse_json(self):
         entries = []
-        print(self.json)
         for entry in self.json["entries"]:
+            tags = " ".join(["@" + t for t in entry["tags"]])
+
             entries.append(
                 Entry(
                     self,
                     date=datetime.strptime(entry["creationDate"], "%Y-%m-%dT%H:%M:%SZ"),
-                    text=entry["text"],
+                    text=f"{entry['text']} {tags}",
                     starred=entry["starred"],
                 )
             )

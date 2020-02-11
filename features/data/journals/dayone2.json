@@ -5,7 +5,7 @@
             "creationDate": "2020-01-10T12:22:12Z",
             "photos": [],
             "starred": false,
-            "tags": [],
+            "tags": ["awesome", "great"],
             "text": "Entry Number One.",
             "timeZone": "Europe/London",
             "uuid": "EBB5A5F4057F461E8F176E18AB7E0493"
@@ -15,7 +15,7 @@
             "creationDate": "2020-01-10T12:21:48Z",
             "photos": [],
             "starred": true,
-            "tags": [],
+            "tags": ["great"],
             "text": "Entry Number Two.\n\nWith some body.",
             "timeZone": "Europe/London",
             "uuid": "EC61E5D4E66C44E6AC796E863E8BF7E7"
