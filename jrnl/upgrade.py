@@ -29,6 +29,13 @@ def backup(filename, binary=False):
             raise UserAbort("jrnl NOT upgraded, exiting.")
 
 
+def check_exists(path):
+    """
+    Checks if a given path exists.
+    """
+    return os.path.exists(path)
+
+
 def upgrade_jrnl_if_necessary(config_path):
     with open(config_path, "r", encoding="utf-8") as f:
         config_file = f.read()
@@ -68,7 +75,11 @@ older versions of jrnl anymore.
             encrypt = config.get("encrypt")
             path = journal_conf
 
-        path = os.path.expanduser(path)
+        if os.path.exists(os.path.expanduser(path)):
+            path = os.path.expanduser(path)
+        else:
+            print(f"\nError: {path} does not exist.")
+            continue
 
         if encrypt:
             encrypted_journals[journal_name] = path
