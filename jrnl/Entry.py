@@ -22,7 +22,7 @@ class Entry:
     def _parse_text(self):
         raw_text = self.text
         lines = raw_text.splitlines()
-        if lines[0].strip().endswith("*"):
+        if lines and lines[0].strip().endswith("*"):
             self.starred = True
             raw_text = lines[0].strip("\n *") + "\n" + "\n".join(lines[1:])
         self._title, self._body = split_title(raw_text)

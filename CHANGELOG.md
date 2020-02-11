@@ -2,10 +2,41 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...HEAD)
 
 **Implemented enhancements:**
 
+- Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
+
+**Fixed bugs:**
+
+- Listing all entries in DayOne Classic journal throws IndexError [\#786](https://github.com/jrnl-org/jrnl/pull/786) ([MinchinWeb](https://github.com/MinchinWeb))
+- Add UTC support for failing DayOne tests [\#785](https://github.com/jrnl-org/jrnl/pull/785) ([MinchinWeb](https://github.com/MinchinWeb))
+
+**Build:**
+
+- Stop multipe changelog generators from crashing into each other [\#845](https://github.com/jrnl-org/jrnl/pull/845) ([wren](https://github.com/wren))
+- Don't re-run tests on deployment [\#839](https://github.com/jrnl-org/jrnl/pull/839) ([wren](https://github.com/wren))
+- Put back build lines in Poetry config [\#838](https://github.com/jrnl-org/jrnl/pull/838) ([wren](https://github.com/wren))
+- Restore emoji test [\#837](https://github.com/jrnl-org/jrnl/pull/837) ([micahellison](https://github.com/micahellison))
+- Fix crashing unicode Travis tests on Windows and fail build if Windows tests fail [\#836](https://github.com/jrnl-org/jrnl/pull/836) ([micahellison](https://github.com/micahellison))
+- Remove poetry from build system in pyproject config to fix `brew install` [\#830](https://github.com/jrnl-org/jrnl/pull/830) ([wren](https://github.com/wren))
+- Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
+
+**Updated documentation:**
+
+- Update site description [\#841](https://github.com/jrnl-org/jrnl/pull/841) ([wren](https://github.com/wren))
+- Get rid of dumb sex joke [\#840](https://github.com/jrnl-org/jrnl/pull/840) ([wren](https://github.com/wren))
+- Updating/clarifying template explanation [\#829](https://github.com/jrnl-org/jrnl/pull/829) ([heymajor](https://github.com/heymajor))
+
+## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...v2.2)
+
+
+**Implemented enhancements:**
+
+- Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
 - Full text search \(case insensitive\) with "-contains" [\#740](https://github.com/jrnl-org/jrnl/pull/740) ([empireshades](https://github.com/empireshades))
 - Reduce startup time by 55% [\#719](https://github.com/jrnl-org/jrnl/pull/719) ([maebert](https://github.com/maebert))
 - Refactor password logic to prevent accidental password leakage [\#708](https://github.com/jrnl-org/jrnl/pull/708) ([pspeter](https://github.com/pspeter))
@@ -18,6 +49,9 @@
 
 **Build:**
 
+- Fix issue where jrnl would always out 'source' for version, fix Poetry config to build and publish properly [\#820](https://github.com/jrnl-org/jrnl/pull/820) ([wren](https://github.com/wren))
+- Unpin poetry [\#808](https://github.com/jrnl-org/jrnl/pull/808) ([wren](https://github.com/wren))
+- Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
 - Change PyPI auth method in build pipeline [\#807](https://github.com/jrnl-org/jrnl/pull/807) ([wren](https://github.com/wren))
 - Automagically update the changelog you see before your very eyes! [\#806](https://github.com/jrnl-org/jrnl/pull/806) ([wren](https://github.com/wren))
 - Update Black version and lock file to fix builds on develop branch [\#784](https://github.com/jrnl-org/jrnl/pull/784) ([wren](https://github.com/wren))
@@ -30,13 +64,14 @@
 
 **Updated documentation:**
 
+- Explain how fish can be configured to exclude jrnl commands from history by default [\#809](https://github.com/jrnl-org/jrnl/pull/809) ([aureooms](https://github.com/aureooms))
 - Remove merge marker in recipes.md [\#782](https://github.com/jrnl-org/jrnl/pull/782) ([markphelps](https://github.com/markphelps))
 - Fix merge conflict left-over [\#767](https://github.com/jrnl-org/jrnl/pull/767) ([thejspr](https://github.com/thejspr))
 - Display header in docs on mobile devices [\#763](https://github.com/jrnl-org/jrnl/pull/763) ([maebert](https://github.com/maebert))
 
 ## [v2.1.1](https://pypi.org/project/jrnl/v2.1.1/) (2019-11-26)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1-beta...v2.1.1)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.post2...v2.1.1)
 
 **Implemented enhancements:**
 
@@ -59,7 +94,7 @@
 
 ## [v2.1.post2](https://pypi.org/project/jrnl/v2.1.post2/) (2019-11-11)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1-beta6...v2.1.post2)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.1...v2.1.post2)
 
 **Fixed bugs:**
 
@@ -77,7 +112,7 @@
 
 ## [v2.0.1](https://pypi.org/project/jrnl/v2.0.1/) (2019-09-26)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.1-beta...v2.0.1)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.0...v2.0.1)
 
 **Implemented enhancements:**
 
@@ -95,7 +130,9 @@
 
 ## [v2.0.0](https://pypi.org/project/jrnl/v2.0.0/) (2019-08-24)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0-rc4...v2.0.0)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/1.9.8...v2.0.0)
+
+🚨 **BREAKING CHANGES** 🚨
 
 **Implemented enhancements:**
 - Change cryptographic backend from PyCrypto to cryptography.io
