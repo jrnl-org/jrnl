@@ -10,7 +10,7 @@ class DayOne2Importer(JSONImporter):
     extension = "json"
 
     def __init__(self, path):
-        self.type = "DayOne2"
+        self.type = "dayone2"
         self.path = path
         self.keys = [
             "audios",
@@ -42,6 +42,7 @@ class DayOne2Importer(JSONImporter):
 
     def parse_json(self):
         entries = []
+        print(self.json)
         for entry in self.json["entries"]:
             entries.append(
                 Entry(

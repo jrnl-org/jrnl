@@ -2,8 +2,9 @@
 # encoding: utf-8
 import yaml
 
+from jrnl.install import CONFIG_FILE_PATH, save_config
 from jrnl.util import load_config
-from jrnl.install import CONFIG_FILE_PATH, CONFIG_FILE_PATH_FALLBACK
+from pathlib import Path
 
 
 def get_tags_count(journal):
@@ -34,9 +35,7 @@ def add_journal_to_config(name, path):
     try:
         data = load_config(CONFIG_FILE_PATH)
     except FileNotFoundError:
-        try:
-            data = load_config(CONFIG_FILE_PATH_FALLBACK)
-        except FileNotFoundError:
-            print("Config file not found.")
+        print("Config file not found.")
     finally:
         data["journals"][name] = path
+        save_config(data)
