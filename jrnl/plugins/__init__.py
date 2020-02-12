@@ -38,8 +38,8 @@ def get_exporter(format):
     return None
 
 
-def get_importer(file_format, path):
+def get_importer(file_format, path, root_config):
     for importer in __importers:
         if hasattr(importer, "names") and file_format in importer.names:
-            return importer(path)
+            return importer(path, root_config)
     return None

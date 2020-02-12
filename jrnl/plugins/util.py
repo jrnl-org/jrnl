@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # encoding: utf-8
-import yaml
-
-from jrnl.install import CONFIG_FILE_PATH, save_config
-from jrnl.util import load_config
-from pathlib import Path
 
 
 def get_tags_count(journal):
@@ -28,14 +23,3 @@ def oxford_list(lst):
         return lst[0] + " or " + lst[1]
     else:
         return ", ".join(lst[:-1]) + ", or " + lst[-1]
-
-
-def add_journal_to_config(name, path):
-    data = {}
-    try:
-        data = load_config(CONFIG_FILE_PATH)
-    except FileNotFoundError:
-        print("Config file not found.")
-    finally:
-        data["journals"][name] = path
-        save_config(data)

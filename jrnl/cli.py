@@ -348,7 +348,8 @@ def run(manual_args=None):
 
     # Import mode
     if args.import_:
-        return plugins.get_importer(args.import_, args.text)
+        root_config = install.load_or_install_jrnl()
+        return plugins.get_importer(args.import_, args.text, root_config)
 
     # This is where we finally open the journal!
     try:

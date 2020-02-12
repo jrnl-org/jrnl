@@ -4,9 +4,9 @@ import os
 from abc import abstractmethod
 from pathlib import Path
 
+from jrnl.install import save_config
 from jrnl.Journal import PlainJournal
 from jrnl.plugins.text_exporter import TextExporter
-from jrnl.plugins.util import add_journal_to_config
 
 
 class JSONImporter(PlainJournal, TextExporter):
@@ -30,7 +30,8 @@ class JSONImporter(PlainJournal, TextExporter):
             self.data = self.parse_json()
             self.create_file(self.filename + ".txt")
             new_path = self.export(self.journal, self.filename + ".txt")
-            add_journal_to_config(self.type, new_path)
+            self.root_config["journals"][self.type] = new_path
+            save_config(self.root_config)
 
     def import_file(self):
         """Reads a JSON file and returns a dict."""

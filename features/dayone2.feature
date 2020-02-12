@@ -23,10 +23,9 @@ Feature: Day One 2.0 implementation details.
     Scenario: Converted journal is validated
         Given we use the config "basic.yaml"
         When we run "jrnl --import dayone2 features/data/journals/dayone2.json"
-        Then we should get no error
         When we run "jrnl dayone2 -n 2"
         Then we should get no error
-        and the output should contain "10-01-2020 12:21 Entry Number Two."
+        and the output should contain "2020-01-10 12:21 Entry Number Two."
 
     Scenario: Check tags are handled correctly
         Given we use the config "basic.yaml"

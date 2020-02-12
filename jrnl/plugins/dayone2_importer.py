@@ -9,7 +9,7 @@ class DayOne2Importer(JSONImporter):
     names = ["dayone2"]
     extension = "json"
 
-    def __init__(self, path):
+    def __init__(self, path, root_config):
         self.type = "dayone2"
         self.path = path
         self.keys = [
@@ -22,6 +22,7 @@ class DayOne2Importer(JSONImporter):
             "timeZone",
             "uuid",
         ]
+        self.root_config = root_config
         JSONImporter.__init__(self)
         self.convert_journal()
 
