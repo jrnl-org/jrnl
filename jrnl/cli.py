@@ -346,17 +346,19 @@ def run(manual_args=None):
         else:
             sys.exit()
 
-    # Import mode
-    if args.import_:
-        root_config = install.load_or_install_jrnl()
-        return plugins.get_importer(args.import_, args.text, root_config)
-
     # This is where we finally open the journal!
     try:
         journal = open_journal(journal_name, config)
     except KeyboardInterrupt:
         print(f"[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)
+
+    # Import mode
+    if args.import_:
+        root_config = install.load_or_install_jrnl()
+        return plugins.get_importer(
+            args.import_, args.text, root_config, journal=journal
+        )
 
     # Writing mode
     if mode_compose:

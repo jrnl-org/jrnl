@@ -2,7 +2,9 @@
 # encoding: utf-8
 
 import sys
-from .. import util
+
+from pathlib import Path
+from jrnl import util
 
 
 class JRNLImporter:
@@ -10,17 +12,19 @@ class JRNLImporter:
 
     names = ["jrnl"]
 
-    def __init__(self, input):
-        self.input = input
-        self.import_(self.input)
+    def __init__(self, path, root_config, journal):
+        self.path = Path(path[0])
+        self.root_config = root_config
+        self.journal = journal
+        self.import_(self.journal)
 
-    def import_(self, journal, input=None):
+    def import_(self, journal):
         """Imports from an existing file if input is specified, and
         standard input otherwise."""
         old_cnt = len(journal.entries)
         old_entries = journal.entries
-        if self.input:
-            with open(input, "r", encoding="utf-8") as f:
+        if self.journal:
+            with open(self.path, "r", encoding="utf-8") as f:
                 other_journal_txt = f.read()
         else:
             try:

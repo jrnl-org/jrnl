@@ -9,7 +9,7 @@ class DayOne2Importer(JSONImporter):
     names = ["dayone2"]
     extension = "json"
 
-    def __init__(self, path, root_config):
+    def __init__(self, path, root_config, journal):
         self.type = "dayone2"
         self.path = path
         self.keys = [
