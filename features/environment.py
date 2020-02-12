@@ -1,5 +1,6 @@
 import shutil
 import os
+import sys
 
 
 def before_feature(context, feature):
@@ -7,6 +8,10 @@ def before_feature(context, feature):
     # https://stackoverflow.com/a/42721605/4276230
     if "skip" in feature.tags:
         feature.skip("Marked with @skip")
+        return
+
+    if "skip_win" in feature.tags and "win32" in sys.platform:
+        feature.skip("Skipping on Windows")
         return
 
 
@@ -34,6 +39,10 @@ def before_scenario(context, scenario):
     # https://stackoverflow.com/a/42721605/4276230
     if "skip" in scenario.effective_tags:
         scenario.skip("Marked with @skip")
+        return
+
+    if "skip_win" in scenario.effective_tags and "win32" in sys.platform:
+        scenario.skip("Skipping on Windows")
         return
 
 

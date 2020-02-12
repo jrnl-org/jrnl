@@ -20,6 +20,7 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -n 1"
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
+    @skip_win
     Scenario: Writing an empty entry from the editor
         Given we use the config "editor.yaml"
         When we open the editor and enter ""

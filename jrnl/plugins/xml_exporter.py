@@ -8,6 +8,7 @@ from xml.dom import minidom
 
 class XMLExporter(JSONExporter):
     """This Exporter can convert entries and journals into XML."""
+
     names = ["xml"]
     extension = "xml"
 
@@ -15,7 +16,7 @@ class XMLExporter(JSONExporter):
     def export_entry(cls, entry, doc=None):
         """Returns an XML representation of a single entry."""
         doc_el = doc or minidom.Document()
-        entry_el = doc_el.createElement('entry')
+        entry_el = doc_el.createElement("entry")
         for key, value in cls.entry_to_dict(entry).items():
             elem = doc_el.createElement(key)
             elem.appendChild(doc_el.createTextNode(value))
@@ -28,11 +29,11 @@ class XMLExporter(JSONExporter):
 
     @classmethod
     def entry_to_xml(cls, entry, doc):
-        entry_el = doc.createElement('entry')
-        entry_el.setAttribute('date', entry.date.isoformat())
+        entry_el = doc.createElement("entry")
+        entry_el.setAttribute("date", entry.date.isoformat())
         if hasattr(entry, "uuid"):
-            entry_el.setAttribute('uuid', entry.uuid)
-        entry_el.setAttribute('starred', entry.starred)
+            entry_el.setAttribute("uuid", entry.uuid)
+        entry_el.setAttribute("starred", entry.starred)
         entry_el.appendChild(doc.createTextNode(entry.fulltext))
         return entry_el
 
@@ -41,12 +42,12 @@ class XMLExporter(JSONExporter):
         """Returns an XML representation of an entire journal."""
         tags = get_tags_count(journal)
         doc = minidom.Document()
-        xml = doc.createElement('journal')
-        tags_el = doc.createElement('tags')
-        entries_el = doc.createElement('entries')
+        xml = doc.createElement("journal")
+        tags_el = doc.createElement("tags")
+        entries_el = doc.createElement("entries")
         for count, tag in tags:
-            tag_el = doc.createElement('tag')
-            tag_el.setAttribute('name', tag)
+            tag_el = doc.createElement("tag")
+            tag_el.setAttribute("name", tag)
             count_node = doc.createTextNode(str(count))
             tag_el.appendChild(count_node)
             tags_el.appendChild(tag_el)
