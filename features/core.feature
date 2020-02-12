@@ -71,17 +71,3 @@ Feature: Basic reading and writing to a journal
         Given we use the config "basic.yaml"
         When we run "jrnl -on 2013-06-10 -s"
         Then the output should be "2013-06-10 15:40 Life is good."
-
-    # The input for this test is <SPACE><ENTER>y
-    Scenario: --delete flag allows deletion of single entry
-        Given we use the config "deletion.yaml"
-        When we run "jrnl --delete"
-        And we type " "
-        And we type
-            """
-
-            y
-            """
-        When we run "jrnl -on 2019-10-29 -s"
-        Then the output should not contain "2019-10-29 11:11 First entry."
-

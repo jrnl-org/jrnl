@@ -173,7 +173,12 @@ def parse_args(args=None):
         action="store_true",
     )
 
-    exporting.add_argument('--delete', dest='delete', action="store_true", help='Opens an interactive interface for deleting entries.')
+    exporting.add_argument(
+        "--delete",
+        dest="delete",
+        action="store_true",
+        help="Opens an interactive interface for deleting entries.",
+    )
     return parser.parse_args(args)
 
 
