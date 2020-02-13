@@ -6,10 +6,7 @@ import sys
 import re
 
 from datetime import datetime
-from itertools import filterfalse
-from jrnl import Entry
-from jrnl import util
-from jrnl import time
+from jrnl import Entry, util, time
 
 log = logging.getLogger(__name__)
 
