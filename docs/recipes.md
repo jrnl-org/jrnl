@@ -71,7 +71,7 @@ jrnlimport () {
 ### Using templates
 
 !!! note
-    Templates require an [external editor](../advanced) be configured. 
+    Templates require an [external editor](./advanced.md) be configured. 
 
 A template is a code snippet that makes it easier to enter use repeated text 
 each time a new journal entry is started. There are two ways you can utilize
@@ -113,7 +113,7 @@ logged as a new entry in the journal you specified in the original argument.
 
 !!! tip 
     To read your journal entry or to verify the entry saved, you can use this 
-    command: `jrnl -n 1` (Check out [Import and Export](../export/#export-to-files) for more export options).
+    command: `jrnl -n 1` (Check out [Import and Export](./export.md) for more export options).
 
 ```sh
 jrnl -n 1
@@ -155,7 +155,7 @@ jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
 ## External editors
 
 Configure your preferred external editor by updating the `editor` option 
-in your `jrnl.yaml` file. (See [advanced usage](../advanced) for details). 
+in your `jrnl.yaml` file. (See [advanced usage](./advanced.md) for details). 
 
 !!! note
     To save and log any entry edits, save and close the file.
