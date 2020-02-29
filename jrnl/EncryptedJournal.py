@@ -23,7 +23,7 @@ def make_key(password):
         length=32,
         # Salt is hard-coded
         salt=b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8",
-        iterations=100000,
+        iterations=100_000,
         backend=default_backend(),
     )
     key = kdf.derive(password)
