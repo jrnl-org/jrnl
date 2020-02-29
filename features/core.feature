@@ -36,12 +36,12 @@ Feature: Basic reading and writing to a journal
     @skip_win
     Scenario: Writing an empty entry from the editor
         Given we use the config "editor.yaml"
-        When we open the editor and enter ""
+        When we open the editor and enter nothing
         Then we should see the message "[Nothing saved to file]"
 
     Scenario: Writing an empty entry from the command line
         Given we use the config "basic.yaml"
-        When we run "jrnl" and enter ""
+        When we run "jrnl" and enter nothing
         Then the output should be
             """
 

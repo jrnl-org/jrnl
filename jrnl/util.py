@@ -226,13 +226,9 @@ def highlight_tags_with_background_color(entry, text, color, is_title=False):
     if config["highlight"]:  # highlight tags
         if entry.journal.search_tags:
             text_fragments = []
-            for tag in entry.search_tags:
+            for tag in entry.journal.search_tags:
                 text_fragments.extend(
-                    re.split(
-                        re.compile(re.escape(tag), re.IGNORECASE),
-                        text,
-                        flags=re.UNICODE,
-                    )
+                    re.split(re.compile(re.escape(tag), re.IGNORECASE), text)
                 )
         else:
             text_fragments = re.split(entry.tag_regex(config["tagsymbols"]), text)

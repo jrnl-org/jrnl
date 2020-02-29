@@ -14,7 +14,7 @@ Feature: Contains
         Given we use the config "tags.yaml"
         When we run "jrnl @idea -contains software"
         Then we should get no error
-        and the output should contain "software"
+        And the output should contain "software"
 
     Scenario: Searching for a string within AND tag results
         Given we use the config "tags.yaml"
