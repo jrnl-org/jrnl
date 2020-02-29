@@ -59,7 +59,7 @@ class Folder(Journal.Journal):
             for e in self.entries:
                 if e.date.year == d.year and e.date.month == d.month and e.date.day == d.day:
                     write_entries.append(e)
-            journal = "\n".join([e.__unicode__() for e in write_entries])
+            journal = "\n".join([e.__str__() for e in write_entries])
             with codecs.open(filename, 'w', "utf-8") as journal_file:
                 journal_file.write(journal)
         #look for and delete empty files
