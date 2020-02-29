@@ -6,7 +6,9 @@
 
 **Implemented enhancements:**
 
+- Add support to save journals to multiple files in a directory [\#843](https://github.com/jrnl-org/jrnl/pull/843) ([wren](https://github.com/wren))
 - Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
+- Issue \#170 - Add folder based journal [\#458](https://github.com/jrnl-org/jrnl/pull/458) ([notbalanced](https://github.com/notbalanced))
 
 **Fixed bugs:**
 
