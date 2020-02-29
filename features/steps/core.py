@@ -210,10 +210,11 @@ def check_output_time_inline(context, text):
 
 @then("the output should contain")
 @then('the output should contain "{text}"')
-def check_output_inline(context, text=None):
+@then('the output should contain "{text}" or "{text2}"')
+def check_output_inline(context, text=None, text2=None):
     text = text or context.text
     out = context.stdout_capture.getvalue()
-    assert text in out, text
+    assert (text in out or text2 in out), text or text2
 
 
 @then('the output should not contain "{text}"')

@@ -15,7 +15,7 @@ Feature: Testing a journal with a root directory and multiple files in the forma
       When we run "jrnl 23 July 2013: Testing folder journal."
       Then we should see the message "Entry added"
       When the journal directory is listed
-      Then the output should contain "2013/07/23.txt"
+      Then the output should contain "2013/07/23.txt" or "2013\07\23.txt"
 
 
     Scenario: Adding multiple entries to a Folder journal should generate multiple date files
@@ -24,9 +24,8 @@ Feature: Testing a journal with a root directory and multiple files in the forma
       And we run "jrnl 3/7/2014: Second entry of journal."
       Then we should see the message "Entry added"
       When the journal directory is listed
-      Then the output should contain "2013/07/23.txt"
-      And the output should contain "2014/03/07.txt"
-
+      Then the output should contain "2013/07/23.txt" or "2013\07\23.txt"
+      Then the output should contain "2014/03/07.txt" or "2014\03\07.txt"
 
     Scenario: Out of order entries to a Folder journal should be listed in date order
       Given we use the config "empty_folder.yaml"
