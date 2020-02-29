@@ -379,6 +379,7 @@ def open_journal(name, config, legacy=False):
             return DayOneJournal.DayOne(**config).open()
         else:
             from . import FolderJournal
+
             return FolderJournal.Folder(**config).open()
 
     if not config["encrypt"]:

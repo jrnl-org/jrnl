@@ -214,7 +214,7 @@ def check_output_time_inline(context, text):
 def check_output_inline(context, text=None, text2=None):
     text = text or context.text
     out = context.stdout_capture.getvalue()
-    assert (text in out or text2 in out), text or text2
+    assert text in out or text2 in out, text or text2
 
 
 @then('the output should not contain "{text}"')
@@ -270,15 +270,17 @@ def check_journal_entries(context, number, journal_name="default"):
     journal = open_journal(journal_name)
     assert len(journal.entries) == number
 
-@when('the journal directory is listed')
+
+@when("the journal directory is listed")
 def list_journal_directory(context, journal="default"):
-    files=[]
+    files = []
     with open(install.CONFIG_FILE_PATH) as config_file:
         config = yaml.load(config_file, Loader=yaml.FullLoader)
-    journal_path = config['journals'][journal]
+    journal_path = config["journals"][journal]
     for root, dirnames, f in os.walk(journal_path):
-        for file in f: 
-            print(os.path.join(root,file))
+        for file in f:
+            print(os.path.join(root, file))
+
 
 @then("fail")
 def debug_fail(context):

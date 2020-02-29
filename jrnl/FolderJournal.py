@@ -8,11 +8,12 @@ import codecs
 import os
 import fnmatch
 
+
 def get_files(journal_config):
     """Searches through sub directories starting with journal_config and find all text files"""
     filenames = []
     for root, dirnames, f in os.walk(journal_config):
-        for filename in fnmatch.filter(f, '*.txt'):
+        for filename in fnmatch.filter(f, "*.txt"):
             filenames.append(os.path.join(root, filename))
     return filenames
 
@@ -25,11 +26,10 @@ class Folder(Journal.Journal):
         self._diff_entry_dates = []
         super(Folder, self).__init__(**kwargs)
 
-        
     def open(self):
         filenames = []
         self.entries = []
-        filenames = get_files(self.config['journal'])
+        filenames = get_files(self.config["journal"])
         for filename in filenames:
             with codecs.open(filename, "r", "utf-8") as f:
                 journal = f.read()
@@ -39,7 +39,7 @@ class Folder(Journal.Journal):
 
     def write(self):
         """Writes only the entries that have been modified into proper files."""
-        #Create a list of dates of modified entries. Start with diff_entry_dates
+        # Create a list of dates of modified entries. Start with diff_entry_dates
         modified_dates = self._diff_entry_dates
         seen_dates = set(self._diff_entry_dates)
         for e in self.entries:
@@ -48,26 +48,35 @@ class Folder(Journal.Journal):
                     modified_dates.append(e.date)
                     seen_dates.add(e.date)
 
-        #For every date that had a modified entry, write to a file
+        # For every date that had a modified entry, write to a file
         for d in modified_dates:
-            write_entries=[]
-            filename = os.path.join(self.config['journal'], d.strftime("%Y"), d.strftime("%m"), d.strftime("%d")+".txt")
+            write_entries = []
+            filename = os.path.join(
+                self.config["journal"],
+                d.strftime("%Y"),
+                d.strftime("%m"),
+                d.strftime("%d") + ".txt",
+            )
             dirname = os.path.dirname(filename)
-            #create directory if it doesn't exist
+            # create directory if it doesn't exist
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
             for e in self.entries:
-                if e.date.year == d.year and e.date.month == d.month and e.date.day == d.day:
+                if (
+                    e.date.year == d.year
+                    and e.date.month == d.month
+                    and e.date.day == d.day
+                ):
                     write_entries.append(e)
             journal = "\n".join([e.__str__() for e in write_entries])
-            with codecs.open(filename, 'w', "utf-8") as journal_file:
+            with codecs.open(filename, "w", "utf-8") as journal_file:
                 journal_file.write(journal)
-        #look for and delete empty files
+        # look for and delete empty files
         filenames = []
-        filenames = get_files(self.config['journal'])
+        filenames = get_files(self.config["journal"])
         for filename in filenames:
             if os.stat(filename).st_size <= 0:
-                #print("empty file: {}".format(filename))
+                # print("empty file: {}".format(filename))
                 os.remove(filename)
 
     def parse_editable_str(self, edited):
