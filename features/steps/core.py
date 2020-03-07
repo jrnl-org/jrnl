@@ -183,22 +183,11 @@ def no_error(context):
     assert context.exit_status == 0, context.exit_status
 
 
-def process_ANSI_escapes(text):
-    """Escapes and 'unescapes' a string with ANSI escapes so that behave stdout
-    comparisons work properly. This will render colors, and works with unicode
-    characters. https://stackoverflow.com/a/57192592
-    :param str text: The text to be escaped and unescaped
-    :return: Colorized / escaped text
-    :rtype: str
-    """
-    return decode(encode(text, "latin-1", "backslashreplace"), "unicode-escape")
-
-
 @then("the output should be")
 @then('the output should be "{text}"')
 def check_output(context, text=None):
     text = (text or context.text).strip().splitlines()
-    out = process_ANSI_escapes(context.stdout_capture.getvalue().strip()).splitlines()
+    out = context.stdout_capture.getvalue().strip().splitlines()
     assert len(text) == len(out), "Output has {} lines (expected: {})".format(
         len(out), len(text)
     )
@@ -211,7 +200,7 @@ def check_output(context, text=None):
 
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
-    out = process_ANSI_escapes(context.stdout_capture.getvalue())
+    out = context.stdout_capture.getvalue()
     local_tz = tzlocal.get_localzone()
     date, flag = CALENDAR.parse(text)
     output_date = time.strftime("%Y-%m-%d %H:%M", date)
@@ -223,7 +212,7 @@ def check_output_time_inline(context, text):
 @then('the output should contain "{text}" or "{text2}"')
 def check_output_inline(context, text=None, text2=None):
     text = text or context.text
-    out = process_ANSI_escapes(context.stdout_capture.getvalue())
+    out = context.stdout_capture.getvalue()
     assert text in out or text2 in out, text or text2
 
 
