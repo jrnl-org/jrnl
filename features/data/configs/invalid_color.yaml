@@ -11,7 +11,7 @@ template: false
 timeformat: "%Y-%m-%d %H:%M"
 indent_character: "|"
 colors:
-  date: none
-  title: none
-  body: none
-  tags: none
+  date: not-a-color
+  title: also-not-a-color
+  body: still-no-color
+  tags: me-too

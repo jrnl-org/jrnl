@@ -153,20 +153,7 @@ class Journal:
 
     def pprint(self, short=False):
         """Prettyprints the journal's entries"""
-        sep = "\n"
-        pp = sep.join([e.pprint(short=short) for e in self.entries])
-        if self.config["highlight"]:  # highlight tags
-            if self.search_tags:
-                for tag in self.search_tags:
-                    tagre = re.compile(re.escape(tag), re.IGNORECASE)
-                    pp = re.sub(tagre, lambda match: util.colorize(match.group(0)), pp)
-            else:
-                pp = re.sub(
-                    Entry.Entry.tag_regex(self.config["tagsymbols"]),
-                    lambda match: util.colorize(match.group(0)),
-                    pp,
-                )
-        return pp
+        return "\n".join([e.pprint(short=short) for e in self.entries])
 
     def __str__(self):
         return self.pprint()

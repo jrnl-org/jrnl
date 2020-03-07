@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 import re
-import textwrap
+import ansiwrap
 from datetime import datetime
-from .util import split_title
+from .util import split_title, colorize, highlight_tags_with_background_color
 
 
 class Entry:
@@ -49,7 +49,7 @@ class Entry:
 
     @staticmethod
     def tag_regex(tagsymbols):
-        pattern = fr"(?u)(?:^|\s)([{tagsymbols}][-+*#/\w]+)"
+        pattern = fr"(?<!\S)([{tagsymbols}][-+*#/\w]+)"
         return re.compile(pattern)
 
     def _parse_tags(self):
@@ -73,31 +73,77 @@ class Entry:
     def pprint(self, short=False):
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
-        date_str = self.date.strftime(self.journal.config["timeformat"])
+        # Handle indentation
         if self.journal.config["indent_character"]:
             indent = self.journal.config["indent_character"].rstrip() + " "
         else:
             indent = ""
+
+        date_str = colorize(
+            self.date.strftime(self.journal.config["timeformat"]),
+            self.journal.config["colors"]["date"],
+            bold=True,
+        )
+
         if not short and self.journal.config["linewrap"]:
-            title = textwrap.fill(
-                date_str + " " + self.title, self.journal.config["linewrap"]
+            # Color date / title and bold title
+            title = ansiwrap.fill(
+                date_str
+                + " "
+                + highlight_tags_with_background_color(
+                    self,
+                    self.title,
+                    self.journal.config["colors"]["title"],
+                    is_title=True,
+                ),
+                self.journal.config["linewrap"],
             )
-            body = "\n".join(
-                [
-                    textwrap.fill(
+            body = highlight_tags_with_background_color(
+                self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
+            )
+            body_text = [
+                colorize(
+                    ansiwrap.fill(
                         line,
                         self.journal.config["linewrap"],
                         initial_indent=indent,
                         subsequent_indent=indent,
                         drop_whitespace=True,
-                    )
-                    or indent
-                    for line in self.body.rstrip(" \n").splitlines()
+                    ),
+                    self.journal.config["colors"]["body"],
+                )
+                or indent
+                for line in body.rstrip(" \n").splitlines()
+            ]
+
+            # ansiwrap doesn't handle lines with only the "\n" character and some
+            # ANSI escapes properly, so we have this hack here to make sure the
+            # beginning of each line has the indent character and it's colored
+            # properly. textwrap doesn't have this issue, however, it doesn't wrap
+            # the strings properly as it counts ANSI escapes as literal characters.
+            # TL;DR: I'm sorry.
+            body = "\n".join(
+                [
+                    colorize(indent, self.journal.config["colors"]["body"]) + line
+                    if not ansiwrap.strip_color(line).startswith(indent)
+                    else line
+                    for line in body_text
                 ]
             )
         else:
-            title = date_str + " " + self.title.rstrip("\n ")
-            body = self.body.rstrip("\n ")
+            title = (
+                date_str
+                + " "
+                + highlight_tags_with_background_color(
+                    self,
+                    self.title.rstrip("\n"),
+                    self.journal.config["colors"]["title"],
+                    is_title=True,
+                )
+            )
+            body = highlight_tags_with_background_color(
+                self, self.body.rstrip("\n "), self.journal.config["colors"]["body"]
+            )
 
         # Suppress bodies that are just blanks and new lines.
         has_body = len(self.body) > 20 or not all(

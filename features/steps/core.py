@@ -10,7 +10,9 @@ try:
 except ImportError:
     import parsedatetime as pdt
 import time
+from codecs import encode, decode
 import os
+import ast
 import json
 import yaml
 import keyring
@@ -80,18 +82,15 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
-@when('we open the editor and enter ""')
 @when('we open the editor and enter "{text}"')
+@when("we open the editor and enter nothing")
 def open_editor_and_enter(context, text=""):
-    text = text or context.text
+    text = text or context.text or ""
 
     def _mock_editor_function(command):
         tmpfile = command[-1]
         with open(tmpfile, "w+") as f:
-            if text is not None:
-                f.write(text)
-            else:
-                f.write("")
+            f.write(text)
 
         return tmpfile
 
@@ -117,7 +116,7 @@ def _mock_input(inputs):
 
 
 @when('we run "{command}" and enter')
-@when('we run "{command}" and enter ""')
+@when('we run "{command}" and enter nothing')
 @when('we run "{command}" and enter "{inputs}"')
 def run_with_input(context, command, inputs=""):
     # create an iterator through all inputs. These inputs will be fed one by one
@@ -253,8 +252,15 @@ def journal_doesnt_exist(context, journal_name="default"):
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value, journal=None):
-    t, value = value.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
+    if not value[0] == "{":
+        t, value = value.split(":")
+        value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](
+            value
+        )
+    else:
+        # Handle value being a dictionary
+        value = ast.literal_eval(value)
+
     config = util.load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
