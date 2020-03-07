@@ -15,6 +15,7 @@ from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 import jrnl
 import argparse
 import sys
+import re
 import logging
 
 log = logging.getLogger(__name__)
@@ -173,7 +174,11 @@ def parse_args(args=None):
         action="store_true",
     )
 
-    return parser.parse_args(args)
+    # Handle '-123' as a shortcut for '-n 123'
+    num = re.compile(r"^-(\d+)$")
+    if args is None:
+        args = sys.argv[1:]
+    return parser.parse_args([num.sub(r"-n \1", a) for a in args])
 
 
 def guess_mode(args, config):
@@ -308,14 +313,6 @@ def run(manual_args=None):
         sys.exit(1)
 
     config = util.scope_config(config, journal_name)
-
-    # If the first remaining argument looks like e.g. '-3', interpret that as a limiter
-    if not args.limit and args.text and args.text[0].startswith("-"):
-        try:
-            args.limit = int(args.text[0].lstrip("-"))
-            args.text = args.text[1:]
-        except ValueError:
-            pass
 
     log.debug('Using journal "%s"', journal_name)
     mode_compose, mode_export, mode_import = guess_mode(args, config)

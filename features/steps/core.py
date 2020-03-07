@@ -3,7 +3,6 @@ from unittest.mock import patch
 from behave import given, when, then
 from jrnl import cli, install, Journal, util, plugins
 from jrnl import __version__
-from dateutil import parser as date_parser
 from collections import defaultdict
 
 try:
@@ -11,7 +10,9 @@ try:
 except ImportError:
     import parsedatetime as pdt
 import time
+from codecs import encode, decode
 import os
+import ast
 import json
 import yaml
 import keyring
@@ -81,18 +82,15 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
-@when('we open the editor and enter ""')
 @when('we open the editor and enter "{text}"')
+@when("we open the editor and enter nothing")
 def open_editor_and_enter(context, text=""):
-    text = text or context.text
+    text = text or context.text or ""
 
     def _mock_editor_function(command):
         tmpfile = command[-1]
         with open(tmpfile, "w+") as f:
-            if text is not None:
-                f.write(text)
-            else:
-                f.write("")
+            f.write(text)
 
         return tmpfile
 
@@ -118,7 +116,7 @@ def _mock_input(inputs):
 
 
 @when('we run "{command}" and enter')
-@when('we run "{command}" and enter ""')
+@when('we run "{command}" and enter nothing')
 @when('we run "{command}" and enter "{inputs}"')
 def run_with_input(context, command, inputs=""):
     # create an iterator through all inputs. These inputs will be fed one by one
@@ -185,53 +183,6 @@ def no_error(context):
     assert context.exit_status == 0, context.exit_status
 
 
-@then("the output should be parsable as json")
-def check_output_json(context):
-    out = context.stdout_capture.getvalue()
-    assert json.loads(out), out
-
-
-@then('"{field}" in the json output should have {number:d} elements')
-@then('"{field}" in the json output should have 1 element')
-def check_output_field(context, field, number=1):
-    out = context.stdout_capture.getvalue()
-    out_json = json.loads(out)
-    assert field in out_json, [field, out_json]
-    assert len(out_json[field]) == number, len(out_json[field])
-
-
-@then('"{field}" in the json output should not contain "{key}"')
-def check_output_field_not_key(context, field, key):
-    out = context.stdout_capture.getvalue()
-    out_json = json.loads(out)
-    assert field in out_json
-    assert key not in out_json[field]
-
-
-@then('"{field}" in the json output should contain "{key}"')
-def check_output_field_key(context, field, key):
-    out = context.stdout_capture.getvalue()
-    out_json = json.loads(out)
-    assert field in out_json
-    assert key in out_json[field]
-
-
-@then('the json output should contain {path} = "{value}"')
-def check_json_output_path(context, path, value):
-    """ E.g.
-    the json output should contain entries.0.title = "hello"
-    """
-    out = context.stdout_capture.getvalue()
-    struct = json.loads(out)
-
-    for node in path.split("."):
-        try:
-            struct = struct[int(node)]
-        except ValueError:
-            struct = struct[node]
-    assert struct == value, struct
-
-
 @then("the output should be")
 @then('the output should be "{text}"')
 def check_output(context, text=None):
@@ -258,10 +209,11 @@ def check_output_time_inline(context, text):
 
 @then("the output should contain")
 @then('the output should contain "{text}"')
-def check_output_inline(context, text=None):
+@then('the output should contain "{text}" or "{text2}"')
+def check_output_inline(context, text=None, text2=None):
     text = text or context.text
     out = context.stdout_capture.getvalue()
-    assert text in out, text
+    assert text in out or text2 in out, text or text2
 
 
 @then('the output should not contain "{text}"')
@@ -300,8 +252,15 @@ def journal_doesnt_exist(context, journal_name="default"):
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value, journal=None):
-    t, value = value.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
+    if not value[0] == "{":
+        t, value = value.split(":")
+        value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](
+            value
+        )
+    else:
+        # Handle value being a dictionary
+        value = ast.literal_eval(value)
+
     config = util.load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
@@ -316,6 +275,17 @@ def config_var(context, key, value, journal=None):
 def check_journal_entries(context, number, journal_name="default"):
     journal = open_journal(journal_name)
     assert len(journal.entries) == number
+
+
+@when("the journal directory is listed")
+def list_journal_directory(context, journal="default"):
+    files = []
+    with open(install.CONFIG_FILE_PATH) as config_file:
+        config = yaml.load(config_file, Loader=yaml.FullLoader)
+    journal_path = config["journals"][journal]
+    for root, dirnames, f in os.walk(journal_path):
+        for file in f:
+            print(os.path.join(root, file))
 
 
 @then("fail")

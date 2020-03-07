@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+BRANCH=$TRAVIS_BRANCH
+if [[ $TRAVIS_BRANCH == $TRAVIS_TAG ]]; then
+  BRANCH='master'
+fi
+
+# Check if branch has been updated since this build started
+# This tends to happen if multiple things have been merged in at the same time.
+if [[ -z $TRAVIS_TAG ]]; then
+  git fetch origin
+  if [[ $(git rev-parse "origin/${BRANCH}") != $TRAVIS_COMMIT ]]; then
+    echo "${BRANCH} has been updated since build started. Aborting changelog."
+    exit 0
+  fi
+fi
+
 FILENAME='CHANGELOG.md'
 
 # get the latest git tags
@@ -39,11 +54,6 @@ docker run -it --rm -v "$(pwd)":/usr/local/src/your-app ferrarimarco/github-chan
 
 # Put back our link (instead of the broken one)
 sed -i 's!https://pypi.org/project/jrnl/HEAD/!https://github.com/jrnl-org/jrnl/!' "$FILENAME"
-
-BRANCH=$TRAVIS_BRANCH
-if [[ $TRAVIS_BRANCH == $TRAVIS_TAG ]]; then
-  BRANCH='master'
-fi
 
 git config --global user.email "jrnl.bot@gmail.com"
 git config --global user.name "Jrnl Bot"

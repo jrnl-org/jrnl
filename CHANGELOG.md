@@ -8,18 +8,32 @@
 
 - Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
 
+**Fixed bugs:**
+
+- Listing all entries in DayOne Classic journal throws IndexError [\#786](https://github.com/jrnl-org/jrnl/pull/786) ([MinchinWeb](https://github.com/MinchinWeb))
+- Add UTC support for failing DayOne tests [\#785](https://github.com/jrnl-org/jrnl/pull/785) ([MinchinWeb](https://github.com/MinchinWeb))
+
 **Build:**
 
+- Stop multiple changelog generators from crashing into each other [\#845](https://github.com/jrnl-org/jrnl/pull/845) ([wren](https://github.com/wren))
+- Don't re-run tests on deployment [\#839](https://github.com/jrnl-org/jrnl/pull/839) ([wren](https://github.com/wren))
+- Put back build lines in Poetry config [\#838](https://github.com/jrnl-org/jrnl/pull/838) ([wren](https://github.com/wren))
+- Restore emoji test [\#837](https://github.com/jrnl-org/jrnl/pull/837) ([micahellison](https://github.com/micahellison))
+- Fix crashing unicode Travis tests on Windows and fail build if Windows tests fail [\#836](https://github.com/jrnl-org/jrnl/pull/836) ([micahellison](https://github.com/micahellison))
+- Remove poetry from build system in pyproject config to fix `brew install` [\#830](https://github.com/jrnl-org/jrnl/pull/830) ([wren](https://github.com/wren))
 - Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
 
 **Updated documentation:**
 
+- Docs: Fix broken links in recipes.md [\#854](https://github.com/jrnl-org/jrnl/pull/854) ([lrvl](https://github.com/lrvl))
+- Fix fish history instructions. [\#846](https://github.com/jrnl-org/jrnl/pull/846) ([aureooms](https://github.com/aureooms))
+- Update site description [\#841](https://github.com/jrnl-org/jrnl/pull/841) ([wren](https://github.com/wren))
+- Get rid of dumb sex joke [\#840](https://github.com/jrnl-org/jrnl/pull/840) ([wren](https://github.com/wren))
 - Updating/clarifying template explanation [\#829](https://github.com/jrnl-org/jrnl/pull/829) ([heymajor](https://github.com/heymajor))
-
 
 ## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2-beta2...v2.2)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...v2.2)
 
 
 **Implemented enhancements:**
@@ -59,7 +73,7 @@
 
 ## [v2.1.1](https://pypi.org/project/jrnl/v2.1.1/) (2019-11-26)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1-beta...v2.1.1)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.post2...v2.1.1)
 
 **Implemented enhancements:**
 
@@ -82,7 +96,7 @@
 
 ## [v2.1.post2](https://pypi.org/project/jrnl/v2.1.post2/) (2019-11-11)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1-beta6...v2.1.post2)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.1...v2.1.post2)
 
 **Fixed bugs:**
 
@@ -100,7 +114,7 @@
 
 ## [v2.0.1](https://pypi.org/project/jrnl/v2.0.1/) (2019-09-26)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.1-beta...v2.0.1)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0.0...v2.0.1)
 
 **Implemented enhancements:**
 
@@ -118,7 +132,9 @@
 
 ## [v2.0.0](https://pypi.org/project/jrnl/v2.0.0/) (2019-08-24)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.0-rc4...v2.0.0)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/1.9.8...v2.0.0)
+
+🚨 **BREAKING CHANGES** 🚨
 
 **Implemented enhancements:**
 - Change cryptographic backend from PyCrypto to cryptography.io
