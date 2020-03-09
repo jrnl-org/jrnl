@@ -35,6 +35,7 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...v2.2)
 
+
 **Implemented enhancements:**
 
 - Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
@@ -52,6 +53,7 @@
 
 - Fix issue where jrnl would always out 'source' for version, fix Poetry config to build and publish properly [\#820](https://github.com/jrnl-org/jrnl/pull/820) ([wren](https://github.com/wren))
 - Unpin poetry [\#808](https://github.com/jrnl-org/jrnl/pull/808) ([wren](https://github.com/wren))
+- Fix all skipped tests on Travis Windows builds by preserving newlines [\#823](https://github.com/jrnl-org/jrnl/pull/823) ([micahellison](https://github.com/micahellison))
 - Change PyPI auth method in build pipeline [\#807](https://github.com/jrnl-org/jrnl/pull/807) ([wren](https://github.com/wren))
 - Automagically update the changelog you see before your very eyes! [\#806](https://github.com/jrnl-org/jrnl/pull/806) ([wren](https://github.com/wren))
 - Update Black version and lock file to fix builds on develop branch [\#784](https://github.com/jrnl-org/jrnl/pull/784) ([wren](https://github.com/wren))

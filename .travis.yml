@@ -147,4 +147,3 @@ jobs:
         - git add pyproject.toml
         - git commit -m "Incrementing version to ${TRAVIS_TAG} [ci skip]"
         - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
-
