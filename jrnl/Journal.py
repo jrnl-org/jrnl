@@ -234,6 +234,17 @@ class Journal:
 
         self.entries = result
 
+    def prompt_delete_entries(self):
+        """Prompts for deletion of entries in a journal."""
+        print("Confirm each entry you want to delete [N/y]:")
+        to_delete: List[Entry] = []
+        for entry in self.entries:
+            response = input("jrnl: Delete entry '{}'? ".format(entry.pprint(short=True)))
+            if response == "y":
+                to_delete.append(entry)
+
+        self.entries = [entry for entry in self.entries if entry not in to_delete]
+
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""

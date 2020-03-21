@@ -174,6 +174,13 @@ def parse_args(args=None):
         action="store_true",
     )
 
+    exporting.add_argument(
+        "--delete",
+        dest="delete",
+        action="store_true",
+        help="Opens an interactive interface for deleting entries.",
+    )
+    
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     if args is None:
@@ -194,7 +201,7 @@ def guess_mode(args, config):
         args.decrypt is not False
         or args.encrypt is not False
         or args.export is not False
-        or any((args.short, args.tags, args.edit))
+        or any((args.short, args.tags, args.edit, args.delete))
     ):
         compose = False
         export = True
@@ -455,4 +462,8 @@ def run(manual_args=None):
             print("[{}]".format(", ".join(prompts).capitalize()), file=sys.stderr)
         journal.entries += other_entries
         journal.sort()
+        journal.write()
+
+    elif args.delete:
+        journal.prompt_delete_entries()
         journal.write()
