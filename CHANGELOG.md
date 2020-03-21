@@ -25,7 +25,9 @@
 
 **Updated documentation:**
 
+- Update url for "beautiful timeline" in export.md [\#879](https://github.com/jrnl-org/jrnl/pull/879) ([NGenetzky](https://github.com/NGenetzky))
 - Docs: Fix broken links in recipes.md [\#854](https://github.com/jrnl-org/jrnl/pull/854) ([lrvl](https://github.com/lrvl))
+- Fix configuration slashes and indentation in advanced usage documentation [\#852](https://github.com/jrnl-org/jrnl/pull/852) ([aallbrig](https://github.com/aallbrig))
 - Fix fish history instructions. [\#846](https://github.com/jrnl-org/jrnl/pull/846) ([aureooms](https://github.com/aureooms))
 - Update site description [\#841](https://github.com/jrnl-org/jrnl/pull/841) ([wren](https://github.com/wren))
 - Get rid of dumb sex joke [\#840](https://github.com/jrnl-org/jrnl/pull/840) ([wren](https://github.com/wren))
