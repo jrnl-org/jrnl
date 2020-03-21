@@ -106,6 +106,15 @@ The pull request template contains a checklist full of housekeeping items. Pleas
 
 If a pull request contains failing tests, it probably will not be reviewed, and it definitely will not be approved. However, if you need help resolving a failing test, please mention that in your PR.
 
+### Finding things to work on
+
+You can search the [jrnl GitHub issues](https://github.com/jrnl-org/jrnl/issues) by [label](https://github.com/jrnl-org/jrnl/labels) for things to work on. Here are some labels worth searching:
+
+* [critical](https://github.com/jrnl-org/jrnl/labels/critical)
+* [help wanted](https://github.com/jrnl-org/jrnl/labels/help%20wanted)
+* [bug](https://github.com/jrnl-org/jrnl/labels/bug)
+* [enhancement](https://github.com/jrnl-org/jrnl/labels/enhancement)
+
 ### A note for new programmers and programmers new to python
 
 Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.
