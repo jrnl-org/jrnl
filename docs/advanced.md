@@ -64,8 +64,8 @@ for example:
 
 ``` yaml
 journals:
-  default: ~\journal.txt
-  work: ~\work.txt
+  default: ~/journal.txt
+  work: ~/work.txt
 ```
 
 The `default` journal gets created the first time you start `jrnl`
@@ -86,11 +86,11 @@ If your `jrnl.yaml` looks like this:
 ``` yaml
 encrypt: false
 journals:
-default: ~/journal.txt
-work:
-  journal: ~/work.txt
-  encrypt: true
-food: ~/my_recipes.txt
+  default: ~/journal.txt
+  work:
+    journal: ~/work.txt
+    encrypt: true
+  food: ~/my_recipes.txt
 ```
 
 Your `default` and your `food` journals won't be encrypted, however your
