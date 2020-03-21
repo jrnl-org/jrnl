@@ -28,7 +28,7 @@ Can do
 jrnl --export json
 ```
 
-Why not create a [beautiful timeline](http://timeline.verite.co/) of
+Why not create a [beautiful timeline](http://timeline.knightlab.com/) of
 your journal?
 
 ## Markdown export
