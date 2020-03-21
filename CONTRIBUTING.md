@@ -38,7 +38,7 @@ The nature of jrnl means we deal with extremely sensitive data, and can't risk d
 
 ### Prereleases
 
-[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use pipx to fetch them and test them. See the [changelog](changelog.md) for information on what has changed with each release.
+[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use [pipx](https://pypi.org/project/pipx/) to fetch them and test them. See the [changelog](CHANGELOG.md) for information on what has changed with each release.
 
 ### Pull requests
 
@@ -90,11 +90,13 @@ A typical development workflow includes:
    * `jrnl` (with or without arguments as necessary)
  * Linting the code to standardize its style: `make lint`
 
-### Updating tests
+### Updating automated tests
 
-For testing, jrnl uses [behave](https://behave.readthedocs.io/) tests, which are all in the `features` folder. When resolving bugs or adding new functionality, please add tests to prevent that functionality from breaking in the future.
+When resolving bugs or adding new functionality, please add tests to prevent that functionality from breaking in the future. If you notice any functionality that isn't covered in the tests, feel free to submit a test-only pull request as well.
 
-You don't need to add a new feature to add tests, also. Test-only PRs are welcome.
+For testing, jrnl uses [behave](https://behave.readthedocs.io/) tests, which are all in the `features` folder.
+
+Many tests can be created by only editing `feature` files with the same format as other tests. For more complicated functionality, you may need to implement steps in `features/steps` which are then executed by your tests in the `feature` files.
 
 ### A note for new programmers and programmers new to python
 
