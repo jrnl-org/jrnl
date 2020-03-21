@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
-from . import Entry
-from . import util
-from . import time
+import logging
 import os
 import sys
 import re
+
 from datetime import datetime
-import logging
+from jrnl import Entry, util, time
 
 log = logging.getLogger(__name__)
 
@@ -111,7 +110,8 @@ class Journal:
     def _load(self, filename):
         raise NotImplementedError
 
-    def _store(self, filename, text):
+    @classmethod
+    def _store(filename, text):
         raise NotImplementedError
 
     def _parse(self, journal_txt):
@@ -236,21 +236,26 @@ class Journal:
 
     def prompt_delete_entries(self):
         """Prompts for deletion of entries in a journal."""
-        print("Confirm each entry you want to delete [N/y]:")
-        to_delete: List[Entry] = []
+
+        to_delete = []
+
+        def ask_delete(entry):
+            return util.yesno(
+                f"Delete entry '{entry.pprint(short=True)}'?", default=False,
+            )
+
         for entry in self.entries:
-            response = input("jrnl: Delete entry '{}'? ".format(entry.pprint(short=True)))
-            if response == "y":
+            if ask_delete(entry):
                 to_delete.append(entry)
 
         self.entries = [entry for entry in self.entries if entry not in to_delete]
+        self.write()
 
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
         raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
-        starred = False
         # Split raw text into title and body
         sep = re.search(r"\n|[?!.]+ +\n?", raw)
         first_line = raw[: sep.end()].strip() if sep else raw
