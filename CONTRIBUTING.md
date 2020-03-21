@@ -38,15 +38,15 @@ The nature of jrnl means we deal with extremely sensitive data, and can't risk d
 
 ### Prereleases
 
-(Prereleases are deployed through PyPi much like normal releases)[https://pypi.org/project/jrnl/#history]. You can use pipx to fetch them and test them. See the (changelog)[changelog.md] for information on what has changed with each release.
+[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use pipx to fetch them and test them. See the [changelog](changelog.md) for information on what has changed with each release.
 
 ### Pull requests
 
-If you are comfortable enough with git, you're encouraged to fetch particular (pull requests)[https://github.com/jrnl-org/jrnl/pulls], test them yourself, and report back your findings. Bonus points if you can add a screencast of how the new feature works.
+If you are comfortable enough with git, you're encouraged to fetch particular [pull requests](https://github.com/jrnl-org/jrnl/pulls), test them yourself, and report back your findings. Bonus points if you can add a screencast of how the new feature works.
 
 ### Confirm bug reports
 
-There are always (open bugs among our GitHub issues)[https://github.com/jrnl-org/jrnl/issues?q=is%3Aissue+is%3Aopen+label%3Abug] and many are specific to a particular OS, Python version, or jrnl version. A simple comment like "Confirmed on jrnl v2.2, MacOS 10.15, Python 3.8.1" would be extremely helpful in tracking down bugs.
+There are always [open bugs among our GitHub issues](https://github.com/jrnl-org/jrnl/issues?q=is%3Aissue+is%3Aopen+label%3Abug) and many are specific to a particular OS, Python version, or jrnl version. A simple comment like "Confirmed on jrnl v2.2, MacOS 10.15, Python 3.8.1" would be extremely helpful in tracking down bugs.
 
 ### Automate tests
 
@@ -64,22 +64,11 @@ When discussing new features, please keep in mind our design goals. jrnl strives
 
 ## Developing
 
-### A note for new programmers and programmers new to python
+### Getting your environment set up
 
-Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.
+You will need to install [poetry](https://poetry.eustace.io/) to develop jrnl. It will take care of all of the project's other dependencies, except for [mkdocs](https://www.mkdocs.org), which you must install if you wish to preview documentation changes.
 
-If you have a question, please don't hesitate to ask! Python is known for its welcoming community and openness to novice programmers, so feel free to fork the code and play around with it! If you create something you want to share with us, please create a pull request. We never expect pull requests to be perfect, idiomatic, instantly mergeable code. We can work through it together!
-
-### Environment and tooling
-
-The jrnl source uses [poetry](https://poetry.eustace.io/) for dependency management. You will need to install it to develop journal.
-
- * To run tests: `make test` (or `poetry run behave` if on Windows)
- * To run the source: `poetry install` then `poetry shell` then run `jrnl` with or without arguments as necessary
-
-For testing, jrnl uses [behave](https://behave.readthedocs.io/).
-
-## Branching strategy
+### Understanding the branches
 
 jrnl uses two primary branches:
 
@@ -87,3 +76,28 @@ jrnl uses two primary branches:
  * `master` - for releases
 
 In general, pull requests should be made on the `develop` branch.
+
+### Common development commands
+
+You can find an inventory of commands in the `makefile`. \*nix users can run the commands by typing `make` followed by the name of the command; however, Windows users will need to type out the commands directly, or install a third-party make tool such as [GNU Make for Windows](http://gnuwin32.sourceforge.net/packages/make.htm).
+
+A typical development workflow includes:
+
+ * Running tests: `make test`
+ * Running the source in a virtual environment:
+   * `poetry install`
+   * `poetry shell`
+   * `jrnl` (with or without arguments as necessary)
+ * Linting the code to standardize its style: `make lint`
+
+### Updating tests
+
+For testing, jrnl uses [behave](https://behave.readthedocs.io/) tests, which are all in the `features` folder. When resolving bugs or adding new functionality, please add tests to prevent that functionality from breaking in the future.
+
+You don't need to add a new feature to add tests, also. Test-only PRs are welcome.
+
+### A note for new programmers and programmers new to python
+
+Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.
+
+If you have a question, please don't hesitate to ask! Python is known for its welcoming community and openness to novice programmers, so feel free to fork the code and play around with it! If you create something you want to share with us, please create a pull request. We never expect pull requests to be perfect, idiomatic, instantly mergeable code. We can work through it together!
