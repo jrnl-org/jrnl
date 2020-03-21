@@ -13,7 +13,7 @@ If you use jrnl, you can totally make our day by just saying "thanks for the cod
 
 ## Docs and Typos
 
-If you find a typo or a mistake in the docs, please fix it right away and send a pull request. The Right Way™ to fix the docs is to edit the `docs/*.md` files on the **master** branch. You can see the result if you run `make html` inside the project's root directory, which will open a browser that hot-reloads as you change the docs. This requires [mkdocs](https://www.mkdocs.org) to be installed. The `gh-pages` branch is automatically maintained and updates from `master`; you should never have to edit that.
+If you find a typo or a mistake in the docs, please fix it right away and send a pull request. The Right Way™ to fix the docs is to edit the `docs/*.md` files on the **develop** branch. You can see the result if you run `make html` inside the project's root directory, which will open a browser that hot-reloads as you change the docs. This requires [mkdocs](https://www.mkdocs.org) to be installed. The `gh-pages` branch is automatically maintained and generated after your changes are merged; you should never have to edit that.
 
 ## Bugs
 
@@ -43,3 +43,13 @@ The jrnl source uses [poetry](https://poetry.eustace.io/) for dependency managem
  * To run the source: `poetry install` then `poetry shell` then run `jrnl` with or without arguments as necessary
 
 For testing, jrnl uses [behave](https://behave.readthedocs.io/).
+
+## Branching strategy
+
+jrnl uses two primary branches:
+
+ * `develop` - for ongoing development
+ * `master` - for releases
+
+ In general, pull requests should be made on the `develop` branch.
+ 
