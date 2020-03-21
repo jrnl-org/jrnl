@@ -16,13 +16,13 @@ Before starting, please read the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Reporting Bugs
 
-Please report bugs by [opening a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) and describing it as well as possible. Many bugs are specific to a particular operating system and Python version, so details are encouraged.
+Please report bugs by [opening a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) and describing it as well as possible. Many bugs are specific to a particular operating system and Python version, so please include that information!
 
 ## Editing Documentation
 
 If you find a typo or a mistake in the docs, please fix it right away and send a pull request.
 
-To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result if you run `make html` (or `poetry run mkdocs serve` if on Windows) inside the project's root directory, then navigating your browser to [locahost:8000](http://localhost:8000). This requires [mkdocs](https://www.mkdocs.org) to be installed.
+To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result if you run `make html` (or `poetry run mkdocs serve` if on Windows) inside the project's root directory, then navigating your browser to [locahost:8000](http://localhost:8000).
 
 The `gh-pages` branch is automatically maintained and generated after your changes are merged. You should never have to edit that branch.
 
@@ -42,7 +42,7 @@ The nature of jrnl means we deal with extremely sensitive data, and can't risk d
 
 ### Pull requests
 
-If you are comfortable enough with git, you're encouraged to fetch particular [pull requests](https://github.com/jrnl-org/jrnl/pulls), test them yourself, and report back your findings. Bonus points if you can add a screencast of how the new feature works.
+If you are comfortable enough with git, feel free to fetch particular [pull requests](https://github.com/jrnl-org/jrnl/pulls), test them yourself, and report back your findings. Bonus points if you can add a screencast of how the new feature works.
 
 ### Confirm bug reports
 
@@ -66,7 +66,7 @@ When discussing new features, please keep in mind our design goals. jrnl strives
 
 ### Getting your environment set up
 
-You will need to install [poetry](https://poetry.eustace.io/) to develop jrnl. It will take care of all of the project's other dependencies, except for [mkdocs](https://www.mkdocs.org), which you must install if you wish to preview documentation changes.
+You will need to install [poetry](https://poetry.eustace.io/) to develop jrnl. It will take care of all of the project's other dependencies.
 
 ### Understanding the branches
 
