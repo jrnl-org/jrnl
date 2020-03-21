@@ -3,16 +3,19 @@ os: linux
 language: python
 
 cache:
-  - pip
+  pip: true
+  directories:
+    - $HOME/virtualenv
 
 git:
   depth: false
+  autocrlf: false
 
 before_install:
   - date
 
 install:
-  - pip install poetry~=0.12.17
+  - pip install --upgrade poetry
   - poetry install
   - poetry run python --version
 
@@ -27,6 +30,7 @@ aliases:
     cache:
       directories:
         - $HOME/.pyenv/versions
+        - $HOME/Library/Caches/pypoetry
     before_install:
       - eval "$(pyenv init -)"
       - pyenv install -s $JRNL_PYTHON_VERSION
@@ -36,11 +40,17 @@ aliases:
   test_windows: &test_windows
     os: windows
     language: shell
+    env: &env_windows
+      PATH: /c/Python36:/c/Python36/Scripts:/c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:$PATH
+      PYTHONIOENCODING: UTF-8
     cache:
       directories:
         - /c/Python36
         - /c/Python37
         - /c/Python38
+        - /c/ProgramData/chocolatey/lib
+        - /c/ProgramData/chocolatey/bin
+        - /c/Users/travis/AppData/Local/pypoetry/Cache
     before_install:
       - choco install python --version $JRNL_PYTHON_VERSION
       - python -m pip install --upgrade pip
@@ -50,7 +60,6 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: nightly
-    - os: windows
 
   include:
     - name: Lint, via Black
@@ -66,13 +75,13 @@ jobs:
       name: Python 3.6 on MacOS
       python: 3.6
       env:
-        - JRNL_PYTHON_VERSION=3.6.8
+        JRNL_PYTHON_VERSION: 3.6.8
     - <<: *test_windows
       name: Python 3.6 on Windows
       python: 3.6
       env:
-        - JRNL_PYTHON_VERSION=3.6.8
-        - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.6.8
 
     # Python 3.7 Tests
     - name: Python 3.7 on Linux
@@ -81,13 +90,13 @@ jobs:
       name: Python 3.7 on MacOS
       python: 3.7
       env:
-        - JRNL_PYTHON_VERSION=3.7.5
+        JRNL_PYTHON_VERSION: 3.7.5
     - <<: *test_windows
       name: Python 3.7 on Windows
       python: 3.7
       env:
-        - JRNL_PYTHON_VERSION=3.7.5
-        - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.7.5
 
     # Python 3.8 Tests
     - name: Python 3.8 on Linux
@@ -96,13 +105,13 @@ jobs:
       name: Python 3.8 on MacOS
       python: 3.8
       env:
-        - JRNL_PYTHON_VERSION=3.8.0
+        JRNL_PYTHON_VERSION: 3.8.0
     - <<: *test_windows
       name: Python 3.8 on Windows
       python: 3.8
       env:
-        - JRNL_PYTHON_VERSION=3.8.0
-        - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.8.0
 
     # ... and beyond!
     - name: Python nightly on Linux
@@ -112,22 +121,35 @@ jobs:
     - name: Python 3.7 on Linux, not UTC
       python: 3.7
       env:
-        - TZ=America/Edmonton
+        TZ: America/Edmonton
+
+    # Changelog for Unreleased changes
+    - stage: Update Changelog
+      if: (tag IS present) OR (branch = develop AND type NOT IN (pull_request))
+      install:
+        - echo 'Skipping install'
+      script:
+        - ./.build/generate_changelog.sh
 
     - stage: Deploy
-      if: branch = master AND tag IS present
+      if: tag IS present
       before_deploy:
-        - poetry config http-basic.pypi "$PYPI_USER" "$PYPI_PASS"
         - poetry version "$TRAVIS_TAG"
         - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
         - poetry build
+      script:
+        - echo "Deployment starting..."
       deploy:
         - provider: script
           script: poetry publish
+          skip_cleanup: true
+          on:
+            branch: master
+            tags: true
       after_deploy:
         - git config --global user.email "jrnl.bot@gmail.com"
         - git config --global user.name "Jrnl Bot"
         - git checkout master
         - git add pyproject.toml
-        - git commit -m "Incrementing version to ${TRAVIS_TAG}"
+        - git commit -m "Incrementing version to ${TRAVIS_TAG} [ci skip]"
         - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master

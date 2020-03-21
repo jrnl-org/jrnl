@@ -82,3 +82,19 @@ Feature: Tagging
             """
             @thought             : 2
             """
+
+
+    Scenario: Printing a journal that has multiline entries with tags
+        Given we use the config "multiline-tags.yaml"
+        When we run "jrnl -n 1"
+        Then we should get no error
+        and the output should be
+            """
+            2013-06-09 15:39 Multiple @line entry with @tags.
+            | Tag with @punctuation. afterwards
+            | @TagOnLineAloneWithOutPunctuation
+            | @TagOnLineAloneWithPunctuation.
+            | Text before @tag. And After.
+            | @hi. Hello
+            | hi Hello
+            """

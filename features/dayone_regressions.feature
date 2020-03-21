@@ -23,10 +23,3 @@ Feature: Zapped Dayone bugs stay dead!
             2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
             | I'm feeling sore because I forgot to stretch.
             """
-
-    @skip_win
-    Scenario: Opening an folder that's not a DayOne folder gives a nice error message
-        Given we use the config "empty_folder.yaml"
-        When we run "jrnl Herro"
-        Then we should get an error
-        Then we should see the message "is a directory, but doesn't seem to be a DayOne journal either"

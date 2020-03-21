@@ -70,17 +70,59 @@ jrnlimport () {
 
 ### Using templates
 
-Say you always want to use the same template for creating new entries.
-If you have an [external editor](../advanced) set up, you can use this:
+!!! note
+    Templates require an [external editor](./advanced.md) be configured. 
+
+A template is a code snippet that makes it easier to enter use repeated text 
+each time a new journal entry is started. There are two ways you can utilize
+templates in your entries.  
+
+#### 1. Command line arguments
+
+If you had a `template.txt` file with the following contents:
 
 ```sh
-jrnl < my_template.txt
-jrnl -1 --edit
+My Personal Journal
+Title: 
+
+Body:
 ```
 
-Another nice solution that allows you to define individual prompts comes
-from [Jacobo de
-Vera](https://github.com/maebert/jrnl/issues/194#issuecomment-47402869):
+The `template.txt` file could be used to create a new entry with these 
+command line arguements:
+
+```sh
+jrnl < template.txt     # Imports template.txt as the most recent entry
+jrnl -1 --edit          # Opens the most recent entry in the editor 
+```
+
+#### 2. Include the template file in `jrnl.yaml`
+
+A more efficient way to work with a template file is to declare the file
+in your config file by changing the `template` setting from `false` to the
+template file's path in double quotes:
+
+```sh
+...
+template: "/path/to/template.txt"
+...
+```
+
+Changes can be saved as you continue writing the journal entry and will be
+logged as a new entry in the journal you specified in the original argument.
+
+!!! tip 
+    To read your journal entry or to verify the entry saved, you can use this 
+    command: `jrnl -n 1` (Check out [Import and Export](./export.md) for more export options).
+
+```sh
+jrnl -n 1
+```
+
+### Prompts on shell reload
+
+If you'd like to be prompted each time you refresh your shell, you can include
+this in your `.bash_profile`:
 
 ```sh
 function log_question()
@@ -92,6 +134,11 @@ function log_question()
 log_question 'What did I achieve today?'
 log_question 'What did I make progress with?'
 ```
+
+Whenever your shell is reloaded, you will be prompted to answer each of the 
+questions in the example above. Each answer will be logged as a separate 
+journal entry at the `default_hour` and `default_minute` listed in your 
+`jrnl.yaml` [config file](../advanced/#configuration-file).
 
 ### Display random entry
 
@@ -107,10 +154,11 @@ jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
 
 ## External editors
 
-To use external editors for writing and editing journal entries, set
-them up in your `jrnl.yaml` (see `advanced usage <advanced>` for
-details). Generally, after writing an entry, you will have to save and
-close the file to save the changes to jrnl.
+Configure your preferred external editor by updating the `editor` option 
+in your `jrnl.yaml` file. (See [advanced usage](./advanced.md) for details). 
+
+!!! note
+    To save and log any entry edits, save and close the file.
 
 ### Sublime Text
 

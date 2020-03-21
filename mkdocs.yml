@@ -12,7 +12,7 @@ markdown_extensions:
   - admonition
 repo_url: https://github.com/jrnl-org/jrnl/
 site_author: Manuel Ebert
-site_description: Never Worry about Money Again.
+site_description: Collect your thoughts and notes without leaving the command line.
 nav:
   - Overview: overview.md
   - Quickstart: installation.md

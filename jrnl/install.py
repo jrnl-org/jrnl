@@ -9,7 +9,7 @@ from . import upgrade
 from . import __version__
 from .Journal import PlainJournal
 from .EncryptedJournal import EncryptedJournal
-from .util import UserAbort
+from .util import UserAbort, verify_config
 from collections.abc import Mapping
 import yaml
 import logging
@@ -48,7 +48,7 @@ def module_exists(module_name):
 
 default_config = {
     "version": __version__,
-    "journals": {DEFAULT_JOURNAL_KEY: JOURNAL_FILE_PATH},
+    "journals": {"default": JOURNAL_FILE_PATH},
     "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
     "encrypt": False,
     "template": False,
@@ -59,6 +59,7 @@ default_config = {
     "highlight": True,
     "linewrap": 79,
     "indent_character": "|",
+    "colors": {"date": "none", "title": "none", "body": "none", "tags": "none",},
 }
 
 
@@ -114,6 +115,8 @@ def load_or_install_jrnl():
         if config.get("version") and config.get("version") < __version__:
             upgraded_user_config = upgrade_config(config)
             save_config(upgraded_user_config)
+
+        verify_config(config)
 
         return config
     else:
