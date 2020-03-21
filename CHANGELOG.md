@@ -2,7 +2,19 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...HEAD)
+
+**Build:**
+
+- Update travis caching to speed up builds [\#871](https://github.com/jrnl-org/jrnl/pull/871) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+
+- Update and reorganize CONTRIBUTING [\#885](https://github.com/jrnl-org/jrnl/pull/885) ([micahellison](https://github.com/micahellison))
+
+## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3-beta...v2.3)
 
 **Implemented enhancements:**
 
@@ -25,7 +37,9 @@
 
 **Updated documentation:**
 
+- Update url for "beautiful timeline" in export.md [\#879](https://github.com/jrnl-org/jrnl/pull/879) ([NGenetzky](https://github.com/NGenetzky))
 - Docs: Fix broken links in recipes.md [\#854](https://github.com/jrnl-org/jrnl/pull/854) ([lrvl](https://github.com/lrvl))
+- Fix configuration slashes and indentation in advanced usage documentation [\#852](https://github.com/jrnl-org/jrnl/pull/852) ([aallbrig](https://github.com/aallbrig))
 - Fix fish history instructions. [\#846](https://github.com/jrnl-org/jrnl/pull/846) ([aureooms](https://github.com/aureooms))
 - Update site description [\#841](https://github.com/jrnl-org/jrnl/pull/841) ([wren](https://github.com/wren))
 - Get rid of dumb sex joke [\#840](https://github.com/jrnl-org/jrnl/pull/840) ([wren](https://github.com/wren))
