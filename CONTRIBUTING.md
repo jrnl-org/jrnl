@@ -100,9 +100,11 @@ Many tests can be created by only editing `feature` files with the same format a
 
 ### Submitting pull requests
 
-When you're ready, feel free to submit a pull request. The jrnl maintainers generally review the pull requests every two weeks, but the continuous integration pipeline will run on automated tests on it within a matter of minutes and will report back any issues it has found with your code across a variety of environments.
+When you're ready, feel free to submit a pull request (PR). The jrnl maintainers generally review the pull requests every two weeks, but the continuous integration pipeline will run on automated tests on it within a matter of minutes and will report back any issues it has found with your code across a variety of environments.
 
 The pull request template contains a checklist full of housekeeping items. Please fill them out as necessary when you submit.
+
+If a pull request contains failing tests, it probably will not be reviewed, and it definitely will not be approved. However, if you need help resolving a failing test, please mention that in your PR.
 
 ### A note for new programmers and programmers new to python
 
