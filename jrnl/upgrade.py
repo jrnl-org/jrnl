@@ -11,10 +11,29 @@ import os
 def backup(filename, binary=False):
     print(f"  Created a backup at {filename}.backup", file=sys.stderr)
     filename = os.path.expanduser(os.path.expandvars(filename))
-    with open(filename, "rb" if binary else "r") as original:
-        contents = original.read()
-    with open(filename + ".backup", "wb" if binary else "w") as backup:
-        backup.write(contents)
+
+    try:
+        with open(filename, "rb" if binary else "r") as original:
+            contents = original.read()
+
+        with open(filename + ".backup", "wb" if binary else "w") as backup:
+            backup.write(contents)
+    except FileNotFoundError:
+        print(f"\nError: {filename} does not exist.")
+        try:
+            cont = util.yesno(f"\nCreate {filename}?", default=False)
+            if not cont:
+                raise KeyboardInterrupt
+
+        except KeyboardInterrupt:
+            raise UserAbort("jrnl NOT upgraded, exiting.")
+
+
+def check_exists(path):
+    """
+    Checks if a given path exists.
+    """
+    return os.path.exists(path)
 
 
 def upgrade_jrnl_if_necessary(config_path):
@@ -56,7 +75,11 @@ older versions of jrnl anymore.
             encrypt = config.get("encrypt")
             path = journal_conf
 
-        path = os.path.expanduser(path)
+        if os.path.exists(os.path.expanduser(path)):
+            path = os.path.expanduser(path)
+        else:
+            print(f"\nError: {path} does not exist.")
+            continue
 
         if encrypt:
             encrypted_journals[journal_name] = path
@@ -144,6 +167,7 @@ older versions of jrnl anymore.
         j.write()
 
     print("\nUpgrading config...", file=sys.stderr)
+
     backup(config_path)
 
     print("\nWe're all done here and you can start enjoying jrnl 2.", file=sys.stderr)
