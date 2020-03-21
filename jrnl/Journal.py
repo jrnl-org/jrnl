@@ -25,17 +25,17 @@ class Tag:
 
 
 class Journal:
-    def __init__(self, name='default', **kwargs):
+    def __init__(self, name="default", **kwargs):
         self.config = {
-            'journal': "journal.txt",
-            'encrypt': False,
-            'default_hour': 9,
-            'default_minute': 0,
-            'timeformat': "%Y-%m-%d %H:%M",
-            'tagsymbols': '@',
-            'highlight': True,
-            'linewrap': 80,
-            'indent_character': '|',
+            "journal": "journal.txt",
+            "encrypt": False,
+            "default_hour": 9,
+            "default_minute": 0,
+            "timeformat": "%Y-%m-%d %H:%M",
+            "tagsymbols": "@",
+            "highlight": True,
+            "linewrap": 80,
+            "indent_character": "|",
         }
         self.config.update(kwargs)
         # Set up date parser
@@ -57,21 +57,28 @@ class Journal:
         another journal object"""
         new_journal = cls(other.name, **other.config)
         new_journal.entries = other.entries
-        log.debug("Imported %d entries from %s to %s", len(new_journal), other.__class__.__name__, cls.__name__)
+        log.debug(
+            "Imported %d entries from %s to %s",
+            len(new_journal),
+            other.__class__.__name__,
+            cls.__name__,
+        )
         return new_journal
 
     def import_(self, other_journal_txt):
-        self.entries = list(frozenset(self.entries) | frozenset(self._parse(other_journal_txt)))
+        self.entries = list(
+            frozenset(self.entries) | frozenset(self._parse(other_journal_txt))
+        )
         self.sort()
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
-        filename = filename or self.config['journal']
+        filename = filename or self.config["journal"]
 
         if not os.path.exists(filename):
+            self.create_file(filename)
             print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
-            self._create(filename)
 
         text = self._load(filename)
         self.entries = self._parse(text)
@@ -81,7 +88,7 @@ class Journal:
 
     def write(self, filename=None):
         """Dumps the journal into the config file, overwriting it"""
-        filename = filename or self.config['journal']
+        filename = filename or self.config["journal"]
         text = self._to_text()
         self._store(filename, text)
 
@@ -93,6 +100,11 @@ class Journal:
                 return False
         return True
 
+    @staticmethod
+    def create_file(filename):
+        with open(filename, "w"):
+            pass
+
     def _to_text(self):
         return "\n".join([str(e) for e in self.entries])
 
@@ -100,10 +112,6 @@ class Journal:
         raise NotImplementedError
 
     def _store(self, filename, text):
-        raise NotImplementedError
-
-    @classmethod
-    def _create(cls, filename):
         raise NotImplementedError
 
     def _parse(self, journal_txt):
@@ -128,7 +136,7 @@ class Journal:
 
             if new_date:
                 if entries:
-                    entries[-1].text = journal_txt[last_entry_pos:match.start()]
+                    entries[-1].text = journal_txt[last_entry_pos : match.start()]
                 last_entry_pos = match.end()
                 entries.append(Entry.Entry(self, date=new_date))
 
@@ -145,22 +153,7 @@ class Journal:
 
     def pprint(self, short=False):
         """Prettyprints the journal's entries"""
-        sep = "\n"
-        pp = sep.join([e.pprint(short=short) for e in self.entries])
-        if self.config['highlight']:  # highlight tags
-            if self.search_tags:
-                for tag in self.search_tags:
-                    tagre = re.compile(re.escape(tag), re.IGNORECASE)
-                    pp = re.sub(tagre,
-                                lambda match: util.colorize(match.group(0)),
-                                pp)
-            else:
-                pp = re.sub(
-                    Entry.Entry.tag_regex(self.config['tagsymbols']),
-                    lambda match: util.colorize(match.group(0)),
-                    pp
-                )
-        return pp
+        return "\n".join([e.pprint(short=short) for e in self.entries])
 
     def __str__(self):
         return self.pprint()
@@ -182,14 +175,22 @@ class Journal:
         """Returns a set of tuples (count, tag) for all tags present in the journal."""
         # Astute reader: should the following line leave you as puzzled as me the first time
         # I came across this construction, worry not and embrace the ensuing moment of enlightment.
-        tags = [tag
-                for entry in self.entries
-                for tag in set(entry.tags)]
+        tags = [tag for entry in self.entries for tag in set(entry.tags)]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
         tag_counts = {(tags.count(tag), tag) for tag in tags}
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
-    def filter(self, tags=[], start_date=None, end_date=None, starred=False, strict=False, short=False, exclude=[]):
+    def filter(
+        self,
+        tags=[],
+        start_date=None,
+        end_date=None,
+        starred=False,
+        strict=False,
+        short=False,
+        contains=None,
+        exclude=[],
+    ):
         """Removes all entries from the journal that don't match the filter.
 
         tags is a list of tags, each being a string that starts with one of the
@@ -211,13 +212,24 @@ class Journal:
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
         excluded = lambda tags: len([tag for tag in tags if tag in excluded_tags]) > 0
+        if contains:
+            contains_lower = contains.casefold()
+
         result = [
-            entry for entry in self.entries
+            entry
+            for entry in self.entries
             if (not tags or tagged(entry.tags))
             and (not starred or entry.starred)
             and (not start_date or entry.date >= start_date)
             and (not end_date or entry.date <= end_date)
             and (not exclude or not excluded(entry.tags))
+            and (
+                not contains
+                or (
+                    contains_lower in entry.title.casefold()
+                    or contains_lower in entry.body.casefold()
+                )
+            )
         ]
 
         self.entries = result
@@ -237,10 +249,11 @@ class Journal:
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
-        raw = raw.replace('\\n ', '\n').replace('\\n', '\n')
+        raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
+        starred = False
         # Split raw text into title and body
         sep = re.search(r"\n|[?!.]+ +\n?", raw)
-        first_line = raw[:sep.end()].strip() if sep else raw
+        first_line = raw[: sep.end()].strip() if sep else raw
         starred = False
 
         if not date:
@@ -248,12 +261,12 @@ class Journal:
             if colon_pos > 0:
                 date = time.parse(
                     raw[:colon_pos],
-                    default_hour=self.config['default_hour'],
-                    default_minute=self.config['default_minute']
+                    default_hour=self.config["default_hour"],
+                    default_minute=self.config["default_minute"],
                 )
                 if date:  # Parsed successfully, strip that from the raw text
                     starred = raw[:colon_pos].strip().endswith("*")
-                    raw = raw[colon_pos + 1:].strip()
+                    raw = raw[colon_pos + 1 :].strip()
         starred = starred or first_line.startswith("*") or first_line.endswith("*")
         if not date:  # Still nothing? Meh, just live in the moment.
             date = time.parse("now")
@@ -281,17 +294,12 @@ class Journal:
 
 
 class PlainJournal(Journal):
-    @classmethod
-    def _create(cls, filename):
-        with open(filename, "a", encoding="utf-8"):
-            pass
-
     def _load(self, filename):
         with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
     def _store(self, filename, text):
-        with open(filename, 'w', encoding="utf-8") as f:
+        with open(filename, "w", encoding="utf-8") as f:
             f.write(text)
 
 
@@ -299,6 +307,7 @@ class LegacyJournal(Journal):
     """Legacy class to support opening journals formatted with the jrnl 1.x
     standard. Main difference here is that in 1.x, timestamps were not cuddled
     by square brackets. You'll not be able to save these journals anymore."""
+
     def _load(self, filename):
         with open(filename, "r", encoding="utf-8") as f:
             return f.read()
@@ -307,17 +316,19 @@ class LegacyJournal(Journal):
         """Parses a journal that's stored in a string and returns a list of entries"""
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
-        date_length = len(datetime.today().strftime(self.config['timeformat']))
+        date_length = len(datetime.today().strftime(self.config["timeformat"]))
 
         # Initialise our current entry
         entries = []
         current_entry = None
-        new_date_format_regex = re.compile(r'(^\[[^\]]+\].*?$)')
+        new_date_format_regex = re.compile(r"(^\[[^\]]+\].*?$)")
         for line in journal_txt.splitlines():
             line = line.rstrip()
             try:
                 # try to parse line as date => new entry begins
-                new_date = datetime.strptime(line[:date_length], self.config['timeformat'])
+                new_date = datetime.strptime(
+                    line[:date_length], self.config["timeformat"]
+                )
 
                 # parsing successful => save old entry and create new one
                 if new_date and current_entry:
@@ -329,12 +340,14 @@ class LegacyJournal(Journal):
                 else:
                     starred = False
 
-                current_entry = Entry.Entry(self, date=new_date, text=line[date_length + 1:], starred=starred)
+                current_entry = Entry.Entry(
+                    self, date=new_date, text=line[date_length + 1 :], starred=starred
+                )
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.
                 # In this case, just append line to our body (after some
                 # escaping for the new format).
-                line = new_date_format_regex.sub(r' \1', line)
+                line = new_date_format_regex.sub(r" \1", line)
                 if current_entry:
                     current_entry.text += line + "\n"
 
@@ -353,26 +366,27 @@ def open_journal(name, config, legacy=False):
     backwards compatibility with jrnl 1.x
     """
     config = config.copy()
-    config['journal'] = os.path.expanduser(os.path.expandvars(config['journal']))
+    config["journal"] = os.path.expanduser(os.path.expandvars(config["journal"]))
 
-    if os.path.isdir(config['journal']):
-        if config['journal'].strip("/").endswith(".dayone") or "entries" in os.listdir(config['journal']):
+    if os.path.isdir(config["journal"]):
+        if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
+            config["journal"]
+        ):
             from . import DayOneJournal
+
             return DayOneJournal.DayOne(**config).open()
         else:
-            print(
-                f"[Error: {config['journal']} is a directory, but doesn't seem to be a DayOne journal either.",
-                file=sys.stderr
-            )
+            from . import FolderJournal
 
-            sys.exit(1)
+            return FolderJournal.Folder(**config).open()
 
-    if not config['encrypt']:
+    if not config["encrypt"]:
         if legacy:
             return LegacyJournal(name, **config).open()
         return PlainJournal(name, **config).open()
     else:
         from . import EncryptedJournal
+
         if legacy:
             return EncryptedJournal.LegacyEncryptedJournal(name, **config).open()
         return EncryptedJournal.EncryptedJournal(name, **config).open()

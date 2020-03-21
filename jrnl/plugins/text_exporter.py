@@ -8,6 +8,7 @@ from ..util import ERROR_COLOR, RESET_COLOR
 
 class TextExporter:
     """This Exporter can convert entries and journals into text files."""
+
     names = ["text", "txt"]
     extension = "txt"
 
@@ -33,7 +34,9 @@ class TextExporter:
 
     @classmethod
     def make_filename(cls, entry):
-        return entry.date.strftime("%Y-%m-%d_{}.{}".format(slugify(str(entry.title)), cls.extension))
+        return entry.date.strftime(
+            "%Y-%m-%d_{}.{}".format(slugify(str(entry.title)), cls.extension)
+        )
 
     @classmethod
     def write_files(cls, journal, path):
@@ -44,7 +47,9 @@ class TextExporter:
                 with open(full_path, "w", encoding="utf-8") as f:
                     f.write(cls.export_entry(entry))
             except IOError as e:
-                return "[{2}ERROR{3}: {0} {1}]".format(e.filename, e.strerror, ERROR_COLOR, RESET_COLOR)
+                return "[{2}ERROR{3}: {0} {1}]".format(
+                    e.filename, e.strerror, ERROR_COLOR, RESET_COLOR
+                )
         return "[Journal exported to {}]".format(path)
 
     @classmethod
@@ -54,7 +59,7 @@ class TextExporter:
         representation as string if output is None."""
         if output and os.path.isdir(output):  # multiple files
             return cls.write_files(journal, output)
-        elif output:                          # single file
+        elif output:  # single file
             return cls.write_file(journal, output)
         else:
             return cls.export_journal(journal)

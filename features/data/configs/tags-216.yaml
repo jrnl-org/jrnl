@@ -7,7 +7,11 @@ template: false
 journals:
   default: features/journals/tags-216.journal
 linewrap: 80
-password: ''
 tagsymbols: '@'
 timeformat: '%Y-%m-%d %H:%M'
 indent_character: "|"
+colors:
+  date: none
+  title: none
+  body: none
+  tags: none

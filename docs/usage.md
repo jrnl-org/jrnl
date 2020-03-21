@@ -35,12 +35,12 @@ jrnl today at 3am: I just met Steve Buscemi in a bar! He looked funny.
 ```
 
 !!! note
-Most shell contains a certain number of reserved characters, such as `#`
-and `*`. Unbalanced quotes, parenthesis, and so on will also get into
-the way of your editing.
-For writing longer entries, just enter `jrnl`
-and hit `return`. Only then enter the text of your journal entry.
-Alternatively, `use an external editor <advanced>`).
+    Most shell contains a certain number of reserved characters, such as `#`
+    and `*`. Unbalanced quotes, parenthesis, and so on will also get into
+    the way of your editing.
+    For writing longer entries, just enter `jrnl`
+    and hit `return`. Only then enter the text of your journal entry.
+    Alternatively, `use an external editor <advanced>`).
 
 You can also import an entry directly from a file
 
@@ -76,9 +76,9 @@ The following options are equivalent:
 - `jrnl Best day of my life.*`
 
 !!! note
-Just make sure that the asterisk sign is **not** surrounded by
-whitespaces, e.g. `jrnl Best day of my life! *` will **not** work (the
-reason being that the `*` sign has a special meaning on most shells).
+    Just make sure that the asterisk sign is **not** surrounded by
+    whitespaces, e.g. `jrnl Best day of my life! *` will **not** work (the
+    reason being that the `*` sign has a special meaning on most shells).
 
 ## Viewing
 
@@ -119,17 +119,17 @@ Will print all entries in which either `@pinkie` or `@WorldDomination`
 occurred.
 
 ```sh
-jrnl -n 5 -and @pineapple @lubricant
+jrnl -n 5 -and @pinkie @WorldDomination
 ```
 
-the last five entries containing both `@pineapple` **and** `@lubricant`.
+the last five entries containing both `@pinkie` **and** `@worldDomination`.
 You can change which symbols you'd like to use for tagging in the
 configuration.
 
 !!! note
-`jrnl @pinkie @WorldDomination` will switch to viewing mode because
-although **no** command line arguments are given, all the input strings
-look like tags - _jrnl_ will assume you want to filter by tag.
+    `jrnl @pinkie @WorldDomination` will switch to viewing mode because
+    although **no** command line arguments are given, all the input strings
+    look like tags - _jrnl_ will assume you want to filter by tag.
 
 ## Editing older entries
 
@@ -154,7 +154,7 @@ encrypt) your edited journal after you save and exit the editor.
 You can also use this feature for deleting entries from your journal
 
 ```sh
-jrnl @girlfriend -until 'june 2012' --edit
+jrnl @texas -until 'june 2012' --edit
 ```
 
 Just select all text, press delete, and everything is gone...
