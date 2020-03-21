@@ -35,8 +35,9 @@ and can be edited with a plain text editor.
   - `highlight`
     if `true`, tags will be highlighted in cyan.
   - `linewrap`
-    controls the width of the output. Set to `false` if you don't
-    want to wrap long lines.
+    controls the width of the output. Set to `false` if you don't want to wrap long lines.
+  - `colors`
+    dictionary that controls the colors used to display journal entries. It has two subkeys, which are: `date` and `title`. Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, and `WHITE`. `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output). To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
 
 !!! note
     Although it seems intuitive to use the `#`
@@ -63,8 +64,8 @@ for example:
 
 ``` yaml
 journals:
-  default: ~\journal.txt
-  work: ~\work.txt
+  default: ~/journal.txt
+  work: ~/work.txt
 ```
 
 The `default` journal gets created the first time you start `jrnl`
@@ -85,11 +86,11 @@ If your `jrnl.yaml` looks like this:
 ``` yaml
 encrypt: false
 journals:
-default: ~/journal.txt
-work:
-  journal: ~/work.txt
-  encrypt: true
-food: ~/my_recipes.txt
+  default: ~/journal.txt
+  work:
+    journal: ~/work.txt
+    encrypt: true
+  food: ~/my_recipes.txt
 ```
 
 Your `default` and your `food` journals won't be encrypted, however your
