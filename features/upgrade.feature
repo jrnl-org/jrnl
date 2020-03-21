@@ -38,3 +38,21 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             """
         Then the journal should have 2 entries
 
+    Scenario: Upgrade with missing journal
+        Given we use the config "upgrade_from_195_with_missing_journal.json"
+        When we run "jrnl -ls" and enter
+            """"
+            Y
+            """
+        Then the output should contain "Error: features/journals/missing.journal does not exist."
+
+    Scenario: Upgrade with missing encrypted journal
+        Given we use the config "upgrade_from_195_with_missing_encrypted_journal.json"
+        When we run "jrnl -ls" and enter
+            """
+            Y
+            bad doggie no biscuit
+            bad doggie no biscuit
+            """
+        Then the output should contain "Error: features/journals/missing.journal does not exist."
+        and the output should contain "We're all done here"
