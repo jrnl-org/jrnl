@@ -98,6 +98,12 @@ For testing, jrnl uses [behave](https://behave.readthedocs.io/) tests, which are
 
 Many tests can be created by only editing `feature` files with the same format as other tests. For more complicated functionality, you may need to implement steps in `features/steps` which are then executed by your tests in the `feature` files.
 
+### Submitting pull requests
+
+When you're ready, feel free to submit a pull request. The jrnl maintainers generally review the pull requests every two weeks, but the continuous integration pipeline will run on automated tests on it within a matter of minutes and will report back any issues it has found with your code across a variety of environments.
+
+The pull request template contains a checklist full of housekeeping items. Please fill them out as necessary when you submit.
+
 ### A note for new programmers and programmers new to python
 
 Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.
