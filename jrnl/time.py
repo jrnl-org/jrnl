@@ -57,7 +57,7 @@ def parse(
         except TypeError:
             return None
 
-    if flag is 1:  # Date found, but no time. Use the default time.
+    if flag == 1:  # Date found, but no time. Use the default time.
         date = datetime(
             *date[:3],
             hour=23 if inclusive else default_hour or 0,
