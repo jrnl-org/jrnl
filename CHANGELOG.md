@@ -1,24 +1,14 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...HEAD)
-
-**Build:**
-
-- Update travis caching to speed up builds [\#871](https://github.com/jrnl-org/jrnl/pull/871) ([wren](https://github.com/wren))
-
-**Updated documentation:**
-
-- Update and reorganize CONTRIBUTING [\#885](https://github.com/jrnl-org/jrnl/pull/885) ([micahellison](https://github.com/micahellison))
-
 ## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3-beta...v2.3)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...v2.3)
 
 **Implemented enhancements:**
 
 - Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
+- Pretty print journal entries (add color) [\#692](https://github.com/jrnl-org/jrnl/pull/692) ([alichtman](https://github.com/alichtman))
+- Allow journals to be saved into multiple files in a directory structure [\#485](https://github.com/jrnl-org/jrnl/pull/485) ([notbalanced](https://github.com/notbalanced))
 
 **Fixed bugs:**
 
@@ -52,7 +42,6 @@
 
 **Implemented enhancements:**
 
-- Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
 - Full text search \(case insensitive\) with "-contains" [\#740](https://github.com/jrnl-org/jrnl/pull/740) ([empireshades](https://github.com/empireshades))
 - Reduce startup time by 55% [\#719](https://github.com/jrnl-org/jrnl/pull/719) ([maebert](https://github.com/maebert))
 - Refactor password logic to prevent accidental password leakage [\#708](https://github.com/jrnl-org/jrnl/pull/708) ([pspeter](https://github.com/pspeter))
