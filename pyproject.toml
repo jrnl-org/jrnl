@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jrnl"
-version = "v2.3"
+version = "v2.3.1-beta"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "Manuel Ebert <manuel@1450.me>",
