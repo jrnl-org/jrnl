@@ -115,6 +115,8 @@ jobs:
 
     # ... and beyond!
     - name: Python nightly on Linux
+      before_install:
+        - sed -i 's/^python = ">=3\.6\.0.*"$/python = "*"/' pyproject.toml
       python: nightly
 
     # Specialty tests
