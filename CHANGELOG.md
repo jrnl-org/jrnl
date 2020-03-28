@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
+
+**Implemented enhancements:**
+
+- Merge in temp branches for v2.4 [\#897](https://github.com/jrnl-org/jrnl/pull/897) ([wren](https://github.com/wren))
+
 ## [v2.3.1](https://pypi.org/project/jrnl/v2.3.1/) (2020-03-28)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...v2.3.1)
