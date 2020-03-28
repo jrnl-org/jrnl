@@ -180,7 +180,7 @@ def parse_args(args=None):
         action="store_true",
         help="Opens an interactive interface for deleting entries.",
     )
-    
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     if args is None:
