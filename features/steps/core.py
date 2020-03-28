@@ -216,6 +216,15 @@ def check_output_inline(context, text=None, text2=None):
     assert text in out or text2 in out, text or text2
 
 
+@then("the error output should contain")
+@then('the error output should contain "{text}"')
+@then('the error output should contain "{text}" or "{text2}"')
+def check_output_inline(context, text=None, text2=None):
+    text = text or context.text
+    out = context.stderr_capture.getvalue()
+    assert text in out or text2 in out, text or text2
+
+
 @then('the output should not contain "{text}"')
 def check_output_not_inline(context, text):
     out = context.stdout_capture.getvalue()

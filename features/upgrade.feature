@@ -45,6 +45,7 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             Y
             """
         Then the output should contain "Error: features/journals/missing.journal does not exist."
+        And we should get no error
 
     Scenario: Upgrade with missing encrypted journal
         Given we use the config "upgrade_from_195_with_missing_encrypted_journal.json"
@@ -52,7 +53,7 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             """
             Y
             bad doggie no biscuit
-            bad doggie no biscuit
             """
         Then the output should contain "Error: features/journals/missing.journal does not exist."
-        and the output should contain "We're all done here"
+        And the error output should contain "We're all done"
+        And we should get no error
