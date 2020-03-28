@@ -1,5 +1,20 @@
 # Changelog
 
+## [v2.3.1](https://pypi.org/project/jrnl/v2.3.1/) (2020-03-28)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...v2.3.1)
+
+**Fixed bugs:**
+- Syntax fix [\#886](https://github.com/jrnl-org/jrnl/pull/886) ([minchinweb](https://github.com/minchinweb))
+
+**Build:**
+- Hotfix to keep the version from releases in sync in repo [\#895](https://github.com/jrnl-org/jrnl/pull/895) ([wren](https://github.com/wren))
+- Update travis caching to speed up builds [\#871](https://github.com/jrnl-org/jrnl/pull/871) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+- Update and reorganize CONTRIBUTING [\#885](https://github.com/jrnl-org/jrnl/pull/885) ([micahellison](https://github.com/micahellison))
+- Update url for "beautiful timeline" in export.md [\#879](https://github.com/jrnl-org/jrnl/pull/879) ([NGenetzky](https://github.com/NGenetzky))
+
 ## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...v2.3)
@@ -38,7 +53,6 @@
 ## [v2.2](https://pypi.org/project/jrnl/v2.2/) (2020-02-01)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...v2.2)
-
 
 **Implemented enhancements:**
 
