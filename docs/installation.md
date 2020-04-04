@@ -3,16 +3,16 @@
 ## Installation
 
 On OS X, the easiest way to install *jrnl* is using
-[Homebrew](http://brew.sh/)
+[Homebrew](http://brew.sh/):
 
 ``` sh
 brew install jrnl
 ```
 
-On other platforms, install *jrnl* using pip
+On other platforms, install *jrnl* using [Python](https://www.python.org/) 3.6+ and [pipx](https://pipxproject.github.io/pipx/):
 
 ``` sh
-pip install jrnl
+pipx install jrnl
 ```
 
 The first time you run `jrnl` you will be asked where your journal file
