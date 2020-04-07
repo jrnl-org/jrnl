@@ -209,12 +209,12 @@ def check_output_time_inline(context, text):
     assert output_date in out, output_date
 
 
-@then('the output should contain pyproject.toml version')
+@then("the output should contain pyproject.toml version")
 def check_output_version_inline(context):
     out = context.stdout_capture.getvalue()
-    pyproject = (Path(__file__) / '..'  / '..'  / '..' / 'pyproject.toml').resolve()
+    pyproject = (Path(__file__) / ".." / ".." / ".." / "pyproject.toml").resolve()
     pyproject_contents = toml.load(pyproject)
-    pyproject_version = pyproject_contents['tool']['poetry']['version']
+    pyproject_version = pyproject_contents["tool"]["poetry"]["version"]
     assert pyproject_version in out, pyproject_version
 
 
