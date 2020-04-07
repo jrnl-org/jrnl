@@ -42,7 +42,7 @@ aliases:
     os: windows
     language: shell
     env: &env_windows
-      PATH: /c/Python36:/c/Python36/Scripts:/c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:/c/Python39:/c/Python39/Scripts:$PATH
+      PATH: /c/Python36:/c/Python36/Scripts:/c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:$PATH
       PYTHONIOENCODING: UTF-8
     cache:
       directories:
@@ -62,8 +62,6 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: nightly
-    - os: windows
-      env: JRNL_PYTHON_VERSION=3.9.0-a5
 
   include:
     - name: Lint, via Black
@@ -122,12 +120,6 @@ jobs:
       before_install:
         - sed -i 's/^python = ">=3\.6\.0.*"$/python = "*"/' pyproject.toml
       python: nightly
-    - <<: *test_windows
-      name: Python 3.9-alpha on Windows
-      python: nightly
-      env:
-        <<: *env_windows
-        JRNL_PYTHON_VERSION: 3.9.0-a5
 
     # Specialty tests
     - name: Python 3.7 on Linux, not UTC
