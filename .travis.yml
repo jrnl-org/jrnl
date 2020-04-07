@@ -62,7 +62,6 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: nightly
-    - python: 3.9
     - os: windows
       env: JRNL_PYTHON_VERSION=3.9.0-a5
 
@@ -125,7 +124,7 @@ jobs:
       python: nightly
     - <<: *test_windows
       name: Python 3.9-alpha on Windows
-      python: 3.9
+      python: nightly
       env:
         <<: *env_windows
         JRNL_PYTHON_VERSION: 3.9.0-a5
