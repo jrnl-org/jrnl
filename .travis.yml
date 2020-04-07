@@ -54,7 +54,7 @@ aliases:
         - /c/ProgramData/chocolatey/bin
         - /c/Users/travis/AppData/Local/pypoetry/Cache
     before_install:
-      - choco install python --version $JRNL_PYTHON_VERSION
+      - choco install python --version $JRNL_PYTHON_VERSION --pre
       - python -m pip install --upgrade pip
       - pip --version
 
@@ -62,6 +62,7 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: nightly
+    - python: 3.9
     - os: windows
       env: JRNL_PYTHON_VERSION=3.9.0-a5
 
