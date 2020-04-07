@@ -20,7 +20,7 @@ import tzlocal
 import shlex
 import sys
 from pathlib import Path
-import tomlkit
+import toml
 
 consts = pdt.Constants(usePyICU=False)
 consts.DOWParseStyle = -1  # Prefers past weekdays
@@ -213,7 +213,7 @@ def check_output_time_inline(context, text):
 def check_output_version_inline(context):
     out = context.stdout_capture.getvalue()
     pyproject = (Path(__file__) / '..'  / '..'  / '..' / 'pyproject.toml').resolve()
-    pyproject_contents = tomlkit.parse(pyproject.open().read())
+    pyproject_contents = toml.load(pyproject)
     pyproject_version = pyproject_contents['tool']['poetry']['version']
     assert pyproject_version in out, pyproject_version
 
