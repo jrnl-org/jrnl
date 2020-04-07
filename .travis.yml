@@ -41,13 +41,14 @@ aliases:
     os: windows
     language: shell
     env: &env_windows
-      PATH: /c/Python36:/c/Python36/Scripts:/c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:$PATH
+      PATH: /c/Python36:/c/Python36/Scripts:/c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:/c/Python39:/c/Python39/Scripts:$PATH
       PYTHONIOENCODING: UTF-8
     cache:
       directories:
         - /c/Python36
         - /c/Python37
         - /c/Python38
+        - /c/Python39
         - /c/ProgramData/chocolatey/lib
         - /c/ProgramData/chocolatey/bin
         - /c/Users/travis/AppData/Local/pypoetry/Cache
@@ -60,6 +61,8 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: nightly
+    - os: windows
+      env: JRNL_PYTHON_VERSION=3.9.0-a5
 
   include:
     - name: Lint, via Black
@@ -96,7 +99,7 @@ jobs:
       python: 3.7
       env:
         <<: *env_windows
-        JRNL_PYTHON_VERSION: 3.7.5
+        JRNL_PYTHON_VERSION: 3.7.7
 
     # Python 3.8 Tests
     - name: Python 3.8 on Linux
@@ -111,13 +114,19 @@ jobs:
       python: 3.8
       env:
         <<: *env_windows
-        JRNL_PYTHON_VERSION: 3.8.0
+        JRNL_PYTHON_VERSION: 3.8.2
 
     # ... and beyond!
     - name: Python nightly on Linux
       before_install:
         - sed -i 's/^python = ">=3\.6\.0.*"$/python = "*"/' pyproject.toml
       python: nightly
+    - <<: *test_windows
+      name: Python 3.9-alpha on Windows
+      python: 3.9
+      env:
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.9.0-a5
 
     # Specialty tests
     - name: Python 3.7 on Linux, not UTC
