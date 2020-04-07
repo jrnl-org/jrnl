@@ -1,3 +1,4 @@
+version: ~> 1.0
 dist: xenial   # required for Python >= 3.7
 os: linux
 language: python
