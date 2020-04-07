@@ -66,6 +66,10 @@ class YAMLExporter(TextExporter):
             previous_line = line
         newbody = newbody + previous_line  # add very last line
 
+        # make sure the export ends with a blank line
+        if previous_line not in ['\r', '\n', '\r\n', '\n\r']:
+            newbody = newbody + os.linesep
+
         if warn_on_heading_level is True:
             print(
                 "{}WARNING{}: Headings increased past H6 on export - {} {}".format(
