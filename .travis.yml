@@ -1,4 +1,3 @@
-version: ~> 1.0
 dist: xenial   # required for Python >= 3.7
 os: linux
 language: python
@@ -49,12 +48,11 @@ aliases:
         - /c/Python36
         - /c/Python37
         - /c/Python38
-        - /c/Python39
         - /c/ProgramData/chocolatey/lib
         - /c/ProgramData/chocolatey/bin
         - /c/Users/travis/AppData/Local/pypoetry/Cache
     before_install:
-      - choco install python --version $JRNL_PYTHON_VERSION --pre
+      - choco install python --version $JRNL_PYTHON_VERSION
       - python -m pip install --upgrade pip
       - pip --version
 
