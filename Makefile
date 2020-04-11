@@ -13,11 +13,12 @@ clean:
 html:
 	poetry run mkdocs serve
 
-format: ## check style with flake8
-	poetry run black features jrnl
+format: ## Format files to match style
+	poetry run black .
 
-lint: ## check style with flake8
-	poetry run flake8 jrnl features --ignore E501
+lint: ## Check style with various tools
+	poetry run black --check --diff .
+	poetry run pyflakes .
 
 test: ## Run behave tests
 	poetry run behave
