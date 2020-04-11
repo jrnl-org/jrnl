@@ -10,7 +10,6 @@ import sys
 import os
 import base64
 import logging
-from typing import Optional
 
 
 log = logging.getLogger()

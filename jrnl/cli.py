@@ -365,7 +365,7 @@ def run(manual_args=None):
     try:
         journal = open_journal(journal_name, config)
     except KeyboardInterrupt:
-        print(f"[Interrupted while opening journal]", file=sys.stderr)
+        print("[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)
 
     # Import mode
