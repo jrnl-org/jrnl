@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 from __future__ import absolute_import, unicode_literals
-from . import Entry
 from . import Journal
 import codecs
 import os

@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 from .text_exporter import TextExporter
-import os
 import re
 import sys
 from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
@@ -19,10 +18,9 @@ class YAMLExporter(TextExporter):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
             print(
-                "{}ERROR{}: YAML export must be to individual files. Please \
-                specify a directory to export to.".format(
-                    ERROR_COLOR, RESET_COLOR, file=sys.stderr
-                )
+                f"{ERROR_COLOR}ERROR{RESET_COLOR}: YAML export must be to individual files. Please \
+                specify a directory to export to.",
+                file=sys.stderr,
             )
             return
 

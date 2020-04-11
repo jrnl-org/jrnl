@@ -6,9 +6,7 @@ EXPRESSION_RE = r"[\[\]():.a-zA-Z0-9_]*"
 PRINT_RE = r"{{ *(.+?) *}}"
 START_BLOCK_RE = r"{% *(if|for) +(.+?) *%}"
 END_BLOCK_RE = r"{% *end(for|if) *%}"
-FOR_RE = r"{{% *for +({varname}) +in +([^%]+) *%}}".format(
-    varname=VAR_RE, expression=EXPRESSION_RE
-)
+FOR_RE = r"{{% *for +({varname}) +in +([^%]+) *%}}".format(varname=VAR_RE)
 IF_RE = r"{% *if +(.+?) *%}"
 BLOCK_RE = r"{% *block +(.+?) *%}((?:.|\n)+?){% *endblock *%}"
 INCLUDE_RE = r"{% *include +(.+?) *%}"
