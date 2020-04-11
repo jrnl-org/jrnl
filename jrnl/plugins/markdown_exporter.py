@@ -3,6 +3,7 @@
 
 from .text_exporter import TextExporter
 import re
+import os
 import sys
 from ..util import WARNING_COLOR, RESET_COLOR
 

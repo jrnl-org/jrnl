@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from .text_exporter import TextExporter
+import os
 import re
 import sys
 from ..util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR
