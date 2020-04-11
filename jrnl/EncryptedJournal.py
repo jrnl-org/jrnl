@@ -1,17 +1,18 @@
-from . import util
-from .Journal import Journal, LegacyJournal
-from cryptography.fernet import Fernet, InvalidToken
-from cryptography.hazmat.primitives import hashes, padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-import hashlib
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.backends import default_backend
-import sys
-import os
 import base64
+import hashlib
 import logging
+import os
+import sys
 from typing import Optional
 
+from cryptography.fernet import Fernet, InvalidToken
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+from . import util
+from .Journal import Journal, LegacyJournal
 
 log = logging.getLogger()
 

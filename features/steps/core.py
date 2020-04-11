@@ -1,24 +1,24 @@
+import ast
+from codecs import decode, encode
+from collections import defaultdict
+import json
+import os
+import shlex
+import sys
+import time
 from unittest.mock import patch
 
-from behave import given, when, then
-from jrnl import cli, install, Journal, util, plugins
-from jrnl import __version__
-from collections import defaultdict
+from behave import given, then, when
+import keyring
+import tzlocal
+import yaml
+
+from jrnl import Journal, __version__, cli, install, plugins, util
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
 except ImportError:
     import parsedatetime as pdt
-import time
-from codecs import encode, decode
-import os
-import ast
-import json
-import yaml
-import keyring
-import tzlocal
-import shlex
-import sys
 
 consts = pdt.Constants(usePyICU=False)
 consts.DOWParseStyle = -1  # Prefers past weekdays

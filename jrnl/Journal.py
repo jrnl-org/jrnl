@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
+from datetime import datetime
 import logging
 import os
-import sys
 import re
+import sys
 
-from datetime import datetime
-from jrnl import Entry, util, time
+from jrnl import Entry, time, util
 
 log = logging.getLogger(__name__)
 
