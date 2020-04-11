@@ -49,8 +49,6 @@ venv*/
 
 # export testing directories
 exp/
-bug768/
-exported_journal/
 
 _extras/
 *.sublime-*
