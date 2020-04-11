@@ -19,6 +19,7 @@
 
 **Updated documentation:**
 
+- Update the code of conduct [\#913](https://github.com/jrnl-org/jrnl/pull/913) ([wren](https://github.com/wren))
 - Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
 - Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
 
