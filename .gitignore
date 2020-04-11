@@ -42,6 +42,7 @@ obj
 # virtaulenv
 env/
 env*/
+venv*/
 
 # PyCharm Project files
 .idea/

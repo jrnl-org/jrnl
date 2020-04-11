@@ -35,6 +35,7 @@ behave = "^1.2"
 mkdocs = "^1.0"
 flake8 = "^3.7"
 black = {version = "^19.10b0",allow-prereleases = true}
+pyflakes = "^2.1.0"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:run'

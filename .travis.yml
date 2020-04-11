@@ -62,11 +62,17 @@ jobs:
     - python: nightly
 
   include:
+    # Linting
     - name: Lint, via Black
       python: 3.8
       script:
         - black --version
         - black --check . --verbose --diff
+    - name: Lint, via PyFlakes
+      python: 3.8
+      script:
+        - pyflakes --version
+        - pyflakes .
 
     # Python 3.6 Tests
     - name: Python 3.6 on Linux
