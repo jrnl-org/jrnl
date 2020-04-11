@@ -8,6 +8,7 @@ import re
 from datetime import datetime
 import time
 import fnmatch
+from pathlib import Path
 import plistlib
 import pytz
 import uuid
@@ -43,7 +44,7 @@ class DayOne(Journal.Journal):
         for filename in filenames:
             with open(filename, "rb") as plist_entry:
                 try:
-                    dict_entry = plistlib.readPlist(plist_entry)
+                    dict_entry = plistlib.load(plist_entry, fmt=plistlib.FMT_XML)
                 except self.PLIST_EXCEPTIONS:
                     pass
                 else:
@@ -84,8 +85,10 @@ class DayOne(Journal.Journal):
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
 
-                filename = os.path.join(
-                    self.config["journal"], "entries", entry.uuid.upper() + ".doentry"
+                fn = (
+                    Path(self.config["journal"])
+                    / "entries"
+                    / (entry.uuid.upper() + ".doentry")
                 )
 
                 entry_plist = {
@@ -99,7 +102,9 @@ class DayOne(Journal.Journal):
                         for tag in entry.tags
                     ],
                 }
-                plistlib.writePlist(entry_plist, filename)
+                # plistlib expects a binary object
+                with fn.open(mode="wb") as f:
+                    plistlib.dump(entry_plist, f, fmt=plistlib.FMT_XML, sort_keys=False)
         for entry in self._deleted_entries:
             filename = os.path.join(
                 self.config["journal"], "entries", entry.uuid + ".doentry"
