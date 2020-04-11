@@ -98,3 +98,13 @@ Feature: Tagging
             | @hi. Hello
             | hi Hello
             """
+
+    Scenario: Searching a journal for tags should display entries with that tag.
+        Given we use the config "tags.yaml"
+        When we run "jrnl @dan"
+        Then the output should be
+            """
+            2013-06-10 15:40 I met with @dan.
+            | As alway's he shared his latest @idea on how to rule the world with me.
+            | inst
+            """

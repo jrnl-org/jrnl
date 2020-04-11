@@ -8,6 +8,19 @@
 
 - Merge in temp branches for v2.4 [\#897](https://github.com/jrnl-org/jrnl/pull/897) ([wren](https://github.com/wren))
 
+**Fixed bugs:**
+
+- Fix typo in YAML exporter \("stared" -\> "starred"\) [\#907](https://github.com/jrnl-org/jrnl/pull/907) ([MinchinWeb](https://github.com/MinchinWeb))
+
+**Build:**
+
+- Update Poetry requirements for testing latest Python version [\#898](https://github.com/jrnl-org/jrnl/pull/898) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+
+- Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
+- Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
+
 ## [v2.3.1](https://pypi.org/project/jrnl/v2.3.1/) (2020-03-28)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...v2.3.1)
