@@ -19,6 +19,8 @@ import keyring
 import tzlocal
 import shlex
 import sys
+from pathlib import Path
+import toml
 
 consts = pdt.Constants(usePyICU=False)
 consts.DOWParseStyle = -1  # Prefers past weekdays
@@ -205,6 +207,15 @@ def check_output_time_inline(context, text):
     date, flag = CALENDAR.parse(text)
     output_date = time.strftime("%Y-%m-%d %H:%M", date)
     assert output_date in out, output_date
+
+
+@then("the output should contain pyproject.toml version")
+def check_output_version_inline(context):
+    out = context.stdout_capture.getvalue()
+    pyproject = (Path(__file__) / ".." / ".." / ".." / "pyproject.toml").resolve()
+    pyproject_contents = toml.load(pyproject)
+    pyproject_version = pyproject_contents["tool"]["poetry"]["version"]
+    assert pyproject_version in out, pyproject_version
 
 
 @then("the output should contain")

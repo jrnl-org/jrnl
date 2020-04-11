@@ -129,7 +129,7 @@ Feature: Exporting a Journal
         """
         title: I have an @idea:
         date: 2013-04-09 15:39
-        stared: False
+        starred: False
         tags: idea, journal
 
         (1) write a command line @journal software
