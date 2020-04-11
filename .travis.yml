@@ -67,6 +67,11 @@ jobs:
       script:
         - black --version
         - black --check . --verbose --diff
+    - name: Lint, via Isort
+      python: 3.8
+      script:
+        - isort --version
+        - isort --check-only --diff
 
     # Python 3.6 Tests
     - name: Python 3.6 on Linux

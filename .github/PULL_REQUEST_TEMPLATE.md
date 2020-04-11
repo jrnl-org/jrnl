@@ -12,6 +12,8 @@
 ### Checklist
 - [ ] The code change is tested and works locally.
 - [ ] Tests pass. Your PR cannot be merged unless tests pass
+- [ ] The code passes linting via
+  [isort](https://github.com/timothycrosley/isort) (import sorting) -- `isort`
 - [ ] There is no commented out code in this PR.
 - [ ] Have you followed the guidelines in our Contributing document?
 - [ ] Have you checked to ensure there aren't other open [Pull Requests](../pulls) for the same update/change?
