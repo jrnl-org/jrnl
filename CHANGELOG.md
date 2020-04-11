@@ -8,6 +8,10 @@
 
 - Merge in temp branches for v2.4 [\#897](https://github.com/jrnl-org/jrnl/pull/897) ([wren](https://github.com/wren))
 
+**Fixed bugs:**
+
+- Fix typo in YAML exporter \("stared" -\> "starred"\) [\#907](https://github.com/jrnl-org/jrnl/pull/907) ([MinchinWeb](https://github.com/MinchinWeb))
+
 **Build:**
 
 - Update Poetry requirements for testing latest Python version [\#898](https://github.com/jrnl-org/jrnl/pull/898) ([wren](https://github.com/wren))
