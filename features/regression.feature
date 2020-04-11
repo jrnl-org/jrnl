@@ -155,7 +155,7 @@ Feature: Zapped bugs should stay dead.
         """
         title: Third entry.
         date: 2019-10-29 11:13
-        stared: False
+        starred: False
         tags:
 
         """
