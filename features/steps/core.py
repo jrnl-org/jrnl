@@ -10,13 +10,10 @@ try:
 except ImportError:
     import parsedatetime as pdt
 import time
-from codecs import encode, decode
 import os
 import ast
-import json
 import yaml
 import keyring
-import tzlocal
 import shlex
 import sys
 from pathlib import Path
@@ -203,7 +200,6 @@ def check_output(context, text=None):
 @then('the output should contain "{text}" in the local time')
 def check_output_time_inline(context, text):
     out = context.stdout_capture.getvalue()
-    local_tz = tzlocal.get_localzone()
     date, flag = CALENDAR.parse(text)
     output_date = time.strftime("%Y-%m-%d %H:%M", date)
     assert output_date in out, output_date
@@ -230,7 +226,7 @@ def check_output_inline(context, text=None, text2=None):
 @then("the error output should contain")
 @then('the error output should contain "{text}"')
 @then('the error output should contain "{text}" or "{text2}"')
-def check_output_inline(context, text=None, text2=None):
+def check_error_output_inline(context, text=None, text2=None):
     text = text or context.text
     out = context.stderr_capture.getvalue()
     assert text in out or text2 in out, text or text2
@@ -299,7 +295,6 @@ def check_journal_entries(context, number, journal_name="default"):
 
 @when("the journal directory is listed")
 def list_journal_directory(context, journal="default"):
-    files = []
     with open(install.CONFIG_FILE_PATH) as config_file:
         config = yaml.load(config_file, Loader=yaml.FullLoader)
     journal_path = config["journals"][journal]
