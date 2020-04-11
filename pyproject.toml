@@ -33,9 +33,9 @@ ansiwrap = "^0.8.4"
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
 mkdocs = "^1.0"
-flake8 = "^3.7"
 black = {version = "^19.10b0",allow-prereleases = true}
 toml = "^0.10.0"
+pyflakes = "^2.2.0"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:run'
