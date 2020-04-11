@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 
 import glob
-import getpass
 import os
 import xdg.BaseDirectory
 from . import util
 from . import upgrade
 from . import __version__
-from .Journal import PlainJournal
-from .EncryptedJournal import EncryptedJournal
 from .util import UserAbort, verify_config
 import yaml
 import logging
