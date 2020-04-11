@@ -18,6 +18,7 @@
 
 **Build:**
 
+- Update Python versions in pipeline [\#910](https://github.com/jrnl-org/jrnl/pull/910) ([MinchinWeb](https://github.com/MinchinWeb))
 - Update Poetry requirements for testing latest Python version [\#898](https://github.com/jrnl-org/jrnl/pull/898) ([wren](https://github.com/wren))
 
 **Updated documentation:**
