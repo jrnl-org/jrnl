@@ -10,6 +10,7 @@
 
 **Fixed bugs:**
 
+- Fix Python 3.9 incompatibility by updating plistlib [\#909](https://github.com/jrnl-org/jrnl/pull/909) ([MinchinWeb](https://github.com/MinchinWeb))
 - Fix typo in YAML exporter \("stared" -\> "starred"\) [\#907](https://github.com/jrnl-org/jrnl/pull/907) ([MinchinWeb](https://github.com/MinchinWeb))
 
 **Build:**

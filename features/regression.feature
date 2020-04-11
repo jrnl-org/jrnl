@@ -122,3 +122,10 @@ Feature: Zapped bugs should stay dead.
         Then the output should contain "This thing happened yesterday"
         Then the output should contain "Adding an entry right now."
         Then the output should not contain "A future entry."
+
+    @deployment_tests
+    Scenario: Version numbers should stay in sync
+        Given we use the config "basic.yaml"
+        When we run "jrnl --version"
+        Then we should get no error
+        Then the output should contain pyproject.toml version
