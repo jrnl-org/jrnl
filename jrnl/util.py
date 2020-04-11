@@ -112,7 +112,7 @@ def set_keychain(journal_name, password):
 def yesno(prompt, default=True):
     prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'} "
     response = input(prompt)
-    return {"y": True, "n": False}.get(response.lower(), default)
+    return {"y": True, "n": False}.get(response.lower().strip(), default)
 
 
 def load_config(config_path):
@@ -228,7 +228,7 @@ def highlight_tags_with_background_color(entry, text, color, is_title=False):
             text_fragments = []
             for tag in entry.journal.search_tags:
                 text_fragments.extend(
-                    re.split(re.compile(re.escape(tag), re.IGNORECASE), text)
+                    re.split(re.compile(f"({re.escape(tag)})", re.IGNORECASE), text)
                 )
         else:
             text_fragments = re.split(entry.tag_regex(config["tagsymbols"]), text)

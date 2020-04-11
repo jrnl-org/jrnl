@@ -2,11 +2,49 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
+
+**Implemented enhancements:**
+
+- Merge in temp branches for v2.4 [\#897](https://github.com/jrnl-org/jrnl/pull/897) ([wren](https://github.com/wren))
+
+**Fixed bugs:**
+
+- Fix typo in YAML exporter \("stared" -\> "starred"\) [\#907](https://github.com/jrnl-org/jrnl/pull/907) ([MinchinWeb](https://github.com/MinchinWeb))
+
+**Build:**
+
+- Update Poetry requirements for testing latest Python version [\#898](https://github.com/jrnl-org/jrnl/pull/898) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+
+- Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
+- Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
+
+## [v2.3.1](https://pypi.org/project/jrnl/v2.3.1/) (2020-03-28)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...v2.3.1)
+
+**Fixed bugs:**
+- Syntax fix [\#886](https://github.com/jrnl-org/jrnl/pull/886) ([minchinweb](https://github.com/minchinweb))
+
+**Build:**
+- Hotfix to keep the version from releases in sync in repo [\#895](https://github.com/jrnl-org/jrnl/pull/895) ([wren](https://github.com/wren))
+- Update travis caching to speed up builds [\#871](https://github.com/jrnl-org/jrnl/pull/871) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+- Update and reorganize CONTRIBUTING [\#885](https://github.com/jrnl-org/jrnl/pull/885) ([micahellison](https://github.com/micahellison))
+- Update url for "beautiful timeline" in export.md [\#879](https://github.com/jrnl-org/jrnl/pull/879) ([NGenetzky](https://github.com/NGenetzky))
+
+## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.2...v2.3)
 
 **Implemented enhancements:**
 
 - Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
+- Pretty print journal entries (add color) [\#692](https://github.com/jrnl-org/jrnl/pull/692) ([alichtman](https://github.com/alichtman))
+- Allow journals to be saved into multiple files in a directory structure [\#485](https://github.com/jrnl-org/jrnl/pull/485) ([notbalanced](https://github.com/notbalanced))
 
 **Fixed bugs:**
 
@@ -37,10 +75,8 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.1.1...v2.2)
 
-
 **Implemented enhancements:**
 
-- Update YAML exporter to handle Dayone format [\#773](https://github.com/jrnl-org/jrnl/pull/773) ([MinchinWeb](https://github.com/MinchinWeb))
 - Full text search \(case insensitive\) with "-contains" [\#740](https://github.com/jrnl-org/jrnl/pull/740) ([empireshades](https://github.com/empireshades))
 - Reduce startup time by 55% [\#719](https://github.com/jrnl-org/jrnl/pull/719) ([maebert](https://github.com/maebert))
 - Refactor password logic to prevent accidental password leakage [\#708](https://github.com/jrnl-org/jrnl/pull/708) ([pspeter](https://github.com/pspeter))

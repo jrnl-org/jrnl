@@ -115,6 +115,8 @@ jobs:
 
     # ... and beyond!
     - name: Python nightly on Linux
+      before_install:
+        - sed -i 's/^python = ">=3\.6\.0.*"$/python = "*"/' pyproject.toml
       python: nightly
 
     # Specialty tests
@@ -150,6 +152,6 @@ jobs:
         - git config --global user.email "jrnl.bot@gmail.com"
         - git config --global user.name "Jrnl Bot"
         - git checkout master
-        - git add pyproject.toml
+        - git add pyproject.toml jrnl/__version__.py
         - git commit -m "Incrementing version to ${TRAVIS_TAG} [ci skip]"
         - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
