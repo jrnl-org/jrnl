@@ -96,6 +96,11 @@ def create_directory(context, dir_name):
 def assert_dir_contains_files(context, dir_name, expected_files_json_list):
     actual_files = os.listdir(dir_name)
     expected_files = json.loads(expected_files_json_list)
+
+    # sort to deal with inconsistent default file ordering on different OS's
+    actual_files.sort()
+    expected_files.sort()
+
     assert actual_files == expected_files, [actual_files, expected_files]
 
 
