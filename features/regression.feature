@@ -123,6 +123,43 @@ Feature: Zapped bugs should stay dead.
         Then the output should contain "Adding an entry right now."
         Then the output should not contain "A future entry."
 
+    # See issues #768 and #881
+    # the "deletion" journal is used because it doesn't have a newline at the
+    # end of the last entry
+    Scenario: Add a blank line to Markdown export is there isn't one already
+        Given we use the config "deletion.yaml"
+        When we run "jrnl --export markdown"
+        Then the output should be
+        """
+        # 2019
+
+        ## October
+
+        ### 2019-10-29 11:11 First entry.
+
+
+        ### 2019-10-29 11:11 Second entry.
+
+
+        ### 2019-10-29 11:13 Third entry.
+
+        """
+
+    # See issues #768 and #881
+    Scenario: Add a blank line to YAML export is there isn't one already
+        Given we use the config "deletion.yaml"
+        And we created a directory named "bug768"
+        When we run "jrnl --export yaml -o bug768"
+        Then "bug768" should contain the files ["2019-10-29_first-entry.md", "2019-10-29_second-entry.md", "2019-10-29_third-entry.md"]
+        And the content of exported yaml "bug768/2019-10-29_third-entry.md" should be
+        """
+        title: Third entry.
+        date: 2019-10-29 11:13
+        starred: False
+        tags:
+
+        """
+
     @deployment_tests
     Scenario: Version numbers should stay in sync
         Given we use the config "basic.yaml"

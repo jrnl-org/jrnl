@@ -42,11 +42,12 @@ obj
 # virtaulenv
 env/
 env*/
+venv*/
 
 # PyCharm Project files
 .idea/
 
-# export testing director
+# export testing directories
 exp/
 
 _extras/
