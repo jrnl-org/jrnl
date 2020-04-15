@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import getpass
 import glob
 import logging
 import os
@@ -10,8 +9,6 @@ import xdg.BaseDirectory
 import yaml
 
 from . import __version__, upgrade, util
-from .EncryptedJournal import EncryptedJournal
-from .Journal import PlainJournal
 from .util import UserAbort, verify_config
 
 if "win32" not in sys.platform:
