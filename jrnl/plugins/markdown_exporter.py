@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from .text_exporter import TextExporter
-import re
 import os
+import re
 import sys
-from ..util import WARNING_COLOR, RESET_COLOR
+
+from ..util import RESET_COLOR, WARNING_COLOR
+from .text_exporter import TextExporter
 
 
 class MarkdownExporter(TextExporter):
@@ -53,10 +54,6 @@ class MarkdownExporter(TextExporter):
                 newbody = newbody + previous_line
             previous_line = line
         newbody = newbody + previous_line  # add very last line
-
-        # make sure the export ends with a blank line
-        if previous_line not in ["\r", "\n", "\r\n", "\n\r"]:
-            newbody = newbody + os.linesep
 
         if warn_on_heading_level is True:
             print(

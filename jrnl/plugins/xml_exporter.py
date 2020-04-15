@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from xml.dom import minidom
+
 from .json_exporter import JSONExporter
 from .util import get_tags_count
-from xml.dom import minidom
 
 
 class XMLExporter(JSONExporter):
