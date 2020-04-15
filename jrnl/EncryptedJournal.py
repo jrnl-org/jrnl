@@ -3,7 +3,6 @@ import hashlib
 import logging
 import os
 import sys
-from typing import Optional
 
 from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.backends import default_backend
