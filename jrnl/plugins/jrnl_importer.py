@@ -3,6 +3,8 @@
 
 import sys
 
+from .. import util
+
 
 class JRNLImporter:
     """This plugin imports entries from other jrnl files."""
@@ -14,6 +16,7 @@ class JRNLImporter:
         """Imports from an existing file if input is specified, and
         standard input otherwise."""
         old_cnt = len(journal.entries)
+        old_entries = journal.entries
         if input:
             with open(input, "r", encoding="utf-8") as f:
                 other_journal_txt = f.read()

@@ -6,17 +6,17 @@
     license: MIT, see LICENSE for more details.
 """
 
-from .Journal import PlainJournal, open_journal
-from .EncryptedJournal import EncryptedJournal
-from . import util
-from . import install
-from . import plugins
-from .util import ERROR_COLOR, RESET_COLOR, UserAbort
-import jrnl
 import argparse
-import sys
-import re
 import logging
+import re
+import sys
+
+import jrnl
+
+from . import install, plugins, util
+from .EncryptedJournal import EncryptedJournal
+from .Journal import PlainJournal, open_journal
+from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)

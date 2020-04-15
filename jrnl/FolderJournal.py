@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from . import Journal
 import codecs
-import os
 import fnmatch
+import os
+
+from . import Journal
 
 
 def get_files(journal_config):
