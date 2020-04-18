@@ -6,26 +6,7 @@
 
 **Implemented enhancements:**
 
-- Update keyring version from "^19.0" to "\>19.0, \<22.0" [\#914](https://github.com/jrnl-org/jrnl/pull/914) ([micahellison](https://github.com/micahellison))
-- Allow tzlocal version \>1.5 \<3.0 instead of \>1.5 \<2.0 [\#900](https://github.com/jrnl-org/jrnl/pull/900) ([micahellison](https://github.com/micahellison))
-- TODO: Update after release to reference PRs \#850 and \#796 [\#897](https://github.com/jrnl-org/jrnl/pull/897) ([wren](https://github.com/wren))
-
-**Fixed bugs:**
-
-- Fix Python 3.9 incompatibility by updating plistlib [\#909](https://github.com/jrnl-org/jrnl/pull/909) ([MinchinWeb](https://github.com/MinchinWeb))
-- Ensure exported entries end in a newline for Markdown and YAML exporters [\#908](https://github.com/jrnl-org/jrnl/pull/908) ([MinchinWeb](https://github.com/MinchinWeb))
-- Fix typo in YAML exporter \("stared" -\> "starred"\) [\#907](https://github.com/jrnl-org/jrnl/pull/907) ([MinchinWeb](https://github.com/MinchinWeb))
-
-**Build:**
-
-- Update Python versions in pipeline [\#910](https://github.com/jrnl-org/jrnl/pull/910) ([MinchinWeb](https://github.com/MinchinWeb))
-- Update Poetry requirements for testing latest Python version [\#898](https://github.com/jrnl-org/jrnl/pull/898) ([wren](https://github.com/wren))
-
-**Updated documentation:**
-
-- Update the code of conduct [\#913](https://github.com/jrnl-org/jrnl/pull/913) ([wren](https://github.com/wren))
-- Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
-- Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
+- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
 
 ## [v2.3.1](https://pypi.org/project/jrnl/v2.3.1/) (2020-03-28)
 
