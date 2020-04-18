@@ -39,3 +39,18 @@ Current maintainers:
 Original maintainer:
 
  * Manuel Ebert ([maebert](https://github.com/maebert))
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/jrnl-org/jrnl/graphs/contributors"><img src="https://opencollective.com/jrnl/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/jrnl/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/jrnl"><img src="https://opencollective.com/jrnl/individuals.svg?width=890"></a>
