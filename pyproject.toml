@@ -10,7 +10,7 @@ authors = [
 maintainers = [
     "Jonathan Wren and Micah Ellison <jrnl-sh@googlegroups.com>",
 ]
-license = "MIT"
+license = "GPLv3"
 readme = "README.md"
 homepage = "https://jrnl.sh"
 repository = "https://github.com/jrnl-org/jrnl"
