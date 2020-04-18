@@ -17,10 +17,11 @@ format: ## Format files to match style
 	poetry run black .
 
 lint: ## Check style with various tools
-	poetry run black --check --diff .
+	poetry check
 	poetry run pyflakes .
+	poetry run black --check --diff .
 
-test: ## Run behave tests
+test: lint ## Run behave tests
 	poetry run behave
 
 build:
