@@ -6,22 +6,30 @@
 
 **Implemented enhancements:**
 
-- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
-
-## [v2.3.1](https://pypi.org/project/jrnl/v2.3.1/) (2020-03-28)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3...v2.3.1)
+- Update keyring version from "^19.0" to "\>19.0, \<22.0" [\#914](https://github.com/jrnl-org/jrnl/pull/914) ([micahellison](https://github.com/micahellison))
+- Allow tzlocal version \>1.5 \<3.0 instead of \>1.5 \<2.0 [\#900](https://github.com/jrnl-org/jrnl/pull/900) ([micahellison](https://github.com/micahellison))
+- Interactive delete [\#650](https://github.com/jrnl-org/jrnl/pull/850) ([alichtman](https://github.com/alichtman))
+- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren), [micahellison](https://github.com/micahellison))
 
 **Fixed bugs:**
-- Syntax fix [\#886](https://github.com/jrnl-org/jrnl/pull/886) ([minchinweb](https://github.com/minchinweb))
+
+- Fix Python 3.9 incompatibility by updating plistlib [\#909](https://github.com/jrnl-org/jrnl/pull/909) ([MinchinWeb](https://github.com/MinchinWeb))
+- Ensure exported entries end in a newline for Markdown and YAML exporters [\#908](https://github.com/jrnl-org/jrnl/pull/908) ([MinchinWeb](https://github.com/MinchinWeb))
+- Fix typo in YAML exporter \("stared" -\> "starred"\) [\#907](https://github.com/jrnl-org/jrnl/pull/907) ([MinchinWeb](https://github.com/MinchinWeb))
+- Fix for upgrade with missing journal [\#796](https://github.com/jrnl-org/jrnl/pull/796) ([dbxnr](https://github.com/dbxnr))
 
 **Build:**
-- Hotfix to keep the version from releases in sync in repo [\#895](https://github.com/jrnl-org/jrnl/pull/895) ([wren](https://github.com/wren))
-- Update travis caching to speed up builds [\#871](https://github.com/jrnl-org/jrnl/pull/871) ([wren](https://github.com/wren))
+
+- Update Python versions in pipeline [\#910](https://github.com/jrnl-org/jrnl/pull/910) ([MinchinWeb](https://github.com/MinchinWeb))
+- Update Poetry requirements for testing latest Python version [\#898](https://github.com/jrnl-org/jrnl/pull/898) ([wren](https://github.com/wren))
+- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
 
 **Updated documentation:**
-- Update and reorganize CONTRIBUTING [\#885](https://github.com/jrnl-org/jrnl/pull/885) ([micahellison](https://github.com/micahellison))
-- Update url for "beautiful timeline" in export.md [\#879](https://github.com/jrnl-org/jrnl/pull/879) ([NGenetzky](https://github.com/NGenetzky))
+
+- Update the code of conduct [\#913](https://github.com/jrnl-org/jrnl/pull/913) ([wren](https://github.com/wren))
+- Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
+- Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
+- Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
 
 ## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
 
