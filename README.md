@@ -1,4 +1,4 @@
-jrnl [![Financial Contributors on Open Collective](https://opencollective.com/jrnl/all/badge.svg?label=financial+contributors)](https://opencollective.com/jrnl) [![Build Status](https://travis-ci.com/jrnl-org/jrnl.svg?branch=master)](https://travis-ci.com/jrnl-org/jrnl) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
+jrnl [![Build Status](https://travis-ci.com/jrnl-org/jrnl.svg?branch=master)](https://travis-ci.com/jrnl-org/jrnl) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
 _To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new) on Github._
@@ -54,18 +54,3 @@ Become a financial contributor and help us sustain our community. [[Contribute](
 #### Individuals
 
 <a href="https://opencollective.com/jrnl"><img src="https://opencollective.com/jrnl/individuals.svg?width=890"></a>
-
-#### Organizations
-
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/jrnl/contribute)]
-
-<a href="https://opencollective.com/jrnl/organization/0/website"><img src="https://opencollective.com/jrnl/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/1/website"><img src="https://opencollective.com/jrnl/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/2/website"><img src="https://opencollective.com/jrnl/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/3/website"><img src="https://opencollective.com/jrnl/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/4/website"><img src="https://opencollective.com/jrnl/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/5/website"><img src="https://opencollective.com/jrnl/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/6/website"><img src="https://opencollective.com/jrnl/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/7/website"><img src="https://opencollective.com/jrnl/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/8/website"><img src="https://opencollective.com/jrnl/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/jrnl/organization/9/website"><img src="https://opencollective.com/jrnl/organization/9/avatar.svg"></a>
