@@ -6,6 +6,24 @@
 
 **Implemented enhancements:**
 
+- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
+
+**Build:**
+
+- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+
+- Docs: editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
+
+# Changelog
+
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
+
+**Implemented enhancements:**
+
 - Update keyring version from "^19.0" to "\>19.0, \<22.0" [\#914](https://github.com/jrnl-org/jrnl/pull/914) ([micahellison](https://github.com/micahellison))
 - Allow tzlocal version \>1.5 \<3.0 instead of \>1.5 \<2.0 [\#900](https://github.com/jrnl-org/jrnl/pull/900) ([micahellison](https://github.com/micahellison))
 - Interactive delete [\#650](https://github.com/jrnl-org/jrnl/pull/850) ([alichtman](https://github.com/alichtman))
