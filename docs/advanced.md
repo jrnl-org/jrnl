@@ -14,8 +14,8 @@ The configuration file is a YAML file with the following options
 and can be edited with a plain text editor.
 
 !!! note
-    Backup your config file before editing. Changes to the config file
-    have destructive effects on your journal!
+    Backup your journal and config file before editing. Changes to the config file
+    can have destructive effects on your journal!
 
   - `journals`
     paths to your journal files
