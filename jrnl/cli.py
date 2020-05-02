@@ -478,5 +478,8 @@ def run(manual_args=None):
         journal.write()
 
     elif args.delete:
+        other_entries = [e for e in old_entries if e not in journal.entries]
         journal.prompt_delete_entries()
+        journal.entries += other_entries
+        journal.sort()
         journal.write()
