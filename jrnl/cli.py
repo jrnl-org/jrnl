@@ -335,6 +335,7 @@ def run(manual_args=None):
     config = util.scope_config(config, journal_name)
 
     log.debug('Using journal "%s"', journal_name)
+
     mode_compose, mode_export, mode_import = guess_mode(args, config)
 
     # How to quit writing?
@@ -478,5 +479,16 @@ def run(manual_args=None):
         journal.write()
 
     elif args.delete:
-        journal.prompt_delete_entries()
-        journal.write()
+        if journal.entries:
+            entries_to_delete = journal.prompt_delete_entries()
+
+            if entries_to_delete:
+                journal.entries = old_entries
+                journal.delete_entries(entries_to_delete)
+
+                journal.write()
+        else:
+            print(
+                "No entries deleted, because the search returned no results.",
+                file=sys.stderr,
+            )

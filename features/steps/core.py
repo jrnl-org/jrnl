@@ -257,6 +257,13 @@ def check_journal_content(context, text, journal_name="default"):
     assert text in journal, journal
 
 
+@then('the journal should not contain "{text}"')
+@then('journal "{journal_name}" should not contain "{text}"')
+def check_not_journal_content(context, text, journal_name="default"):
+    journal = read_journal(journal_name)
+    assert text not in journal, journal
+
+
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
     with open(install.CONFIG_FILE_PATH) as config_file:
