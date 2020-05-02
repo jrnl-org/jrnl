@@ -187,14 +187,12 @@ def parse_args(args=None):
         action="store_true",
     )
 
-    # Disabling this momentarily due to critical bug
-    # @see https://github.com/jrnl-org/jrnl/issues/932
-    # exporting.add_argument(
-    #     "--delete",
-    #     dest="delete",
-    #     action="store_true",
-    #     help="Opens an interactive interface for deleting entries.",
-    # )
+    exporting.add_argument(
+        "--delete",
+        dest="delete",
+        action="store_true",
+        help="Opens an interactive interface for deleting entries.",
+    )
 
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
@@ -303,9 +301,6 @@ def configure_logger(debug=False):
 
 def run(manual_args=None):
     args = parse_args(manual_args)
-
-    # temporary until bring back --delete
-    args.delete = False  # TODO: remove me
 
     configure_logger(args.debug)
     if args.version:
