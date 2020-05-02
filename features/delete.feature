@@ -1,5 +1,5 @@
 Feature: Delete entries from journal
-
+    @skip
     Scenario: --delete flag allows deletion of single entry
         Given we use the config "deletion.yaml"
         When we run "jrnl -n 1"

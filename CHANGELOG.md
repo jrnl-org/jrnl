@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.4.1](https://pypi.org/project/jrnl/v2.4.1/) (2020-05-02)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4...v2.4.1)
+
+**Fixed bugs:**
+
+- Disable --delete due to critical bug [\#934](https://github.com/jrnl-org/jrnl/pull/934) ([wren](https://github.com/wren))
+
 ## [v2.4](https://pypi.org/project/jrnl/v2.4/) (2020-04-25)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...v2.4)
