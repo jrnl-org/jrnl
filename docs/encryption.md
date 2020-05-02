@@ -36,8 +36,8 @@ journal and use the same password again.
 
 ## A note on security
 
-While `jrnl` follows best practices, true security is an illusion.
-There are a number of ways that attackers can at least partially
+While `jrnl` follows best practices, total security is an illusion.
+There are a number of ways that people can at least partially
 compromise your `jrnl` data. See the [Privacy and Security](./security.md)
 documentation for more information.
 

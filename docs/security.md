@@ -66,8 +66,8 @@ right before closing it.
 You may be able to hide the contents of your journal behind a layer of encryption,
 but if someone has access to your configuration file, then they can figure out that
 you have a journal, where that journal file is, and when you last edited it.
-With a sufficient power imbalance, an attacker may be able to force you to unencrypt
-it through legal means or other forms of coercion.
+With a sufficient power imbalance, someone may be able to force you to unencrypt
+it through non-technical means.
 
 ## Notice any other risks?
 
