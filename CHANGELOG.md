@@ -2,44 +2,7 @@
 
 ## [v2.4](https://pypi.org/project/jrnl/v2.4/) (2020-04-25)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4-beta...v2.4)
-
-**Implemented enhancements:**
-
-- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
-
-**Build:**
-
-- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
-
-**Updated documentation:**
-
-- Clean up readme file [\#924](https://github.com/jrnl-org/jrnl/pull/924) ([wren](https://github.com/wren))
-- Clarify that editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
-
-# Changelog
-
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
-
-**Implemented enhancements:**
-
-- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
-
-**Build:**
-
-- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
-
-**Updated documentation:**
-
-- Docs: editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
-
-# Changelog
-
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...v2.4)
 
 **Implemented enhancements:**
 
@@ -67,6 +30,8 @@
 - Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
 - Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
 - Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
+- Clean up readme file [\#924](https://github.com/jrnl-org/jrnl/pull/924) ([wren](https://github.com/wren))
+- Clarify that editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
 
 ## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
 
