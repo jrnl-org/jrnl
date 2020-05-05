@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...HEAD)
+
+**Build:**
+
+- Allow most recent pytz version and update dependencies [\#937](https://github.com/jrnl-org/jrnl/pull/937) ([micahellison](https://github.com/micahellison))
+
+**Updated documentation:**
+
+- Change jrnl.sh GitHub new issue link to issue template chooser [\#936](https://github.com/jrnl-org/jrnl/pull/936) ([micahellison](https://github.com/micahellison))
+
 ## [v2.4.1](https://pypi.org/project/jrnl/v2.4.1/) (2020-05-02)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4...v2.4.1)
