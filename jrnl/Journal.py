@@ -236,9 +236,8 @@ class Journal:
 
     def delete_entries(self, entries_to_delete):
         """Deletes specific entries from a journal."""
-        self.entries = [
-            entry for entry in self.entries if entry not in entries_to_delete
-        ]
+        for entry in entries_to_delete:
+            self.entries.remove(entry)
 
     def prompt_delete_entries(self):
         """Prompts for deletion of each of the entries in a journal.
