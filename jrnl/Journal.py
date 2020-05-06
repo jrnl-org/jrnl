@@ -234,8 +234,14 @@ class Journal:
 
         self.entries = result
 
+    def delete_entries(self, entries_to_delete):
+        """Deletes specific entries from a journal."""
+        for entry in entries_to_delete:
+            self.entries.remove(entry)
+
     def prompt_delete_entries(self):
-        """Prompts for deletion of entries in a journal."""
+        """Prompts for deletion of each of the entries in a journal.
+        Returns the entries the user wishes to delete."""
 
         to_delete = []
 
@@ -248,8 +254,7 @@ class Journal:
             if ask_delete(entry):
                 to_delete.append(entry)
 
-        self.entries = [entry for entry in self.entries if entry not in to_delete]
-        self.write()
+        return to_delete
 
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
