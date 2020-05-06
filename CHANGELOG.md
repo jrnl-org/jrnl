@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...HEAD)
 
+**Fixed bugs:**
+
+- Prevent filtered delete from deleting journal [\#935](https://github.com/jrnl-org/jrnl/pull/935) ([micahellison](https://github.com/micahellison))
+
 **Build:**
 
 - Allow most recent pytz version and update dependencies [\#937](https://github.com/jrnl-org/jrnl/pull/937) ([micahellison](https://github.com/micahellison))
