@@ -87,14 +87,16 @@ def assert_xml_output_tags(context, expected_tags_json_list):
 
 @given('we created a directory named "{dir_name}"')
 def create_directory(context, dir_name):
-    if os.path.exists(dir_name):
-        shutil.rmtree(dir_name)
-    os.mkdir(dir_name)
+    working_dir = os.path.join("features", "cache", dir_name)
+    if os.path.exists(working_dir):
+        shutil.rmtree(working_dir)
+    os.makedirs(working_dir)
 
 
 @then('"{dir_name}" should contain the files {expected_files_json_list}')
 def assert_dir_contains_files(context, dir_name, expected_files_json_list):
-    actual_files = os.listdir(dir_name)
+    working_dir = os.path.join("features", "cache", dir_name)
+    actual_files = os.listdir(working_dir)
     expected_files = json.loads(expected_files_json_list)
 
     # sort to deal with inconsistent default file ordering on different OS's
@@ -107,8 +109,9 @@ def assert_dir_contains_files(context, dir_name, expected_files_json_list):
 @then('the content of exported yaml "{file_path}" should be')
 def assert_exported_yaml_file_content(context, file_path):
     expected_content = context.text.strip().splitlines()
+    full_file_path = os.path.join("features", "cache", file_path)
 
-    with open(file_path, "r") as f:
+    with open(full_file_path, "r") as f:
         actual_content = f.read().strip().splitlines()
 
     for actual_line, expected_line in zip(actual_content, expected_content):

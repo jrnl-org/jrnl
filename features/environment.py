@@ -18,7 +18,7 @@ def before_feature(context, feature):
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     # Clean up in case something went wrong
-    for folder in ("configs", "journals"):
+    for folder in ("configs", "journals", "cache"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
             shutil.rmtree(working_dir)
@@ -48,7 +48,7 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
-    for folder in ("configs", "journals"):
+    for folder in ("configs", "journals", "cache"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
             shutil.rmtree(working_dir)
