@@ -122,10 +122,16 @@ Feature: Exporting a Journal
 
     Scenario: Export to yaml
         Given we use the config "tags.yaml"
-        And we created a directory named "exported_journal"
-        When we run "jrnl --export yaml -o features/cache/exported_journal"
-        Then "exported_journal" should contain the files ["2013-04-09_i-have-an-idea.md", "2013-06-10_i-met-with-dan.md"]
-        And the content of exported yaml "exported_journal/2013-04-09_i-have-an-idea.md" should be
+        And we create cache directory "exported_journal"
+        When we run "jrnl --export yaml -o {cache_dir}" with cache directory "exported_journal"
+        Then cache directory "exported_journal" should contain the files
+        """
+        [
+        "2013-04-09_i-have-an-idea.md",
+        "2013-06-10_i-met-with-dan.md"
+        ]
+        """
+        And the content of file "2013-04-09_i-have-an-idea.md" in cache directory "exported_journal" should be
         """
         title: I have an @idea:
         date: 2013-04-09 15:39

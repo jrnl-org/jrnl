@@ -2,11 +2,13 @@ import shutil
 import os
 import sys
 
+
 def clean_all_working_dirs():
     for folder in ("configs", "journals", "cache"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
             shutil.rmtree(working_dir)
+
 
 def before_feature(context, feature):
     # add "skip" tag
@@ -51,4 +53,3 @@ def before_scenario(context, scenario):
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
     clean_all_working_dirs()
-

@@ -148,10 +148,17 @@ Feature: Zapped bugs should stay dead.
     # See issues #768 and #881
     Scenario: Add a blank line to YAML export is there isn't one already
         Given we use the config "deletion.yaml"
-        And we created a directory named "bug768"
-        When we run "jrnl --export yaml -o features/cache/bug768"
-        Then "bug768" should contain the files ["2019-10-29_first-entry.md", "2019-10-29_second-entry.md", "2019-10-29_third-entry.md"]
-        And the content of exported yaml "bug768/2019-10-29_third-entry.md" should be
+        And we create cache directory "bug768"
+        When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
+        Then cache directory "bug768" should contain the files
+        """
+        [
+        "2019-10-29_first-entry.md",
+        "2019-10-29_second-entry.md",
+        "2019-10-29_third-entry.md"
+        ]
+        """
+        And the content of file "2019-10-29_third-entry.md" in cache directory "bug768" should be
         """
         title: Third entry.
         date: 2019-10-29 11:13

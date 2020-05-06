@@ -151,7 +151,12 @@ def run_with_input(context, command, inputs=""):
 
 
 @when('we run "{command}"')
-def run(context, command):
+@when('we run "{command}" with cache directory "{cache_dir}"')
+def run(context, command, cache_dir=None):
+    if cache_dir is not None:
+        cache_dir = os.path.join("features", "cache", cache_dir)
+        command = command.format(cache_dir=cache_dir)
+
     args = ushlex(command)[1:]
     try:
         cli.run(args or None)
