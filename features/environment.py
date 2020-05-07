@@ -3,6 +3,13 @@ import os
 import sys
 
 
+def clean_all_working_dirs():
+    for folder in ("configs", "journals", "cache"):
+        working_dir = os.path.join("features", folder)
+        if os.path.exists(working_dir):
+            shutil.rmtree(working_dir)
+
+
 def before_feature(context, feature):
     # add "skip" tag
     # https://stackoverflow.com/a/42721605/4276230
@@ -18,10 +25,7 @@ def before_feature(context, feature):
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     # Clean up in case something went wrong
-    for folder in ("configs", "journals"):
-        working_dir = os.path.join("features", folder)
-        if os.path.exists(working_dir):
-            shutil.rmtree(working_dir)
+    clean_all_working_dirs()
 
     for folder in ("configs", "journals"):
         original = os.path.join("features", "data", folder)
@@ -48,7 +52,4 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
-    for folder in ("configs", "journals"):
-        working_dir = os.path.join("features", folder)
-        if os.path.exists(working_dir):
-            shutil.rmtree(working_dir)
+    clean_all_working_dirs()
