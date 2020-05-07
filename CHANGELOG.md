@@ -10,11 +10,13 @@
 
 **Build:**
 
+- Make sure testing cleans up after itself [\#940](https://github.com/jrnl-org/jrnl/pull/940) ([wren](https://github.com/wren))
 - Allow most recent pytz version and update dependencies [\#937](https://github.com/jrnl-org/jrnl/pull/937) ([micahellison](https://github.com/micahellison))
 
 **Updated documentation:**
 
 - Change jrnl.sh GitHub new issue link to issue template chooser [\#936](https://github.com/jrnl-org/jrnl/pull/936) ([micahellison](https://github.com/micahellison))
+- Improve privacy, security, and encryption documentation \#896 [\#925](https://github.com/jrnl-org/jrnl/pull/925) ([micahellison](https://github.com/micahellison))
 
 ## [v2.4.1](https://pypi.org/project/jrnl/v2.4.1/) (2020-05-02)
 
