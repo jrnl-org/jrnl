@@ -45,9 +45,7 @@ keyring.set_keyring(TestKeyring())
 
 
 def ushlex(command):
-    if sys.version_info[0] == 3:
-        return shlex.split(command)
-    return map(lambda s: s.decode("UTF8"), shlex.split(command.encode("utf8")))
+    return shlex.split(command, posix="win32" not in sys.platform)
 
 
 def read_journal(journal_name="default"):
@@ -151,7 +149,12 @@ def run_with_input(context, command, inputs=""):
 
 
 @when('we run "{command}"')
-def run(context, command):
+@when('we run "{command}" with cache directory "{cache_dir}"')
+def run(context, command, cache_dir=None):
+    if cache_dir is not None:
+        cache_dir = os.path.join("features", "cache", cache_dir)
+        command = command.format(cache_dir=cache_dir)
+
     args = ushlex(command)[1:]
     try:
         cli.run(args or None)
