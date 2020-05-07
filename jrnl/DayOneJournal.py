@@ -2,8 +2,8 @@
 
 from datetime import datetime
 import fnmatch
-from pathlib import Path
 import os
+from pathlib import Path
 import plistlib
 import re
 import time
