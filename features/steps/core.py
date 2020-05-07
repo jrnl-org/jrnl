@@ -45,9 +45,7 @@ keyring.set_keyring(TestKeyring())
 
 
 def ushlex(command):
-    if sys.version_info[0] == 3:
-        return shlex.split(command)
-    return map(lambda s: s.decode("UTF8"), shlex.split(command.encode("utf8")))
+    return shlex.split(command, posix="win32" not in sys.platform)
 
 
 def read_journal(journal_name="default"):
