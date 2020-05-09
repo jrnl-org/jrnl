@@ -2,7 +2,16 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
+
+**Fixed bugs:**
+
+- Fix duplicate text in multiple tag search [\#948](https://github.com/jrnl-org/jrnl/pull/948) ([micahellison](https://github.com/micahellison))
+
+
+## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...v2.4.2)
 
 **Fixed bugs:**
 
@@ -12,6 +21,7 @@
 
 - Make sure testing cleans up after itself [\#940](https://github.com/jrnl-org/jrnl/pull/940) ([wren](https://github.com/wren))
 - Allow most recent pytz version and update dependencies [\#937](https://github.com/jrnl-org/jrnl/pull/937) ([micahellison](https://github.com/micahellison))
+- Use gitlab to trigger releases in pipeline [\#947](https://github.com/jrnl-org/jrnl/pull/947) ([wren](https://github.com/wren))
 
 **Updated documentation:**
 
