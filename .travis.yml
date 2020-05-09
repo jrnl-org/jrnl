@@ -139,6 +139,8 @@ jobs:
         - provider: script
           script: poetry publish
           skip_cleanup: true
+          on:
+            all_branches: true
 
     # Changelog for Unreleased changes
     - stage: Update Changelog
