@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
 import glob
-import os
-import xdg.BaseDirectory
-from . import util
-from . import upgrade
-from . import __version__
-from .util import UserAbort, verify_config
-import yaml
 import logging
+import os
 import sys
+
+import xdg.BaseDirectory
+import yaml
+
+from . import __version__, upgrade, util
+from .util import UserAbort, verify_config
 
 if "win32" not in sys.platform:
     # readline is not included in Windows Active Python

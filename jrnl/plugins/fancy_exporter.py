@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals, print_function
-from .text_exporter import TextExporter
 from textwrap import TextWrapper
+
+from .text_exporter import TextExporter
 
 
 class FancyExporter(TextExporter):

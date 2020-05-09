@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 
-import sys
-import os
 import getpass as gp
-import yaml
+import logging
+import os
+import re
+import shlex
+from string import punctuation, whitespace
+import subprocess
+import sys
+import tempfile
+from typing import Callable, Optional
+import unicodedata
+
 import colorama
+import yaml
 
 if "win32" in sys.platform:
     colorama.init()
-import re
-import tempfile
-import subprocess
-import unicodedata
-import shlex
-from string import punctuation, whitespace
-import logging
-from typing import Optional, Callable
 
 log = logging.getLogger(__name__)
 

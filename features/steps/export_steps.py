@@ -3,7 +3,7 @@ import os
 import shutil
 from xml.etree import ElementTree
 
-from behave import then, given
+from behave import given, then
 
 
 @then("the output should be parsable as json")
