@@ -59,6 +59,6 @@ git config --global user.email "jrnl.bot@gmail.com"
 git config --global user.name "Jrnl Bot"
 git checkout $BRANCH
 git add "$FILENAME"
-git commit -m "Updating changelog [ci skip]"
+git commit -m "Update changelog [ci skip]"
 git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git $BRANCH
 
