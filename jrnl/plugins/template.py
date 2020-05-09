@@ -1,4 +1,5 @@
 import re
+
 import yaml
 
 VAR_RE = r"[_a-zA-Z][a-zA-Z0-9_]*"

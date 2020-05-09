@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
-import re
-import ansiwrap
 from datetime import datetime
-from .util import split_title, colorize, highlight_tags_with_background_color
+import re
+
+import ansiwrap
+
+from .util import colorize, highlight_tags_with_background_color, split_title
 
 
 class Entry:
