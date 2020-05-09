@@ -108,3 +108,14 @@ Feature: Tagging
             | As alway's he shared his latest @idea on how to rule the world with me.
             | inst
             """
+
+    Scenario: Searching a journal for multiple tags with -and should display entries with those tags.
+        Given we use the config "tags.yaml"
+        When we run "jrnl -and @idea @journal"
+        Then the output should be
+            """
+            2013-04-09 15:39 I have an @idea:
+            | (1) write a command line @journal software
+            | (2) ???
+            | (3) PROFIT!
+            """
