@@ -73,7 +73,7 @@ jrnlimport () {
 !!! note
     Templates require an [external editor](./advanced.md) be configured. 
 
-A template is a code snippet that makes it easier to enter use repeated text 
+A template is a code snippet that makes it easier to use repeated text 
 each time a new journal entry is started. There are two ways you can utilize
 templates in your entries.  
 
