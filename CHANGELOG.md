@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
+
+**Fixed bugs:**
+
+- Ask for password before adding entry instead of after [\#951](https://github.com/jrnl-org/jrnl/pull/951) ([ollybritton](https://github.com/ollybritton))
+
 ## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...v2.4.2)
