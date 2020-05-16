@@ -345,7 +345,7 @@ def run(manual_args=None):
     else:
         _exit_multiline_code = "press Ctrl+D"
 
-    # This is where we fi±nally open the journal!
+    # This is where we finally open the journal!
     try:
         journal = open_journal(journal_name, config)
     except KeyboardInterrupt:
