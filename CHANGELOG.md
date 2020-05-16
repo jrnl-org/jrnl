@@ -1,14 +1,5 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
-
-**Fixed bugs:**
-
-- Fix duplicate text in multiple tag search [\#948](https://github.com/jrnl-org/jrnl/pull/948) ([micahellison](https://github.com/micahellison))
-
-
 ## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...v2.4.2)
