@@ -345,6 +345,13 @@ def run(manual_args=None):
     else:
         _exit_multiline_code = "press Ctrl+D"
 
+    # This is where we finally open the journal!
+    try:
+        journal = open_journal(journal_name, config)
+    except KeyboardInterrupt:
+        print("[Interrupted while opening journal]", file=sys.stderr)
+        sys.exit(1)
+
     if mode_compose and not args.text:
         if not sys.stdin.isatty():
             # Piping data into jrnl
@@ -375,13 +382,6 @@ def run(manual_args=None):
             args.text = [raw]
         else:
             sys.exit()
-
-    # This is where we finally open the journal!
-    try:
-        journal = open_journal(journal_name, config)
-    except KeyboardInterrupt:
-        print("[Interrupted while opening journal]", file=sys.stderr)
-        sys.exit(1)
 
     # Import mode
     if mode_import:
