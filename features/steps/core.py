@@ -85,6 +85,7 @@ def open_editor_and_enter(context, text=""):
     text = text or context.text or ""
 
     def _mock_editor_function(command):
+        context.editor_command = command
         tmpfile = command[-1]
         with open(tmpfile, "w+") as f:
             f.write(text)
@@ -92,7 +93,17 @@ def open_editor_and_enter(context, text=""):
         return tmpfile
 
     with patch("subprocess.call", side_effect=_mock_editor_function):
-        run(context, "jrnl")
+        context.execute_steps('when we run "jrnl"')
+
+
+@then("the editor should have been called with {num} arguments")
+def count_editor_args(context, num):
+    assert len(context.editor_command) == int(num)
+
+
+@then('the editor arguments should contain "{arg}"')
+def contains_editor_arg(context, arg):
+    assert arg in context.editor_command
 
 
 def _mock_getpass(inputs):
