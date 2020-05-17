@@ -1,32 +1,26 @@
-
 <!--
-# **TEMPLATE PLEASE EDIT**
-*Thank you for wanting to contribute! Please fill out this description as well
-as look at the checklist!*
+Thank you for wanting to contribute!
 
-*Short block of text containing:
-- Relevant changes in text form
-- related issues
-- Motivation (if applicable)
-- Example of usage (if applicable)
-- Example of changes to config files (if applicable)
-*
+Please fill out this description, and the checklist below.
+
+Here are some key points to include in your description:
+- What is this new code intended to do?
+- Are there any related issues?
+- What is the motivation for this change?
+- What is an example of usage, or changes to config files? (if applicable)
 -->
 
 ### Checklist
 
-- [ ] The code change is tested and works locally.
-- [ ] Tests pass. Your PR cannot be merged unless tests pass. --
-  `poetry run behave`
-- [ ] The code passes linting via
-  [black](https://black.readthedocs.io/en/stable/) (consistent code styling). --
-  `poetry run black --check . --verbose --diff`
-- [ ] The code passes linting via [pyflakes](https://launchpad.net/pyflakes)
-  (logically errors and unused imports). -- `poetry run pyflakes jrnl features`
-- [ ] There is no commented out code in this PR.
-- [ ] Have you followed the guidelines in our Contributing document?
-- [ ] Have you checked to ensure there aren't other open
-  [Pull Requests](../pulls) for the same update/change?
-- [ ] Have you added an explanation of what your changes do and why you'd like
-  us to include them?
-- [ ] Have you written new tests for your core changes, as applicable?
+- [ ] I have read the [contributing doc](https://github.com/jrnl-org/jrnl/blob/develop/CONTRIBUTING.md).
+- [ ] I have included a link to the relevant issue number.
+- [ ] I have tested this code locally.
+- [ ] I have checked to ensure there aren't other open [pull requests](../pulls)
+  for the same issue.
+- [ ] I have you written new tests for these changes, as needed.
+- [ ] All tests pass.
+<!--
+NOTE: Your PR may not be reviewed if there are any failing tests. You can run
+tests locally with `make test` (see the contributing doc if you need help with
+`make`), or use our automated tests after you submit your PR.
+-->
