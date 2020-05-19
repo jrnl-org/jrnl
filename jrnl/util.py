@@ -266,5 +266,5 @@ def split_title(text):
     if not sep:
         sep = SENTENCE_SPLITTER.search(text)
         if not sep:
-            return text,""
+            return text, ""
     return text[: sep.end()].strip(), text[sep.end() :].strip()
