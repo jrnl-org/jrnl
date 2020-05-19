@@ -26,17 +26,7 @@ RESET_COLOR = colorama.Fore.RESET
 
 # Based on Segtok by Florian Leitner
 # https://github.com/fnl/segtok
-SENTENCE_SPLITTER = re.compile(
-    r"""
-(                       # A sentence ends at one of two sequences:
-    [\'\u2019\"\u201D]? # an optional right quote,
-    [\]\)]*             # optional closing brackets and
-    \s+                 # a sequence of required spaces.
-|                       # Otherwise,
-    \n                  # a sentence also terminates newlines.
-)""",
-    re.VERBOSE,
-)
+SENTENCE_SPLITTER = re.compile("\n")
 
 
 class UserAbort(Exception):
@@ -262,7 +252,7 @@ def slugify(string):
 
 def split_title(text):
     """Splits the first sentence off from a text."""
-    punkt = SENTENCE_SPLITTER.search(text)
+    punkt = SENTENCE_SPLITTER.search(text.strip())
     if not punkt:
-        return text, ""
+        return text,""
     return text[: punkt.end()].strip(), text[punkt.end() :].strip()
