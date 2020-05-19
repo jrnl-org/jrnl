@@ -1,27 +1,44 @@
 # Overview
 
-## What is jrnl?
+## What is `jrnl`?
 
-`jrnl` is a simple journal application for
-your command line. Journals are stored as human readable plain text
-files - you can put them into a Dropbox folder for instant syncing and
-you can be assured that your journal will still be readable in 2050,
-when all your fancy iPad journal applications will long be forgotten.
+`jrnl` is a simple but powerful plain text journal application for the command
+line.
 
-Optionally, your journal can be encrypted using the [256-bit
-AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
+`jrnl` is not the only plain text journal application. It includes features that
+are common to many other applications:
+
+- Journal entries are created and displayed directly from the command line.
+- Journals are stored as human-readable, future-proof plain text files. Because
+  files are stored as plain text, you can rest assured that your journals will
+  still be readable in 2050 and beyond. Entries can be searched, filtered, and
+  edited rapidly and easily.
+- Journals can be stored anywhere, including in shared folders so that they can
+  be synchronized between devices.
+- Journal entries can be created and modified using an external editor of your
+  choice, using the command line as a starting point to filter specific entries.
+- BeJournals are stored in single files using date/time tags to identify
+  individual entries. Some systems endorse a file/folder methodology; `jrnl`
+  keeps 
+- Journals can be protected using [256-bit
+  AES encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
 ## Why keep a journal?
 
-Journals aren't just for people who have too much
-time on their summer vacation. A journal helps you to keep track of the
-things you get done and how you did them. Your imagination may be
-limitless, but your memory isn't.
+Journals aren't just for people who have too much time on their summer vacation.
+Journals help you keep track of events, thoughts, feelings, tasks, ideas, and
+anything else that is worth remembering. Your imagination may be limitless, but
+your memory probably isn't.
 
-For personal use, make it a good habit to write at least 20 words a day.
-Just to reflect what made this day special, why you haven't wasted it.
+To begin, try to write at least 20 words a day. `jrnl` makes this incredibly
+easy. Fire up a terminal and type, `jrnl today at 8am: I arrived at work to find
+a birthday present on my desk. My colleagues are the best!` You can reflect on
+what made your day special so that you'll always remember why you haven't wasted
+it. Or try using `jrnl` to keep a gratitude journal, a habit that has been shown
+to improve mental health and quality of life.
 
-For professional use, consider a text-based journal to be the perfect
-complement to your GTD todo list - a documentation of what and how
-you've done it. Or use it as a quick way to keep a change log. Or use it
-to keep a lab book.
+For professional use, a text-based journal can be the perfect complement to your
+to-do list -- a record of what you've done as well as how and when you've done
+it. You can use a journal as a quick way to keep a change log (`jrnl Updated
+jrnl overview page to make it more awesomer`). Or use it to keep a lab notebook.
+The possibilities are almost endless.
