@@ -254,5 +254,5 @@ def split_title(text):
     """Splits the first sentence off from a text."""
     punkt = SENTENCE_SPLITTER.search(text.strip())
     if not punkt:
-        return text,""
+        return "",text
     return text[: punkt.end()].strip(), text[punkt.end() :].strip()
