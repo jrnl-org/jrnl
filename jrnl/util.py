@@ -262,7 +262,7 @@ def slugify(string):
 
 def split_title(text):
     """Splits the first sentence off from a text."""
-    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.strip())
+    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.lstrip())
     if not sep:
         sep = SENTENCE_SPLITTER.search(text)
         if not sep:
