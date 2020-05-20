@@ -27,7 +27,6 @@ import sys
 import jrnl
 
 from . import install, plugins, util
-from .EncryptedJournal import EncryptedJournal
 from .Journal import PlainJournal, open_journal
 from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 
@@ -242,6 +241,7 @@ def guess_mode(args, config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
+    from .EncryptedJournal import EncryptedJournal
     journal.config["encrypt"] = True
 
     new_journal = EncryptedJournal.from_journal(journal)
