@@ -98,6 +98,7 @@ def load_or_install_jrnl():
 
         if util.is_old_version(config_path):
             from . import upgrade
+
             try:
                 upgrade.upgrade_jrnl_if_necessary(config_path)
             except upgrade.UpgradeValidationException:

@@ -1,10 +1,10 @@
 from datetime import datetime
 
 
-
 FAKE_YEAR = 9999
 DEFAULT_FUTURE = datetime(FAKE_YEAR, 12, 31, 23, 59, 59)
 DEFAULT_PAST = datetime(FAKE_YEAR, 1, 1, 0, 0)
+
 
 def __get_pdt_calendar():
     try:
