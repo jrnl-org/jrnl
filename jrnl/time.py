@@ -1,19 +1,22 @@
 from datetime import datetime
 
-from dateutil.parser import parse as dateparse
 
-try:
-    import parsedatetime.parsedatetime_consts as pdt
-except ImportError:
-    import parsedatetime as pdt
 
 FAKE_YEAR = 9999
 DEFAULT_FUTURE = datetime(FAKE_YEAR, 12, 31, 23, 59, 59)
 DEFAULT_PAST = datetime(FAKE_YEAR, 1, 1, 0, 0)
 
-consts = pdt.Constants(usePyICU=False)
-consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
-CALENDAR = pdt.Calendar(consts)
+def __get_pdt_calendar():
+    try:
+        import parsedatetime.parsedatetime_consts as pdt
+    except ImportError:
+        import parsedatetime as pdt
+
+    consts = pdt.Constants(usePyICU=False)
+    consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
+    calendar = pdt.Calendar(consts)
+
+    return calendar
 
 
 def parse(
@@ -35,6 +38,8 @@ def parse(
     year_present = False
     while not date:
         try:
+            from dateutil.parser import parse as dateparse
+
             date = dateparse(date_str, default=default_date)
             if date.year == FAKE_YEAR:
                 date = datetime(datetime.now().year, date.timetuple()[1:6])
@@ -47,7 +52,8 @@ def parse(
                 y, m, d, H, M, S = default_date.timetuple()[:6]
                 default_date = datetime(y, m, d - 1, H, M, S)
             else:
-                date, flag = CALENDAR.parse(date_str)
+                calendar = __get_pdt_calendar()
+                date, flag = calendar.parse(date_str)
 
     if not flag:  # Oops, unparsable.
         try:  # Try and parse this as a single year
