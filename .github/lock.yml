@@ -8,7 +8,7 @@ daysUntilLock: 90
 skipCreatedBefore: false
 
 # Issues and pull requests with these labels will be ignored. Set to `[]` to disable
-exemptLabels: [':pushpin:']
+exemptLabels: []
 
 # Label to add before locking, such as `outdated`. Set to `false` to disable
 lockLabel: ':lock:'
