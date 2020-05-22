@@ -8,6 +8,10 @@
 
 - Ask for password before adding entry instead of after [\#951](https://github.com/jrnl-org/jrnl/pull/951) ([ollybritton](https://github.com/ollybritton))
 
+**Build:**
+
+- Update lockbot comment to encourage linking to issue [\#941](https://github.com/jrnl-org/jrnl/pull/941) ([MinchinWeb](https://github.com/MinchinWeb))
+
 ## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...v2.4.2)
