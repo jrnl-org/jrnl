@@ -7,20 +7,33 @@ assignees: ''
 
 ---
 
-## Support request
+## Support Request
+<!--
+Hello, and thank you for reporting an issue!
+Please fill out the points below, as it will make our process much easier.
+-->
 
-Hello! Thank you for reporting an issue!
-If you would fill out the below points, that would make our process a whole lot easier!
+### Environment
+<!--
+Please tell us about your environment
+-->
+  - Jrnl version: <!-- Run `jrnl -v` -->
+  - Install method: <!-- How did you install jrnl? (pipx, brew, etc) -->
+  - OS <!-- What is your operating system? (MacOS, Linux, Windows) -->
 
-* **Please tell us about your environment:**
+### What are you trying to do?
+<!--
+Please write a short description of what is happening.
+-->
 
-  - Jrnl version: (run `jrnl -v`)
-  - How you installed Jrnl
+### What have you tried?
+<!--
+Have you tried anything to fix the problem? This can help give us more
+information to help you with.
+-->
 
-  - Operating system [MacOS, Linux, Windows?]
-
-* **What are you trying to do?**
-
-* **What have you tried?**
-
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
+### Other Information
+<!--
+Is there anything else we should know that might be helpful?
+e.g. detailed explanation, stacktraces, related issues, suggestions how to fix
+-->
