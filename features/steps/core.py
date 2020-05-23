@@ -166,10 +166,12 @@ def run(context, command, cache_dir=None):
         cache_dir = os.path.join("features", "cache", cache_dir)
         command = command.format(cache_dir=cache_dir)
 
-    args = ushlex(command)[1:]
+    args = ushlex(command)
+
     try:
-        cli.run(args or None)
-        context.exit_status = 0
+        with patch('sys.argv', args):
+            cli.run(args[1:])
+            context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
 

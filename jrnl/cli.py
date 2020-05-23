@@ -194,11 +194,14 @@ def parse_args(args=None):
         help="Opens an interactive interface for deleting entries.",
     )
 
+    if not args:
+        args = []
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
-    if args is None:
-        args = []
-    return parser.parse_args([num.sub(r"-n \1", a) for a in args])
+    args = [num.sub(r"-n \1", arg) for arg in args]
+
+    return parser.parse_args(args)
 
 
 def guess_mode(args, config):
@@ -300,6 +303,9 @@ def configure_logger(debug=False):
 
 
 def run(manual_args=None):
+    if manual_args is None:
+        manual_args = sys.argv[1:]
+
     args = parse_args(manual_args)
 
     configure_logger(args.debug)
