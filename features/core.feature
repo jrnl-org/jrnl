@@ -33,13 +33,11 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl -n 1"
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
-    @skip_win
     Scenario: Writing an empty entry from the editor
         Given we use the config "editor.yaml"
         When we open the editor and enter nothing
         Then we should see the message "[Nothing saved to file]"
 
-    @skip_win
     Scenario: Sending an argument with spaces to the editor should work
         Given we use the config "editor-args.yaml"
         When we open the editor and enter "lorem ipsum"

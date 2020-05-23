@@ -197,7 +197,7 @@ def parse_args(args=None):
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     if args is None:
-        args = sys.argv[1:]
+        args = []
     return parser.parse_args([num.sub(r"-n \1", a) for a in args])
 
 
