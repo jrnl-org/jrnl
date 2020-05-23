@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## Bug report
+## Bug Report
 <!--
 Hello, and thank you for reporting an issue!
 Please fill out the points below, as it will make our process much easier.
@@ -19,12 +19,12 @@ Please fill out the points below, as it will make our process much easier.
   - Install method: <!-- How did you install jrnl? (pipx, brew, etc) -->
   - OS <!-- What is your operating system? (MacOS, Linux, Windows) -->
 
-### Current behavior
+### Current Behavior
 <!--
 Please put a short description of what is currently happening.
 -->
 
-### Expected behavior
+### Expected Behavior
 <!--
 Please write a short description of what you would expect to happen
 (instead of what is currently happening).
@@ -36,7 +36,7 @@ Please provide the steps to reproduce the problem. It is important for you to
 be as precise as possible here, since more info will let us help you faster.
 -->
 
-### Other information
+### Other Information
 <!-- (e.g. more detailed explanation, stacktraces, related
 issues, suggestions how to fix, links for us to have context, eg.
 stackoverflow, gitter, etc) -->

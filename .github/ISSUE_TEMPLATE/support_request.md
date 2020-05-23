@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## Support request
+## Support Request
 <!--
 Hello, and thank you for reporting an issue!
 Please fill out the points below, as it will make our process much easier.
@@ -32,7 +32,7 @@ Have you tried anything to fix the problem? This can help give us more
 information to help you with.
 -->
 
-### Other information
+### Other Information
 <!--
 Is there anything else we should know that might be helpful?
 e.g. detailed explanation, stacktraces, related issues, suggestions how to fix
