@@ -8,12 +8,24 @@ assignees: ''
 ---
 
 ## Feature Request
+<!--
+Hello, and thank you for reporting an issue!
+Please fill out the points below, as it will make our process much easier.
+-->
 
-Hello! Thank you for reporting an issue!
-If you would fill out the below points, that would make our process a whole lot easier!
+### Use Case/Motivation
+<!--
+What is the motivation / use case for changing the behavior?
+-->
 
-* **What is the motivation / use case for changing the behavior?**
+### Example Usage
+<!--
+Please provide examples of the usage you would like to see.
+e.g `jrnl --new-flag="super cool new feature"`
+-->
 
-* **Please provide examples of the usage**
-
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
+### Other information
+<!--
+Please provide any other relevant info about this request (e.g. stacktraces,
+related issues, suggestions how to fix, etc)
+-->
