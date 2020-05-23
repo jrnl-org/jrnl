@@ -126,7 +126,7 @@ def load_config(config_path):
 def is_config_json(config_path):
     with open(config_path, "r", encoding="utf-8") as f:
         config_file = f.read()
-    return config_file.strip().startswith("{"):
+    return config_file.strip().startswith("{")
 
 
 def is_old_version(config_path):
