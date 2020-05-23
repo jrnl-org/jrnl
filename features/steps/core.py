@@ -2,6 +2,7 @@ import ast
 from collections import defaultdict
 import os
 from pathlib import Path
+import re
 import shlex
 import sys
 import time
@@ -101,9 +102,21 @@ def count_editor_args(context, num):
     assert len(context.editor_command) == int(num)
 
 
-@then('the editor arguments should contain "{arg}"')
+@then('one editor argument should be "{arg}"')
 def contains_editor_arg(context, arg):
-    assert arg in context.editor_command
+    args = context.editor_command
+    assert (
+        arg in args and args.count(arg) == 1
+    ), f"\narg not in args exactly 1 time:\n{arg}\n{str(args)}"
+
+
+@then('one editor argument should match "{regex}"')
+def matches_editor_arg(context, regex):
+    args = context.editor_command
+    matches = list(filter(lambda x: re.match(regex, x), args))
+    assert (
+        len(matches) == 1
+    ), f"\nRegex didn't match exactly 1 time:\n{regex}\n{str(args)}"
 
 
 def _mock_getpass(inputs):
@@ -169,7 +182,7 @@ def run(context, command, cache_dir=None):
     args = ushlex(command)
 
     try:
-        with patch('sys.argv', args):
+        with patch("sys.argv", args):
             cli.run(args[1:])
             context.exit_status = 0
     except SystemExit as e:
