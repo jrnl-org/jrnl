@@ -100,7 +100,7 @@ def load_or_install_jrnl():
             from . import upgrade
 
             try:
-                upgrade.upgrade_jrnl_if_necessary(config_path)
+                upgrade.upgrade_jrnl(config_path)
             except upgrade.UpgradeValidationException:
                 print("Aborting upgrade.", file=sys.stderr)
                 print(
