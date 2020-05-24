@@ -95,7 +95,7 @@ def open_editor_and_enter(context, text=""):
 
     with patch("subprocess.call", side_effect=_mock_editor_function):
         print("About to run execute_steps", file=sys.stderr)
-        context.execute_steps('when we run "jrnl"')
+        run_with_input(context, "jrnl")
 
 
 @then("the editor should have been called with {num} arguments")
