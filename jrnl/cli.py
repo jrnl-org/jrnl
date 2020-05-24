@@ -303,6 +303,8 @@ def configure_logger(debug=False):
 
 
 def run(manual_args=None):
+    print("run", file=sys.stderr)
+
     if manual_args is None:
         manual_args = sys.argv[1:]
 
@@ -345,6 +347,9 @@ def run(manual_args=None):
 
     mode_compose, mode_export, mode_import = guess_mode(args, config)
 
+    print(f"mode_compose: {mode_compose}, mode_export: {mode_export}, mode_import: {mode_import}", file=sys.stderr)
+
+
     # How to quit writing?
     if "win32" in sys.platform:
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
@@ -357,6 +362,8 @@ def run(manual_args=None):
     except KeyboardInterrupt:
         print("[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)
+
+    print("journal is open", file=sys.stderr)
 
     if mode_compose and not args.text:
         if not sys.stdin.isatty():

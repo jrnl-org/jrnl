@@ -94,6 +94,7 @@ def open_editor_and_enter(context, text=""):
         return tmpfile
 
     with patch("subprocess.call", side_effect=_mock_editor_function):
+        print("About to run execute_steps", file=sys.stderr)
         context.execute_steps('when we run "jrnl"')
 
 
@@ -140,6 +141,8 @@ def _mock_input(inputs):
 @when('we run "{command}" and enter nothing')
 @when('we run "{command}" and enter "{inputs}"')
 def run_with_input(context, command, inputs=""):
+    print("run_with_input", file=sys.stderr)
+
     # create an iterator through all inputs. These inputs will be fed one by one
     # to the mocked calls for 'input()', 'util.getpass()' and 'sys.stdin.read()'
     if context.text:
@@ -156,6 +159,7 @@ def run_with_input(context, command, inputs=""):
          patch("sys.stdin.read", side_effect=text) as mock_read:
 
         try:
+            print(f"cli.run {args}", file=sys.stderr)
             cli.run(args or [])
             context.exit_status = 0
         except SystemExit as e:
