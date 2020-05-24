@@ -401,6 +401,8 @@ def run(manual_args=None):
         else:
             sys.exit()
 
+    print("still going after mode_compose block", file=sys.stderr)
+
     # Import mode
     if mode_import:
         plugins.get_importer(args.import_).import_(journal, args.input)
