@@ -20,7 +20,7 @@ install:
   - poetry run python --version
 
 script:
-  - poetry run behave
+  - poetry run behave --no-capture
 
 aliases:
   test_mac: &test_mac
