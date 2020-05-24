@@ -349,7 +349,6 @@ def run(manual_args=None):
 
     print(f"mode_compose: {mode_compose}, mode_export: {mode_export}, mode_import: {mode_import}", file=sys.stderr)
 
-
     # How to quit writing?
     if "win32" in sys.platform:
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
@@ -366,13 +365,18 @@ def run(manual_args=None):
     print("journal is open", file=sys.stderr)
 
     if mode_compose and not args.text:
+        print("mode_compose block", file=sys.stderr)
+
         if not sys.stdin.isatty():
             # Piping data into jrnl
+            print("raw = sys.stdin.read()", file=sys.stderr)
             raw = sys.stdin.read()
         elif config["editor"]:
+            print("config[""editor""]", file=sys.stderr)
             template = ""
             if config["template"]:
                 try:
+                    print("open config", file=sys.stderr)
                     template = open(config["template"]).read()
                 except OSError:
                     print(
@@ -380,6 +384,7 @@ def run(manual_args=None):
                         file=sys.stderr,
                     )
                     sys.exit(1)
+            print("about to get_text_from_editor", file=sys.stderr)
             raw = util.get_text_from_editor(config, template)
         else:
             try:
