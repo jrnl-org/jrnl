@@ -164,6 +164,7 @@ def verify_config(config):
 
 
 def get_text_from_editor(config, template=""):
+    print("get_text_from_editor", file=sys.stderr)
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
     os.close(filehandle)
 
@@ -172,6 +173,8 @@ def get_text_from_editor(config, template=""):
             f.write(template)
 
     try:
+        print("try subprocess.call in get_text_from_editor", file=sys.stderr)
+        print(shlex.split(config["editor"], posix="win32" not in sys.platform) + [tmpfile])
         subprocess.call(
             shlex.split(config["editor"], posix="win32" not in sys.platform) + [tmpfile]
         )
