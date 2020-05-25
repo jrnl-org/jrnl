@@ -1,4 +1,4 @@
-# Basic Usage
+# Basic Usage #
 
 `jrnl` has two modes: **composing** and **viewing**. Whenever you don't enter
 any arguments that start with a dash (`-`) or double-dash (`--`), you're in
@@ -11,25 +11,14 @@ it. Filter arguments can be combined arbitrarily. Arguments with a _double dash_
 arguments are mutually exclusive (i.e., you can only specify one way to display
 or export your journal at a time).
 
-## Listing Journals
-
-You can list the journals accessible by `jrnl`:
-
-```sh
-jrnl -ls
-```
-
-The journals displayed correspond to those specified in the `jrnl` configuration
-file.
-
-## Composing Entries
+## Composing Entries ##
 
 Composing mode is entered by either starting `jrnl` without any arguments --
-which will prompt you to write an entry or launch your editor -- or by just
-writing an entry on the prompt, such as
+which will launch an external editor -- or by just writing an entry on the
+command line:
 
 ```sh
-jrnl today at 3am: I just met Steve Buscemi in a bar! He was on fire.
+jrnl today at 3am: I just met Steve Buscemi in a bar! What a nice guy.
 ```
 
 !!! note
@@ -38,18 +27,18 @@ jrnl today at 3am: I just met Steve Buscemi in a bar! He was on fire.
     marks, parentheses, and others, likely will cause problems. Although
     reserved characters can be escaped using `\`, this is not ideal for
     long-form writing. The solution: first enter `jrnl` and hit `return`. You
-    can then enter the text of your journal entry. Alternatively, you can `use
-    an external editor <advanced>`).
+    can then enter the text of your journal entry. Alternatively, you can [use
+    an external editor](./advanced.md)).
 
-You can also import an entry directly from a file
+You can also import an entry directly from a file:
 
 ```sh
 jrnl < my_entry.txt
 ```
 
-### Smart timestamps
+### Specifying Date and Time ###
 
-Timestamps that work:
+If you don't specify a date and time (e.g., `jrnl finished writing letter to brother`), `jrnl` will create an entry using the current date and time. For retrospective entries, you can use a timestamp to tell `jrnl` where to put the entry. Timestamps can be entered using a variety of formats. Here are some that work:
 
 - at 6am
 - yesterday
@@ -58,10 +47,30 @@ Timestamps that work:
 - 2 march 2012
 - 7 apr
 - 5/20/1998 at 23:42
+- 2020-05-22T15:55-04:00
 
-### Starring entries
+If you don't use a timestamp, `jrnl` will create an entry using the current
+time. If you use a date only (no time), `jrnl` will use the default time
+specified in your configuration file (see [advanced usage](./advanced.md)).
+Behind the scenes, `jrnl` reorganizes entries in chronological order.
 
-To mark an entry as a favorite, simply "star" it
+### Using Tags ###
+
+`jrnl` supports tags. Note that because `#` is a reserved character, the default
+tag symbol is `@`. You can specify your own tag symbol in the configuration
+file. There is no limit to how many tags you can use in an entry. To use tags,
+simply preface the desired tag with the symbol:
+
+```sh
+jrnl Had a wonderful day at the @beach with @Tom and @Anna.
+```
+
+Although you can use capitals while tagging an entry, searches by tag are
+case-insensitive.
+
+### Starring Entries ###
+
+To mark an entry as a favorite, simply "star" it using an asterisk (`*`):
 
 ```sh
 jrnl last sunday *: Best day of my life.
@@ -74,39 +83,52 @@ _now_), the following options are equivalent:
 - `jrnl *Best day of my life.`
 - `jrnl Best day of my life.*`
 
-!!! note
-    Make sure that the asterisk sign is **not** surrounded by whitespaces. `jrnl
-    Best day of my life! *` will not work because the `*` sign has a special
-    meaning in most shells).
+!!! note Make sure that the asterisk (`*`) is **not** surrounded by whitespaces.
+`jrnl Best day of my life! *` will not work because the `*` character has a
+special meaning in most shells.
 
-## Viewing
+## Viewing Entries ##
+
+`jrnl` can display entries in a variety of ways. Entries are filtered using commands preceded by a single dash (`-`). Type `jrnl -h` for a list of
+commands.
+
+It is possible to see all entries by entering `jrnl -until today`. However, in
+most cases you will likely want to use a filter to see specific entries that
+meet certain criteria. `jrnl` provides several filtering commands, prefaced by a
+single dash (`-`), that allow you to find exactly what you're looking for. For
+example,
 
 ```sh
 jrnl -n 10
 ```
 
-lists the ten most recent entries (`jrnl -10` works the same way).
+lists the ten most recent entries. `jrnl -10` is even more concise and works the
+same way. If you want to see all of the entries you wrote from the beginning of
+last year until the end of this past March, you would enter
 
 ```sh
 jrnl -from "last year" -until march
 ```
 
-displays everything that happened from the beginning of last year until the
-beginning of the past March. To display only your favorite (starred) entries,
-use
+Filter criteria that use more than one word require surrounding quotes (`""`).
+
+### Text Search ###
+
+The `-contains` command displays all entries containing a specific string. This
+may be helpful when you're searching for entries and you can't remember if you
+tagged any words when you wrote them.
+
+You may realize that you use a word a lot and want to turn it into a tag in all
+of your previous entries.
 
 ```sh
-jrnl -starred
+jrnl -contains "dogs" --edit
 ```
 
-## Using Tags
+opens your external editor so that you can add a tag symbol (`@` by default) to
+all instances of the word "dogs."
 
-Keep track of people, projects or locations, by tagging them with an `@`
-in your entries:
-
-```sh
-jrnl Had a wonderful day at the @beach with @Tom and @Anna.
-```
+### Filtering by Tag ###
 
 You can filter your journal entries by tag. For example,
 
@@ -115,13 +137,13 @@ jrnl @pinkie @WorldDomination
 ```
 
 displays all entries in which either `@pinkie` or `@WorldDomination`
-occurred.
+occurred. Tag filters can be combined with other filters:
 
 ```sh
-jrnl -n 5 -and @pinkie @WorldDomination
+jrnl -n 5 @pinkie -and @WorldDomination
 ```
 
-displays the last five entries containing both `@pinkie` **and**
+displays the last five entries containing _both_ `@pinkie` _and_
 `@worldDomination`. You can change which symbols you'd like to use for tagging
 in the configuration.
 
@@ -131,14 +153,20 @@ in the configuration.
     of the input strings look like tags. `jrnl` will assume you want to filter
     by tag, rather than create a new entry that consists only of tags.
 
+### Viewing Starred Entries ###
 
-## Editing Existing Entries
+To display only your favorite (starred) entries, enter
+
+```sh
+jrnl -starred
+```
+
+## Editing Entries ##
 
 You can edit entries after writing them. This is particularly useful when your
 journal file is encrypted. To use this feature, you need to have an external
-editor configured in your configuration file (see `advanced usage <advanced>`).
-You can also edit only the entries that match specific search criteria. For
-example,
+editor configured in your configuration file. You can also edit only the entries
+that match specific search criteria. For example,
 
 ```sh
 jrnl -until 1950 @texas -and @history --edit
@@ -159,11 +187,48 @@ jrnl work -n 1 --edit
 
 opens the most recent entry in the 'work' journal in your external editor.
 
-You can also use this feature for deleting entries from your journal. Open an external editor with the entries you want to delete...
+## Deleting Entries ##
+
+The `--delete` command opens an interactive interface for deleting entries. The
+date and title of each entry in the journal are presented one at a time, and you
+can choose whether to keep or delete each entry.
+
+If no filters are specified, `jrnl` will ask you to keep or delete each entry in
+the entire journal, one by one. If there are a lot of entries in the journal, it
+may be more efficient to filter entries before passing the `--delete` command.
+
+Here's an example. Say you have a journal into which you've imported the last 12
+years of blog posts. You use the `@book` tag a lot, and for some reason you want
+to delete some, but not all, of the entries in which you used that tag, but only
+the ones you wrote at some point in 2004 or earlier. You're not sure which
+entries you want to keep, and you want to look through them before deciding.
+This is what you might enter:
 
 ```sh
-jrnl @texas -until 'june 2012' --edit
+jrnl -to 2004 @book --delete
 ```
 
-...select all text, delete it, save and close, and all of those entries are
+`jrnl` will show you only the relevant entries, and you can choose the ones you
+want to delete.
+
+You may want to delete _all_ of the entries containing `@book` that you wrote in
+2004 or earlier. If there are dozens or hundreds, the easiest way would be to
+use an external editor. Open an editor with the entries you want to delete...
+
+```sh
+jrnl -to 2004 @book --edit
+```
+
+...select everything, delete it, save and close, and all of those entries are
 removed from the journal.
+
+## Listing Journals ##
+
+To list all of your journals:
+
+```sh
+jrnl -ls
+```
+
+The journals displayed correspond to those specified in the `jrnl` configuration
+file.
