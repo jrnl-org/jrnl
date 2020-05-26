@@ -77,8 +77,8 @@ class Journal:
         dirname = os.path.dirname(filename)
         if not os.path.exists(filename):
             if not os.path.isdir(dirname):
-                print(f"[Directory {dirname} created]")
                 os.mkdir(dirname)
+                print(f"[Directory {dirname} created]")
             self.create_file(filename)
             print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
 
