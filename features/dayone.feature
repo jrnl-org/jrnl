@@ -63,3 +63,15 @@ Feature: Dayone specific implementation details.
         Then we should get no error
         and the output should be parsable as json
         and the json output should contain entries.0.uuid = "4BB1F46946AD439996C9B59DE7C4DDC1"
+
+    Scenario: Writing into Dayone adds extended metadata
+        Given we use the config "dayone.yaml"
+        When we run "jrnl 01 may 1979: Being born hurts."
+        and we run "jrnl --export json"
+        Then "entries" in the json output should have 5 elements
+        and the json output should contain entries.0.creator.software_agent
+        and the json output should contain entries.0.creator.os_agent
+        and the json output should contain entries.0.creator.host_name
+        and the json output should contain entries.0.creator.generation_date
+        and the json output should contain entries.0.creator.device_agent
+        and "entries.0.creator.software_agent" in the json output should contain "jrnl"
