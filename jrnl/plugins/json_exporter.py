@@ -23,6 +23,27 @@ class JSONExporter(TextExporter):
         }
         if hasattr(entry, "uuid"):
             entry_dict["uuid"] = entry.uuid
+        if (
+            hasattr(entry, "creator_device_agent")
+            or hasattr(entry, "creator_generation_date")
+            or hasattr(entry, "creator_host_name")
+            or hasattr(entry, "creator_os_agent")
+            or hasattr(entry, "creator_software_agent")
+        ):
+            entry_dict["creator"] = {}
+            if hasattr(entry, "creator_device_agent"):
+                entry_dict["creator"]["device_agent"] = entry.creator_device_agent
+            if hasattr(entry, "creator_generation_date"):
+                entry_dict["creator"]["generation_date"] = str(
+                    entry.creator_generation_date
+                )
+            if hasattr(entry, "creator_host_name"):
+                entry_dict["creator"]["host_name"] = entry.creator_host_name
+            if hasattr(entry, "creator_os_agent"):
+                entry_dict["creator"]["os_agent"] = entry.creator_os_agent
+            if hasattr(entry, "creator_software_agent"):
+                entry_dict["creator"]["software_agent"] = entry.creator_software_agent
+
         return entry_dict
 
     @classmethod
