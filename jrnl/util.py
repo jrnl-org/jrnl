@@ -34,11 +34,10 @@ SENTENCE_SPLITTER = re.compile(
     [\'\u2019\"\u201D]? # an optional right quote,
     [\]\)]*             # optional closing brackets and
     \s+                 # a sequence of required spaces.
-|                       # Otherwise,
-    \n                  # a sentence also terminates newlines.
 )""",
     re.VERBOSE,
 )
+SENTENCE_SPLITTER_ONLY_NEWLINE = re.compile("\n")
 
 
 class UserAbort(Exception):
@@ -281,7 +280,9 @@ def slugify(string):
 
 def split_title(text):
     """Splits the first sentence off from a text."""
-    punkt = SENTENCE_SPLITTER.search(text)
-    if not punkt:
-        return text, ""
-    return text[: punkt.end()].strip(), text[punkt.end() :].strip()
+    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.lstrip())
+    if not sep:
+        sep = SENTENCE_SPLITTER.search(text)
+        if not sep:
+            return text, ""
+    return text[: sep.end()].strip(), text[sep.end() :].strip()
