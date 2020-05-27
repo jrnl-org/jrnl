@@ -4,14 +4,24 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
 
+**Implemented enhancements:**
+
+- Speed up jrnl by 10%, improve slow imports [\#959](https://github.com/jrnl-org/jrnl/pull/959) ([wotgl](https://github.com/wotgl))
+
 **Fixed bugs:**
 
+- Fix title splitting logic to account for both newlines and periods [\#958](https://github.com/jrnl-org/jrnl/pull/958) ([eshrh](https://github.com/eshrh))
 - Fix editor config when an argument with a space is used [\#953](https://github.com/jrnl-org/jrnl/pull/953) ([wren](https://github.com/wren))
 - Ask for password before adding entry instead of after [\#951](https://github.com/jrnl-org/jrnl/pull/951) ([ollybritton](https://github.com/ollybritton))
 
 **Build:**
 
+- Ensure test data is always checked out with LF line endings [\#965](https://github.com/jrnl-org/jrnl/pull/965) ([micahellison](https://github.com/micahellison))
 - Update lockbot comment to encourage linking to issue [\#941](https://github.com/jrnl-org/jrnl/pull/941) ([MinchinWeb](https://github.com/MinchinWeb))
+
+**Updated documentation:**
+
+- Cleaned up usage.md for clarity, formatting, and grammar. [\#956](https://github.com/jrnl-org/jrnl/pull/956) ([guydebros](https://github.com/guydebros))
 
 ## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
 
