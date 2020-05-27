@@ -60,8 +60,6 @@ def create_password(
 
     if yesno("Do you want to store the password in your keychain?", default=True):
         set_keychain(journal_name, pw)
-    else:
-        pass
     return pw
 
 
@@ -111,7 +109,7 @@ def set_keychain(journal_name, password):
             keyring.set_password("jrnl", journal_name, password)
         except keyring.errors.NoKeyringError:
             print(
-                "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/"
+                "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/",file=sys.stderr
             )
 
 
