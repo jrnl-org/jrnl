@@ -26,6 +26,18 @@ Feature: Basic reading and writing to a journal
             | There is a blank line above this.
             """
 
+    Scenario: Multiline entry with punctuation
+        Given we use the config "basic.yaml"
+        When we run "jrnl This is. the title\\n This is the second line"
+        and we run "jrnl -n 1"
+        Then the output should contain "This is. the title"
+
+    Scenario: Single line entry with punctuation
+        Given we use the config "basic.yaml"
+        When we run "jrnl This is. the title"
+        and we run "jrnl -n 1"
+        Then the output should contain "| the title"
+
     Scenario: Writing an entry from command line
         Given we use the config "basic.yaml"
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
