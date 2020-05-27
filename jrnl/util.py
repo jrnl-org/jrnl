@@ -124,6 +124,16 @@ def load_config(config_path):
         return yaml.load(f, Loader=yaml.FullLoader)
 
 
+def is_config_json(config_path):
+    with open(config_path, "r", encoding="utf-8") as f:
+        config_file = f.read()
+    return config_file.strip().startswith("{")
+
+
+def is_old_version(config_path):
+    return is_config_json(config_path)
+
+
 def scope_config(config, journal_name):
     if journal_name not in config["journals"]:
         return config
