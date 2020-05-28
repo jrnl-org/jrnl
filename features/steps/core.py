@@ -42,7 +42,7 @@ class TestKeyring(keyring.backend.KeyringBackend):
 
 
 class NoKeyring(keyring.backend.KeyringBackend):
-    """A test keyring that just stores its values in a hash"""
+    """A keyring that simulated an environment with no keyring backend."
 
     priority = 2
     keys = defaultdict(dict)
