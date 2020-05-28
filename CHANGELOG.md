@@ -13,9 +13,11 @@
 - Fix title splitting logic to account for both newlines and periods [\#958](https://github.com/jrnl-org/jrnl/pull/958) ([eshrh](https://github.com/eshrh))
 - Fix editor config when an argument with a space is used [\#953](https://github.com/jrnl-org/jrnl/pull/953) ([wren](https://github.com/wren))
 - Ask for password before adding entry instead of after [\#951](https://github.com/jrnl-org/jrnl/pull/951) ([ollybritton](https://github.com/ollybritton))
+- Fix duplicate text in multiple tag search [\#948](https://github.com/jrnl-org/jrnl/pull/948) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
+- Fix for hanging Windows tests on Travis [\#969](https://github.com/jrnl-org/jrnl/pull/969) ([wren](https://github.com/wren))
 - Ensure test data is always checked out with LF line endings [\#965](https://github.com/jrnl-org/jrnl/pull/965) ([micahellison](https://github.com/micahellison))
 - Update lockbot comment to encourage linking to issue [\#941](https://github.com/jrnl-org/jrnl/pull/941) ([MinchinWeb](https://github.com/MinchinWeb))
 
