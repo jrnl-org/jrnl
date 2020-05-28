@@ -93,8 +93,14 @@ def open_editor_and_enter(context, text=""):
 
         return tmpfile
 
-    with patch("subprocess.call", side_effect=_mock_editor_function):
+    # fmt: off
+    # see: https://github.com/psf/black/issues/664
+    with \
+        patch("subprocess.call", side_effect=_mock_editor_function), \
+        patch("sys.stdin.isatty", return_value=True) \
+    :
         context.execute_steps('when we run "jrnl"')
+    # fmt: on
 
 
 @then("the editor should have been called with {num} arguments")
@@ -150,11 +156,12 @@ def run_with_input(context, command, inputs=""):
     args = ushlex(command)[1:]
 
     # fmt: off
-    # see: https://github.com/psf/black/issues/557
-    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
-         patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
-         patch("sys.stdin.read", side_effect=text) as mock_read:
-
+    # see: https://github.com/psf/black/issues/664
+    with \
+        patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
+        patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
+        patch("sys.stdin.read", side_effect=text) as mock_read \
+    :
         try:
             cli.run(args or [])
             context.exit_status = 0
