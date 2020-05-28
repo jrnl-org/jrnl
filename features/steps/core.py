@@ -40,6 +40,7 @@ class TestKeyring(keyring.backend.KeyringBackend):
     def delete_password(self, servicename, username):
         self.keys[servicename][username] = None
 
+
 class NoKeyring(keyring.backend.KeyringBackend):
     """A test keyring that just stores its values in a hash"""
 
@@ -216,9 +217,10 @@ def set_keychain(context, journal, password):
     keyring.set_password("jrnl", journal, password)
 
 
-@when('we disable the keychain')
+@when("we disable the keychain")
 def disable_keychain(context):
     keyring.core.set_keyring(NoKeyring())
+
 
 @then("we should get an error")
 def has_error(context):
