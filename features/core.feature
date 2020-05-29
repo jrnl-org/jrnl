@@ -113,14 +113,3 @@ Feature: Basic reading and writing to a journal
         2013-06-10 15:40 Life is good.
         """
         And we should get no error
-
-    Scenario: Install with relative path and view from another directory
-        Given there is no config
-        When we run "jrnl hello world" and enter
-        """
-        test.txt
-        n \n
-        """
-        and we move a directory up
-        and we run "jrnl -n 1"
-        Then the output should contain "hello world"

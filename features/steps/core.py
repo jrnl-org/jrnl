@@ -79,16 +79,6 @@ def set_config(context, config_file):
         with open(install.CONFIG_FILE_PATH, "a") as cf:
             cf.write("version: {}".format(__version__))
 
-@given('there is no config')
-def no_config(context):
-    nonexistentpath = "features/configs/fake_config.yaml"
-    install.CONFIG_FILE_PATH = os.path.abspath(nonexistentpath)
-    install.CONFIG_FILE_PATH_FALLBACK = os.path.abspath(nonexistentpath)
-
-@when('we move a directory up')
-def move_directory_up(context):
-    os.chdir("..")
-
 
 @when('we open the editor and enter "{text}"')
 @when("we open the editor and enter nothing")
