@@ -52,6 +52,6 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
-    clean_all_working_dirs()
     if os.getcwd()!=CWD:
         os.chdir(CWD)
+    clean_all_working_dirs()
