@@ -84,7 +84,6 @@ def set_config(context, config_file):
 def no_config(context):
     nopath = "features/configs/missingconfig.yaml"
     install.CONFIG_FILE_PATH = os.path.abspath(nopath)
-    # install.CONFIG_FILE_PATH_FALLBACK = os.path.abspath(nopath)
 
 
 @when('we change directory to "{path}"')
