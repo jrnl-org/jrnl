@@ -135,7 +135,7 @@ def install():
 
     # Where to create the journal?
     path_query = f"Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): "
-    journal_path = os.path.abspath(input(path_query).strip()) or JOURNAL_FILE_PATH
+    journal_path = os.path.abspath(input(path_query).strip() or JOURNAL_FILE_PATH)
     default_config["journals"][DEFAULT_JOURNAL_KEY] = os.path.expanduser(
         os.path.expandvars(journal_path)
     )
