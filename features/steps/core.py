@@ -79,13 +79,6 @@ def set_config(context, config_file):
         with open(install.CONFIG_FILE_PATH, "a") as cf:
             cf.write("version: {}".format(__version__))
 
-
-@given("there is no config")
-def no_config(context):
-    nopath = "features/configs/missingconfig.yaml"
-    install.CONFIG_FILE_PATH = os.path.abspath(nopath)
-
-
 @when('we change directory to "{path}"')
 def move_up_dir(context, path):
     os.chdir(path)
