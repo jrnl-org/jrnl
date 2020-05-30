@@ -79,6 +79,7 @@ def set_config(context, config_file):
         with open(install.CONFIG_FILE_PATH, "a") as cf:
             cf.write("version: {}".format(__version__))
 
+
 @when('we change directory to "{path}"')
 def move_up_dir(context, path):
     os.chdir(path)
