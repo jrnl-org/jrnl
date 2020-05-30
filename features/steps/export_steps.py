@@ -52,12 +52,16 @@ def check_json_output_path(context, path, value):
             struct = struct[node]
     assert struct == value, struct
 
-@then('entry {entry_number:d} should have an array called "{name}" with {items_number:d} elements')
-def entry_array_count(context,entry_number,name,items_number):
-    #note that entry_number is 1-indexed.
+
+@then(
+    'entry {entry_number:d} should have an array called "{name}" with {items_number:d} elements'
+)
+def entry_array_count(context, entry_number, name, items_number):
+    # note that entry_number is 1-indexed.
     out = context.stdout_capture.getvalue()
     out_json = json.loads(out)
-    assert len(out_json["entries"][entry_number-1][name])==items_number
+    assert len(out_json["entries"][entry_number - 1][name]) == items_number
+
 
 @then("the output should be a valid XML string")
 def assert_valid_xml_string(context):
@@ -77,11 +81,12 @@ def assert_xml_output_entries_count(context, item, number):
     actual_entry_count = len(xml_tree.find(item))
     assert actual_entry_count == number, actual_entry_count
 
+
 @then('there should be {number:d} "{item}" elements')
-def count_elements(context,number,item):
+def count_elements(context, number, item):
     output = context.stdout_capture.getvalue()
     xml_tree = ElementTree.fromstring(output)
-    assert len(xml_tree.findall(".//"+item))==number
+    assert len(xml_tree.findall(".//" + item)) == number
 
 
 @then('"tags" in the xml output should contain {expected_tags_json_list}')
