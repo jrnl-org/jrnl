@@ -89,6 +89,7 @@ Feature: Exporting a Journal
         Then the output should be a valid XML string
         And "entries" node in the xml output should have 2 elements
         And "tags" in the xml output should contain ["@idea", "@journal", "@dan"]
+        And there should be 7 "tag" elements
 
     Scenario: Exporting tags
         Given we use the config "tags.yaml"

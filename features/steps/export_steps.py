@@ -60,16 +60,22 @@ def assert_valid_xml_string(context):
     assert xml_tree, output
 
 
-@then('"entries" node in the xml output should have {number:d} elements')
-def assert_xml_output_entries_count(context, number):
+@then('"{item}" node in the xml output should have {number:d} elements')
+def assert_xml_output_entries_count(context, item, number):
     output = context.stdout_capture.getvalue()
     xml_tree = ElementTree.fromstring(output)
 
     xml_tags = (node.tag for node in xml_tree)
-    assert "entries" in xml_tags, str(list(xml_tags))
+    assert item in xml_tags, str(list(xml_tags))
 
-    actual_entry_count = len(xml_tree.find("entries"))
+    actual_entry_count = len(xml_tree.find(item))
     assert actual_entry_count == number, actual_entry_count
+
+@then('there should be {number:d} "{item}" elements')
+def count_elements(context,number,item):
+    output = context.stdout_capture.getvalue()
+    xml_tree = ElementTree.fromstring(output)
+    assert len(xml_tree.findall(".//"+item))==number
 
 
 @then('"tags" in the xml output should contain {expected_tags_json_list}')
