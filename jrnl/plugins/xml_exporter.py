@@ -35,6 +35,11 @@ class XMLExporter(JSONExporter):
         if hasattr(entry, "uuid"):
             entry_el.setAttribute("uuid", entry.uuid)
         entry_el.setAttribute("starred", entry.starred)
+        tags = entry.tags
+        for tag in tags:
+            tag_el = doc.createElement("tag")
+            tag_el.setAttribute("name", tag)
+            entry_el.appendChild(tag_el)
         entry_el.appendChild(doc.createTextNode(entry.fulltext))
         return entry_el
 
