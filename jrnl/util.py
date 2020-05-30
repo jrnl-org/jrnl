@@ -59,9 +59,6 @@ def create_password(
 
     if yesno("Do you want to store the password in your keychain?", default=True):
         set_keychain(journal_name, pw)
-    else:
-        set_keychain(journal_name, None)
-
     return pw
 
 
@@ -107,7 +104,13 @@ def set_keychain(journal_name, password):
         except keyring.errors.PasswordDeleteError:
             pass
     else:
-        keyring.set_password("jrnl", journal_name, password)
+        try:
+            keyring.set_password("jrnl", journal_name, password)
+        except keyring.errors.NoKeyringError:
+            print(
+                "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/",
+                file=sys.stderr,
+            )
 
 
 def yesno(prompt, default=True):
