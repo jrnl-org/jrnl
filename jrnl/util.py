@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 
-import sys
-import os
 import getpass as gp
-import yaml
+import logging
+import os
+import re
+import shlex
+from string import punctuation, whitespace
+import subprocess
+import sys
+import tempfile
+import textwrap
+from typing import Callable, Optional
+import unicodedata
+
 import colorama
+import yaml
 
 if "win32" in sys.platform:
     colorama.init()
-import re
-import tempfile
-import subprocess
-import unicodedata
-import shlex
-from string import punctuation, whitespace
-import logging
-from typing import Optional, Callable
 
 log = logging.getLogger(__name__)
 
@@ -32,11 +34,10 @@ SENTENCE_SPLITTER = re.compile(
     [\'\u2019\"\u201D]? # an optional right quote,
     [\]\)]*             # optional closing brackets and
     \s+                 # a sequence of required spaces.
-|                       # Otherwise,
-    \n                  # a sentence also terminates newlines.
 )""",
     re.VERBOSE,
 )
+SENTENCE_SPLITTER_ONLY_NEWLINE = re.compile("\n")
 
 
 class UserAbort(Exception):
@@ -58,9 +59,6 @@ def create_password(
 
     if yesno("Do you want to store the password in your keychain?", default=True):
         set_keychain(journal_name, pw)
-    else:
-        set_keychain(journal_name, None)
-
     return pw
 
 
@@ -106,7 +104,13 @@ def set_keychain(journal_name, password):
         except keyring.errors.PasswordDeleteError:
             pass
     else:
-        keyring.set_password("jrnl", journal_name, password)
+        try:
+            keyring.set_password("jrnl", journal_name, password)
+        except keyring.errors.NoKeyringError:
+            print(
+                "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/",
+                file=sys.stderr,
+            )
 
 
 def yesno(prompt, default=True):
@@ -120,6 +124,16 @@ def load_config(config_path):
     """
     with open(config_path) as f:
         return yaml.load(f, Loader=yaml.FullLoader)
+
+
+def is_config_json(config_path):
+    with open(config_path, "r", encoding="utf-8") as f:
+        config_file = f.read()
+    return config_file.strip().startswith("{")
+
+
+def is_old_version(config_path):
+    return is_config_json(config_path)
 
 
 def scope_config(config, journal_name):
@@ -171,10 +185,17 @@ def get_text_from_editor(config, template=""):
 
     try:
         subprocess.call(
-            shlex.split(config["editor"], posix="win" not in sys.platform) + [tmpfile]
+            shlex.split(config["editor"], posix="win32" not in sys.platform) + [tmpfile]
         )
-    except AttributeError:
-        subprocess.call(config["editor"] + [tmpfile])
+    except Exception as e:
+        error_msg = f"""
+        {ERROR_COLOR}{str(e)}{RESET_COLOR}
+
+        Please check the 'editor' key in your config file for errors:
+            {repr(config['editor'])}
+        """
+        print(textwrap.dedent(error_msg).strip(), file=sys.stderr)
+        exit(1)
 
     with open(tmpfile, "r", encoding="utf-8") as f:
         raw = f.read()
@@ -224,14 +245,7 @@ def highlight_tags_with_background_color(entry, text, color, is_title=False):
 
     config = entry.journal.config
     if config["highlight"]:  # highlight tags
-        if entry.journal.search_tags:
-            text_fragments = []
-            for tag in entry.journal.search_tags:
-                text_fragments.extend(
-                    re.split(re.compile(f"({re.escape(tag)})", re.IGNORECASE), text)
-                )
-        else:
-            text_fragments = re.split(entry.tag_regex(config["tagsymbols"]), text)
+        text_fragments = re.split(entry.tag_regex(config["tagsymbols"]), text)
 
         # Colorizing tags inside of other blocks of text
         final_text = ""
@@ -269,7 +283,9 @@ def slugify(string):
 
 def split_title(text):
     """Splits the first sentence off from a text."""
-    punkt = SENTENCE_SPLITTER.search(text)
-    if not punkt:
-        return text, ""
-    return text[: punkt.end()].strip(), text[punkt.end() :].strip()
+    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.lstrip())
+    if not sep:
+        sep = SENTENCE_SPLITTER.search(text)
+        if not sep:
+            return text, ""
+    return text[: sep.end()].strip(), text[sep.end() :].strip()

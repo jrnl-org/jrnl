@@ -3,7 +3,7 @@ import os
 import shutil
 from xml.etree import ElementTree
 
-from behave import then, given
+from behave import given, then
 
 
 @then("the output should be parsable as json")
@@ -97,17 +97,24 @@ def assert_xml_output_tags(context, expected_tags_json_list):
     assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
 
 
-@given('we created a directory named "{dir_name}"')
+@given('we create cache directory "{dir_name}"')
 def create_directory(context, dir_name):
-    if os.path.exists(dir_name):
-        shutil.rmtree(dir_name)
-    os.mkdir(dir_name)
+    working_dir = os.path.join("features", "cache", dir_name)
+    if os.path.exists(working_dir):
+        shutil.rmtree(working_dir)
+    os.makedirs(working_dir)
 
 
-@then('"{dir_name}" should contain the files {expected_files_json_list}')
-def assert_dir_contains_files(context, dir_name, expected_files_json_list):
-    actual_files = os.listdir(dir_name)
-    expected_files = json.loads(expected_files_json_list)
+@then('cache directory "{dir_name}" should contain the files')
+@then(
+    'cache directory "{dir_name}" should contain the files {expected_files_json_list}'
+)
+def assert_dir_contains_files(context, dir_name, expected_files_json_list="[]"):
+    working_dir = os.path.join("features", "cache", dir_name)
+    actual_files = os.listdir(working_dir)
+
+    expected_files = context.text or expected_files_json_list
+    expected_files = json.loads(expected_files)
 
     # sort to deal with inconsistent default file ordering on different OS's
     actual_files.sort()
@@ -116,11 +123,12 @@ def assert_dir_contains_files(context, dir_name, expected_files_json_list):
     assert actual_files == expected_files, [actual_files, expected_files]
 
 
-@then('the content of exported yaml "{file_path}" should be')
-def assert_exported_yaml_file_content(context, file_path):
+@then('the content of file "{file_path}" in cache directory "{cache_dir}" should be')
+def assert_exported_yaml_file_content(context, file_path, cache_dir):
     expected_content = context.text.strip().splitlines()
+    full_file_path = os.path.join("features", "cache", cache_dir, file_path)
 
-    with open(file_path, "r") as f:
+    with open(full_file_path, "r") as f:
         actual_content = f.read().strip().splitlines()
 
     for actual_line, expected_line in zip(actual_content, expected_content):

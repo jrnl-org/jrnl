@@ -129,19 +129,9 @@ jobs:
       env:
         TZ: America/Edmonton
 
-    # Changelog for Unreleased changes
-    - stage: Update Changelog
-      if: (tag IS present) OR (branch = develop AND type NOT IN (pull_request))
-      install:
-        - echo 'Skipping install'
-      script:
-        - ./.build/generate_changelog.sh
-
     - stage: Deploy
       if: tag IS present
       before_deploy:
-        - poetry version "$TRAVIS_TAG"
-        - echo __version__ = \"$TRAVIS_TAG\" > jrnl/__version__.py
         - poetry build
       script:
         - echo "Deployment starting..."
@@ -150,12 +140,13 @@ jobs:
           script: poetry publish
           skip_cleanup: true
           on:
-            branch: master
-            tags: true
-      after_deploy:
-        - git config --global user.email "jrnl.bot@gmail.com"
-        - git config --global user.name "Jrnl Bot"
-        - git checkout master
-        - git add pyproject.toml jrnl/__version__.py
-        - git commit -m "Incrementing version to ${TRAVIS_TAG} [ci skip]"
-        - git push https://${GITHUB_TOKEN}@github.com/jrnl-org/jrnl.git master
+            all_branches: true
+
+    # Changelog for Unreleased changes
+    - stage: Update Changelog
+      if: (tag IS present) OR (branch = develop AND type NOT IN (pull_request))
+      install:
+        - echo 'Skipping installation step'
+      script:
+        - ./.build/generate_changelog.sh
+

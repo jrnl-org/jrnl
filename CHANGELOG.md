@@ -21,25 +21,59 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
 
 **Implemented enhancements:**
 
-- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
+- Speed up jrnl by 10%, improve slow imports [\#959](https://github.com/jrnl-org/jrnl/pull/959) ([wotgl](https://github.com/wotgl))
+
+**Fixed bugs:**
+
+- Fix title splitting logic to account for both newlines and periods [\#958](https://github.com/jrnl-org/jrnl/pull/958) ([eshrh](https://github.com/eshrh))
+- Fix editor config when an argument with a space is used [\#953](https://github.com/jrnl-org/jrnl/pull/953) ([wren](https://github.com/wren))
+- Ask for password before adding entry instead of after [\#951](https://github.com/jrnl-org/jrnl/pull/951) ([ollybritton](https://github.com/ollybritton))
+- Fix duplicate text in multiple tag search [\#948](https://github.com/jrnl-org/jrnl/pull/948) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
-- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
+- Fix for hanging Windows tests on Travis [\#969](https://github.com/jrnl-org/jrnl/pull/969) ([wren](https://github.com/wren))
+- Ensure test data is always checked out with LF line endings [\#965](https://github.com/jrnl-org/jrnl/pull/965) ([micahellison](https://github.com/micahellison))
+- Update lockbot comment to encourage linking to issue [\#941](https://github.com/jrnl-org/jrnl/pull/941) ([MinchinWeb](https://github.com/MinchinWeb))
 
 **Updated documentation:**
 
-- Docs: editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
+- Cleaned up usage.md for clarity, formatting, and grammar. [\#956](https://github.com/jrnl-org/jrnl/pull/956) ([guydebros](https://github.com/guydebros))
 
-# Changelog
+## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.1...v2.4.2)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...HEAD)
+**Fixed bugs:**
+
+- Prevent filtered delete from deleting journal [\#935](https://github.com/jrnl-org/jrnl/pull/935) ([micahellison](https://github.com/micahellison))
+
+**Build:**
+
+- Make sure testing cleans up after itself [\#940](https://github.com/jrnl-org/jrnl/pull/940) ([wren](https://github.com/wren))
+- Allow most recent pytz version and update dependencies [\#937](https://github.com/jrnl-org/jrnl/pull/937) ([micahellison](https://github.com/micahellison))
+- Use gitlab to trigger releases in pipeline [\#947](https://github.com/jrnl-org/jrnl/pull/947) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+
+- Change jrnl.sh GitHub new issue link to issue template chooser [\#936](https://github.com/jrnl-org/jrnl/pull/936) ([micahellison](https://github.com/micahellison))
+- Improve privacy, security, and encryption documentation \#896 [\#925](https://github.com/jrnl-org/jrnl/pull/925) ([micahellison](https://github.com/micahellison))
+
+## [v2.4.1](https://pypi.org/project/jrnl/v2.4.1/) (2020-05-02)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4...v2.4.1)
+
+**Fixed bugs:**
+
+- Disable --delete due to critical bug [\#934](https://github.com/jrnl-org/jrnl/pull/934) ([wren](https://github.com/wren))
+
+## [v2.4](https://pypi.org/project/jrnl/v2.4/) (2020-04-25)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.3.1...v2.4)
 
 **Implemented enhancements:**
 
@@ -67,6 +101,8 @@
 - Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
 - Change install doc guideline from pip to pipx [\#904](https://github.com/jrnl-org/jrnl/pull/904) ([micahellison](https://github.com/micahellison))
 - Update twitter buttons, contribution in footer [\#905](https://github.com/jrnl-org/jrnl/pull/905) ([wren](https://github.com/wren))
+- Clean up readme file [\#924](https://github.com/jrnl-org/jrnl/pull/924) ([wren](https://github.com/wren))
+- Clarify that editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
 
 ## [v2.3](https://pypi.org/project/jrnl/v2.3/) (2020-03-21)
 

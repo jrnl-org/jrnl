@@ -1,11 +1,9 @@
+import os
 import sys
 
-from . import __version__
-from . import Journal
-from . import util
+from . import Journal, __version__, util
 from .EncryptedJournal import EncryptedJournal
 from .util import UserAbort
-import os
 
 
 def backup(filename, binary=False):
@@ -36,12 +34,7 @@ def check_exists(path):
     return os.path.exists(path)
 
 
-def upgrade_jrnl_if_necessary(config_path):
-    with open(config_path, "r", encoding="utf-8") as f:
-        config_file = f.read()
-    if not config_file.strip().startswith("{"):
-        return
-
+def upgrade_jrnl(config_path):
     config = util.load_config(config_path)
 
     print(

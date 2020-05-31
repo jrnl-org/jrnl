@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from .text_exporter import TextExporter
 import json
+
+from .text_exporter import TextExporter
 from .util import get_tags_count
 
 

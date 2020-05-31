@@ -31,40 +31,20 @@ your journal.
 
 If you don’t initially store the password in the keychain but decide to
 do so at a later point – or maybe want to store it on one computer but
-not on another – you can simply run `jrnl --encrypt` on an encrypted
+not on another – you can run `jrnl --encrypt` on an encrypted
 journal and use the same password again.
 
 ## A note on security
 
-While jrnl follows best practises, true security is an illusion.
-Specifically, jrnl will leave traces in your memory and your shell
-history – it’s meant to keep journals secure in transit, for example
-when storing it on an
-[untrusted](http://techcrunch.com/2014/04/09/condoleezza-rice-joins-dropboxs-board/)
-services such as Dropbox. If you’re concerned about security, disable
-history logging for journal in your `.bashrc`:
+While `jrnl` follows best practices, total security is an illusion.
+There are a number of ways that people can at least partially
+compromise your `jrnl` data. See the [Privacy and Security](./security.md)
+documentation for more information.
 
-``` sh
-HISTIGNORE="$HISTIGNORE:jrnl *"
-```
+## No password recovery
 
-If you are using zsh instead of bash, you can get the same behaviour by
-adding this to your `zshrc`:
-
-``` sh
-setopt HIST_IGNORE_SPACE
-alias jrnl=" jrnl"
-```
-
-If you are using `fish` instead of `bash` or `zsh`, you can get the same behaviour by
-adding this to your `fish` configuration:
-
-``` sh
-abbr --add jrnl " jrnl"
-```
-
-To delete existing `jrnl` commands from `fish`’s history, run
-`history delete --prefix 'jrnl '`.
+There is no method to recover or reset your `jrnl` password. If you lose it,
+your data is inaccessible.
 
 ## Manual decryption
 

@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from .text_exporter import TextExporter
-from .template import Template
-import os
 from glob import glob
+import os
+
+from .template import Template
+from .text_exporter import TextExporter
 
 
 class GenericTemplateExporter(TextExporter):

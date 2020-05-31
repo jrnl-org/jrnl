@@ -76,30 +76,30 @@ Feature: Zapped bugs should stay dead.
         Then the output should not contain "But I'm better."
 
     Scenario: Create entry using day of the week as entry date.
-    	Given we use the config "basic.yaml"
-    	When we run "jrnl monday: This is an entry on a Monday."
-    	Then we should see the message "Entry added"
-    	When we run "jrnl -1"
+        Given we use the config "basic.yaml"
+        When we run "jrnl monday: This is an entry on a Monday."
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
         Then the output should contain "monday at 9am" in the local time
         Then the output should contain "This is an entry on a Monday."
 
     Scenario: Create entry using day of the week abbreviations as entry date.
-    	Given we use the config "basic.yaml"
-    	When we run "jrnl fri: This is an entry on a Friday."
-    	Then we should see the message "Entry added"
-    	When we run "jrnl -1"
-        Then the output should contain "friday at 9am" in the local time 
+        Given we use the config "basic.yaml"
+        When we run "jrnl fri: This is an entry on a Friday."
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
+        Then the output should contain "friday at 9am" in the local time
 
     Scenario: Displaying entries using -on today should display entries created today.
         Given we use the config "basic.yaml"
-        When we run "jrnl today: Adding an entry right now." 
+        When we run "jrnl today: Adding an entry right now."
         Then we should see the message "Entry added"
         When we run "jrnl -on today"
         Then the output should contain "Adding an entry right now."
 
     Scenario: Displaying entries using -from day should display correct entries
         Given we use the config "basic.yaml"
-        When we run "jrnl yesterday: This thing happened yesterday" 
+        When we run "jrnl yesterday: This thing happened yesterday"
         Then we should see the message "Entry added"
         When we run "jrnl today at 11:59pm: Adding an entry right now."
         Then we should see the message "Entry added"
@@ -112,7 +112,7 @@ Feature: Zapped bugs should stay dead.
 
     Scenario: Displaying entries using -from and -to day should display correct entries
         Given we use the config "basic.yaml"
-        When we run "jrnl yesterday: This thing happened yesterday" 
+        When we run "jrnl yesterday: This thing happened yesterday"
         Then we should see the message "Entry added"
         When we run "jrnl today at 11:59pm: Adding an entry right now."
         Then we should see the message "Entry added"
@@ -148,10 +148,17 @@ Feature: Zapped bugs should stay dead.
     # See issues #768 and #881
     Scenario: Add a blank line to YAML export is there isn't one already
         Given we use the config "deletion.yaml"
-        And we created a directory named "bug768"
-        When we run "jrnl --export yaml -o bug768"
-        Then "bug768" should contain the files ["2019-10-29_first-entry.md", "2019-10-29_second-entry.md", "2019-10-29_third-entry.md"]
-        And the content of exported yaml "bug768/2019-10-29_third-entry.md" should be
+        And we create cache directory "bug768"
+        When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
+        Then cache directory "bug768" should contain the files
+        """
+        [
+        "2019-10-29_first-entry.md",
+        "2019-10-29_second-entry.md",
+        "2019-10-29_third-entry.md"
+        ]
+        """
+        And the content of file "2019-10-29_third-entry.md" in cache directory "bug768" should be
         """
         title: Third entry.
         date: 2019-10-29 11:13

@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
 import glob
-import os
-import xdg.BaseDirectory
-from . import util
-from . import upgrade
-from . import __version__
-from .util import UserAbort, verify_config
-import yaml
 import logging
+import os
 import sys
+
+import xdg.BaseDirectory
+import yaml
+
+from . import __version__, util
+from .util import UserAbort, verify_config
 
 if "win32" not in sys.platform:
     # readline is not included in Windows Active Python
@@ -96,20 +96,23 @@ def load_or_install_jrnl():
         log.debug("Reading configuration from file %s", config_path)
         config = util.load_config(config_path)
 
-        try:
-            upgrade.upgrade_jrnl_if_necessary(config_path)
-        except upgrade.UpgradeValidationException:
-            print("Aborting upgrade.", file=sys.stderr)
-            print(
-                "Please tell us about this problem at the following URL:",
-                file=sys.stderr,
-            )
-            print(
-                "https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException",
-                file=sys.stderr,
-            )
-            print("Exiting.", file=sys.stderr)
-            sys.exit(1)
+        if util.is_old_version(config_path):
+            from . import upgrade
+
+            try:
+                upgrade.upgrade_jrnl(config_path)
+            except upgrade.UpgradeValidationException:
+                print("Aborting upgrade.", file=sys.stderr)
+                print(
+                    "Please tell us about this problem at the following URL:",
+                    file=sys.stderr,
+                )
+                print(
+                    "https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException",
+                    file=sys.stderr,
+                )
+                print("Exiting.", file=sys.stderr)
+                sys.exit(1)
 
         upgrade_config(config)
         verify_config(config)

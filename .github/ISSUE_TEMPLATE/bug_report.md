@@ -7,20 +7,36 @@ assignees: ''
 
 ---
 
-## Bug report
+## Bug Report
+<!--
+Hello, and thank you for reporting an issue!
+Please fill out the points below, as it will make our process much easier.
+-->
 
-Hello! Thank you for reporting an issue!
-If you would fill out the below points, that would make our process a whole lot easier!
+<!-- Please tell us about your environment -->
+### Environment
+  - Jrnl version: <!-- Run `jrnl -v` -->
+  - Install method: <!-- How did you install jrnl? (pipx, brew, etc) -->
+  - OS <!-- What is your operating system? (MacOS, Linux, Windows) -->
 
-* **Please tell us about your environment:**
-  - Jrnl version: (run `jrnl -v`)
-  - How you installed Jrnl
-  - Operating system [MacOS, Linux, Windows?]
+### Current Behavior
+<!--
+Please put a short description of what is currently happening.
+-->
 
-* **What is the current behavior?**
+### Expected Behavior
+<!--
+Please write a short description of what you would expect to happen
+(instead of what is currently happening).
+-->
 
-* **Please provide the steps to reproduce and if possible a minimal demo of the problem**
+### Repro Steps
+<!--
+Please provide the steps to reproduce the problem. It is important for you to
+be as precise as possible here, since more info will let us help you faster.
+-->
 
-* **What is the expected behavior?**
-
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
+### Other Information
+<!-- (e.g. more detailed explanation, stacktraces, related
+issues, suggestions how to fix, links for us to have context, eg.
+stackoverflow, gitter, etc) -->

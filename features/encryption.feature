@@ -55,3 +55,27 @@
             Then the config for journal "simple" should have "encrypt" set to "bool:True"
             When we run "jrnl simple -n 1"
             Then the output should contain "2013-06-10 15:40 Life is good"
+
+        Scenario: Encrypt journal with no keyring backend and do not store in keyring
+            Given we use the config "basic.yaml"
+            When we disable the keychain
+            and we run "jrnl test entry"
+            and we run "jrnl --encrypt" and enter
+            """
+            password
+            password
+            n
+            """
+            Then we should get no error
+
+        Scenario: Encrypt journal with no keyring backend and do store in keyring
+            Given we use the config "basic.yaml"
+            When we disable the keychain
+            and we run "jrnl test entry"
+            and we run "jrnl --encrypt" and enter
+            """
+            password
+            password
+            y
+            """
+            Then we should get no error

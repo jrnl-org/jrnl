@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ..util import slugify
 import os
-from ..util import ERROR_COLOR, RESET_COLOR
+
+from ..util import ERROR_COLOR, RESET_COLOR, slugify
 
 
 class TextExporter:

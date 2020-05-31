@@ -19,17 +19,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from .Journal import PlainJournal, open_journal
-from .EncryptedJournal import EncryptedJournal
-from . import util
-from . import install
-from . import plugins
-from .util import ERROR_COLOR, RESET_COLOR, UserAbort
-import jrnl
 import argparse
-import sys
-import re
 import logging
+import re
+import sys
+
+import jrnl
+
+from . import install, plugins, util
+from .Journal import PlainJournal, open_journal
+from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
@@ -194,11 +193,14 @@ def parse_args(args=None):
         help="Opens an interactive interface for deleting entries.",
     )
 
+    if not args:
+        args = []
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
-    if args is None:
-        args = sys.argv[1:]
-    return parser.parse_args([num.sub(r"-n \1", a) for a in args])
+    args = [num.sub(r"-n \1", arg) for arg in args]
+
+    return parser.parse_args(args)
 
 
 def guess_mode(args, config):
@@ -242,6 +244,8 @@ def guess_mode(args, config):
 
 def encrypt(journal, filename=None):
     """ Encrypt into new file. If filename is not set, we encrypt the journal file itself. """
+    from .EncryptedJournal import EncryptedJournal
+
     journal.config["encrypt"] = True
 
     new_journal = EncryptedJournal.from_journal(journal)
@@ -300,7 +304,11 @@ def configure_logger(debug=False):
 
 
 def run(manual_args=None):
+    if manual_args is None:
+        manual_args = sys.argv[1:]
+
     args = parse_args(manual_args)
+
     configure_logger(args.debug)
     if args.version:
         version_str = f"{jrnl.__title__} version {jrnl.__version__}"
@@ -335,6 +343,7 @@ def run(manual_args=None):
     config = util.scope_config(config, journal_name)
 
     log.debug('Using journal "%s"', journal_name)
+
     mode_compose, mode_export, mode_import = guess_mode(args, config)
 
     # How to quit writing?
@@ -342,6 +351,13 @@ def run(manual_args=None):
         _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
     else:
         _exit_multiline_code = "press Ctrl+D"
+
+    # This is where we finally open the journal!
+    try:
+        journal = open_journal(journal_name, config)
+    except KeyboardInterrupt:
+        print("[Interrupted while opening journal]", file=sys.stderr)
+        sys.exit(1)
 
     if mode_compose and not args.text:
         if not sys.stdin.isatty():
@@ -373,13 +389,6 @@ def run(manual_args=None):
             args.text = [raw]
         else:
             sys.exit()
-
-    # This is where we finally open the journal!
-    try:
-        journal = open_journal(journal_name, config)
-    except KeyboardInterrupt:
-        print("[Interrupted while opening journal]", file=sys.stderr)
-        sys.exit(1)
 
     # Import mode
     if mode_import:
@@ -478,5 +487,16 @@ def run(manual_args=None):
         journal.write()
 
     elif args.delete:
-        journal.prompt_delete_entries()
-        journal.write()
+        if journal.entries:
+            entries_to_delete = journal.prompt_delete_entries()
+
+            if entries_to_delete:
+                journal.entries = old_entries
+                journal.delete_entries(entries_to_delete)
+
+                journal.write()
+        else:
+            print(
+                "No entries deleted, because the search returned no results.",
+                file=sys.stderr,
+            )

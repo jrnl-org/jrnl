@@ -1,23 +1,24 @@
+import ast
+from collections import defaultdict
+import os
+from pathlib import Path
+import re
+import shlex
+import sys
+import time
 from unittest.mock import patch
 
-from behave import given, when, then
-from jrnl import cli, install, Journal, util, plugins
-from jrnl import __version__
-from collections import defaultdict
+import keyring
+import toml
+import yaml
+
+from behave import given, then, when
+from jrnl import Journal, __version__, cli, install, plugins, util
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
 except ImportError:
     import parsedatetime as pdt
-import time
-import os
-import ast
-import yaml
-import keyring
-import shlex
-import sys
-from pathlib import Path
-import toml
 
 consts = pdt.Constants(usePyICU=False)
 consts.DOWParseStyle = -1  # Prefers past weekdays
@@ -40,14 +41,28 @@ class TestKeyring(keyring.backend.KeyringBackend):
         self.keys[servicename][username] = None
 
 
+class NoKeyring(keyring.backend.KeyringBackend):
+    """A keyring that simulated an environment with no keyring backend."""
+
+    priority = 2
+    keys = defaultdict(dict)
+
+    def set_password(self, servicename, username, password):
+        raise keyring.errors.NoKeyringError
+
+    def get_password(self, servicename, username):
+        raise keyring.errors.NoKeyringError
+
+    def delete_password(self, servicename, username):
+        raise keyring.errors.NoKeyringError
+
+
 # set the keyring for keyring lib
 keyring.set_keyring(TestKeyring())
 
 
 def ushlex(command):
-    if sys.version_info[0] == 3:
-        return shlex.split(command)
-    return map(lambda s: s.decode("UTF8"), shlex.split(command.encode("utf8")))
+    return shlex.split(command, posix="win32" not in sys.platform)
 
 
 def read_journal(journal_name="default"):
@@ -87,14 +102,43 @@ def open_editor_and_enter(context, text=""):
     text = text or context.text or ""
 
     def _mock_editor_function(command):
+        context.editor_command = command
         tmpfile = command[-1]
         with open(tmpfile, "w+") as f:
             f.write(text)
 
         return tmpfile
 
-    with patch("subprocess.call", side_effect=_mock_editor_function):
-        run(context, "jrnl")
+    # fmt: off
+    # see: https://github.com/psf/black/issues/664
+    with \
+        patch("subprocess.call", side_effect=_mock_editor_function), \
+        patch("sys.stdin.isatty", return_value=True) \
+    :
+        context.execute_steps('when we run "jrnl"')
+    # fmt: on
+
+
+@then("the editor should have been called with {num} arguments")
+def count_editor_args(context, num):
+    assert len(context.editor_command) == int(num)
+
+
+@then('one editor argument should be "{arg}"')
+def contains_editor_arg(context, arg):
+    args = context.editor_command
+    assert (
+        arg in args and args.count(arg) == 1
+    ), f"\narg not in args exactly 1 time:\n{arg}\n{str(args)}"
+
+
+@then('one editor argument should match "{regex}"')
+def matches_editor_arg(context, regex):
+    args = context.editor_command
+    matches = list(filter(lambda x: re.match(regex, x), args))
+    assert (
+        len(matches) == 1
+    ), f"\nRegex didn't match exactly 1 time:\n{regex}\n{str(args)}"
 
 
 def _mock_getpass(inputs):
@@ -128,11 +172,12 @@ def run_with_input(context, command, inputs=""):
     args = ushlex(command)[1:]
 
     # fmt: off
-    # see: https://github.com/psf/black/issues/557
-    with patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
-         patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
-         patch("sys.stdin.read", side_effect=text) as mock_read:
-
+    # see: https://github.com/psf/black/issues/664
+    with \
+        patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
+        patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
+        patch("sys.stdin.read", side_effect=text) as mock_read \
+    :
         try:
             cli.run(args or [])
             context.exit_status = 0
@@ -151,11 +196,18 @@ def run_with_input(context, command, inputs=""):
 
 
 @when('we run "{command}"')
-def run(context, command):
-    args = ushlex(command)[1:]
+@when('we run "{command}" with cache directory "{cache_dir}"')
+def run(context, command, cache_dir=None):
+    if cache_dir is not None:
+        cache_dir = os.path.join("features", "cache", cache_dir)
+        command = command.format(cache_dir=cache_dir)
+
+    args = ushlex(command)
+
     try:
-        cli.run(args or None)
-        context.exit_status = 0
+        with patch("sys.argv", args):
+            cli.run(args[1:])
+            context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
 
@@ -170,6 +222,11 @@ def load_template(context, filename):
 @when('we set the keychain password of "{journal}" to "{password}"')
 def set_keychain(context, journal, password):
     keyring.set_password("jrnl", journal, password)
+
+
+@when("we disable the keychain")
+def disable_keychain(context):
+    keyring.core.set_keyring(NoKeyring())
 
 
 @then("we should get an error")
@@ -255,6 +312,13 @@ def check_not_message(context, text):
 def check_journal_content(context, text, journal_name="default"):
     journal = read_journal(journal_name)
     assert text in journal, journal
+
+
+@then('the journal should not contain "{text}"')
+@then('journal "{journal_name}" should not contain "{text}"')
+def check_not_journal_content(context, text, journal_name="default"):
+    journal = read_journal(journal_name)
+    assert text not in journal, journal
 
 
 @then('journal "{journal_name}" should not exist')

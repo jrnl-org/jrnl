@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 
-from . import Entry
-from . import Journal
-from . import time as jrnl_time
-from . import __title__  # 'jrnl'
-from . import __version__
-import os
-import re
 from datetime import datetime
-import time
 import fnmatch
+import os
 from pathlib import Path
 import plistlib
-import pytz
+import re
+import time
 import uuid
-import tzlocal
 from xml.parsers.expat import ExpatError
 import socket
 import platform
+
+import pytz
+import tzlocal
+
+from . import __title__, __version__, Entry, Journal
+from . import time as jrnl_time
 
 
 class DayOne(Journal.Journal):
