@@ -1,13 +1,11 @@
 # Overview
 
-`jrnl` is a simple but powerful plain text journal application for the command
-line.
-
 ## Features
 
 ### Command-Line Interface
 
-Everything happens on the command line.
+`jrnl` is a simple but powerful plain text journal application for the command
+line. Everything happens on the command line.
 
 ### Text-Based
 
