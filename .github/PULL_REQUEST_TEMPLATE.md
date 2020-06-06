@@ -17,7 +17,7 @@ Here are some key points to include in your description:
 - [ ] I have tested this code locally.
 - [ ] I have checked to ensure there aren't other open [pull requests](../pulls)
   for the same issue.
-- [ ] I have you written new tests for these changes, as needed.
+- [ ] I have written new tests for these changes, as needed.
 - [ ] All tests pass.
 <!--
 NOTE: Your PR may not be reviewed if there are any failing tests. You can run
