@@ -1,24 +1,5 @@
 # Changelog
 
-## [v2.4](https://pypi.org/project/jrnl/v2.4/) (2020-04-25)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4-beta...v2.4)
-
-**Implemented enhancements:**
-
-- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
-
-**Build:**
-
-- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
-
-**Updated documentation:**
-
-- Clean up readme file [\#924](https://github.com/jrnl-org/jrnl/pull/924) ([wren](https://github.com/wren))
-- Clarify that editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
-
-# Changelog
-
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
@@ -26,9 +7,11 @@
 **Implemented enhancements:**
 
 - Speed up jrnl by 10%, improve slow imports [\#959](https://github.com/jrnl-org/jrnl/pull/959) ([wotgl](https://github.com/wotgl))
+- Add extended metadata support for DayOne Classic [\#928](https://github.com/jrnl-org/jrnl/pull/928) ([MinchinWeb](https://github.com/MinchinWeb))
 
 **Fixed bugs:**
 
+- Fix set\_keychain errors [\#964](https://github.com/jrnl-org/jrnl/pull/964) ([eshrh](https://github.com/eshrh))
 - Fix title splitting logic to account for both newlines and periods [\#958](https://github.com/jrnl-org/jrnl/pull/958) ([eshrh](https://github.com/eshrh))
 - Fix editor config when an argument with a space is used [\#953](https://github.com/jrnl-org/jrnl/pull/953) ([wren](https://github.com/wren))
 - Ask for password before adding entry instead of after [\#951](https://github.com/jrnl-org/jrnl/pull/951) ([ollybritton](https://github.com/ollybritton))
@@ -38,10 +21,12 @@
 
 - Fix for hanging Windows tests on Travis [\#969](https://github.com/jrnl-org/jrnl/pull/969) ([wren](https://github.com/wren))
 - Ensure test data is always checked out with LF line endings [\#965](https://github.com/jrnl-org/jrnl/pull/965) ([micahellison](https://github.com/micahellison))
+- Clean up templates and issues [\#954](https://github.com/jrnl-org/jrnl/pull/954) ([wren](https://github.com/wren))
 - Update lockbot comment to encourage linking to issue [\#941](https://github.com/jrnl-org/jrnl/pull/941) ([MinchinWeb](https://github.com/MinchinWeb))
 
 **Updated documentation:**
 
+- Extensive modifications to overview.md [\#957](https://github.com/jrnl-org/jrnl/pull/957) ([guydebros](https://github.com/guydebros))
 - Cleaned up usage.md for clarity, formatting, and grammar. [\#956](https://github.com/jrnl-org/jrnl/pull/956) ([guydebros](https://github.com/guydebros))
 
 ## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
