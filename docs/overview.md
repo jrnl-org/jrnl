@@ -1,27 +1,41 @@
 # Overview
 
-## What is jrnl?
+## Features
 
-`jrnl` is a simple journal application for
-your command line. Journals are stored as human readable plain text
-files - you can put them into a Dropbox folder for instant syncing and
-you can be assured that your journal will still be readable in 2050,
-when all your fancy iPad journal applications will long be forgotten.
+### Command-Line Interface
 
-Optionally, your journal can be encrypted using the [256-bit
-AES](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
+`jrnl` is a simple but powerful plain text journal application for the command
+line. Everything happens on the command line.
 
-## Why keep a journal?
+### Text-Based
 
-Journals aren't just for people who have too much
-time on their summer vacation. A journal helps you to keep track of the
-things you get done and how you did them. Your imagination may be
-limitless, but your memory isn't.
+`jrnl` stores your journals as human-readable, future-proof plain text files.
+You can store them wherever you want, including in shared folders to keep them
+synchronized between devices. And because journal files are stored as plain
+text, you can rest assured that your journals will be readable for centuries.
 
-For personal use, make it a good habit to write at least 20 words a day.
-Just to reflect what made this day special, why you haven't wasted it.
+### Support for Multiple Journals
+  
+`jrnl` allows you to work with multiple journals, each of which is stored as a
+single file using date and time tags to identify individual entries. `jrnl`
+makes it easy to find the entries you want, and only the ones you want, so that
+you can read them or edit them.
 
-For professional use, consider a text-based journal to be the perfect
-complement to your GTD todo list - a documentation of what and how
-you've done it. Or use it as a quick way to keep a change log. Or use it
-to keep a lab book.
+### Support for External Editors
+
+`jrnl` allows you to search for specific entries and edit them in your favorite
+text editor.
+
+### Encryption
+  
+`jrnl` includes support for [256-bit AES
+encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) using
+[cryptography.io](https://cryptography.io).
+
+### Multi-Platform Support
+
+`jrnl` is compatible with most operating systems. Pre-compiled binaries are available through several distribution channels, and you can build from source. See the installation page for more information.
+
+### Open-Source
+
+`jrnl` is written in [Python](https://www.python.org) and maintained by a [friendly community](https://github.com/jrnl-org/jrnl) of open-source software enthusiasts.
