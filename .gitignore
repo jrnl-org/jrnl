@@ -43,6 +43,7 @@ obj
 env/
 env*/
 venv*/
+.venv*/
 
 # PyCharm Project files
 .idea/

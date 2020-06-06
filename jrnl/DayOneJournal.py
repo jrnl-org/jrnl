@@ -9,11 +9,13 @@ import re
 import time
 import uuid
 from xml.parsers.expat import ExpatError
+import socket
+import platform
 
 import pytz
 import tzlocal
 
-from . import Entry, Journal
+from . import __title__, __version__, Entry, Journal
 from . import time as jrnl_time
 
 
@@ -71,6 +73,41 @@ class DayOne(Journal.Journal):
                         for tag in dict_entry.get("Tags", [])
                     ]
 
+                    """Extended DayOne attributes"""
+                    try:
+                        entry.creator_device_agent = dict_entry["Creator"][
+                            "Device Agent"
+                        ]
+                    except:
+                        pass
+                    try:
+                        entry.creator_generation_date = dict_entry["Creator"][
+                            "Generation Date"
+                        ]
+                    except:
+                        entry.creator_generation_date = date
+                    try:
+                        entry.creator_host_name = dict_entry["Creator"]["Host Name"]
+                    except:
+                        pass
+                    try:
+                        entry.creator_os_agent = dict_entry["Creator"]["OS Agent"]
+                    except:
+                        pass
+                    try:
+                        entry.creator_software_agent = dict_entry["Creator"][
+                            "Software Agent"
+                        ]
+                    except:
+                        pass
+                    try:
+                        entry.location = dict_entry["Location"]
+                    except:
+                        pass
+                    try:
+                        entry.weather = dict_entry["Weather"]
+                    except:
+                        pass
                     self.entries.append(entry)
         self.sort()
         return self
@@ -85,6 +122,20 @@ class DayOne(Journal.Journal):
 
                 if not hasattr(entry, "uuid"):
                     entry.uuid = uuid.uuid1().hex
+                if not hasattr(entry, "creator_device_agent"):
+                    entry.creator_device_agent = ""  # iPhone/iPhone5,3
+                if not hasattr(entry, "creator_generation_date"):
+                    entry.creator_generation_date = utc_time
+                if not hasattr(entry, "creator_host_name"):
+                    entry.creator_host_name = socket.gethostname()
+                if not hasattr(entry, "creator_os_agent"):
+                    entry.creator_os_agent = "{}/{}".format(
+                        platform.system(), platform.release()
+                    )
+                if not hasattr(entry, "creator_software_agent"):
+                    entry.creator_software_agent = "{}/{}".format(
+                        __title__, __version__
+                    )
 
                 fn = (
                     Path(self.config["journal"])
@@ -102,10 +153,23 @@ class DayOne(Journal.Journal):
                         tag.strip(self.config["tagsymbols"]).replace("_", " ")
                         for tag in entry.tags
                     ],
+                    "Creator": {
+                        "Device Agent": entry.creator_device_agent,
+                        "Generation Date": entry.creator_generation_date,
+                        "Host Name": entry.creator_host_name,
+                        "OS Agent": entry.creator_os_agent,
+                        "Software Agent": entry.creator_software_agent,
+                    },
                 }
+                if hasattr(entry, "location"):
+                    entry_plist["Location"] = entry.location
+                if hasattr(entry, "weather"):
+                    entry_plist["Weather"] = entry.weather
+
                 # plistlib expects a binary object
                 with fn.open(mode="wb") as f:
                     plistlib.dump(entry_plist, f, fmt=plistlib.FMT_XML, sort_keys=False)
+
         for entry in self._deleted_entries:
             filename = os.path.join(
                 self.config["journal"], "entries", entry.uuid + ".doentry"
@@ -147,7 +211,7 @@ class DayOne(Journal.Journal):
                     if line.endswith("*"):
                         current_entry.starred = True
                         line = line[:-1]
-                    current_entry.title = line[len(date_blob) - 1 :]
+                    current_entry.title = line[len(date_blob) - 1 :].strip()
                     current_entry.date = new_date
                 elif current_entry:
                     current_entry.body += line + "\n"
@@ -159,10 +223,33 @@ class DayOne(Journal.Journal):
         # Now, update our current entries if they changed
         for entry in entries:
             entry._parse_text()
-            matched_entries = [e for e in self.entries if e.uuid.lower() == entry.uuid]
+            matched_entries = [
+                e for e in self.entries if e.uuid.lower() == entry.uuid.lower()
+            ]
+            # tags in entry body
             if matched_entries:
                 # This entry is an existing entry
                 match = matched_entries[0]
+
+                # merge existing tags with tags pulled from the entry body
+                entry.tags = list(set(entry.tags + match.tags))
+
+                # extended Dayone metadata
+                if hasattr(match, "creator_device_agent"):
+                    entry.creator_device_agent = match.creator_device_agent
+                if hasattr(match, "creator_generation_date"):
+                    entry.creator_generation_date = match.creator_generation_date
+                if hasattr(match, "creator_host_name"):
+                    entry.creator_host_name = match.creator_host_name
+                if hasattr(match, "creator_os_agent"):
+                    entry.creator_os_agent = match.creator_os_agent
+                if hasattr(match, "creator_software_agent"):
+                    entry.creator_software_agent = match.creator_software_agent
+                if hasattr(match, "location"):
+                    entry.location = match.location
+                if hasattr(match, "weather"):
+                    entry.weather = match.weather
+
                 if match != entry:
                     self.entries.remove(match)
                     entry.modified = True
