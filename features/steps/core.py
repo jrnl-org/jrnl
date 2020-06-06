@@ -41,6 +41,22 @@ class TestKeyring(keyring.backend.KeyringBackend):
         self.keys[servicename][username] = None
 
 
+class NoKeyring(keyring.backend.KeyringBackend):
+    """A keyring that simulated an environment with no keyring backend."""
+
+    priority = 2
+    keys = defaultdict(dict)
+
+    def set_password(self, servicename, username, password):
+        raise keyring.errors.NoKeyringError
+
+    def get_password(self, servicename, username):
+        raise keyring.errors.NoKeyringError
+
+    def delete_password(self, servicename, username):
+        raise keyring.errors.NoKeyringError
+
+
 # set the keyring for keyring lib
 keyring.set_keyring(TestKeyring())
 
@@ -211,6 +227,11 @@ def load_template(context, filename):
 @when('we set the keychain password of "{journal}" to "{password}"')
 def set_keychain(context, journal, password):
     keyring.set_password("jrnl", journal, password)
+
+
+@when("we disable the keychain")
+def disable_keychain(context):
+    keyring.core.set_keyring(NoKeyring())
 
 
 @then("we should get an error")

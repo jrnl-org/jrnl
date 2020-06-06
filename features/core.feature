@@ -114,6 +114,12 @@ Feature: Basic reading and writing to a journal
         """
         And we should get no error
 
+    Scenario: Journal directory does not exist
+        Given we use the config "missing_directory.yaml"
+        When we run "jrnl Life is good"
+        and we run "jrnl -n 1"
+        Then the output should contain "Life is good"
+
     Scenario: Installation with relative journal and referencing from another folder
         Given we use the config "missingconfig"
         When we run "jrnl hello world" and enter

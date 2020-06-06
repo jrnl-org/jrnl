@@ -1,5 +1,24 @@
 # Changelog
 
+## [v2.4](https://pypi.org/project/jrnl/v2.4/) (2020-04-25)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4-beta...v2.4)
+
+**Implemented enhancements:**
+
+- Upgrade license to GPLv3 [\#918](https://github.com/jrnl-org/jrnl/pull/918) ([wren](https://github.com/wren))
+
+**Build:**
+
+- Update makefile to match pipeline better [\#919](https://github.com/jrnl-org/jrnl/pull/919) ([wren](https://github.com/wren))
+
+**Updated documentation:**
+
+- Clean up readme file [\#924](https://github.com/jrnl-org/jrnl/pull/924) ([wren](https://github.com/wren))
+- Clarify that editing config isn't always destructive [\#923](https://github.com/jrnl-org/jrnl/pull/923) ([Epskampie](https://github.com/Epskampie))
+
+# Changelog
+
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)

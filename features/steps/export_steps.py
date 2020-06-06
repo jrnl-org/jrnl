@@ -32,13 +32,21 @@ def check_output_field_not_key(context, field, key):
 @then('"{field}" in the json output should contain "{key}"')
 def check_output_field_key(context, field, key):
     out = context.stdout_capture.getvalue()
-    out_json = json.loads(out)
-    assert field in out_json
-    assert key in out_json[field]
+    struct = json.loads(out)
+
+    for node in field.split("."):
+        try:
+            struct = struct[int(node)]
+        except ValueError:
+            assert node in struct
+            struct = struct[node]
+
+    assert key in struct
 
 
+@then("the json output should contain {path}")
 @then('the json output should contain {path} = "{value}"')
-def check_json_output_path(context, path, value):
+def check_json_output_path(context, path, value=None):
     """ E.g.
     the json output should contain entries.0.title = "hello"
     """
@@ -50,7 +58,11 @@ def check_json_output_path(context, path, value):
             struct = struct[int(node)]
         except ValueError:
             struct = struct[node]
-    assert struct == value, struct
+
+    if value is not None:
+        assert struct == value, struct
+    else:
+        assert struct is not None
 
 
 @then("the output should be a valid XML string")
