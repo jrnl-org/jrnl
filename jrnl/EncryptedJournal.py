@@ -40,8 +40,11 @@ class EncryptedJournal(Journal):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config["journal"]
-
+        dirname = os.path.dirname(filename)
         if not os.path.exists(filename):
+            if not os.path.isdir(dirname):
+                os.makedirs(dirname)
+                print(f"[Directory {dirname} created]", file=sys.stderr)
             self.create_file(filename)
             self.password = util.create_password(self.name)
             print(
