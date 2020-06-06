@@ -54,7 +54,7 @@ def check_json_output_path(context, path, value):
 
 
 @then(
-    'entry {entry_number:d} should have an array called "{name}" with {items_number:d} elements'
+    'entry {entry_number:d} should have an array "{name}" with {items_number:d} elements'
 )
 def entry_array_count(context, entry_number, name, items_number):
     # note that entry_number is 1-indexed.
