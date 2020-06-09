@@ -1,41 +1,62 @@
 # Overview
 
-## Features
+`jrnl` is a simple journal application for the command line.
 
-### Command-Line Interface
+`jrnl`'s goal is to facilitate the rapid creation and viewing of journal
+entries. It is flexible enough to support different use cases and organization
+strategies. It is powerful enough to search through thousands of entries and
+display, or "filter," only the entries you want to see.
 
-`jrnl` is a simple but powerful plain text journal application for the command
-line. Everything happens on the command line.
+`jrnl` has most of the features you need, and few of the ones you don't.
 
-### Text-Based
+## Plain Text
 
-`jrnl` stores your journals as human-readable, future-proof plain text files.
-You can store them wherever you want, including in shared folders to keep them
-synchronized between devices. And because journal files are stored as plain
-text, you can rest assured that your journals will be readable for centuries.
+`jrnl` stores each journal in plain text. `jrnl` files can be stored anywhere,
+including in shared folders to keep them synchronized between devices. Journal
+files are compact (thousands of entries take up less than 1 MiB) and can be read
+by almost any electronic device, now and for the foreseeable future.
 
-### Support for Multiple Journals
+## Tags
+
+To make it easier to find entries later, `jrnl` includes support for inline tags
+(the default tag symbol is `@`). Entries can be found and filtered 
+
+## Support for Multiple Journals
   
-`jrnl` allows you to work with multiple journals, each of which is stored as a
-single file using date and time tags to identify individual entries. `jrnl`
-makes it easy to find the entries you want, and only the ones you want, so that
+`jrnl` includes support for the creation and management of multiple journals,
+each of which can be stored as a single file or as a set of files. Entries are
+automatically timestamped in a human-readable format that makes it easy to view
+multiple entries at a time. `jrnl` can easily find the entries you want so that
 you can read them or edit them.
 
-### Support for External Editors
+## Support for External Editors
 
-`jrnl` allows you to search for specific entries and edit them in your favorite
-text editor.
+`jrnl` plays nicely with your favorite text editor. You may prefer to write
+journal entries in an editor. Or you may want to make changes that require a
+more comprehensive application. `jrnl` can filter specific entries and pass them
+to the external editor of your choice.
 
-### Encryption
+## Encryption
   
-`jrnl` includes support for [256-bit AES
+`jrnl` includes support for [128-bit AES
 encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) using
-[cryptography.io](https://cryptography.io).
+[cryptography.Fernet](https://cryptography.io/en/latest/fernet/). The
+[encryption page](./encryption.md) explains `jrnl`'s cryptographic framework in
+more detail.
 
-### Multi-Platform Support
+## Import and Export
 
-`jrnl` is compatible with most operating systems. Pre-compiled binaries are available through several distribution channels, and you can build from source. See the installation page for more information.
+`jrnl` makes it easy to import entries from other sources. Existing entries can
+be [exported](./export.md) in a variety of formats.
 
-### Open-Source
+## Multi-Platform Support
 
-`jrnl` is written in [Python](https://www.python.org) and maintained by a [friendly community](https://github.com/jrnl-org/jrnl) of open-source software enthusiasts.
+`jrnl` is compatible with most operating systems. Pre-compiled binaries are
+available through several distribution channels, and you can build from source.
+See the [installation page](./installation.md) for more information.
+
+## Open-Source
+
+`jrnl` is written in [Python](https://www.python.org) and maintained by a
+[friendly community](https://github.com/jrnl-org/jrnl) of open-source software
+enthusiasts.
