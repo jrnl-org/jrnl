@@ -1,45 +1,5 @@
 # Encryption
 
-Please note that _all_ of `jrnl`'s encryption functions require `pycrypto`,
-which can be installed using `pip`:
-
-```sh
-pip3 install pycrypto
-```
-
-## Encrypting and Decrypting
-
-If you chose not to encrypt your file when you ran `jrnl` for the first time,
-you can still encrypt your existing journal file or change its password using
-the following command:
-
-``` sh
-jrnl --encrypt
-```
-
-If your file is already encrypted, you will first be asked for the current
-password. You can then enter a new password, and your unencrypted file will
-replaced with the new encrypted file. Conversely,
-
-``` sh
-jrnl --decrypt
-```
-
-replaces your encrypted journal file with a journal in plain text. You can also
-specify a filename, e.g., `jrnl --decrypt plain_text_copy.txt`, to leave the
-original encrypted file untouched and create a new plain text file next to it.
-
-## Storing Passwords in Your Keychain
-
-When you encrypt your journal, you will be asked whether you want to store the
-encryption password in your keychain. This saves you the trouble of having to
-enter your password every time you want to write in or read your journal.
-
-If you don't initially store the password in the keychain but decide to do so at
-a later point---or if you want to store it in one computer's keychain but not in
-another computer's---you can run `jrnl --encrypt` on an encrypted journal and
-use the same password again. This will trigger the keychain storage prompt.
-
 ## A Note on Security
 
 While `jrnl` follows best practices, total security is never possible in the
@@ -47,10 +7,62 @@ real world. There are a number of ways that people can at least partially
 compromise your `jrnl` data. See the [Privacy and Security](./security.md) page
 for more information.
 
-## Password Recovery
+## Dependencies
+
+As of version 2.0, `jrnl`'s encryption functions require
+[`cryptography`](https://pypi.org/project/cryptography/), which is available in
+the Python Package Index (PyPI) and can be installed using `pip`:
+
+``` sh
+pip3 install cryptography
+```
+
+Previous versions of `jrnl` require
+[`pycrypto`](https://pypi.org/project/pycrypto/):
+
+```sh
+pip3 install pycrypto
+```
+
+## Encrypting and Decrypting
+
+Existing plain text journal files can be encrypted using the `--encrypt`
+command:
+
+``` sh
+jrnl --encrypt [FILENAME]
+```
+
+You can then enter a new password, and the unencrypted file will replaced with
+the new encrypted file.
+
+This command also works to change the password for a journal file that is
+already encrypted. `jrnl` will prompt you for the current password and then new
+password.
+
+Conversely,
+
+``` sh
+jrnl --decrypt [FILENAME]
+```
+
+replaces the encrypted journal file with a plain text file. You can also specify
+a filename, e.g., `jrnl --decrypt plain_text_copy.txt`, to leave the original
+encrypted file untouched and create a new plain text file next to it.
+
+## Storing Passwords in Your Keychain
 
 There is no method to recover or reset your `jrnl` password. If you lose it,
 your data will be inaccessible forever.
+
+For this reason, when encrypting a journal, `jrnl` asks whether you would like
+to store the password in your system's keychain. An added benefit is that you
+will not need to enter the password when interacting with the journal file.
+
+If you don't initially store the password in your keychain but decide to do so
+later---or if you want to store it in one computer's keychain but not in another
+computer's---you can run `jrnl --encrypt` on an encrypted journal and use the
+same password again. This will trigger the keychain storage prompt.
 
 ## Manual Decryption
 
