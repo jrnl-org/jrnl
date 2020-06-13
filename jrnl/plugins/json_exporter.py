@@ -20,6 +20,7 @@ class JSONExporter(TextExporter):
             "body": entry.body,
             "date": entry.date.strftime("%Y-%m-%d"),
             "time": entry.date.strftime("%H:%M"),
+            "tags": entry.tags,
             "starred": entry.starred,
         }
         if hasattr(entry, "uuid"):
