@@ -119,3 +119,14 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl Life is good"
         and we run "jrnl -n 1"
         Then the output should contain "Life is good"
+
+    Scenario: Installation with relative journal and referencing from another folder
+        Given we use the config "missingconfig"
+        When we run "jrnl hello world" and enter
+        """
+        test.txt
+        n
+        """
+        and we change directory to "features"
+        and we run "jrnl -n 1"
+        Then the output should contain "hello world"

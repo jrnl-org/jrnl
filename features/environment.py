@@ -2,6 +2,8 @@ import os
 import shutil
 import sys
 
+CWD = os.getcwd()
+
 
 def clean_all_working_dirs():
     for folder in ("configs", "journals", "cache"):
@@ -26,7 +28,6 @@ def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
     # Clean up in case something went wrong
     clean_all_working_dirs()
-
     for folder in ("configs", "journals"):
         original = os.path.join("features", "data", folder)
         working_dir = os.path.join("features", folder)
@@ -52,4 +53,6 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
+    if os.getcwd() != CWD:
+        os.chdir(CWD)
     clean_all_working_dirs()
