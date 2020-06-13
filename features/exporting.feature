@@ -9,6 +9,8 @@ Feature: Exporting a Journal
         And "tags" in the json output should contain "@idea"
         And "tags" in the json output should contain "@journal"
         And "tags" in the json output should contain "@dan"
+        And entry 1 should have an array "tags" with 2 elements
+        And entry 2 should have an array "tags" with 2 elements
 
     Scenario: Exporting using filters should only export parts of the journal
         Given we use the config "tags.yaml"
@@ -89,6 +91,7 @@ Feature: Exporting a Journal
         Then the output should be a valid XML string
         And "entries" node in the xml output should have 2 elements
         And "tags" in the xml output should contain ["@idea", "@journal", "@dan"]
+        And there should be 7 "tag" elements
 
     Scenario: Exporting tags
         Given we use the config "tags.yaml"
