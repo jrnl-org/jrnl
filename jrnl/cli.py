@@ -21,6 +21,7 @@
 
 import argparse
 import logging
+import platform
 import re
 import sys
 
@@ -43,6 +44,14 @@ def parse_args(args=None):
         action="store_true",
         help="prints version information and exits",
     )
+
+    parser.add_argument(
+        "--diagnostic",
+        dest="diagnostic",
+        action="store_true",
+        help="outputs diagnostic information and exits",
+    )
+
     parser.add_argument(
         "-ls", dest="ls", action="store_true", help="displays accessible journals"
     )
@@ -313,6 +322,14 @@ def run(manual_args=None):
     if args.version:
         version_str = f"{jrnl.__title__} version {jrnl.__version__}"
         print(version_str)
+        sys.exit(0)
+
+    if args.diagnostic:
+        print(
+            f"jrnl: {jrnl.__version__}\n"
+            f"Python: {sys.version}\n"
+            f"OS: {platform.system()} {platform.release()}"
+        )
         sys.exit(0)
 
     try:

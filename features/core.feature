@@ -130,3 +130,8 @@ Feature: Basic reading and writing to a journal
         and we change directory to "features"
         and we run "jrnl -n 1"
         Then the output should contain "hello world"
+
+    Scenario: --diagnostic runs without exceptions
+        When we run "jrnl --diagnostic"
+        Then the output should contain "jrnl"
+        And the output should contain "Python"
