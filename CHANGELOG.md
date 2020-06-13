@@ -11,6 +11,7 @@
 
 **Fixed bugs:**
 
+- Create journal with absolute path when no path is specified [\#972](https://github.com/jrnl-org/jrnl/pull/972) ([eshrh](https://github.com/eshrh))
 - Fix set\_keychain errors [\#964](https://github.com/jrnl-org/jrnl/pull/964) ([eshrh](https://github.com/eshrh))
 - Fix title splitting logic to account for both newlines and periods [\#958](https://github.com/jrnl-org/jrnl/pull/958) ([eshrh](https://github.com/eshrh))
 - Fix editor config when an argument with a space is used [\#953](https://github.com/jrnl-org/jrnl/pull/953) ([wren](https://github.com/wren))
