@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Add tags to json and xml exporters [\#975](https://github.com/jrnl-org/jrnl/pull/975) ([eshrh](https://github.com/eshrh))
 - Speed up jrnl by 10%, improve slow imports [\#959](https://github.com/jrnl-org/jrnl/pull/959) ([wotgl](https://github.com/wotgl))
 - Add extended metadata support for DayOne Classic [\#928](https://github.com/jrnl-org/jrnl/pull/928) ([MinchinWeb](https://github.com/MinchinWeb))
 
