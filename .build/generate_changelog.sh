@@ -2,7 +2,7 @@
 
 BRANCH=$TRAVIS_BRANCH
 if [[ $TRAVIS_BRANCH == $TRAVIS_TAG ]]; then
-  BRANCH='master'
+  BRANCH='release'
 fi
 
 # Check if branch has been updated since this build started
@@ -39,7 +39,7 @@ elif [[ ! -z $TRAVIS_TAG ]]; then
   echo "beta elease"
   gittag=${release_latest}
 else
-  echo "merge into master or develop"
+  echo "merge into release or develop"
   gittag=${release_latest}
 fi
 echo "gittag: ${gittag}"

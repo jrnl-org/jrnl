@@ -73,7 +73,7 @@ You will need to install [poetry](https://poetry.eustace.io/) to develop jrnl. I
 jrnl uses two primary branches:
 
  * `develop` - for ongoing development
- * `master` - for releases
+ * `release` - for releases
 
 In general, pull requests should be made on the `develop` branch.
 
