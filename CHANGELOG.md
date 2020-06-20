@@ -16,6 +16,7 @@
 
 **Build:**
 
+- Add unit testing via pytest [\#987](https://github.com/jrnl-org/jrnl/pull/987) ([micahellison](https://github.com/micahellison))
 - Rename master branch to release [\#985](https://github.com/jrnl-org/jrnl/pull/985) ([wren](https://github.com/wren))
 
 **Updated documentation:**
