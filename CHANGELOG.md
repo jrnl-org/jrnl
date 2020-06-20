@@ -6,13 +6,17 @@
 
 **Implemented enhancements:**
 
+- Add --diagnostic argument [\#984](https://github.com/jrnl-org/jrnl/pull/984) ([micahellison](https://github.com/micahellison))
 - Add tags to json and xml exporters [\#975](https://github.com/jrnl-org/jrnl/pull/975) ([eshrh](https://github.com/eshrh))
 - Add extended metadata support for DayOne Classic [\#928](https://github.com/jrnl-org/jrnl/pull/928) ([MinchinWeb](https://github.com/MinchinWeb))
-- Add --diagnostic argument [\#984](https://github.com/jrnl-org/jrnl/pull/984)([micahellison](https://github.com/micahellison))
 
 **Fixed bugs:**
 
 - Create journal with absolute path when no path is specified [\#972](https://github.com/jrnl-org/jrnl/pull/972) ([eshrh](https://github.com/eshrh))
+
+**Build:**
+
+- Rename master branch to release [\#985](https://github.com/jrnl-org/jrnl/pull/985) ([wren](https://github.com/wren))
 
 **Updated documentation:**
 
