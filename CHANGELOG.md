@@ -2,17 +2,32 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.3...HEAD)
 
 **Implemented enhancements:**
 
 - Add tags to json and xml exporters [\#975](https://github.com/jrnl-org/jrnl/pull/975) ([eshrh](https://github.com/eshrh))
-- Speed up jrnl by 10%, improve slow imports [\#959](https://github.com/jrnl-org/jrnl/pull/959) ([wotgl](https://github.com/wotgl))
 - Add extended metadata support for DayOne Classic [\#928](https://github.com/jrnl-org/jrnl/pull/928) ([MinchinWeb](https://github.com/MinchinWeb))
+- Add --diagnostic argument [\#984](https://github.com/jrnl-org/jrnl/pull/984)([micahellison](https://github.com/micahellison))
 
 **Fixed bugs:**
 
 - Create journal with absolute path when no path is specified [\#972](https://github.com/jrnl-org/jrnl/pull/972) ([eshrh](https://github.com/eshrh))
+
+**Updated documentation:**
+
+- Extensive modifications to overview.md [\#957](https://github.com/jrnl-org/jrnl/pull/957) ([guydebros](https://github.com/guydebros))
+
+## [v2.4.3](https://pypi.org/project/jrnl/v2.4.3/) (2020-06-13)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...v2.4.3)
+
+**Implemented enhancements:**
+
+- Speed up jrnl by 10%, improve slow imports [\#959](https://github.com/jrnl-org/jrnl/pull/959) ([wotgl](https://github.com/wotgl))
+
+**Fixed bugs:**
+
 - Fix set\_keychain errors [\#964](https://github.com/jrnl-org/jrnl/pull/964) ([eshrh](https://github.com/eshrh))
 - Fix title splitting logic to account for both newlines and periods [\#958](https://github.com/jrnl-org/jrnl/pull/958) ([eshrh](https://github.com/eshrh))
 - Fix editor config when an argument with a space is used [\#953](https://github.com/jrnl-org/jrnl/pull/953) ([wren](https://github.com/wren))
@@ -28,7 +43,6 @@
 
 **Updated documentation:**
 
-- Extensive modifications to overview.md [\#957](https://github.com/jrnl-org/jrnl/pull/957) ([guydebros](https://github.com/guydebros))
 - Cleaned up usage.md for clarity, formatting, and grammar. [\#956](https://github.com/jrnl-org/jrnl/pull/956) ([guydebros](https://github.com/guydebros))
 
 ## [v2.4.2](https://pypi.org/project/jrnl/v2.4.2/) (2020-05-09)
