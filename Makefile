@@ -21,7 +21,8 @@ lint: ## Check style with various tools
 	poetry run pyflakes .
 	poetry run black --check --diff .
 
-test: lint ## Run behave tests
+test: lint ## Run unit tests and behave tests
+	poetry run pytest
 	poetry run behave
 
 build:
