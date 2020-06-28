@@ -23,7 +23,7 @@ lint: ## Check style with various tools
 
 test: lint ## Run unit tests and behave tests
 	poetry run pytest
-	poetry run behave
+	poetry run behave --no-skipped --format progress2
 
 build:
 	poetry build
