@@ -78,7 +78,6 @@ def test_not_alone():
     assert cli_as_dict("-not test") == expected_args(excluded=["test"])
 
 
-@pytest.mark.xfail
 def test_not_multiple_alone():
     assert cli_as_dict("-not one -not two") == expected_args(excluded=["one", "two"])
     assert cli_as_dict("-not one -not two -not three") == expected_args(
@@ -86,13 +85,22 @@ def test_not_multiple_alone():
     )
 
 
+@pytest.mark.parametrize(
+    "cli",
+    ["two -not one -not three", "-not one two -not three", "-not one -not three two",],
+)
+def test_not_mixed(cli):
+    result = expected_args(excluded=["one", "three"], text=["two"])
+    assert cli_as_dict(cli) == result
+
+
+def test_not_interspersed():
+    result = expected_args(excluded=["one", "three"], text=["two", "two", "two"])
+    assert cli_as_dict("two -not one two -not three two") == result
+
+
 def test_export_alone():
     assert cli_as_dict("--export json") == expected_args(export="json")
-
-
-@pytest.mark.xfail
-def test_export_defaults_to_jrnl():
-    assert cli_as_dict("--export") == expected_args(import_="jrnl")
 
 
 def test_import_alone():
@@ -165,20 +173,30 @@ def test_version_alone():
 
 
 # @see https://github.com/jrnl-org/jrnl/issues/520
-@pytest.mark.xfail
-def test_and_ordering():
+@pytest.mark.parametrize(
+    "cli",
+    [
+        "-and second @oldtag @newtag",
+        "second @oldtag @newtag -and",
+        "second -and @oldtag @newtag",
+        "second @oldtag -and @newtag",
+    ],
+)
+def test_and_ordering(cli):
     result = expected_args(strict=True, text=["second", "@oldtag", "@newtag"])
-    assert result == cli_as_dict("-and second @oldtag @newtag")
-    assert result == cli_as_dict("second @oldtag @newtag -and")
-    assert result == cli_as_dict("second -and @oldtag @newtag")
-    assert result == cli_as_dict("second @oldtag -and @newtag")
+    assert cli_as_dict(cli) == result
 
 
 # @see https://github.com/jrnl-org/jrnl/issues/520
-@pytest.mark.xfail
-def test_edit_ordering():
+@pytest.mark.parametrize(
+    "cli",
+    [
+        "--edit second @oldtag @newtag",
+        "second @oldtag @newtag --edit",
+        "second --edit @oldtag @newtag",
+        "second @oldtag --edit @newtag",
+    ],
+)
+def test_edit_ordering(cli):
     result = expected_args(edit=True, text=["second", "@oldtag", "@newtag"])
-    assert result == cli_as_dict("--edit second @oldtag @newtag")
-    assert result == cli_as_dict("second @oldtag @newtag --edit")
-    assert result == cli_as_dict("second --edit @oldtag @newtag")
-    assert result == cli_as_dict("second @oldtag --edit @newtag")
+    assert cli_as_dict(cli) == result

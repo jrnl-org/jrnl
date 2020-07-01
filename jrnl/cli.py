@@ -64,7 +64,6 @@ def parse_args(args=None):
         "Composing",
         'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."',
     )
-    composing.add_argument("text", metavar="", nargs="*")
 
     reading = parser.add_argument_group(
         "Reading",
@@ -110,9 +109,10 @@ def parse_args(args=None):
     reading.add_argument(
         "-not",
         dest="excluded",
-        nargs="+",
+        nargs="?",
         default=[],
         metavar="E",
+        action="append",
         help="Exclude entries with these tags",
     )
 
@@ -203,6 +203,9 @@ def parse_args(args=None):
         help="Opens an interactive interface for deleting entries.",
     )
 
+    # Everything else
+    composing.add_argument("text", metavar="", nargs="*")
+
     if not args:
         args = []
 
@@ -210,7 +213,7 @@ def parse_args(args=None):
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
 
-    return parser.parse_args(args)
+    return parser.parse_intermixed_args(args)
 
 
 def guess_mode(args, config):

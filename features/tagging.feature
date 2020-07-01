@@ -77,7 +77,7 @@ Feature: Tagging
         When we run "jrnl today: I think this will show up @thought"
         When we run "jrnl today: This should @never show up @thought"
         When we run "jrnl today: What a nice day for filtering @thought"
-        When we run "jrnl --tags -not @not @never"
+        When we run "jrnl --tags -not @not -not @never"
         Then the output should be
             """
             @thought             : 2
