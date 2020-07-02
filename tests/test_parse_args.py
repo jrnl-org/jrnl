@@ -1,4 +1,4 @@
-from jrnl.cli import parse_args
+from jrnl.cli import parse_args_before_config as parse_args
 
 import pytest
 import shlex
@@ -16,7 +16,6 @@ def expected_args(**kwargs):
         "debug": False,
         "decrypt": False,
         "delete": False,
-        "diagnostic": False,
         "edit": False,
         "encrypt": False,
         "end_date": None,
@@ -25,16 +24,16 @@ def expected_args(**kwargs):
         "import_": False,
         "input": False,
         "limit": None,
-        "ls": False,
         "on_date": None,
         "output": False,
+        "preconfig_cmd": None,
+        "postconfig_cmd": None,
         "short": False,
         "starred": False,
         "start_date": None,
         "strict": False,
         "tags": False,
         "text": [],
-        "version": False,
     }
     return {**default_args, **kwargs}
 
@@ -57,7 +56,11 @@ def test_delete_alone():
 
 
 def test_diagnostic_alone():
-    assert cli_as_dict("--diagnostic") == expected_args(diagnostic=True)
+    from jrnl.commands import preconfig_diagnostic
+
+    assert cli_as_dict("--diagnostic") == expected_args(
+        preconfig_cmd=preconfig_diagnostic
+    )
 
 
 def test_edit_alone():
@@ -134,7 +137,9 @@ def test_limit_shorthand_alone():
 
 
 def test_list_alone():
-    assert cli_as_dict("-ls") == expected_args(ls=True)
+    from jrnl.commands import postconfig_list
+
+    assert cli_as_dict("--ls") == expected_args(postconfig_cmd=postconfig_list)
 
 
 def test_on_date_alone():
@@ -169,7 +174,9 @@ def test_text_alone():
 
 
 def test_version_alone():
-    assert cli_as_dict("--version") == expected_args(version=True)
+    from jrnl.commands import preconfig_version
+
+    assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
 
 # @see https://github.com/jrnl-org/jrnl/issues/520

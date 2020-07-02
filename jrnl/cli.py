@@ -19,201 +19,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import argparse
 import logging
 import packaging.version
 import platform
-import re
 import sys
 
-import jrnl
-
 from . import install, plugins, util
+from .commands import list_journals
+from .parsing import parse_args_before_config
 from .Journal import PlainJournal, open_journal
 from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR, UserAbort
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
-
-
-def parse_args(args=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-v",
-        "--version",
-        dest="version",
-        action="store_true",
-        help="prints version information and exits",
-    )
-
-    parser.add_argument(
-        "--diagnostic",
-        dest="diagnostic",
-        action="store_true",
-        help="outputs diagnostic information and exits",
-    )
-
-    parser.add_argument(
-        "-ls", dest="ls", action="store_true", help="displays accessible journals"
-    )
-    parser.add_argument(
-        "-d", "--debug", dest="debug", action="store_true", help="execute in debug mode"
-    )
-
-    composing = parser.add_argument_group(
-        "Composing",
-        'To write an entry simply write it on the command line, e.g. "jrnl yesterday at 1pm: Went to the gym."',
-    )
-
-    reading = parser.add_argument_group(
-        "Reading",
-        "Specifying either of these parameters will display posts of your journal",
-    )
-    reading.add_argument(
-        "-from", dest="start_date", metavar="DATE", help="View entries after this date"
-    )
-    reading.add_argument(
-        "-until",
-        "-to",
-        dest="end_date",
-        metavar="DATE",
-        help="View entries before this date",
-    )
-    reading.add_argument(
-        "-contains", dest="contains", help="View entries containing a specific string"
-    )
-    reading.add_argument(
-        "-on", dest="on_date", metavar="DATE", help="View entries on this date"
-    )
-    reading.add_argument(
-        "-and",
-        dest="strict",
-        action="store_true",
-        help="Filter by tags using AND (default: OR)",
-    )
-    reading.add_argument(
-        "-starred",
-        dest="starred",
-        action="store_true",
-        help="Show only starred entries",
-    )
-    reading.add_argument(
-        "-n",
-        dest="limit",
-        default=None,
-        metavar="N",
-        help="Shows the last n entries matching the filter. '-n 3' and '-3' have the same effect.",
-        nargs="?",
-        type=int,
-    )
-    reading.add_argument(
-        "-not",
-        dest="excluded",
-        nargs="?",
-        default=[],
-        metavar="E",
-        action="append",
-        help="Exclude entries with these tags",
-    )
-
-    exporting = parser.add_argument_group(
-        "Export / Import", "Options for transmogrifying your journal"
-    )
-    exporting.add_argument(
-        "-s",
-        "--short",
-        dest="short",
-        action="store_true",
-        help="Show only titles or line containing the search tags",
-    )
-    exporting.add_argument(
-        "--tags",
-        dest="tags",
-        action="store_true",
-        help="Returns a list of all tags and number of occurences",
-    )
-    exporting.add_argument(
-        "--export",
-        metavar="TYPE",
-        dest="export",
-        choices=plugins.EXPORT_FORMATS,
-        help="Export your journal. TYPE can be {}.".format(
-            plugins.util.oxford_list(plugins.EXPORT_FORMATS)
-        ),
-        default=False,
-        const=None,
-    )
-    exporting.add_argument(
-        "-o",
-        metavar="OUTPUT",
-        dest="output",
-        help="Optionally specifies output file when using --export. If OUTPUT is a directory, exports each entry into an individual file instead.",
-        default=False,
-        const=None,
-    )
-    exporting.add_argument(
-        "--import",
-        metavar="TYPE",
-        dest="import_",
-        choices=plugins.IMPORT_FORMATS,
-        help="Import entries into your journal. TYPE can be {}, and it defaults to jrnl if nothing else is specified.".format(
-            plugins.util.oxford_list(plugins.IMPORT_FORMATS)
-        ),
-        default=False,
-        const="jrnl",
-        nargs="?",
-    )
-    exporting.add_argument(
-        "-i",
-        metavar="INPUT",
-        dest="input",
-        help="Optionally specifies input file when using --import.",
-        default=False,
-        const=None,
-    )
-    exporting.add_argument(
-        "--encrypt",
-        metavar="FILENAME",
-        dest="encrypt",
-        help="Encrypts your existing journal with a new password",
-        nargs="?",
-        default=False,
-        const=None,
-    )
-    exporting.add_argument(
-        "--decrypt",
-        metavar="FILENAME",
-        dest="decrypt",
-        help="Decrypts your journal and stores it in plain text",
-        nargs="?",
-        default=False,
-        const=None,
-    )
-    exporting.add_argument(
-        "--edit",
-        dest="edit",
-        help="Opens your editor to edit the selected entries.",
-        action="store_true",
-    )
-
-    exporting.add_argument(
-        "--delete",
-        dest="delete",
-        action="store_true",
-        help="Opens an interactive interface for deleting entries.",
-    )
-
-    # Everything else
-    composing.add_argument("text", metavar="", nargs="*")
-
-    if not args:
-        args = []
-
-    # Handle '-123' as a shortcut for '-n 123'
-    num = re.compile(r"^-(\d+)$")
-    args = [num.sub(r"-n \1", arg) for arg in args]
-
-    return parser.parse_intermixed_args(args)
 
 
 def guess_mode(args, config):
@@ -282,17 +100,6 @@ def decrypt(journal, filename=None):
     )
 
 
-def list_journals(config):
-    """List the journals specified in the configuration file"""
-    result = f"Journals defined in {install.CONFIG_FILE_PATH}\n"
-    ml = min(max(len(k) for k in config["journals"]), 20)
-    for journal, cfg in config["journals"].items():
-        result += " * {:{}} -> {}\n".format(
-            journal, ml, cfg["journal"] if isinstance(cfg, dict) else cfg
-        )
-    return result
-
-
 def update_config(config, new_config, scope, force_local=False):
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
@@ -332,30 +139,29 @@ Python 3.7 (or higher) soon.
     if manual_args is None:
         manual_args = sys.argv[1:]
 
-    args = parse_args(manual_args)
+    args = parse_args_before_config(manual_args)
+
+    # import pprint
+    # pp = pprint.PrettyPrinter(depth=4)
+    # pp.pprint(args)
 
     configure_logger(args.debug)
-    if args.version:
-        version_str = f"{jrnl.__title__} version {jrnl.__version__}"
-        print(version_str)
+
+    # Run command if possible before config is available
+    if args.preconfig_cmd is not None:
+        args.preconfig_cmd(args)
         sys.exit(0)
 
-    if args.diagnostic:
-        print(
-            f"jrnl: {jrnl.__version__}\n"
-            f"Python: {sys.version}\n"
-            f"OS: {platform.system()} {platform.release()}"
-        )
-        sys.exit(0)
-
+    # Load the config
     try:
         config = install.load_or_install_jrnl()
     except UserAbort as err:
         print(f"\n{err}", file=sys.stderr)
         sys.exit(1)
 
-    if args.ls:
-        print(list_journals(config))
+    # Run command now that config is available
+    if args.postconfig_cmd is not None:
+        args.postconfig_cmd(config=config, args=args)
         sys.exit(0)
 
     log.debug('Using configuration "%s"', config)
