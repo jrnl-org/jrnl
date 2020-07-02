@@ -75,3 +75,9 @@ Feature: Dayone specific implementation details.
         and the json output should contain entries.0.creator.generation_date
         and the json output should contain entries.0.creator.device_agent
         and "entries.0.creator.software_agent" in the json output should contain "jrnl"
+
+    Scenario: Editing Dayone with mock editor
+        Given we use the config "dayone.yaml"
+        When we run "jrnl --edit"
+        Then we should get no error
+

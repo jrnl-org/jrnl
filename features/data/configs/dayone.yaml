@@ -4,6 +4,7 @@ editor: ''
 template: false
 encrypt: false
 highlight: true
+editor: noop
 journals:
   default: features/journals/dayone.dayone
 linewrap: 80

@@ -209,8 +209,13 @@ def run(context, command, cache_dir=None):
 
     args = ushlex(command)
 
+    def _mock_editor(command):
+        context.editor_command = command
+
     try:
-        with patch("sys.argv", args):
+        with patch("sys.argv", args), patch(
+            "subprocess.call", side_effect=_mock_editor
+        ):
             cli.run(args[1:])
             context.exit_status = 0
     except SystemExit as e:
