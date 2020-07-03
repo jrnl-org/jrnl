@@ -190,7 +190,6 @@ class Journal:
         end_date=None,
         starred=False,
         strict=False,
-        short=False,
         contains=None,
         exclude=[],
     ):
