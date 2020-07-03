@@ -9,6 +9,7 @@ from .commands import preconfig_version
 from .commands import preconfig_diagnostic
 from .commands import postconfig_list
 from .util import deprecated_cmd
+from .util import get_journal_name
 
 
 class WrappingFormatter(argparse.RawDescriptionHelpFormatter):
@@ -274,5 +275,9 @@ def parse_args_before_config(args=None):
     return parser.parse_intermixed_args(args)
 
 
-def parse_args_after_config(args=None):
-    return None
+def parse_args_after_config(args, config):
+    # print(str(args))  # @todo take this out
+
+    args = get_journal_name(args, config)
+
+    return args
