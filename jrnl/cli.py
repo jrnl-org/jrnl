@@ -25,8 +25,8 @@ import platform
 import sys
 
 from . import install, plugins, util
-from .util import list_journals
 from .parsing import parse_args_before_config
+from .parsing import parse_args_after_config
 from .Journal import PlainJournal, open_journal
 from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR, UserAbort
 
@@ -159,24 +159,14 @@ Python 3.7 (or higher) soon.
         args.postconfig_cmd(config=config, args=args)
         sys.exit(0)
 
+    args = parse_args_after_config(args, config)
+
     log.debug('Using configuration "%s"', config)
     original_config = config.copy()
 
-    # If the first textual argument points to a journal file,
-    # use this!
+    config = util.scope_config(config, args.journal_name)
 
-    journal_name = install.DEFAULT_JOURNAL_KEY
-    if args.text and args.text[0] in config["journals"]:
-        journal_name = args.text[0]
-        args.text = args.text[1:]
-    elif install.DEFAULT_JOURNAL_KEY not in config["journals"]:
-        print("No default journal configured.", file=sys.stderr)
-        print(list_journals(config), file=sys.stderr)
-        sys.exit(1)
-
-    config = util.scope_config(config, journal_name)
-
-    log.debug('Using journal "%s"', journal_name)
+    log.debug('Using journal "%s"', args.journal_name)
 
     mode_compose, mode_export, mode_import = guess_mode(args, config)
 
@@ -188,7 +178,7 @@ Python 3.7 (or higher) soon.
 
     # This is where we finally open the journal!
     try:
-        journal = open_journal(journal_name, config)
+        journal = open_journal(args.journal_name, config)
     except KeyboardInterrupt:
         print("[Interrupted while opening journal]", file=sys.stderr)
         sys.exit(1)
@@ -231,9 +221,9 @@ Python 3.7 (or higher) soon.
     # Writing mode
     elif mode_compose:
         raw = " ".join(args.text).strip()
-        log.debug('Appending raw line "%s" to journal "%s"', raw, journal_name)
+        log.debug('Appending raw line "%s" to journal "%s"', raw, args.journal_name)
         journal.new_entry(raw)
-        print(f"[Entry added to {journal_name} journal]", file=sys.stderr)
+        print(f"[Entry added to {args.journal_name} journal]", file=sys.stderr)
         journal.write()
 
     if not mode_compose:
@@ -271,7 +261,7 @@ Python 3.7 (or higher) soon.
         # Not encrypting to a separate file: update config!
         if not args.encrypt:
             update_config(
-                original_config, {"encrypt": True}, journal_name, force_local=True
+                original_config, {"encrypt": True}, args.journal_name, force_local=True
             )
             install.save_config(original_config)
 
@@ -280,7 +270,7 @@ Python 3.7 (or higher) soon.
         # Not decrypting to a separate file: update config!
         if not args.decrypt:
             update_config(
-                original_config, {"encrypt": False}, journal_name, force_local=True
+                original_config, {"encrypt": False}, args.journal_name, force_local=True
             )
             install.save_config(original_config)
 
