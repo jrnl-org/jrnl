@@ -141,14 +141,14 @@ def scope_config(config, journal_name):
         return config
     config = config.copy()
     journal_conf = config["journals"].get(journal_name)
-    if (
-        type(journal_conf) is dict
-    ):  # We can override the default config on a by-journal basis
+    if type(journal_conf) is dict:
+        # We can override the default config on a by-journal basis
         log.debug(
             "Updating configuration with specific journal overrides %s", journal_conf
         )
         config.update(journal_conf)
-    else:  # But also just give them a string to point to the journal file
+    else:
+        # But also just give them a string to point to the journal file
         config["journal"] = journal_conf
     config.pop("journals")
     return config
