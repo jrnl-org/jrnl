@@ -210,8 +210,12 @@ def run_with_input(context, command, inputs=""):
 
 
 @when('we run "{command}"')
+@when('we run "{command}" and pipe')
+@when('we run "{command}" and pipe "{text}"')
 @when('we run "{command}" with cache directory "{cache_dir}"')
-def run(context, command, cache_dir=None):
+def run(context, command, text="", cache_dir=None):
+    text = text or context.text or ""
+
     if cache_dir is not None:
         cache_dir = os.path.join("features", "cache", cache_dir)
         command = command.format(cache_dir=cache_dir)
@@ -224,7 +228,7 @@ def run(context, command, cache_dir=None):
     try:
         with patch("sys.argv", args), patch(
             "subprocess.call", side_effect=_mock_editor
-        ):
+        ), patch("sys.stdin.read", side_effect=lambda: text):
             cli.run(args[1:])
             context.exit_status = 0
     except SystemExit as e:

@@ -1,4 +1,4 @@
-from jrnl.cli import parse_args_before_config
+from jrnl.cli import parse_args
 
 import pytest
 import shlex
@@ -6,7 +6,7 @@ import shlex
 
 def cli_as_dict(str):
     cli = shlex.split(str)
-    args = parse_args_before_config(cli)
+    args = parse_args(cli)
     return vars(args)
 
 
@@ -21,7 +21,6 @@ def expected_args(**kwargs):
         "end_date": None,
         "excluded": [],
         "export": False,
-        "import_": False,
         "input": False,
         "limit": None,
         "on_date": None,
@@ -106,11 +105,9 @@ def test_export_alone():
 
 
 def test_import_alone():
-    assert cli_as_dict("--import jrnl") == expected_args(import_="jrnl")
+    from jrnl.commands import postconfig_import
 
-
-def test_import_defaults_to_jrnl():
-    assert cli_as_dict("--import") == expected_args(import_="jrnl")
+    assert cli_as_dict("--import") == expected_args(postconfig_cmd=postconfig_import)
 
 
 def test_input_flag_alone():

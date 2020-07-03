@@ -21,3 +21,14 @@ def postconfig_list(config, **kwargs):
     from .util import list_journals
 
     print(list_journals(config))
+
+
+def postconfig_import(args, config, **kwargs):
+    from .plugins import get_importer
+    from .Journal import open_journal
+
+    # Requires opening the journal
+    journal = open_journal(args.journal_name, config)
+
+    format = args.export if args.export else "jrnl"
+    get_importer(format).import_(journal, args.input)

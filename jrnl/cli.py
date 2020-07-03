@@ -25,10 +25,10 @@ import platform
 import sys
 
 from . import install, plugins, util
-from .parsing import parse_args_before_config
-from .parsing import parse_args_after_config
+from .parsing import parse_args
 from .Journal import PlainJournal, open_journal
 from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR, UserAbort
+from .util import get_journal_name
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
@@ -38,12 +38,7 @@ def guess_mode(args, config):
     """Guesses the mode (compose, read or export) from the given arguments"""
     compose = True
     export = False
-    import_ = False
-    if args.import_ is not False:
-        compose = False
-        export = False
-        import_ = True
-    elif (
+    if (
         args.decrypt is not False
         or args.encrypt is not False
         or args.export is not False
@@ -70,7 +65,7 @@ def guess_mode(args, config):
         # No date and only tags?
         compose = False
 
-    return compose, export, import_
+    return compose, export
 
 
 def encrypt(journal, filename=None):
@@ -139,7 +134,7 @@ Python 3.7 (or higher) soon.
     if manual_args is None:
         manual_args = sys.argv[1:]
 
-    args = parse_args_before_config(manual_args)
+    args = parse_args(manual_args)
     configure_logger(args.debug)
 
     # Run command if possible before config is available
@@ -150,38 +145,24 @@ Python 3.7 (or higher) soon.
     # Load the config
     try:
         config = install.load_or_install_jrnl()
+        original_config = config.copy()
+        args = get_journal_name(args, config)
+        config = util.scope_config(config, args.journal_name)
     except UserAbort as err:
         print(f"\n{err}", file=sys.stderr)
         sys.exit(1)
 
-    # Run command now that config is available
+    # Run post-config command now that config is ready
     if callable(args.postconfig_cmd):
-        args.postconfig_cmd(config=config, args=args)
+        args.postconfig_cmd(args=args, config=config)
         sys.exit(0)
 
-    args = parse_args_after_config(args, config)
+    # --- All the standalone commands are now done --- #
 
-    log.debug('Using configuration "%s"', config)
-    original_config = config.copy()
+    # Get the journal we're going to be working with
+    journal = open_journal(args.journal_name, config)
 
-    config = util.scope_config(config, args.journal_name)
-
-    log.debug('Using journal "%s"', args.journal_name)
-
-    mode_compose, mode_export, mode_import = guess_mode(args, config)
-
-    # How to quit writing?
-    if "win32" in sys.platform:
-        _exit_multiline_code = "on a blank line, press Ctrl+Z and then Enter"
-    else:
-        _exit_multiline_code = "press Ctrl+D"
-
-    # This is where we finally open the journal!
-    try:
-        journal = open_journal(args.journal_name, config)
-    except KeyboardInterrupt:
-        print("[Interrupted while opening journal]", file=sys.stderr)
-        sys.exit(1)
+    mode_compose, mode_export = guess_mode(args, config)
 
     if mode_compose and not args.text:
         if not sys.stdin.isatty():
@@ -201,25 +182,24 @@ Python 3.7 (or higher) soon.
             raw = util.get_text_from_editor(config, template)
         else:
             try:
+                _how_to_quit = (
+                    "Ctrl+z and then Enter" if "win32" in sys.platform else "Ctrl+d"
+                )
                 print(
-                    "[Compose Entry; " + _exit_multiline_code + " to finish writing]\n",
+                    f"[Writing Entry; on a blank line, press {_how_to_quit} to finish writing]\n",
                     file=sys.stderr,
                 )
                 raw = sys.stdin.read()
             except KeyboardInterrupt:
-                print("[Entry NOT saved to journal.]", file=sys.stderr)
+                print("[Entry NOT saved to journal]", file=sys.stderr)
                 sys.exit(0)
         if raw:
             args.text = [raw]
         else:
             sys.exit()
 
-    # Import mode
-    if mode_import:
-        plugins.get_importer(args.import_).import_(journal, args.input)
-
     # Writing mode
-    elif mode_compose:
+    if mode_compose:
         raw = " ".join(args.text).strip()
         log.debug('Appending raw line "%s" to journal "%s"', raw, args.journal_name)
         journal.new_entry(raw)
@@ -242,7 +222,7 @@ Python 3.7 (or higher) soon.
         journal.limit(args.limit)
 
     # Reading mode
-    if not mode_compose and not mode_export and not mode_import:
+    if not mode_compose and not mode_export:
         print(journal.pprint())
 
     # Various export modes
