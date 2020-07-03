@@ -140,11 +140,6 @@ Python 3.7 (or higher) soon.
         manual_args = sys.argv[1:]
 
     args = parse_args_before_config(manual_args)
-
-    # import pprint
-    # pp = pprint.PrettyPrinter(depth=4)
-    # pp.pprint(args)
-
     configure_logger(args.debug)
 
     # Run command if possible before config is available
