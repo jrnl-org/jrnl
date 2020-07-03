@@ -25,7 +25,7 @@ import platform
 import sys
 
 from . import install, plugins, util
-from .commands import list_journals
+from .util import list_journals
 from .parsing import parse_args_before_config
 from .Journal import PlainJournal, open_journal
 from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR, UserAbort
@@ -148,7 +148,7 @@ Python 3.7 (or higher) soon.
     configure_logger(args.debug)
 
     # Run command if possible before config is available
-    if args.preconfig_cmd is not None:
+    if callable(args.preconfig_cmd):
         args.preconfig_cmd(args)
         sys.exit(0)
 
@@ -160,7 +160,7 @@ Python 3.7 (or higher) soon.
         sys.exit(1)
 
     # Run command now that config is available
-    if args.postconfig_cmd is not None:
+    if callable(args.postconfig_cmd):
         args.postconfig_cmd(config=config, args=args)
         sys.exit(0)
 
