@@ -115,7 +115,7 @@ def update_config(config, new_config, scope, force_local=False):
 
 def configure_logger(debug=False):
     logging.basicConfig(
-        level=logging.DEBUG if debug else logging.INFO,
+        level=logging.DEBUG if debug else logging.ERROR,
         format="%(levelname)-8s %(name)-12s %(message)s",
     )
     logging.getLogger("parsedatetime").setLevel(
