@@ -222,7 +222,6 @@ class DayOne(Journal.Journal):
 
         # Now, update our current entries if they changed
         for entry in entries:
-            entry._parse_text()
             matched_entries = [
                 e for e in self.entries if e.uuid.lower() == entry.uuid.lower()
             ]
