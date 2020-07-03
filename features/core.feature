@@ -136,6 +136,40 @@ Feature: Basic reading and writing to a journal
         Then the output should contain "jrnl"
         And the output should contain "Python"
 
-    Scenario: Version warning appears for versions below 3.7
-        When we run "jrnl --diagnostic"
-        Then the Python version warning should appear if our version is below 3.7
+    Scenario: --import allows new entry to journal
+      Given we use the config "basic.yaml"
+      When we run "jrnl --import" and pipe "[2020-07-05 15:00] Observe and import."
+      And we run "jrnl -1"
+      Then the journal should contain "[2020-07-05 15:00] Observe and import."
+      And the output should contain "Observe and import"
+
+    Scenario: --import allows new large entry to journal
+      Given we use the config "basic.yaml"
+      When we run "jrnl --import" and pipe
+      """
+      [2020-07-05 15:00] Observe and import.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada quis
+      est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque augue
+      et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu consequat.
+      Aenean ante ex, elementum ut interdum et, mattis eget lacus. In commodo nulla nec
+      tellus placerat, sed ultricies metus bibendum. Duis eget venenatis erat. In at
+      dolor dui end of entry.
+      """
+      And we run "jrnl -1"
+      Then the journal should contain "[2020-07-05 15:00] Observe and import."
+      And the output should contain "Observe and import"
+      And the output should contain "Lorem ipsum"
+      And the output should contain "end of entry."
+
+    Scenario: --import allows import of multiple entries to journal
+      Given we use the config "basic.yaml"
+      When we run "jrnl --import" and pipe
+      """
+      [2020-07-05 15:00] Observe and import.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+      [2020-07-05 15:01] Twice as nice.
+      Sed dignissim sed nisl eu consequat.
+      """
+      Then the journal should contain "[2020-07-05 15:00] Observe and import."
+      Then the journal should contain "[2020-07-05 15:01] Twice as nice."

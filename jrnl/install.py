@@ -117,14 +117,15 @@ def load_or_install_jrnl():
         upgrade_config(config)
         verify_config(config)
 
-        return config
     else:
         log.debug("Configuration file not found, installing jrnl...")
         try:
             config = install()
         except KeyboardInterrupt:
             raise UserAbort("Installation aborted")
-        return config
+
+    log.debug('Using configuration "%s"', config)
+    return config
 
 
 def install():
