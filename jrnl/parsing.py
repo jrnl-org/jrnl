@@ -8,8 +8,8 @@ from .plugins import EXPORT_FORMATS
 from .commands import preconfig_version
 from .commands import preconfig_diagnostic
 from .commands import postconfig_list
+from .commands import postconfig_import
 from .util import deprecated_cmd
-from .util import get_journal_name
 
 
 class WrappingFormatter(argparse.RawDescriptionHelpFormatter):
@@ -18,7 +18,7 @@ class WrappingFormatter(argparse.RawDescriptionHelpFormatter):
         return textwrap.wrap(text, width=56)
 
 
-def parse_args_before_config(args=[]):
+def parse_args(args=[]):
     """
     Argument parsing that is doable before the config is available.
     Everything else goes into "text" for later parsing.
@@ -27,7 +27,12 @@ def parse_args_before_config(args=[]):
         formatter_class=WrappingFormatter,
         add_help=False,
         description="The command-line note-taking and journaling app.",
-        epilog="",
+        epilog=textwrap.dedent(
+            """
+        Thank you to all of our contributors! Come see the whole list of code and
+        financial contributors at https://github.com/jrnl-org/jrnl. And special
+        thanks to Bad Lip Reading for the Yoda joke in the Writing section above."""
+        ),
     )
 
     optional = parser.add_argument_group("Optional Arguments")
@@ -108,13 +113,11 @@ def parse_args_before_config(args=[]):
     )
     standalone.add_argument(
         "--import",
+        action="store_const",
         metavar="TYPE",
-        dest="import_",
-        choices=IMPORT_FORMATS,
+        dest="postconfig_cmd",
+        const=postconfig_import,
         help=f"Import entries into your journal. TYPE can be: {util.oxford_list(IMPORT_FORMATS)} (default: jrnl)",
-        default=False,
-        const="jrnl",
-        nargs="?",
     )
     standalone.add_argument(
         "-i",
@@ -132,17 +135,17 @@ def parse_args_before_config(args=[]):
     The date and the following colon ("yesterday:") are optional. If you leave
     them out, "now" will be used:
 
-        jrnl Then I rolled the log over, and underneath was a tiny little stick.
+        jrnl Then I rolled the log over.
 
     Also, you can mark extra special entries ("star" them) with an asterisk:
 
-        jrnl *That log had a child!
+        jrnl *And underneath was a tiny little stick.
 
     Please note that asterisks might be a special character in your shell, so you
-    might have to escape them. When in doubt about escaping, put single quotes
-    around your entire entry:
+    might have to escape them. When in doubt about escaping, put quotes around
+    your entire entry:
 
-        jrnl 'saturday at 8pm: *Always pass on what you have learned. -Yoda'"""
+        jrnl "saturday at 2am: *Then I was like 'That log had a child!'" """
 
     composing = parser.add_argument_group(
         "Writing", textwrap.dedent(compose_msg).strip()
@@ -270,11 +273,3 @@ def parse_args_before_config(args=[]):
 
     # return parser.parse_args(args)
     return parser.parse_intermixed_args(args)
-
-
-def parse_args_after_config(args, config):
-    # print(str(args))  # @todo take this out
-
-    args = get_journal_name(args, config)
-
-    return args

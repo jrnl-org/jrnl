@@ -150,7 +150,6 @@ def scope_config(config, journal_name):
     else:
         # But also just give them a string to point to the journal file
         config["journal"] = journal_conf
-    config.pop("journals")
     return config
 
 
@@ -335,4 +334,5 @@ def get_journal_name(args, config):
         print(list_journals(config), file=sys.stderr)
         sys.exit(1)
 
+    log.debug("Using journal name: %s", args.journal_name)
     return args

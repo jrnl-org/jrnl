@@ -371,7 +371,7 @@ class LegacyJournal(Journal):
         return entries
 
 
-def open_journal(name, config, legacy=False):
+def open_journal(journal_name, config, legacy=False):
     """
     Creates a normal, encrypted or DayOne journal based on the passed config.
     If legacy is True, it will open Journals with legacy classes build for
@@ -394,11 +394,18 @@ def open_journal(name, config, legacy=False):
 
     if not config["encrypt"]:
         if legacy:
-            return LegacyJournal(name, **config).open()
-        return PlainJournal(name, **config).open()
-    else:
-        from . import EncryptedJournal
+            return LegacyJournal(journal_name, **config).open()
+        return PlainJournal(journal_name, **config).open()
 
+    from . import EncryptedJournal
+
+    try:
         if legacy:
-            return EncryptedJournal.LegacyEncryptedJournal(name, **config).open()
-        return EncryptedJournal.EncryptedJournal(name, **config).open()
+            return EncryptedJournal.LegacyEncryptedJournal(
+                journal_name, **config
+            ).open()
+        return EncryptedJournal.EncryptedJournal(journal_name, **config).open()
+    except KeyboardInterrupt:
+        # Since encrypted journals prompt for a password, it's easy for a user to ctrl+c out
+        print("[Interrupted while opening journal]", file=sys.stderr)
+        sys.exit(1)
