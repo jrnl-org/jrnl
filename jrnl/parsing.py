@@ -18,7 +18,7 @@ class WrappingFormatter(argparse.RawDescriptionHelpFormatter):
         return textwrap.wrap(text, width=56)
 
 
-def parse_args_before_config(args=None):
+def parse_args_before_config(args=[]):
     """
     Argument parsing that is doable before the config is available.
     Everything else goes into "text" for later parsing.
@@ -263,9 +263,6 @@ def parse_args_before_config(args=None):
         default=False,
         const=None,
     )
-
-    if not args:
-        args = []
 
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
