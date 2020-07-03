@@ -279,7 +279,12 @@ class Journal:
                 if date:  # Parsed successfully, strip that from the raw text
                     starred = raw[:colon_pos].strip().endswith("*")
                     raw = raw[colon_pos + 1 :].strip()
-        starred = starred or first_line.startswith("*") or first_line.endswith("*")
+        starred = (
+            starred
+            or first_line.startswith("*")
+            or first_line.endswith("*")
+            or raw.startswith("*")
+        )
         if not date:  # Still nothing? Meh, just live in the moment.
             date = time.parse("now")
         entry = Entry.Entry(self, date, raw, starred=starred)
