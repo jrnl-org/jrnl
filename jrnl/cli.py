@@ -245,7 +245,6 @@ Python 3.7 (or higher) soon.
             start_date=args.start_date,
             end_date=args.end_date,
             strict=args.strict,
-            short=args.short,
             starred=args.starred,
             exclude=args.excluded,
             contains=args.contains,
