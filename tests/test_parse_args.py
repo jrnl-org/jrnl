@@ -1,4 +1,4 @@
-from jrnl.cli import parse_args_before_config as parse_args
+from jrnl.cli import parse_args_before_config
 
 import pytest
 import shlex
@@ -6,7 +6,7 @@ import shlex
 
 def cli_as_dict(str):
     cli = shlex.split(str)
-    args = parse_args(cli)
+    args = parse_args_before_config(cli)
     return vars(args)
 
 
@@ -48,7 +48,6 @@ def test_contains_alone():
 
 def test_debug_alone():
     assert cli_as_dict("--debug") == expected_args(debug=True)
-    assert cli_as_dict("-d") == expected_args(debug=True)
 
 
 def test_delete_alone():
