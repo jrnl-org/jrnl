@@ -81,3 +81,14 @@ Feature: Dayone specific implementation details.
         When we run "jrnl --edit"
         Then we should get no error
 
+    Scenario: Editing Dayone entries
+        Given we use the config "dayone.yaml"
+        When we open the editor and append
+            """
+            Here is the first line.
+            Here is the second line.
+            """
+        When we run "jrnl -n 5"
+        Then we should get no error
+        and the output should contain "Here is the first line"
+        and the output should contain "Here is the second line"
