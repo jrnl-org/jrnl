@@ -88,7 +88,8 @@ Feature: Dayone specific implementation details.
             Here is the first line.
             Here is the second line.
             """
-        When we run "jrnl -n 5"
+        When we run "jrnl -n 1"
         Then we should get no error
+        and the output should contain "This entry is starred!"
         and the output should contain "Here is the first line"
         and the output should contain "Here is the second line"
