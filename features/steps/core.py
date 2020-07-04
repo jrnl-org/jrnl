@@ -381,10 +381,7 @@ def check_python_warning_if_version_low_enough(context, version):
         version
     ):
         out = context.stderr_capture.getvalue()
-        assert (
-            "THIS SHOULD FAIL ON 3.6 REMOVE WHEN CONFIRMING - WARNING: Python versions"
-            in out
-        )
+        assert "WARNING: Python versions" in out
     else:
         assert True
 

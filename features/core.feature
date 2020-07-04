@@ -138,4 +138,4 @@ Feature: Basic reading and writing to a journal
 
     Scenario: Version warning appears for versions below 3.7
         When we run "jrnl --diagnostic"
-        Then the Python version warning should appear if our version is below "3.7"
+        Then the Python version warning should appear if our version is below 3.7
