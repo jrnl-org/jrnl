@@ -314,8 +314,13 @@ def configure_logger(debug=False):
 
 
 def run(manual_args=None):
-    if packaging.version.parse(platform.python_version()) < packaging.version.parse('3.7'):
-        print("WARNING: Python versions below 3.7 are not supported by jrnl\n", file=sys.stderr)
+    if packaging.version.parse(platform.python_version()) < packaging.version.parse(
+        "3.7"
+    ):
+        print(
+            "WARNING: Python versions below 3.7 are not supported by jrnl\n",
+            file=sys.stderr,
+        )
 
     if manual_args is None:
         manual_args = sys.argv[1:]
