@@ -101,15 +101,24 @@ def move_up_dir(context, path):
     os.chdir(path)
 
 
-@when('we open the editor and enter "{text}"')
-@when("we open the editor and enter nothing")
-def open_editor_and_enter(context, text=""):
+@when("we open the editor and {method}")
+@when('we open the editor and {method} "{text}"')
+@when("we open the editor and {method} nothing")
+@when("we open the editor and {method} nothing")
+def open_editor_and_enter(context, method, text=""):
     text = text or context.text or ""
+
+    if method == "enter":
+        file_method = "w+"
+    elif method == "append":
+        file_method = "a"
+    else:
+        file_method = "r+"
 
     def _mock_editor_function(command):
         context.editor_command = command
         tmpfile = command[-1]
-        with open(tmpfile, "w+") as f:
+        with open(tmpfile, file_method) as f:
             f.write(text)
 
         return tmpfile
@@ -120,7 +129,7 @@ def open_editor_and_enter(context, text=""):
         patch("subprocess.call", side_effect=_mock_editor_function), \
         patch("sys.stdin.isatty", return_value=True) \
     :
-        context.execute_steps('when we run "jrnl"')
+        cli.run(["--edit"])
     # fmt: on
 
 
@@ -287,7 +296,7 @@ def check_output_version_inline(context):
 def check_output_inline(context, text=None, text2=None):
     text = text or context.text
     out = context.stdout_capture.getvalue()
-    assert text in out or text2 in out, text or text2
+    assert (text and text in out) or (text2 and text2 in out)
 
 
 @then("the error output should contain")
