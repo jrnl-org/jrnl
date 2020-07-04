@@ -135,3 +135,7 @@ Feature: Basic reading and writing to a journal
         When we run "jrnl --diagnostic"
         Then the output should contain "jrnl"
         And the output should contain "Python"
+
+    Scenario: Version warning appears for versions below 3.7
+        When we run "jrnl --diagnostic"
+        Then the Python version warning should appear if our version is below "3.7"

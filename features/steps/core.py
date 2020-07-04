@@ -371,6 +371,17 @@ def list_journal_directory(context, journal="default"):
         for file in f:
             print(os.path.join(root, file))
 
+@then("the Python version warning should appear if our version is below {version}")
+def check_python_warning_if_version_low_enough(context, version):
+    import packaging.version
+    import platform
+
+    if packaging.version.parse(platform.python_version()) < packaging.version.parse(version):
+        out = context.stderr_capture.getvalue()
+        assert "THIS SHOULD FAIL ON 3.6 REMOVE WHEN CONFIRMING - WARNING: Python versions" in out
+    else:
+        assert True
+
 
 @then("fail")
 def debug_fail(context):
