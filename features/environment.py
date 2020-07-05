@@ -7,6 +7,8 @@ CWD = os.getcwd()
 
 
 def clean_all_working_dirs():
+    if os.path.exists("test.txt"):
+        os.remove("test.txt")
     for folder in ("configs", "journals", "cache"):
         working_dir = os.path.join("features", folder)
         if os.path.exists(working_dir):
