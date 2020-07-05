@@ -17,7 +17,7 @@ def before_feature(context, feature):
     # add "skip" tag
     # https://stackoverflow.com/a/42721605/4276230
     if "skip" in feature.tags:
-        feature.skip("Marked with @skip")
+        feature.skip("")
         return
 
     if "skip_win" in feature.tags and on_windows:
@@ -44,7 +44,7 @@ def before_scenario(context, scenario):
     # add "skip" tag
     # https://stackoverflow.com/a/42721605/4276230
     if "skip" in scenario.effective_tags:
-        scenario.skip("Marked with @skip")
+        scenario.skip("")
         return
 
     if "skip_win" in scenario.effective_tags and on_windows:
