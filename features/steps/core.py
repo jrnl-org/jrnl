@@ -270,9 +270,10 @@ def no_error(context):
 
 
 @then("the output should be")
+@then("the output should be empty")
 @then('the output should be "{text}"')
 def check_output(context, text=None):
-    text = (text or context.text).strip().splitlines()
+    text = (text or context.text or "").strip().splitlines()
     out = context.stdout_capture.getvalue().strip().splitlines()
     assert len(text) == len(out), "Output has {} lines (expected: {})".format(
         len(out), len(text)
@@ -359,9 +360,11 @@ def journal_doesnt_exist(context, journal_name="default"):
     assert not os.path.exists(journal_path)
 
 
+@then('the config should have "{key}" set to')
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
-def config_var(context, key, value, journal=None):
+def config_var(context, key, value="", journal=None):
+    value = value or context.text or ""
     if not value[0] == "{":
         t, value = value.split(":")
         value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](

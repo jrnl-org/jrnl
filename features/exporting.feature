@@ -23,67 +23,67 @@ Feature: Exporting a Journal
 
     Scenario: Exporting using custom templates
         Given we use the config "basic.yaml"
-        Given we load template "sample.template"
+        And we load template "sample.template"
         When we run "jrnl --export sample"
         Then the output should be
-        """
-        My first entry.
-        ---------------
+            """
+            My first entry.
+            ---------------
 
-        Everything is alright
+            Everything is alright
 
-        Life is good.
-        -------------
+            Life is good.
+            -------------
 
-        But I'm better.
-        """
+            But I'm better.
+            """
 
     Scenario: Increasing Headings on Markdown export
         Given we use the config "markdown-headings-335.yaml"
         When we run "jrnl --export markdown"
         Then the output should be
-        """
-        # 2015
+            """
+            # 2015
 
-        ## April
+            ## April
 
-        ### 2015-04-14 13:23 Heading Test
+            ### 2015-04-14 13:23 Heading Test
 
-        #### H1-1
+            #### H1-1
 
-        #### H1-2
+            #### H1-2
 
-        #### H1-3
+            #### H1-3
 
-        ##### H2-1
+            ##### H2-1
 
-        ##### H2-2
+            ##### H2-2
 
-        ##### H2-3
+            ##### H2-3
 
-        Horizontal Rules (ignore)
+            Horizontal Rules (ignore)
 
-        ---
+            ---
 
-        ===
+            ===
 
-        #### ATX H1
+            #### ATX H1
 
-        ##### ATX H2
+            ##### ATX H2
 
-        ###### ATX H3
+            ###### ATX H3
 
-        ####### ATX H4
+            ####### ATX H4
 
-        ######## ATX H5
+            ######## ATX H5
 
-        ######### ATX H6
+            ######### ATX H6
 
-        Stuff
+            Stuff
 
-        More stuff
-        more stuff again
-        """
+            More stuff
+            more stuff again
+            """
 
     Scenario: Exporting to XML
         Given we use the config "tags.yaml"
@@ -97,11 +97,11 @@ Feature: Exporting a Journal
         Given we use the config "tags.yaml"
         When we run "jrnl --export tags"
         Then the output should be
-        """
-        @idea                : 2
-        @journal             : 1
-        @dan                 : 1
-        """
+            """
+            @idea                : 2
+            @journal             : 1
+            @dan                 : 1
+            """
 
     Scenario: Exporting fancy
         Given we use the config "tags.yaml"

@@ -13,14 +13,14 @@ Feature: Zapped bugs should stay dead.
         Given we use the config "basic.yaml"
         When we run "jrnl 2013-11-30 15:42: Project Started."
         Then we should see the message "Entry added"
-        and the journal should contain "[2013-11-30 15:42] Project Started."
+        And the journal should contain "[2013-11-30 15:42] Project Started."
 
     Scenario: Loading entry with ambiguous time stamp
         #https://github.com/jrnl-org/jrnl/issues/153
         Given we use the config "bug153.yaml"
         When we run "jrnl -1"
         Then we should get no error
-        and the output should be
+        And the output should be
             """
             2013-10-27 03:27 Some text.
             """
@@ -30,7 +30,7 @@ Feature: Zapped bugs should stay dead.
         Given we use the config "basic.yaml"
         When we run "jrnl 26/06/2019: Planet? Earth. Year? 2019."
         Then we should see the message "Entry added"
-        and the journal should contain "[2019-06-26 09:00] Planet?"
+        And the journal should contain "[2019-06-26 09:00] Planet?"
 
     Scenario: Empty DayOne entry bodies should not error
         # https://github.com/jrnl-org/jrnl/issues/780
@@ -58,7 +58,7 @@ Feature: Zapped bugs should stay dead.
         Given we use the config "unreadabledates.yaml"
         When we run "jrnl -2"
         Then the output should contain "I've lost track of time."
-        Then the output should contain "Time has no meaning."
+        And the output should contain "Time has no meaning."
 
     Scenario: Journals with readable dates AND unreadable dates should still contain all data.
         Given we use the config "mostlyreadabledates.yaml"
@@ -66,14 +66,14 @@ Feature: Zapped bugs should stay dead.
         Then the output should contain "Time machines are possible."
         When we run "jrnl -1"
         Then the output should contain "I'm going to activate the machine."
-        Then the output should contain "I've crossed so many timelines. Is there any going back?"
+        And the output should contain "I've crossed so many timelines. Is there any going back?"
 
     Scenario: Viewing today's entries does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/741
         Given we use the config "basic.yaml"
         When we run "jrnl -on today"
         Then the output should not contain "Life is good"
-        Then the output should not contain "But I'm better."
+        And the output should not contain "But I'm better."
 
     Scenario: Create entry using day of the week as entry date.
         Given we use the config "basic.yaml"
@@ -81,7 +81,7 @@ Feature: Zapped bugs should stay dead.
         Then we should see the message "Entry added"
         When we run "jrnl -1"
         Then the output should contain "monday at 9am" in the local time
-        Then the output should contain "This is an entry on a Monday."
+        And the output should contain "This is an entry on a Monday."
 
     Scenario: Create entry using day of the week abbreviations as entry date.
         Given we use the config "basic.yaml"
@@ -107,8 +107,8 @@ Feature: Zapped bugs should stay dead.
         Then we should see the message "Entry added"
         When we run "jrnl -from today"
         Then the output should contain "Adding an entry right now."
-        Then the output should contain "A future entry."
-        Then the output should not contain "This thing happened yesterday"
+        And the output should contain "A future entry."
+        And the output should not contain "This thing happened yesterday"
 
     Scenario: Displaying entries using -from and -to day should display correct entries
         Given we use the config "basic.yaml"
@@ -120,8 +120,8 @@ Feature: Zapped bugs should stay dead.
         Then we should see the message "Entry added"
         When we run "jrnl -from yesterday -to today"
         Then the output should contain "This thing happened yesterday"
-        Then the output should contain "Adding an entry right now."
-        Then the output should not contain "A future entry."
+        And the output should contain "Adding an entry right now."
+        And the output should not contain "A future entry."
 
     # See issues #768 and #881
     # the "deletion" journal is used because it doesn't have a newline at the
@@ -130,46 +130,46 @@ Feature: Zapped bugs should stay dead.
         Given we use the config "deletion.yaml"
         When we run "jrnl --export markdown"
         Then the output should be
-        """
-        # 2019
+            """
+            # 2019
 
-        ## October
+            ## October
 
-        ### 2019-10-29 11:11 First entry.
-
-
-        ### 2019-10-29 11:11 Second entry.
+            ### 2019-10-29 11:11 First entry.
 
 
-        ### 2019-10-29 11:13 Third entry.
+            ### 2019-10-29 11:11 Second entry.
 
-        """
+
+            ### 2019-10-29 11:13 Third entry.
+
+            """
 
     # See issues #768 and #881
-    Scenario: Add a blank line to YAML export is there isn't one already
+    Scenario: Add a blank line to YAML export if there isn't one already
         Given we use the config "deletion.yaml"
         And we create cache directory "bug768"
         When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
         Then cache directory "bug768" should contain the files
-        """
-        [
-        "2019-10-29_first-entry.md",
-        "2019-10-29_second-entry.md",
-        "2019-10-29_third-entry.md"
-        ]
-        """
+            """
+            [
+            "2019-10-29_first-entry.md",
+            "2019-10-29_second-entry.md",
+            "2019-10-29_third-entry.md"
+            ]
+            """
         And the content of file "2019-10-29_third-entry.md" in cache directory "bug768" should be
-        """
-        title: Third entry.
-        date: 2019-10-29 11:13
-        starred: False
-        tags:
+            """
+            title: Third entry.
+            date: 2019-10-29 11:13
+            starred: False
+            tags:
 
-        """
+            """
 
     @deployment_tests
     Scenario: Version numbers should stay in sync
         Given we use the config "basic.yaml"
         When we run "jrnl --version"
         Then we should get no error
-        Then the output should contain pyproject.toml version
+        And the output should contain pyproject.toml version

@@ -5,10 +5,7 @@ Feature: Testing a journal with a root directory and multiple files in the forma
         When we run "jrnl 23 july 2013: Testing folder journal."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
-        Then the output should be 
-            """
-            2013-07-23 09:00 Testing folder journal.
-            """
+        Then the output should be "2013-07-23 09:00 Testing folder journal."
 
     Scenario: Adding entries to a Folder journal should generate date files
       Given we use the config "empty_folder.yaml"
@@ -34,9 +31,9 @@ Feature: Testing a journal with a root directory and multiple files in the forma
       When we run "jrnl 23 July 2013: Testing folder journal."
       Then we should see the message "Entry added"
       When we run "jrnl -2"
-      Then the output should be 
+      Then the output should be
             """
             2013-07-23 09:00 Testing folder journal.
-            
+
             2014-03-07 16:37 Second entry of journal.
             """

@@ -4,7 +4,7 @@ Feature: Tagging
         Given we use the config "tags.yaml"
         When we run "jrnl --tags"
         Then we should get no error
-        and the output should be
+        And the output should be
             """
             @idea                : 2
             @journal             : 1
@@ -15,7 +15,7 @@ Feature: Tagging
         Given we use the config "tags.yaml"
         When we run "jrnl -from 'may 2013' --tags"
         Then we should get no error
-        and the output should be
+        And the output should be
             """
             @idea                : 1
             @dan                 : 1
@@ -25,17 +25,18 @@ Feature: Tagging
         Given we use the config "tags-216.yaml"
         When we run "jrnl --tags"
         Then we should get no error
-        and the output should be
+        And the output should be
             """
             @os/2                : 1
             @c++                 : 1
             @c#                  : 1
             """
+
     Scenario:  An email should not be a tag
         Given we use the config "tags-237.yaml"
         When we run "jrnl --tags"
         Then we should get no error
-        and the output should be
+        And the output should be
             """
             @newline             : 1
             @email               : 1
@@ -74,10 +75,10 @@ Feature: Tagging
     Scenario:  Excluding multiple tags should filter them
         Given we use the config "basic.yaml"
         When we run "jrnl today: I do @not think this will show up @thought"
-        When we run "jrnl today: I think this will show up @thought"
-        When we run "jrnl today: This should @never show up @thought"
-        When we run "jrnl today: What a nice day for filtering @thought"
-        When we run "jrnl --tags -not @not -not @never"
+        And we run "jrnl today: I think this will show up @thought"
+        And we run "jrnl today: This should @never show up @thought"
+        And we run "jrnl today: What a nice day for filtering @thought"
+        And we run "jrnl --tags -not @not @never"
         Then the output should be
             """
             @thought             : 2
@@ -88,7 +89,7 @@ Feature: Tagging
         Given we use the config "multiline-tags.yaml"
         When we run "jrnl -n 1"
         Then we should get no error
-        and the output should be
+        And the output should be
             """
             2013-06-09 15:39 Multiple @line entry with @tags.
             | Tag with @punctuation. afterwards

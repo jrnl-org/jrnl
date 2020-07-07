@@ -6,10 +6,7 @@ Feature: Zapped Dayone bugs stay dead!
         # https://github.com/jrnl-org/jrnl/issues/354
         Given we use the config "dayone.yaml"
         When we run "jrnl @plAy"
-        Then the output should contain
-            """
-            2013-05-17 11:39 This entry has tags!
-            """
+        Then the output should contain "2013-05-17 11:39 This entry has tags!"
 
     # fails when system time is UTC (as on Travis-CI)
     @skip
