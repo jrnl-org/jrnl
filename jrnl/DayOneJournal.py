@@ -16,7 +16,6 @@ import pytz
 import tzlocal
 
 from . import __title__, __version__, Entry, Journal
-from . import time as jrnl_time
 
 
 class DayOne(Journal.Journal):
@@ -179,7 +178,26 @@ class DayOne(Journal.Journal):
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
-        return "\n".join([f"# {e.uuid}\n{str(e)}" for e in self.entries])
+        return "\n".join([f"{str(e)}\n# {e.uuid}\n" for e in self.entries])
+
+    def _update_old_entry(self, entry, new_entry):
+        for attr in ("title", "body", "date"):
+            old_attr = getattr(entry, attr)
+            new_attr = getattr(new_entry, attr)
+            if old_attr != new_attr:
+                entry.modified = True
+                setattr(entry, attr, new_attr)
+
+    def _get_and_remove_uuid_from_entry(self, entry):
+        uuid_regex = "^ *?# ([a-zA-Z0-9]+) *?$"
+        m = re.search(uuid_regex, entry.body, re.MULTILINE)
+        entry.uuid = m.group(1) if m else None
+
+        # remove the uuid from the body
+        entry.body = re.sub(uuid_regex, "", entry.body, flags=re.MULTILINE, count=1)
+        entry.body = entry.body.rstrip()
+
+        return entry
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates its entries."""
@@ -187,78 +205,18 @@ class DayOne(Journal.Journal):
         # UUIDs of the new entries against self.entries, updating the entries
         # if the edited entries differ, and deleting entries from self.entries
         # if they don't show up in the edited entries anymore.
+        entries_from_editor = self._parse(edited)
 
-        # Initialise our current entry
-        entries = []
-        current_entry = None
+        for entry in entries_from_editor:
+            entry = self._get_and_remove_uuid_from_entry(entry)
 
-        for line in edited.splitlines():
-            # try to parse line as UUID => new entry begins
-            line = line.rstrip()
-            m = re.match("# *([a-f0-9]+) *$", line.lower())
-            if m:
-                if current_entry:
-                    entries.append(current_entry)
-                current_entry = Entry.Entry(self)
-                current_entry.modified = False
-                current_entry.uuid = m.group(1).lower()
-            else:
-                date_blob_re = re.compile("^\\[[^\\]]+\\] ")
-                date_blob = date_blob_re.findall(line)
-                if date_blob:
-                    date_blob = date_blob[0]
-                    new_date = jrnl_time.parse(date_blob.strip(" []"))
-                    if line.endswith("*"):
-                        current_entry.starred = True
-                        line = line[:-1]
-                    current_entry.title = line[len(date_blob) - 1 :].strip()
-                    current_entry.date = new_date
-                elif current_entry:
-                    current_entry.body += line + "\n"
-
-        # Append last entry
-        if current_entry:
-            entries.append(current_entry)
-
-        # Now, update our current entries if they changed
-        for entry in entries:
-            matched_entries = [
-                e for e in self.entries if e.uuid.lower() == entry.uuid.lower()
-            ]
-            # tags in entry body
-            if matched_entries:
-                # This entry is an existing entry
-                match = matched_entries[0]
-
-                # merge existing tags with tags pulled from the entry body
-                entry.tags = list(set(entry.tags + match.tags))
-
-                # extended Dayone metadata
-                if hasattr(match, "creator_device_agent"):
-                    entry.creator_device_agent = match.creator_device_agent
-                if hasattr(match, "creator_generation_date"):
-                    entry.creator_generation_date = match.creator_generation_date
-                if hasattr(match, "creator_host_name"):
-                    entry.creator_host_name = match.creator_host_name
-                if hasattr(match, "creator_os_agent"):
-                    entry.creator_os_agent = match.creator_os_agent
-                if hasattr(match, "creator_software_agent"):
-                    entry.creator_software_agent = match.creator_software_agent
-                if hasattr(match, "location"):
-                    entry.location = match.location
-                if hasattr(match, "weather"):
-                    entry.weather = match.weather
-
-                if match != entry:
-                    self.entries.remove(match)
-                    entry.modified = True
-                    self.entries.append(entry)
-            else:
-                # This entry seems to be new... save it.
-                entry.modified = True
-                self.entries.append(entry)
         # Remove deleted entries
-        edited_uuids = [e.uuid for e in entries]
+        edited_uuids = [e.uuid for e in entries_from_editor]
         self._deleted_entries = [e for e in self.entries if e.uuid not in edited_uuids]
         self.entries[:] = [e for e in self.entries if e.uuid in edited_uuids]
-        return entries
+
+        for entry in entries_from_editor:
+            for old_entry in self.entries:
+                if entry.uuid == old_entry.uuid:
+                    self._update_old_entry(old_entry, entry)
+                    break
