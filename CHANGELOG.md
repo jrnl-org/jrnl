@@ -19,6 +19,10 @@
 - Add unit testing via pytest [\#987](https://github.com/jrnl-org/jrnl/pull/987) ([micahellison](https://github.com/micahellison))
 - Rename master branch to release [\#985](https://github.com/jrnl-org/jrnl/pull/985) ([wren](https://github.com/wren))
 
+**Updated documentation:**
+
+- Extensive modifications to overview.md [\#957](https://github.com/jrnl-org/jrnl/pull/957) ([guydebros](https://github.com/guydebros))
+
 ## [v2.4.3](https://pypi.org/project/jrnl/v2.4.3/) (2020-06-13)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.2...v2.4.3)
