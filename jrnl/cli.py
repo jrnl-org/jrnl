@@ -21,6 +21,7 @@
 
 import argparse
 import logging
+import packaging.version
 import platform
 import re
 import sys
@@ -29,7 +30,7 @@ import jrnl
 
 from . import install, plugins, util
 from .Journal import PlainJournal, open_journal
-from .util import ERROR_COLOR, RESET_COLOR, UserAbort
+from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR, UserAbort
 
 log = logging.getLogger(__name__)
 logging.getLogger("keyring.backend").setLevel(logging.ERROR)
@@ -313,6 +314,18 @@ def configure_logger(debug=False):
 
 
 def run(manual_args=None):
+    if packaging.version.parse(platform.python_version()) < packaging.version.parse(
+        "3.7"
+    ):
+        print(
+            f"""{WARNING_COLOR}
+WARNING: Python versions below 3.7 will no longer be supported as of jrnl v2.5
+(the next release). You are currently on Python {platform.python_version()}. Please update to
+Python 3.7 (or higher) soon.
+{RESET_COLOR}""",
+            file=sys.stderr,
+        )
+
     if manual_args is None:
         manual_args = sys.argv[1:]
 
