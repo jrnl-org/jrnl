@@ -1,7 +1,7 @@
 jrnl [![Build Status](https://travis-ci.com/jrnl-org/jrnl.svg?branch=release)](https://travis-ci.com/jrnl-org/jrnl) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
-_To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new) on
+_To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new/choose) on
 Github._
 
 *jrnl* is a simple journal application for your command line. Journals are
