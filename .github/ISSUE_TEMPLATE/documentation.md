@@ -20,9 +20,9 @@ affected in this issue
 -->
   - <!-- example: https://jrnl.sh/overview -->
 
-### What's wrong?
+### What Could Be Better?
 <!--
-Please write a short description of what is happening.
+Please write a short description of what you hope can be clarified or further explained.
 -->
 
 ### Other Information
