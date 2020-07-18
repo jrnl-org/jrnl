@@ -12,7 +12,7 @@
 
 **Fixed bugs:**
 
-- Allow editing of DayOne entries [\#1001](https://github.com/jrnl-org/jrnl/pull/1001) ([wren](https://github.com/wren))
+- Allow editing of DayOne entries [\#1001](https://github.com/jrnl-org/jrnl/pull/1001) ([minchinweb](https://github.com/minchinweb), [micahellison](https://github.com/micahellison), [wren](https://github.com/wren))
 - Create journal with absolute path when no path is specified [\#972](https://github.com/jrnl-org/jrnl/pull/972) ([eshrh](https://github.com/eshrh))
 
 **Build:**
