@@ -21,6 +21,7 @@
 
 **Updated documentation:**
 
+- Fix readme link to submit an issue [\#1002](https://github.com/jrnl-org/jrnl/pull/1002) ([wren](https://github.com/wren))
 - Extensive modifications to overview.md [\#957](https://github.com/jrnl-org/jrnl/pull/957) ([guydebros](https://github.com/guydebros))
 
 ## [v2.4.3](https://pypi.org/project/jrnl/v2.4.3/) (2020-06-13)
