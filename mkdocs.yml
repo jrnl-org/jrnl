@@ -10,6 +10,7 @@ extra_css:
     - assets/highlight.css
 markdown_extensions:
   - admonition
+  - markdown_include.include
 repo_url: https://github.com/jrnl-org/jrnl/
 site_author: Manuel Ebert
 site_description: Collect your thoughts and notes without leaving the command line.
