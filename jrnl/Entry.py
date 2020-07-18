@@ -13,7 +13,9 @@ class Entry:
         self.journal = journal  # Reference to journal mainly to access its config
         self.date = date or datetime.now()
         self.text = text
-        self._title = self._body = self._tags = None
+        self._title = None
+        self._body = None
+        self._tags = None
         self.starred = starred
         self.modified = False
 
@@ -37,17 +39,29 @@ class Entry:
             self._parse_text()
         return self._title
 
+    @title.setter
+    def title(self, x):
+        self._title = x
+
     @property
     def body(self):
         if self._body is None:
             self._parse_text()
         return self._body
 
+    @body.setter
+    def body(self, x):
+        self._body = x
+
     @property
     def tags(self):
         if self._tags is None:
             self._parse_text()
         return self._tags
+
+    @tags.setter
+    def tags(self, x):
+        self._tags = x
 
     @staticmethod
     def tag_regex(tagsymbols):

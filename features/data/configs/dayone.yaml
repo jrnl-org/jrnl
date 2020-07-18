@@ -1,6 +1,6 @@
 default_hour: 9
 default_minute: 0
-editor: ''
+editor: noop
 template: false
 encrypt: false
 highlight: true
