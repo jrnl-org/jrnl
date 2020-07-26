@@ -47,6 +47,7 @@ class EncryptedJournal(Journal):
                 print(f"[Directory {dirname} created]", file=sys.stderr)
             self.create_file(filename)
             self.password = util.create_password(self.name)
+
             print(
                 f"Encrypted journal '{self.name}' created at {filename}",
                 file=sys.stderr,
@@ -90,11 +91,16 @@ class EncryptedJournal(Journal):
     @classmethod
     def from_journal(cls, other: Journal):
         new_journal = super().from_journal(other)
-        new_journal.password = (
-            other.password
-            if hasattr(other, "password")
-            else util.create_password(other.name)
-        )
+        try:
+            new_journal.password = (
+                other.password
+                if hasattr(other, "password")
+                else util.create_password(other.name)
+            )
+        except KeyboardInterrupt:
+            print("[Interrupted while creating new journal]", file=sys.stderr)
+            sys.exit(1)
+
         return new_journal
 
 

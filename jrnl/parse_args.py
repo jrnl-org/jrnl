@@ -9,13 +9,18 @@ from .commands import preconfig_version
 from .commands import preconfig_diagnostic
 from .commands import postconfig_list
 from .commands import postconfig_import
+from .commands import postconfig_encrypt
+from .commands import postconfig_decrypt
 from .util import deprecated_cmd
 
 
-class WrappingFormatter(argparse.RawDescriptionHelpFormatter):
+class WrappingFormatter(argparse.RawTextHelpFormatter):
     def _split_lines(self, text, width):
-        text = self._whitespace_matcher.sub(" ", text).strip()
-        return textwrap.wrap(text, width=56)
+        text = text.split("\n\n")
+        text = map(lambda t: self._whitespace_matcher.sub(" ", t).strip(), text)
+        text = map(lambda t: textwrap.wrap(t, width=56), text)
+        text = [item for sublist in text for item in sublist]
+        return text
 
 
 def parse_args(args=[]):
@@ -54,7 +59,7 @@ def parse_args(args=[]):
         action="store_const",
         const=preconfig_version,
         dest="preconfig_cmd",
-        help="prints version information",
+        help="Print version information",
     )
     standalone.add_argument(
         "-v",
@@ -75,7 +80,7 @@ def parse_args(args=[]):
         action="store_const",
         const=postconfig_list,
         dest="postconfig_cmd",
-        help="list all configured journals",
+        help="List all configured journals",
     )
     standalone.add_argument(
         "--ls",
@@ -95,21 +100,19 @@ def parse_args(args=[]):
     )
     standalone.add_argument(
         "--encrypt",
-        metavar="FILENAME",
-        dest="encrypt",
-        help="Encrypts your existing journal with a new password",
-        nargs="?",
-        default=False,
-        const=None,
+        help="Encrypt selected journal with a password",
+        action="store_const",
+        metavar="TYPE",
+        dest="postconfig_cmd",
+        const=postconfig_encrypt,
     )
     standalone.add_argument(
         "--decrypt",
-        metavar="FILENAME",
-        dest="decrypt",
-        help="Decrypts your journal and stores it in plain text",
-        nargs="?",
-        default=False,
-        const=None,
+        help="Decrypt selected journal and store it in plain text",
+        action="store_const",
+        metavar="TYPE",
+        dest="postconfig_cmd",
+        const=postconfig_decrypt,
     )
     standalone.add_argument(
         "--import",
@@ -117,18 +120,27 @@ def parse_args(args=[]):
         metavar="TYPE",
         dest="postconfig_cmd",
         const=postconfig_import,
-        help=f"Import entries into your journal. TYPE can be: {util.oxford_list(IMPORT_FORMATS)} (default: jrnl)",
+        help=f"""
+        Import entries from another journal.
+
+        Optional parameters:
+
+        --file FILENAME (default: uses stdin)
+
+        --format [{util.oxford_list(IMPORT_FORMATS)}] (default: jrnl)
+        """,
     )
     standalone.add_argument(
-        "-i",
+        "--file",
         metavar="FILENAME",
-        dest="input",
-        help="Optionally specifies input file when using --import.",
-        default=False,
-        const=None,
+        dest="filename",
+        help=argparse.SUPPRESS,
+        default=None,
     )
+    standalone.add_argument("-i", dest="filename", help=argparse.SUPPRESS)
 
-    compose_msg = """    To add a new entry into your journal, simply write it on the command line:
+    compose_msg = """
+    To add a new entry into your journal, simply write it on the command line:
 
         jrnl yesterday: I was walking and I found this big log.
 
@@ -171,9 +183,7 @@ def parse_args(args=[]):
         metavar="DATE",
         help="Show entries before, or on, this date (alias: -until)",
     )
-    reading.add_argument(
-        "-until", dest="end_date", help=argparse.SUPPRESS,
-    )
+    reading.add_argument("-until", dest="end_date", help=argparse.SUPPRESS)
     reading.add_argument(
         "-contains",
         dest="contains",
@@ -214,7 +224,7 @@ def parse_args(args=[]):
     search_options_msg = """    These help you do various tasks with the selected entries from your search.
     If used on their own (with no search), they will act on your entire journal"""
     exporting = parser.add_argument_group(
-        "Options for Searching", textwrap.dedent(search_options_msg)
+        "Searching Options", textwrap.dedent(search_options_msg)
     )
     exporting.add_argument(
         "--edit",
@@ -233,7 +243,15 @@ def parse_args(args=[]):
         metavar="TYPE",
         dest="export",
         choices=EXPORT_FORMATS,
-        help=f"Display selected entries in an alternate format (other than jrnl). TYPE can be: {util.oxford_list(EXPORT_FORMATS)}.",
+        help=f"""
+        Display selected entries in an alternate format.
+
+        TYPE can be: {util.oxford_list(EXPORT_FORMATS)}.
+
+        Optional parameters:
+
+        --file FILENAME Write output to file instead of stdout
+        """,
         default=False,
     )
     exporting.add_argument(
@@ -259,17 +277,11 @@ def parse_args(args=[]):
         "-s", dest="short", action="store_true", help=argparse.SUPPRESS,
     )
     exporting.add_argument(
-        "-o",
-        metavar="FILENAME",
-        dest="output",
-        help="Optionally specifies output file (or directory) when using --format.",
-        default=False,
-        const=None,
+        "-o", dest="filename", help=argparse.SUPPRESS,
     )
 
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
 
-    # return parser.parse_args(args)
     return parser.parse_intermixed_args(args)

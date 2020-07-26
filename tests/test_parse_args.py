@@ -14,17 +14,14 @@ def expected_args(**kwargs):
     default_args = {
         "contains": None,
         "debug": False,
-        "decrypt": False,
         "delete": False,
         "edit": False,
-        "encrypt": False,
         "end_date": None,
         "excluded": [],
         "export": False,
-        "input": False,
+        "filename": None,
         "limit": None,
         "on_date": None,
-        "output": False,
         "preconfig_cmd": None,
         "postconfig_cmd": None,
         "short": False,
@@ -66,7 +63,15 @@ def test_edit_alone():
 
 
 def test_encrypt_alone():
-    assert cli_as_dict("--encrypt 'test.txt'") == expected_args(encrypt="test.txt")
+    from jrnl.commands import postconfig_encrypt
+
+    assert cli_as_dict("--encrypt") == expected_args(postconfig_cmd=postconfig_encrypt)
+
+
+def test_decrypt_alone():
+    from jrnl.commands import postconfig_decrypt
+
+    assert cli_as_dict("--decrypt") == expected_args(postconfig_cmd=postconfig_decrypt)
 
 
 def test_end_date_alone():
@@ -110,15 +115,10 @@ def test_import_alone():
     assert cli_as_dict("--import") == expected_args(postconfig_cmd=postconfig_import)
 
 
-def test_input_flag_alone():
-    assert cli_as_dict("-i test.txt") == expected_args(input="test.txt")
-    assert cli_as_dict("-i 'lorem ipsum.txt'") == expected_args(input="lorem ipsum.txt")
-
-
-def test_output_flag_alone():
-    assert cli_as_dict("-o test.txt") == expected_args(output="test.txt")
-    assert cli_as_dict("-o 'lorem ipsum.txt'") == expected_args(
-        output="lorem ipsum.txt"
+def test_file_flag_alone():
+    assert cli_as_dict("--file test.txt") == expected_args(filename="test.txt")
+    assert cli_as_dict("--file 'lorem ipsum.txt'") == expected_args(
+        filename="lorem ipsum.txt"
     )
 
 
