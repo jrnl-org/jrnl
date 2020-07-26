@@ -196,5 +196,5 @@ Feature: Basic reading and writing to a journal
       [2020-07-05 15:00] I should not exist!
       """
       Then the journal should contain "My first entry."
-      And the journal should contain "PROFITS!"
+      And the journal should contain "PROFIT!"
       But the journal should not contain "I should not exist!"
