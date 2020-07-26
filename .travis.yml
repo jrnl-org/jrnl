@@ -75,21 +75,6 @@ jobs:
         - pyflakes --version
         - pyflakes .
 
-    # Python 3.6 Tests
-    - name: Python 3.6 on Linux
-      python: 3.6
-    - <<: *test_mac
-      name: Python 3.6 on MacOS
-      python: 3.6
-      env:
-        JRNL_PYTHON_VERSION: 3.6.8
-    - <<: *test_windows
-      name: Python 3.6 on Windows
-      python: 3.6
-      env:
-        <<: *env_windows
-        JRNL_PYTHON_VERSION: 3.6.8
-
     # Python 3.7 Tests
     - name: Python 3.7 on Linux
       python: 3.7
