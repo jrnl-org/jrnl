@@ -29,6 +29,7 @@ colorama = "^0.4.1"
 python-dateutil = "^2.8"
 pyyaml = "^5.1"
 ansiwrap = "^0.8.4"
+packaging = "^20.4"
 
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
