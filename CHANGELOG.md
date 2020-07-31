@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.4.5](https://pypi.org/project/jrnl/v2.4.5/) (2020-07-31)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.4...v2.4.5)
+
+**Fixed bugs:**
+
+- Add missing dependency \(packaging\) [\#1011](https://github.com/jrnl-org/jrnl/pull/1011) ([wren](https://github.com/wren))
+
 ## [v2.4.4](https://pypi.org/project/jrnl/v2.4.4/) (2020-07-25)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.4...v2.4.3)
