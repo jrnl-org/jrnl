@@ -15,8 +15,9 @@ before_install:
   - date
 
 install:
-  - pip install pipx
-  - pipx install poetry
+  - pip install poetry
+  - poetry config virtualenvs.in-project true
+  - poetry config --list
   - poetry install
   - poetry run python --version
 
