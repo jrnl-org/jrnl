@@ -123,13 +123,14 @@ def run(manual_args=None):
         "3.7"
     ):
         print(
-            f"""{WARNING_COLOR}
-WARNING: Python versions below 3.7 will no longer be supported as of jrnl v2.5
-(the next release). You are currently on Python {platform.python_version()}. Please update to
-Python 3.7 (or higher) soon.
+            f"""{ERROR_COLOR}
+ERROR: Python version {platform.python_version()} not supported.
+
+Please update to Python 3.7 (or higher) in order to use jrnl.
 {RESET_COLOR}""",
             file=sys.stderr,
         )
+        sys.exit(1)
 
     if manual_args is None:
         manual_args = sys.argv[1:]
