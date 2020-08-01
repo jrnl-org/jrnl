@@ -27,7 +27,7 @@ import sys
 from . import install, plugins, util
 from .parse_args import parse_args
 from .Journal import PlainJournal, open_journal
-from .util import WARNING_COLOR, ERROR_COLOR, RESET_COLOR, UserAbort
+from .util import ERROR_COLOR, RESET_COLOR, UserAbort
 from .util import get_journal_name
 
 log = logging.getLogger(__name__)
