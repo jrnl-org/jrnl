@@ -15,7 +15,8 @@ before_install:
   - date
 
 install:
-  - pip install --upgrade poetry
+  - pip install pipx
+  - pipx install --upgrade poetry
   - poetry install
   - poetry run python --version
 
