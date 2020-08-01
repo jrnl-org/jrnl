@@ -15,7 +15,7 @@ before_install:
   - date
 
 install:
-  - pip install poetry
+  - pip install --upgrade poetry
   - poetry config virtualenvs.in-project true
   - poetry config --list
   - poetry install
