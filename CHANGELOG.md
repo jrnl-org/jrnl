@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...HEAD)
+
+**Build:**
+
+- Resolve Travis/Windows/pip issues with upgrade to cryptography 3.0 [\#1016](https://github.com/jrnl-org/jrnl/pull/1016) ([micahellison](https://github.com/micahellison))
+
 ## [v2.4.5](https://pypi.org/project/jrnl/v2.4.5/) (2020-07-31)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.4...v2.4.5)
