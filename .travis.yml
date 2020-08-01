@@ -16,7 +16,7 @@ before_install:
 
 install:
   - pip install pipx
-  - pipx install --upgrade poetry
+  - pipx install poetry
   - poetry install
   - poetry run python --version
 
