@@ -16,6 +16,8 @@ before_install:
 
 install:
   - pip install --upgrade poetry
+  - poetry config virtualenvs.in-project true
+  - poetry config --list
   - poetry install
   - poetry run python --version
 
