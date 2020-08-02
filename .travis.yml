@@ -62,6 +62,7 @@ aliases:
 jobs:
   fast_finish: true
   allow_failures:
+    - python: 3.9
     - python: nightly
 
   include:
@@ -104,6 +105,21 @@ jobs:
       env:
         <<: *env_windows
         JRNL_PYTHON_VERSION: 3.8.2
+
+    # Python 3.9 Dev Tests
+    - name: Python 3.9 on Linux
+      python: 3.9-dev
+    - <<: *test_mac
+      name: Python 3.9 on MacOS
+      python: 3.9-dev
+      env:
+        JRNL_PYTHON_VERSION: 3.9.0b5
+    - <<: *test_windows
+      name: Python 3.9 on Windows
+      python: 3.9-dev
+      env:
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.9.0b5
 
     # ... and beyond!
     - name: Python nightly on Linux
