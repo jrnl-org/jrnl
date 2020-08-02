@@ -108,14 +108,20 @@ jobs:
 
     # Python 3.9 Dev Tests
     - name: Python 3.9 on Linux
+      before_install:
+        - sed -i 's/^python = ">=3\.7\.0.*"$/python = "*"/' pyproject.toml
       python: 3.9-dev
     - <<: *test_mac
       name: Python 3.9 on MacOS
+      before_install:
+        - sed -i 's/^python = ">=3\.7\.0.*"$/python = "*"/' pyproject.toml
       python: 3.9-dev
       env:
         JRNL_PYTHON_VERSION: 3.9.0b5
     - <<: *test_windows
       name: Python 3.9 on Windows
+      before_install:
+        - powershell -Command "(gc pyproject.toml) -replace 'python = "">=3.7.0, <3.9.0""', 'python = "">=3.7.0, <3.10.0""' | Out-File -encoding UTF8 pyproject.toml"
       python: 3.9-dev
       env:
         <<: *env_windows
@@ -124,7 +130,7 @@ jobs:
     # ... and beyond!
     - name: Python nightly on Linux
       before_install:
-        - sed -i 's/^python = ">=3\.6\.0.*"$/python = "*"/' pyproject.toml
+        - sed -i 's/^python = ">=3\.7\.0.*"$/python = "*"/' pyproject.toml
       python: nightly
 
     # Specialty tests
