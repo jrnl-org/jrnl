@@ -62,7 +62,7 @@ aliases:
 jobs:
   fast_finish: true
   allow_failures:
-    - python: 3.9
+    - python: 3.9-dev
     - python: nightly
 
   include:
@@ -121,7 +121,7 @@ jobs:
     - <<: *test_windows
       name: Python 3.9 on Windows
       before_install:
-        - powershell -Command "(gc pyproject.toml) -replace 'python = "">=3.7.0, <3.9.0""', 'python = "">=3.7.0, <3.10.0""' | Out-File -encoding UTF8 pyproject.toml"
+        - powershell -Command "(gc pyproject.toml) -replace 'python = "">=3.7.0, <3.9.0""', 'python = "">=3.7.0, <3.10.0""' -join \"`n\" | Out-File -encoding UTF8 pyproject.toml"
       python: 3.9-dev
       env:
         <<: *env_windows
