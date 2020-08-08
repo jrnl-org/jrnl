@@ -62,7 +62,9 @@ aliases:
 jobs:
   fast_finish: true
   allow_failures:
-    - python: 3.9-dev
+    - name: Python 3.9 on Windows
+    - name: Python 3.9 on Linux
+    - name: Python 3.9 on MacOS
     - python: nightly
 
   include:
