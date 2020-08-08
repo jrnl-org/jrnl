@@ -131,10 +131,11 @@ jobs:
       name: Python 3.9 on Windows
       before_install:
         - choco install python --pre
-        - C:\ProgramData\chocolatey\bin\python3 -m pip install --upgrade pip
+        - ls C:/ProgramData/chocolatey/bin/
+        - C:/ProgramData/chocolatey/bin/python -m pip install --upgrade pip
         - pip --version
         - pip install toml
-        - C:\ProgramData\chocolatey\bin\python3 .build/allow_all_python_version.py
+        - C:/ProgramData/chocolatey/bin/python3 .build/allow_all_python_version.py
       env:
         <<: *env_windows
         JRNL_PYTHON_VERSION: 3.9.0b5
