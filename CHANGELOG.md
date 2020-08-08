@@ -8,6 +8,11 @@
 
 - Resolve Travis/Windows/pip issues with upgrade to cryptography 3.0 [\#1016](https://github.com/jrnl-org/jrnl/pull/1016) ([micahellison](https://github.com/micahellison))
 
+**Updated documentation:**
+
+- Updated advanced.md in docs to reflect all four subkeys under colors … [\#1023](https://github.com/jrnl-org/jrnl/pull/1023) ([DacodaNelson](https://github.com/DacodaNelson))
+- Update github issue templates to use new diagnostic command [\#1022](https://github.com/jrnl-org/jrnl/pull/1022) ([wren](https://github.com/wren))
+
 ## [v2.4.5](https://pypi.org/project/jrnl/v2.4.5/) (2020-07-31)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.4...v2.4.5)
