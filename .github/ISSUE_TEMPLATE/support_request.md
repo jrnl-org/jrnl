@@ -17,9 +17,8 @@ Please fill out the points below, as it will make our process much easier.
 <!--
 Please tell us about your environment
 -->
-  - Jrnl version: <!-- Run `jrnl -v` -->
+  - Jrnl `--diagnostic` output: <!-- Run `jrnl --diagnostic` and paste the output -->
   - Install method: <!-- How did you install jrnl? (pipx, brew, etc) -->
-  - OS <!-- What is your operating system? (MacOS, Linux, Windows) -->
 
 ### What are you trying to do?
 <!--
