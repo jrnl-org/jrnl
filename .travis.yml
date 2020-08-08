@@ -110,20 +110,26 @@ jobs:
 
     # Python 3.9 Dev Tests
     - name: Python 3.9 on Linux
-      before_install:
+      script:
         - python .build/allow_all_python_version.py
+        - poetry run pytest
+        - poetry run behave
       python: 3.9-dev
     - <<: *test_mac
       name: Python 3.9 on MacOS
-      before_install:
+      script:
         - python .build/allow_all_python_version.py
+        - poetry run pytest
+        - poetry run behave
       python: 3.9-dev
       env:
         JRNL_PYTHON_VERSION: 3.9.0b5
     - <<: *test_windows
       name: Python 3.9 on Windows
-      before_install:
+      script:
         - python .build/allow_all_python_version.py
+        - poetry run pytest
+        - poetry run behave
       python: 3.9-dev
       env:
         <<: *env_windows
