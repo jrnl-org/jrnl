@@ -130,6 +130,7 @@ jobs:
       name: Python 3.9 on Windows
       before_install:
         - choco install python --pre
+        - refreshenv
         - python -m pip install --upgrade pip
         - pip --version
         - pip install toml
