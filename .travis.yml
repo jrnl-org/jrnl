@@ -44,12 +44,13 @@ aliases:
     os: windows
     language: shell
     env: &env_windows
-      PATH: /c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:$PATH
+      PATH: /c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:/c/Python39:/c/Python39/Scripts:$PATH
       PYTHONIOENCODING: UTF-8
     cache:
       directories:
         - /c/Python37
         - /c/Python38
+        - /c/Python39
         - /c/ProgramData/chocolatey/lib
         - /c/ProgramData/chocolatey/bin
         - /c/Users/travis/AppData/Local/pypoetry/Cache
