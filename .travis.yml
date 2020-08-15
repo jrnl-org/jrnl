@@ -132,6 +132,7 @@ jobs:
       before_install:
         - choco install python --pre
         - python --version
+        - pip install --upgrade pip
         - pip --version
         - pip install toml
         - python .build/allow_all_python_version.py
