@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
     jrnl
 
@@ -7,8 +6,7 @@
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    the Free Software Foundation, either version 3 of the License.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,34 +16,17 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
 import logging
-import packaging.version
-import platform
 import sys
 
-from . import install, util
 from . import jrnl
+from . import install
+
 from .parse_args import parse_args
+from .config import scope_config
+from .exception import UserAbort
 from .Journal import open_journal
-from .util import UserAbort
-from .util import get_journal_name
-from .util import WARNING_COLOR, RESET_COLOR
-
-log = logging.getLogger(__name__)
-
-
-def update_config(config, new_config, scope, force_local=False):
-    """Updates a config dict with new values - either global if scope is None
-    or config['journals'][scope] is just a string pointing to a journal file,
-    or within the scope"""
-    if scope and type(config["journals"][scope]) is dict:  # Update to journal specific
-        config["journals"][scope].update(new_config)
-    elif scope and force_local:  # Convert to dict
-        config["journals"][scope] = {"journal": config["journals"][scope]}
-        config["journals"][scope].update(new_config)
-    else:
-        config.update(new_config)
+from .config import get_journal_name
 
 
 def configure_logger(debug=False):
@@ -58,19 +39,6 @@ def configure_logger(debug=False):
 
 
 def run(manual_args=None):
-    if packaging.version.parse(platform.python_version()) < packaging.version.parse(
-        "3.7"
-    ):
-        print(
-            f"""{ERROR_COLOR}
-ERROR: Python version {platform.python_version()} not supported.
-
-Please update to Python 3.7 (or higher) in order to use jrnl.
-{RESET_COLOR}""",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
     """
     Flow:
     1. Parse cli arguments
@@ -86,7 +54,7 @@ Please update to Python 3.7 (or higher) in order to use jrnl.
 
     args = parse_args(manual_args)
     configure_logger(args.debug)
-    log.debug("Parsed args: %s", args)
+    logging.debug("Parsed args: %s", args)
 
     # Run command if possible before config is available
     if callable(args.preconfig_cmd):
@@ -98,7 +66,7 @@ Please update to Python 3.7 (or higher) in order to use jrnl.
         config = install.load_or_install_jrnl()
         original_config = config.copy()
         args = get_journal_name(args, config)
-        config = util.scope_config(config, args.journal_name)
+        config = scope_config(config, args.journal_name)
     except UserAbort as err:
         print(f"\n{err}", file=sys.stderr)
         sys.exit(1)

@@ -5,7 +5,8 @@ import re
 
 import ansiwrap
 
-from .util import colorize, highlight_tags_with_background_color, split_title
+from .color import colorize
+from .color import highlight_tags_with_background_color
 
 
 class Entry:
@@ -194,3 +195,28 @@ class Entry:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+
+# Based on Segtok by Florian Leitner
+# https://github.com/fnl/segtok
+SENTENCE_SPLITTER = re.compile(
+    r"""
+(                       # A sentence ends at one of two sequences:
+    [.!?\u203C\u203D\u2047\u2048\u2049\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
+    [\'\u2019\"\u201D]? # an optional right quote,
+    [\]\)]*             # optional closing brackets and
+    \s+                 # a sequence of required spaces.
+)""",
+    re.VERBOSE,
+)
+SENTENCE_SPLITTER_ONLY_NEWLINE = re.compile("\n")
+
+
+def split_title(text):
+    """Splits the first sentence off from a text."""
+    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.lstrip())
+    if not sep:
+        sep = SENTENCE_SPLITTER.search(text)
+        if not sep:
+            return text, ""
+    return text[: sep.end()].strip(), text[sep.end() :].strip()

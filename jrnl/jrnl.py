@@ -1,14 +1,13 @@
 import logging
 import sys
 
-from . import util
 from . import install
 from . import plugins
+from .editor import get_text_from_editor
 
-from .util import ERROR_COLOR
-from .util import RESET_COLOR
-
-log = logging.getLogger(__name__)
+from .color import ERROR_COLOR
+from .color import RESET_COLOR
+from .os_compat import on_windows
 
 
 def _is_write_mode(args, config, **kwargs):
@@ -53,30 +52,30 @@ def write_mode(args, config, journal, **kwargs):
     4. Use stdin.read as last resort
     6. Write any found text to journal, or exit
     """
-    log.debug("Write mode: starting")
+    logging.debug("Write mode: starting")
 
     if args.text:
-        log.debug("Write mode: cli text detected: %s", args.text)
+        logging.debug("Write mode: cli text detected: %s", args.text)
         raw = " ".join(args.text).strip()
 
     elif not sys.stdin.isatty():
-        log.debug("Write mode: receiving piped text")
+        logging.debug("Write mode: receiving piped text")
         raw = sys.stdin.read()
 
     else:
         raw = _write_in_editor(config)
 
     if not raw:
-        log.error("Write mode: couldn't get raw text")
+        logging.error("Write mode: couldn't get raw text")
         sys.exit()
 
-    log.debug(
+    logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
     )
     journal.new_entry(raw)
     print(f"[Entry added to {args.journal_name} journal]", file=sys.stderr)
     journal.write()
-    log.debug("Write mode: completed journal.write()", args.journal_name, raw)
+    logging.debug("Write mode: completed journal.write()", args.journal_name, raw)
 
 
 def search_mode(args, journal, **kwargs):
@@ -109,12 +108,12 @@ def search_mode(args, journal, **kwargs):
 
 def _write_in_editor(config):
     if config["editor"]:
-        log.debug("Write mode: opening editor")
+        logging.debug("Write mode: opening editor")
         template = _get_editor_template(config)
-        raw = util.get_text_from_editor(config, template)
+        raw = get_text_from_editor(config, template)
 
     else:
-        _how_to_quit = "Ctrl+z and then Enter" if "win32" in sys.platform else "Ctrl+d"
+        _how_to_quit = "Ctrl+z and then Enter" if on_windows else "Ctrl+d"
         print(
             f"[Writing Entry; on a blank line, press {_how_to_quit} to finish writing]\n",
             file=sys.stderr,
@@ -122,7 +121,7 @@ def _write_in_editor(config):
         try:
             raw = sys.stdin.read()
         except KeyboardInterrupt:
-            log.error("Write mode: keyboard interrupt")
+            logging.error("Write mode: keyboard interrupt")
             print("[Entry NOT saved to journal]", file=sys.stderr)
             sys.exit(0)
 
@@ -130,17 +129,17 @@ def _write_in_editor(config):
 
 
 def _get_editor_template(config, **kwargs):
-    log.debug("Write mode: loading template for entry")
+    logging.debug("Write mode: loading template for entry")
 
     if not config["template"]:
-        log.debug("Write mode: no template configured")
+        logging.debug("Write mode: no template configured")
         return ""
 
     try:
         template = open(config["template"]).read()
-        log.debug("Write mode: template loaded: %s", template)
+        logging.debug("Write mode: template loaded: %s", template)
     except OSError:
-        log.error("Write mode: template not loaded")
+        logging.error("Write mode: template not loaded")
         print(
             f"[Could not read template at '{config['template']}']", file=sys.stderr,
         )
@@ -191,7 +190,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
     old_stats = _get_predit_stats(journal)
 
     # Send user to the editor
-    edited = util.get_text_from_editor(config, journal.editable_str())
+    edited = get_text_from_editor(config, journal.editable_str())
     journal.parse_editable_str(edited)
 
     # Print summary if available

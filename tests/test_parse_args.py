@@ -1,4 +1,4 @@
-from jrnl.cli import parse_args
+from jrnl.parse_args import parse_args
 
 import pytest
 import shlex

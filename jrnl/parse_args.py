@@ -11,7 +11,7 @@ from .commands import postconfig_list
 from .commands import postconfig_import
 from .commands import postconfig_encrypt
 from .commands import postconfig_decrypt
-from .util import deprecated_cmd
+from .output import deprecated_cmd
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):

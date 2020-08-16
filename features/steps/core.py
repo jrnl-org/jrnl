@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 import re
 import shlex
-import sys
 import time
 from unittest.mock import patch
 
@@ -13,7 +12,14 @@ import toml
 import yaml
 
 from behave import given, then, when
-from jrnl import Journal, __version__, cli, install, plugins, util
+from jrnl import Journal
+from jrnl import __version__
+from jrnl import cli
+from jrnl import install
+from jrnl import plugins
+
+from jrnl.config import load_config
+from jrnl.os_compat import on_windows
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -62,18 +68,18 @@ keyring.set_keyring(TestKeyring())
 
 
 def ushlex(command):
-    return shlex.split(command, posix="win32" not in sys.platform)
+    return shlex.split(command, posix=on_windows)
 
 
 def read_journal(journal_name="default"):
-    config = util.load_config(install.CONFIG_FILE_PATH)
+    config = load_config(install.CONFIG_FILE_PATH)
     with open(config["journals"][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
 
 
 def open_journal(journal_name="default"):
-    config = util.load_config(install.CONFIG_FILE_PATH)
+    config = load_config(install.CONFIG_FILE_PATH)
     journal_conf = config["journals"][journal_name]
 
     # We can override the default config on a by-journal basis
@@ -364,7 +370,7 @@ def config_var(context, key, value, journal=None):
         # Handle value being a dictionary
         value = ast.literal_eval(value)
 
-    config = util.load_config(install.CONFIG_FILE_PATH)
+    config = load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
     assert key in config

@@ -1,6 +1,8 @@
 import os
 import shutil
-import sys
+
+from jrnl.os_compat import on_windows
+
 
 CWD = os.getcwd()
 
@@ -19,7 +21,7 @@ def before_feature(context, feature):
         feature.skip("Marked with @skip")
         return
 
-    if "skip_win" in feature.tags and "win32" in sys.platform:
+    if "skip_win" in feature.tags and on_windows:
         feature.skip("Skipping on Windows")
         return
 
@@ -46,7 +48,7 @@ def before_scenario(context, scenario):
         scenario.skip("Marked with @skip")
         return
 
-    if "skip_win" in scenario.effective_tags and "win32" in sys.platform:
+    if "skip_win" in scenario.effective_tags and on_windows:
         scenario.skip("Skipping on Windows")
         return
 

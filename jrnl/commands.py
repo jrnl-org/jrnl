@@ -34,7 +34,7 @@ def preconfig_version(_):
 
 
 def postconfig_list(config, **kwargs):
-    from .util import list_journals
+    from .output import list_journals
 
     print(list_journals(config))
 
@@ -56,7 +56,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     """
     from .EncryptedJournal import EncryptedJournal
     from .Journal import open_journal
-    from .cli import update_config
+    from .config import update_config
     from .install import save_config
 
     # Open the journal
@@ -84,7 +84,7 @@ def postconfig_decrypt(args, config, original_config, **kwargs):
     """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
     from .Journal import PlainJournal
     from .Journal import open_journal
-    from .cli import update_config
+    from .config import update_config
     from .install import save_config
 
     journal = open_journal(args.journal_name, config)

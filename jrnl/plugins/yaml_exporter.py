@@ -5,7 +5,7 @@ import os
 import re
 import sys
 
-from ..util import ERROR_COLOR, RESET_COLOR, WARNING_COLOR
+from jrnl.color import ERROR_COLOR, RESET_COLOR, WARNING_COLOR
 from .text_exporter import TextExporter
 
 

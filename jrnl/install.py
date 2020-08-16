@@ -4,14 +4,17 @@ import glob
 import logging
 import os
 import sys
-
 import xdg.BaseDirectory
 import yaml
+from . import __version__
+from .config import load_config
+from .config import verify_config
+from .exception import UserAbort
+from .os_compat import on_windows
+from .prompt import yesno
+from .upgrade import is_old_version
 
-from . import __version__, util
-from .util import UserAbort, verify_config
-
-if "win32" not in sys.platform:
+if not on_windows:
     # readline is not included in Windows Active Python
     import readline
 
@@ -28,18 +31,6 @@ CONFIG_FILE_PATH_FALLBACK = os.path.join(USER_HOME, ".jrnl_config")
 
 JOURNAL_PATH = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or USER_HOME
 JOURNAL_FILE_PATH = os.path.join(JOURNAL_PATH, DEFAULT_JOURNAL_NAME)
-
-log = logging.getLogger(__name__)
-
-
-def module_exists(module_name):
-    """Checks if a module exists and can be imported"""
-    try:
-        __import__(module_name)
-    except ImportError:
-        return False
-    else:
-        return True
 
 
 default_config = {
@@ -93,10 +84,10 @@ def load_or_install_jrnl():
         else CONFIG_FILE_PATH_FALLBACK
     )
     if os.path.exists(config_path):
-        log.debug("Reading configuration from file %s", config_path)
-        config = util.load_config(config_path)
+        logging.debug("Reading configuration from file %s", config_path)
+        config = load_config(config_path)
 
-        if util.is_old_version(config_path):
+        if is_old_version(config_path):
             from . import upgrade
 
             try:
@@ -118,21 +109,21 @@ def load_or_install_jrnl():
         verify_config(config)
 
     else:
-        log.debug("Configuration file not found, installing jrnl...")
+        logging.debug("Configuration file not found, installing jrnl...")
         try:
             config = install()
         except KeyboardInterrupt:
             raise UserAbort("Installation aborted")
 
-    log.debug('Using configuration "%s"', config)
+    logging.debug('Using configuration "%s"', config)
     return config
 
 
 def install():
-    if "win32" not in sys.platform:
+    if not on_windows:
         readline.set_completer_delims(" \t\n;")
         readline.parse_and_bind("tab: complete")
-        readline.set_completer(autocomplete)
+        readline.set_completer(_autocomplete_path)
 
     # Where to create the journal?
     path_query = f"Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): "
@@ -149,7 +140,7 @@ def install():
         pass
 
     # Encrypt it?
-    encrypt = util.yesno(
+    encrypt = yesno(
         "Do you want to encrypt your journal? You can always change this later",
         default=False,
     )
@@ -161,7 +152,7 @@ def install():
     return default_config
 
 
-def autocomplete(text, state):
+def _autocomplete_path(text, state):
     expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + "*")
     expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
     expansions.append(None)
