@@ -1,3 +1,4 @@
+import logging
 import os
 import shlex
 import subprocess
@@ -36,5 +37,21 @@ def get_text_from_editor(config, template=""):
 
     if not raw:
         print("[Nothing saved to file]", file=sys.stderr)
+
+    return raw
+
+
+def get_text_from_stdin():
+    _how_to_quit = "Ctrl+z and then Enter" if on_windows else "Ctrl+d"
+    print(
+        f"[Writing Entry; on a blank line, press {_how_to_quit} to finish writing]\n",
+        file=sys.stderr,
+    )
+    try:
+        raw = sys.stdin.read()
+    except KeyboardInterrupt:
+        logging.error("Write mode: keyboard interrupt")
+        print("[Entry NOT saved to journal]", file=sys.stderr)
+        sys.exit(0)
 
     return raw
