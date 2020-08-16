@@ -15,6 +15,8 @@ from .plugins import util
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):
+    """Used in help screen"""
+
     def _split_lines(self, text, width):
         text = text.split("\n\n")
         text = map(lambda t: self._whitespace_matcher.sub(" ", t).strip(), text)

@@ -2,7 +2,7 @@ import shlex
 
 import pytest
 
-from jrnl.parse_args import parse_args
+from jrnl.args import parse_args
 
 
 def cli_as_dict(str):

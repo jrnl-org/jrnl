@@ -20,7 +20,7 @@ import logging
 import sys
 
 from .jrnl import run
-from .parse_args import parse_args
+from .args import parse_args
 
 
 def configure_logger(debug=False):
