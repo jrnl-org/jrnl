@@ -10,7 +10,7 @@ import yaml
 
 from . import __version__
 from .config import load_config
-from .config import verify_config
+from .config import verify_config_colors
 from .exception import UserAbort
 from .os_compat import on_windows
 from .prompt import yesno
@@ -108,7 +108,7 @@ def load_or_install_jrnl():
                 sys.exit(1)
 
         upgrade_config(config)
-        verify_config(config)
+        verify_config_colors(config)
 
     else:
         logging.debug("Configuration file not found, installing jrnl...")

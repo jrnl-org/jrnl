@@ -26,7 +26,7 @@ def scope_config(config, journal_name):
     return config
 
 
-def verify_config(config):
+def verify_config_colors(config):
     """
     Ensures the keys set for colors are valid colorama.Fore attributes, or "None"
     :return: True if all keys are set correctly, False otherwise
