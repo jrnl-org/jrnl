@@ -1,15 +1,15 @@
 import os
 import sys
 
-from . import __version__
 from . import Journal
+from . import __version__
+from .EncryptedJournal import EncryptedJournal
 from .config import is_config_json
 from .config import load_config
 from .config import scope_config
 from .exception import UpgradeValidationException
 from .exception import UserAbort
 from .prompt import yesno
-from .EncryptedJournal import EncryptedJournal
 
 
 def backup(filename, binary=False):

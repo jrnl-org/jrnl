@@ -1,6 +1,7 @@
 import logging
-import colorama
 import sys
+
+import colorama
 import yaml
 
 from .color import ERROR_COLOR

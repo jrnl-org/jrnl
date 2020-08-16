@@ -3,10 +3,9 @@ import sys
 
 from . import install
 from . import plugins
-from .editor import get_text_from_editor
-
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
+from .editor import get_text_from_editor
 from .os_compat import on_windows
 
 

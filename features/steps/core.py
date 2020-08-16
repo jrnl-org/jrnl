@@ -7,17 +7,18 @@ import shlex
 import time
 from unittest.mock import patch
 
+from behave import given
+from behave import then
+from behave import when
 import keyring
 import toml
 import yaml
 
-from behave import given, then, when
 from jrnl import Journal
 from jrnl import __version__
 from jrnl import cli
 from jrnl import install
 from jrnl import plugins
-
 from jrnl.config import load_config
 from jrnl.os_compat import on_windows
 
@@ -398,8 +399,9 @@ def list_journal_directory(context, journal="default"):
 
 @then("the Python version warning should appear if our version is below {version}")
 def check_python_warning_if_version_low_enough(context, version):
-    import packaging.version
     import platform
+
+    import packaging.version
 
     if packaging.version.parse(platform.python_version()) < packaging.version.parse(
         version

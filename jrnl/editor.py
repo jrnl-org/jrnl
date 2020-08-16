@@ -1,8 +1,8 @@
-import tempfile
 import os
-import sys
 import shlex
 import subprocess
+import sys
+import tempfile
 import textwrap
 
 from .color import ERROR_COLOR

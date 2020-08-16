@@ -4,8 +4,10 @@ import glob
 import logging
 import os
 import sys
+
 import xdg.BaseDirectory
 import yaml
+
 from . import __version__
 from .config import load_config
 from .config import verify_config

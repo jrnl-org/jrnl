@@ -19,14 +19,13 @@
 import logging
 import sys
 
-from . import jrnl
 from . import install
-
-from .parse_args import parse_args
-from .config import scope_config
-from .exception import UserAbort
+from . import jrnl
 from .Journal import open_journal
 from .config import get_journal_name
+from .config import scope_config
+from .exception import UserAbort
+from .parse_args import parse_args
 
 
 def configure_logger(debug=False):

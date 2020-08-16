@@ -2,16 +2,11 @@ import argparse
 import re
 import textwrap
 
-from .plugins import util
-from .plugins import IMPORT_FORMATS
+from .commands import deprecated_cmd
+from .commands import output
 from .plugins import EXPORT_FORMATS
-from .commands import preconfig_version
-from .commands import preconfig_diagnostic
-from .commands import postconfig_list
-from .commands import postconfig_import
-from .commands import postconfig_encrypt
-from .commands import postconfig_decrypt
-from .output import deprecated_cmd
+from .plugins import IMPORT_FORMATS
+from .plugins import util
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):

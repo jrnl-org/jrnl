@@ -4,7 +4,9 @@ import logging
 def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
     import sys
     import textwrap
-    from .color import RESET_COLOR, WARNING_COLOR
+
+    from .color import RESET_COLOR
+    from .color import WARNING_COLOR
 
     warning_msg = f"""
     The command {old_cmd} is deprecated and will be removed from jrnl soon.

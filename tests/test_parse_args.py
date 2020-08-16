@@ -1,7 +1,8 @@
-from jrnl.parse_args import parse_args
+import shlex
 
 import pytest
-import shlex
+
+from jrnl.parse_args import parse_args
 
 
 def cli_as_dict(str):

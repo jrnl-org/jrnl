@@ -1,5 +1,5 @@
-import sys
 import getpass
+import sys
 
 
 def create_password(

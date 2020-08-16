@@ -1,19 +1,25 @@
 import base64
+import getpass
 import hashlib
 import logging
 import os
 import sys
-from typing import Callable, Optional
-import getpass
+from typing import Callable
+from typing import Optional
 
-from cryptography.fernet import Fernet, InvalidToken
+from cryptography.fernet import Fernet
+from cryptography.fernet import InvalidToken
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes, padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.primitives.ciphers import Cipher
+from cryptography.hazmat.primitives.ciphers import algorithms
+from cryptography.hazmat.primitives.ciphers import modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
+from .Journal import Journal
+from .Journal import LegacyJournal
 from .prompt import create_password
-from .Journal import Journal, LegacyJournal
 
 
 def make_key(password):

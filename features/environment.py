@@ -3,7 +3,6 @@ import shutil
 
 from jrnl.os_compat import on_windows
 
-
 CWD = os.getcwd()
 
 
