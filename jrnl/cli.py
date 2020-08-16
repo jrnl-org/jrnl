@@ -19,12 +19,7 @@
 import logging
 import sys
 
-from . import install
-from . import jrnl
-from .Journal import open_journal
-from .config import get_journal_name
-from .config import scope_config
-from .exception import UserAbort
+from .jrnl import run
 from .parse_args import parse_args
 
 
@@ -37,58 +32,16 @@ def configure_logger(debug=False):
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
 
 
-def run(manual_args=None):
-    """
-    Flow:
-    1. Parse cli arguments
-    2. Run standalone command if it doesn't require config (help, version, etc), then exit
-    3. Load config
-    4. Run standalone command if it does require config (encrypt, decrypt, etc), then exit
-    5. Load specified journal
-    6. Start write mode, or search mode
-    7. Profit
-    """
-    if manual_args is None:
-        manual_args = sys.argv[1:]
-
-    args = parse_args(manual_args)
-    configure_logger(args.debug)
-    logging.debug("Parsed args: %s", args)
-
-    # Run command if possible before config is available
-    if callable(args.preconfig_cmd):
-        args.preconfig_cmd(args)
-        sys.exit(0)
-
-    # Load the config, and extract journal name
+def cli(manual_args=None):
     try:
-        config = install.load_or_install_jrnl()
-        original_config = config.copy()
-        args = get_journal_name(args, config)
-        config = scope_config(config, args.journal_name)
-    except UserAbort as err:
-        print(f"\n{err}", file=sys.stderr)
-        sys.exit(1)
+        if manual_args is None:
+            manual_args = sys.argv[1:]
 
-    # Run post-config command now that config is ready
-    if callable(args.postconfig_cmd):
-        args.postconfig_cmd(args=args, config=config, original_config=original_config)
-        sys.exit(0)
+        args = parse_args(manual_args)
+        configure_logger(args.debug)
+        logging.debug("Parsed args: %s", args)
 
-    # --- All the standalone commands are now done --- #
+        return run(args)
 
-    # Get the journal we're going to be working with
-    journal = open_journal(args.journal_name, config)
-
-    kwargs = {
-        "args": args,
-        "config": config,
-        "journal": journal,
-    }
-
-    if jrnl._is_write_mode(**kwargs):
-        jrnl.write_mode(**kwargs)
-    else:
-        jrnl.search_mode(**kwargs)
-
-    # All done!
+    except KeyboardInterrupt:
+        return 1

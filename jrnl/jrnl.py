@@ -3,10 +3,62 @@ import sys
 
 from . import install
 from . import plugins
+from .Journal import open_journal
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
+from .config import get_journal_name
+from .config import scope_config
 from .editor import get_text_from_editor
+from .exception import UserAbort
 from .os_compat import on_windows
+
+
+def run(args):
+    """
+    Flow:
+    1. Run standalone command if it doesn't require config (help, version, etc), then exit
+    2. Load config
+    3. Run standalone command if it does require config (encrypt, decrypt, etc), then exit
+    4. Load specified journal
+    5. Start write mode, or search mode
+    6. Profit
+    """
+
+    # Run command if possible before config is available
+    if callable(args.preconfig_cmd):
+        return args.preconfig_cmd(args)
+
+    # Load the config, and extract journal name
+    try:
+        config = install.load_or_install_jrnl()
+        original_config = config.copy()
+        args = get_journal_name(args, config)
+        config = scope_config(config, args.journal_name)
+    except UserAbort as err:
+        print(f"\n{err}", file=sys.stderr)
+        sys.exit(1)
+
+    # Run post-config command now that config is ready
+    if callable(args.postconfig_cmd):
+        return args.postconfig_cmd(
+            args=args, config=config, original_config=original_config
+        )
+
+    # --- All the standalone commands are now done --- #
+
+    # Get the journal we're going to be working with
+    journal = open_journal(args.journal_name, config)
+
+    kwargs = {
+        "args": args,
+        "config": config,
+        "journal": journal,
+    }
+
+    if _is_write_mode(**kwargs):
+        write_mode(**kwargs)
+    else:
+        search_mode(**kwargs)
 
 
 def _is_write_mode(args, config, **kwargs):

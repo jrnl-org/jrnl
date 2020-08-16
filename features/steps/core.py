@@ -16,9 +16,9 @@ import yaml
 
 from jrnl import Journal
 from jrnl import __version__
-from jrnl import cli
 from jrnl import install
 from jrnl import plugins
+from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import on_windows
 
@@ -136,7 +136,7 @@ def open_editor_and_enter(context, method, text=""):
         patch("subprocess.call", side_effect=_mock_editor_function), \
         patch("sys.stdin.isatty", return_value=True) \
     :
-        cli.run(["--edit"])
+        cli(["--edit"])
     # fmt: on
 
 
@@ -200,7 +200,7 @@ def run_with_input(context, command, inputs=""):
         patch("sys.stdin.read", side_effect=text) as mock_read \
     :
         try:
-            cli.run(args or [])
+            cli(args or [])
             context.exit_status = 0
         except SystemExit as e:
             context.exit_status = e.code
@@ -236,7 +236,7 @@ def run(context, command, text="", cache_dir=None):
         with patch("sys.argv", args), patch(
             "subprocess.call", side_effect=_mock_editor
         ), patch("sys.stdin.read", side_effect=lambda: text):
-            cli.run(args[1:])
+            cli(args[1:])
             context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code

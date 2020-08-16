@@ -2,8 +2,13 @@ import argparse
 import re
 import textwrap
 
-from .commands import deprecated_cmd
-from .commands import output
+from .commands import postconfig_decrypt
+from .commands import postconfig_encrypt
+from .commands import postconfig_import
+from .commands import postconfig_list
+from .commands import preconfig_diagnostic
+from .commands import preconfig_version
+from .output import deprecated_cmd
 from .plugins import EXPORT_FORMATS
 from .plugins import IMPORT_FORMATS
 from .plugins import util
@@ -98,23 +103,23 @@ def parse_args(args=[]):
         help="Encrypt selected journal with a password",
         action="store_const",
         metavar="TYPE",
-        dest="postconfig_cmd",
         const=postconfig_encrypt,
+        dest="postconfig_cmd",
     )
     standalone.add_argument(
         "--decrypt",
         help="Decrypt selected journal and store it in plain text",
         action="store_const",
         metavar="TYPE",
-        dest="postconfig_cmd",
         const=postconfig_decrypt,
+        dest="postconfig_cmd",
     )
     standalone.add_argument(
         "--import",
         action="store_const",
         metavar="TYPE",
-        dest="postconfig_cmd",
         const=postconfig_import,
+        dest="postconfig_cmd",
         help=f"""
         Import entries from another journal.
 
