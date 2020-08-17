@@ -143,7 +143,7 @@ jobs:
     # ... and beyond!
     - name: Python nightly on Linux
       before_install:
-        - sed -i 's/^python = ">=3\.7\.0.*"$/python = "*"/' pyproject.toml
+        - python .build/allow_all_python_version.py
       python: nightly
 
     # Specialty tests
