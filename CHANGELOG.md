@@ -6,6 +6,7 @@
 
 **Build:**
 
+- Add support for Python 3.9 build testing [\#1018](https://github.com/jrnl-org/jrnl/pull/1018) ([micahellison](https://github.com/micahellison))
 - Resolve Travis/Windows/pip issues with upgrade to cryptography 3.0 [\#1016](https://github.com/jrnl-org/jrnl/pull/1016) ([micahellison](https://github.com/micahellison))
 
 **Updated documentation:**
