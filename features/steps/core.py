@@ -69,7 +69,7 @@ keyring.set_keyring(TestKeyring())
 
 
 def ushlex(command):
-    return shlex.split(command, posix=on_windows)
+    return shlex.split(command, posix=not on_windows)
 
 
 def read_journal(journal_name="default"):
