@@ -44,13 +44,13 @@ aliases:
     os: windows
     language: shell
     env: &env_windows
-      PATH: /c/Python36:/c/Python36/Scripts:/c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:$PATH
+      PATH: /c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:/c/Python39:/c/Python39/Scripts:$PATH
       PYTHONIOENCODING: UTF-8
     cache:
       directories:
-        - /c/Python36
         - /c/Python37
         - /c/Python38
+        - /c/Python39
         - /c/ProgramData/chocolatey/lib
         - /c/ProgramData/chocolatey/bin
         - /c/Users/travis/AppData/Local/pypoetry/Cache
@@ -62,6 +62,9 @@ aliases:
 jobs:
   fast_finish: true
   allow_failures:
+    - name: Python 3.9 on Windows
+    - name: Python 3.9 on Linux
+    - name: Python 3.9 on MacOS
     - python: nightly
 
   include:
@@ -105,10 +108,42 @@ jobs:
         <<: *env_windows
         JRNL_PYTHON_VERSION: 3.8.2
 
+    # Python 3.9 Dev Tests
+    - name: Python 3.9 on Linux
+      before_install:
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      python: 3.9-dev
+    - <<: *test_mac
+      name: Python 3.9 on MacOS
+      before_install:
+        - brew upgrade pyenv
+        - eval "$(pyenv init -)"
+        - pyenv install -s $JRNL_PYTHON_VERSION
+        - pyenv global $JRNL_PYTHON_VERSION
+        - pip install --upgrade pip
+        - pip --version
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      env:
+        JRNL_PYTHON_VERSION: 3.9.0b5
+    - <<: *test_windows
+      name: Python 3.9 on Windows
+      before_install:
+        - choco install python --pre
+        - python --version
+        - python -m pip install --upgrade pip
+        - pip --version
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      env:
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.9.0b5
+
     # ... and beyond!
     - name: Python nightly on Linux
       before_install:
-        - sed -i 's/^python = ">=3\.6\.0.*"$/python = "*"/' pyproject.toml
+        - python .build/allow_all_python_version.py
       python: nightly
 
     # Specialty tests
