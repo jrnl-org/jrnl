@@ -4,16 +4,23 @@ import os
 from pathlib import Path
 import re
 import shlex
-import sys
 import time
 from unittest.mock import patch
 
+from behave import given
+from behave import then
+from behave import when
 import keyring
 import toml
 import yaml
 
-from behave import given, then, when
-from jrnl import Journal, __version__, cli, install, plugins, util
+from jrnl import Journal
+from jrnl import __version__
+from jrnl import install
+from jrnl import plugins
+from jrnl.cli import cli
+from jrnl.config import load_config
+from jrnl.os_compat import on_windows
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -62,18 +69,18 @@ keyring.set_keyring(TestKeyring())
 
 
 def ushlex(command):
-    return shlex.split(command, posix="win32" not in sys.platform)
+    return shlex.split(command, posix=not on_windows)
 
 
 def read_journal(journal_name="default"):
-    config = util.load_config(install.CONFIG_FILE_PATH)
+    config = load_config(install.CONFIG_FILE_PATH)
     with open(config["journals"][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
 
 
 def open_journal(journal_name="default"):
-    config = util.load_config(install.CONFIG_FILE_PATH)
+    config = load_config(install.CONFIG_FILE_PATH)
     journal_conf = config["journals"][journal_name]
 
     # We can override the default config on a by-journal basis
@@ -129,7 +136,7 @@ def open_editor_and_enter(context, method, text=""):
         patch("subprocess.call", side_effect=_mock_editor_function), \
         patch("sys.stdin.isatty", return_value=True) \
     :
-        cli.run(["--edit"])
+        cli(["--edit"])
     # fmt: on
 
 
@@ -193,7 +200,7 @@ def run_with_input(context, command, inputs=""):
         patch("sys.stdin.read", side_effect=text) as mock_read \
     :
         try:
-            cli.run(args or [])
+            cli(args or [])
             context.exit_status = 0
         except SystemExit as e:
             context.exit_status = e.code
@@ -229,7 +236,7 @@ def run(context, command, text="", cache_dir=None):
         with patch("sys.argv", args), patch(
             "subprocess.call", side_effect=_mock_editor
         ), patch("sys.stdin.read", side_effect=lambda: text):
-            cli.run(args[1:])
+            cli(args[1:])
             context.exit_status = 0
     except SystemExit as e:
         context.exit_status = e.code
@@ -364,7 +371,7 @@ def config_var(context, key, value, journal=None):
         # Handle value being a dictionary
         value = ast.literal_eval(value)
 
-    config = util.load_config(install.CONFIG_FILE_PATH)
+    config = load_config(install.CONFIG_FILE_PATH)
     if journal:
         config = config["journals"][journal]
     assert key in config
@@ -392,8 +399,9 @@ def list_journal_directory(context, journal="default"):
 
 @then("the Python version warning should appear if our version is below {version}")
 def check_python_warning_if_version_low_enough(context, version):
-    import packaging.version
     import platform
+
+    import packaging.version
 
     if packaging.version.parse(platform.python_version()) < packaging.version.parse(
         version

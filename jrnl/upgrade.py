@@ -1,9 +1,15 @@
 import os
 import sys
 
-from . import Journal, __version__, util
+from . import Journal
+from . import __version__
 from .EncryptedJournal import EncryptedJournal
-from .util import UserAbort
+from .config import is_config_json
+from .config import load_config
+from .config import scope_config
+from .exception import UpgradeValidationException
+from .exception import UserAbort
+from .prompt import yesno
 
 
 def backup(filename, binary=False):
@@ -19,7 +25,7 @@ def backup(filename, binary=False):
     except FileNotFoundError:
         print(f"\nError: {filename} does not exist.")
         try:
-            cont = util.yesno(f"\nCreate {filename}?", default=False)
+            cont = yesno(f"\nCreate {filename}?", default=False)
             if not cont:
                 raise KeyboardInterrupt
 
@@ -35,7 +41,7 @@ def check_exists(path):
 
 
 def upgrade_jrnl(config_path):
-    config = util.load_config(config_path)
+    config = load_config(config_path)
 
     print(
         f"""Welcome to jrnl {__version__}.
@@ -113,7 +119,7 @@ older versions of jrnl anymore.
             )
 
     try:
-        cont = util.yesno("\nContinue upgrading jrnl?", default=False)
+        cont = yesno("\nContinue upgrading jrnl?", default=False)
         if not cont:
             raise KeyboardInterrupt
     except KeyboardInterrupt:
@@ -126,7 +132,7 @@ older versions of jrnl anymore.
         )
         backup(path, binary=True)
         old_journal = Journal.open_journal(
-            journal_name, util.scope_config(config, journal_name), legacy=True
+            journal_name, scope_config(config, journal_name), legacy=True
         )
         all_journals.append(EncryptedJournal.from_journal(old_journal))
 
@@ -137,7 +143,7 @@ older versions of jrnl anymore.
         )
         backup(path)
         old_journal = Journal.open_journal(
-            journal_name, util.scope_config(config, journal_name), legacy=True
+            journal_name, scope_config(config, journal_name), legacy=True
         )
         all_journals.append(Journal.PlainJournal.from_journal(old_journal))
 
@@ -166,7 +172,5 @@ older versions of jrnl anymore.
     print("\nWe're all done here and you can start enjoying jrnl 2.", file=sys.stderr)
 
 
-class UpgradeValidationException(Exception):
-    """Raised when the contents of an upgraded journal do not match the old journal"""
-
-    pass
+def is_old_version(config_path):
+    return is_config_json(config_path)
