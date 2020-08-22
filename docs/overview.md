@@ -2,16 +2,15 @@
 
 `jrnl` is a simple journal application for the command line.
 
-`jrnl`'s goal is to facilitate the rapid creation and viewing of journal
-entries. It is flexible enough to support different use cases and organization
-strategies. It is powerful enough to search through thousands of entries and
-display, or "filter," only the entries you want to see.
+You can use it to easily create, search, and view journal entries. Journals are
+stored as human-readable plain text, and can also be encrypted using  [AES
+encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
 `jrnl` has most of the features you need, and few of the ones you don't.
 
 ## Plain Text
 
-`jrnl` stores each journal in plain text. `jrnl` files can be stored anywhere,
+`jrnl` stores each journal in plain text. You can store `jrnl` files anywhere,
 including in shared folders to keep them synchronized between devices. Journal
 files are compact (thousands of entries take up less than 1 MiB) and can be read
 by almost any electronic device, now and for the foreseeable future.
@@ -38,11 +37,9 @@ to the external editor of your choice.
 
 ## Encryption
   
-`jrnl` includes support for [128-bit AES
-encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) using
-[cryptography.Fernet](https://cryptography.io/en/latest/fernet/). The
-[encryption page](./encryption.md) explains `jrnl`'s cryptographic framework in
-more detail.
+`jrnl` includes support for [AES
+encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard). See the
+[encryption page](./encryption.md) for more information.
 
 ## Import and Export
 
@@ -51,8 +48,8 @@ be [exported](./export.md) in a variety of formats.
 
 ## Multi-Platform Support
 
-`jrnl` is compatible with most operating systems. Pre-compiled binaries are
-available through several distribution channels, and you can build from source.
+`jrnl` is compatible with most operating systems. You can download it using one
+of a variety of package managers, or you can build from source.
 See the [installation page](./installation.md) for more information.
 
 ## Open-Source

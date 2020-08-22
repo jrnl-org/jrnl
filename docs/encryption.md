@@ -7,23 +7,6 @@ real world. There are a number of ways that people can at least partially
 compromise your `jrnl` data. See the [Privacy and Security](./security.md) page
 for more information.
 
-## Dependencies
-
-As of version 2.0, `jrnl`'s encryption functions require
-[`cryptography`](https://pypi.org/project/cryptography/), which is available in
-the Python Package Index (PyPI) and can be installed using `pip`:
-
-``` sh
-pip3 install cryptography
-```
-
-Previous versions of `jrnl` require
-[`pycrypto`](https://pypi.org/project/pycrypto/):
-
-```sh
-pip3 install pycrypto
-```
-
 ## Encrypting and Decrypting
 
 Existing plain text journal files can be encrypted using the `--encrypt`
@@ -52,7 +35,7 @@ encrypted file untouched and create a new plain text file next to it.
 
 ## Storing Passwords in Your Keychain
 
-There is no method to recover or reset your `jrnl` password. If you lose it,
+You can't recover or reset your `jrnl` password. If you lose it,
 your data will be inaccessible forever.
 
 For this reason, when encrypting a journal, `jrnl` asks whether you would like
@@ -66,7 +49,8 @@ same password again. This will trigger the keychain storage prompt.
 
 ## Manual Decryption
 
-Should you ever want to decrypt your journal manually, you can do so with any
+The easiest way to decrypt your journal is with `jrnl --decrypt`, but
+if you would like to decrypt your journal manually, you can do so with any
 program that supports the AES algorithm in CBC. The key used for encryption is
 the SHA-256 hash of your password. The IV (initialization vector) is stored in
 the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and
@@ -106,6 +90,12 @@ key = base64.urlsafe_b64encode(kdf.derive(password))
 print(Fernet(key).decrypt(ciphertext).decode('utf-8'))
 ```
 
+To run the above script, you'll need [`cryptography`](https://pypi.org/project/cryptography/), which you can install with  `pip`:
+
+``` sh
+pip3 install cryptography
+```
+
 If you're still using `jrnl` version 1.X, the following script serves the same
 purpose:
 
@@ -133,4 +123,11 @@ plain = crypto.decrypt(ciphertext[16:])
 plain = plain.strip(plain[-1:])
 plain = plain.decode("utf-8")
 print(plain)
+```
+
+This script requires
+[`pycrypto`](https://pypi.org/project/pycrypto/):
+
+```sh
+pip3 install pycrypto
 ```
