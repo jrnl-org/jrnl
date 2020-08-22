@@ -6,9 +6,9 @@ import os
 import re
 import sys
 
-from jrnl import Entry, time, util
-
-log = logging.getLogger(__name__)
+from . import Entry
+from . import time
+from .prompt import yesno
 
 
 class Tag:
@@ -56,7 +56,7 @@ class Journal:
         another journal object"""
         new_journal = cls(other.name, **other.config)
         new_journal.entries = other.entries
-        log.debug(
+        logging.debug(
             "Imported %d entries from %s to %s",
             len(new_journal),
             other.__class__.__name__,
@@ -85,7 +85,7 @@ class Journal:
         text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
-        log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
+        logging.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
     def write(self, filename=None):
@@ -248,9 +248,7 @@ class Journal:
         to_delete = []
 
         def ask_delete(entry):
-            return util.yesno(
-                f"Delete entry '{entry.pprint(short=True)}'?", default=False,
-            )
+            return yesno(f"Delete entry '{entry.pprint(short=True)}'?", default=False,)
 
         for entry in self.entries:
             if ask_delete(entry):

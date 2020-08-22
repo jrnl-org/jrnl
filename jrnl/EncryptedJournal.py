@@ -1,19 +1,25 @@
 import base64
+import getpass
 import hashlib
 import logging
 import os
 import sys
+from typing import Callable
+from typing import Optional
 
-from cryptography.fernet import Fernet, InvalidToken
+from cryptography.fernet import Fernet
+from cryptography.fernet import InvalidToken
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes, padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.primitives.ciphers import Cipher
+from cryptography.hazmat.primitives.ciphers import algorithms
+from cryptography.hazmat.primitives.ciphers import modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-from . import util
-from .Journal import Journal, LegacyJournal
-
-log = logging.getLogger()
+from .Journal import Journal
+from .Journal import LegacyJournal
+from .prompt import create_password
 
 
 def make_key(password):
@@ -28,6 +34,30 @@ def make_key(password):
     )
     key = kdf.derive(password)
     return base64.urlsafe_b64encode(key)
+
+
+def decrypt_content(
+    decrypt_func: Callable[[str], Optional[str]],
+    keychain: str = None,
+    max_attempts: int = 3,
+) -> str:
+    pwd_from_keychain = keychain and get_keychain(keychain)
+    password = pwd_from_keychain or getpass.getpass()
+    result = decrypt_func(password)
+    # Password is bad:
+    if result is None and pwd_from_keychain:
+        set_keychain(keychain, None)
+    attempt = 1
+    while result is None and attempt < max_attempts:
+        print("Wrong password, try again.", file=sys.stderr)
+        password = getpass.getpass()
+        result = decrypt_func(password)
+        attempt += 1
+    if result is not None:
+        return result
+    else:
+        print("Extremely wrong password.", file=sys.stderr)
+        sys.exit(1)
 
 
 class EncryptedJournal(Journal):
@@ -46,7 +76,8 @@ class EncryptedJournal(Journal):
                 os.makedirs(dirname)
                 print(f"[Directory {dirname} created]", file=sys.stderr)
             self.create_file(filename)
-            self.password = util.create_password(self.name)
+            self.password = create_password(self.name)
+
             print(
                 f"Encrypted journal '{self.name}' created at {filename}",
                 file=sys.stderr,
@@ -55,7 +86,7 @@ class EncryptedJournal(Journal):
         text = self._load(filename)
         self.entries = self._parse(text)
         self.sort()
-        log.debug("opened %s with %d entries", self.__class__.__name__, len(self))
+        logging.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
     def _load(self, filename):
@@ -79,7 +110,7 @@ class EncryptedJournal(Journal):
         if self.password:
             return decrypt_journal(self.password)
 
-        return util.decrypt_content(keychain=self.name, decrypt_func=decrypt_journal)
+        return decrypt_content(keychain=self.name, decrypt_func=decrypt_journal)
 
     def _store(self, filename, text):
         key = make_key(self.password)
@@ -90,11 +121,16 @@ class EncryptedJournal(Journal):
     @classmethod
     def from_journal(cls, other: Journal):
         new_journal = super().from_journal(other)
-        new_journal.password = (
-            other.password
-            if hasattr(other, "password")
-            else util.create_password(other.name)
-        )
+        try:
+            new_journal.password = (
+                other.password
+                if hasattr(other, "password")
+                else create_password(other.name)
+            )
+        except KeyboardInterrupt:
+            print("[Interrupted while creating new journal]", file=sys.stderr)
+            sys.exit(1)
+
         return new_journal
 
 
@@ -132,4 +168,31 @@ class LegacyEncryptedJournal(LegacyJournal):
 
         if self.password:
             return decrypt_journal(self.password)
-        return util.decrypt_content(keychain=self.name, decrypt_func=decrypt_journal)
+        return decrypt_content(keychain=self.name, decrypt_func=decrypt_journal)
+
+
+def get_keychain(journal_name):
+    import keyring
+
+    try:
+        return keyring.get_password("jrnl", journal_name)
+    except RuntimeError:
+        return ""
+
+
+def set_keychain(journal_name, password):
+    import keyring
+
+    if password is None:
+        try:
+            keyring.delete_password("jrnl", journal_name)
+        except keyring.errors.PasswordDeleteError:
+            pass
+    else:
+        try:
+            keyring.set_password("jrnl", journal_name, password)
+        except keyring.errors.NoKeyringError:
+            print(
+                "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/",
+                file=sys.stderr,
+            )

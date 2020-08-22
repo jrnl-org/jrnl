@@ -180,7 +180,7 @@ Feature: Basic reading and writing to a journal
       And the journal should contain "Life is good."
       But the journal should not contain "I have an @idea"
       And the journal should not contain "I met with"
-      When we run "jrnl --import -i features/journals/tags.journal"
+      When we run "jrnl --import --file features/journals/tags.journal"
       Then the journal should contain "My first entry."
       And the journal should contain "Life is good."
       And the journal should contain "PROFIT!"
@@ -191,10 +191,11 @@ Feature: Basic reading and writing to a journal
       And the journal should contain "Life is good."
       But the journal should not contain "I have an @idea"
       And the journal should not contain "I met with"
-      When we run "jrnl --import -i features/journals/tags.journal" and pipe
+      When we run "jrnl --import --file features/journals/tags.journal" and pipe
       """
       [2020-07-05 15:00] I should not exist!
       """
       Then the journal should contain "My first entry."
       And the journal should contain "PROFIT!"
       But the journal should not contain "I should not exist!"
+

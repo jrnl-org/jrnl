@@ -2,8 +2,11 @@
 # encoding: utf-8
 
 import os
+import re
+import unicodedata
 
-from ..util import ERROR_COLOR, RESET_COLOR, slugify
+from jrnl.color import ERROR_COLOR
+from jrnl.color import RESET_COLOR
 
 
 class TextExporter:
@@ -35,7 +38,7 @@ class TextExporter:
     @classmethod
     def make_filename(cls, entry):
         return entry.date.strftime(
-            "%Y-%m-%d_{}.{}".format(slugify(str(entry.title)), cls.extension)
+            "%Y-%m-%d_{}.{}".format(cls._slugify(str(entry.title)), cls.extension)
         )
 
     @classmethod
@@ -51,6 +54,15 @@ class TextExporter:
                     e.filename, e.strerror, ERROR_COLOR, RESET_COLOR
                 )
         return "[Journal exported to {}]".format(path)
+
+    def _slugify(string):
+        """Slugifies a string.
+        Based on public domain code from https://github.com/zacharyvoase/slugify
+        """
+        normalized_string = str(unicodedata.normalize("NFKD", string))
+        no_punctuation = re.sub(r"[^\w\s-]", "", normalized_string).strip().lower()
+        slug = re.sub(r"[-\s]+", "-", no_punctuation)
+        return slug
 
     @classmethod
     def export(cls, journal, output=None):

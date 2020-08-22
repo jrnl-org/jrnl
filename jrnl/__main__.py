@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-from . import cli
+import sys
+
+from .cli import cli
 
 if __name__ == "__main__":
-    cli.run()
+    sys.exit(cli())
