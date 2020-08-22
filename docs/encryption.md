@@ -1,60 +1,113 @@
 # Encryption
 
-## Encrypting and decrypting
+## A Note on Security
 
-If you don’t choose to encrypt your file when you run
-`jrnl` for the first time, you can encrypt
-your existing journal file or change its password using this:
+While `jrnl` follows best practices, total security is never possible in the
+real world. There are a number of ways that people can at least partially
+compromise your `jrnl` data. See the [Privacy and Security](./security.md) page
+for more information.
+
+## Dependencies
+
+As of version 2.0, `jrnl`'s encryption functions require
+[`cryptography`](https://pypi.org/project/cryptography/), which is available in
+the Python Package Index (PyPI) and can be installed using `pip`:
 
 ``` sh
-jrnl --encrypt
+pip3 install cryptography
 ```
 
-If it is already encrypted, you will first be asked for the current
-password. You can then enter a new password and your plain journal will
-replaced by the encrypted file. Conversely,
+Previous versions of `jrnl` require
+[`pycrypto`](https://pypi.org/project/pycrypto/):
+
+```sh
+pip3 install pycrypto
+```
+
+## Encrypting and Decrypting
+
+Existing plain text journal files can be encrypted using the `--encrypt`
+command:
 
 ``` sh
-jrnl --decrypt
+jrnl --encrypt [FILENAME]
 ```
 
-will replace your encrypted journal file with a journal in plain text. You
-can also specify a filename, i.e. `jrnl --decrypt plain_text_copy.txt`,
-to leave your original file untouched.
+You can then enter a new password, and the unencrypted file will replaced with
+the new encrypted file.
 
-## Storing passwords in your keychain
+This command also works to change the password for a journal file that is
+already encrypted. `jrnl` will prompt you for the current password and then new
+password.
 
-Whenever you encrypt your journal, you are asked whether you want to
-store the encryption password in your keychain. If you do this, you
-won’t have to enter your password every time you want to write or read
-your journal.
+Conversely,
 
-If you don’t initially store the password in the keychain but decide to
-do so at a later point – or maybe want to store it on one computer but
-not on another – you can run `jrnl --encrypt` on an encrypted
-journal and use the same password again.
+``` sh
+jrnl --decrypt [FILENAME]
+```
 
-## A note on security
+replaces the encrypted journal file with a plain text file. You can also specify
+a filename, e.g., `jrnl --decrypt plain_text_copy.txt`, to leave the original
+encrypted file untouched and create a new plain text file next to it.
 
-While `jrnl` follows best practices, total security is an illusion.
-There are a number of ways that people can at least partially
-compromise your `jrnl` data. See the [Privacy and Security](./security.md)
-documentation for more information.
-
-## No password recovery
+## Storing Passwords in Your Keychain
 
 There is no method to recover or reset your `jrnl` password. If you lose it,
-your data is inaccessible.
+your data will be inaccessible forever.
 
-## Manual decryption
+For this reason, when encrypting a journal, `jrnl` asks whether you would like
+to store the password in your system's keychain. An added benefit is that you
+will not need to enter the password when interacting with the journal file.
 
-Should you ever want to decrypt your journal manually, you can do so
-with any program that supports the AES algorithm in CBC. The key used
-for encryption is the SHA-256-hash of your password, the IV
-(initialisation vector) is stored in the first 16 bytes of the encrypted
-file. The plain text is encoded in UTF-8 and padded according to PKCS\#7
-before being encrypted. Here’s a Python script that you can use to
-decrypt your journal:
+If you don't initially store the password in your keychain but decide to do so
+later---or if you want to store it in one computer's keychain but not in another
+computer's---you can run `jrnl --encrypt` on an encrypted journal and use the
+same password again. This will trigger the keychain storage prompt.
+
+## Manual Decryption
+
+Should you ever want to decrypt your journal manually, you can do so with any
+program that supports the AES algorithm in CBC. The key used for encryption is
+the SHA-256 hash of your password. The IV (initialization vector) is stored in
+the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and
+padded according to PKCS\#7 before being encrypted.
+
+Here is a Python script that you can use to decrypt your journal:
+
+``` python
+#!/usr/bin/env python3
+
+import base64
+import getpass
+from pathlib import Path
+from cryptography.fernet import Fernet
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+
+filepath = input("journal file path: ")
+password = getpass.getpass("Password: ")
+
+with open(Path(filepath),"rb") as f:
+    ciphertext = f.read()
+
+password = password.encode("utf-8")
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8",
+    iterations=100_000,
+    backend=default_backend(),
+)
+
+key = base64.urlsafe_b64encode(kdf.derive(password))
+
+print(Fernet(key).decrypt(ciphertext).decode('utf-8'))
+```
+
+If you're still using `jrnl` version 1.X, the following script serves the same
+purpose:
 
 ``` python
 #!/usr/bin/env python3
