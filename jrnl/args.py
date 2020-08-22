@@ -33,7 +33,7 @@ def parse_args(args=[]):
     parser = argparse.ArgumentParser(
         formatter_class=WrappingFormatter,
         add_help=False,
-        description="The command-line note-taking and journaling app.",
+        description="Collect your thoughts and notes without leaving the command line",
         epilog=textwrap.dedent(
             """
         Thank you to all of our contributors! Come see the whole list of code and
