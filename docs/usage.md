@@ -140,7 +140,7 @@ displays all entries in which either `@pinkie` or `@WorldDomination`
 occurred. Tag filters can be combined with other filters:
 
 ```sh
-jrnl -n 5 @pinkie -and @WorldDomination
+jrnl -n 5 @pinkie @WorldDomination -and
 ```
 
 displays the last five entries containing _both_ `@pinkie` _and_
@@ -169,7 +169,7 @@ editor configured in your configuration file. You can also edit only the entries
 that match specific search criteria. For example,
 
 ```sh
-jrnl -until 1950 @texas -and @history --edit
+jrnl -until 1950 @texas @history -and --edit
 ```
 
 opens your external editor displaying all entries tagged with `@texas` and
