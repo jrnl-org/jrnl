@@ -133,14 +133,14 @@ all instances of the word "dogs."
 You can filter your journal entries by tag. For example,
 
 ```sh
-jrnl @pinkie @WorldDomination
+jrnl "@pinkie" "@WorldDomination"
 ```
 
 displays all entries in which either `@pinkie` or `@WorldDomination`
 occurred. Tag filters can be combined with other filters:
 
 ```sh
-jrnl -n 5 @pinkie @WorldDomination -and
+jrnl -n 5 "@pinkie" "@WorldDomination" -and
 ```
 
 displays the last five entries containing _both_ `@pinkie` _and_
