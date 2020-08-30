@@ -49,17 +49,40 @@ same password again. This will trigger the keychain storage prompt.
 
 ## Manual Decryption
 
-The easiest way to decrypt your journal is with `jrnl --decrypt`, but
-if you would like to decrypt your journal manually, you can do so with any
-program that supports the AES algorithm in CBC. The key used for encryption is
-the SHA-256 hash of your password. The IV (initialization vector) is stored in
-the first 16 bytes of the encrypted file. The plain text is encoded in UTF-8 and
-padded according to PKCS\#7 before being encrypted.
+The easiest way to decrypt your journal is with `jrnl --decrypt`, but you could
+also decrypt your journal manually if needed. To do this, you can use any
+program that supports the AES algorithm (specifically AES-CBC), and you'll need
+the following relevant information for decryption:
 
-Here is a Python script that you can use to decrypt your journal:
+- **Key:** The key used for encryption is the
+    [SHA-256](https://en.wikipedia.org/wiki/SHA-2) hash of your password.
+- **Initialization vector (IV):** The IV is stored in the first 16 bytes of
+    your encrypted journal file.
+- **The actual text of the journal** (everything after the first 16 bytes in
+    the encrypted journal file) is encoded in
+    [UTF-8](https://en.wikipedia.org/wiki/UTF-8) and padded according to
+    [PKCS\#7](https://en.wikipedia.org/wiki/PKCS_7) before being encrypted.
 
+If you'd like an example of what this might look like in script form, please
+see below for some examples of Python scripts that you could use to manually
+decrypt your journal.
+
+
+
+!!! note
+    These are only examples, and are only here to illustrate that your journal files
+    will still be recoverable even if `jrnl` isn't around anymore. Please use 
+    `jrnl --decrypt` if available.
+
+**Example 1** (for jrnl v2 files):
 ``` python
 #!/usr/bin/env python3
+"""
+Decrypt a jrnl v2 encrypted journal.
+
+Note: the `cryptography` module must be installed (you can do this with
+something like `pip3 install crytography`)
+"""
 
 import base64
 import getpass
@@ -90,17 +113,15 @@ key = base64.urlsafe_b64encode(kdf.derive(password))
 print(Fernet(key).decrypt(ciphertext).decode('utf-8'))
 ```
 
-To run the above script, you'll need [`cryptography`](https://pypi.org/project/cryptography/), which you can install with  `pip`:
-
-``` sh
-pip3 install cryptography
-```
-
-If you're still using `jrnl` version 1.X, the following script serves the same
-purpose:
-
+**Example 1** (for jrnl v1 files):
 ``` python
 #!/usr/bin/env python3
+"""
+Decrypt a jrnl v1 encrypted journal.
+
+Note: the `pycrypto` module must be installed (you can do this with something
+like `pip3 install pycrypto`)
+"""
 
 import argparse
 from Crypto.Cipher import AES
@@ -123,11 +144,4 @@ plain = crypto.decrypt(ciphertext[16:])
 plain = plain.strip(plain[-1:])
 plain = plain.decode("utf-8")
 print(plain)
-```
-
-This script requires
-[`pycrypto`](https://pypi.org/project/pycrypto/):
-
-```sh
-pip3 install pycrypto
 ```

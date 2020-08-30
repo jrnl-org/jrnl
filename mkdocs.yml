@@ -19,6 +19,7 @@ nav:
   - Basic Usage: usage.md
   - Encryption: encryption.md
   - Privacy and Security: security.md
-  - Import and Export: export.md
+  - Formats: formats.md
+  - Import and Export: import-and-export.md
   - Advanced Usage: advanced.md
   - Recipes: recipes.md

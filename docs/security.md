@@ -1,65 +1,80 @@
 # Privacy and Security
 
-`jrnl` is designed with privacy and security in mind, but there are some
-limitations to be aware of.
+`jrnl` is designed with privacy and security in mind, but like any other
+program there are some limitations to be aware of.
 
 ## Password strength
 
 `jrnl` doesn't enforce password strength requirements. Short or commonly-used
-passwords can easily be circumvented by someone with basic security skills
-and access to your encrypted `jrnl` file.
+passwords can be easily circumvented by someone with basic security skills
+to access to your encrypted `jrnl` file.
 
 ## Shell history
 
-Since you can enter entries from the command line, any tool
-that logs command line actions is a potential security risk. See
-below for how to deal with this problem in various shells.
+Since you can enter entries from the command line, any tool that logs command
+line actions is a potential security risk. See below for how to deal with this
+problem in various shells.
 
 ### bash
 
-You can disable history logging for jrnl in your `.bashrc`:
+You can disable history logging for jrnl by adding this line into your
+`~/.bashrc` file:
 
 ``` sh
 HISTIGNORE="$HISTIGNORE:jrnl *"
 ```
 
+To delete existing `jrnl` commands from `bash` history, simply delete them from
+your bash history file. The default location of this file is `~/.bash_history`,
+but you can run `echo "$HISTFILE"` to find it if needed.  Also, you can run
+`history -c` to delete all commands from your history.
+
 ### zsh
 
-Disable history logging by adding this to your `zshrc`:
+You can disable history logging for jnrl by adding this to your `~/.zshrc`
+file:
 
 ``` sh
 setopt HIST_IGNORE_SPACE
 alias jrnl=" jrnl"
 ```
 
+To delete existing `jrnl` commands from `zsh` history, simply remove them from
+your zsh history file. The default location of this file is `~/.zsh_history`,
+but you can run `echo "$HISTFILE"` to find it if needed. Also, you can run
+`history -c` to delete all commands from your history.
+
 ### fish
 
-Add this abbreviation to your `fish` configuration to run jrnl with
-a space before it, which prevents `fish` from logging it:
+By default `fish` will not log any command that starts with a space. If you
+want to always run jrnl with a space before it, then you can add this to your
+`~/.config/fish/config.fish` file:
 
 ``` sh
 abbr --add jrnl " jrnl"
 ```
 
-To delete existing `jrnl` commands from `fish`’s history, run
-`history delete --prefix 'jrnl '`.
+To delete existing jrnl commands from `fish` history, run `history delete --prefix 'jrnl '`.
 
 ### Windows Command Prompt
 
-Windows doesn't log history to disk, but it does keep it in your command
-prompt session. Close the command prompt or press Alt+F7 to clear its
-history after journaling.
+Windows doesn't log history to disk, but it does keep it in your command prompt
+session. Close the command prompt or press `Alt`+`F7` to clear your history
+after journaling.
 
 ## Files in transit from editor to jrnl
 
-When creating or editing an entry, `jrnl` uses a plain text temporary file on disk
-to give your editor access to it. `jrnl` deletes the temporary file when it
-saves the entry back to your journal.
+When creating or editing an entry, `jrnl` uses a unencrypted temporary file on
+disk in order to give your editor access to your journal. After you close your
+editor, `jrnl` then deletes this temporary file.
 
-If you save an entry but haven't closed your editor yet, and your computer shuts
-off or the `jrnl` process is killed, the entry remains on your disk as a
-temporary file. You can mitigate this issue by only saving with your editor
-right before closing it.
+So, if you have saved a journal entry but haven't closed your editor yet, the
+unencrypted temporary remains on your disk. If your computer were to shut off
+during this time, or the `jrnl` process were killed unexpectedly, then the
+unencrypted temporary file will remain on your disk. You can mitigate this
+issue by only saving with your editor right before closing it. You can also
+manually delete these files (i.e. files named `jrnl_*.txt`) from your temporary
+folder.
 
 ## Plausible deniability
 
