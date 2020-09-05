@@ -34,7 +34,7 @@ It displays the timestamp of each entry formatted to by the user config followed
 title on the same line. Then the body of the entry is shown below.
 
 This format is configurable through these values from your config file (see
-[config](./config.md) for more details):
+[Advanced Usage](./advanced.md) for more details):
 
 - `colors`
     - `body`

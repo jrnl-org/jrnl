@@ -44,7 +44,7 @@ encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard). See the
 ## Import and Export
 
 `jrnl` makes it easy to import entries from other sources. Existing entries can
-be [exported](./export.md) in a variety of formats.
+be exported in a variety of [formats](./formats.md).
 
 ## Multi-Platform Support
 

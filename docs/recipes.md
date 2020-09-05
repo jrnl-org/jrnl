@@ -113,7 +113,7 @@ logged as a new entry in the journal you specified in the original argument.
 
 !!! tip 
     To read your journal entry or to verify the entry saved, you can use this 
-    command: `jrnl -n 1` (Check out [Import and Export](./export.md) for more export options).
+    command: `jrnl -n 1` (Check out [Formats](./formats.md) for more export options).
 
 ```sh
 jrnl -n 1
