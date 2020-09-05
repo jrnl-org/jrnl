@@ -90,3 +90,20 @@ Feature: Dayone specific implementation details.
             2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
             | I'm feeling sore because I forgot to stretch.
             """
+
+    Scenario: Loading entry with ambiguous time stamp
+        #https://github.com/jrnl-org/jrnl/issues/153
+        Given we use the config "bug153.yaml"
+        When we run "jrnl -1"
+        Then we should get no error
+        And the output should be
+            """
+            2013-10-27 03:27 Some text.
+            """
+
+    Scenario: Empty DayOne entry bodies should not error
+        # https://github.com/jrnl-org/jrnl/issues/780
+        Given we use the config "bug780.yaml"
+        When we run "jrnl --short"
+        Then we should get no error
+

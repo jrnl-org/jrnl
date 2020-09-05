@@ -85,6 +85,29 @@ Feature: Exporting a Journal
             more stuff again
             """
 
+    # the "deletion" journal is used because it doesn't have a newline at the
+    # end of the last entry
+    Scenario: Add a blank line to Markdown export if there isn't one already
+        # https://github.com/jrnl-org/jrnl/issues/768
+        # https://github.com/jrnl-org/jrnl/issues/881
+        Given we use the config "deletion.yaml"
+        When we run "jrnl --export markdown"
+        Then the output should be
+            """
+            # 2019
+
+            ## October
+
+            ### 2019-10-29 11:11 First entry.
+
+
+            ### 2019-10-29 11:11 Second entry.
+
+
+            ### 2019-10-29 11:13 Third entry.
+
+            """
+
     Scenario: Exporting to XML
         Given we use the config "tags.yaml"
         When we run "jrnl --export xml"
@@ -145,3 +168,26 @@ Feature: Exporting a Journal
         (2) ???
         (3) PROFIT!
         """
+
+    Scenario: Add a blank line to YAML export if there isn't one already
+        # https://github.com/jrnl-org/jrnl/issues/768
+        # https://github.com/jrnl-org/jrnl/issues/881
+        Given we use the config "deletion.yaml"
+        And we create cache directory "bug768"
+        When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
+        Then cache directory "bug768" should contain the files
+            """
+            [
+            "2019-10-29_first-entry.md",
+            "2019-10-29_second-entry.md",
+            "2019-10-29_third-entry.md"
+            ]
+            """
+        And the content of file "2019-10-29_third-entry.md" in cache directory "bug768" should be
+            """
+            title: Third entry.
+            date: 2019-10-29 11:13
+            starred: False
+            tags:
+
+            """

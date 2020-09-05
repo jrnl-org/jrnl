@@ -43,3 +43,15 @@ Feature: Writing new entries.
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
         Then the output should not contain "Life is good"
+
+    Scenario: Title with an embedded period
+        Given we use the config "basic.yaml"
+        When we run "jrnl 04-24-2014: Created a new website - empty.com. Hope to get a lot of traffic."
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
+        Then the output should be
+            """
+            2014-04-24 09:00 Created a new website - empty.com.
+            | Hope to get a lot of traffic.
+            """
+
