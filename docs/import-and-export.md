@@ -18,7 +18,7 @@ directory, jrnl will export each entry into an individual file
 jrnl --format json -o my_entries/
 ```
 
-The contents of `my\_entries/` will then look like this:
+The contents of `my_entries/` will then look like this:
 
 ``` output
 my_entries/

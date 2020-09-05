@@ -74,7 +74,7 @@ decrypt your journal.
     will still be recoverable even if `jrnl` isn't around anymore. Please use 
     `jrnl --decrypt` if available.
 
-**Example 1** (for jrnl v2 files):
+**Example for jrnl v2 files**:
 ``` python
 #!/usr/bin/env python3
 """
@@ -113,7 +113,7 @@ key = base64.urlsafe_b64encode(kdf.derive(password))
 print(Fernet(key).decrypt(ciphertext).decode('utf-8'))
 ```
 
-**Example 1** (for jrnl v1 files):
+**Example for jrnl v1 files**:
 ``` python
 #!/usr/bin/env python3
 """

@@ -3,7 +3,7 @@
 `jrnl` is a simple journal application for the command line.
 
 You can use it to easily create, search, and view journal entries. Journals are
-stored as human-readable plain text, and can also be encrypted using  [AES
+stored as human-readable plain text, and can also be encrypted using [AES
 encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
 `jrnl` has most of the features you need, and few of the ones you don't.
@@ -18,7 +18,8 @@ by almost any electronic device, now and for the foreseeable future.
 ## Tags
 
 To make it easier to find entries later, `jrnl` includes support for inline tags
-(the default tag symbol is `@`). Entries can be found and filtered 
+(the default tag symbol is `@`). Entries can be found and filtered using tags
+along with other search criteria.
 
 ## Support for Multiple Journals
   
@@ -48,9 +49,8 @@ be exported in a variety of [formats](./formats.md).
 
 ## Multi-Platform Support
 
-`jrnl` is compatible with most operating systems. You can download it using one
+`jrnl` is compatible with most operating systems. You can [download](./installation.md) it using one
 of a variety of package managers, or you can build from source.
-See the [installation page](./installation.md) for more information.
 
 ## Open-Source
 

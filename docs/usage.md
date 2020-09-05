@@ -83,9 +83,10 @@ _now_), the following options are equivalent:
 - `jrnl *Best day of my life.`
 - `jrnl Best day of my life.*`
 
-!!! note Make sure that the asterisk (`*`) is **not** surrounded by whitespaces.
-`jrnl Best day of my life! *` will not work because the `*` character has a
-special meaning in most shells.
+!!! note
+    Make sure that the asterisk (`*`) is **not** surrounded by whitespaces.
+    `jrnl Best day of my life! *` will not work because the `*` character has a
+    special meaning in most shells.
 
 ## Viewing Entries ##
 
