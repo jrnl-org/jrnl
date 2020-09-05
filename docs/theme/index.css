@@ -65,18 +65,18 @@ header {
     border: 0px solid transparent;
     display: relative;
     padding-top: 150px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 #terminal {
     background: #1B1C2E;
     max-width: 520px;
     box-shadow: 0 -2px 16px 0 rgba(0,0,0,0.35);
-    border-radius: 6px 6px 0 0;
-    min-height: 100px;
+    border-radius: 6px;
+    min-height: 120px;
     margin: 0px auto;
     position: relative;
-    /*transform: translateY(40px);*/
+    transform: translateY(75px);
     color: #f7f8f9;
     font-family: "Monaco", "Courier New";
     font-size: 12pt;
@@ -146,7 +146,7 @@ header {
 
 #prompt {
     max-width: 700px;
-    margin: 100px auto 0px auto;
+    margin: 25px auto 100px auto;
     padding: 0px 20px;
 }
 
