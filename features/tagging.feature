@@ -78,12 +78,11 @@ Feature: Tagging
         And we run "jrnl today: I think this will show up @thought"
         And we run "jrnl today: This should @never show up @thought"
         And we run "jrnl today: What a nice day for filtering @thought"
-        And we run "jrnl --tags -not @not @never"
+        And we run "jrnl --tags -not @not -not @never"
         Then the output should be
             """
             @thought             : 2
             """
-
 
     Scenario: Printing a journal that has multiline entries with tags
         Given we use the config "multiline-tags.yaml"

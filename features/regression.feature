@@ -1,13 +1,5 @@
 Feature: Zapped bugs should stay dead.
 
-    Scenario: Writing an entry does not print the entire journal
-        # https://github.com/jrnl-org/jrnl/issues/87
-        Given we use the config "basic.yaml"
-        When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1"
-        Then the output should not contain "Life is good"
-
     Scenario: Date with time should be parsed correctly
         # https://github.com/jrnl-org/jrnl/issues/117
         Given we use the config "basic.yaml"

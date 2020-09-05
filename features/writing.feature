@@ -1,0 +1,45 @@
+Feature: Writing new entries.
+
+    Scenario: Multiline entry with punctuation
+        Given we use the config "basic.yaml"
+        When we run "jrnl This is. the title\\n This is the second line"
+        And we run "jrnl -n 1"
+        Then the output should contain "This is. the title"
+
+    Scenario: Single line entry with punctuation
+        Given we use the config "basic.yaml"
+        When we run "jrnl This is. the title"
+        And we run "jrnl -n 1"
+        Then the output should contain "| the title"
+
+    Scenario: Writing an entry from command line
+        Given we use the config "basic.yaml"
+        When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
+        Then we should see the message "Entry added"
+        When we run "jrnl -n 1"
+        Then the output should contain "2013-07-23 09:00 A cold and stormy day."
+
+    Scenario: Writing an empty entry from the editor
+        Given we use the config "editor.yaml"
+        When we open the editor and enter nothing
+        Then we should see the message "[Nothing saved to file]"
+
+    Scenario: Writing an empty entry from the command line
+        Given we use the config "basic.yaml"
+        When we run "jrnl" and enter nothing
+        Then the output should be empty
+        And the editor should not have been called
+
+    Scenario: Writing an empty entry from the editor
+        Given we use the config "editor.yaml"
+        When we run "jrnl" and enter nothing
+        Then the output should be empty
+        And the editor should have been called
+
+    Scenario: Writing an entry does not print the entire journal
+        # https://github.com/jrnl-org/jrnl/issues/87
+        Given we use the config "basic.yaml"
+        When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
+        Then we should see the message "Entry added"
+        When we run "jrnl -n 1"
+        Then the output should not contain "Life is good"

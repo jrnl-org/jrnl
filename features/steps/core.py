@@ -122,7 +122,7 @@ def open_editor_and_enter(context, method, text=""):
     else:
         file_method = "r+"
 
-    def _mock_editor_function(command):
+    def _mock_editor(command):
         context.editor_command = command
         tmpfile = command[-1]
         with open(tmpfile, file_method) as f:
@@ -133,16 +133,26 @@ def open_editor_and_enter(context, method, text=""):
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
-        patch("subprocess.call", side_effect=_mock_editor_function), \
+        patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
         patch("sys.stdin.isatty", return_value=True) \
     :
+        context.editor = mock_editor
         cli(["--edit"])
     # fmt: on
 
 
+@then("the editor should have been called")
 @then("the editor should have been called with {num} arguments")
-def count_editor_args(context, num):
-    assert len(context.editor_command) == int(num)
+def count_editor_args(context, num=None):
+    assert context.editor.called
+
+    if isinstance(num, int):
+        assert len(context.editor_command) == int(num)
+
+
+@then("the editor should not have been called")
+def no_editor_called(context, num=None):
+    assert "editor" not in context or not context.editor.called
 
 
 @then('one editor argument should be "{arg}"')
@@ -192,12 +202,19 @@ def run_with_input(context, command, inputs=""):
 
     args = ushlex(command)[1:]
 
+    def _mock_editor(command):
+        context.editor_command = command
+        tmpfile = command[-1]
+        context.editor_file = tmpfile
+        Path(tmpfile).touch()
+
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
         patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
         patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
-        patch("sys.stdin.read", side_effect=text) as mock_read \
+        patch("sys.stdin.read", side_effect=text) as mock_read, \
+        patch("subprocess.call", side_effect=_mock_editor) as mock_editor \
     :
         try:
             cli(args or [])
@@ -205,15 +222,41 @@ def run_with_input(context, command, inputs=""):
         except SystemExit as e:
             context.exit_status = e.code
 
-        # at least one of the mocked input methods got called
-        assert mock_input.called or mock_getpass.called or mock_read.called
-        # all inputs were used
-        try:
-            next(text)
-            assert False, "Not all inputs were consumed"
-        except StopIteration:
-            pass
+        # put mocks into context so they can be checked later in "then" statements
+        context.editor = mock_editor
+        context.input = mock_input
+        context.getpass = mock_getpass
+        context.read = mock_read
+        context.iter_text = text
+
+        context.execute_steps('''
+            Then all input was used
+            And at least one input method was called
+        ''')
+
     # fmt: on
+
+
+@then("at least one input method was called")
+def inputs_were_called(context):
+    assert (
+        context.input.called
+        or context.getpass.called
+        or context.read.called
+        or context.editor.called
+    )
+
+
+@then("we were prompted for a password")
+def password_was_called(context, method):
+    assert context.getpass.called
+
+
+@then("all input was used")
+def all_input_was_used(context):
+    # all inputs were used (ignore if empty string)
+    for temp in context.iter_text:
+        assert "" == temp, "Not all inputs were consumed"
 
 
 @when('we run "{command}"')
