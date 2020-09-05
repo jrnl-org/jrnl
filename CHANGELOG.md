@@ -12,10 +12,10 @@
 
 - Add support for Python 3.9 build testing [\#1018](https://github.com/jrnl-org/jrnl/pull/1018) ([micahellison](https://github.com/micahellison))
 - Resolve Travis/Windows/pip issues with upgrade to cryptography 3.0 [\#1016](https://github.com/jrnl-org/jrnl/pull/1016) ([micahellison](https://github.com/micahellison))
-- Rename master branch to release [\#985](https://github.com/jrnl-org/jrnl/pull/985) ([wren](https://github.com/wren))
 
 **Updated documentation:**
 
+- Correct typos in CONTRIBUTING.md [\#1040](https://github.com/jrnl-org/jrnl/pull/1040) ([felixonmars](https://github.com/felixonmars))
 - Updated advanced.md in docs to reflect all four subkeys under colors … [\#1023](https://github.com/jrnl-org/jrnl/pull/1023) ([DacodaNelson](https://github.com/DacodaNelson))
 - Update github issue templates to use new diagnostic command [\#1022](https://github.com/jrnl-org/jrnl/pull/1022) ([wren](https://github.com/wren))
 
