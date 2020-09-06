@@ -55,3 +55,17 @@ Feature: Writing new entries.
             | Hope to get a lot of traffic.
             """
 
+    Scenario: Emoji support
+        Given we use the config "basic.yaml"
+        When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
+        Then we should see the message "Entry added"
+        When we run "jrnl -n 1"
+        Then the output should contain "🌞"
+        And the output should contain "🐘"
+
+    Scenario: Writing an entry at the prompt (no editor)
+        Given we use the config "basic.yaml"
+        When we run "jrnl" and enter "25 jul 2013: I saw Elvis. He's alive."
+        Then we should get no error
+        And the journal should contain "[2013-07-25 09:00] I saw Elvis."
+        And the journal should contain "He's alive."

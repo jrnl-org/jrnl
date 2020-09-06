@@ -9,3 +9,16 @@ Feature: Reading & writing the config file
         And one editor argument should be "-c"
         And one editor argument should match "'?setf markdown'?"
 
+    Scenario: Invalid color configuration
+        Given we use the config "invalid_color.yaml"
+        When we run "jrnl -on 2013-06-10 -s"
+        Then the output should be
+            """
+            2013-06-10 15:40 Life is good.
+            """
+        And we should get no error
+        And the error output should contain
+            """
+            body set to invalid color
+            """
+

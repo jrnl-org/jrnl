@@ -73,7 +73,6 @@ class FailedKeyring(keyring.backend.KeyringBackend):
     priority = 2
     keys = defaultdict(dict)
 
-
     def set_password(self, servicename, username, password):
         self.keys[servicename][username] = password
 
@@ -116,27 +115,27 @@ def read_value_from_string(string):
 
     # Takes strings like "bool:true" or "int:32" and coerces them into proper type
     t, value = string.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](
-        value
-    )
+    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
     return value
+
 
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
+
     install.CONFIG_FILE_PATH = os.path.abspath(full_path)
-    if config_file.endswith("yaml"):
+    if config_file.endswith("yaml") and os.path.exists(full_path):
         # Add jrnl version to file for 2.x journals
         with open(install.CONFIG_FILE_PATH, "a") as cf:
             cf.write("version: {}".format(__version__))
 
 
-@given('we have a keyring')
+@given("we have a keyring")
 def set_keyring(context):
     keyring.set_keyring(TestKeyring())
 
 
-@given('we do not have a keyring')
+@given("we do not have a keyring")
 def disable_keyring(context):
     keyring.core.set_keyring(NoKeyring())
 
@@ -342,7 +341,7 @@ def load_template(context, filename):
 
 
 @when('we set the keyring password of "{journal}" to "{password}"')
-def set_keyring(context, journal, password):
+def set_keyring_password(context, journal, password):
     keyring.set_password("jrnl", journal, password)
 
 
@@ -439,6 +438,7 @@ def check_not_journal_content(context, text, journal_name="default"):
     assert text not in journal, journal
 
 
+@then('the journal should not exist')
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
     config = load_config(install.CONFIG_FILE_PATH)
@@ -446,6 +446,13 @@ def journal_doesnt_exist(context, journal_name="default"):
     journal_path = config["journals"][journal_name]
     assert not os.path.exists(journal_path)
 
+@then('the journal should exist')
+@then('journal "{journal_name}" should exist')
+def journal_exists(context, journal_name="default"):
+    config = load_config(install.CONFIG_FILE_PATH)
+
+    journal_path = config["journals"][journal_name]
+    assert os.path.exists(journal_path)
 
 @then('the config should have "{key}" set to')
 @then('the config should have "{key}" set to "{value}"')
@@ -462,7 +469,7 @@ def config_var(context, key, value="", journal=None):
 
 
 @then('the config for journal "{journal}" should not have "{key}" set')
-def config_var(context, key, value="", journal=None):
+def config_no_var(context, key, value="", journal=None):
     config = load_config(install.CONFIG_FILE_PATH)
 
     if journal:

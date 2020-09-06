@@ -1,6 +1,6 @@
-Feature: Exporting a Journal
+Feature: Custom formats
 
-    Scenario: Exporting to json
+    Scenario: JSON format
         Given we use the config "tags.yaml"
         When we run "jrnl --export json"
         Then we should get no error
@@ -75,6 +75,7 @@ Feature: Exporting a Journal
 
             ####### ATX H4
 
+
             ######## ATX H5
 
             ######### ATX H6
@@ -91,7 +92,7 @@ Feature: Exporting a Journal
         # https://github.com/jrnl-org/jrnl/issues/768
         # https://github.com/jrnl-org/jrnl/issues/881
         Given we use the config "deletion.yaml"
-        When we run "jrnl --export markdown"
+        When we run "jrnl --format markdown"
         Then the output should be
             """
             # 2019

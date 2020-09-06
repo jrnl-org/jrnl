@@ -1,4 +1,4 @@
-Feature: Searching a journal
+Feature: Searching in a journal
 
     Scenario: Displaying entries using -on today should display entries created today.
         Given we use the config "basic.yaml"
@@ -6,6 +6,8 @@ Feature: Searching a journal
         Then we should see the message "Entry added"
         When we run "jrnl -on today"
         Then the output should contain "Adding an entry right now."
+        But the output should not contain "Everything is alright"
+        And the output should not contain "Life is good"
 
     Scenario: Displaying entries using -from day should display correct entries
         Given we use the config "basic.yaml"
@@ -32,3 +34,39 @@ Feature: Searching a journal
         Then the output should contain "This thing happened yesterday"
         And the output should contain "Adding an entry right now."
         And the output should not contain "A future entry."
+
+    Scenario: Searching for a string
+        Given we use the config "basic.yaml"
+        When we run "jrnl -contains life"
+        Then we should get no error
+        And the output should be
+            """
+            2013-06-10 15:40 Life is good.
+            | But I'm better.
+            """
+
+    Scenario: Searching for a string within tag results
+        Given we use the config "tags.yaml"
+        When we run "jrnl @idea -contains software"
+        Then we should get no error
+        And the output should contain "software"
+
+    Scenario: Searching for a string within AND tag results
+        Given we use the config "tags.yaml"
+        When we run "jrnl -and @journal @idea -contains software"
+        Then we should get no error
+        And the output should contain "software"
+
+    Scenario: Searching for a string within NOT tag results
+        Given we use the config "tags.yaml"
+        When we run "jrnl -not @dan -contains software"
+        Then we should get no error
+        And the output should contain "software"
+
+    Scenario: Searching for dates
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on 2013-06-10 --short"
+        Then the output should be "2013-06-10 15:40 Life is good."
+        When we run "jrnl -on 'june 6 2013' --short"
+        Then the output should be "2013-06-10 15:40 Life is good."
+
