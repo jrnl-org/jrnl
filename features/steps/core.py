@@ -64,8 +64,24 @@ class NoKeyring(keyring.backend.KeyringBackend):
         raise keyring.errors.NoKeyringError
 
 
-# set the keyring for keyring lib
-keyring.set_keyring(TestKeyring())
+class FailedKeyring(keyring.backend.KeyringBackend):
+    """
+    A keyring that simulates an environment with a keyring that has passwords, but fails
+    to return them.
+    """
+
+    priority = 2
+    keys = defaultdict(dict)
+
+
+    def set_password(self, servicename, username, password):
+        self.keys[servicename][username] = password
+
+    def get_password(self, servicename, username):
+        raise keyring.errors.NoKeyringError
+
+    def delete_password(self, servicename, username):
+        self.keys[servicename][username] = None
 
 
 def ushlex(command):
@@ -93,6 +109,18 @@ def open_journal(journal_name="default"):
     return Journal.open_journal(journal_name, config)
 
 
+def read_value_from_string(string):
+    if string[0] == "{":
+        # Handle value being a dictionary
+        return ast.literal_eval(string)
+
+    # Takes strings like "bool:true" or "int:32" and coerces them into proper type
+    t, value = string.split(":")
+    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](
+        value
+    )
+    return value
+
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
@@ -101,6 +129,16 @@ def set_config(context, config_file):
         # Add jrnl version to file for 2.x journals
         with open(install.CONFIG_FILE_PATH, "a") as cf:
             cf.write("version: {}".format(__version__))
+
+
+@given('we have a keyring')
+def set_keyring(context):
+    keyring.set_keyring(TestKeyring())
+
+
+@given('we do not have a keyring')
+def disable_keyring(context):
+    keyring.core.set_keyring(NoKeyring())
 
 
 @when('we change directory to "{path}"')
@@ -175,16 +213,22 @@ def matches_editor_arg(context, regex):
 def _mock_getpass(inputs):
     def prompt_return(prompt="Password: "):
         print(prompt)
-        return next(inputs)
+        try:
+            return next(inputs)
+        except StopIteration:
+            raise KeyboardInterrupt
 
     return prompt_return
 
 
 def _mock_input(inputs):
     def prompt_return(prompt=""):
-        val = next(inputs)
-        print(prompt, val)
-        return val
+        try:
+            val = next(inputs)
+            print(prompt, val)
+            return val
+        except StopIteration:
+            raise KeyboardInterrupt
 
     return prompt_return
 
@@ -247,9 +291,14 @@ def inputs_were_called(context):
     )
 
 
-@then("we were prompted for a password")
-def password_was_called(context, method):
+@then("we should be prompted for a password")
+def password_was_called(context):
     assert context.getpass.called
+
+
+@then("we should not be prompted for a password")
+def password_was_not_called(context):
+    assert not context.getpass.called
 
 
 @then("all input was used")
@@ -292,14 +341,9 @@ def load_template(context, filename):
     plugins.__exporter_types[exporter.names[0]] = exporter
 
 
-@when('we set the keychain password of "{journal}" to "{password}"')
-def set_keychain(context, journal, password):
+@when('we set the keyring password of "{journal}" to "{password}"')
+def set_keyring(context, journal, password):
     keyring.set_password("jrnl", journal, password)
-
-
-@when("we disable the keychain")
-def disable_keychain(context):
-    keyring.core.set_keyring(NoKeyring())
 
 
 @then("we should get an error")
@@ -397,8 +441,8 @@ def check_not_journal_content(context, text, journal_name="default"):
 
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
-    with open(install.CONFIG_FILE_PATH) as config_file:
-        config = yaml.load(config_file, Loader=yaml.FullLoader)
+    config = load_config(install.CONFIG_FILE_PATH)
+
     journal_path = config["journals"][journal_name]
     assert not os.path.exists(journal_path)
 
@@ -407,21 +451,24 @@ def journal_doesnt_exist(context, journal_name="default"):
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value="", journal=None):
-    value = value or context.text or ""
-    if not value[0] == "{":
-        t, value = value.split(":")
-        value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](
-            value
-        )
-    else:
-        # Handle value being a dictionary
-        value = ast.literal_eval(value)
-
+    value = read_value_from_string(value or context.text or "")
     config = load_config(install.CONFIG_FILE_PATH)
+
     if journal:
         config = config["journals"][journal]
+
     assert key in config
     assert config[key] == value
+
+
+@then('the config for journal "{journal}" should not have "{key}" set')
+def config_var(context, key, value="", journal=None):
+    config = load_config(install.CONFIG_FILE_PATH)
+
+    if journal:
+        config = config["journals"][journal]
+
+    assert key not in config
 
 
 @then("the journal should have {number:d} entries")

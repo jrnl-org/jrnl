@@ -1,8 +1,9 @@
-    Feature: Encrypted journals
+    Feature: Encrypting and decrypting journals
+
         Scenario: Loading an encrypted journal
             Given we use the config "encrypted.yaml"
             When we run "jrnl -n 1" and enter "bad doggie no biscuit"
-            Then the output should contain "Password"
+            Then we should be prompted for a password
             And the output should contain "2013-06-10 15:40 Life is good"
 
         Scenario: Decrypting a journal
@@ -10,6 +11,13 @@
             When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
             Then the config for journal "default" should have "encrypt" set to "bool:False"
             And we should see the message "Journal decrypted"
+            And the journal should have 2 entries
+
+        Scenario: Trying to decrypt an unencrypted journal
+            Given we use the config "basic.yaml"
+            When we run "jrnl --decrypt"
+            Then the config for journal "default" should have "encrypt" set to "bool:False"
+            And we should get no error
             And the journal should have 2 entries
 
         Scenario: Encrypting a journal
@@ -23,10 +31,22 @@
             Then we should see the message "Journal encrypted"
             And the config for journal "default" should have "encrypt" set to "bool:True"
             When we run "jrnl -n 1" and enter "swordfish"
-            Then the output should contain "Password"
+            Then we should be prompted for a password
             And the output should contain "2013-06-10 15:40 Life is good"
 
         Scenario: Mistyping your password
+            Given we use the config "basic.yaml"
+            When we run "jrnl --encrypt" and enter
+                """
+                swordfish
+                sordfish
+                """
+            Then we should be prompted for a password
+            And we should see the message "Passwords did not match"
+            And the config for journal "default" should not have "encrypt" set
+            And the journal should have 2 entries
+
+        Scenario: Mistyping your password, then getting it right
             Given we use the config "basic.yaml"
             When we run "jrnl --encrypt" and enter
                 """
@@ -36,22 +56,23 @@
                 swordfish
                 n
                 """
-            Then we should see the message "Passwords did not match"
+            Then we should be prompted for a password
+            And we should see the message "Passwords did not match"
             And we should see the message "Journal encrypted"
             And the config for journal "default" should have "encrypt" set to "bool:True"
             When we run "jrnl -n 1" and enter "swordfish"
-            Then the output should contain "Password"
+            Then we should be prompted for a password
             And the output should contain "2013-06-10 15:40 Life is good"
 
-        Scenario: Storing a password in Keychain
+        Scenario: Storing a password in keyring
             Given we use the config "multiple.yaml"
+            And we have a keyring
             When we run "jrnl simple --encrypt" and enter
                 """
                 sabertooth
                 sabertooth
                 y
                 """
-            When we set the keychain password of "simple" to "sabertooth"
             Then the config for journal "simple" should have "encrypt" set to "bool:True"
             When we run "jrnl simple -n 1"
             Then the output should contain "2013-06-10 15:40 Life is good"
@@ -59,8 +80,8 @@
 
         Scenario: Encrypt journal with no keyring backend and do not store in keyring
             Given we use the config "basic.yaml"
-            When we disable the keychain
-            And we run "jrnl test entry"
+            And we do not have a keyring
+            When we run "jrnl test entry"
             And we run "jrnl --encrypt" and enter
                 """
                 password
@@ -71,8 +92,8 @@
 
         Scenario: Encrypt journal with no keyring backend and do store in keyring
             Given we use the config "basic.yaml"
-            When we disable the keychain
-            And we run "jrnl test entry"
+            And we do not have a keyring
+            When we run "jrnl test entry"
             And we run "jrnl --encrypt" and enter
                 """
                 password
