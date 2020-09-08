@@ -11,6 +11,7 @@ extra_css:
 markdown_extensions:
   - admonition
 repo_url: https://github.com/jrnl-org/jrnl/
+edit_uri: edit/develop/docs/
 site_author: Manuel Ebert
 site_description: Collect your thoughts and notes without leaving the command line.
 nav:
