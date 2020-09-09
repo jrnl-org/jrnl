@@ -15,6 +15,7 @@
 
 **Updated documentation:**
 
+- Fix "Edit on GitHub" button on docs site [\#1043](https://github.com/jrnl-org/jrnl/pull/1043) ([matildepark](https://github.com/matildepark))
 - Correct typos in CONTRIBUTING.md [\#1040](https://github.com/jrnl-org/jrnl/pull/1040) ([felixonmars](https://github.com/felixonmars))
 - Change styling of terminal on docs site, small copy changes [\#1038](https://github.com/jrnl-org/jrnl/pull/1038) ([wren](https://github.com/wren))
 - Updated advanced.md in docs to reflect all four subkeys under colors … [\#1023](https://github.com/jrnl-org/jrnl/pull/1023) ([DacodaNelson](https://github.com/DacodaNelson))
