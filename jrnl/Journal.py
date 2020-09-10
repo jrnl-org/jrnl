@@ -130,7 +130,7 @@ class Journal:
         date_blob_re = re.compile("(?:^|\n)\\[([^\\]]+)\\] ")
 
         # Use strict date matching, if using the default time format
-        if self.config["timeformat"] == '%Y-%m-%d %H:%M':
+        if self.config["timeformat"] == "%Y-%m-%d %H:%M":
             date_blob_re = re.compile("(?:^|\n)\\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\\] ")
 
         last_entry_pos = 0
