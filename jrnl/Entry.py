@@ -202,7 +202,7 @@ class Entry:
 SENTENCE_SPLITTER = re.compile(
     r"""
 (                       # A sentence ends at one of two sequences:
-    [.!?\u203C\u203D\u2047\u2048\u2049\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
+    [.!?\u2026\u203C\u203D\u2047\u2048\u2049\u22EF\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
     [\'\u2019\"\u201D]? # an optional right quote,
     [\]\)]*             # optional closing brackets and
     \s+                 # a sequence of required spaces.
