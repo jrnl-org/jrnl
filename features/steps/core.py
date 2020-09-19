@@ -203,7 +203,7 @@ def contains_editor_arg(context, arg):
 @then('one editor argument should match "{regex}"')
 def matches_editor_arg(context, regex):
     args = context.editor_command
-    matches = list(filter(lambda x: re.match(regex, x), args))
+    matches = list(filter(lambda x: re.search(regex, x), args))
     assert (
         len(matches) == 1
     ), f"\nRegex didn't match exactly 1 time:\n{regex}\n{str(args)}"
@@ -406,6 +406,26 @@ def check_error_output_inline(context, text=None, text2=None):
     assert text in out or text2 in out, text or text2
 
 
+@then('the output should match "{regex}"')
+@then('the output should match "{regex}" {num} times')
+def matches_std_output(context, regex, num=1):
+    out = context.stdout_capture.getvalue()
+    matches = re.findall(regex, out)
+    assert (
+        matches and len(matches) == num
+    ), f"\nRegex didn't match exactly {num} time(s):\n{regex}\n{str(out)}\n{str(matches)}"
+
+
+@then('the error output should match "{regex}"')
+@then('the error output should match "{regex}" {num} times')
+def matches_err_ouput(context, regex, num=1):
+    out = context.stderr_capture.getvalue()
+    matches = re.findall(regex, out)
+    assert (
+        matches and len(matches) == num
+    ), f"\nRegex didn't match exactly {num} time(s):\n{regex}\n{str(out)}\n{str(matches)}"
+
+
 @then('the output should not contain "{text}"')
 def check_output_not_inline(context, text):
     out = context.stdout_capture.getvalue()
@@ -438,7 +458,7 @@ def check_not_journal_content(context, text, journal_name="default"):
     assert text not in journal, journal
 
 
-@then('the journal should not exist')
+@then("the journal should not exist")
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
     config = load_config(install.CONFIG_FILE_PATH)
@@ -446,13 +466,15 @@ def journal_doesnt_exist(context, journal_name="default"):
     journal_path = config["journals"][journal_name]
     assert not os.path.exists(journal_path)
 
-@then('the journal should exist')
+
+@then("the journal should exist")
 @then('journal "{journal_name}" should exist')
 def journal_exists(context, journal_name="default"):
     config = load_config(install.CONFIG_FILE_PATH)
 
     journal_path = config["journals"][journal_name]
     assert os.path.exists(journal_path)
+
 
 @then('the config should have "{key}" set to')
 @then('the config should have "{key}" set to "{value}"')
