@@ -218,3 +218,14 @@ Feature: Custom formats
         Given we use the config "bug780.yaml"
         When we run "jrnl --short"
         Then we should get no error
+
+    Scenario: --short displays the short version of entries (only the title)
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on 2013-06-10 --short"
+        Then the output should be "2013-06-10 15:40 Life is good."
+
+    Scenario: -s displays the short version of entries (only the title)
+        Given we use the config "basic.yaml"
+        When we run "jrnl -on 2013-06-10 -s"
+        Then the output should be "2013-06-10 15:40 Life is good."
+
