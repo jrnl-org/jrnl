@@ -22,3 +22,15 @@ Feature: Reading & writing the config file
             body set to invalid color
             """
 
+    @todo
+    Scenario: Missing values in config are given a default
+
+    @todo
+    Scenario: Journal-level config values override global-level config values
+
+    @todo
+    Scenario: Config with a lower version number updates to current version
+
+    @todo
+    Scenario: Nested config values are written to the config file
+
