@@ -192,3 +192,29 @@ Feature: Custom formats
             tags:
 
             """
+
+    Scenario: Printing a journal that has multiline entries
+        Given we use the config "multiline.yaml"
+        When we run "jrnl -n 1"
+        Then we should get no error
+        And the output should be
+            """
+            2013-06-09 15:39 Multiple line entry.
+            | This is the first line.
+            | This line doesn't have any ending punctuation
+            |
+            | There is a blank line above this.
+            """
+
+    Scenario: Exporting dayone to json
+        Given we use the config "dayone.yaml"
+        When we run "jrnl --export json"
+        Then we should get no error
+        And the output should be parsable as json
+        And the json output should contain entries.0.uuid = "4BB1F46946AD439996C9B59DE7C4DDC1"
+
+    Scenario: Empty DayOne entry bodies should not error
+        # https://github.com/jrnl-org/jrnl/issues/780
+        Given we use the config "bug780.yaml"
+        When we run "jrnl --short"
+        Then we should get no error

@@ -84,4 +84,25 @@ Feature: Reading and writing to journal with custom date formats
         Then the output should contain "I'm going to activate the machine."
         And the output should contain "I've crossed so many timelines. Is there any going back?"
 
+    Scenario: Integers in square brackets should not be read as dates
+        Given we use the config "brackets.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "[1] line starting with 1"
 
+    # broken still
+    @skip
+    Scenario: Dayone entries without timezone information are interpreted in current timezone
+        Given we use the config "dayone.yaml"
+        When we run "jrnl -until 'feb 2013'"
+        Then we should get no error
+        And the output should contain "2013-01-17T18:37Z" in the local time
+
+    Scenario: Loading entry with ambiguous time stamp
+        #https://github.com/jrnl-org/jrnl/issues/153
+        Given we use the config "bug153.yaml"
+        When we run "jrnl -1"
+        Then we should get no error
+        And the output should be
+            """
+            2013-10-27 03:27 Some text.
+            """

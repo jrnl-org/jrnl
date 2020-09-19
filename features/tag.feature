@@ -119,3 +119,27 @@ Feature: Tagging
             | (2) ???
             | (3) PROFIT!
             """
+
+    Scenario: Loading tags from a DayOne Journal
+        Given we use the config "dayone.yaml"
+        When we run "jrnl --tags"
+        Then the output should be
+            """
+            @work                : 1
+            @play                : 1
+            """
+
+    Scenario: Saving tags from a DayOne Journal
+        Given we use the config "dayone.yaml"
+        When we run "jrnl A hard day at @work"
+        And we run "jrnl --tags"
+        Then the output should be
+            """
+            @work                : 2
+            @play                : 1
+            """
+
+    Scenario: Filtering by tags from a DayOne Journal
+        Given we use the config "dayone.yaml"
+        When we run "jrnl @work"
+        Then the output should be "2013-05-17 11:39 This entry has tags!"

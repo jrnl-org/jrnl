@@ -69,3 +69,34 @@ Feature: Writing new entries.
         Then we should get no error
         And the journal should contain "[2013-07-25 09:00] I saw Elvis."
         And the journal should contain "He's alive."
+
+    Scenario: Writing into Dayone
+        Given we use the config "dayone.yaml"
+        When we run "jrnl 01 may 1979: Being born hurts."
+        And we run "jrnl -until 1980"
+        Then the output should be "1979-05-01 09:00 Being born hurts."
+
+    Scenario: Writing into Dayone adds extended metadata
+        Given we use the config "dayone.yaml"
+        When we run "jrnl 01 may 1979: Being born hurts."
+        And we run "jrnl --export json"
+        Then "entries" in the json output should have 5 elements
+        And the json output should contain entries.0.creator.software_agent
+        And the json output should contain entries.0.creator.os_agent
+        And the json output should contain entries.0.creator.host_name
+        And the json output should contain entries.0.creator.generation_date
+        And the json output should contain entries.0.creator.device_agent
+        And "entries.0.creator.software_agent" in the json output should contain "jrnl"
+
+    # fails when system time is UTC (as on Travis-CI)
+    @skip
+    Scenario: Title with an embedded period on DayOne journal
+        Given we use the config "dayone.yaml"
+        When we run "jrnl 04-24-2014: "Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch.""
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
+        Then the output should be
+            """
+            2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
+            | I'm feeling sore because I forgot to stretch.
+            """

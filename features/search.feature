@@ -70,3 +70,24 @@ Feature: Searching in a journal
         When we run "jrnl -on 'june 6 2013' --short"
         Then the output should be "2013-06-10 15:40 Life is good."
 
+    Scenario: Out of order entries to a Folder journal should be listed in date order
+      Given we use the config "empty_folder.yaml"
+      When we run "jrnl 3/7/2014 4:37pm: Second entry of journal."
+      Then we should see the message "Entry added"
+      When we run "jrnl 23 July 2013: Testing folder journal."
+      Then we should see the message "Entry added"
+      When we run "jrnl -2"
+      Then the output should be
+            """
+            2013-07-23 09:00 Testing folder journal.
+
+            2014-03-07 16:37 Second entry of journal.
+            """
+
+    # fails when system time is UTC (as on Travis-CI)
+    @skip
+    Scenario: DayOne tag searching should work with tags containing a mixture of upper and lower case.
+        # https://github.com/jrnl-org/jrnl/issues/354
+        Given we use the config "dayone.yaml"
+        When we run "jrnl @plAy"
+        Then the output should contain "2013-05-17 11:39 This entry has tags!"
