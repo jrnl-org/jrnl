@@ -100,3 +100,10 @@ Feature: Writing new entries.
             2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
             | I'm feeling sore because I forgot to stretch.
             """
+
+    Scenario: Opening an folder that's not a DayOne folder should treat as folder journal
+        Given we use the config "empty_folder.yaml"
+        When we run "jrnl 23 july 2013: Testing folder journal."
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
+        Then the output should be "2013-07-23 09:00 Testing folder journal."
