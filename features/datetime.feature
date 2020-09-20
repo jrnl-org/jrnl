@@ -1,13 +1,13 @@
 Feature: Reading and writing to journal with custom date formats
 
-    Scenario: Dates with time
+    Scenario: Dates can include a time
         # https://github.com/jrnl-org/jrnl/issues/117
         Given we use the config "basic.yaml"
         When we run "jrnl 2013-11-30 15:42: Project Started."
         Then we should see the message "Entry added"
         And the journal should contain "[2013-11-30 15:42] Project Started."
 
-    Scenario: Dates in the future
+    Scenario: Dates can be in the future
         # https://github.com/jrnl-org/jrnl/issues/185
         Given we use the config "basic.yaml"
         When we run "jrnl 26/06/2099: Planet? Earth. Year? 2099."
@@ -23,23 +23,43 @@ Feature: Reading and writing to journal with custom date formats
             09.06.2013 15:39 My first entry.
             | Everything is alright
 
-            10.06.2013 15:40 Life is good.
+            10.07.2013 15:40 Life is good.
             | But I'm better.
             """
 
-    Scenario: Writing an entry from command line with custom date
-        Given we use the config "little_endian_dates.yaml"
-        When we run "jrnl 2013-07-12: A cold and stormy day. I ate crisps on the sofa."
+    Scenario Outline: Writing an entry from command line with custom date
+        Given we use the config "<config>.yaml"
+        When we run "jrnl <input>"
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
-        Then the output should contain "12.07.2013 09:00 A cold and stormy day."
+        Then the output should contain "<output>"
 
-    Scenario: Filtering for dates with custom date
-        Given we use the config "little_endian_dates.yaml"
-        When we run "jrnl -on 2013-06-10 --short"
-        Then the output should be "10.06.2013 15:40 Life is good."
-        When we run "jrnl -on 'june 6 2013' --short"
-        Then the output should be "10.06.2013 15:40 Life is good."
+        Examples: Day-first Dates
+        | config              | input                        | output                            |
+        | little_endian_dates | 2020-09-19: My first entry.  | 19.09.2020 09:00 My first entry.  |
+        | little_endian_dates | 2020-08-09: My second entry. | 09.08.2020 09:00 My second entry. |
+        | little_endian_dates | 2020-02-29: Test.            | 29.02.2020 09:00 Test.            |
+        | little_endian_dates | 2019-02-29: Test.            | 2019-02-29: Test.                 |
+        | little_endian_dates | 2020-08-32: Test.            | 2020-08-32: Test.                 |
+        | little_endian_dates | 2032-02-01: Test.            | 01.02.2032 09:00 Test.            |
+        | little_endian_dates | 2020-01-01: Test.            | 01.01.2020 09:00 Test.            |
+        | little_endian_dates | 2020-12-31: Test.            | 31.12.2020 09:00 Test.            |
+
+    Scenario Outline: Searching for dates with custom date
+        Given we use the config "<config>.yaml"
+        When we run "jrnl -on '<input>' --short"
+        Then the output should be "<output>"
+
+        Examples: Day-first Dates
+        | config              | input        | output                           |
+        | little_endian_dates | 2013-07-10   | 10.07.2013 15:40 Life is good.   |
+        | little_endian_dates | june 9 2013  | 09.06.2013 15:39 My first entry. |
+        | little_endian_dates | july 10 2013 | 10.07.2013 15:40 Life is good.   |
+        | little_endian_dates | june 2013    | 09.06.2013 15:39 My first entry. |
+        | little_endian_dates | july 2013    | 10.07.2013 15:40 Life is good.   |
+        # @todo month alone with no year should work
+        # | little_endian_dates | june         | 09.06.2013 15:39 My first entry. |
+        # | little_endian_dates | july         | 10.07.2013 15:40 Life is good.   |
 
     Scenario: Writing an entry at the prompt with custom date
         Given we use the config "little_endian_dates.yaml"
@@ -55,20 +75,42 @@ Feature: Reading and writing to journal with custom date formats
         Then the output should not contain "Life is good"
         And the output should not contain "But I'm better."
 
-    Scenario: Create entry using day of the week as entry date.
+    Scenario Outline: Create entry using day of the week as entry date.
         Given we use the config "basic.yaml"
-        When we run "jrnl monday: This is an entry on a Monday."
+        When we run "jrnl <day>: This is an entry on a <day>."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
-        Then the output should contain "monday at 9am" in the local time
-        And the output should contain "This is an entry on a Monday."
+        Then the output should contain "<day> at 9am" in the local time
+        And the output should contain "This is an entry on a <day>."
 
-    Scenario: Create entry using day of the week abbreviations as entry date.
+        Examples: Days of the week
+        | day       |
+        | Monday    |
+        | Tuesday   |
+        | Wednesday |
+        | Thursday  |
+        | Friday    |
+        | Saturday  |
+        | Sunday    |
+        | sunday    |
+        | sUndAy    |
+
+    Scenario Outline: Create entry using day of the week abbreviations as entry date.
         Given we use the config "basic.yaml"
-        When we run "jrnl fri: This is an entry on a Friday."
+        When we run "jrnl <day>: This is an entry on a <weekday>."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
-        Then the output should contain "friday at 9am" in the local time
+        Then the output should contain "<weekday> at 9am" in the local time
+
+        Examples: Days of the week
+        | day | weekday   |
+        | mon | Monday    |
+        | tue | Tuesday   |
+        | wed | Wednesday |
+        | thu | Thursday  |
+        | fri | Friday    |
+        | sat | Saturday  |
+        | sun | Sunday    |
 
     Scenario: Journals with unreadable dates should still be loaded
         Given we use the config "unreadabledates.yaml"
@@ -80,9 +122,14 @@ Feature: Reading and writing to journal with custom date formats
         Given we use the config "mostlyreadabledates.yaml"
         When we run "jrnl -3"
         Then the output should contain "Time machines are possible."
-        When we run "jrnl -1"
         Then the output should contain "I'm going to activate the machine."
         And the output should contain "I've crossed so many timelines. Is there any going back?"
+        And the journal should have 3 entries
+
+    Scenario: Update near-valid dates after journal is edited
+        Given we use the config "mostlyreadabledates.yaml"
+        When we run "jrnl 2222-08-19: I have made it exactly one month into the future."
+        Then the journal should contain "[2019-07-01 14:23] Entry subject"
 
     Scenario: Integers in square brackets should not be read as dates
         Given we use the config "brackets.yaml"
@@ -97,7 +144,7 @@ Feature: Reading and writing to journal with custom date formats
         Then we should get no error
         And the output should contain "2013-01-17T18:37Z" in the local time
 
-    Scenario: Loading entry with ambiguous time stamp
+    Scenario: Loading entry with ambiguous time stamp in timezone-aware journal (like Dayone)
         #https://github.com/jrnl-org/jrnl/issues/153
         Given we use the config "bug153.yaml"
         When we run "jrnl -1"
