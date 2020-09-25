@@ -355,6 +355,26 @@ def no_error(context):
     assert context.exit_status == 0, context.exit_status
 
 
+@then("we flush the output")
+def flush_stdout(context):
+    context.stdout_capture.truncate(0)
+    context.stdout_capture.seek(0)
+
+
+@then("we flush the error output")
+def flush_stderr(context):
+    context.stderr_capture.truncate(0)
+    context.stderr_capture.seek(0)
+
+
+@then("we flush all the output")
+def flush_stderr(context):
+    context.execute_steps('''
+        Then we flush the output
+        Then we flush the error output
+    ''')
+
+
 @then("the output should be")
 @then("the output should be empty")
 @then('the output should be "{text}"')

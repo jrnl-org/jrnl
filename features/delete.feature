@@ -1,44 +1,63 @@
 Feature: Delete entries from journal
     Scenario Outline: Delete flag allows deletion of single entry
         Given we use the config "<config>.yaml"
-        Then the journal should have 3 entries
         When we run "jrnl -n 1"
-        Then the output should contain "2019-10-29 11:13 Third entry."
+        Then the output should contain "2020-09-24 09:14 The third entry finally"
         When we run "jrnl --delete" and enter
             """
             N
             N
             Y
             """
-        Then the journal should have 2 entries
-        When we run "jrnl -n 1"
-        Then the output should contain "2019-10-29 11:11 Second entry."
+        Then we flush the output
+        When we run "jrnl -99 --short"
+        Then the output should be
+            """
+            2020-08-29 11:11 Entry the first.
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            """
 
         Examples: Configs
-        | config       |
-        | deletion     |
-        | empty_folder |
-        | dayone_empty |
+        | config        |
+        | basic_onefile |
+        # | basic_folder  | @todo
+        # | basic_dayone  | @todo
 
-    Scenario: Backing out of interactive delete does not change journal
-        Given we use the config "deletion.yaml"
-        Then the journal should have 3 entries
+    Scenario Outline: Backing out of interactive delete does not change journal
+        Given we use the config "<config>.yaml"
         When we run "jrnl --delete -n 1" and enter
             """
             N
             """
-        Then the journal should have 3 entries
-        And the journal should contain "[2019-10-29 11:11] First entry."
-        And the journal should contain "[2019-10-29 11:11] Second entry."
-        And the journal should contain "[2019-10-29 11:13] Third entry."
+        Then we flush the output
+        When we run "jrnl -99 --short"
+        Then the output should be
+            """
+            2020-08-29 11:11 Entry the first.
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            2020-09-24 09:14 The third entry finally after weeks without writing.
+            """
 
-    Scenario: Delete flag with nonsense input deletes nothing (issue #932)
+        Examples: Configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
+
+    Scenario Outline: Delete flag with nonsense input deletes nothing (issue #932)
         Given we use the config "deletion.yaml"
         Then the journal should have 3 entries
         When we run "jrnl --delete asdfasdf"
         Then the journal should have 3 entries
         When we run "jrnl -n 1"
         Then the output should contain "2019-10-29 11:13 Third entry."
+
+        Examples: Configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
 
     Scenario: Delete flag with tag only deletes tagged entries
         Given we use the config "deletion_filters.yaml"
