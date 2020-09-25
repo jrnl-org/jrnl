@@ -15,7 +15,7 @@ Feature: Using the installed keyring
         But the output should not contain "Password"
 
     Scenario: Encrypt journal with no keyring backend and do not store in keyring
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         And we do not have a keyring
         When we run "jrnl test entry"
         And we run "jrnl --encrypt" and enter
@@ -27,7 +27,7 @@ Feature: Using the installed keyring
         Then we should get no error
 
     Scenario: Encrypt journal with no keyring backend and do store in keyring
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         And we do not have a keyring
         When we run "jrnl test entry"
         And we run "jrnl --encrypt" and enter
@@ -53,7 +53,7 @@ Feature: Using the installed keyring
         And the output should contain "2013-06-10 15:40 Life is good"
 
     Scenario: Mistyping your password
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
             """
             swordfish
@@ -65,7 +65,7 @@ Feature: Using the installed keyring
         And the journal should have 2 entries
 
     Scenario: Mistyping your password, then getting it right
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
             """
             swordfish

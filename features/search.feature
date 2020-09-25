@@ -1,7 +1,7 @@
 Feature: Searching in a journal
 
     Scenario: Displaying entries using -on today should display entries created today.
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl today: Adding an entry right now."
         Then we should see the message "Entry added"
         When we run "jrnl -on today"
@@ -10,7 +10,7 @@ Feature: Searching in a journal
         And the output should not contain "Life is good"
 
     Scenario: Displaying entries using -from day should display correct entries
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl yesterday: This thing happened yesterday"
         Then we should see the message "Entry added"
         When we run "jrnl today at 11:59pm: Adding an entry right now."
@@ -23,7 +23,7 @@ Feature: Searching in a journal
         And the output should not contain "This thing happened yesterday"
 
     Scenario: Displaying entries using -from and -to day should display correct entries
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl yesterday: This thing happened yesterday"
         Then we should see the message "Entry added"
         When we run "jrnl today at 11:59pm: Adding an entry right now."
@@ -36,7 +36,7 @@ Feature: Searching in a journal
         And the output should not contain "A future entry."
 
     Scenario: Searching for a string
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -contains life"
         Then we should get no error
         And the output should be
@@ -64,7 +64,7 @@ Feature: Searching in a journal
         And the output should contain "software"
 
     Scenario: Searching for dates
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -on 2013-06-10 --short"
         Then the output should be "2013-06-10 15:40 Life is good."
         When we run "jrnl -on 'june 6 2013' --short"
@@ -93,7 +93,7 @@ Feature: Searching in a journal
         Then the output should contain "2013-05-17 11:39 This entry has tags!"
 
     Scenario: Loading a sample journal
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -2"
         Then we should get no error
         And the output should be
