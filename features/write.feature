@@ -8,7 +8,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
@@ -26,7 +26,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
@@ -45,7 +45,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
@@ -82,7 +82,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple        |
         | empty_folder |
 
     @todo # There is a problem with DayOne behave tests and console input
@@ -145,7 +145,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple        |
         | empty_folder |
         | dayone       |
 
@@ -170,7 +170,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
@@ -192,7 +192,7 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple       |
         | empty_folder |
 
     @todo # Need to test DayOne w/out an editor

@@ -9,7 +9,7 @@ Feature: Starring entries
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple        |
         | empty_folder |
         | dayone       |
 
@@ -23,7 +23,7 @@ Feature: Starring entries
 
         Examples: configs
         | config_file  |
-        | basic        |
+        | simple        |
         | empty_folder |
         | dayone_empty |
 

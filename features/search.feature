@@ -11,7 +11,7 @@ Feature: Searching in a journal
 
         Examples: configs
         | config       |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
@@ -30,7 +30,7 @@ Feature: Searching in a journal
         
         Examples: configs
         | config       |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
@@ -49,7 +49,7 @@ Feature: Searching in a journal
 
         Examples: configs
         | config       |
-        | basic        |
+        | simple       |
         | empty_folder |
         | dayone       |
 
