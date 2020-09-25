@@ -53,15 +53,20 @@ Feature: Searching in a journal
         | empty_folder |
         | dayone       |
 
-    Scenario: Searching for a string
-        Given we use the config "simple.yaml"
-        When we run "jrnl -contains life"
+    Scenario Outline: Searching for a string
+        Given we use the config "<config>.yaml"
+        When we run "jrnl -contains first --short"
         Then we should get no error
         And the output should be
             """
-            2013-06-10 15:40 Life is good.
-            | But I'm better.
+            2020-08-29 11:11 Entry the first.
             """
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
 
     Scenario: Searching for a string within tag results
         Given we use the config "tags.yaml"
