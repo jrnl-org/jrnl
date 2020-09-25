@@ -111,6 +111,7 @@ Feature: Searching in a journal
         Given we use the config "<config>.yaml"
         When we run "jrnl -on 2020-08-31 --short"
         Then the output should be "2020-08-31 14:32 A second entry in what I hope to be a long series."
+        Then we flush the output
         When we run "jrnl -on 'august 31 2020' --short"
         Then the output should be "2020-08-31 14:32 A second entry in what I hope to be a long series."
 
