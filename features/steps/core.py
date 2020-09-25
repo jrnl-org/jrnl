@@ -433,6 +433,7 @@ def check_output_not_inline(context, text):
 
 
 @then('we should see the message "{text}"')
+@then('the error output should be "{text}"')
 def check_message(context, text):
     out = context.stderr_capture.getvalue()
     assert text in out, [text, out]
