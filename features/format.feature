@@ -22,7 +22,7 @@ Feature: Custom formats
         And "tags" in the json output should not contain "@dan"
 
     Scenario: Exporting using custom templates
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         And we load template "sample.template"
         When we run "jrnl --export sample"
         Then the output should be
@@ -220,12 +220,12 @@ Feature: Custom formats
         Then we should get no error
 
     Scenario: --short displays the short version of entries (only the title)
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -on 2013-06-10 --short"
         Then the output should be "2013-06-10 15:40 Life is good."
 
     Scenario: -s displays the short version of entries (only the title)
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -on 2013-06-10 -s"
         Then the output should be "2013-06-10 15:40 Life is good."
 

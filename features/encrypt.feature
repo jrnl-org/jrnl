@@ -10,7 +10,7 @@ Feature: Encrypting and decrypting journals
     @todo
     Scenario: Trying to decrypt an already unencrypted journal
         # This should warn the user that the journal is already encrypted
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl --decrypt"
         Then the config for journal "default" should have "encrypt" set to "bool:False"
         And the journal should have 2 entries
@@ -20,7 +20,7 @@ Feature: Encrypting and decrypting journals
     # This should warn the user that the journal is already encrypted
 
     Scenario: Encrypting a journal
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
             """
             swordfish

@@ -43,7 +43,7 @@ Feature: Tagging
             """
 
     Scenario:  Entry cans start and end with tags
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl today: @foo came over, we went to a @bar"
         When we run "jrnl --tags"
         Then the output should be
@@ -53,7 +53,7 @@ Feature: Tagging
             """
 
     Scenario:  Excluding a tag should filter it
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl today: @foo came over, we went to a bar"
         When we run "jrnl I have decided I did not enjoy that @bar"
         When we run "jrnl --tags -not @bar"
@@ -63,7 +63,7 @@ Feature: Tagging
             """
 
     Scenario:  Excluding a tag should filter an entry, even if an unfiltered tag is in that entry
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl today: I do @not think this will show up @thought"
         When we run "jrnl today: I think this will show up @thought"
         When we run "jrnl --tags -not @not"
@@ -73,7 +73,7 @@ Feature: Tagging
             """
 
     Scenario:  Excluding multiple tags should filter them
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl today: I do @not think this will show up @thought"
         And we run "jrnl today: I think this will show up @thought"
         And we run "jrnl today: This should @never show up @thought"

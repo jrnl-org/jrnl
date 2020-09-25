@@ -54,7 +54,7 @@ Feature: Searching in a journal
         | dayone       |
 
     Scenario: Searching for a string
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -contains life"
         Then we should get no error
         And the output should be
@@ -82,7 +82,7 @@ Feature: Searching in a journal
         And the output should contain "software"
 
     Scenario: Searching for dates
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -on 2013-06-10 --short"
         Then the output should be "2013-06-10 15:40 Life is good."
         When we run "jrnl -on 'june 6 2013' --short"
@@ -111,7 +111,7 @@ Feature: Searching in a journal
         Then the output should contain "2013-05-17 11:39 This entry has tags!"
 
     Scenario: Loading a sample journal
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -2"
         Then we should get no error
         And the output should be

@@ -1,14 +1,14 @@
 Feature: Importing data
 
     Scenario: --import allows new entry from stdin
-      Given we use the config "basic.yaml"
+      Given we use the config "simple.yaml"
       When we run "jrnl --import" and pipe "[2020-07-05 15:00] Observe and import."
       And we run "jrnl -1"
       Then the journal should contain "[2020-07-05 15:00] Observe and import."
       And the output should contain "Observe and import"
 
     Scenario: --import allows new large entry from stdin
-      Given we use the config "basic.yaml"
+      Given we use the config "simple.yaml"
       When we run "jrnl --import" and pipe
       """
       [2020-07-05 15:00] Observe and import.
@@ -26,7 +26,7 @@ Feature: Importing data
       And the output should contain "end of entry."
 
     Scenario: --import allows multiple new entries from stdin
-      Given we use the config "basic.yaml"
+      Given we use the config "simple.yaml"
       When we run "jrnl --import" and pipe
       """
       [2020-07-05 15:00] Observe and import.
@@ -39,7 +39,7 @@ Feature: Importing data
       Then the journal should contain "[2020-07-05 15:01] Twice as nice."
 
     Scenario: --import allows import new entries from file
-      Given we use the config "basic.yaml"
+      Given we use the config "simple.yaml"
       Then the journal should contain "My first entry."
       And the journal should contain "Life is good."
       But the journal should not contain "I have an @idea"
@@ -50,7 +50,7 @@ Feature: Importing data
       And the journal should contain "PROFIT!"
 
     Scenario: --import prioritizes --file over pipe data if both are given
-      Given we use the config "basic.yaml"
+      Given we use the config "simple.yaml"
       Then the journal should contain "My first entry."
       And the journal should contain "Life is good."
       But the journal should not contain "I have an @idea"

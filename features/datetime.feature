@@ -2,14 +2,14 @@ Feature: Reading and writing to journal with custom date formats
 
     Scenario: Dates can include a time
         # https://github.com/jrnl-org/jrnl/issues/117
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl 2013-11-30 15:42: Project Started."
         Then we should see the message "Entry added"
         And the journal should contain "[2013-11-30 15:42] Project Started."
 
     Scenario: Dates can be in the future
         # https://github.com/jrnl-org/jrnl/issues/185
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl 26/06/2099: Planet? Earth. Year? 2099."
         Then we should see the message "Entry added"
         And the journal should contain "[2099-06-26 09:00] Planet?"
@@ -70,13 +70,13 @@ Feature: Reading and writing to journal with custom date formats
 
     Scenario: Viewing today's entries does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/741
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl -on today"
         Then the output should not contain "Life is good"
         And the output should not contain "But I'm better."
 
     Scenario Outline: Create entry using day of the week as entry date.
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl <day>: This is an entry on a <day>."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
@@ -96,7 +96,7 @@ Feature: Reading and writing to journal with custom date formats
         | sUndAy    |
 
     Scenario Outline: Create entry using day of the week abbreviations as entry date.
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
         When we run "jrnl <day>: This is an entry on a <weekday>."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
