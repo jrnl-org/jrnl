@@ -80,5 +80,8 @@ def after_scenario(context, scenario):
         os.chdir(CWD)
 
     # only clean up if debugging is off and the scenario passed
-    if not BEHAVE_DEBUG_ON_ERROR and scenario.status != "failed":
+    if BEHAVE_DEBUG_ON_ERROR and scenario.status != "failed":
         clean_all_working_dirs()
+    else:
+        clean_all_working_dirs()
+
