@@ -84,4 +84,3 @@ def after_scenario(context, scenario):
         clean_all_working_dirs()
     else:
         clean_all_working_dirs()
-
