@@ -31,7 +31,11 @@ conubia nostra, per inceptos himenaeos.</string>
 	<key>UUID</key>
 	<string>D04D335AFED711EABA18FAFFC2100C3D</string>
 	<key>Tags</key>
-	<array/>
+	<array>
+		<string>ipsum</string>
+		<string>tagone</string>
+		<string>tagtwo</string>
+	</array>
 	<key>Creator</key>
 	<dict>
 		<key>Device Agent</key>

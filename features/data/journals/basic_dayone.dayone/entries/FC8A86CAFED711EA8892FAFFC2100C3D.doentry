@@ -35,7 +35,9 @@ Quisque auctor lacinia consectetur.</string>
 	<key>UUID</key>
 	<string>FC8A86CAFED711EA8892FAFFC2100C3D</string>
 	<key>Tags</key>
-	<array/>
+	<array>
+		<string>tagtwo</string>
+	</array>
 	<key>Creator</key>
 	<dict>
 		<key>Device Agent</key>

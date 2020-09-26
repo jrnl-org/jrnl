@@ -1,29 +1,11 @@
 Feature: Tagging
+# See search.feature for tag-related searches
+# And format.feature for tag-related output
 
-    Scenario: Displaying tags
-        Given we use the config "tags.yaml"
-        When we run "jrnl --tags"
-        Then we should get no error
-        And the output should be
-            """
-            @idea                : 2
-            @journal             : 1
-            @dan                 : 1
-            """
-
-    Scenario: Filtering journals should also filter tags
-        Given we use the config "tags.yaml"
-        When we run "jrnl -from 'may 2013' --tags"
-        Then we should get no error
-        And the output should be
-            """
-            @idea                : 1
-            @dan                 : 1
-            """
-
-    Scenario: Tags should allow certain special characters
-        Given we use the config "tags-216.yaml"
-        When we run "jrnl --tags"
+    Scenario Outline: Tags should allow certain special characters such as /, +, #
+        Given we use the config "<config>.yaml"
+        When we run "jrnl 2020-09-26: This is an entry about @os/2 and @c++ and @c#"
+        When we run "jrnl --tags -on 2020-09-26"
         Then we should get no error
         And the output should be
             """
@@ -32,114 +14,56 @@ Feature: Tagging
             @c#                  : 1
             """
 
-    Scenario:  An email should not be a tag
-        Given we use the config "tags-237.yaml"
-        When we run "jrnl --tags"
-        Then we should get no error
-        And the output should be
-            """
-            @newline             : 1
-            @email               : 1
-            """
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
 
-    Scenario:  Entry cans start and end with tags
-        Given we use the config "simple.yaml"
-        When we run "jrnl today: @foo came over, we went to a @bar"
-        When we run "jrnl --tags"
+    Scenario Outline: Emails addresses should not be parsed as tags
+        Given we use the config "<config>.yaml"
+        When we run "jrnl 2020-09-26: The email address test@example.com doesn't seem to work for me"
+        When we run "jrnl 2020-09-26: The email address test@example.org also doesn't work for me"
+        When we run "jrnl 2020-09-26: I tried test@example.org and test@example.edu too"
+        Then we flush the output
+        When we run "jrnl --tags -on 2020-09-26"
+        Then we should get no error
+        And the output should be "[No tags found in journal.]"
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
+    Scenario Outline: Emails addresses should not be parsed as tags
+        Given we use the config "<config>.yaml"
+        When we run "jrnl 2020-09-26: The email address test@example.com doesn't seem to work for me"
+        When we run "jrnl 2020-09-26: The email address test@example.org also doesn't work for me"
+        When we run "jrnl 2020-09-26: I tried test@example.org and test@example.edu too"
+        Then we flush the output
+        When we run "jrnl --tags -on 2020-09-26"
+        Then we should get no error
+        And the output should be "[No tags found in journal.]"
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
+    Scenario Outline:  Entry can start and end with tags
+        Given we use the config "<config>.yaml"
+        When we run "jrnl 2020-09-26: @foo came over, we went to a @bar"
+        When we run "jrnl --tags -on 2020-09-26"
         Then the output should be
             """
             @foo                 : 1
             @bar                 : 1
             """
 
-    Scenario:  Excluding a tag should filter it
-        Given we use the config "simple.yaml"
-        When we run "jrnl today: @foo came over, we went to a bar"
-        When we run "jrnl I have decided I did not enjoy that @bar"
-        When we run "jrnl --tags -not @bar"
-        Then the output should be
-            """
-            @foo                 : 1
-            """
-
-    Scenario:  Excluding a tag should filter an entry, even if an unfiltered tag is in that entry
-        Given we use the config "simple.yaml"
-        When we run "jrnl today: I do @not think this will show up @thought"
-        When we run "jrnl today: I think this will show up @thought"
-        When we run "jrnl --tags -not @not"
-        Then the output should be
-            """
-            @thought             : 1
-            """
-
-    Scenario:  Excluding multiple tags should filter them
-        Given we use the config "simple.yaml"
-        When we run "jrnl today: I do @not think this will show up @thought"
-        And we run "jrnl today: I think this will show up @thought"
-        And we run "jrnl today: This should @never show up @thought"
-        And we run "jrnl today: What a nice day for filtering @thought"
-        And we run "jrnl --tags -not @not -not @never"
-        Then the output should be
-            """
-            @thought             : 2
-            """
-
-    Scenario: Printing a journal that has multiline entries with tags
-        Given we use the config "multiline-tags.yaml"
-        When we run "jrnl -n 1"
-        Then we should get no error
-        And the output should be
-            """
-            2013-06-09 15:39 Multiple @line entry with @tags.
-            | Tag with @punctuation. afterwards
-            | @TagOnLineAloneWithOutPunctuation
-            | @TagOnLineAloneWithPunctuation.
-            | Text before @tag. And After.
-            | @hi. Hello
-            | hi Hello
-            """
-
-    Scenario: Searching a journal for tags should display entries with that tag.
-        Given we use the config "tags.yaml"
-        When we run "jrnl @dan"
-        Then the output should be
-            """
-            2013-06-10 15:40 I met with @dan.
-            | As alway's he shared his latest @idea on how to rule the world with me.
-            | inst
-            """
-
-    Scenario: Searching a journal for multiple tags with -and should display entries with those tags.
-        Given we use the config "tags.yaml"
-        When we run "jrnl -and @idea @journal"
-        Then the output should be
-            """
-            2013-04-09 15:39 I have an @idea:
-            | (1) write a command line @journal software
-            | (2) ???
-            | (3) PROFIT!
-            """
-
-    Scenario: Loading tags from a DayOne Journal
-        Given we use the config "dayone.yaml"
-        When we run "jrnl --tags"
-        Then the output should be
-            """
-            @work                : 1
-            @play                : 1
-            """
-
-    Scenario: Saving tags from a DayOne Journal
-        Given we use the config "dayone.yaml"
-        When we run "jrnl A hard day at @work"
-        And we run "jrnl --tags"
-        Then the output should be
-            """
-            @work                : 2
-            @play                : 1
-            """
-
-    Scenario: Filtering by tags from a DayOne Journal
-        Given we use the config "dayone.yaml"
-        When we run "jrnl @work"
-        Then the output should be "2013-05-17 11:39 This entry has tags!"
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |

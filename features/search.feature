@@ -68,7 +68,6 @@ Feature: Searching in a journal
         | basic_folder  |
         | basic_dayone  |
 
-    @todo # Day One tag search is broken
     Scenario Outline: Searching for a string within tag results
         Given we use the config "<config>.yaml"
         When we run "jrnl @tagone -contains maybe"
@@ -79,9 +78,8 @@ Feature: Searching in a journal
         | config        |
         | basic_onefile |
         | basic_folder  |
-        #| basic_dayone  |
+        | basic_dayone  |
 
-    @todo # Day One tag search is broken
     Scenario Outline: Searching for a string within AND tag results
         Given we use the config "<config>.yaml"
         When we run "jrnl -and @tagone @tagtwo -contains maybe"
@@ -92,9 +90,8 @@ Feature: Searching in a journal
         | config        |
         | basic_onefile |
         | basic_folder  |
-        #| basic_dayone  |
+        | basic_dayone  |
 
-    @todo # Day One tag search is broken
     Scenario Outline: Searching for a string within NOT tag results
         Given we use the config "<config>.yaml"
         When we run "jrnl -not @tagone -contains lonesome"
@@ -105,7 +102,7 @@ Feature: Searching in a journal
         | config        |
         | basic_onefile |
         | basic_folder  |
-        #| basic_dayone  |
+        | basic_dayone  |
 
     Scenario Outline: Searching for dates
         Given we use the config "<config>.yaml"
@@ -119,7 +116,7 @@ Feature: Searching in a journal
         | config        |
         | basic_onefile |
         | basic_folder  |
-        #| basic_dayone  |
+        | basic_dayone  |
 
     Scenario: Out of order entries to a Folder journal should be listed in date order
       Given we use the config "empty_folder.yaml"
@@ -135,8 +132,69 @@ Feature: Searching in a journal
             2014-03-07 16:37 Second entry of journal.
             """
 
-    # fails when system time is UTC (as on Travis-CI)
-    @skip
+    Scenario Outline: Searching for all tags should show counts of each tag
+        Given we use the config "<config>.yaml"
+        When we run "jrnl --tags"
+        Then we should get no error
+        And the output should be
+            """
+            @tagtwo              : 2
+            @tagone              : 2
+            @tagthree            : 1
+            @ipsum               : 1
+            """
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
+    Scenario Outline: Filtering journals should also filter tags
+        Given we use the config "<config>.yaml"
+        When we run "jrnl -from 'september 2020' --tags"
+        Then we should get no error
+        And the output should be
+            """
+            @tagthree            : 1
+            @tagone              : 1
+            """
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
+    Scenario Outline:  Excluding a tag should filter out all entries with that tag
+        Given we use the config "<config>.yaml"
+        When we run "jrnl --tags -not @tagtwo"
+        Then the output should be
+            """
+            @tagthree            : 1
+            @tagone              : 1
+            """
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
+    Scenario Outline:  Excluding multiple tags should filter out all entries with those tags
+        Given we use the config "<config>.yaml"
+        When we run "jrnl --tags -not @tagone -not @tagthree"
+        Then the output should be
+            """
+            @tagtwo              : 1
+            """
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
     Scenario: DayOne tag searching should work with tags containing a mixture of upper and lower case.
         # https://github.com/jrnl-org/jrnl/issues/354
         Given we use the config "dayone.yaml"

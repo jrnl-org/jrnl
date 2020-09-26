@@ -12,6 +12,40 @@ Feature: Custom formats
         And entry 1 should have an array "tags" with 2 elements
         And entry 2 should have an array "tags" with 2 elements
 
+    Scenario Outline: Printing a journal that has multiline entries with tags
+        Given we use the config "<config>.yaml"
+        When we run "jrnl -n 1 @ipsum"
+        Then we should get no error
+        And the output should be
+        """
+        2020-08-29 11:11 Entry the first.
+        | Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
+        | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus
+        | pellentesque
+        | augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
+        | consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
+        | commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
+        | venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
+        |
+        | Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
+        | ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
+        | potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
+        | molestie metus. Mauris porttitor dui ornare gravida porta. Quisque sed lectus
+        | hendrerit, lacinia ante eget, vulputate ante. Aliquam vitae erat non felis
+        | feugiat sagittis. Phasellus quis arcu fringilla, mattis ligula id, vestibulum
+        | urna. Vivamus facilisis leo a mi tincidunt condimentum. Donec eu euismod enim.
+        | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu ligula eget
+        | velit scelerisque fringilla. Phasellus pharetra justo et nulla fringilla, ac
+        | porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
+        | conubia nostra, per inceptos himenaeos.
+        """
+
+        Examples: configs
+        | config        |
+        | basic_onefile |
+        | basic_folder  |
+        | basic_dayone  |
+
     Scenario: Exporting using filters should only export parts of the journal
         Given we use the config "tags.yaml"
         When we run "jrnl -until 'may 2013' --export json"

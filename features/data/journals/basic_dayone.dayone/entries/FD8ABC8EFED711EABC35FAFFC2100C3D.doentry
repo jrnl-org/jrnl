@@ -23,7 +23,10 @@ ante eget fringilla. @tagthree and also @tagone</string>
 	<key>UUID</key>
 	<string>FD8ABC8EFED711EABC35FAFFC2100C3D</string>
 	<key>Tags</key>
-	<array/>
+	<array>
+		<string>tagthree</string>
+		<string>tagone</string>
+	</array>
 	<key>Creator</key>
 	<dict>
 		<key>Device Agent</key>
