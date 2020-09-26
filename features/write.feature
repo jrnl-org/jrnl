@@ -2,6 +2,7 @@ Feature: Writing new entries.
 
     Scenario Outline: Multiline entry with punctuation should keep title punctuation 
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl This is. the title\\n This is the second line"
         And we run "jrnl -n 1"
         Then the output should contain "This is. the title"
@@ -11,15 +12,11 @@ Feature: Writing new entries.
         | simple       |
         | empty_folder |
         | dayone       |
-
-    Scenario: Multiline entry with punctuation should keep title punctuation in encrypted journal
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl This is. the title\\n This is the second line" and enter "bad doggie no biscuit"
-        And we run "jrnl -n 1" and enter "bad doggie no biscuit"
-        Then the output should contain "This is. the title"
+        | encrypted    |
 
     Scenario Outline: Single line entry with period should be split at period
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl This is. the title"
         And we run "jrnl -n 1"
         Then the output should contain "| the title"
@@ -29,15 +26,11 @@ Feature: Writing new entries.
         | simple       |
         | empty_folder |
         | dayone       |
-
-    Scenario: Single line entry with period should be split at period
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl This is. the title" and enter "bad doggie no biscuit"
-        And we run "jrnl -n 1" and enter "bad doggie no biscuit"
-        Then the output should contain "| the title"
+        | encrypted    |
 
     Scenario Outline: Writing an entry from command line should store the entry
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
@@ -48,13 +41,7 @@ Feature: Writing new entries.
         | simple       |
         | empty_folder |
         | dayone       |
-
-    Scenario: Writing an entry from command line should store the entry (encrypted journal)
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa." and enter "bad doggie no biscuit"
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1" and enter "bad doggie no biscuit"
-        Then the output should contain "2013-07-23 09:00 A cold and stormy day."
+        | encrypted    |
 
     Scenario Outline: Writing an empty entry from the editor should yield "Nothing saved to file" message
         Given we use the config "<config_file>.yaml"
@@ -109,6 +96,7 @@ Feature: Writing new entries.
     Scenario Outline: Writing an entry does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/87
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
@@ -119,16 +107,11 @@ Feature: Writing new entries.
         | editor              |
         | editor_empty_folder |
         | dayone              |
-
-    Scenario: Writing an entry in encrypted journal does not print the entire journal
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa." and enter "bad doggie no biscuit"
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1" and enter "bad doggie no biscuit"
-        Then the output should not contain "Life is good"
+        | encrypted           |
 
     Scenario Outline: Embedded period stays in title
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 04-24-2014: Created a new website - empty.com. Hope to get a lot of traffic."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
@@ -140,23 +123,14 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | simple        |
+        | simple       |
         | empty_folder |
         | dayone       |
-
-    Scenario: Embedded period stays in title in encrypted journal
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl 04-24-2014: Created a new website - empty.com. Hope to get a lot of traffic." and enter "bad doggie no biscuit"
-        Then we should see the message "Entry added"
-        When we run "jrnl -1" and enter "bad doggie no biscuit"
-        Then the output should contain
-            """
-            2014-04-24 09:00 Created a new website - empty.com.
-            | Hope to get a lot of traffic.
-            """
+        | encrypted    |
 
     Scenario Outline: Write and read emoji support
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
@@ -168,14 +142,7 @@ Feature: Writing new entries.
         | simple       |
         | empty_folder |
         | dayone       |
-
-    Scenario: Write and read emoji support in encrypted journal
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘" and enter "bad doggie no biscuit"
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1" and enter "bad doggie no biscuit"
-        Then the output should contain "🌞"
-        And the output should contain "🐘"
+        | encrypted    |
 
     Scenario Outline: Writing an entry at the prompt (no editor) should store the entry
         Given we use the config "<config_file>.yaml"
