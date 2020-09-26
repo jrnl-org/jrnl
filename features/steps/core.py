@@ -368,11 +368,13 @@ def flush_stderr(context):
 
 
 @then("we flush all the output")
-def flush_stderr(context):
-    context.execute_steps('''
+def flush_all_output(context):
+    context.execute_steps(
+        """
         Then we flush the output
         Then we flush the error output
-    ''')
+    """
+    )
 
 
 @then("the output should be")

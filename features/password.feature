@@ -12,7 +12,6 @@ Feature: Using the installed keyring
         Then the config for journal "simple" should have "encrypt" set to "bool:True"
         When we run "jrnl simple -n 1"
         Then the output should contain "2013-06-10 15:40 Life is good"
-        But the output should not contain "Password"
 
     Scenario: Encrypt journal with no keyring backend and do not store in keyring
         Given we use the config "simple.yaml"
@@ -37,6 +36,7 @@ Feature: Using the installed keyring
             y
             """
         Then we should get no error
+        # @todo add step to check contents of keyring
 
     @todo
     Scenario: Open an encrypted journal with wrong password in keyring
@@ -46,11 +46,15 @@ Feature: Using the installed keyring
     Scenario: Open encrypted journal when keyring exists but fails
     # This should ask the user for the password after the keyring fails
 
-    Scenario: Loading an encrypted journal
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl -n 1" and enter "bad doggie no biscuit"
-        Then we should be prompted for a password
-        And the output should contain "2013-06-10 15:40 Life is good"
+    @todo
+    Scenario: Decrypt journal with password in keyring
+
+    @todo
+    Scenario: Decrypt journal without a keyring
+
+    @todo
+    Scenario: Decrypt journal when keyring exists but fails
+    # This should ask the user for the password after the keyring fails
 
     Scenario: Mistyping your password
         Given we use the config "simple.yaml"
