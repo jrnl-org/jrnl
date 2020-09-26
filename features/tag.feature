@@ -22,8 +22,8 @@ Feature: Tagging
 
     Scenario Outline: Emails addresses should not be parsed as tags
         Given we use the config "<config>.yaml"
-        When we run "jrnl 2020-09-26: The email address test@example.com doesn't seem to work for me"
-        When we run "jrnl 2020-09-26: The email address test@example.org also doesn't work for me"
+        When we run "jrnl 2020-09-26: The email address test@example.com does not seem to work for me"
+        When we run "jrnl 2020-09-26: The email address test@example.org also does not work for me"
         When we run "jrnl 2020-09-26: I tried test@example.org and test@example.edu too"
         Then we flush the output
         When we run "jrnl --tags -on 2020-09-26"
