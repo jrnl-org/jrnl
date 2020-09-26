@@ -130,6 +130,16 @@ def set_config(context, config_file):
             cf.write("version: {}".format(__version__))
 
 
+@given('we use the password "{password}" if prompted')
+def use_password_forever(context, password):
+    context.password = password
+
+
+@given('we use the password "{password}" {num:d} times if prompted')
+def use_password(context, password, num=1):
+    context.password = iter([password] * num)
+
+
 @given("we have a keyring")
 def set_keyring(context):
     keyring.set_keyring(TestKeyring())
@@ -210,8 +220,9 @@ def matches_editor_arg(context, regex):
 
 
 def _mock_getpass(inputs):
-    def prompt_return(prompt="Password: "):
-        print(prompt)
+    def prompt_return(prompt=""):
+        if type(inputs) == str:
+            return inputs
         try:
             return next(inputs)
         except StopIteration:
@@ -251,11 +262,16 @@ def run_with_input(context, command, inputs=""):
         context.editor_file = tmpfile
         Path(tmpfile).touch()
 
+    if "password" in context:
+        password = context.password
+    else:
+        password = text
+
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
         patch("builtins.input", side_effect=_mock_input(text)) as mock_input, \
-        patch("getpass.getpass", side_effect=_mock_getpass(text)) as mock_getpass, \
+        patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
         patch("sys.stdin.read", side_effect=text) as mock_read, \
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor \
     :
@@ -323,12 +339,23 @@ def run(context, command, text="", cache_dir=None):
     def _mock_editor(command):
         context.editor_command = command
 
+    if "password" in context:
+        password = context.password
+    else:
+        password = iter(text)
+
     try:
-        with patch("sys.argv", args), patch(
-            "subprocess.call", side_effect=_mock_editor
-        ), patch("sys.stdin.read", side_effect=lambda: text):
+        # fmt: off
+        # see: https://github.com/psf/black/issues/664
+        with \
+            patch("sys.argv", args), \
+            patch("getpass.getpass", side_effect=_mock_getpass(password)), \
+            patch("subprocess.call", side_effect=_mock_editor), \
+            patch("sys.stdin.read", side_effect=lambda: text) \
+        :
             cli(args[1:])
             context.exit_status = 0
+        # fmt: on
     except SystemExit as e:
         context.exit_status = e.code
 

@@ -21,7 +21,7 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
             bad doggie no biscuit
             bad doggie no biscuit
             """
-        Then the output should contain "Password"
+        Then we should be prompted for a password
         And the output should contain "2013-06-10 15:40 Life is good"
 
     Scenario: Upgrading a config without colors to colors

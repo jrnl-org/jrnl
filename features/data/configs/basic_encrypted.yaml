@@ -6,7 +6,7 @@ colors:
 default_hour: 9
 default_minute: 0
 editor: ""
-encrypt: false
+encrypt: true
 highlight: true
 journals:
   default: features/journals/basic_encrypted.journal

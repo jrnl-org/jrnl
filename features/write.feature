@@ -93,6 +93,7 @@ Feature: Writing new entries.
 
     Scenario Outline: Writing an empty entry from the editor should yield nothing
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl" and enter nothing
         Then the output should be empty
         And the error output should contain "[Nothing saved to file]"
@@ -103,13 +104,7 @@ Feature: Writing new entries.
         | editor              |
         | editor_empty_folder |
         | dayone              |
-
-    Scenario: Writing an empty entry from the editor should yield nothing in encrypted journal
-        Given we use the config "editor_encrypted.yaml"
-        When we run "jrnl" and enter "bad doggie no biscuit"
-        Then the output should be "Password:"
-        And the error output should contain "[Nothing saved to file]"
-        And the editor should have been called
+        | editor_encrypted    |
 
     Scenario Outline: Writing an entry does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/87
@@ -184,6 +179,7 @@ Feature: Writing new entries.
 
     Scenario Outline: Writing an entry at the prompt (no editor) should store the entry
         Given we use the config "<config_file>.yaml"
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl" and enter "25 jul 2013: I saw Elvis. He's alive."
         Then we should get no error
         When we run "jrnl -on '2013-07-25'"
@@ -194,21 +190,10 @@ Feature: Writing new entries.
         | config_file  |
         | simple       |
         | empty_folder |
+        | encrypted    |
 
     @todo # Need to test DayOne w/out an editor
     Scenario: Writing an entry at the prompt (no editor) in DayOne journal
-
-    Scenario: Writing an entry at the prompt (no editor) in encrypted journal
-        Given we use the config "encrypted.yaml"
-        When we run "jrnl" and enter
-            """
-            bad doggie no biscuit
-            25 jul 2013: I saw Elvis. He's alive.
-            """
-        Then we should get no error
-        When we run "jrnl -on '2013-07-25'" and enter "bad doggie no biscuit"
-        Then the output should contain "2013-07-25 09:00 I saw Elvis."
-        And the output should contain "| He's alive."
 
     Scenario: Writing into Dayone
         Given we use the config "dayone.yaml"

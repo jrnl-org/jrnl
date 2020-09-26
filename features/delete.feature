@@ -1,7 +1,8 @@
 Feature: Delete entries from journal
     Scenario Outline: Delete flag allows deletion of single entry
         Given we use the config "<config>.yaml"
-        When we run "jrnl -n 1"
+        And we use the password "test" if prompted
+        When we run "jrnl -1"
         Then the output should contain "2020-09-24 09:14 The third entry finally"
         When we run "jrnl --delete" and enter
             """
@@ -20,6 +21,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config        |
         | basic_onefile |
+        | basic_encrypted |
         # | basic_folder  | @todo
         # | basic_dayone  | @todo
 
