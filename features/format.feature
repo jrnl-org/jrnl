@@ -75,7 +75,6 @@ Feature: Custom formats
 
             ####### ATX H4
 
-
             ######## ATX H5
 
             ######### ATX H6
