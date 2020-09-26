@@ -1,4 +1,4 @@
-[2020-08-31 02:32:00 PM] A second entry in what I hope to be a long series.
+[2020-08-31 02:32:00 PM] A second entry in what I hope to be a long series. *
 Sed sit amet metus et sapien feugiat elementum. Aliquam bibendum lobortis leo
 vitae tempus. Donec eleifend nec mi non volutpat. Lorem ipsum dolor sit amet,
 consectetur adipiscing elit. Praesent ut sodales libero. Maecenas nisl lorem,
