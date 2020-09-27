@@ -27,7 +27,7 @@ Feature: Searching in a journal
         Then the output should contain "Adding an entry right now."
         And the output should contain "A future entry."
         And the output should not contain "This thing happened yesterday"
-        
+
         Examples: configs
         | config       |
         | simple       |
@@ -58,9 +58,9 @@ Feature: Searching in a journal
         When we run "jrnl -contains first --short"
         Then we should get no error
         And the output should be
-            """
-            2020-08-29 11:11 Entry the first.
-            """
+        """
+        2020-08-29 11:11 Entry the first.
+        """
 
         Examples: configs
         | config        |
@@ -119,30 +119,30 @@ Feature: Searching in a journal
         | basic_dayone  |
 
     Scenario: Out of order entries to a Folder journal should be listed in date order
-      Given we use the config "empty_folder.yaml"
-      When we run "jrnl 3/7/2014 4:37pm: Second entry of journal."
-      Then we should see the message "Entry added"
-      When we run "jrnl 23 July 2013: Testing folder journal."
-      Then we should see the message "Entry added"
-      When we run "jrnl -2"
-      Then the output should be
-            """
-            2013-07-23 09:00 Testing folder journal.
+        Given we use the config "empty_folder.yaml"
+        When we run "jrnl 3/7/2014 4:37pm: Second entry of journal."
+        Then we should see the message "Entry added"
+        When we run "jrnl 23 July 2013: Testing folder journal."
+        Then we should see the message "Entry added"
+        When we run "jrnl -2"
+        Then the output should be
+        """
+        2013-07-23 09:00 Testing folder journal.
 
-            2014-03-07 16:37 Second entry of journal.
-            """
+        2014-03-07 16:37 Second entry of journal.
+        """
 
     Scenario Outline: Searching for all tags should show counts of each tag
         Given we use the config "<config>.yaml"
         When we run "jrnl --tags"
         Then we should get no error
         And the output should be
-            """
-            @tagtwo              : 2
-            @tagone              : 2
-            @tagthree            : 1
-            @ipsum               : 1
-            """
+        """
+        @tagtwo              : 2
+        @tagone              : 2
+        @tagthree            : 1
+        @ipsum               : 1
+        """
 
         Examples: configs
         | config        |
@@ -155,10 +155,10 @@ Feature: Searching in a journal
         When we run "jrnl -from 'september 2020' --tags"
         Then we should get no error
         And the output should be
-            """
-            @tagthree            : 1
-            @tagone              : 1
-            """
+        """
+        @tagthree            : 1
+        @tagone              : 1
+        """
 
         Examples: configs
         | config        |
@@ -170,10 +170,10 @@ Feature: Searching in a journal
         Given we use the config "<config>.yaml"
         When we run "jrnl --tags -not @tagtwo"
         Then the output should be
-            """
-            @tagthree            : 1
-            @tagone              : 1
-            """
+        """
+        @tagthree            : 1
+        @tagone              : 1
+        """
 
         Examples: configs
         | config        |
@@ -185,9 +185,9 @@ Feature: Searching in a journal
         Given we use the config "<config>.yaml"
         When we run "jrnl --tags -not @tagone -not @tagthree"
         Then the output should be
-            """
-            @tagtwo              : 1
-            """
+        """
+        @tagtwo              : 1
+        """
 
         Examples: configs
         | config        |
@@ -206,23 +206,23 @@ Feature: Searching in a journal
         When we run "jrnl -2"
         Then we should get no error
         And the output should be
-            """
-            2013-06-09 15:39 My first entry.
-            | Everything is alright
+        """
+        2013-06-09 15:39 My first entry.
+        | Everything is alright
 
-            2013-06-10 15:40 Life is good.
-            | But I'm better.
-            """
+        2013-06-10 15:40 Life is good.
+        | But I'm better.
+        """
 
     Scenario: Loading a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
         Then we should get no error
         And the output should be
-            """
-            2013-05-17 11:39 This entry has tags!
+        """
+        2013-05-17 11:39 This entry has tags!
 
-            2013-06-17 20:38 This entry has a location.
+        2013-06-17 20:38 This entry has a location.
 
-            2013-07-17 11:38 This entry is starred!
-            """
+        2013-07-17 11:38 This entry is starred!
+        """

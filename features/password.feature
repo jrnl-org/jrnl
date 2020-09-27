@@ -4,11 +4,11 @@ Feature: Using the installed keyring
         Given we use the config "multiple.yaml"
         And we have a keyring
         When we run "jrnl simple --encrypt" and enter
-            """
-            sabertooth
-            sabertooth
-            y
-            """
+        """
+        sabertooth
+        sabertooth
+        y
+        """
         Then the config for journal "simple" should have "encrypt" set to "bool:True"
         When we run "jrnl simple -n 1"
         Then the output should contain "2013-06-10 15:40 Life is good"
@@ -18,11 +18,11 @@ Feature: Using the installed keyring
         And we do not have a keyring
         When we run "jrnl test entry"
         And we run "jrnl --encrypt" and enter
-            """
-            password
-            password
-            n
-            """
+        """
+        password
+        password
+        n
+        """
         Then we should get no error
 
     Scenario: Encrypt journal with no keyring backend and do store in keyring
@@ -30,11 +30,11 @@ Feature: Using the installed keyring
         And we do not have a keyring
         When we run "jrnl test entry"
         And we run "jrnl --encrypt" and enter
-            """
-            password
-            password
-            y
-            """
+        """
+        password
+        password
+        y
+        """
         Then we should get no error
         # @todo add step to check contents of keyring
 
@@ -59,10 +59,10 @@ Feature: Using the installed keyring
     Scenario: Mistyping your password
         Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
-            """
-            swordfish
-            sordfish
-            """
+        """
+        swordfish
+        sordfish
+        """
         Then we should be prompted for a password
         And we should see the message "Passwords did not match"
         And the config for journal "default" should not have "encrypt" set
@@ -71,13 +71,13 @@ Feature: Using the installed keyring
     Scenario: Mistyping your password, then getting it right
         Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
-            """
-            swordfish
-            sordfish
-            swordfish
-            swordfish
-            n
-            """
+        """
+        swordfish
+        sordfish
+        swordfish
+        swordfish
+        n
+        """
         Then we should be prompted for a password
         And we should see the message "Passwords did not match"
         And we should see the message "Journal encrypted"

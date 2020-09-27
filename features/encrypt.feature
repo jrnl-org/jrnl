@@ -22,11 +22,11 @@ Feature: Encrypting and decrypting journals
     Scenario: Encrypting a journal
         Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
-            """
-            swordfish
-            swordfish
-            n
-            """
+        """
+        swordfish
+        swordfish
+        n
+        """
         Then we should see the message "Journal encrypted"
         And the config for journal "default" should have "encrypt" set to "bool:True"
         When we run "jrnl -n 1" and enter "swordfish"

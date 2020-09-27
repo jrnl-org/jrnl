@@ -54,7 +54,8 @@ Feature: Writing new entries.
         | editor_empty_folder |
         | dayone              |
 
-    @todo # this might need a new step for editors + encryption
+    # this might need a new step for editors + encryption
+    @todo
     Scenario: Writing an empty entry from the editor in encrypted journal should yield "Nothing saved to file" message
         Given we use the config "editor_encrypted.yaml"
         #When we open the editor and enter nothing
@@ -69,14 +70,16 @@ Feature: Writing new entries.
 
         Examples: configs
         | config_file  |
-        | simple        |
+        | simple       |
         | empty_folder |
 
-    @todo # There is a problem with DayOne behave tests and console input
+    @todo
     Scenario: Writing an empty entry from the command line in DayOne journal
+    # There is a problem with DayOne behave tests and console input
 
-    @todo # Need some steps for encryption + editor
+    @todo
     Scenario: Writing an empty entry from the command line in encrypted journal
+    # Need some steps for encryption + editor
 
     Scenario Outline: Writing an empty entry from the editor should yield nothing
         Given we use the config "<config_file>.yaml"
@@ -116,10 +119,10 @@ Feature: Writing new entries.
         Then we should see the message "Entry added"
         When we run "jrnl -1"
         Then the output should be
-            """
-            2014-04-24 09:00 Created a new website - empty.com.
-            | Hope to get a lot of traffic.
-            """
+        """
+        2014-04-24 09:00 Created a new website - empty.com.
+        | Hope to get a lot of traffic.
+        """
 
         Examples: configs
         | config_file  |
@@ -159,8 +162,9 @@ Feature: Writing new entries.
         | empty_folder |
         | encrypted    |
 
-    @todo # Need to test DayOne w/out an editor
+    @todo
     Scenario: Writing an entry at the prompt (no editor) in DayOne journal
+    # Need to test DayOne w/out an editor
 
     Scenario: Writing into Dayone
         Given we use the config "dayone.yaml"
@@ -188,10 +192,10 @@ Feature: Writing new entries.
         Then we should see the message "Entry added"
         When we run "jrnl -1"
         Then the output should be
-            """
-            2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
-            | I'm feeling sore because I forgot to stretch.
-            """
+        """
+        2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
+        | I'm feeling sore because I forgot to stretch.
+        """
 
     Scenario: Opening an folder that's not a DayOne folder should treat as folder journal
         Given we use the config "empty_folder.yaml"

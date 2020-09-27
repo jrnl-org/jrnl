@@ -60,64 +60,64 @@ Feature: Custom formats
         And we load template "sample.template"
         When we run "jrnl --export sample"
         Then the output should be
-            """
-            My first entry.
-            ---------------
+        """
+        My first entry.
+        ---------------
 
-            Everything is alright
+        Everything is alright
 
-            Life is good.
-            -------------
+        Life is good.
+        -------------
 
-            But I'm better.
-            """
+        But I'm better.
+        """
 
     Scenario: Increasing Headings on Markdown export
         Given we use the config "markdown-headings-335.yaml"
         When we run "jrnl --export markdown"
         Then the output should be
-            """
-            # 2015
+        """
+        # 2015
 
-            ## April
+        ## April
 
-            ### 2015-04-14 13:23 Heading Test
+        ### 2015-04-14 13:23 Heading Test
 
-            #### H1-1
+        #### H1-1
 
-            #### H1-2
+        #### H1-2
 
-            #### H1-3
+        #### H1-3
 
-            ##### H2-1
+        ##### H2-1
 
-            ##### H2-2
+        ##### H2-2
 
-            ##### H2-3
+        ##### H2-3
 
-            Horizontal Rules (ignore)
+        Horizontal Rules (ignore)
 
-            ---
+        ---
 
-            ===
+        ===
 
-            #### ATX H1
+        #### ATX H1
 
-            ##### ATX H2
+        ##### ATX H2
 
-            ###### ATX H3
+        ###### ATX H3
 
-            ####### ATX H4
+        ####### ATX H4
 
-            ######## ATX H5
+        ######## ATX H5
 
-            ######### ATX H6
+        ######### ATX H6
 
-            Stuff
+        Stuff
 
-            More stuff
-            more stuff again
-            """
+        More stuff
+        more stuff again
+        """
 
     # the "deletion" journal is used because it doesn't have a newline at the
     # end of the last entry
@@ -127,20 +127,20 @@ Feature: Custom formats
         Given we use the config "deletion.yaml"
         When we run "jrnl --format markdown"
         Then the output should be
-            """
-            # 2019
+        """
+        # 2019
 
-            ## October
+        ## October
 
-            ### 2019-10-29 11:11 First entry.
-
-
-            ### 2019-10-29 11:11 Second entry.
+        ### 2019-10-29 11:11 First entry.
 
 
-            ### 2019-10-29 11:13 Third entry.
+        ### 2019-10-29 11:11 Second entry.
 
-            """
+
+        ### 2019-10-29 11:13 Third entry.
+
+        """
 
     Scenario: Exporting to XML
         Given we use the config "tags.yaml"
@@ -154,11 +154,11 @@ Feature: Custom formats
         Given we use the config "tags.yaml"
         When we run "jrnl --export tags"
         Then the output should be
-            """
-            @idea                : 2
-            @journal             : 1
-            @dan                 : 1
-            """
+        """
+        @idea                : 2
+        @journal             : 1
+        @dan                 : 1
+        """
 
     Scenario: Exporting fancy
         Given we use the config "tags.yaml"
@@ -210,34 +210,34 @@ Feature: Custom formats
         And we create cache directory "bug768"
         When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
         Then cache directory "bug768" should contain the files
-            """
-            [
-            "2019-10-29_first-entry.md",
-            "2019-10-29_second-entry.md",
-            "2019-10-29_third-entry.md"
-            ]
-            """
+        """
+        [
+        "2019-10-29_first-entry.md",
+        "2019-10-29_second-entry.md",
+        "2019-10-29_third-entry.md"
+        ]
+        """
         And the content of file "2019-10-29_third-entry.md" in cache directory "bug768" should be
-            """
-            title: Third entry.
-            date: 2019-10-29 11:13
-            starred: False
-            tags:
+        """
+        title: Third entry.
+        date: 2019-10-29 11:13
+        starred: False
+        tags:
 
-            """
+        """
 
     Scenario: Printing a journal that has multiline entries
         Given we use the config "multiline.yaml"
         When we run "jrnl -n 1"
         Then we should get no error
         And the output should be
-            """
-            2013-06-09 15:39 Multiple line entry.
-            | This is the first line.
-            | This line doesn't have any ending punctuation
-            |
-            | There is a blank line above this.
-            """
+        """
+        2013-06-09 15:39 Multiple line entry.
+        | This is the first line.
+        | This line doesn't have any ending punctuation
+        |
+        | There is a blank line above this.
+        """
 
     Scenario: Exporting dayone to json
         Given we use the config "dayone.yaml"

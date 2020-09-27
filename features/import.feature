@@ -19,15 +19,15 @@ Feature: Importing data
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --import" and pipe
-            """
-            [2020-07-05 15:00] Observe and import.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada quis
-            est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque augue
-            et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu consequat.
-            Aenean ante ex, elementum ut interdum et, mattis eget lacus. In commodo nulla nec
-            tellus placerat, sed ultricies metus bibendum. Duis eget venenatis erat. In at
-            dolor dui end of entry.
-            """
+        """
+        [2020-07-05 15:00] Observe and import.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada quis
+        est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque augue
+        et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu consequat.
+        Aenean ante ex, elementum ut interdum et, mattis eget lacus. In commodo nulla nec
+        tellus placerat, sed ultricies metus bibendum. Duis eget venenatis erat. In at
+        dolor dui end of entry.
+        """
         Then we flush the output
         When we run "jrnl -on 2020-07-05"
         Then the output should contain "2020-07-05 15:00 Observe and import."
@@ -45,13 +45,13 @@ Feature: Importing data
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --import" and pipe
-            """
-            [2020-07-05 15:00] Observe and import.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        """
+        [2020-07-05 15:00] Observe and import.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-            [2020-07-05 15:01] Twice as nice.
-            Sed dignissim sed nisl eu consequat.
-            """
+        [2020-07-05 15:01] Twice as nice.
+        Sed dignissim sed nisl eu consequat.
+        """
         Then we flush the output
         When we run "jrnl -on 2020-07-05"
         Then the output should contain "2020-07-05 15:00 Observe and import."
@@ -84,9 +84,9 @@ Feature: Importing data
         But the journal should not contain "I have an @idea"
         And the journal should not contain "I met with"
         When we run "jrnl --import --file features/journals/tags.journal" and pipe
-            """
-            [2020-07-05 15:00] I should not exist!
-            """
+        """
+        [2020-07-05 15:00] I should not exist!
+        """
         Then the journal should contain "My first entry."
         And the journal should contain "PROFIT!"
         But the journal should not contain "I should not exist!"

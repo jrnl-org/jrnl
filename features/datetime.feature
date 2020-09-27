@@ -19,13 +19,13 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl -n 2"
         Then we should get no error
         And the output should be
-            """
-            09.06.2013 15:39 My first entry.
-            | Everything is alright
+        """
+        09.06.2013 15:39 My first entry.
+        | Everything is alright
 
-            10.07.2013 15:40 Life is good.
-            | But I'm better.
-            """
+        10.07.2013 15:40 Life is good.
+        | But I'm better.
+        """
 
     Scenario Outline: Writing an entry from command line with custom date
         Given we use the config "<config>.yaml"
@@ -150,6 +150,6 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl -1"
         Then we should get no error
         And the output should be
-            """
-            2013-10-27 03:27 Some text.
-            """
+        """
+        2013-10-27 03:27 Some text.
+        """
