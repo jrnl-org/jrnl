@@ -31,6 +31,7 @@ class Journal:
             "default_hour": 9,
             "default_minute": 0,
             "timeformat": "%Y-%m-%d %H:%M",
+            "timeformat_strict": False,
             "tagsymbols": "@",
             "highlight": True,
             "linewrap": 80,
@@ -129,9 +130,12 @@ class Journal:
 
         date_blob_re = re.compile("(?:^|\n)\\[([^\\]]+)\\] ")
 
-        # Use strict date matching, if using the default time format
+        # Use strict date matching
+        # (1) if using the default time format, and
+        # (2) if timeformat_strict is set to true.
         if self.config["timeformat"] == "%Y-%m-%d %H:%M":
-            date_blob_re = re.compile("(?:^|\n)\\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\\] ")
+            if self.config["timeformat_strict"]:
+                date_blob_re = re.compile("(?:^|\n)\\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\\] ")
 
         last_entry_pos = 0
         for match in date_blob_re.finditer(journal_txt):
