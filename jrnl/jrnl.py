@@ -290,7 +290,7 @@ def _delete_search_results(journal, old_entries, **kwargs):
         journal.write()
 
 
-def _display_search_results(args, journal, config, **kwargs):
+def _display_search_results(args, journal, **kwargs):
     if args.short:
         print(journal.pprint(short=True))
 
@@ -302,6 +302,9 @@ def _display_search_results(args, journal, config, **kwargs):
         print(exporter.export(journal, args.filename))
     else:
         # Display according display_format config option
-        config_selected = config.get("display_format", journal.config["display_format"])
+        config_selected = kwargs['config'].get("display_format")
         exporter = plugins.get_exporter(config_selected)
-        print(exporter.export(journal, args.filename))
+        if config_selected:
+            print(exporter.export(journal, args.filename))
+        else:
+            print(journal.pprint())
