@@ -302,7 +302,7 @@ def _display_search_results(args, journal, **kwargs):
         print(exporter.export(journal, args.filename))
     else:
         # Display according display_format config option
-        config_selected = kwargs['config'].get("display_format")
+        config_selected = kwargs["config"].get("display_format")
         exporter = plugins.get_exporter(config_selected)
         if config_selected:
             print(exporter.export(journal, args.filename))
