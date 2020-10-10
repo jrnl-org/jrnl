@@ -112,7 +112,7 @@ jobs:
 
     # Python 3.9 Tests
     - name: Python 3.9 on Linux
-      python: 3.9
+      python: 3.9-dev
     - <<: *test_mac
       name: Python 3.9 on MacOS
       env:
