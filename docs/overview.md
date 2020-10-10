@@ -18,16 +18,16 @@ by almost any electronic device, now and for the foreseeable future.
 ## Tags
 
 To make it easier to find entries later, `jrnl` includes support for inline tags
-(the default tag symbol is `@`). Entries can be found and filtered using tags
+(the default tag symbol is `@`). You can find and filter entries by using tags
 along with other search criteria.
 
 ## Support for Multiple Journals
   
-`jrnl` includes support for the creation and management of multiple journals,
-each of which can be stored as a single file or as a set of files. Entries are
-automatically timestamped in a human-readable format that makes it easy to view
-multiple entries at a time. `jrnl` can easily find the entries you want so that
-you can read them or edit them.
+`jrnl` includes support for the creation of multiple journals, each of which
+can be stored as a single file or as a set of files. Entries are automatically
+timestamped in a human-readable format that makes it easy to view multiple
+entries at a time. `jrnl` can easily find the entries you want so that you can
+read them or edit them.
 
 ## Support for External Editors
 
