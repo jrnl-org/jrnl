@@ -35,6 +35,7 @@ aliases:
         - $HOME/.pyenv/versions
         - $HOME/Library/Caches/pypoetry
     before_install:
+      - brew upgrade pyenv
       - eval "$(pyenv init -)"
       - pyenv install -s $JRNL_PYTHON_VERSION
       - pyenv global $JRNL_PYTHON_VERSION
@@ -110,21 +111,10 @@ jobs:
 
     # Python 3.9 Dev Tests
     - name: Python 3.9 on Linux
-      before_install:
-        - pip install toml
-        - python .build/allow_all_python_version.py
       python: 3.9-dev
     - <<: *test_mac
       name: Python 3.9 on MacOS
-      before_install:
-        - brew upgrade pyenv
-        - eval "$(pyenv init -)"
-        - pyenv install -s $JRNL_PYTHON_VERSION
-        - pyenv global $JRNL_PYTHON_VERSION
-        - pip install --upgrade pip
-        - pip --version
-        - pip install toml
-        - python .build/allow_all_python_version.py
+      python: 3.9
       env:
         JRNL_PYTHON_VERSION: 3.9.0b5
     - <<: *test_windows
