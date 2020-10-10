@@ -62,6 +62,9 @@ aliases:
 jobs:
   fast_finish: true
   allow_failures:
+    - name: Python 3.10 on Windows
+    - name: Python 3.10 on Linux
+    - name: Python 3.10 on MacOS
     - python: nightly
 
   include:
@@ -130,6 +133,39 @@ jobs:
       env:
         <<: *env_windows
         JRNL_PYTHON_VERSION: 3.9.0
+
+    # Python 3.10 Tests
+    - name: Python 3.10 on Linux
+      before_install:
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      python: 3.10-dev
+    - <<: *test_mac
+      name: Python 3.10 on MacOS
+      before_install:
+        - brew upgrade pyenv
+        - eval "$(pyenv init -)"
+        - pyenv install -s $JRNL_PYTHON_VERSION
+        - pyenv global $JRNL_PYTHON_VERSION
+        - pip install --upgrade pip
+        - pip --version
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      env:
+        JRNL_PYTHON_VERSION: 3.10-dev
+    - <<: *test_windows
+      name: Python 3.10 on Windows
+      before_install:
+        - choco install python --pre
+        - python --version
+        - python -m pip install --upgrade pip
+        - pip --version
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      python: 3.10
+      env:
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.10.0-a1
 
     # ... and beyond!
     - name: Python nightly on Linux
