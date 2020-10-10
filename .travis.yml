@@ -112,13 +112,9 @@ jobs:
 
     # Python 3.9 Tests
     - name: Python 3.9 on Linux
-      python: 3.9-dev
+      python: 3.9
     - <<: *test_mac
       name: Python 3.9 on MacOS
-      before_install:
-        - eval "$(pyenv init -)"
-        - pyenv install -s $JRNL_PYTHON_VERSION
-        - pyenv global $JRNL_PYTHON_VERSION
       env:
         JRNL_PYTHON_VERSION: 3.9.0
     - <<: *test_windows
