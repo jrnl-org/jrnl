@@ -24,9 +24,12 @@ from .args import parse_args
 
 
 def configure_logger(debug=False):
+    if not debug:
+        logging.disable()
+        return
+
     logging.basicConfig(
-        level=logging.DEBUG if debug else logging.ERROR,
-        format="%(levelname)-8s %(name)-12s %(message)s",
+        level=logging.DEBUG, format="%(levelname)-8s %(name)-12s %(message)s",
     )
     logging.getLogger("parsedatetime").setLevel(logging.INFO)
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
