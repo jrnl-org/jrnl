@@ -9,6 +9,10 @@
 - Add punctuation more commonly used in Asian languages \(ellipsis\) to sentence parsing [\#1044](https://github.com/jrnl-org/jrnl/pull/1044) ([felixonmars](https://github.com/felixonmars))
 - Clean up help screen, get rid of util.py [\#1027](https://github.com/jrnl-org/jrnl/pull/1027) ([wren](https://github.com/wren))
 
+**Fixed bugs:**
+
+- Disable logging by default [\#1053](https://github.com/jrnl-org/jrnl/pull/1053) ([wren](https://github.com/wren))
+
 **Build:**
 
 - Add support for Python 3.9 build testing [\#1018](https://github.com/jrnl-org/jrnl/pull/1018) ([micahellison](https://github.com/micahellison))
