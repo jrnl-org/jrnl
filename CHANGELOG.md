@@ -12,6 +12,7 @@
 **Fixed bugs:**
 
 - Disable logging by default [\#1053](https://github.com/jrnl-org/jrnl/pull/1053) ([wren](https://github.com/wren))
+- Partial refactor of cli.py \(mainly help screen and arg parsing\) [\#991](https://github.com/jrnl-org/jrnl/pull/991) ([wren](https://github.com/wren))
 
 **Build:**
 
