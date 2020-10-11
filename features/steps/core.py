@@ -177,13 +177,20 @@ def open_editor_and_enter(context, method, text=""):
 
         return tmpfile
 
+    if "password" in context:
+        password = context.password
+    else:
+        password = ""
+
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
+        patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
         patch("sys.stdin.isatty", return_value=True) \
     :
         context.editor = mock_editor
+        context.getpass = mock_getpass
         cli(["--edit"])
     # fmt: on
 

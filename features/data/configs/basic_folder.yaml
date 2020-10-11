@@ -5,7 +5,7 @@ colors:
   tags: none
 default_hour: 9
 default_minute: 0
-editor: ""
+editor: noop
 encrypt: false
 highlight: true
 journals:

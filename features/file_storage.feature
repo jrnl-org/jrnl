@@ -16,7 +16,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         Then the output should contain "2013/07/23.txt" or "2013\07\23.txt"
         Then the output should contain "2014/03/07.txt" or "2014\03\07.txt"
 
-    Scenario: If the journal and it's parent directory don't exist, they should be created
+    Scenario: If the journal and its parent directory don't exist, they should be created
         Given we use the config "missing_directory.yaml"
         Then the journal should not exist
         When we run "jrnl This is a new entry in my journal"
