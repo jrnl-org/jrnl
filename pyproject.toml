@@ -16,7 +16,7 @@ homepage = "https://jrnl.sh"
 repository = "https://github.com/jrnl-org/jrnl"
 
 [tool.poetry.dependencies]
-python = ">=3.7.0, <3.9.0"
+python = ">=3.7.0, <3.10.0"
 pyxdg = "^0.26.0"
 cryptography = "^3.0"
 passlib = "^1.7"

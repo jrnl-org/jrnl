@@ -35,6 +35,7 @@ aliases:
         - $HOME/.pyenv/versions
         - $HOME/Library/Caches/pypoetry
     before_install:
+      - brew upgrade pyenv
       - eval "$(pyenv init -)"
       - pyenv install -s $JRNL_PYTHON_VERSION
       - pyenv global $JRNL_PYTHON_VERSION
@@ -44,13 +45,14 @@ aliases:
     os: windows
     language: shell
     env: &env_windows
-      PATH: /c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:/c/Python39:/c/Python39/Scripts:$PATH
+      PATH: /c/Python37:/c/Python37/Scripts:/c/Python38:/c/Python38/Scripts:/c/Python39:/c/Python39/Scripts:/c/Python310:/c/Python310/Scripts:$PATH
       PYTHONIOENCODING: UTF-8
     cache:
       directories:
         - /c/Python37
         - /c/Python38
         - /c/Python39
+        - /c/Python310
         - /c/ProgramData/chocolatey/lib
         - /c/ProgramData/chocolatey/bin
         - /c/Users/travis/AppData/Local/pypoetry/Cache
@@ -62,9 +64,9 @@ aliases:
 jobs:
   fast_finish: true
   allow_failures:
-    - name: Python 3.9 on Windows
-    - name: Python 3.9 on Linux
-    - name: Python 3.9 on MacOS
+    - name: Python 3.10 on Windows
+    - name: Python 3.10 on Linux
+    - name: Python 3.10 on MacOS
     - python: nightly
 
   include:
@@ -108,14 +110,28 @@ jobs:
         <<: *env_windows
         JRNL_PYTHON_VERSION: 3.8.2
 
-    # Python 3.9 Dev Tests
+    # Python 3.9 Tests
     - name: Python 3.9 on Linux
-      before_install:
-        - pip install toml
-        - python .build/allow_all_python_version.py
       python: 3.9-dev
     - <<: *test_mac
       name: Python 3.9 on MacOS
+      env:
+        JRNL_PYTHON_VERSION: 3.9.0
+    - <<: *test_windows
+      name: Python 3.9 on Windows
+      python: 3.9
+      env:
+        <<: *env_windows
+        JRNL_PYTHON_VERSION: 3.9.0
+
+    # Python 3.10 Tests
+    - name: Python 3.10 on Linux
+      before_install:
+        - pip install toml
+        - python .build/allow_all_python_version.py
+      python: 3.10-dev
+    - <<: *test_mac
+      name: Python 3.10 on MacOS
       before_install:
         - brew upgrade pyenv
         - eval "$(pyenv init -)"
@@ -126,9 +142,9 @@ jobs:
         - pip install toml
         - python .build/allow_all_python_version.py
       env:
-        JRNL_PYTHON_VERSION: 3.9.0b5
+        JRNL_PYTHON_VERSION: 3.10-dev
     - <<: *test_windows
-      name: Python 3.9 on Windows
+      name: Python 3.10 on Windows
       before_install:
         - choco install python --pre
         - python --version
@@ -136,9 +152,10 @@ jobs:
         - pip --version
         - pip install toml
         - python .build/allow_all_python_version.py
+      python: 3.10
       env:
         <<: *env_windows
-        JRNL_PYTHON_VERSION: 3.9.0b5
+        JRNL_PYTHON_VERSION: 3.10.0-a1
 
     # ... and beyond!
     - name: Python nightly on Linux
