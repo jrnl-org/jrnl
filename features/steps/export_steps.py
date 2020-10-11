@@ -127,12 +127,12 @@ def create_directory(context, dir_name):
 @then(
     'cache directory "{dir_name}" should contain the files {expected_files_json_list}'
 )
-def assert_dir_contains_files(context, dir_name, expected_files_json_list="[]"):
+def assert_dir_contains_files(context, dir_name, expected_files_json_list=""):
     working_dir = os.path.join("features", "cache", dir_name)
     actual_files = os.listdir(working_dir)
 
     expected_files = context.text or expected_files_json_list
-    expected_files = json.loads(expected_files)
+    expected_files = expected_files.split("\n")
 
     # sort to deal with inconsistent default file ordering on different OS's
     actual_files.sort()

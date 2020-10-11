@@ -403,11 +403,9 @@ Feature: Custom formats
         When we run "jrnl --export yaml -o {cache_dir}" with cache directory "exported_journal"
         Then cache directory "exported_journal" should contain the files
         """
-        [
-        "2020-08-29_entry-the-first.md",
-        "2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md",
-        "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md"
-        ]
+        2020-08-29_entry-the-first.md
+        2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md
+        2020-09-24_the-third-entry-finally-after-weeks-without-writing.md
         """
         And the content of file "2020-08-29_entry-the-first.md" in cache directory "exported_journal" should be
         """
@@ -452,11 +450,9 @@ Feature: Custom formats
         When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
         Then cache directory "bug768" should contain the files
         """
-        [
-        "2020-08-29_entry-the-first.md",
-        "2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md",
-        "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md"
-        ]
+        2020-08-29_entry-the-first.md
+        2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md
+        2020-09-24_the-third-entry-finally-after-weeks-without-writing.md
         """
         And the content of file "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md" in cache directory "bug768" should be
         """
