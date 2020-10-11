@@ -300,11 +300,8 @@ def _display_search_results(args, journal, **kwargs):
     elif args.export:
         exporter = plugins.get_exporter(args.export)
         print(exporter.export(journal, args.filename))
+    elif kwargs["config"].get("display_format"):
+        exporter = plugins.get_exporter(kwargs["config"]["display_format"])
+        print(exporter.export(journal, args.filename))
     else:
-        # Display according display_format config option
-        config_selected = kwargs["config"].get("display_format")
-        exporter = plugins.get_exporter(config_selected)
-        if config_selected:
-            print(exporter.export(journal, args.filename))
-        else:
-            print(journal.pprint())
+        print(journal.pprint())
