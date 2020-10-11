@@ -1,6 +1,8 @@
 import json
 import os
 import shutil
+import random
+import string
 from xml.etree import ElementTree
 
 from behave import given
@@ -116,18 +118,27 @@ def assert_xml_output_tags(context, expected_tags_json_list):
 
 
 @given('we create cache directory "{dir_name}"')
-def create_directory(context, dir_name):
+@given("we create a cache directory")
+def create_directory(context, dir_name=None):
+    if not dir_name:
+        dir_name = "cache_" + "".join(
+            random.choices(string.ascii_uppercase + string.digits, k=20)
+        )
+
     working_dir = os.path.join("features", "cache", dir_name)
     if os.path.exists(working_dir):
         shutil.rmtree(working_dir)
     os.makedirs(working_dir)
+    context.cache_dir = dir_name
 
 
-@then('cache directory "{dir_name}" should contain the files')
-@then(
-    'cache directory "{dir_name}" should contain the files {expected_files_json_list}'
-)
-def assert_dir_contains_files(context, dir_name, expected_files_json_list=""):
+@then('cache "{dir_name}" should contain the files')
+@then('cache "{dir_name}" should contain the files {expected_files_json_list}')
+@then("the cache should contain the files")
+def assert_dir_contains_files(context, dir_name=None, expected_files_json_list=""):
+    if not dir_name:
+        dir_name = context.cache_dir
+
     working_dir = os.path.join("features", "cache", dir_name)
     actual_files = os.listdir(working_dir)
 
@@ -142,7 +153,11 @@ def assert_dir_contains_files(context, dir_name, expected_files_json_list=""):
 
 
 @then('the content of file "{file_path}" in cache directory "{cache_dir}" should be')
-def assert_exported_yaml_file_content(context, file_path, cache_dir):
+@then('the content of file "{file_path}" in the cache should be')
+def assert_exported_yaml_file_content(context, file_path, cache_dir=None):
+    if not cache_dir:
+        cache_dir = context.cache_dir
+
     expected_content = context.text.strip().splitlines()
     full_file_path = os.path.join("features", "cache", cache_dir, file_path)
 

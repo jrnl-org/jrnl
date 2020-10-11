@@ -333,12 +333,11 @@ def all_input_was_used(context):
 @when('we run "{command}"')
 @when('we run "{command}" and pipe')
 @when('we run "{command}" and pipe "{text}"')
-@when('we run "{command}" with cache directory "{cache_dir}"')
-def run(context, command, text="", cache_dir=None):
+def run(context, command, text=""):
     text = text or context.text or ""
 
-    if cache_dir is not None:
-        cache_dir = os.path.join("features", "cache", cache_dir)
+    if "cache_dir" in context and context.cache_dir is not None:
+        cache_dir = os.path.join("features", "cache", context.cache_dir)
         command = command.format(cache_dir=cache_dir)
 
     args = ushlex(command)

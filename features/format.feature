@@ -399,15 +399,15 @@ Feature: Custom formats
     Scenario Outline: Export to yaml
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
-        And we create cache directory "exported_journal"
-        When we run "jrnl --export yaml -o {cache_dir}" with cache directory "exported_journal"
-        Then cache directory "exported_journal" should contain the files
+        And we create a cache directory
+        When we run "jrnl --export yaml -o {cache_dir}"
+        Then the cache should contain the files
         """
         2020-08-29_entry-the-first.md
         2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md
         2020-09-24_the-third-entry-finally-after-weeks-without-writing.md
         """
-        And the content of file "2020-08-29_entry-the-first.md" in cache directory "exported_journal" should be
+        And the content of file "2020-08-29_entry-the-first.md" in the cache should be
         """
         title: Entry the first.
         date: 2020-08-29 11:11
@@ -446,15 +446,15 @@ Feature: Custom formats
         # https://github.com/jrnl-org/jrnl/issues/881
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
-        And we create cache directory "bug768"
-        When we run "jrnl --export yaml -o {cache_dir}" with cache directory "bug768"
-        Then cache directory "bug768" should contain the files
+        And we create a cache directory
+        When we run "jrnl --export yaml -o {cache_dir}"
+        Then the cache should contain the files
         """
         2020-08-29_entry-the-first.md
         2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md
         2020-09-24_the-third-entry-finally-after-weeks-without-writing.md
         """
-        And the content of file "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md" in cache directory "bug768" should be
+        And the content of file "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md" in the cache should be
         """
         title: The third entry finally after weeks without writing.
         date: 2020-09-24 09:14
