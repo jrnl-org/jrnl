@@ -45,6 +45,7 @@ Feature: Writing new entries.
 
     Scenario Outline: Writing an empty entry from the editor should yield "Nothing saved to file" message
         Given we use the config "<config_file>.yaml"
+        And we use the password "test" if prompted
         When we open the editor and enter nothing
         Then the error output should contain "[Nothing saved to file]"
 
@@ -53,48 +54,23 @@ Feature: Writing new entries.
         | editor              |
         | editor_empty_folder |
         | dayone              |
-
-    # this might need a new step for editors + encryption
-    @todo
-    Scenario: Writing an empty entry from the editor in encrypted journal should yield "Nothing saved to file" message
-        Given we use the config "editor_encrypted.yaml"
-        #When we open the editor and enter nothing
-        #Then we should see the message "[Nothing saved to file]"
+        | basic_encrypted     |
+        | basic_onefile       |
 
     Scenario Outline: Writing an empty entry from the command line with no editor should yield nothing
         Given we use the config "<config_file>.yaml"
+        And we use the password "test" if prompted
         When we run "jrnl" and enter nothing
         Then the output should be empty
         And the error output should contain "Writing Entry; on a blank line"
         And the editor should not have been called
 
         Examples: configs
-        | config_file  |
-        | simple       |
-        | empty_folder |
-
-    @todo
-    Scenario: Writing an empty entry from the command line in DayOne journal
-    # There is a problem with DayOne behave tests and console input
-
-    @todo
-    Scenario: Writing an empty entry from the command line in encrypted journal
-    # Need some steps for encryption + editor
-
-    Scenario Outline: Writing an empty entry from the editor should yield nothing
-        Given we use the config "<config_file>.yaml"
-        And we use the password "bad doggie no biscuit" if prompted
-        When we run "jrnl" and enter nothing
-        Then the output should be empty
-        And the error output should contain "[Nothing saved to file]"
-        And the editor should have been called
-
-        Examples: configs
-        | config_file         |
-        | editor              |
-        | editor_empty_folder |
-        | dayone              |
-        | editor_encrypted    |
+        | config_file     |
+        | simple          |
+        | empty_folder    |
+        | basic_encrypted |
+        # | dayone          | @todo
 
     Scenario Outline: Writing an entry does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/87
