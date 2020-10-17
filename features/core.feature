@@ -1,201 +1,21 @@
-Feature: Basic reading and writing to a journal
-
-    Scenario: Loading a sample journal
-        Given we use the config "basic.yaml"
-        When we run "jrnl -n 2"
-        Then we should get no error
-        and the output should be
-            """
-            2013-06-09 15:39 My first entry.
-            | Everything is alright
-
-            2013-06-10 15:40 Life is good.
-            | But I'm better.
-            """
-
-    Scenario: Printing a journal that has multiline entries
-        Given we use the config "multiline.yaml"
-        When we run "jrnl -n 1"
-        Then we should get no error
-        and the output should be
-            """
-            2013-06-09 15:39 Multiple line entry.
-            | This is the first line.
-            | This line doesn't have any ending punctuation
-            |
-            | There is a blank line above this.
-            """
-
-    Scenario: Multiline entry with punctuation
-        Given we use the config "basic.yaml"
-        When we run "jrnl This is. the title\\n This is the second line"
-        and we run "jrnl -n 1"
-        Then the output should contain "This is. the title"
-
-    Scenario: Single line entry with punctuation
-        Given we use the config "basic.yaml"
-        When we run "jrnl This is. the title"
-        and we run "jrnl -n 1"
-        Then the output should contain "| the title"
-
-    Scenario: Writing an entry from command line
-        Given we use the config "basic.yaml"
-        When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1"
-        Then the output should contain "2013-07-23 09:00 A cold and stormy day."
-
-    Scenario: Writing an empty entry from the editor
-        Given we use the config "editor.yaml"
-        When we open the editor and enter nothing
-        Then we should see the message "[Nothing saved to file]"
-
-    Scenario: Sending an argument with spaces to the editor should work
-        Given we use the config "editor-args.yaml"
-        When we open the editor and enter "lorem ipsum"
-        Then the editor should have been called with 5 arguments
-        And one editor argument should be "vim"
-        And one editor argument should be "-f"
-        And one editor argument should be "-c"
-        And one editor argument should match "'?setf markdown'?"
-
-    Scenario: Writing an empty entry from the command line
-        Given we use the config "basic.yaml"
-        When we run "jrnl" and enter nothing
-        Then the output should be
-            """
-
-            """
-
-    Scenario: Filtering for dates
-        Given we use the config "basic.yaml"
-        When we run "jrnl -on 2013-06-10 --short"
-        Then the output should be "2013-06-10 15:40 Life is good."
-        When we run "jrnl -on 'june 6 2013' --short"
-        Then the output should be "2013-06-10 15:40 Life is good."
-
-    Scenario: Emoji support
-        Given we use the config "basic.yaml"
-        When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
-        Then we should see the message "Entry added"
-        When we run "jrnl -n 1"
-        Then the output should contain "🌞"
-        and the output should contain "🐘"
-
-    Scenario: Writing an entry at the prompt
-        Given we use the config "basic.yaml"
-        When we run "jrnl" and enter "25 jul 2013: I saw Elvis. He's alive."
-        Then we should get no error
-        and the journal should contain "[2013-07-25 09:00] I saw Elvis."
-        and the journal should contain "He's alive."
+Feature: Functionality of jrnl outside of actually handling journals
 
     Scenario: Displaying the version number
-        Given we use the config "basic.yaml"
+        Given we use the config "simple.yaml"
+        When we run "jrnl --version"
+        Then we should get no error
+        Then the output should match "^jrnl version v\d+\.\d+\.\d+(-(alpha|beta))?$"
+
+    Scenario: Displaying the version number
+        Given we use the config "simple.yaml"
         When we run "jrnl -v"
         Then we should get no error
-        Then the output should contain "version"
+        Then the output should match "^jrnl version v\d+\.\d+\.\d+(-(alpha|beta))?$"
 
-    Scenario: --short displays the short version of entries (only the title)
-        Given we use the config "basic.yaml"
-        When we run "jrnl -on 2013-06-10 --short"
-        Then the output should be "2013-06-10 15:40 Life is good."
-
-    Scenario: -s displays the short version of entries (only the title)
-        Given we use the config "basic.yaml"
-        When we run "jrnl -on 2013-06-10 -s"
-        Then the output should be "2013-06-10 15:40 Life is good."
-
-    Scenario: Invalid color configuration
-        Given we use the config "invalid_color.yaml"
-        When we run "jrnl -on 2013-06-10 -s"
-        Then the output should be
-        """
-        2013-06-10 15:40 Life is good.
-        """
-        And we should get no error
-
-    Scenario: Journal directory does not exist
-        Given we use the config "missing_directory.yaml"
-        When we run "jrnl Life is good"
-        and we run "jrnl -n 1"
-        Then the output should contain "Life is good"
-
-    Scenario: Installation with relative journal and referencing from another folder
-        Given we use the config "missingconfig"
-        When we run "jrnl hello world" and enter
-        """
-        test.txt
-        n
-        """
-        and we change directory to "features"
-        and we run "jrnl -n 1"
-        Then the output should contain "hello world"
-
-    Scenario: --diagnostic runs without exceptions
+    Scenario: Running the diagnostic command
         When we run "jrnl --diagnostic"
         Then the output should contain "jrnl"
         And the output should contain "Python"
 
-    Scenario: --import allows new entry from stdin
-      Given we use the config "basic.yaml"
-      When we run "jrnl --import" and pipe "[2020-07-05 15:00] Observe and import."
-      And we run "jrnl -1"
-      Then the journal should contain "[2020-07-05 15:00] Observe and import."
-      And the output should contain "Observe and import"
-
-    Scenario: --import allows new large entry from stdin
-      Given we use the config "basic.yaml"
-      When we run "jrnl --import" and pipe
-      """
-      [2020-07-05 15:00] Observe and import.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada quis
-      est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque augue
-      et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu consequat.
-      Aenean ante ex, elementum ut interdum et, mattis eget lacus. In commodo nulla nec
-      tellus placerat, sed ultricies metus bibendum. Duis eget venenatis erat. In at
-      dolor dui end of entry.
-      """
-      And we run "jrnl -1"
-      Then the journal should contain "[2020-07-05 15:00] Observe and import."
-      And the output should contain "Observe and import"
-      And the output should contain "Lorem ipsum"
-      And the output should contain "end of entry."
-
-    Scenario: --import allows multiple new entries from stdin
-      Given we use the config "basic.yaml"
-      When we run "jrnl --import" and pipe
-      """
-      [2020-07-05 15:00] Observe and import.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-      [2020-07-05 15:01] Twice as nice.
-      Sed dignissim sed nisl eu consequat.
-      """
-      Then the journal should contain "[2020-07-05 15:00] Observe and import."
-      Then the journal should contain "[2020-07-05 15:01] Twice as nice."
-
-    Scenario: --import allows import new entries from file
-      Given we use the config "basic.yaml"
-      Then the journal should contain "My first entry."
-      And the journal should contain "Life is good."
-      But the journal should not contain "I have an @idea"
-      And the journal should not contain "I met with"
-      When we run "jrnl --import --file features/journals/tags.journal"
-      Then the journal should contain "My first entry."
-      And the journal should contain "Life is good."
-      And the journal should contain "PROFIT!"
-
-    Scenario: --import doesn't get confused with piping and file
-      Given we use the config "basic.yaml"
-      Then the journal should contain "My first entry."
-      And the journal should contain "Life is good."
-      But the journal should not contain "I have an @idea"
-      And the journal should not contain "I met with"
-      When we run "jrnl --import --file features/journals/tags.journal" and pipe
-      """
-      [2020-07-05 15:00] I should not exist!
-      """
-      Then the journal should contain "My first entry."
-      And the journal should contain "PROFIT!"
-      But the journal should not contain "I should not exist!"
-
+    @todo
+    Scenario: Listing available journals
