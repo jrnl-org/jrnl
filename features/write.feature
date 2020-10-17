@@ -16,17 +16,17 @@ Feature: Writing new entries.
 
     Scenario Outline: Single line entry with period should be split at period
         Given we use the config "<config_file>.yaml"
-        And we use the password "bad doggie no biscuit" if prompted
+        And we use the password "test" if prompted
         When we run "jrnl This is. the title"
-        And we run "jrnl -n 1"
+        And we run "jrnl -1"
         Then the output should contain "| the title"
 
         Examples: configs
-        | config_file  |
-        | simple       |
-        | empty_folder |
-        | dayone       |
-        | encrypted    |
+        | config_file     |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
 
     Scenario Outline: Writing an entry from command line should store the entry
         Given we use the config "<config_file>.yaml"

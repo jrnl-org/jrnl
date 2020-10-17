@@ -83,6 +83,10 @@ class FailedKeyring(keyring.backend.KeyringBackend):
         self.keys[servicename][username] = None
 
 
+# set a default keyring
+keyring.set_keyring(TestKeyring())
+
+
 def ushlex(command):
     return shlex.split(command, posix=not on_windows)
 
@@ -458,7 +462,7 @@ def check_output_inline(context, text=None, text2=None):
 def check_error_output_inline(context, text=None, text2=None):
     text = text or context.text
     out = context.stderr_capture.getvalue()
-    assert text in out or text2 in out, text or text2
+    assert (text and text in out) or (text2 and text2 in out)
 
 
 @then('the output should match "{regex}"')
