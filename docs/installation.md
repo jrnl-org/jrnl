@@ -2,7 +2,7 @@
 
 ## Installation
 
-On OS X, the easiest way to install *jrnl* is using
+On Mac and Linux, the easiest way to install *jrnl* is using
 [Homebrew](http://brew.sh/):
 
 ``` sh
