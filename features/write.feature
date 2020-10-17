@@ -57,6 +57,7 @@ Feature: Writing new entries.
         | basic_encrypted     |
         | basic_onefile       |
 
+    @skip_win # @todo This fails only on Travis Windows
     Scenario Outline: Writing an empty entry from the command line with no editor should yield nothing
         Given we use the config "<config_file>.yaml"
         And we use the password "bad doggie no biscuit" if prompted
