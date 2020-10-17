@@ -59,7 +59,7 @@ Feature: Writing new entries.
 
     Scenario Outline: Writing an empty entry from the command line with no editor should yield nothing
         Given we use the config "<config_file>.yaml"
-        And we use the password "test" if prompted
+        And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl" and enter nothing
         Then the output should be empty
         And the error output should contain "Writing Entry; on a blank line"
@@ -69,7 +69,7 @@ Feature: Writing new entries.
         | config_file     |
         | simple          |
         | empty_folder    |
-        | basic_encrypted |
+        | encrypted       |
         # | dayone          | @todo
 
     Scenario Outline: Writing an entry does not print the entire journal
