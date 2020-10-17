@@ -512,3 +512,26 @@ Feature: Custom formats
         | basic_encrypted |
         | basic_folder    |
         | basic_dayone    |
+
+    Scenario: Markdown Support from config file
+        Given we use the config "format_md.yaml"
+        When we run "jrnl -n 1"
+        Then the output should be
+            """
+            # 2013
+
+            ## June
+
+            ### 2013-06-10 15:40 Life is good.
+
+            But I'm better.
+            """
+
+    Scenario: Text Formatter from config file
+        Given we use the config "format_text.yaml"
+        When we run "jrnl -n 1"
+        Then the output should be
+            """
+            [2013-06-10 15:40] Life is good.
+            But I'm better.
+            """

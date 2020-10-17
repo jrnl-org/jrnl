@@ -38,6 +38,9 @@ and can be edited with a plain text editor.
     controls the width of the output. Set to `false` if you don't want to wrap long lines.
   - `colors`
     dictionary that controls the colors used to display journal entries. It has four subkeys, which are: `body`, `date`, `tags`, and `title`. Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE`, and `NONE`. `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output). To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
+  - `display_format`
+    specifies formatter to use, formatters available are: 
+    `boxed`, `fancy`, `json`, `markdown`, `md`, `tags`, `text`, `txt`, `xml`, or `yaml`.
 
 !!! note
     Although it seems intuitive to use the `#`
