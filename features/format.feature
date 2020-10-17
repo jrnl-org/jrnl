@@ -441,6 +441,7 @@ Feature: Custom formats
         | basic_folder    |
         # | basic_dayone    |
 
+    @skip_win # @todo YAML exporter does not correctly export emoji on Windows
     Scenario Outline: Add a blank line to YAML export if there isn't one already
         # https://github.com/jrnl-org/jrnl/issues/768
         # https://github.com/jrnl-org/jrnl/issues/881
