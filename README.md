@@ -1,3 +1,9 @@
+<p align="center">
+<a href="https://jrnl.sh">
+<img align="center" src="docs/assets/logo.png"/>
+</a>
+</p>
+
 jrnl [![Build Status](https://travis-ci.com/jrnl-org/jrnl.svg?branch=release)](https://travis-ci.com/jrnl-org/jrnl) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
