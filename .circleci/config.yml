@@ -1,0 +1,102 @@
+version: 2.1
+
+executors:
+  python37:
+    docker:
+      - image: circleci/python:3.7.9
+    resource_class: small
+  python38:
+    docker:
+      - image: circleci/python:3.8.6
+    resource_class: small
+  python39:
+    docker:
+      - image: circleci/python:3.9.0
+    resource_class: small
+
+aliases:
+  linux_test: &linux_test
+    steps:
+      - checkout
+      - run:
+          name: Checking Python version
+          command: python --version > /tmp/pythonversion
+      - restore_cache:
+          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+      - run:
+          name: Installing dependencies
+          command: |
+            poetry config --local virtualenvs.in-project true
+            poetry install --no-root --remove-untracked
+      - save_cache:
+          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+          paths:
+            - ~/project/.venv
+      - run: poetry install
+      - run:
+          name: Tests - Pytest
+          when: always
+          command: >
+            poetry run pytest
+            --junitxml=reports/pytest/results.xml
+      - run:
+          name: Tests - Behave
+          when: always
+          command: >
+            poetry run behave
+            --no-skipped
+            --format progress2
+            --junit
+            --junit-directory reports/behave
+      - store_test_results:
+          path: reports
+
+jobs:
+  linux_test_37:
+    executor: python37
+    <<: *linux_test
+
+  linux_test_38:
+    executor: python38
+    <<: *linux_test
+
+  linux_test_39:
+    executor: python39
+    <<: *linux_test
+
+  lint:
+    executor: python39
+    steps:
+      - checkout
+      - run: python --version > /tmp/pythonversion
+      - restore_cache:
+          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+      - run: poetry config --local virtualenvs.in-project true
+      - run: poetry install --no-root --remove-untracked
+      - save_cache:
+          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+          paths:
+            - ~/project/.venv
+      - run:
+          name: Poetry Check
+          command: |
+            poetry --version
+            poetry check
+      - run:
+          name: Black Code Formatter
+          command: |
+            poetry run black --version
+            poetry run black --check --diff .
+      - run:
+          name: PyFlakes
+          command: |
+            poetry run pyflakes --version
+            poetry run pyflakes jrnl features tests
+
+workflows:
+  main:
+    jobs:
+      - lint
+      - linux_test_37
+      - linux_test_38
+      - linux_test_39
