@@ -6,11 +6,26 @@
 
 **Implemented enhancements:**
 
+- Add support for Python 3.9 [\#1017](https://github.com/jrnl-org/jrnl/issues/1017)
+- `--count` to do with words what `--tags` does with tags [\#971](https://github.com/jrnl-org/jrnl/issues/971)
+- `--move` to move entries [\#968](https://github.com/jrnl-org/jrnl/issues/968)
+- Ability to suppress date in display. [\#950](https://github.com/jrnl-org/jrnl/issues/950)
+- Implement arg parsing library [\#866](https://github.com/jrnl-org/jrnl/issues/866)
+- --tags vs --export tags [\#814](https://github.com/jrnl-org/jrnl/issues/814)
+- Pull functionality out of util.py [\#737](https://github.com/jrnl-org/jrnl/issues/737)
+- Create a diagnostic command line argument [\#727](https://github.com/jrnl-org/jrnl/issues/727)
+- Feature request: support -not for @tag in the command line [\#374](https://github.com/jrnl-org/jrnl/issues/374)
+- Clarify usage output between export and reading sections [\#344](https://github.com/jrnl-org/jrnl/issues/344)
 - Add punctuation more commonly used in Asian languages \(ellipsis\) to sentence parsing [\#1044](https://github.com/jrnl-org/jrnl/pull/1044) ([felixonmars](https://github.com/felixonmars))
 - Clean up help screen, get rid of util.py [\#1027](https://github.com/jrnl-org/jrnl/pull/1027) ([wren](https://github.com/wren))
 
 **Fixed bugs:**
 
+- Extra error when writing empty entry [\#1048](https://github.com/jrnl-org/jrnl/issues/1048)
+- 'Edit on Github' Button in Documentation not working [\#1039](https://github.com/jrnl-org/jrnl/issues/1039)
+- decrypt jrnl file in dropbox on another machine fails  [\#1019](https://github.com/jrnl-org/jrnl/issues/1019)
+- Listing jrnl entries by tag for non default journal seem to not work as expected. [\#875](https://github.com/jrnl-org/jrnl/issues/875)
+- -and parameter seems to only work for the default journal [\#520](https://github.com/jrnl-org/jrnl/issues/520)
 - Disable logging by default [\#1053](https://github.com/jrnl-org/jrnl/pull/1053) ([wren](https://github.com/wren))
 - Partial refactor of cli.py \(mainly help screen and arg parsing\) [\#991](https://github.com/jrnl-org/jrnl/pull/991) ([wren](https://github.com/wren))
 
