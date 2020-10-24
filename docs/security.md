@@ -31,7 +31,7 @@ but you can run `echo "$HISTFILE"` to find it if needed.  Also, you can run
 
 ### zsh
 
-You can disable history logging for jnrl by adding this to your `~/.zshrc`
+You can disable history logging for jrnl by adding this to your `~/.zshrc`
 file:
 
 ``` sh
