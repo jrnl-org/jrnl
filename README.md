@@ -6,14 +6,9 @@ Github._
 
 `jrnl` is a simple journal application for the command line.
 
-Its goal is to facilitate the rapid creation and viewing of journal entries. It
-is flexible enough to support different use cases and organization strategies.
-It is powerful enough to search through thousands of entries and display, or
-"filter," only the entries you want to see.
-
-`jrnl` includes support for [128-bit AES
-encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard) using
-[cryptography.Fernet](https://cryptography.io/en/latest/fernet/).
+You can use it to easily create, search, and view journal entries. Journals are
+stored as human-readable plain text, and can also be encrypted using  [AES
+encryption](http://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
 ## In a Nutshell
 
@@ -31,9 +26,8 @@ the rest as the body. In your journal file, the result will look like this:
     [2012-03-29 09:00] Called in sick.
     Used the time to clean the house and write my book.
 
-Entering `jrnl` without any arguments launches an external editor where you can
-write your entry. `jrnl` will generate a time stamp for the entry after you save
-and close the editor window.
+If you just call `jrnl`, you will be prompted to compose your entry - but you
+can also configure _jrnl_ to use your external editor.
 
 For more information, please read the
 [documentation](https://jrnl.sh/overview/).
@@ -61,7 +55,7 @@ src="https://opencollective.com/jrnl/contributors.svg?width=890&button=false"
 If you'd also like to help make `jrnl` better, please see our [contributing
 documentation](CONTRIBUTING.md).
 
-## Financial Backers
+### Financial Backers
 
 Another way show support is through direct financial contributions. These funds
 go to covering our costs, and are a quick way to show your appreciation for

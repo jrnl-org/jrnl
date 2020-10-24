@@ -2,14 +2,14 @@
 
 ## Installation
 
-On OS X, the easiest way to install *jrnl* is using
+On Mac and Linux, the easiest way to install `jrnl` is using
 [Homebrew](http://brew.sh/):
 
 ``` sh
 brew install jrnl
 ```
 
-On other platforms, install *jrnl* using [Python](https://www.python.org/) 3.6+ and [pipx](https://pipxproject.github.io/pipx/):
+On other platforms, install `jrnl` using [Python](https://www.python.org/) 3.6+ and [pipx](https://pipxproject.github.io/pipx/):
 
 ``` sh
 pipx install jrnl
@@ -37,4 +37,4 @@ Used the time to clean the house and spent 4h on writing my book.
 ```
 
 If you just call `jrnl`, you will be prompted to compose your entry -
-but you can also configure *jrnl* to use your external editor.
+but you can also [configure](advanced.md) *jrnl* to use your external editor.

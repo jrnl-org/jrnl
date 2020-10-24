@@ -23,7 +23,7 @@ each tag occurred in this filtered journal. Finally, we pipe this to
 You can do things like
 
 ```sh
-jrnl @fixed -starred -n 10 -until "jan 2013" --short
+jrnl @fixed -starred -n 10 -to "jan 2013" --short
 ```
 
 To get a short summary of the 10 most recent, favourited entries before
@@ -34,7 +34,7 @@ January 1, 2013 that are tagged with `@fixed`.
 How much did I write last year?
 
 ```sh
-jrnl -from "jan 1 2013" -until "dec 31 2013" | wc -w
+jrnl -from "jan 1 2013" -to "dec 31 2013" | wc -w
 ```
 
 Will give you the number of words you wrote in 2013. How long is my
@@ -113,7 +113,7 @@ logged as a new entry in the journal you specified in the original argument.
 
 !!! tip 
     To read your journal entry or to verify the entry saved, you can use this 
-    command: `jrnl -n 1` (Check out [Import and Export](./export.md) for more export options).
+    command: `jrnl -n 1` (Check out [Formats](./formats.md) for more options).
 
 ```sh
 jrnl -n 1

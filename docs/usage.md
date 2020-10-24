@@ -11,6 +11,8 @@ it. Filter arguments can be combined arbitrarily. Arguments with a _double dash_
 arguments are mutually exclusive (i.e., you can only specify one way to display
 or export your journal at a time).
 
+For a list of commands, enter `jrnl --help`.
+
 ## Composing Entries ##
 
 Composing mode is entered by either starting `jrnl` without any arguments --
@@ -56,10 +58,9 @@ Behind the scenes, `jrnl` reorganizes entries in chronological order.
 
 ### Using Tags ###
 
-`jrnl` supports tags. Note that because `#` is a reserved character, the default
-tag symbol is `@`. You can specify your own tag symbol in the configuration
-file. There is no limit to how many tags you can use in an entry. To use tags,
-simply preface the desired tag with the symbol:
+`jrnl` supports tags. The default tag symbol is `@` (largely because `#` is a
+reserved character). You can specify your own tag symbol in the configuration
+file. To use tags, preface the desired tag with the symbol:
 
 ```sh
 jrnl Had a wonderful day at the @beach with @Tom and @Anna.
@@ -67,6 +68,8 @@ jrnl Had a wonderful day at the @beach with @Tom and @Anna.
 
 Although you can use capitals while tagging an entry, searches by tag are
 case-insensitive.
+
+There is no limit to how many tags you can use in an entry.
 
 ### Starring Entries ###
 
@@ -83,20 +86,22 @@ _now_), the following options are equivalent:
 - `jrnl *Best day of my life.`
 - `jrnl Best day of my life.*`
 
-!!! note Make sure that the asterisk (`*`) is **not** surrounded by whitespaces.
-`jrnl Best day of my life! *` will not work because the `*` character has a
-special meaning in most shells.
+!!! note
+    Make sure that the asterisk (`*`) is **not** surrounded by whitespaces.
+    `jrnl Best day of my life! *` will not work because the `*` character has a
+    special meaning in most shells.
 
-## Viewing Entries ##
+## Viewing and Searching Entries ##
 
-`jrnl` can display entries in a variety of ways. Entries are filtered using commands preceded by a single dash (`-`). Type `jrnl -h` for a list of
-commands.
+`jrnl` can display entries in a variety of ways.
 
-It is possible to see all entries by entering `jrnl -until today`. However, in
-most cases you will likely want to use a filter to see specific entries that
-meet certain criteria. `jrnl` provides several filtering commands, prefaced by a
-single dash (`-`), that allow you to find exactly what you're looking for. For
-example,
+To view all entries, enter:
+```sh
+jrnl -to today
+```
+
+`jrnl` provides several filtering commands, prefaced by a single dash (`-`), that
+allow you to find a more specific range of entries. For example,
 
 ```sh
 jrnl -n 10
@@ -107,15 +112,20 @@ same way. If you want to see all of the entries you wrote from the beginning of
 last year until the end of this past March, you would enter
 
 ```sh
-jrnl -from "last year" -until march
+jrnl -from "last year" -to march
 ```
 
 Filter criteria that use more than one word require surrounding quotes (`""`).
 
+To see entries on a particular date, use `-on`:
+```sh
+jrnl -on yesterday
+```
+
 ### Text Search ###
 
-The `-contains` command displays all entries containing a specific string. This
-may be helpful when you're searching for entries and you can't remember if you
+The `-contains` command displays all entries containing the text you enter after it.
+This may be helpful when you're searching for entries and you can't remember if you
 tagged any words when you wrote them.
 
 You may realize that you use a word a lot and want to turn it into a tag in all
@@ -153,6 +163,12 @@ in the configuration.
     of the input strings look like tags. `jrnl` will assume you want to filter
     by tag, rather than create a new entry that consists only of tags.
 
+To view a list of all tags in the journal, enter:
+
+```sh
+jrnl --tags
+```
+
 ### Viewing Starred Entries ###
 
 To display only your favorite (starred) entries, enter
@@ -169,7 +185,7 @@ editor configured in your configuration file. You can also edit only the entries
 that match specific search criteria. For example,
 
 ```sh
-jrnl -until 1950 @texas -and @history --edit
+jrnl -to 1950 @texas -and @history --edit
 ```
 
 opens your external editor displaying all entries tagged with `@texas` and
@@ -227,7 +243,7 @@ removed from the journal.
 To list all of your journals:
 
 ```sh
-jrnl -ls
+jrnl --list
 ```
 
 The journals displayed correspond to those specified in the `jrnl` configuration
