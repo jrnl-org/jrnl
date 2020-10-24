@@ -223,8 +223,7 @@ journal on disk. This format is particularly useful for importing and exporting 
 within `jrnl`.
 
 You can use it, for example, to move entries from one journal to another, or to create a
-new journal with search results from another journal (see [Import and
-Export](./import-and-export.md) for more details).
+new journal with search results from another journal.
 
 **Example output**:
 ``` sh
@@ -307,11 +306,11 @@ Example output:
 
 ## Options
 
-### `--file`
+### Exporting with `--file`
 
 Example: `jrnl --format json --file /some/path/to/a/file.txt`
 
-By default, `jrnl` will output entries to your terminal. But if you provide the `--file`
+By default, `jrnl` will output entries to your terminal. But if you provide `--file`
 along with a filename, the same output that would have been to your terminal will be
 written to the file instead. This is the same as piping the output to a file.
 
@@ -325,3 +324,19 @@ jrnl --format json --file myjournal.json
 jrnl --format json > myjournal.json
 ```
 
+#### Exporting to directories
+
+If the `--file` argument is a directory, jrnl will export each entry into an individual file:
+
+``` sh
+jrnl --format json --file my_entries/
+```
+
+The contents of `my_entries/` will then look like this:
+
+``` output
+my_entries/
+|- 2013_06_03_a-beautiful-day.json
+|- 2013_06_07_dinner-with-gabriel.json
+|- ...
+```

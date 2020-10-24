@@ -4,7 +4,7 @@
 
 While `jrnl` follows best practices, total security is never possible in the
 real world. There are a number of ways that people can at least partially
-compromise your `jrnl` data. See the [Privacy and Security](./security.md) page
+compromise your `jrnl` data. See the [Privacy and Security](./privacy-and-security.md) page
 for more information.
 
 ## Encrypting and Decrypting
@@ -35,7 +35,7 @@ encrypted file untouched and create a new plain text file next to it.
 
 ## Storing Passwords in Your Keychain
 
-You can't recover or reset your `jrnl` password. If you lose it,
+Nobody can recover or reset your `jrnl` password. If you lose it,
 your data will be inaccessible forever.
 
 For this reason, when encrypting a journal, `jrnl` asks whether you would like
