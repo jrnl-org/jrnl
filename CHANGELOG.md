@@ -31,7 +31,7 @@
 
 **Build:**
 
-- \[WIP\] Lots of test refactoring [\#1042](https://github.com/jrnl-org/jrnl/pull/1042) ([wren](https://github.com/wren))
+- Lots of test refactoring [\#1042](https://github.com/jrnl-org/jrnl/pull/1042) ([wren](https://github.com/wren))
 - Add support for Python 3.9 build testing [\#1018](https://github.com/jrnl-org/jrnl/pull/1018) ([micahellison](https://github.com/micahellison))
 - Resolve Travis/Windows/pip issues with upgrade to cryptography 3.0 [\#1016](https://github.com/jrnl-org/jrnl/pull/1016) ([micahellison](https://github.com/micahellison))
 
@@ -40,6 +40,7 @@
 - Fix "Edit on GitHub" button on docs site [\#1043](https://github.com/jrnl-org/jrnl/pull/1043) ([matildepark](https://github.com/matildepark))
 - Correct typos in CONTRIBUTING.md [\#1040](https://github.com/jrnl-org/jrnl/pull/1040) ([felixonmars](https://github.com/felixonmars))
 - Change styling of terminal on docs site, small copy changes [\#1038](https://github.com/jrnl-org/jrnl/pull/1038) ([wren](https://github.com/wren))
+- Documentation updates [\#1032](https://github.com/jrnl-org/jrnl/pull/1032) ([micahellison](https://github.com/micahellison))
 - Updated advanced.md in docs to reflect all four subkeys under colors … [\#1023](https://github.com/jrnl-org/jrnl/pull/1023) ([DacodaNelson](https://github.com/DacodaNelson))
 - Update github issue templates to use new diagnostic command [\#1022](https://github.com/jrnl-org/jrnl/pull/1022) ([wren](https://github.com/wren))
 
