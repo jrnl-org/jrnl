@@ -38,6 +38,7 @@ commands:
     steps:
       - run:
           name: Tests - Pytest
+          when: always
           command: >
             poetry run pytest
             --junitxml=reports/pytest/results.xml
@@ -46,6 +47,7 @@ commands:
     steps:
       - run:
           name: Tests - Behave
+          when: always
           command: >
             poetry run behave
             --no-skipped
@@ -57,16 +59,19 @@ commands:
     steps:
       - run:
           name: Poetry Check
+          when: always
           command: |
             poetry --version
             poetry check
       - run:
           name: Black Code Formatter
+          when: always
           command: |
             poetry run black --version
             poetry run black --check --diff .
       - run:
           name: PyFlakes
+          when: always
           command: |
             poetry run pyflakes --version
             poetry run pyflakes jrnl features tests
@@ -77,10 +82,8 @@ aliases:
       - checkout
       - get_poetry_deps
       - run: poetry install
-      - pytest:
-          when: always
-      - behave:
-          when: always
+      - pytest
+      - behave
       - store_test_results:
           path: reports
 
