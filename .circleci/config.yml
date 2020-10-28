@@ -13,7 +13,12 @@ executors:
 
   python39:
     docker:
-      - image: circleci/python:3.9.0
+      - image: cimg/python:3.9.0
+    resource_class: small
+
+  with_browser:
+    docker:
+      - image: cimg/python:3.9.0-browsers
     resource_class: small
 
 commands:
@@ -33,6 +38,18 @@ commands:
           key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
           paths:
             - ~/project/.venv
+
+  install_pa11y:
+    steps:
+      - restore_cache:
+          key: deps-00-pa11y
+      - run:
+          name: Install accessibility software (pa11y)
+          command: npm install pa11y pa11y-reporter-junit
+      - save_cache:
+          key: deps-00-pa11y
+          paths:
+            - ~/project/node_modules
 
   pytest:
     steps:
@@ -107,10 +124,26 @@ jobs:
       - get_poetry_deps
       - lint
 
+  docs_a11y:
+    executor: with_browser
+    steps:
+      - checkout
+      - get_poetry_deps
+      - install_pa11y
+      - run:
+          name: Starting mkdocs server
+          command: poetry run mkdocs serve
+          background: true
+      - run: poetry run .circleci/pa11y.sh
+      - store_test_results:
+          path: reports
+
 workflows:
   version: 2
   main:
     jobs:
+      - docs_a11y:
+          name: Documentation site (jrnl.sh) accessibility
       - linting:
           name: Linting and Formatting
       - test_37_linux:
