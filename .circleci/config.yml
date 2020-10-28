@@ -1,0 +1,121 @@
+version: 2.1
+
+executors:
+  python37:
+    docker:
+      - image: circleci/python:3.7.9
+    resource_class: small
+
+  python38:
+    docker:
+      - image: circleci/python:3.8.6
+    resource_class: small
+
+  python39:
+    docker:
+      - image: circleci/python:3.9.0
+    resource_class: small
+
+commands:
+  get_poetry_deps:
+    steps:
+      - run:
+          name: Checking Python version
+          command: python --version > /tmp/pythonversion
+      - restore_cache:
+          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+      - run:
+          name: Installing dependencies
+          command: |
+            poetry config --local virtualenvs.in-project true
+            poetry install --no-root --remove-untracked
+      - save_cache:
+          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+          paths:
+            - ~/project/.venv
+
+  pytest:
+    steps:
+      - run:
+          name: Tests - Pytest
+          when: always
+          command: >
+            poetry run pytest
+            --junitxml=reports/pytest/results.xml
+
+  behave:
+    steps:
+      - run:
+          name: Tests - Behave
+          when: always
+          command: >
+            poetry run behave
+            --no-skipped
+            --format progress2
+            --junit
+            --junit-directory reports/behave
+
+  lint:
+    steps:
+      - run:
+          name: Poetry Check
+          when: always
+          command: |
+            poetry --version
+            poetry check
+      - run:
+          name: Black Code Formatter
+          when: always
+          command: |
+            poetry run black --version
+            poetry run black --check --diff .
+      - run:
+          name: PyFlakes
+          when: always
+          command: |
+            poetry run pyflakes --version
+            poetry run pyflakes jrnl features tests
+
+aliases:
+  linux_test: &linux_test
+    steps:
+      - checkout
+      - get_poetry_deps
+      - run: poetry install
+      - pytest
+      - behave
+      - store_test_results:
+          path: reports
+
+jobs:
+  test_37_linux:
+    executor: python37
+    <<: *linux_test
+
+  test_38_linux:
+    executor: python38
+    <<: *linux_test
+
+  test_39_linux:
+    executor: python39
+    <<: *linux_test
+
+  linting:
+    executor: python39
+    steps:
+      - checkout
+      - get_poetry_deps
+      - lint
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - linting:
+          name: Linting and Formatting
+      - test_37_linux:
+          name: Python 3.7 - Linux
+      - test_38_linux:
+          name: Python 3.8 - Linux
+      - test_39_linux:
+          name: Python 3.9 - Linux
