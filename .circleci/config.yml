@@ -21,21 +21,28 @@ executors:
       - image: cimg/python:3.9.0-browsers
     resource_class: small
 
+  mac:
+    macos:
+      xcode: 12.1.0
+
 commands:
+
   get_poetry_deps:
     steps:
       - run:
           name: Checking Python version
-          command: python --version > /tmp/pythonversion
+          command: |
+            python --version
+            python --version > /tmp/pythonversion
       - restore_cache:
-          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+          key: deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}-{{ arch }}
       - run:
           name: Installing dependencies
           command: |
             poetry config --local virtualenvs.in-project true
             poetry install --no-root --remove-untracked
       - save_cache:
-          key: 'deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}'
+          key: deps-00-{{ checksum "poetry.lock" }}-{{ checksum "/tmp/pythonversion" }}-{{ arch }}
           paths:
             - ~/project/.venv
 
@@ -50,6 +57,37 @@ commands:
           key: deps-00-pa11y
           paths:
             - ~/project/node_modules
+
+  install_pyenv_poetry:
+    steps:
+      - run:
+          name: Checking Python version
+          command: |
+            echo "python: $JRNL_PYTHON_VERSION"
+            echo "$JRNL_PYTHON_VERSION" > /tmp/pythonversion
+      - restore_cache:
+          key: pyenv-00-{{ checksum "/tmp/pythonversion" }}
+      - run:
+          name: Updating path
+          command: echo 'export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"' >> $BASH_ENV
+      - run:
+          name: Installing Pyenv
+          command: |
+            if [[ ! -d ~/.pyenv ]]; then
+              curl https://pyenv.run | bash
+            fi
+      - run:
+          name: Installing Python
+          command: |
+            pyenv install -s $JRNL_PYTHON_VERSION
+            pyenv global $JRNL_PYTHON_VERSION
+      - run:
+          name: Installing Poetry
+          command: pip install poetry
+      - save_cache:
+          key: pyenv-00-{{ checksum "/tmp/pythonversion" }}
+          paths:
+            - ~/.pyenv
 
   pytest:
     steps:
@@ -103,6 +141,16 @@ aliases:
       - behave
       - store_test_results:
           path: reports
+  mac_test: &mac_test
+    steps:
+      - checkout
+      - install_pyenv_poetry
+      - get_poetry_deps
+      - run: poetry install
+      - pytest
+      - behave
+      - store_test_results:
+          path: reports
 
 jobs:
   test_37_linux:
@@ -116,6 +164,24 @@ jobs:
   test_39_linux:
     executor: python39
     <<: *linux_test
+
+  test_37_mac:
+    executor: mac
+    environment:
+      JRNL_PYTHON_VERSION: 3.7.8
+    <<: *mac_test
+
+  test_38_mac:
+    executor: mac
+    environment:
+      JRNL_PYTHON_VERSION: 3.8.6
+    <<: *mac_test
+
+  test_39_mac:
+    executor: mac
+    environment:
+      JRNL_PYTHON_VERSION: 3.9.0
+    <<: *mac_test
 
   linting:
     executor: python39
@@ -152,3 +218,9 @@ workflows:
           name: Python 3.8 - Linux
       - test_39_linux:
           name: Python 3.9 - Linux
+      - test_37_mac:
+          name: Python 3.7 - Mac
+      - test_38_mac:
+          name: Python 3.8 - Mac
+      - test_39_mac:
+          name: Python 3.9 - Mac
