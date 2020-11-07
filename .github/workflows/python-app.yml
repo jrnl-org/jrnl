@@ -23,11 +23,22 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: actions/cache@v2
+
+    - name: Get pip cache dir
+      id: pip-cache
+      run: |
+        echo "::set-output name=dir::$(pip cache dir)"
+
+    - name: pip cache
+      uses: actions/cache@v2
       with:
-        path: |
-          .venv
-          ~/.cache/pip
+        path: ${{ steps.pip-cache.outputs.dir }}
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}
+
+    - name: poetry cache
+      uses: actions/cache@v2
+      with:
+        path: .venv
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
     - name: Install dependencies
       run: |
