@@ -2,17 +2,17 @@ name: Testing
 
 on:
   push:
-    branches: [ develop ]
-  pull_request:
     branches: [ develop, release ]
+  pull_request:
+    branches: [ develop ]
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [ 3.7, 3.8, 3.9 ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
 
     steps:
     - uses: actions/checkout@v2
