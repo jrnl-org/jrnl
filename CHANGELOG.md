@@ -1,21 +1,17 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.5.0](https://pypi.org/project/jrnl/v2.5.0/) (2020-11-07)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...v2.5.0)
 
 **Implemented enhancements:**
 
+- 🚨 Deprecate Python 3.6 🚨 [\#992](https://github.com/jrnl-org/jrnl/issues/992)
 - Add support for Python 3.9 [\#1017](https://github.com/jrnl-org/jrnl/issues/1017)
-- `--count` to do with words what `--tags` does with tags [\#971](https://github.com/jrnl-org/jrnl/issues/971)
-- `--move` to move entries [\#968](https://github.com/jrnl-org/jrnl/issues/968)
-- Ability to suppress date in display. [\#950](https://github.com/jrnl-org/jrnl/issues/950)
 - Implement arg parsing library [\#866](https://github.com/jrnl-org/jrnl/issues/866)
 - --tags vs --export tags [\#814](https://github.com/jrnl-org/jrnl/issues/814)
 - Pull functionality out of util.py [\#737](https://github.com/jrnl-org/jrnl/issues/737)
-- Create a diagnostic command line argument [\#727](https://github.com/jrnl-org/jrnl/issues/727)
-- Feature request: support -not for @tag in the command line [\#374](https://github.com/jrnl-org/jrnl/issues/374)
-- Clarify usage output between export and reading sections [\#344](https://github.com/jrnl-org/jrnl/issues/344)
+- Support -not for individual @tag in the command line [\#374](https://github.com/jrnl-org/jrnl/issues/374)
 - Add punctuation more commonly used in Asian languages \(ellipsis\) to sentence parsing [\#1044](https://github.com/jrnl-org/jrnl/pull/1044) ([felixonmars](https://github.com/felixonmars))
 - Clean up help screen, get rid of util.py [\#1027](https://github.com/jrnl-org/jrnl/pull/1027) ([wren](https://github.com/wren))
 
@@ -23,7 +19,7 @@
 
 - Extra error when writing empty entry [\#1048](https://github.com/jrnl-org/jrnl/issues/1048)
 - 'Edit on Github' Button in Documentation not working [\#1039](https://github.com/jrnl-org/jrnl/issues/1039)
-- decrypt jrnl file in dropbox on another machine fails  [\#1019](https://github.com/jrnl-org/jrnl/issues/1019)
+- Decrypt jrnl file in dropbox on another machine fails  [\#1019](https://github.com/jrnl-org/jrnl/issues/1019)
 - Listing jrnl entries by tag for non default journal seem to not work as expected. [\#875](https://github.com/jrnl-org/jrnl/issues/875)
 - -and parameter seems to only work for the default journal [\#520](https://github.com/jrnl-org/jrnl/issues/520)
 - Disable logging by default [\#1053](https://github.com/jrnl-org/jrnl/pull/1053) ([wren](https://github.com/wren))
@@ -31,7 +27,7 @@
 
 **Build:**
 
-- Add accessibility testing for docs site \(http://jrnl.sh\) [\#1067](https://github.com/jrnl-org/jrnl/pull/1067) ([wren](https://github.com/wren))
+- Add accessibility testing for docs site \(https://jrnl.sh) [\#1067](https://github.com/jrnl-org/jrnl/pull/1067) ([wren](https://github.com/wren))
 - Add circle ci config file for linux tests [\#1063](https://github.com/jrnl-org/jrnl/pull/1063) ([wren](https://github.com/wren))
 - Lots of test refactoring [\#1042](https://github.com/jrnl-org/jrnl/pull/1042) ([wren](https://github.com/wren))
 - Add support for Python 3.9 build testing [\#1018](https://github.com/jrnl-org/jrnl/pull/1018) ([micahellison](https://github.com/micahellison))
@@ -39,6 +35,7 @@
 
 **Updated documentation:**
 
+- Clarify usage output between export and reading sections [\#344](https://github.com/jrnl-org/jrnl/issues/344)
 - Fix "Edit on GitHub" button on docs site [\#1043](https://github.com/jrnl-org/jrnl/pull/1043) ([matildepark](https://github.com/matildepark))
 - Correct typos in CONTRIBUTING.md [\#1040](https://github.com/jrnl-org/jrnl/pull/1040) ([felixonmars](https://github.com/felixonmars))
 - Change styling of terminal on docs site, small copy changes [\#1038](https://github.com/jrnl-org/jrnl/pull/1038) ([wren](https://github.com/wren))
