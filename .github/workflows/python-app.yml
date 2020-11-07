@@ -29,4 +29,5 @@ jobs:
         poetry run pytest
     - name: Test with behave
       run: |
-        poetry run behave
+        poetry run behave --no-skipped --format progress2
+
