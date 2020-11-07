@@ -27,6 +27,7 @@ jobs:
       with:
         path: |
           .venv
+          ~/.cache/pip
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
     - name: Install dependencies
       run: |
