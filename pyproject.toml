@@ -14,6 +14,11 @@ license = "GPL-3.0-only"
 readme = "README.md"
 homepage = "https://jrnl.sh"
 repository = "https://github.com/jrnl-org/jrnl"
+classifiers = [
+    "Topic :: Office/Business :: News/Diary",
+    "Environment :: Console",
+    "Operating System :: OS Independent"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.7.0, <3.10.0"
