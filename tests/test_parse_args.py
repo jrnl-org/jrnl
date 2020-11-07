@@ -94,7 +94,11 @@ def test_not_multiple_alone():
 
 @pytest.mark.parametrize(
     "cli",
-    ["two -not one -not three", "-not one two -not three", "-not one -not three two",],
+    [
+        "two -not one -not three",
+        "-not one two -not three",
+        "-not one -not three two",
+    ],
 )
 def test_not_mixed(cli):
     result = expected_args(excluded=["one", "three"], text=["two"])

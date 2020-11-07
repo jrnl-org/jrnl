@@ -34,7 +34,7 @@ packaging = "^20.4"
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
 mkdocs = "^1.0"
-black = {version = "^19.10b0",allow-prereleases = true}
+black = {version = "^20.8b1",allow-prereleases = true}
 toml = "^0.10.0"
 pyflakes = "^2.2.0"
 pytest = "^6.1.2"

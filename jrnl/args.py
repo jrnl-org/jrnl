@@ -276,10 +276,15 @@ def parse_args(args=[]):
         help="Show only titles or line containing the search tags",
     )
     exporting.add_argument(
-        "-s", dest="short", action="store_true", help=argparse.SUPPRESS,
+        "-s",
+        dest="short",
+        action="store_true",
+        help=argparse.SUPPRESS,
     )
     exporting.add_argument(
-        "-o", dest="filename", help=argparse.SUPPRESS,
+        "-o",
+        dest="filename",
+        help=argparse.SUPPRESS,
     )
 
     # Handle '-123' as a shortcut for '-n 123'

@@ -182,7 +182,8 @@ def _get_editor_template(config, **kwargs):
     except OSError:
         logging.error("Write mode: template not loaded")
         print(
-            f"[Could not read template at '{config['template']}']", file=sys.stderr,
+            f"[Could not read template at '{config['template']}']",
+            file=sys.stderr,
         )
         sys.exit(1)
 

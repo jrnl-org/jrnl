@@ -50,7 +50,7 @@ def check_output_field_key(context, field, key):
 @then("the json output should contain {path}")
 @then('the json output should contain {path} = "{value}"')
 def check_json_output_path(context, path, value=None):
-    """ E.g.
+    """E.g.
     the json output should contain entries.0.title = "hello"
     """
     out = context.stdout_capture.getvalue()

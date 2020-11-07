@@ -248,7 +248,10 @@ class Journal:
         to_delete = []
 
         def ask_delete(entry):
-            return yesno(f"Delete entry '{entry.pprint(short=True)}'?", default=False,)
+            return yesno(
+                f"Delete entry '{entry.pprint(short=True)}'?",
+                default=False,
+            )
 
         for entry in self.entries:
             if ask_delete(entry):

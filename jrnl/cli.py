@@ -29,7 +29,8 @@ def configure_logger(debug=False):
         return
 
     logging.basicConfig(
-        level=logging.DEBUG, format="%(levelname)-8s %(name)-12s %(message)s",
+        level=logging.DEBUG,
+        format="%(levelname)-8s %(name)-12s %(message)s",
     )
     logging.getLogger("parsedatetime").setLevel(logging.INFO)
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
