@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Python application
+name: Testing
 
 on:
   push:
@@ -10,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -19,6 +16,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -29,14 +27,25 @@ jobs:
       with:
         path: .venv
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         pip install poetry
         poetry config --local virtualenvs.in-project true
         poetry install --remove-untracked
+
+    - name: Code formatting (Black)
+      run: |
+        poetry run black --version
+        poetry run black --check --diff .
+
+    - name: Code Style (PyFlakes)
+      run: |
+        poetry run pyflakes --version
+        poetry run pyflakes jrnl features tests
+
     - name: Test with pytest
-      run: |
-        poetry run pytest
+      run: poetry run pytest
+
     - name: Test with behave
-      run: |
-        poetry run behave --no-skipped --format progress2
+      run: poetry run behave --no-skipped --format progress2
