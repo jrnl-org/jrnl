@@ -19,6 +19,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Python version
+      id: get-python-version
+      run: |
+        echo "::set-output \"name=python::$(python --version)\""
+      shell: bash
+    - uses: actions/cache@v2
+      with:
+        path: |
+          .venv
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ steps.get-python-version.outputs.python }}
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -26,7 +36,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install poetry
-        poetry install
+        poetry config --local virtualenvs.in-project true
+        poetry install --remove-untracked
     - name: Test with pytest
       run: |
         poetry run pytest
