@@ -33,6 +33,7 @@ Please write a short description of what you would expect to happen
 <!--
 Please provide the steps to reproduce the problem. It is important for you to
 be as precise as possible here, since more info will let us help you faster.
+If applicable, please run jrnl with --debug and paste the output.
 -->
 
 ### Other Information

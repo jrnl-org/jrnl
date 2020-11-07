@@ -33,6 +33,8 @@ information to help you with.
 
 ### Other Information
 <!--
+If applicable, please run jrnl with --debug and paste the output.
+
 Is there anything else we should know that might be helpful?
 e.g. detailed explanation, stacktraces, related issues, suggestions how to fix
 -->
