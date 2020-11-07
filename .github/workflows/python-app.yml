@@ -10,34 +10,33 @@ on:
     branches: [ develop ]
 
 jobs:
-  runs-on: ${{ matrix.os }}
   build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
-
-  steps:
-  - uses: actions/checkout@v2
-  - name: Set up Python ${{ matrix.python-version }}
-    uses: actions/setup-python@v2
-    with:
-      python-version: ${{ matrix.python-version }}
-  - uses: actions/cache@v2
-    with:
-      path: |
-        .venv
-        ~/.cache/pip
-      key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
-  - name: Install dependencies
-    run: |
-      pip install poetry
-      poetry config --local virtualenvs.in-project true
-      poetry install --remove-untracked
-  - name: Test with pytest
-    run: |
-      poetry run pytest
-  - name: Test with behave
-    run: |
-      poetry run behave --no-skipped --format progress2
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - uses: actions/cache@v2
+      with:
+        path: |
+          .venv
+          ~/.cache/pip
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        poetry config --local virtualenvs.in-project true
+        poetry install --remove-untracked
+    - name: Test with pytest
+      run: |
+        poetry run pytest
+    - name: Test with behave
+      run: |
+        poetry run behave --no-skipped --format progress2
