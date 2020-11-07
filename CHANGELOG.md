@@ -1,5 +1,7 @@
 # Changelog
 
+# Changelog
+
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...HEAD)
