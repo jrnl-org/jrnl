@@ -35,26 +35,30 @@ jobs:
         poetry install --remove-untracked
 
     - name: Code formatting (Black)
+      if: always()
       run: |
         poetry run black --version
         poetry run black --check --diff .
 
     - name: Code Style (PyFlakes)
+      if: always()
       run: |
         poetry run pyflakes --version
         poetry run pyflakes jrnl features tests
 
     - name: Test with pytest
+      if: always()
       run: poetry run pytest --junitxml=reports/pytest/results.xml
 
     - name: Test with behave
+      if: always()
       run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
 
     - name: Upload Unit Test Results
       if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: Unit Test Results (pa11y)
+        name: Unit Test Results
         path: reports/**/*.xml
 
 
@@ -117,7 +121,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Unit Test Results
-          comment_title: Unit Test Statistics
           hide_comments: all but latest
           comment_on_pr: true
           files: '**/*.xml'
