@@ -45,10 +45,18 @@ jobs:
         poetry run pyflakes jrnl features tests
 
     - name: Test with pytest
-      run: poetry run pytest
+      run: poetry run pytest --junitxml=reports/pytest/results.xml
 
     - name: Test with behave
-      run: poetry run behave --no-skipped --format progress2
+      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
+
+    - name: Upload Unit Test Results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: Unit Test Results (pa11y)
+        path: reports/**/*.xml
+
 
   accessibility:
     runs-on: ubuntu-latest
@@ -83,12 +91,13 @@ jobs:
     - name: Accessibility testing (Pa11y)
       run: poetry run .github/workflows/pa11y.sh
 
-    - name: Upload Unit Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: Unit Test Results (pa11y)
-        path: reports/pa11y/*.xml
+    # leaving this out for now (there are too many warnings)
+    # - name: Upload Unit Test Results
+    #   if: always()
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: Unit Test Results (pa11y)
+    #     path: reports/pa11y/*.xml
 
   publish-test-results:
     name: "Publish Unit Tests Results"
