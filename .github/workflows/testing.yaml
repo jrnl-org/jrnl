@@ -94,6 +94,7 @@ jobs:
     name: "Publish Unit Tests Results"
     needs: [test, accessibility]
     runs-on: ubuntu-latest
+    if: always()
 
     steps:
       - name: Download Artifacts
