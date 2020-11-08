@@ -3,7 +3,7 @@ name: Testing
 on:
   push:
     branches: [ develop, release ]
-  pull_request:
+  pull_request_target:
     branches: [ develop ]
 
 jobs:
