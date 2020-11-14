@@ -23,7 +23,7 @@
 - 🚨 Deprecate Python 3.6 🚨 [\#992](https://github.com/jrnl-org/jrnl/issues/992)
 - Add support for Python 3.9 [\#1017](https://github.com/jrnl-org/jrnl/issues/1017)
 - Implement arg parsing library [\#866](https://github.com/jrnl-org/jrnl/issues/866)
-- --tags vs --export tags [\#814](https://github.com/jrnl-org/jrnl/issues/814)
+- Rename `--export` to `--format` and `--export -o` to `--format --file`  [\#814](https://github.com/jrnl-org/jrnl/issues/814)
 - Pull functionality out of util.py [\#737](https://github.com/jrnl-org/jrnl/issues/737)
 - Support -not for individual @tag in the command line [\#374](https://github.com/jrnl-org/jrnl/issues/374)
 - Add punctuation more commonly used in Asian languages \(ellipsis\) to sentence parsing [\#1044](https://github.com/jrnl-org/jrnl/pull/1044) ([felixonmars](https://github.com/felixonmars))
