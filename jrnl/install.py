@@ -48,7 +48,12 @@ default_config = {
     "highlight": True,
     "linewrap": 79,
     "indent_character": "|",
-    "colors": {"date": "none", "title": "none", "body": "none", "tags": "none",},
+    "colors": {
+        "date": "none",
+        "title": "none",
+        "body": "none",
+        "tags": "none",
+    },
 }
 
 
