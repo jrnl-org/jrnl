@@ -1,0 +1,129 @@
+name: Testing
+
+on:
+  push:
+    branches: [ develop, release ]
+  pull_request_target:
+    branches: [ develop ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: [ 3.7, 3.8, 3.9 ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: poetry cache
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        poetry config --local virtualenvs.in-project true
+        poetry install --remove-untracked
+
+    - name: Code formatting (Black)
+      if: always()
+      run: |
+        poetry run black --version
+        poetry run black --check --diff .
+
+    - name: Code Style (PyFlakes)
+      if: always()
+      run: |
+        poetry run pyflakes --version
+        poetry run pyflakes jrnl features tests
+
+    - name: Test with pytest
+      if: always()
+      run: poetry run pytest --junitxml=reports/pytest/results.xml
+
+    - name: Test with behave
+      if: always()
+      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
+
+    - name: Upload Unit Test Results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: Unit Test Results
+        path: reports/**/*.xml
+
+
+  accessibility:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@main
+
+    - name: poetry cache
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        poetry config --local virtualenvs.in-project true
+        poetry install --no-root --remove-untracked
+        npm install pa11y pa11y-reporter-junit
+
+    - name: Start docs server
+      run: poetry run mkdocs serve &
+
+    - name: Accessibility testing (Pa11y)
+      run: poetry run .github/workflows/pa11y.sh
+
+    # leaving this out for now (there are too many warnings)
+    # - name: Upload Unit Test Results
+    #   if: always()
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: Unit Test Results (pa11y)
+    #     path: reports/pa11y/*.xml
+
+  publish-test-results:
+    name: "Publish Unit Tests Results"
+    needs: [test, accessibility]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1.4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: Unit Test Results
+          hide_comments: all but latest
+          comment_on_pr: true
+          files: '**/*.xml'
+          report_individual_runs: true
+          deduplicate_classes_by_file_name: false
+
