@@ -48,10 +48,11 @@ jobs:
         with:
           # see: https://github.com/heinrichreimer/action-github-changelog-generator
           repo: jrnl-org/jrnl
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.JRNL_BOT_TOKEN }}
           base: CHANGELOG.md
           addSections: '{"build":{"prefix":"**Build:**","labels":["build"]},"docs":{"prefix":"**Documentation:**","labels":["documentation"]}}'
           issues: true
+          pullRequests: true
           issuesWoLabels: false
           unreleased: true
           compareLink: true
