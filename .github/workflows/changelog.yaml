@@ -56,6 +56,7 @@ jobs:
           excludeLabels: stale,wontfix
           excludeTagsRegex: '(alpha|beta|rc)'
           sinceTag: ${{ env.gittag }}
+          maxIssues: 150
           releaseUrl: https://pypi.org/project/jrnl/%s/
           verbose: false
 
