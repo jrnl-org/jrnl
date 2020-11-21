@@ -43,6 +43,26 @@ Feature: Writing new entries.
         | dayone       |
         | encrypted    |
 
+    Scenario Outline: Writing a partial entry from command line with edit flag should go to the editor
+        Given we use the config "<config_file>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl this is a partial --edit"
+        Then we should see the message "Entry added"
+        Then the editor should have been called
+        And the editor file content should be
+        """
+        this is a partial
+        """
+        When we run "jrnl -n 1"
+        Then the output should contain "this is a partial"
+
+        Examples: configs
+        | config_file     |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_dayone    |
+        | basic_folder    |
+
     Scenario Outline: Writing an empty entry from the editor should yield "Nothing saved to file" message
         Given we use the config "<config_file>.yaml"
         And we use the password "test" if prompted
