@@ -7,10 +7,24 @@
 **Implemented enhancements:**
 
 - Allow --edit flag partway through an entry [\#906](https://github.com/jrnl-org/jrnl/issues/906)
+- Add ability to put --edit partly through a cli entry to move it to the editor [\#1091](https://github.com/jrnl-org/jrnl/pull/1091)
 
 **Fixed bugs:**
 
 - Directory export crashes in Windows with certain characters - UnicodeEncodeError: 'locale' codec can't encode character [\#1089](https://github.com/jrnl-org/jrnl/issues/1089)
+- Fix Unicode encoding failure in directory export when creating filenames from journal titles with certain characters [\#1090](https://github.com/jrnl-org/jrnl/pull/1090)
+
+**Build:**
+
+- More changelog fixes [\#1092](https://github.com/jrnl-org/jrnl/pull/1092)
+- Changelog fixes [\#1088](https://github.com/jrnl-org/jrnl/pull/1088)
+- Add changelog generation workflow to github actions [\#1086](https://github.com/jrnl-org/jrnl/pull/1086)
+- get rid of travis and circle configs \(in favor of github actions\) [\#1082](https://github.com/jrnl-org/jrnl/pull/1082)
+- Make changelog auto exclude stale and wontfix issues [\#1081](https://github.com/jrnl-org/jrnl/pull/1081)
+
+**Documentation:**
+
+- Add logo to readme [\#1085](https://github.com/jrnl-org/jrnl/pull/1085)
 
 ## [v2.5](https://pypi.org/project/jrnl/v2.5/) (2020-11-07)
 
