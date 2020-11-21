@@ -16,6 +16,7 @@ jobs:
       - name: Check branch for new commits
         run: |
           git fetch origin
+          git fetch --tags origin
           BRANCH="${GITHUB_REF##*/}"
           if [[ $(git rev-parse "origin/$BRANCH") != $GITHUB_SHA ]]; then
             echo "BRANCH: $BRANCH"
