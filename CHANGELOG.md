@@ -8,6 +8,10 @@
 
 - Allow --edit flag partway through an entry [\#906](https://github.com/jrnl-org/jrnl/issues/906)
 
+**Fixed bugs:**
+
+- Directory export crashes in Windows with certain characters - UnicodeEncodeError: 'locale' codec can't encode character [\#1089](https://github.com/jrnl-org/jrnl/issues/1089)
+
 ## [v2.5](https://pypi.org/project/jrnl/v2.5/) (2020-11-07)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...v2.5)
