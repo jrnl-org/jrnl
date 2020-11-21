@@ -536,3 +536,21 @@ Feature: Custom formats
             [2013-06-10 15:40] Life is good.
             But I'm better.
             """
+
+    Scenario Outline: Exporting entries with Cyrillic characters to directory should not fail
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        And we create a cache directory
+        When we run "jrnl 2020-11-21: Первая"
+        When we run "jrnl --format md --file {cache_dir} -on 2020-11-21"
+        Then the cache should contain the files
+        """
+        2020-11-21_первая.md
+        """
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
