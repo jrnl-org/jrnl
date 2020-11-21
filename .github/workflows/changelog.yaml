@@ -64,7 +64,7 @@ jobs:
           # Change unreleased link to correct url
           sed -i 's!https://pypi.org/project/jrnl/HEAD/!https://github.com/jrnl-org/jrnl/!' "$FILENAME"
 
-      - name: Sanity check
+      - name: Consistency check
         run: |
           if [[ $(grep '^# Changelog$' "$FILENAME") != 1 ]]; then
             echo 'Something is wrong with the changelog.'
