@@ -230,6 +230,21 @@ def matches_editor_arg(context, regex):
     ), f"\nRegex didn't match exactly 1 time:\n{regex}\n{str(args)}"
 
 
+@then("the editor file content should {method}")
+@then("the editor file content should {method} empty")
+@then('the editor file content should {method} "{text}"')
+def contains_editor_file(context, method, text=""):
+    text = text or context.text or ""
+    content = context.editor_file.get("content")
+    format = f'\n"""\n{content}\n"""\n'
+    if method == "be":
+        assert content == text, format
+    elif method == "contain":
+        assert text in content, format
+    else:
+        assert False, f"Method '{method}' not supported"
+
+
 def _mock_getpass(inputs):
     def prompt_return(prompt=""):
         if type(inputs) == str:
@@ -270,7 +285,9 @@ def run_with_input(context, command, inputs=""):
     def _mock_editor(command):
         context.editor_command = command
         tmpfile = command[-1]
-        context.editor_file = tmpfile
+        with open(tmpfile, "r") as editor_file:
+            file_content = editor_file.read()
+        context.editor_file = {"name": tmpfile, "content": file_content}
         Path(tmpfile).touch()
 
     if "password" in context:
@@ -348,6 +365,11 @@ def run(context, command, text=""):
 
     def _mock_editor(command):
         context.editor_command = command
+        tmpfile = command[-1]
+        with open(tmpfile, "r") as editor_file:
+            file_content = editor_file.read()
+        context.editor_file = {"name": tmpfile, "content": file_content}
+        Path(tmpfile).touch()
 
     if "password" in context:
         password = context.password
@@ -359,10 +381,12 @@ def run(context, command, text=""):
         # see: https://github.com/psf/black/issues/664
         with \
             patch("sys.argv", args), \
-            patch("getpass.getpass", side_effect=_mock_getpass(password)), \
-            patch("subprocess.call", side_effect=_mock_editor), \
+            patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
+            patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
             patch("sys.stdin.read", side_effect=lambda: text) \
         :
+            context.editor = mock_editor
+            context.getpass = mock_getpass
             cli(args[1:])
             context.exit_status = 0
         # fmt: on

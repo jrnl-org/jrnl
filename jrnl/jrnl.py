@@ -83,6 +83,10 @@ def _is_write_mode(args, config, **kwargs):
         )
     )
 
+    # Might be writing and want to move to editor part of the way through
+    if args.edit and args.text:
+        write_mode = True
+
     # If the text is entirely tags, then we are also searching (not writing)
     if (
         write_mode
@@ -108,6 +112,8 @@ def write_mode(args, config, journal, **kwargs):
     if args.text:
         logging.debug("Write mode: cli text detected: %s", args.text)
         raw = " ".join(args.text).strip()
+        if args.edit:
+            raw = _write_in_editor(config, raw)
 
     elif not sys.stdin.isatty():
         logging.debug("Write mode: receiving piped text")
@@ -157,10 +163,11 @@ def search_mode(args, journal, **kwargs):
         _display_search_results(**kwargs)
 
 
-def _write_in_editor(config):
+def _write_in_editor(config, template=None):
     if config["editor"]:
         logging.debug("Write mode: opening editor")
-        template = _get_editor_template(config)
+        if not template:
+            template = _get_editor_template(config)
         raw = get_text_from_editor(config, template)
 
     else:
