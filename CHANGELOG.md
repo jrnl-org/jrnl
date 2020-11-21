@@ -14,9 +14,9 @@
 - Update dependencies - pyxdg, pytest, black [\#1076](https://github.com/jrnl-org/jrnl/pull/1076) ([micahellison](https://github.com/micahellison))
 - Add PyPI classifiers [\#1074](https://github.com/jrnl-org/jrnl/pull/1074) ([micahellison](https://github.com/micahellison))
 
-## [v2.5.0](https://pypi.org/project/jrnl/v2.5.0/) (2020-11-07)
+## [v2.5](https://pypi.org/project/jrnl/v2.5/) (2020-11-07)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...v2.5.0)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...v2.5)
 
 **Implemented enhancements:**
 
