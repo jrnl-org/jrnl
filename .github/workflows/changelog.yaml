@@ -66,7 +66,7 @@ jobs:
 
       - name: Consistency check
         run: |
-          if [[ $(grep '^# Changelog$' "$FILENAME") != 1 ]]; then
+          if [[ $(grep -c '^# Changelog$' "$FILENAME") != 1 ]]; then
             echo 'Something is wrong with the changelog.'
             git diff -- "$FILENAME"
             exit 1
