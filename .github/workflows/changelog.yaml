@@ -31,9 +31,6 @@ jobs:
           echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
           echo "FILENAME=CHANGELOG.md" >> $GITHUB_ENV
           echo "gittag=$(git tag --sort=-creatordate | grep -Ev '(alpha|beta|rc)' | awk 'NR==1')" >> $GITHUB_ENV
-          echo "git tag: $(git tag --sort=-creatordate)"
-          echo "git tag: $(git tag --sort=-creatordate | grep -Ev '(alpha|beta|rc)')"
-          echo "git tag: $(git tag --sort=-creatordate | grep -Ev '(alpha|beta|rc)' | awk 'NR==1')"
 
       - name: Prep changelog file (clear out old lines)
         run: |
