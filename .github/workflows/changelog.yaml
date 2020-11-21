@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.JRNL_BOT_TOKEN }}
 
       - name: Check branch for new commits
         run: |
@@ -79,5 +81,5 @@ jobs:
           git config user.name "Jrnl Bot"
           git add "$FILENAME"
           git commit -m "Update changelog"
-          git push https://jrnl-bot:${JRNL_BOT_TOKEN}@github.com/jrnl-org/jrnl.git $BRANCH
+          git push origin $BRANCH
 
