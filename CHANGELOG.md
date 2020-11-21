@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...HEAD)
+
+**Implemented enhancements:**
+
+- Allow --edit flag partway through an entry [\#906](https://github.com/jrnl-org/jrnl/issues/906)
+
 ## [v2.5](https://pypi.org/project/jrnl/v2.5/) (2020-11-07)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.4.5...v2.5)
