@@ -1,39 +1,34 @@
-name: Testing
+name: Docs
 
 on:
   push:
     branches: [ develop, release ]
     paths:
-    - 'jrnl/**'
-    - 'features/**'
-    - 'tests/**'
-    - 'poetry.lock'
-    - 'pyproject.toml'
+    - 'docs/**'
+    - 'mkdocs.yml'
+    - 'readthedocs.yml'
   pull_request_target:
     branches: [ develop ]
     paths:
-    - 'jrnl/**'
-    - 'features/**'
-    - 'tests/**'
-    - 'poetry.lock'
-    - 'pyproject.toml'
+    - 'docs/**'
+    - 'mkdocs.yml'
+    - 'readthedocs.yml'
 
 jobs:
-  test:
+  accessibility:
     if: contains(toJson(github.event.commits), '[ci skip]') == false
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        python-version: [ 3.7, 3.8, 3.9 ]
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.9
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@main
 
     - name: poetry cache
       uses: actions/cache@v2
@@ -45,39 +40,26 @@ jobs:
       run: |
         pip install poetry
         poetry config --local virtualenvs.in-project true
-        poetry install --remove-untracked
+        poetry install --no-root --remove-untracked
+        npm install pa11y pa11y-reporter-junit
 
-    - name: Code formatting (Black)
-      if: success() || failure()
-      run: |
-        poetry run black --version
-        poetry run black --check --diff .
+    - name: Start docs server
+      run: poetry run mkdocs serve &
 
-    - name: Code Style (PyFlakes)
-      if: success() || failure()
-      run: |
-        poetry run pyflakes --version
-        poetry run pyflakes jrnl features tests
-
-    - name: Test with pytest
-      if: success() || failure()
-      run: poetry run pytest --junitxml=reports/pytest/results.xml
-
-    - name: Test with behave
-      if: success() || failure()
-      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
+    - name: Accessibility testing (Pa11y)
+      run: poetry run .github/workflows/pa11y.sh
 
     - name: Upload Unit Test Results
-      if: success() || failure()
+      if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: Unit Test Results
-        path: reports/**/*.xml
+        name: Unit Test Results (pa11y)
+        path: reports/pa11y/*.xml
 
   publish-test-results:
     if: success() || failure()
     name: "Publish Unit Tests Results"
-    needs: test
+    needs: accessibility
     runs-on: ubuntu-latest
 
     steps:
