@@ -24,7 +24,7 @@
 
 **Documentation:**
 
-- Add logo to readme [\#1085](https://github.com/jrnl-org/jrnl/pull/1085)
+- Add visual header to readme [\#1085](https://github.com/jrnl-org/jrnl/pull/1085)
 
 ## [v2.5](https://pypi.org/project/jrnl/v2.5/) (2020-11-07)
 
