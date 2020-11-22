@@ -6,6 +6,7 @@ on:
 
 jobs:
   generate:
+    if: contains(toJson(github.event.commits), 'Update changelog') == false
     runs-on: ubuntu-latest
 
     steps:
