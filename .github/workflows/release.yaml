@@ -1,0 +1,76 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g. v2.5 or v2.5.1-beta)'
+        required: true
+
+jobs:
+  validate:
+    name: "Validate version string"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Validate version
+      run: |
+        JRNL_VERSION="${{ github.event.inputs.version }}"
+        if [[ ! $JRNL_VERSION =~ ^v[0-9]+(\.[0-9]+){1,2}(-(alpha|beta)(\.[0-9]+)?)?$ ]]; then
+          echo
+          echo "::error::Bad version"
+          echo
+          echo "Version string should match pattern above."
+          echo "Here are some examples of valid version numbers:"
+          echo
+          echo "  v2.5"
+          echo "  v2.5-alpha"
+          echo "  v2.5-beta"
+          echo "  v2.5.1"
+          echo "  v2.5.1-alpha"
+          echo "  v2.5.1-beta"
+          exit 1
+        fi
+        echo "::debug::version: $JRNL_VERSION"
+        echo "JRNL_VERSION=$JRNL_VERSION" >> $GITHUB_ENV
+
+  release_pypi:
+    needs: validate
+    name: "Release to PyPI"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get version
+      run: |
+        JRNL_VERSION="${{ github.event.inputs.version }}"
+        echo "::debug::version: $JRNL_VERSION"
+        echo "JRNL_VERSION=$JRNL_VERSION" >> $GITHUB_ENV
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.JRNL_BOT_TOKEN }}
+
+    - name: Install dependencies
+      run: pip install poetry
+
+    - name: Update version in files
+      run: |
+        poetry version "$JRNL_VERSION"
+        echo __version__ = \"$JRNL_VERSION\" > jrnl/__version__.py
+
+    - name: Commit updated files
+      run: |
+        git config user.email "jrnl.bot@gmail.com"
+        git config user.name "Jrnl Bot"
+        git add pyproject.toml jrnl/__version__.py
+        git commit -m "Increment version to ${JRNL_VERSION}"
+        git tag -a -m "$JRNL_VERSION" "$JRNL_VERSION"
+        git push origin develop --tags
+
+    - name: Deploy to PyPI
+      run: |
+        poetry config http-basic.pypi "__token__" "${POETRY_PYPI_TOKEN_PYPI}"
+        poetry publish --build
+

@@ -3,11 +3,25 @@ name: Testing
 on:
   push:
     branches: [ develop, release ]
+    paths:
+    - 'jrnl/**'
+    - 'features/**'
+    - 'tests/**'
+    - 'poetry.lock'
+    - 'pyproject.toml'
   pull_request_target:
     branches: [ develop ]
+    paths:
+    - 'jrnl/**'
+    - 'features/**'
+    - 'tests/**'
+    - 'poetry.lock'
+    - 'pyproject.toml'
 
 jobs:
   test:
+    if: >
+      ! contains(github.event.head_commit.message, '[ci skip]')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -35,79 +49,37 @@ jobs:
         poetry install --remove-untracked
 
     - name: Code formatting (Black)
-      if: always()
+      if: success() || failure()
       run: |
         poetry run black --version
         poetry run black --check --diff .
 
     - name: Code Style (PyFlakes)
-      if: always()
+      if: success() || failure()
       run: |
         poetry run pyflakes --version
         poetry run pyflakes jrnl features tests
 
     - name: Test with pytest
-      if: always()
+      if: success() || failure()
       run: poetry run pytest --junitxml=reports/pytest/results.xml
 
     - name: Test with behave
-      if: always()
+      if: success() || failure()
       run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
 
     - name: Upload Unit Test Results
-      if: always()
+      if: success() || failure()
       uses: actions/upload-artifact@v2
       with:
         name: Unit Test Results
         path: reports/**/*.xml
 
-
-  accessibility:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-
-    - name: Setup Node.js environment
-      uses: actions/setup-node@main
-
-    - name: poetry cache
-      uses: actions/cache@v2
-      with:
-        path: .venv
-        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: |
-        pip install poetry
-        poetry config --local virtualenvs.in-project true
-        poetry install --no-root --remove-untracked
-        npm install pa11y pa11y-reporter-junit
-
-    - name: Start docs server
-      run: poetry run mkdocs serve &
-
-    - name: Accessibility testing (Pa11y)
-      run: poetry run .github/workflows/pa11y.sh
-
-    # leaving this out for now (there are too many warnings)
-    # - name: Upload Unit Test Results
-    #   if: always()
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: Unit Test Results (pa11y)
-    #     path: reports/pa11y/*.xml
-
   publish-test-results:
+    if: success() || failure()
     name: "Publish Unit Tests Results"
-    needs: [test, accessibility]
+    needs: test
     runs-on: ubuntu-latest
-    if: always()
 
     steps:
       - name: Download Artifacts
