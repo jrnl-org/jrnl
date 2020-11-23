@@ -50,6 +50,7 @@ jobs:
             if [[ ! ${GITHUB_REF##*/} =~ $prerelease_regex ]]; then
               echo '::debug::Actual release (not a prerelease)'
               TAG_REGEX="$prerelease_regex"
+              echo "FULL_RELEASE=true" >> $GITHUB_ENV
             fi
           fi
           echo "::debug::TAG_REGEX: $TAG_REGEX"
@@ -132,4 +133,11 @@ jobs:
           git add "$FILENAME"
           git commit -m "Update changelog [ci skip]"
           git push origin $BRANCH
+
+      - name: Merge to Release branch
+        if: env.FULL_RELEASE
+        run: |
+          git checkout release
+          git merge --ff-only $BRANCH
+          git push origin release
 
