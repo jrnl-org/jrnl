@@ -125,8 +125,11 @@ jobs:
           if [[ $(grep -c '^# Changelog$' "$FILENAME") != 1 ]]; then
             echo '::error::Something is wrong with the changelog.'
           fi
+          SOMETHING_CHANGED=false
+          git diff --exit-code || SOMETHING_CHANGED=true
 
       - name: Commit
+        if: env.SOMETHING_CHANGED
         run: |
           git config user.email "jrnl.bot@gmail.com"
           git config user.name "Jrnl Bot"
