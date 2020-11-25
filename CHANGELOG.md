@@ -16,6 +16,7 @@
 
 **Build:**
 
+- Udpate build badge in readme to point at github instead of travis [\#1094](https://github.com/jrnl-org/jrnl/pull/1094)
 - More changelog fixes [\#1092](https://github.com/jrnl-org/jrnl/pull/1092)
 - Changelog fixes [\#1088](https://github.com/jrnl-org/jrnl/pull/1088)
 - Add changelog generation workflow to github actions [\#1086](https://github.com/jrnl-org/jrnl/pull/1086)
