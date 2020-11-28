@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.5.1-alpha](https://pypi.org/project/jrnl/v2.5.1-alpha/) (2020-11-28)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...v2.5.1-alpha)
 
 **Implemented enhancements:**
 
