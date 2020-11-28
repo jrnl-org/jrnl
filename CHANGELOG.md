@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Configure default display format in config [\#1014](https://github.com/jrnl-org/jrnl/issues/1014)
 - Allow --edit flag partway through an entry [\#906](https://github.com/jrnl-org/jrnl/issues/906)
 - Add ability to put --edit partly through a cli entry to move it to the editor [\#1091](https://github.com/jrnl-org/jrnl/pull/1091)
 
@@ -16,6 +17,9 @@
 
 **Build:**
 
+- Migrate to Github Actions from Travis CI [\#1060](https://github.com/jrnl-org/jrnl/issues/1060)
+- Add fix for changelog conditional always returning false [\#1101](https://github.com/jrnl-org/jrnl/pull/1101)
+- Add a release workflow for PyPI in CI \(Github Actions\) [\#1095](https://github.com/jrnl-org/jrnl/pull/1095)
 - Udpate build badge in readme to point at github instead of travis [\#1094](https://github.com/jrnl-org/jrnl/pull/1094)
 - More changelog fixes [\#1092](https://github.com/jrnl-org/jrnl/pull/1092)
 - Changelog fixes [\#1088](https://github.com/jrnl-org/jrnl/pull/1088)
