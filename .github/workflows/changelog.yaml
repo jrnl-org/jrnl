@@ -127,6 +127,8 @@ jobs:
           fi
           SOMETHING_CHANGED=false
           git diff --exit-code || SOMETHING_CHANGED=true
+          echo "::debug::SOMETHING_CHANGED: $SOMETHING_CHANGED"
+          echo "SOMETHING_CHANGED=$SOMETHING_CHANGED" >> $GITHUB_ENV
 
       - name: Commit
         if: env.SOMETHING_CHANGED
