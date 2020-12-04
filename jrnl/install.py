@@ -12,13 +12,8 @@ from . import __version__
 from .config import load_config
 from .config import verify_config_colors
 from .exception import UserAbort
-from .os_compat import on_windows
 from .prompt import yesno
 from .upgrade import is_old_version
-
-if not on_windows:
-    # readline is not included in Windows Active Python
-    import readline
 
 DEFAULT_CONFIG_NAME = "jrnl.yaml"
 DEFAULT_JOURNAL_NAME = "journal.txt"
@@ -127,10 +122,7 @@ def load_or_install_jrnl():
 
 
 def install():
-    if not on_windows:
-        readline.set_completer_delims(" \t\n;")
-        readline.parse_and_bind("tab: complete")
-        readline.set_completer(_autocomplete_path)
+    _initialize_autocomplete()
 
     # Where to create the journal?
     path_query = f"Path to your journal file (leave blank for {JOURNAL_FILE_PATH}): "
@@ -157,6 +149,16 @@ def install():
 
     save_config(default_config)
     return default_config
+
+
+def _initialize_autocomplete():
+    # readline is not included in Windows Active Python and perhaps some other distributions
+    if sys.modules.get("readline"):
+        import readline
+
+        readline.set_completer_delims(" \t\n;")
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(_autocomplete_path)
 
 
 def _autocomplete_path(text, state):
