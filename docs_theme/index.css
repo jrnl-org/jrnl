@@ -164,6 +164,15 @@ h1 {
   font-weight: 300;
 }
 
+a,
+a:visited {
+  color: #684688;
+}
+
+a:hover {
+  color: #9A5B96;
+}
+
 nav {
   text-align: center;
 }
@@ -172,11 +181,21 @@ nav a#twitter-nav {
   display: none;
 }
 
-nav a {
+nav a, nav a:visited {
+  color: #684688;
   font-size: 14pt;
   line-height: 40pt;
   margin: 0 40px;
+  font-weight: 400;
+  text-decoration: none;
 }
+
+nav a:hover,
+nav a:visited:hover {
+  color: #9A5B96;
+  text-decoration: underline;
+}
+
 
 nav a.cta {
   display: inline-block;

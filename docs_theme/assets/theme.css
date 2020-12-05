@@ -249,13 +249,19 @@ ol>li:before {
 /* ------------------------------------------------------------ */
 /* Accessibility-related changes                                */
 /* ------------------------------------------------------------ */
-a {
-  color: #684688;
-  text-decoration: none;
+.rst-content div[role="main"] a,
+.rst-content div[role="main"] a:visited {
+  color: #9a5b96;
+  text-decoration: underline;
 }
 
-a:hover {
-  color: #A3629F;
+.rst-content div[role="main"]  a:hover {
+  color: #af27ad;
+}
+
+.rst-content div[role="navigation"] a,
+.rst-content div[role="navigation"] a:visited {
+  color: #9a5b96;
 }
 
 .rst-content code {
