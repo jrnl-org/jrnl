@@ -36,7 +36,12 @@ h6 {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 600;
   margin-top: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+h2 {
+  font-size: 1.2em;
+  margin-top: 40px;
 }
 
 p,
@@ -46,6 +51,8 @@ div,
 li {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 00;
+  font-size: 18px;
+  line-height: 1.5em;
 }
 
 p {
