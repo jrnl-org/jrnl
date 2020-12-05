@@ -5,14 +5,18 @@ on:
     branches: [ develop, release ]
     paths:
     - 'docs/**'
+    - 'docs_theme/**'
     - 'mkdocs.yml'
     - 'readthedocs.yml'
+    - '.github/workflows/docs.yaml'
   pull_request_target:
     branches: [ develop ]
     paths:
     - 'docs/**'
+    - 'docs_theme/**'
     - 'mkdocs.yml'
     - 'readthedocs.yml'
+    - '.github/workflows/docs.yaml'
 
 jobs:
   accessibility:
@@ -47,14 +51,31 @@ jobs:
       run: poetry run mkdocs serve &
 
     - name: Accessibility testing (Pa11y)
-      run: poetry run .github/workflows/pa11y.sh
+      env:
+        site_url: http://127.0.0.1:8000
+        exit_code: 0
+      run: |
+        set +e
+
+        poetry run mkdocs build
+        mkdir -p "reports"
+
+        printf -- 'scanning: /\n'
+        ./node_modules/.bin/pa11y "$site_url" --reporter junit > "reports/root.xml" || exit_code=2
+
+        for file in $(poetry run xq '.urlset.url[].loc' site/sitemap.xml -r | sed -r 's!https://jrnl.sh/(.*?)/$!\1!'); do
+          printf -- 'scanning: /%s\n' "$file"
+          ./node_modules/.bin/pa11y "$site_url/$file" --reporter junit > "reports/$file.xml" || exit_code=2
+        done
+
+        exit $exit_code
 
     - name: Upload Unit Test Results
       if: always()
       uses: actions/upload-artifact@v2
       with:
         name: Unit Test Results (pa11y)
-        path: reports/pa11y/*.xml
+        path: reports/*.xml
 
   publish-test-results:
     if: success() || failure()
@@ -70,7 +91,7 @@ jobs:
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.4
-        if: always()
+        if: success() || failure()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Unit Test Results
