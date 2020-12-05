@@ -2,7 +2,7 @@ site_name: jrnl
 site_url: https://jrnl.sh
 theme:
   name: readthedocs
-  custom_dir: docs/theme
+  custom_dir: docs_theme
   static_templates:
       - index.html
 extra_css:

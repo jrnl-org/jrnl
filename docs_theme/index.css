@@ -40,7 +40,7 @@ h3 { font-weight: 400; }
 }
 
 .icon.sync {
-    background-position: 0em -1em;
+    background-position: 0 -1em;
 }
 
 .icon.dayone {
@@ -49,6 +49,10 @@ h3 { font-weight: 400; }
 
 .icon.github {
     background-position: -2em -1em;
+}
+
+.icon.search {
+    background-position: -2em 0;
 }
 
 .icon.folders {

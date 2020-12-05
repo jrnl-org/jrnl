@@ -218,3 +218,27 @@ a:hover {
 .rst-content code {
   color: #D83D2D;
 }
+
+.mkdocs-search {
+  display: flex;
+}
+
+.wy-side-nav-search input[type="text"] {
+  border-radius: 50px 0 0 50px;
+  height: 32px;
+  border-right: none;
+}
+
+.mkdocs-search button {
+  background-color: rgba(0,0,0,.1);
+  border: 1px solid rgba(255,255,255,.3);
+  border-left: none;
+  box-shadow: none;
+  /* margin-bottom: 1em;                     */
+  color: white;
+  /* font-weight: 500;                       */
+  border-radius: 0 50px 50px 0;
+  height: 32px;
+  width: 2.5em;
+  overflow: hidden;
+}
