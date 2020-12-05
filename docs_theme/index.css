@@ -83,7 +83,7 @@ header {
   transform: translateY(75px);
   color: #f7f8f9;
   font-family: "Monaco", "Courier New";
-  font-size: 12pt;
+  font-size: 20px;
   padding: 45px 20px 0px 20px;
   line-height: 165%;
 }
@@ -183,8 +183,8 @@ nav a#twitter-nav {
 
 nav a, nav a:visited {
   color: #684688;
-  font-size: 14pt;
-  line-height: 40pt;
+  font-size: 20px;
+  line-height: 2.5em;
   margin: 0 40px;
   font-weight: 400;
   text-decoration: none;
@@ -203,7 +203,7 @@ nav a.cta {
   background-image: linear-gradient(259deg, #a3629f 0%, #604385 100%);
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
   border-radius: 50px;
-  padding: 0px 30pt;
+  padding: 0 2em;
   white-space: nowrap;
   transition: all 0.1s ease;
   text-decoration: none;
@@ -252,7 +252,7 @@ main {
 
 .flex section h3 {
   margin-top: 0;
-  font-size: 14pt;
+  font-size: 18px;
   color: #684688;
   margin-bottom: 0.5em;
   font-weight: 300;
@@ -261,17 +261,17 @@ main {
 
 .flex section p {
   padding-left: 40px;
-  color: #6e6e6e;
-  font-size: 12pt;
+  color: #575757;
+  font-size: 16px;
   margin: 0;
 }
 
 footer {
-  color: #6e6e6e;
+  color: #575757;
   max-width: 700px;
-  margin: 50px auto 20px;
+  margin: 70px auto 20px;
   padding: 0 20px 20px 20px;
-  font-size: 10pt;
+  font-size: 16px;
   text-align: center;
 }
 
