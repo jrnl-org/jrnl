@@ -217,7 +217,7 @@ nav a.cta:hover {
 }
 
 main {
-  padding: 50px 0 0 0;
+  padding: 60px 0 0 0;
 }
 
 .flex {
@@ -226,6 +226,7 @@ main {
   max-width: 920px;
   flex-wrap: wrap;
   padding: 20px 20px;
+  padding-top: 30px;
   justify-content: space-between;
 }
 
@@ -266,11 +267,11 @@ main {
 }
 
 footer {
+  color: #6e6e6e;
   max-width: 700px;
-  margin: 20px auto;
+  margin: 50px auto 20px;
   padding: 0 20px 20px 20px;
   font-size: 10pt;
-  opacity: 0.5;
   text-align: center;
 }
 
