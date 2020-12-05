@@ -1,9 +1,8 @@
 /*
-
-Atom One Dark With support for ReasonML by Gidi Morris, based off work by Daniel Gamage
+Atom One Dark With support for ReasonML by Gidi Morris, based off work by
+Daniel Gamage
 
 Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
-
 */
 .hljs {
   display: block;
@@ -16,7 +15,8 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
   font-size: 0.9rem;
   line-height: 1.3rem;
 }
-.hljs-keyword, .hljs-operator {
+.hljs-keyword,
+.hljs-operator {
   color: #d03269;
 }
 .hljs-pattern-match {
@@ -29,10 +29,10 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
   color: #61aeee;
 }
 .hljs-function .hljs-params {
-  color: #A6E22E;
+  color: #a6e22e;
 }
 .hljs-function .hljs-params .hljs-typing {
-  color: #FD971F;
+  color: #fd971f;
 }
 .hljs-module-access .hljs-module {
   color: #7e57c2;
@@ -41,41 +41,69 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
   color: #e2b93d;
 }
 .hljs-constructor .hljs-string {
-  color: #5A781D;
+  color: #5a781d;
 }
-.hljs-comment, .hljs-quote {
+.hljs-comment,
+.hljs-quote {
   color: #696369;
   font-style: italic;
 }
-.hljs-doctag, .hljs-formula {
+.hljs-doctag,
+.hljs-formula {
   color: #c678dd;
 }
-.hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst {
-  color: #C63945;
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #c63945;
 }
 .hljs-literal {
   color: #56b6c2;
 }
-.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta-string {
-  color: #5A781D;
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #5a781d;
 }
-.hljs-built_in, .hljs-class .hljs-title {
+.hljs-built_in,
+.hljs-class .hljs-title {
   color: #956a2f;
 }
-.hljs-attr, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-number {
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
   color: #956a2f;
 }
 
-.rst-content a tt, .rst-content a tt, .rst-content a code {
+.rst-content a tt,
+.rst-content a tt,
+.rst-content a code {
   color: #4c76aa;
 }
 
-
-.hljs-number, .hljs-literal, .hljs-variable, .hljs-template-variable, .hljs-tag .hljs-attr {
-  color: #007A7A;
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #007a7a;
 }
 
-.hljs-symbol, .hljs-bullet, .hljs-link, .hljs-meta, .hljs-selector-id, .hljs-title {
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
   color: #5a70a9;
 }
 .hljs-emphasis {
@@ -95,4 +123,3 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 .rst-content .tip .admonition-title {
   background: #2a8068;
 }
-

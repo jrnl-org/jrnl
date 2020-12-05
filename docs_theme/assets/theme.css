@@ -1,4 +1,3 @@
-
 /* ------------------------------------------------------------ */
 /* Overrides for jrnl theme                                     */
 /* ------------------------------------------------------------ */
@@ -6,11 +5,12 @@
 :root {
   --sidebar: #604385;
   --sidebar-dark: #604385;
-  --off-white: rgba(255,255,255,.7);
+  --off-white: rgba(255, 255, 255, .7);
 }
 
-body.wy-body-for-nav, section.wy-nav-content-wrap {
-  background-color: rgb(252,252,252);
+body.wy-body-for-nav,
+section.wy-nav-content-wrap {
+  background-color: rgb(252, 252, 252);
 }
 
 pre {
@@ -27,13 +27,23 @@ code {
   background-color: transparent;
 }
 
-h1,h2 ,h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
-p, td, tr, div, li {
+
+p,
+td,
+tr,
+div,
+li {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 00;
 }
@@ -43,11 +53,15 @@ p {
 }
 
 /* No-one likes lines that are 400 characters long. */
-div.rst-content {max-width: 54em;}
+div.rst-content {
+  max-width: 54em;
+}
 
-.wy-side-nav-search, .wy-menu-vertical li.current {
+.wy-side-nav-search,
+.wy-menu-vertical li.current {
   background-color: transparent;
 }
+
 .wy-nav-top {
   background-image: linear-gradient(-211deg, #95699C 0%, #604385 100%);
 }
@@ -71,11 +85,21 @@ a.icon-home:before {
   margin: 10px auto;
 }
 
-.wy-menu-vertical a, .wy-menu-vertical li ul li a {color: var(--off-white) !important; }
+.wy-menu-vertical a,
+.wy-menu-vertical li ul li a {
+  color: var(--off-white) !important;
+}
 
-.wy-menu-vertical a:hover, .wy-menu-vertical li.current a:hover { background-color: transparent  !important; color: white !important;}
-.wy-menu-vertical li.on a, .wy-menu-vertical li.current>a {
-  background: transparent; !important;
+.wy-menu-vertical a:hover,
+.wy-menu-vertical li.current a:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.wy-menu-vertical li.on a,
+.wy-menu-vertical li.current>a {
+  background: transparent;
+   !important;
   color: white !important;
   border: none;
   position: relative;
@@ -83,11 +107,13 @@ a.icon-home:before {
   border-right: none !important;
 }
 
-.wy-menu-vertical li.on a, .wy-menu-vertical li.current a {
+.wy-menu-vertical li.on a,
+.wy-menu-vertical li.current a {
   border-right: none;
 }
 
-.wy-menu-vertical li.on a, .wy-menu-vertical li.current>a:after {
+.wy-menu-vertical li.on a,
+.wy-menu-vertical li.current>a:after {
   display: block;
   position: absolute;
   right: 0em;
@@ -101,13 +127,21 @@ a.icon-home:before {
   border-right: 1em solid white;
 }
 
-.rst-versions, .rst-versions .rst-current-version { display: none; }
-.wy-menu-vertical span {
-    color: white !important;
-    font-size: 1.2em;
-    font-weight: 300 !important;
+.rst-versions,
+.rst-versions .rst-current-version {
+  display: none;
 }
-.wy-menu-vertical li a {color: var(--off-white)  !important; font-weight: 300 !important;}
+
+.wy-menu-vertical span {
+  color: white !important;
+  font-size: 1.2em;
+  font-weight: 300 !important;
+}
+
+.wy-menu-vertical li a {
+  color: var(--off-white) !important;
+  font-weight: 300 !important;
+}
 
 
 .wy-nav-side {
@@ -117,32 +151,38 @@ a.icon-home:before {
 }
 
 
-footer {display: none;}
-
-.wy-side-nav-search input[type=text], form .search-query {
-    background-color: rgba(0,0,0,.1) !important;
-    border: 1px solid rgba(255,255,255,.3);
-    box-shadow: none;
-    margin-bottom: 1em;
-    color: white !important;
-    font-weight: 500;
+footer {
+  display: none;
 }
 
-.wy-side-nav-search input[type=text]::placeholder, form .search-query::placeholder {
+.wy-side-nav-search input[type=text],
+form .search-query {
+  background-color: rgba(0, 0, 0, .1) !important;
+  border: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: none;
+  margin-bottom: 1em;
+  color: white !important;
+  font-weight: 500;
+}
+
+.wy-side-nav-search input[type=text]::placeholder,
+form .search-query::placeholder {
   color: var(--off-white) !important;
 }
 
-.toctree-l2 a:first-child {display: none;}
+.toctree-l2 a:first-child {
+  display: none;
+}
 
 /* ------------------------------------------------------------ */
 /* Logo: ;                                                      */
 /* ------------------------------------------------------------ */
 
 .logo {
-    width: 128px;
-    height: 128px;
-    vertical-align: middle;
-    margin-right: 1em;
+  width: 128px;
+  height: 128px;
+  vertical-align: middle;
+  margin-right: 1em;
 }
 
 /* ------------------------------------------------------------ */
@@ -153,20 +193,23 @@ div.admonition {
   border-radius: 5px;
   margin: 1em -1em;
 }
+
 div.admonition p.admonition-title {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-div.admonition > p {
+
+div.admonition>p {
   padding: 0em .5em;
 }
 
 
 div.admonition div.highlight {
-    background: none !important;
+  background: none !important;
 }
+
 div.admonition div.highlight pre {
-    background-color: rgba(255,255,255,.5) !important;
+  background-color: rgba(255, 255, 255, .5) !important;
 }
 
 /* ------------------------------------------------------------ */
@@ -174,7 +217,7 @@ div.admonition div.highlight pre {
 /* ------------------------------------------------------------ */
 
 ol {
-  counter-reset:li;
+  counter-reset: li;
   margin-left: 0px;
   padding: 0;
 }
@@ -185,9 +228,9 @@ ol li {
   margin-left: 3em !important;
 }
 
-ol > li:before {
-    content:counter(li);
-    counter-increment:li;
+ol>li:before {
+  content: counter(li);
+  counter-increment: li;
   background-color: var(--sidebar);
   border-radius: 50%;
   display: block;
@@ -204,15 +247,15 @@ ol > li:before {
 
 
 /* ------------------------------------------------------------ */
-/* Accessibility-related color changes                          */
+/* Accessibility-related changes                                */
 /* ------------------------------------------------------------ */
 a {
-    color: #684688;
-    text-decoration: none;
+  color: #684688;
+  text-decoration: none;
 }
 
 a:hover {
-    color: #A3629F;
+  color: #A3629F;
 }
 
 .rst-content code {
@@ -230,13 +273,11 @@ a:hover {
 }
 
 .mkdocs-search button {
-  background-color: rgba(0,0,0,.1);
-  border: 1px solid rgba(255,255,255,.3);
+  background-color: rgba(0, 0, 0, .1);
+  border: 1px solid rgba(255, 255, 255, .3);
   border-left: none;
   box-shadow: none;
-  /* margin-bottom: 1em;                     */
   color: white;
-  /* font-weight: 500;                       */
   border-radius: 0 50px 50px 0;
   height: 32px;
   width: 2.5em;
