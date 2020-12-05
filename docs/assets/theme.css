@@ -202,3 +202,19 @@ ol > li:before {
   font-weight: 600;
 }
 
+
+/* ------------------------------------------------------------ */
+/* Accessibility-related color changes                          */
+/* ------------------------------------------------------------ */
+a {
+    color: #684688;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #A3629F;
+}
+
+.rst-content code {
+  color: #D83D2D;
+}

@@ -22,7 +22,7 @@ should be created and whether you wish to encrypt it.
 
 To make a new entry, just type
 
-``` sh
+``` text
 jrnl yesterday: Called in sick. Used the time to clean the house and spent 4h on writing my book.
 ```
 

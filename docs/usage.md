@@ -19,7 +19,7 @@ Composing mode is entered by either starting `jrnl` without any arguments --
 which will launch an external editor -- or by just writing an entry on the
 command line:
 
-```sh
+```text
 jrnl today at 3am: I just met Steve Buscemi in a bar! What a nice guy.
 ```
 

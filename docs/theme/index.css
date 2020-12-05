@@ -168,19 +168,10 @@ nav a#twitter-nav {
     display: none;
 }
 
-a {
-    color: #684688;
-    text-decoration: underline;
-}
-
 nav a {
     font-size: 14pt;
     line-height: 40pt;
     margin: 0 40px;
-}
-
-a:hover {
-    color: #A3629F;
 }
 
 nav a.cta {
@@ -250,7 +241,7 @@ main {
 
 .flex section p {
     padding-left: 40px;
-    color: #888;
+    color: #6E6E6E;
     font-size: 12pt;
     margin: 0;
 }
