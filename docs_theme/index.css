@@ -126,7 +126,6 @@ header {
   padding: 5px 10px;
   color: white;
   border-radius: 3px;
-  opacity: 0.7;
 }
 
 #twitter .icon {
@@ -138,8 +137,9 @@ header {
 
 #twitter:hover,
 #twitter:active {
-  opacity: 1;
   text-decoration: none;
+  box-shadow: 0 2px 25px 0 rgba(0, 0, 0, 0.35);
+  transition: all .5s ease;
 }
 
 #title {
