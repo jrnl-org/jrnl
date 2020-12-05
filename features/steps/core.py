@@ -17,6 +17,7 @@ import yaml
 from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
+from jrnl import config
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import on_windows
@@ -91,24 +92,24 @@ def ushlex(command):
 
 
 def read_journal(context, journal_name="default"):
-    config = load_config(context.config_path)
-    with open(config["journals"][journal_name]) as journal_file:
+    configuration = load_config(context.config_path)
+    with open(configuration["journals"][journal_name]) as journal_file:
         journal = journal_file.read()
     return journal
 
 
 def open_journal(context, journal_name="default"):
-    config = load_config(context.config_path)
-    journal_conf = config["journals"][journal_name]
+    configuration = load_config(context.config_path)
+    journal_conf = configuration["journals"][journal_name]
 
     # We can override the default config on a by-journal basis
     if type(journal_conf) is dict:
-        config.update(journal_conf)
+        configuration.update(journal_conf)
     # But also just give them a string to point to the journal file
     else:
-        config["journal"] = journal_conf
+        configuration["journal"] = journal_conf
 
-    return Journal.open_journal(journal_name, config)
+    return Journal.open_journal(journal_name, configuration)
 
 
 def read_value_from_string(string):
@@ -126,7 +127,6 @@ def read_value_from_string(string):
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
 
-    # patch("config.get_config_path", side_effect=absolute_path)
     context.config_path = os.path.abspath(full_path)
 
     if config_file.endswith("yaml") and os.path.exists(full_path):
@@ -303,7 +303,7 @@ def run_with_input(context, command, inputs=""):
         patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
         patch("sys.stdin.read", side_effect=text) as mock_read, \
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
-        patch("config.get_config_path", side_effect=context.config_path) \
+        patch("jrnl.config.get_config_path", side_effect=context.config_path) \
     :
         try:
             cli(args or [])
@@ -386,7 +386,7 @@ def run(context, command, text=""):
             patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
             patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
             patch("sys.stdin.read", side_effect=lambda: text), \
-            patch("config.get_config_path", side_effect=context.config_path) \
+            patch("jrnl.config.get_config_path", side_effect=context.config_path) \
         :
             context.editor = mock_editor
             context.getpass = mock_getpass
@@ -548,18 +548,18 @@ def check_not_journal_content(context, text, journal_name="default"):
 @then("the journal should not exist")
 @then('journal "{journal_name}" should not exist')
 def journal_doesnt_exist(context, journal_name="default"):
-    config = load_config(context.config_path)
+    configuration = load_config(context.config_path)
 
-    journal_path = config["journals"][journal_name]
+    journal_path = configuration["journals"][journal_name]
     assert not os.path.exists(journal_path)
 
 
 @then("the journal should exist")
 @then('journal "{journal_name}" should exist')
 def journal_exists(context, journal_name="default"):
-    config = load_config(context.config_path)
+    configuration = load_config(context.config_path)
 
-    journal_path = config["journals"][journal_name]
+    journal_path = configuration["journals"][journal_name]
     assert os.path.exists(journal_path)
 
 
@@ -568,23 +568,23 @@ def journal_exists(context, journal_name="default"):
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value="", journal=None):
     value = read_value_from_string(value or context.text or "")
-    config = load_config(context.config_path)
+    configuration = load_config(context.config_path)
 
     if journal:
-        config = config["journals"][journal]
+        configuration = configuration["journals"][journal]
 
     assert key in config
-    assert config[key] == value
+    assert configuration[key] == value
 
 
 @then('the config for journal "{journal}" should not have "{key}" set')
 def config_no_var(context, key, value="", journal=None):
-    config = load_config(context.config_path)
+    configuration = load_config(context.config_path)
 
     if journal:
-        config = config["journals"][journal]
+        configuration = configuration["journals"][journal]
 
-    assert key not in config
+    assert key not in configuration
 
 
 @then("the journal should have {number:d} entries")
@@ -599,8 +599,8 @@ def check_journal_entries(context, number, journal_name="default"):
 @when("the journal directory is listed")
 def list_journal_directory(context, journal="default"):
     with open(context.config_path) as config_file:
-        config = yaml.load(config_file, Loader=yaml.FullLoader)
-    journal_path = config["journals"][journal]
+        configuration = yaml.load(config_file, Loader=yaml.FullLoader)
+    journal_path = configuration["journals"][journal]
     for root, dirnames, f in os.walk(journal_path):
         for file in f:
             print(os.path.join(root, file))
