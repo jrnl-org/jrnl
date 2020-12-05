@@ -64,10 +64,10 @@ def get_default_config():
 
 
 def get_default_journal_path():
-    journal_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or os.path.expanduser(
-        "~"
-    )
-    return os.path.join(journal_path, DEFAULT_JOURNAL_NAME)
+    journal_data_path = xdg.BaseDirectory.save_data_path(
+        XDG_RESOURCE
+    ) or os.path.expanduser("~")
+    return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
 
 
 def scope_config(config, journal_name):
