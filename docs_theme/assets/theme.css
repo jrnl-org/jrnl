@@ -5,7 +5,7 @@
 :root {
   --sidebar: #604385;
   --sidebar-dark: #604385;
-  --off-white: rgba(255, 255, 255, .7);
+  --off-white: #f4f0ff;
 }
 
 body.wy-body-for-nav,
@@ -94,24 +94,28 @@ a.icon-home:before {
 
 .wy-menu-vertical a,
 .wy-menu-vertical li ul li a {
-  color: var(--off-white) !important;
+  font-size: 16px;
+  color: var(--off-white);
+  line-height: 2em;
 }
 
 .wy-menu-vertical a:hover,
 .wy-menu-vertical li.current a:hover {
-  background-color: transparent !important;
-  color: white !important;
+  background-color: #92679b;
+  color: white;
 }
 
 .wy-menu-vertical li.on a,
 .wy-menu-vertical li.current>a {
-  background: transparent;
-   !important;
-  color: white !important;
-  border: none;
+  transition: all .25s ease;
+  background: #604385;
+  color: white;
   position: relative;
-  font-weight: 700 !important;
-  border-right: none !important;
+}
+
+.wy-menu-vertical li.on a,
+.wy-menu-vertical li.current>a:hover {
+  background: #624488;
 }
 
 .wy-menu-vertical li.on a,
@@ -121,17 +125,24 @@ a.icon-home:before {
 
 .wy-menu-vertical li.on a,
 .wy-menu-vertical li.current>a:after {
-  display: block;
   position: absolute;
   right: 0em;
-  top: 0;
-  z-index: 999 !important;
+  z-index: 999;
   content: "";
   width: 0;
   height: 0;
   border-top: 1em solid transparent;
   border-bottom: 1em solid transparent;
   border-right: 1em solid white;
+}
+.wy-menu-vertical li li.toctree-l2 {
+  font-weight: 800 !important;
+  font-size: 50px;
+  color: red !important;
+}
+
+.toctree-expand:before {
+  display: none !important;
 }
 
 .rst-versions,
@@ -142,18 +153,18 @@ a.icon-home:before {
 .wy-menu-vertical span {
   color: white !important;
   font-size: 1.2em;
-  font-weight: 300 !important;
+  font-weight: 300;
 }
 
 .wy-menu-vertical li a {
   color: var(--off-white) !important;
-  font-weight: 300 !important;
+  font-weight: 300;
 }
 
 
 .wy-nav-side {
   background-image: linear-gradient(211deg, #95699C 0%, #604385 100%);
-  font-weight: 300 !important;
+  font-weight: 300;
   height: 100%;
 }
 
