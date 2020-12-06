@@ -2,14 +2,6 @@
 /* Overrides for jrnl theme                                     */
 /* ------------------------------------------------------------ */
 
-:root {
-  --sidebar: #604385;
-  --sidebar-dark: #604385;
-  --white: #fcfcfc;
-  --off-white: #f4f0ff;
-  --dark-code: #251A32;
-}
-
 body.wy-body-for-nav,
 section.wy-nav-content-wrap {
   background-color: var(--white);
@@ -22,14 +14,14 @@ section.wy-nav-content-wrap {
 }
 
 .rst-content code {
-  color: var(--dark-code);
+  color: var(--darkest-purple);
   background-color: var(--off-white);
   font-size: 15px;
 }
 
 .rst-content pre code {
   color: var(--off-white);
-  background: var(--dark-code);
+  background: var(--darkest-purple);
   padding: 1em 1.5em;
   border-radius: 15px;
   border: none;
@@ -37,7 +29,6 @@ section.wy-nav-content-wrap {
   line-height: 1.5em;
   font-weight: 200 !important;
 }
-
 
 h1,
 h2,
@@ -82,7 +73,7 @@ div.rst-content {
 }
 
 .wy-nav-top {
-  background-image: linear-gradient(-211deg, #95699C 0%, #604385 100%);
+  background-image: linear-gradient(-211deg, var(--light-purple) 0%, var(--dark-purple) 100%);
 }
 
 .wy-nav-top .fa-bars {
@@ -111,23 +102,26 @@ a.icon-home:before {
   line-height: 2em;
 }
 
-.wy-menu-vertical a:hover,
-.wy-menu-vertical li.current a:hover {
-  background-color: #92679b;
-  color: white;
+.wy-menu-vertical a:hover {
+  background-color: var(--black-shadow);
+  color: var(--white);
 }
 
-.wy-menu-vertical li.on a,
-.wy-menu-vertical li.current>a {
+.wy-menu-vertical li.on a {
   transition: all .25s ease;
-  background: #604385;
-  color: white;
+  background: var(--dark-purple);
+  color: var(--white);
   position: relative;
 }
 
-.wy-menu-vertical li.on a,
+.wy-menu-vertical li.current>a {
+  background: var(--darkest-purple);
+  border: none !important;
+}
+
 .wy-menu-vertical li.current>a:hover {
-  background: #624488;
+  background: var(--darkest-purple);
+  border: none;
 }
 
 .wy-menu-vertical li.on a,
@@ -145,7 +139,7 @@ a.icon-home:before {
   height: 0;
   border-top: 1em solid transparent;
   border-bottom: 1em solid transparent;
-  border-right: 1em solid white;
+  border-right: 1em solid var(--white);
 }
 .wy-menu-vertical li li.toctree-l2 {
   font-weight: 800 !important;
@@ -163,7 +157,7 @@ a.icon-home:before {
 }
 
 .wy-menu-vertical span {
-  color: white !important;
+  color: var(--white);
   font-size: 1.2em;
   font-weight: 300;
 }
@@ -175,7 +169,7 @@ a.icon-home:before {
 
 
 .wy-nav-side {
-  background-image: linear-gradient(211deg, #95699C 0%, #604385 100%);
+  background-image: linear-gradient(211deg, var(--mid-purple) 0%, var(--dark-purple) 100%);
   font-weight: 300;
   height: 100%;
 }
@@ -187,17 +181,21 @@ footer {
 
 .wy-side-nav-search input[type=text],
 form .search-query {
-  background-color: rgba(0, 0, 0, .1) !important;
-  border: 1px solid rgba(255, 255, 255, .3);
+  background-color: var(--black-shadow) !important;
+  border: none;
   box-shadow: none;
   margin-bottom: 1em;
-  color: white !important;
+  color: var(--white);
   font-weight: 500;
 }
 
 .wy-side-nav-search input[type=text]::placeholder,
 form .search-query::placeholder {
-  color: var(--off-white) !important;
+  color: var(--off-white);
+}
+
+.wy-side-nav-search > a:hover {
+  background: transparent;
 }
 
 .toctree-l2 a:first-child {
@@ -238,10 +236,6 @@ div.admonition div.highlight {
   background: none !important;
 }
 
-div.admonition div.highlight pre {
-  background-color: rgba(255, 255, 255, .5) !important;
-}
-
 /* ------------------------------------------------------------ */
 /* Fancy ordered lists.                                         */
 /* ------------------------------------------------------------ */
@@ -269,7 +263,7 @@ ol>li:before {
   margin-top: -.3em;
   width: 2em;
   height: 2em;
-  color: var(--sidebar-dark);
+  color: var(--dark-purple);
   text-align: center;
   line-height: 2em;
   font-weight: 600;
@@ -281,21 +275,22 @@ ol>li:before {
 /* ------------------------------------------------------------ */
 .rst-content div[role="main"] a,
 .rst-content div[role="main"] a:visited {
-  color: #9a5b96;
+  color: var(--mid-purple);
   text-decoration: underline;
 }
 
 .rst-content div[role="main"]  a:hover {
-  color: #af27ad;
+  color: var(--bright-purple);
 }
 
 .rst-content div[role="navigation"] a,
 .rst-content div[role="navigation"] a:visited {
-  color: #9a5b96;
+  color: var(--mid-purple);
 }
 
 .mkdocs-search {
   display: flex;
+  margin-top: 20px;
 }
 
 .wy-side-nav-search input[type="text"] {
@@ -305,11 +300,10 @@ ol>li:before {
 }
 
 .mkdocs-search button {
-  background-color: rgba(0, 0, 0, .1);
-  border: 1px solid rgba(255, 255, 255, .3);
-  border-left: none;
+  background-color: var(--black-shadow);
+  border: none;
   box-shadow: none;
-  color: white;
+  color: var(--white);
   border-radius: 0 50px 50px 0;
   height: 32px;
   width: 2.5em;

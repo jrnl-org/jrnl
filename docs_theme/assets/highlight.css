@@ -5,26 +5,6 @@ Daniel Gamage
 Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 */
 
-:root {
-  /* For dark bg */
-  --purple: #7e57c2;
-  --light-purple: #cf93e6;
-  --white: #fcfcfc;
-  --off-white: #f4f0ff;
-  --blue: #61aeee;
-  --green: #a6e22e;
-  --orange: #fd971f;
-  --red: #eb5567;
-  --pink: #d57699;
-  --yellow: #e2b93d;
-
-  /* For light bg */
-  --teal: #2a8068;
-  --dark-blue: #356eb7;
-  --dark-purple: #604385;
-  --darkest-purple: #251A32;
-}
-
 .hljs {
   display: block;
   overflow-x: auto;
