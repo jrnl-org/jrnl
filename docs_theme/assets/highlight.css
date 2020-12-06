@@ -4,12 +4,33 @@ Daniel Gamage
 
 Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 */
+
+:root {
+  /* For dark bg */
+  --purple: #7e57c2;
+  --light-purple: #cf93e6;
+  --white: #fcfcfc;
+  --off-white: #f4f0ff;
+  --blue: #61aeee;
+  --green: #a6e22e;
+  --orange: #fd971f;
+  --red: #eb5567;
+  --pink: #d57699;
+  --yellow: #e2b93d;
+
+  /* For light bg */
+  --teal: #2a8068;
+  --dark-blue: #356eb7;
+  --dark-purple: #604385;
+  --darkest-purple: #251A32;
+}
+
 .hljs {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
   line-height: 1.3em;
-  color: #e2e8f2;
+  color: var(--off-white);
   background: #383e49;
   border-radius: 5px;
   font-size: 0.9rem;
@@ -17,61 +38,61 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 }
 .hljs-keyword,
 .hljs-operator {
-  color: #d03269;
+  color: var(--pink);
 }
 .hljs-pattern-match {
-  color: #d03269;
+  color: var(--pink);
 }
 .hljs-pattern-match .hljs-constructor {
-  color: #61aeee;
+  color: var(--blue);
 }
 .hljs-function {
-  color: #61aeee;
+  color: var(--blue);
 }
 .hljs-function .hljs-params {
-  color: #a6e22e;
+  color: var(--green);
 }
 .hljs-function .hljs-params .hljs-typing {
-  color: #fd971f;
+  color: var(--orange);
 }
 .hljs-module-access .hljs-module {
-  color: #7e57c2;
+  color: var(--purple);
 }
 .hljs-constructor {
-  color: #e2b93d;
+  color: var(--yellow);
 }
 .hljs-constructor .hljs-string {
-  color: #5a781d;
+  color: var(--green);
 }
 .hljs-comment,
 .hljs-quote {
-  color: #696369;
+  color: var(--light-purple);
   font-style: italic;
 }
 .hljs-doctag,
 .hljs-formula {
-  color: #c678dd;
+  color: var(--purple);
 }
 .hljs-section,
 .hljs-name,
 .hljs-selector-tag,
 .hljs-deletion,
 .hljs-subst {
-  color: #c63945;
+  color: var(--yellow);
 }
 .hljs-literal {
-  color: #56b6c2;
+  color: var(--blue);
 }
 .hljs-string,
 .hljs-regexp,
 .hljs-addition,
 .hljs-attribute,
 .hljs-meta-string {
-  color: #5a781d;
+  color: var(--green);
 }
 .hljs-built_in,
 .hljs-class .hljs-title {
-  color: #956a2f;
+  color: var(--orange);
 }
 .hljs-attr,
 .hljs-variable,
@@ -81,13 +102,13 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 .hljs-selector-attr,
 .hljs-selector-pseudo,
 .hljs-number {
-  color: #956a2f;
+  color: var(--orange);
 }
 
 .rst-content a tt,
 .rst-content a tt,
 .rst-content a code {
-  color: #4c76aa;
+  color: var(--blue);
 }
 
 .hljs-number,
@@ -95,7 +116,11 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag .hljs-attr {
-  color: #007a7a;
+  color: var(--blue);
+}
+
+.hljs-tag {
+  color: var(--pink)
 }
 
 .hljs-symbol,
@@ -104,7 +129,7 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 .hljs-meta,
 .hljs-selector-id,
 .hljs-title {
-  color: #5a70a9;
+  color: var(--blue);
 }
 .hljs-emphasis {
   font-style: italic;
@@ -117,9 +142,9 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 }
 
 .rst-content .note .admonition-title {
-  background: #3b77c4;
+  background: var(--dark-blue);
 }
 
 .rst-content .tip .admonition-title {
-  background: #2a8068;
+  background: var(--teal);
 }

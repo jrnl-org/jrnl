@@ -51,7 +51,8 @@ This format is configurable through these values from your config file (see
 | This is the sample body text of the first sample entry.
 
 2020-07-01 20:00 This is the second sample entry
-| This is the sample body text of the second sample entry, but this one has a @tag.
+| This is the sample body text of the second sample entry, but
+| this one has a @tag.
 
 2020-07-02 09:00 This is the third sample entry
 | This is the sample body text of the third sample entry.
@@ -119,7 +120,7 @@ jrnl --format json
 
 JSON is a very handy format used by many programs and has support in nearly every
 programming language. There are many things you could do with JSON data. Maybe you could
-use [`jq`](https://github.com/stedolan/jq) to filter through the fields in your journal.
+use `jq` ([project page](https://github.com/stedolan/jq)) to filter through the fields in your journal.
 Like this:
 
 ``` sh

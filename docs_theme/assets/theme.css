@@ -5,27 +5,39 @@
 :root {
   --sidebar: #604385;
   --sidebar-dark: #604385;
+  --white: #fcfcfc;
   --off-white: #f4f0ff;
+  --dark-code: #251A32;
 }
 
 body.wy-body-for-nav,
 section.wy-nav-content-wrap {
-  background-color: rgb(252, 252, 252);
+  background-color: var(--white);
 }
 
-pre {
+.rst-content pre {
   background-color: transparent;
   border: none;
   margin: 1em -1em;
 }
 
-pre code {
-  padding: 1em 1.5em !important;
+.rst-content code {
+  color: var(--dark-code);
+  background-color: var(--off-white);
+  font-size: 15px;
 }
 
-code {
-  background-color: transparent;
+.rst-content pre code {
+  color: var(--off-white);
+  background: var(--dark-code);
+  padding: 1em 1.5em;
+  border-radius: 15px;
+  border: none;
+  font-size: 16px;
+  line-height: 1.5em;
+  font-weight: 200 !important;
 }
+
 
 h1,
 h2,
@@ -280,10 +292,6 @@ ol>li:before {
 .rst-content div[role="navigation"] a,
 .rst-content div[role="navigation"] a:visited {
   color: #9a5b96;
-}
-
-.rst-content code {
-  color: #D83D2D;
 }
 
 .mkdocs-search {
