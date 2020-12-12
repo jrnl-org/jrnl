@@ -18,7 +18,7 @@ Please fill out the points below, as it will make our process much easier.
 Please tell us which page, or pages, from the documentation site (https://jrnl.sh) are
 affected in this issue
 -->
-  - <!-- example: https://jrnl.sh/overview -->
+  - <!-- example: https://jrnl.sh/en/stable/overview -->
 
 ### What Could Be Better?
 <!--
