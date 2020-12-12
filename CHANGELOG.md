@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.6-beta](https://pypi.org/project/jrnl/v2.6-beta/) (2020-12-12)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5.1-alpha...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5.1-alpha...v2.6-beta)
 
 **Implemented enhancements:**
 
@@ -12,6 +12,11 @@
 
 - Missing readline module can be dealt with more gracefully [\#1015](https://github.com/jrnl-org/jrnl/issues/1015)
 - Check for readline module instead of Windows when initializing autocomplete in install [\#1104](https://github.com/jrnl-org/jrnl/pull/1104)
+
+**Build:**
+
+- Conduct a dependency audit [\#1052](https://github.com/jrnl-org/jrnl/issues/1052)
+- Update all dependencies and lock file [\#1110](https://github.com/jrnl-org/jrnl/pull/1110)
 
 **Documentation:**
 
