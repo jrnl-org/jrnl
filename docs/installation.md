@@ -22,8 +22,8 @@ should be created and whether you wish to encrypt it.
 
 To make a new entry, just type
 
-``` sh
-jrnl yesterday: Called in sick. Used the time to clean the house and spent 4h on writing my book.
+``` text
+jrnl yesterday: Called in sick. Used the time to clean, and spent 4h on writing my book.
 ```
 
 and hit return. `yesterday:` will be interpreted as a time stamp.
