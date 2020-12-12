@@ -4,7 +4,10 @@
 </a>
 </p>
 
-jrnl ![Testing](https://github.com/jrnl-org/jrnl/workflows/Testing/badge.svg) [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl) [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
+jrnl
+ [![Testing](https://github.com/jrnl-org/jrnl/workflows/Testing/badge.svg)](https://github.com/jrnl-org/jrnl/actions?query=workflow%3ATesting)
+ [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl)
+ [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
 ====
 
 _To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new/choose) on
