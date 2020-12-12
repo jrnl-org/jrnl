@@ -4,10 +4,18 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5.1-alpha...HEAD)
 
+**Implemented enhancements:**
+
+- Low Contrast Text on Webpage [\#1061](https://github.com/jrnl-org/jrnl/issues/1061)
+
 **Fixed bugs:**
 
 - Missing readline module can be dealt with more gracefully [\#1015](https://github.com/jrnl-org/jrnl/issues/1015)
 - Check for readline module instead of Windows when initializing autocomplete in install [\#1104](https://github.com/jrnl-org/jrnl/pull/1104)
+
+**Documentation:**
+
+- Make docs site \(jrnl.sh\) fully meet Web Content Accessibility Guidelines \(WCAG\) 2.1 [\#1105](https://github.com/jrnl-org/jrnl/pull/1105)
 
 ## [v2.5.1-alpha](https://pypi.org/project/jrnl/v2.5.1-alpha/) (2020-11-28)
 
