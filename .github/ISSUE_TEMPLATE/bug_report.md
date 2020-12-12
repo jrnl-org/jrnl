@@ -15,7 +15,7 @@ Please fill out the points below, as it will make our process much easier.
 
 <!-- Please tell us about your environment -->
 ### Environment
-  - Jrnl `--diagnostic` output: <!-- Run `jrnl --diagnostic` and paste the output -->
+  - `jrnl --diagnostic` output: <!-- Run the command and paste the output here -->
   - Install method: <!-- How did you install jrnl? (pipx, brew, etc) -->
 
 ### Current Behavior
