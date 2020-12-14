@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - develop
-  create:
-    branches:
-      - develop
+    tags:
+      - 'v*'
 
 jobs:
   generate:
