@@ -5,10 +5,10 @@
 
 from textwrap import TextWrapper
 
-from .text_exporter import TextExporter
+from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
 
-class FancyExporter(TextExporter):
+class Exporter(TextExporter):
     """This Exporter can convert entries and journals into text with unicode box drawing characters."""
 
     names = ["fancy", "boxed"]

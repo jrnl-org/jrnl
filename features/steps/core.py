@@ -462,7 +462,7 @@ def run(context, command, text=""):
 def load_template(context, filename):
     full_path = os.path.join("features/data/templates", filename)
     exporter = plugins.template_exporter.__exporter_from_file(full_path)
-    plugins.__exporter_types[exporter.names[0]] = exporter
+    plugins.meta.__exporter_types[exporter.names[0]] = exporter
 
 
 @when('we set the keyring password of "{journal}" to "{password}"')

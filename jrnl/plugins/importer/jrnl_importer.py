@@ -6,7 +6,7 @@
 import sys
 
 
-class JRNLImporter:
+class Importer:
     """This plugin imports entries from other jrnl files."""
 
     names = ["jrnl"]
