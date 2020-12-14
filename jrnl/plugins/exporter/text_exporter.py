@@ -9,7 +9,7 @@ from jrnl.color import ERROR_COLOR
 from jrnl.color import RESET_COLOR
 
 
-class TextExporter:
+class Exporter:
     """This Exporter can convert entries and journals into text files."""
 
     names = ["text", "txt"]

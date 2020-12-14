@@ -3,11 +3,11 @@
 
 import json
 
-from .text_exporter import TextExporter
-from .util import get_tags_count
+from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
+from jrnl.plugins.util import get_tags_count
 
 
-class JSONExporter(TextExporter):
+class Exporter(TextExporter):
     """This Exporter can convert entries and journals into json."""
 
     names = ["json"]

@@ -8,11 +8,10 @@ import sys
 from jrnl.color import ERROR_COLOR
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
+from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
-from .text_exporter import TextExporter
 
-
-class YAMLExporter(TextExporter):
+class Exporter(TextExporter):
     """This Exporter can convert entries and journals into Markdown formatted text with YAML front matter."""
 
     names = ["yaml"]

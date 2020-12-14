@@ -7,11 +7,10 @@ import sys
 
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
+from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
-from .text_exporter import TextExporter
 
-
-class MarkdownExporter(TextExporter):
+class Exporter(TextExporter):
     """This Exporter can convert entries and journals into Markdown."""
 
     names = ["md", "markdown"]

@@ -4,8 +4,8 @@
 from glob import glob
 import os
 
-from .template import Template
-from .text_exporter import TextExporter
+from jrnl.plugins.template import Template
+from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
 
 class GenericTemplateExporter(TextExporter):
@@ -29,7 +29,7 @@ def __exporter_from_file(template_file):
     name = os.path.basename(template_file).replace(".template", "")
     template = Template.from_file(template_file)
     return type(
-        str(f"{name.title()}Exporter"),
+        str(f"{name.title()}TemplateExporter"),
         (GenericTemplateExporter,),
         {"names": [name], "extension": template.extension, "template": template},
     )

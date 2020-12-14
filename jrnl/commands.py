@@ -41,7 +41,7 @@ def postconfig_list(config, **kwargs):
 
 def postconfig_import(args, config, **kwargs):
     from .Journal import open_journal
-    from .plugins import get_importer
+    from .plugins.meta import get_importer
 
     # Requires opening the journal
     journal = open_journal(args.journal_name, config)
