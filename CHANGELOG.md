@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6-beta...HEAD)
+
+**Fixed bugs:**
+
+- Typo fix in output.py: "us" -\> "use" [\#1117](https://github.com/jrnl-org/jrnl/pull/1117)
+
 ## [v2.6-beta](https://pypi.org/project/jrnl/v2.6-beta/) (2020-12-12)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5.1-alpha...v2.6-beta)
