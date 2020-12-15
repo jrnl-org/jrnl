@@ -30,7 +30,7 @@ jrnl today at 3am: I just met Steve Buscemi in a bar! What a nice guy.
     reserved characters can be escaped using `\`, this is not ideal for
     long-form writing. The solution: first enter `jrnl` and hit `return`. You
     can then enter the text of your journal entry. Alternatively, you can [use
-    an external editor](./advanced.md)).
+    an external editor](./advanced.md).
 
 You can also import an entry directly from a file:
 
