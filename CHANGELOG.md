@@ -16,6 +16,7 @@
 
 **Documentation:**
 
+- Small accessibility fixes for docs site [\#1122](https://github.com/jrnl-org/jrnl/pull/1122)
 - Fix lone closing parenthesis [\#1118](https://github.com/jrnl-org/jrnl/pull/1118)
 
 ## [v2.6-beta](https://pypi.org/project/jrnl/v2.6-beta/) (2020-12-12)
