@@ -11,6 +11,7 @@
 **Build:**
 
 - Change approach for docs workflow to use pa11y-ci [\#1116](https://github.com/jrnl-org/jrnl/pull/1116)
+- Fix trigger for changelog [\#1114](https://github.com/jrnl-org/jrnl/pull/1114)
 
 **Documentation:**
 
