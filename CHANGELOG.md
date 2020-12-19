@@ -8,9 +8,13 @@
 
 - Typo fix in output.py: "us" -\> "use" [\#1117](https://github.com/jrnl-org/jrnl/pull/1117)
 
+**Build:**
+
+- Change approach for docs workflow to use pa11y-ci [\#1116](https://github.com/jrnl-org/jrnl/pull/1116)
+
 **Documentation:**
 
-- Fixes lone closing parenthesis in docs [\#1118](https://github.com/jrnl-org/jrnl/pull/1118)
+- Fix lone closing parenthesis [\#1118](https://github.com/jrnl-org/jrnl/pull/1118)
 
 ## [v2.6-beta](https://pypi.org/project/jrnl/v2.6-beta/) (2020-12-12)
 
