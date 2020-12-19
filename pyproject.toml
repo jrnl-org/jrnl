@@ -3,7 +3,7 @@ name = "jrnl"
 version = "v2.6-beta"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
-    "jrnl contributors",
+    "jrnl contributors <jrnl-sh@googlegroups.com>",
     "Manuel Ebert <manuel@1450.me>",
     "Jonathan Wren <jonathan@nowandwren.com>",
     "Micah Ellison <micahellison@gmail.com>"
