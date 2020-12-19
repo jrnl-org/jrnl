@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2021 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 from datetime import datetime
 
 FAKE_YEAR = 9999
