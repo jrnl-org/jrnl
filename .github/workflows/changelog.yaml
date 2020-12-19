@@ -35,7 +35,7 @@ jobs:
           if [[ $GITHUB_REF =~ ^refs/tags/ ]]; then
             # This is a tag build (i.e. a release)
             echo '::debug::Release build'
-            if [[ ! $BRANCH =~ ^v[0-9]+(\.[0-9]+){1,2}(-(alpha|beta)(\.[0-9]+)?)?$ ]]; then
+            if [[ ! $BRANCH =~ ^v[0-9]+(\.[0-9]+){1,2}(-(alpha|beta)([0-9]+)?)?$ ]]; then
               echo "::error::Invalid tag format: ${BRANCH}"
               exit 1
             fi
