@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version (e.g. v2.5 or v2.5.1-beta)'
+        description: 'Version (e.g. v2.5, v2.5.1-beta, v2.6-beta2)'
         required: true
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       run: |
         JRNL_VERSION="${{ github.event.inputs.version }}"
         echo "::debug::version: $JRNL_VERSION"
-        if [[ ! $JRNL_VERSION =~ ^v[0-9]+(\.[0-9]+){1,2}(-(alpha|beta)(\.[0-9]+)?)?$ ]]; then
+        if [[ ! $JRNL_VERSION =~ ^v[0-9]+(\.[0-9]+){1,2}(-(alpha|beta)([0-9]+)?)?$ ]]; then
           echo
           echo "::error::Bad version"
           echo
