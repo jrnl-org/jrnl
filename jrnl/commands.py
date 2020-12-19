@@ -29,7 +29,13 @@ def preconfig_version(_):
     from jrnl import __title__
     from jrnl import __version__
 
-    version_str = f"{__title__} version {__version__}"
+    version_str = f"""{__title__} version {__version__}
+
+Copyright (C) 2012-2021 jrnl contributors
+
+This is free software, and you are welcome to redistribute it under certain
+conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
+
     print(version_str)
 
 
