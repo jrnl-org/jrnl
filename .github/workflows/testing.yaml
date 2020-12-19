@@ -9,7 +9,7 @@ on:
     - 'tests/**'
     - 'poetry.lock'
     - 'pyproject.toml'
-  pull_request_target:
+  pull_request:
     branches: [ develop ]
     paths:
     - 'jrnl/**'
@@ -70,35 +70,3 @@ jobs:
     - name: Test with behave
       if: success() || failure()
       run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
-
-    - name: Upload Unit Test Results
-      if: success() || failure()
-      uses: actions/upload-artifact@v2
-      with:
-        name: Unit Test Results
-        path: reports/**/*.xml
-
-  publish-test-results:
-    if: success() || failure()
-    name: "Publish Unit Tests Results"
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: artifacts
-
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.4
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: Unit Test Results
-          hide_comments: all but latest
-          comment_on_pr: true
-          files: '**/*.xml'
-          report_individual_runs: true
-          deduplicate_classes_by_file_name: false
-
