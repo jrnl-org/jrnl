@@ -12,6 +12,7 @@
 
 - Change approach for docs workflow to use pa11y-ci [\#1116](https://github.com/jrnl-org/jrnl/pull/1116)
 - Fix trigger for changelog [\#1114](https://github.com/jrnl-org/jrnl/pull/1114)
+- Add automatic deployment for homebrew releases \(and prereleases\) [\#1111](https://github.com/jrnl-org/jrnl/pull/1111)
 
 **Documentation:**
 
