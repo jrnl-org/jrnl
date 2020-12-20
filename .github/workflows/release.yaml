@@ -162,7 +162,15 @@ jobs:
       run: brew install pipgrip
 
     - name: Query PyPI API
-      run: curl -Ls https://pypi.org/pypi/jrnl/json > api_response.json
+      uses: nick-invision/retry@v2
+      with:
+        timeout_seconds: 10
+        max_attempts: 30
+        retry_wait_seconds: 10
+        command: |
+          curl -Ls https://pypi.org/pypi/jrnl/json > api_response.json
+          # if query doesn't have our version yet, give it some time before trying again
+          [[ "null" == "$(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)" ]] && exit 1
 
     - name: Update Homebrew Formula
       run: >
