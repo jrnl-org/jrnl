@@ -76,6 +76,7 @@ div.rst-content {
 }
 
 .wy-nav-top {
+  background-color: --mid-purple;
   background-image: linear-gradient(-211deg, var(--light-purple) 0%, var(--dark-purple) 100%);
 }
 
@@ -172,6 +173,7 @@ a.icon-home:before {
 
 
 .wy-nav-side {
+  background-color: --mid-purple;
   background-image: linear-gradient(211deg, var(--mid-purple) 0%, var(--dark-purple) 100%);
   font-weight: 300;
   height: 100%;

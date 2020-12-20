@@ -66,6 +66,7 @@ h3 {
 }
 
 header {
+  background-color: --mid-purple;
   background-image: linear-gradient(211deg, var(--mid-purple) 0%, var(--dark-purple) 100%);
   color: var(--white);
   border: 0px solid transparent;
@@ -202,6 +203,7 @@ nav a:visited:hover {
 nav a.cta {
   display: inline-block;
   color: var(--white);
+  background-color: --mid-purple;
   background-image: linear-gradient(259deg, var(--mid-purple) 0%, var(--dark-purple) 100%);
   box-shadow: 0 2px 8px 0 var(--blacker-shadow);
   border-radius: 50px;
@@ -213,6 +215,7 @@ nav a.cta {
 
 nav a.cta:hover {
   text-decoration: none;
+  background-color: --mid-purple;
   background-image: linear-gradient(259deg, var(--bright-purple) 0%, var(--dark-purple) 100%);
   box-shadow: 0 4px 16px 0 var(--black-shadow);
   color: var(--off-white);
