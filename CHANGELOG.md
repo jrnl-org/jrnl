@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.6-beta2](https://pypi.org/project/jrnl/v2.6-beta2/) (2020-12-19)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6-beta...v2.6-beta2)
 
 **Fixed bugs:**
 
