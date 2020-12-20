@@ -112,6 +112,7 @@ jobs:
           releaseUrl: https://pypi.org/project/jrnl/%s/
           releaseBranch: develop
           verbose: false
+          author: true
 
       - name: Small fixes
         run: |
