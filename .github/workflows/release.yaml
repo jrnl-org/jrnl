@@ -75,6 +75,7 @@ jobs:
         git add pyproject.toml jrnl/__version__.py
         git commit -m "Increment version to ${JRNL_VERSION}"
         git tag -a -m "$JRNL_VERSION" "$JRNL_VERSION"
+        git push
         git push --tags
 
     - name: Build
@@ -170,7 +171,14 @@ jobs:
         command: |
           curl -Ls https://pypi.org/pypi/jrnl/json > api_response.json
           # if query doesn't have our version yet, give it some time before trying again
-          [[ "null" == "$(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)" ]] && exit 1
+          if [[ "null" == "$(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)" ]]; then
+            echo "::debug::PYPI_VERSION: $PYPI_VERSION"
+            echo "::debug::JQ VALUE: $(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)"
+            echo "::group::cat api_response.json"
+            cat api_response.json
+            echo "::endgroup::"
+            exit 1
+          fi
 
     - name: Update Homebrew Formula
       run: >
