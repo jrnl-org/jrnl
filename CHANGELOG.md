@@ -1,77 +1,45 @@
 # Changelog
 
-## [v2.6-beta3](https://pypi.org/project/jrnl/v2.6-beta3/) (2020-12-19)
+## [v2.6](https://pypi.org/project/jrnl/v2.6/) (2020-12-20)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6-beta...v2.6-beta3)
-
-**Fixed bugs:**
-
-- Typo fix in output.py: "us" -\> "use" [\#1117](https://github.com/jrnl-org/jrnl/pull/1117)
-
-**Build:**
-
-- Change approach for docs workflow to use pa11y-ci [\#1116](https://github.com/jrnl-org/jrnl/pull/1116)
-- Fix trigger for changelog [\#1114](https://github.com/jrnl-org/jrnl/pull/1114)
-- Add automatic deployment for homebrew releases \(and prereleases\) [\#1111](https://github.com/jrnl-org/jrnl/pull/1111)
-
-**Documentation:**
-
-- Small accessibility fixes for docs site [\#1122](https://github.com/jrnl-org/jrnl/pull/1122)
-- Comply with GPL by acknowledging all authors and including license info in each source file [\#1121](https://github.com/jrnl-org/jrnl/pull/1121)
-- Fix lone closing parenthesis [\#1118](https://github.com/jrnl-org/jrnl/pull/1118)
-
-## [v2.6-beta](https://pypi.org/project/jrnl/v2.6-beta/) (2020-12-12)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5.1-alpha...v2.6-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...v2.6)
 
 **Implemented enhancements:**
 
-- Low Contrast Text on Webpage [\#1061](https://github.com/jrnl-org/jrnl/issues/1061)
-
-**Fixed bugs:**
-
-- Missing readline module can be dealt with more gracefully [\#1015](https://github.com/jrnl-org/jrnl/issues/1015)
-- Check for readline module instead of Windows when initializing autocomplete in install [\#1104](https://github.com/jrnl-org/jrnl/pull/1104)
-
-**Build:**
-
-- Conduct a dependency audit [\#1052](https://github.com/jrnl-org/jrnl/issues/1052)
-- Update all dependencies and lock file [\#1110](https://github.com/jrnl-org/jrnl/pull/1110)
-
-**Documentation:**
-
-- Make docs site \(jrnl.sh\) fully meet Web Content Accessibility Guidelines \(WCAG\) 2.1 [\#1105](https://github.com/jrnl-org/jrnl/pull/1105)
-
-## [v2.5.1-alpha](https://pypi.org/project/jrnl/v2.5.1-alpha/) (2020-11-28)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...v2.5.1-alpha)
-
-**Implemented enhancements:**
-
-- Configure default display format in config [\#1014](https://github.com/jrnl-org/jrnl/issues/1014)
+- Add ability to put --edit partly through a cli entry to move it to the editor [\#1091](https://github.com/jrnl-org/jrnl/pull/1091) ([wren](https://github.com/wren))
 - Allow --edit flag partway through an entry [\#906](https://github.com/jrnl-org/jrnl/issues/906)
-- Add ability to put --edit partly through a cli entry to move it to the editor [\#1091](https://github.com/jrnl-org/jrnl/pull/1091)
 
 **Fixed bugs:**
 
+- Check for readline module instead of Windows when initializing autocomplete in install [\#1104](https://github.com/jrnl-org/jrnl/pull/1104) ([micahellison](https://github.com/micahellison))
 - Directory export crashes in Windows with certain characters - UnicodeEncodeError: 'locale' codec can't encode character [\#1089](https://github.com/jrnl-org/jrnl/issues/1089)
-- Fix Unicode encoding failure in directory export when creating filenames from journal titles with certain characters [\#1090](https://github.com/jrnl-org/jrnl/pull/1090)
+- Fix Unicode encoding failure in directory export when creating filenames from journal titles with certain characters [\#1090](https://github.com/jrnl-org/jrnl/pull/1090) ([micahellison](https://github.com/micahellison))
+- Typo fix in output.py: "us" -\> "use" [\#1117](https://github.com/jrnl-org/jrnl/pull/1117) ([signal-9](https://github.com/signal-9))
 
 **Build:**
 
+- Add a release workflow for PyPI in CI \(Github Actions\) [\#1095](https://github.com/jrnl-org/jrnl/pull/1095) ([wren](https://github.com/wren))
+- Add automatic deployment for homebrew releases \(and prereleases\) [\#1111](https://github.com/jrnl-org/jrnl/pull/1111) ([wren](https://github.com/wren))
+- Add changelog generation workflow to github actions [\#1086](https://github.com/jrnl-org/jrnl/pull/1086) ([wren](https://github.com/wren))
+- Add fix for changelog conditional always returning false [\#1101](https://github.com/jrnl-org/jrnl/pull/1101) ([wren](https://github.com/wren))
+- Change approach for docs workflow to use pa11y-ci [\#1116](https://github.com/jrnl-org/jrnl/pull/1116) ([wren](https://github.com/wren))
+- Changelog fixes [\#1088](https://github.com/jrnl-org/jrnl/pull/1088) ([wren](https://github.com/wren))
+- Fix trigger for changelog [\#1114](https://github.com/jrnl-org/jrnl/pull/1114) ([wren](https://github.com/wren))
+- Make changelog auto exclude stale and wontfix issues [\#1081](https://github.com/jrnl-org/jrnl/pull/1081) ([wren](https://github.com/wren))
 - Migrate to Github Actions from Travis CI [\#1060](https://github.com/jrnl-org/jrnl/issues/1060)
-- Add fix for changelog conditional always returning false [\#1101](https://github.com/jrnl-org/jrnl/pull/1101)
-- Add a release workflow for PyPI in CI \(Github Actions\) [\#1095](https://github.com/jrnl-org/jrnl/pull/1095)
-- Udpate build badge in readme to point at github instead of travis [\#1094](https://github.com/jrnl-org/jrnl/pull/1094)
-- More changelog fixes [\#1092](https://github.com/jrnl-org/jrnl/pull/1092)
-- Changelog fixes [\#1088](https://github.com/jrnl-org/jrnl/pull/1088)
-- Add changelog generation workflow to github actions [\#1086](https://github.com/jrnl-org/jrnl/pull/1086)
-- get rid of travis and circle configs \(in favor of github actions\) [\#1082](https://github.com/jrnl-org/jrnl/pull/1082)
-- Make changelog auto exclude stale and wontfix issues [\#1081](https://github.com/jrnl-org/jrnl/pull/1081)
+- More changelog fixes [\#1092](https://github.com/jrnl-org/jrnl/pull/1092) ([wren](https://github.com/wren))
+- Standardize version regex in release pipeline [\#1124](https://github.com/jrnl-org/jrnl/pull/1124) ([wren](https://github.com/wren))
+- Udpate build badge in readme to point at github instead of travis [\#1094](https://github.com/jrnl-org/jrnl/pull/1094) ([wren](https://github.com/wren))
+- Update all dependencies and lock file [\#1110](https://github.com/jrnl-org/jrnl/pull/1110) ([wren](https://github.com/wren))
+- get rid of travis and circle configs \(in favor of github actions\) [\#1082](https://github.com/jrnl-org/jrnl/pull/1082) ([wren](https://github.com/wren))
 
 **Documentation:**
 
-- Add visual header to readme [\#1085](https://github.com/jrnl-org/jrnl/pull/1085)
+- Add visual header to readme [\#1085](https://github.com/jrnl-org/jrnl/pull/1085) ([wren](https://github.com/wren))
+- Comply with GPL by acknowledging all authors and including license info in each source file [\#1121](https://github.com/jrnl-org/jrnl/pull/1121) ([micahellison](https://github.com/micahellison))
+- Fix lone closing parenthesis [\#1118](https://github.com/jrnl-org/jrnl/pull/1118) ([maebert](https://github.com/maebert))
+- Make docs site \(jrnl.sh\) fully meet Web Content Accessibility Guidelines \(WCAG\) 2.1 [\#1105](https://github.com/jrnl-org/jrnl/pull/1105) ([wren](https://github.com/wren))
+- Small accessibility fixes for docs site [\#1122](https://github.com/jrnl-org/jrnl/pull/1122) ([wren](https://github.com/wren))
 
 ## [v2.5](https://pypi.org/project/jrnl/v2.5/) (2020-11-07)
 
