@@ -2,18 +2,19 @@ site_name: jrnl
 site_url: https://jrnl.sh
 theme:
   name: readthedocs
-  custom_dir: docs/theme
+  custom_dir: docs_theme
   static_templates:
       - index.html
 extra_css:
     - https://fonts.googleapis.com/css?family=Open+Sans:300,600
+    - assets/colors.css
     - assets/theme.css
     - assets/highlight.css
 markdown_extensions:
   - admonition
 repo_url: https://github.com/jrnl-org/jrnl/
 edit_uri: edit/develop/docs/
-site_author: Manuel Ebert
+site_author: jrnl contributors
 site_description: Collect your thoughts and notes without leaving the command line.
 nav:
   - Overview: overview.md

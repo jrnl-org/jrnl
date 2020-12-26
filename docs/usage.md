@@ -1,3 +1,5 @@
+<!-- Copyright (C) 2012-2021 jrnl contributors
+     License: https://www.gnu.org/licenses/gpl-3.0.html -->
 # Basic Usage #
 
 `jrnl` has two modes: **composing** and **viewing**. Whenever you don't enter
@@ -19,7 +21,7 @@ Composing mode is entered by either starting `jrnl` without any arguments --
 which will launch an external editor -- or by just writing an entry on the
 command line:
 
-```sh
+```text
 jrnl today at 3am: I just met Steve Buscemi in a bar! What a nice guy.
 ```
 
@@ -30,7 +32,7 @@ jrnl today at 3am: I just met Steve Buscemi in a bar! What a nice guy.
     reserved characters can be escaped using `\`, this is not ideal for
     long-form writing. The solution: first enter `jrnl` and hit `return`. You
     can then enter the text of your journal entry. Alternatively, you can [use
-    an external editor](./advanced.md)).
+    an external editor](./advanced.md).
 
 You can also import an entry directly from a file:
 

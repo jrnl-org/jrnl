@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "jrnl"
-version = "v2.5.1-alpha"
+version = "v2.6"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
+    "jrnl contributors <jrnl-sh@googlegroups.com>",
     "Manuel Ebert <manuel@1450.me>",
     "Jonathan Wren <jonathan@nowandwren.com>",
     "Micah Ellison <micahellison@gmail.com>"
@@ -21,29 +22,30 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.7.0, <3.10.0"
-pyxdg = "^0.27.0"
-cryptography = "^3.0"
-passlib = "^1.7"
-parsedatetime = "^2.4"
-keyring = ">19.0, <22.0"
-pytz = ">=2019.1, <2021.0"
-tzlocal = ">1.5, <3.0"
-asteval = "^0.9.14"
-colorama = "^0.4.1"
-python-dateutil = "^2.8"
-pyyaml = "^5.1"
+python = ">=3.7.0, <3.10"
+
 ansiwrap = "^0.8.4"
-packaging = "^20.4"
+asteval = "^0.9"
+colorama = ">=0.4"       # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
+cryptography = ">=3.0"   # https://cryptography.io/en/latest/api-stability.html
+keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration
+parsedatetime = ">=2.6"
+python-dateutil = "^2.8" # https://github.com/dateutil/dateutil/blob/master/RELEASING
+pyxdg = ">=0.27.0"
+pyyaml = ">=5.1"
+
+# dayone-only deps
+pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations
+tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
 mkdocs = "^1.0"
 black = {version = "^20.8b1",allow-prereleases = true}
-toml = "^0.10.0"
-pyflakes = "^2.2.0"
-pytest = "^6.1.2"
-yq = "^2.11.1"
+toml = ">=0.10"
+pyflakes = ">=2.2.0"
+pytest = ">=6.2"
+yq = ">=2.11"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
@@ -56,6 +58,5 @@ known_first_party = ["jrnl"]
 force_sort_within_sections = true
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=1.1"]
 build-backend = "poetry.masonry.api"
-

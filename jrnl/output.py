@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2021 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 import logging
 
 
@@ -10,7 +13,7 @@ def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
 
     warning_msg = f"""
     The command {old_cmd} is deprecated and will be removed from jrnl soon.
-    Please us {new_cmd} instead.
+    Please use {new_cmd} instead.
     """
     warning_msg = textwrap.dedent(warning_msg)
     logging.warning(warning_msg)

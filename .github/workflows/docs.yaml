@@ -5,14 +5,18 @@ on:
     branches: [ develop, release ]
     paths:
     - 'docs/**'
+    - 'docs_theme/**'
     - 'mkdocs.yml'
     - 'readthedocs.yml'
-  pull_request_target:
+    - '.github/workflows/docs.yaml'
+  pull_request:
     branches: [ develop ]
     paths:
     - 'docs/**'
+    - 'docs_theme/**'
     - 'mkdocs.yml'
     - 'readthedocs.yml'
+    - '.github/workflows/docs.yaml'
 
 jobs:
   accessibility:
@@ -36,47 +40,29 @@ jobs:
         path: .venv
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
 
+    - name: npm cache
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-pa11y-v3
+
     - name: Install dependencies
       run: |
         pip install poetry
         poetry config --local virtualenvs.in-project true
         poetry install --no-root --remove-untracked
-        npm install pa11y pa11y-reporter-junit
+        npm install pa11y-ci
+        echo "node_modules/.bin" >> $GITHUB_PATH
 
     - name: Start docs server
       run: poetry run mkdocs serve &
 
+    - name: Generate sitemap
+      env:
+        site_url: http://127.0.0.1:8000
+      run: |
+        select="{urls: [\"${site_url}/\", .urlset.url[].loc]}"
+        curl -s "$site_url/sitemap.xml" | poetry run xq "$select" > list.json
+
     - name: Accessibility testing (Pa11y)
-      run: poetry run .github/workflows/pa11y.sh
-
-    - name: Upload Unit Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: Unit Test Results (pa11y)
-        path: reports/pa11y/*.xml
-
-  publish-test-results:
-    if: success() || failure()
-    name: "Publish Unit Tests Results"
-    needs: accessibility
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: artifacts
-
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.4
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: Unit Test Results
-          hide_comments: all but latest
-          comment_on_pr: true
-          files: '**/*.xml'
-          report_individual_runs: true
-          deduplicate_classes_by_file_name: false
-
+      run: pa11y-ci -c list.json
