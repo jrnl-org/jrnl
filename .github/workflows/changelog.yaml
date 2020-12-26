@@ -77,7 +77,7 @@ jobs:
       - name: Prep changelog file (clear out old lines)
         run: |
           # delete the top of the changelog up to the correct tag
-          tagline=$(grep -n "^## \[\?${SINCE_TAG}\]\?" "$FILENAME" | awk '{print $1}' FS=':' | head -1)
+          tagline=$(grep -n "^## \[${SINCE_TAG}\]" "$FILENAME" | awk '{print $1}' FS=':' | head -1)
           echo "tagline: ${tagline}"
 
           if [[ -z $tagline ]]; then
@@ -112,6 +112,7 @@ jobs:
           releaseUrl: https://pypi.org/project/jrnl/%s/
           releaseBranch: develop
           verbose: false
+          author: true
 
       - name: Small fixes
         run: |
@@ -139,7 +140,7 @@ jobs:
           git push origin $BRANCH
 
       - name: Merge to Release branch
-        if: env.FULL_RELEASE
+        if: env.FULL_RELEASE == 'true'
         run: |
           git checkout release
           git merge --ff-only $BRANCH
