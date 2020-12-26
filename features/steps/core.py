@@ -20,7 +20,6 @@ import yaml
 from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
-from jrnl import config
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import on_windows
@@ -578,7 +577,7 @@ def config_var(context, key, value="", journal=None):
     if journal:
         configuration = configuration["journals"][journal]
 
-    assert key in config
+    assert key in configuration
     assert configuration[key] == value
 
 
