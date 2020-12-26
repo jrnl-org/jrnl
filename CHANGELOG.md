@@ -8,6 +8,10 @@
 
 - Implement dependency tracker/updater [\#1120](https://github.com/jrnl-org/jrnl/issues/1120)
 
+**Build:**
+
+- Fix changelog generator [\#1127](https://github.com/jrnl-org/jrnl/pull/1127) ([wren](https://github.com/wren))
+
 ## [v2.6](https://pypi.org/project/jrnl/v2.6/) (2020-12-20)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...v2.6)
