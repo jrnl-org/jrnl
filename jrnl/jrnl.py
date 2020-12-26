@@ -11,6 +11,7 @@ from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .config import get_journal_name
 from .config import scope_config
+from .config import get_config_path
 from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from .exception import UserAbort
@@ -228,7 +229,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
             f"""
             [{ERROR_COLOR}ERROR{RESET_COLOR}: There is no editor configured.]
 
-            Please specify an editor in config file ({install.CONFIG_FILE_PATH})
+            Please specify an editor in config file ({get_config_path()})
             to use the --edit option.
             """,
             file=sys.stderr,
