@@ -125,6 +125,8 @@ def read_value_from_string(string):
     value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
     return value
 
+def get_test_config_path(context):
+    return context.config_path
 
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
@@ -306,7 +308,8 @@ def run_with_input(context, command, inputs=""):
         patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
         patch("sys.stdin.read", side_effect=text) as mock_read, \
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
-        patch("jrnl.config.get_config_path", side_effect=context.config_path) \
+        patch("jrnl.config.get_config_path", side_effect=get_test_config_path(context)), \
+        patch("jrnl.install.get_config_path", side_effect=get_test_config_path(context)) \
     :
         try:
             cli(args or [])
@@ -389,7 +392,8 @@ def run(context, command, text=""):
             patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
             patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
             patch("sys.stdin.read", side_effect=lambda: text), \
-            patch("jrnl.config.get_config_path", side_effect=context.config_path) \
+            patch("jrnl.config.get_config_path", side_effect=get_test_config_path(context)), \
+            patch("jrnl.install.get_config_path", side_effect=get_test_config_path(context)) \
         :
             context.editor = mock_editor
             context.getpass = mock_getpass
