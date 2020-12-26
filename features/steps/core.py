@@ -194,11 +194,18 @@ def open_editor_and_enter(context, method, text=""):
     with \
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
         patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
-        patch("sys.stdin.isatty", return_value=True) \
+        patch("sys.stdin.isatty", return_value=True), \
+        patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
+        patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
     :
         context.editor = mock_editor
         context.getpass = mock_getpass
-        cli(["--edit"])
+        try:
+            cli(["--edit"])
+            context.exit_status = 0
+        except SystemExit as e:
+            context.exit_status = e.code
+
     # fmt: on
 
 
