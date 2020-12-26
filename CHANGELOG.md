@@ -14,6 +14,7 @@
 
 **Documentation:**
 
+- Fix search on docs site [\#1133](https://github.com/jrnl-org/jrnl/pull/1133) ([wren](https://github.com/wren))
 - Add packaging label to changelog generator config [\#1132](https://github.com/jrnl-org/jrnl/pull/1132) ([wren](https://github.com/wren))
 - Fix failing contrast test in accessibility tools on docs site [\#1126](https://github.com/jrnl-org/jrnl/pull/1126) ([wren](https://github.com/wren))
 
