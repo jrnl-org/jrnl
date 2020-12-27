@@ -32,9 +32,6 @@ def get_config_path():
     try:
         config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
     except FileExistsError:
-        # .TODO raise a custom jrnl exception
-        # this is when XDG tries to create a directory with the same name as a file that exists
-
         raise ConfigDirectoryPathIsFileException(
             "The path to your jrnl configuration directory is a file, not a directory:\n"
             + os.path.join(xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE)
