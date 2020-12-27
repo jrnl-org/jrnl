@@ -7,6 +7,7 @@ import yaml
 import xdg.BaseDirectory
 
 from . import __version__
+from .exception import ConfigDirectoryPathIsFileException
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .output import list_journals
@@ -33,7 +34,13 @@ def get_config_path():
     except FileExistsError:
         # .TODO raise a custom jrnl exception
         # this is when XDG tries to create a directory with the same name as a file that exists
-        raise
+
+        raise ConfigDirectoryPathIsFileException(
+            "The path to your jrnl configuration directory is a file, not a directory:\n"
+            + os.path.join(xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE)
+            + "\n"
+            + "Removing this file will allow jrnl to save its configuration."
+        )
 
     return os.path.join(
         config_directory_path or os.path.expanduser("~"), DEFAULT_CONFIG_NAME

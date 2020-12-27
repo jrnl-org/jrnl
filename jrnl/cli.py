@@ -7,6 +7,7 @@ import sys
 
 from .jrnl import run
 from .args import parse_args
+from .exception import ConfigDirectoryPathIsFileException
 
 
 def configure_logger(debug=False):
@@ -32,6 +33,10 @@ def cli(manual_args=None):
         logging.debug("Parsed args: %s", args)
 
         return run(args)
+
+    except ConfigDirectoryPathIsFileException as e:
+        print(e, file=sys.stderr)
+        return 1
 
     except KeyboardInterrupt:
         return 1
