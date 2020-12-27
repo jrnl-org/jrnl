@@ -98,7 +98,7 @@ jobs:
           repo: jrnl-org/jrnl
           token: ${{ secrets.JRNL_BOT_TOKEN }}
           base: CHANGELOG.md
-          addSections: '{"build":{"prefix":"**Build:**","labels":["build"]},"docs":{"prefix":"**Documentation:**","labels":["documentation"]}}'
+          addSections: '{"build":{"prefix":"**Build:**","labels":["build"]},"docs":{"prefix":"**Documentation:**","labels":["documentation"]},"packaging":{"prefix":"**Packaging:**","labels":["packaging"]}}'
           issues: true
           pullRequests: true
           issuesWoLabels: false
