@@ -50,6 +50,7 @@ black = {version = "^21.5b2",allow-prereleases = true}
 toml = ">=0.10"
 pyflakes = ">=2.2.0"
 pytest = ">=6.2"
+pytest-bdd = "^4.0.1"
 yq = ">=2.11"
 
 [tool.poetry.scripts]
@@ -61,6 +62,9 @@ force_single_line = true
 line_length = 88
 known_first_party = ["jrnl"]
 force_sort_within_sections = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
 
 [build-system]
 requires = ["poetry>=1.1"]
