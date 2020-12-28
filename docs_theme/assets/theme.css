@@ -168,7 +168,7 @@ a.icon-home:before {
 }
 
 .wy-menu-vertical li a {
-  color: var(--off-white) !important;
+  color: var(--white) !important;
   font-weight: 300;
 }
 
