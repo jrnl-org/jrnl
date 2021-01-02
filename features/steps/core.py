@@ -164,10 +164,14 @@ def use_password(context, password, num=1):
     context.password = iter([password] * num)
 
 
-@given("we have a keyring")
-def set_keyring(context):
-    keyring.set_keyring(TestKeyring())
-
+@given("we have a {type} keyring")
+def set_keyring(context, type=None):
+    if type == "locked":
+        keyring.set_keyring(LockedKeyring())
+    elif type == "failed":
+        keyring.set_keyring(FailedKeyring())
+    else:
+        keyring.set_keyring(TestKeyring())
 
 @given("we do not have a keyring")
 def disable_keyring(context):
