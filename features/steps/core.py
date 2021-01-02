@@ -88,7 +88,7 @@ class FailedKeyring(keyring.backend.KeyringBackend):
 
 class LockedKeyring(keyring.backend.KeyringBackend):
     """
-    A keyring that simulates an environment with a locked keyring.
+    An environment with a locked keyring (where unlocking is unavailable or rejected).
     """
 
     priority = 2
