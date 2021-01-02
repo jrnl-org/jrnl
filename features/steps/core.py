@@ -248,6 +248,15 @@ def contains_editor_file(context, method, text=""):
         assert False, f"Method '{method}' not supported"
 
 
+@then('the temporary filename suffix should be "{suffix}"')
+def extension_editor_file(context, suffix):
+    filename = Path(context.editor_file["name"]).name
+    delimiter = "-" if "-" in filename else "."
+    file_suffix = delimiter + filename.split(delimiter)[-1]
+    print(file_suffix, suffix)
+    assert file_suffix == suffix
+
+
 def _mock_getpass(inputs):
     def prompt_return(prompt=""):
         if type(inputs) == str:
