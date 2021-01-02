@@ -35,7 +35,7 @@ def cli(manual_args=None):
         return run(args)
 
     except JrnlError as e:
-        print(e, file=sys.stderr)
+        print(e.message, file=sys.stderr)
         return 1
 
     except KeyboardInterrupt:
