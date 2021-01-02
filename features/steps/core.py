@@ -252,9 +252,8 @@ def contains_editor_file(context, method, text=""):
 def extension_editor_file(context, suffix):
     filename = Path(context.editor_file["name"]).name
     delimiter = "-" if "-" in filename else "."
-    file_suffix = delimiter + filename.split(delimiter)[-1]
-    print(file_suffix, suffix)
-    assert file_suffix == suffix
+    filename_suffix = delimiter + filename.split(delimiter)[-1]
+    assert filename_suffix == suffix
 
 
 def _mock_getpass(inputs):
