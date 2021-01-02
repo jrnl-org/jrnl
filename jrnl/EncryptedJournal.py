@@ -176,7 +176,7 @@ def get_keychain(journal_name):
 
     try:
         return keyring.get_password("jrnl", journal_name)
-    except RuntimeError:
+    except (keyring.errors.KeyringLocked, RuntimeError):
         return ""
 
 
