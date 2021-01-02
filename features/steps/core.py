@@ -86,6 +86,23 @@ class FailedKeyring(keyring.backend.KeyringBackend):
         self.keys[servicename][username] = None
 
 
+class LockedKeyring(keyring.backend.KeyringBackend):
+    """
+    A keyring that simulates an environment with a locked keyring.
+    """
+
+    priority = 2
+
+    def set_password(self, servicename, username, password):
+        raise keyring.errors.KeyringLocked
+
+    def get_password(self, servicename, username):
+        raise keyring.errors.KeyringLocked
+
+    def delete_password(self, servicename, username):
+        raise keyring.errors.KeyringLocked
+
+
 # set a default keyring
 keyring.set_keyring(TestKeyring())
 
