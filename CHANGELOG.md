@@ -27,6 +27,13 @@
 - Add packaging label to changelog generator config [\#1132](https://github.com/jrnl-org/jrnl/pull/1132) ([wren](https://github.com/wren))
 - Fix failing contrast test in accessibility tools on docs site [\#1126](https://github.com/jrnl-org/jrnl/pull/1126) ([wren](https://github.com/wren))
 
+**Packaging:**
+
+- Bump keyring from 21.7.0 to 21.8.0 [\#1136](https://github.com/jrnl-org/jrnl/pull/1136) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytz from 2020.4 to 2020.5 [\#1130](https://github.com/jrnl-org/jrnl/pull/1130) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump pytest from 6.2.0 to 6.2.1 [\#1129](https://github.com/jrnl-org/jrnl/pull/1129) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump keyring from 21.5.0 to 21.7.0 [\#1128](https://github.com/jrnl-org/jrnl/pull/1128) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [v2.6](https://pypi.org/project/jrnl/v2.6/) (2020-12-20)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.5...v2.6)
