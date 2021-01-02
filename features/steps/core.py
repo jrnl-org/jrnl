@@ -164,6 +164,7 @@ def use_password(context, password, num=1):
     context.password = iter([password] * num)
 
 
+@given("we have a keyring")
 @given("we have a {type} keyring")
 def set_keyring(context, type=None):
     if type == "locked":
