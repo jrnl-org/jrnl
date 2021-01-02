@@ -7,6 +7,9 @@
 **Implemented enhancements:**
 
 - Implement dependency tracker/updater [\#1120](https://github.com/jrnl-org/jrnl/issues/1120)
+- Change temporary file names for better text editor integration [\#1080](https://github.com/jrnl-org/jrnl/issues/1080)
+- Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
+- Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
 
 **Build:**
 
