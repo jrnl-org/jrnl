@@ -147,7 +147,7 @@ def use_password(context, password, num=1):
 
 @given("we have a keyring")
 @given("we have a {type} keyring")
-def set_keyring(context, type=None):
+def set_keyring(context, type=""):
     if type == "failed":
         keyring.set_keyring(FailedKeyring())
     else:
