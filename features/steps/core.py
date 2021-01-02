@@ -69,21 +69,19 @@ class NoKeyring(keyring.backend.KeyringBackend):
 
 class FailedKeyring(keyring.backend.KeyringBackend):
     """
-    A keyring that simulates an environment with a keyring that has passwords, but fails
-    to return them.
+    A keyring that cannot be retrieved.
     """
 
     priority = 2
-    keys = defaultdict(dict)
 
     def set_password(self, servicename, username, password):
-        self.keys[servicename][username] = password
+        raise keyring.errors.KeyringError
 
     def get_password(self, servicename, username):
-        raise keyring.errors.NoKeyringError
+        raise keyring.errors.KeyringError
 
     def delete_password(self, servicename, username):
-        self.keys[servicename][username] = None
+        raise keyring.errors.KeyringError
 
 
 # set a default keyring
@@ -148,8 +146,12 @@ def use_password(context, password, num=1):
 
 
 @given("we have a keyring")
-def set_keyring(context):
-    keyring.set_keyring(TestKeyring())
+@given("we have a {type} keyring")
+def set_keyring(context, type=""):
+    if type == "failed":
+        keyring.set_keyring(FailedKeyring())
+    else:
+        keyring.set_keyring(TestKeyring())
 
 
 @given("we do not have a keyring")
