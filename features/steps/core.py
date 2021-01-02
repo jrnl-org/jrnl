@@ -173,6 +173,7 @@ def set_keyring(context, type=None):
     else:
         keyring.set_keyring(TestKeyring())
 
+
 @given("we do not have a keyring")
 def disable_keyring(context):
     keyring.core.set_keyring(NoKeyring())
