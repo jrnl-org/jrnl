@@ -12,7 +12,8 @@ from .color import RESET_COLOR
 from .os_compat import on_windows
 
 
-def get_text_from_editor(config, template="", suffix=".jrnl"):
+def get_text_from_editor(config, template=""):
+    suffix = ".jrnl"
     if config["template"]:
         template_filename = Path(config["template"]).name
         suffix = "-" + template_filename
