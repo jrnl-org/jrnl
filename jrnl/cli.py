@@ -7,7 +7,7 @@ import sys
 
 from .jrnl import run
 from .args import parse_args
-from .exception import ConfigDirectoryPathIsFileException
+from .exception import JrnlError
 
 
 def configure_logger(debug=False):
@@ -34,7 +34,7 @@ def cli(manual_args=None):
 
         return run(args)
 
-    except ConfigDirectoryPathIsFileException as e:
+    except JrnlError as e:
         print(e, file=sys.stderr)
         return 1
 
