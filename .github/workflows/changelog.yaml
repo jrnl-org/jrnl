@@ -104,7 +104,7 @@ jobs:
           issuesWoLabels: false
           unreleased: true
           compareLink: true
-          includeLabels: bug,enhancement,documentation,build,deprecated
+          includeLabels: bug,enhancement,documentation,build,packaging,deprecated
           excludeLabels: stale,wontfix
           excludeTagsRegex: ${{ env.TAG_REGEX }}
           sinceTag: ${{ env.SINCE_TAG }}
