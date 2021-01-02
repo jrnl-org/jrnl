@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import textwrap
+from pathlib import Path
 
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
@@ -12,7 +13,11 @@ from .os_compat import on_windows
 
 
 def get_text_from_editor(config, template=""):
-    filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=".txt")
+    suffix = ".jrnl"
+    if config["template"]:
+        template_filename = Path(config["template"]).name
+        suffix = "-" + template_filename
+    filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=suffix)
     os.close(filehandle)
 
     with open(tmpfile, "w", encoding="utf-8") as f:
