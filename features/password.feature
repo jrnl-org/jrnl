@@ -56,6 +56,30 @@ Feature: Using the installed keyring
     Scenario: Decrypt journal when keyring exists but fails
     # This should ask the user for the password after the keyring fails
 
+    Scenario: Encrypt journal when keyring exists but cannot be unlocked
+        Given we use the config "simple.yaml"
+        And we have a locked keyring
+        When we run "jrnl --encrypt" and enter
+        """
+        karimpwnz
+        karimpwnz
+        y
+        """
+        Then we should get no error
+        And the config for journal "default" should have "encrypt" set to "bool:True"
+        When we run "jrnl -n 1" and enter "karimpwnz"
+        Then we should be prompted for a password
+        And the output should contain "2013-06-10 15:40 Life is good"
+
+    Scenario: Decrypt journal when keyring exists but cannot be unlocked
+        Given we use the config "encrypted.yaml"
+        And we have a locked keyring
+        When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
+        Then we should get no error
+        And the config for journal "default" should have "encrypt" set to "bool:False"
+        And we should see the message "Journal decrypted"
+        And the journal should have 2 entries
+
     Scenario: Mistyping your password
         Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
