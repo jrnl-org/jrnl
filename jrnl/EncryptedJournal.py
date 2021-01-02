@@ -176,7 +176,7 @@ def get_keychain(journal_name):
 
     try:
         return keyring.get_password("jrnl", journal_name)
-    except (keyring.errors.KeyringLocked, RuntimeError):
+    except (keyring.errors.KeyringError, RuntimeError):
         return ""
 
 
@@ -186,12 +186,12 @@ def set_keychain(journal_name, password):
     if password is None:
         try:
             keyring.delete_password("jrnl", journal_name)
-        except (keyring.errors.KeyringLocked, keyring.errors.PasswordDeleteError):
+        except keyring.errors.KeyringError:
             pass
     else:
         try:
             keyring.set_password("jrnl", journal_name, password)
-        except (keyring.errors.KeyringLocked):
+        except (keyring.errors.KeyringError):
             pass
         except (keyring.errors.NoKeyringError):
             print(
