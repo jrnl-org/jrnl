@@ -55,8 +55,8 @@ Feature: Using the installed keyring
         And we have a failed keyring
         When we run "jrnl --encrypt" and enter
         """
-        karimpwnz
-        karimpwnz
+        this password will not be saved in keyring
+        this password will not be saved in keyring
         y
         """
         Then we should see the message "Failed to retrieve keyring" 
