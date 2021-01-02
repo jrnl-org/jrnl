@@ -11,6 +11,11 @@
 - Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
 - Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
 
+**Fixed bugs:**
+
+- Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
+- Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
+
 **Build:**
 
 - Fix changelog generator [\#1127](https://github.com/jrnl-org/jrnl/pull/1127) ([wren](https://github.com/wren))
