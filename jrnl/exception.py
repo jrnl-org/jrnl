@@ -27,7 +27,7 @@ class JrnlError(Exception):
                 The path to your jrnl configuration directory is a file, not a directory:
 
                 {config_directory_path}
-                
+
                 Removing this file will allow jrnl to save its configuration.
             """
             )
