@@ -198,7 +198,7 @@ def parse_args(args=[]):
         "-year",
         dest="year",
         metavar="DATE",
-        help="Show entries on this year",
+        help="Show entries of a specific year",
     )
     reading.add_argument(
         "-from",

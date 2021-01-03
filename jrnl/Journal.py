@@ -224,7 +224,7 @@ class Journal:
             contains_lower = contains.casefold()
 
         # Create datetime object for comparison below
-        # this approach allows different month formats
+        # this approach allows various formats
         if month or day or year:
             compare_d = time.parse(f"{month or 1}/{day or 1}/{year or 1}")
 
