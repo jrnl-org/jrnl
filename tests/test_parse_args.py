@@ -151,6 +151,25 @@ def test_on_date_alone():
     assert cli_as_dict("-on 'saturday'") == expected_args(on_date="saturday")
 
 
+def test_month_alone():
+    assert cli_as_dict("-month 1") == expected_args(month="1")
+    assert cli_as_dict("-month January") == expected_args(month="January")
+    assert cli_as_dict("-month Jan") == expected_args(month="Jan")
+
+
+def test_day_alone():
+    assert cli_as_dict("-day 1") == expected_args(day="1")
+
+
+def test_year_alone():
+    assert cli_as_dict("-year 2021") == expected_args(year="2021")
+    assert cli_as_dict("-year 21") == expected_args(year="21")
+
+
+def test_reminisce_alone():
+    assert cli_as_dict("-reminisce") == expected_args(reminisce=True)
+
+
 def test_short_alone():
     assert cli_as_dict("--short") == expected_args(short=True)
 

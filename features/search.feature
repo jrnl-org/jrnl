@@ -214,6 +214,83 @@ Feature: Searching in a journal
         | But I'm better.
         """
 
+    Scenario: Searching entries by numerical month
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -month 2"
+        Then we should get no error
+        And the output should be
+        """
+        2018-02-04 06:04 Today is 2018-02-04.
+
+        2020-02-05 12:10 Today is 2020-02-05.
+        """
+
+    Scenario: Searching entries by full month string
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -month February"
+        Then we should get no error
+        And the output should be
+        """
+        2018-02-04 06:04 Today is 2018-02-04.
+
+        2020-02-05 12:10 Today is 2020-02-05.
+        """
+
+    Scenario: Searching entries by "Mmm" month
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -month Feb"
+        Then we should get no error
+        And the output should be
+        """
+        2018-02-04 06:04 Today is 2018-02-04.
+
+        2020-02-05 12:10 Today is 2020-02-05.
+        """
+
+    Scenario: Searching entries by day
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -day 5"
+        Then we should get no error
+        And the output should be
+        """
+        2018-03-05 08:06 Today is 2018-03-05.
+
+        2020-02-05 12:10 Today is 2020-02-05.
+        """
+
+    Scenario: Searching entries by full year
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -year 2018"
+        Then we should get no error
+        And the output should be
+        """
+        2018-02-04 06:04 Today is 2018-02-04.
+
+        2018-03-05 08:06 Today is 2018-03-05.
+        """
+
+    Scenario: Searching entries by "yy" year
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -year 18"
+        Then we should get no error
+        And the output should be
+        """
+        2018-02-04 06:04 Today is 2018-02-04.
+
+        2018-03-05 08:06 Today is 2018-03-05.
+        """
+
+    Scenario: Searching entries by day and month
+        Given we use the config "dates_similar.yaml"
+        When we run "jrnl -month 1 -day 3"
+        Then we should get no error
+        And the output should be
+        """
+        2019-01-03 10:08 Today is 2019-01-03.
+
+        2021-01-03 15:39 Today is 2021-01-03.
+        """
+
     Scenario: Loading a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
