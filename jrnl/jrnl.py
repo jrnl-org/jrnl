@@ -15,6 +15,7 @@ from .config import get_config_path
 from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from .exception import UserAbort
+from datetime import datetime
 
 
 def run(args):
@@ -77,6 +78,10 @@ def _is_write_mode(args, config, **kwargs):
             args.edit,
             args.export,
             args.end_date,
+            args.reminisce,
+            args.month,
+            args.day,
+            args.year,
             args.limit,
             args.on_date,
             args.short,
@@ -206,8 +211,16 @@ def _search_journal(args, journal, **kwargs):
     if args.on_date:
         args.start_date = args.end_date = args.on_date
 
+    if args.reminisce:
+        today = datetime.today()
+        args.day = today.day
+        args.month = today.month
+
     journal.filter(
         tags=args.text,
+        month=args.month,
+        day=args.day,
+        year=args.year,
         start_date=args.start_date,
         end_date=args.end_date,
         strict=args.strict,
