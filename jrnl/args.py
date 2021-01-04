@@ -180,7 +180,7 @@ def parse_args(args=[]):
         "-reminisce",
         dest="reminisce",
         action="store_true",
-        help="Show entries of today in previous years",
+        help="Show entries of today over the years",
     )
     reading.add_argument(
         "-month",
