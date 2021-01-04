@@ -557,7 +557,7 @@ Feature: Custom formats
 
     Scenario: Export date counts
         Given we use the config "datecount.yaml"
-        When we run "jrnl --export datecount"
+        When we run "jrnl --format datecount"
         Then we should get no error
         And the output should be
         """
