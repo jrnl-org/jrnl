@@ -554,3 +554,13 @@ Feature: Custom formats
         | basic_encrypted |
         | basic_folder    |
         | basic_dayone    |
+
+    Scenario: Export date counts
+        Given we use the config "datecount.yaml"
+        When we run "jrnl --export datecount"
+        Then we should get no error
+        And the output should be
+        """
+        2020-05-14, 1
+        2021-10-29, 2
+        """
