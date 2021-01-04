@@ -217,8 +217,7 @@ Feature: Searching in a journal
     Scenario Outline: Searching by month, day, or year
         Given we use the config "dates_similar.yaml"
         When we run "jrnl <args>"
-        Then we should get no error
-        and the output should be
+        Then the output should be
         """
         <entry1>
 
