@@ -15,7 +15,7 @@ from .config import get_config_path
 from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from .exception import UserAbort
-from datetime import datetime
+from . import time
 
 
 def run(args):
@@ -212,9 +212,9 @@ def _search_journal(args, journal, **kwargs):
         args.start_date = args.end_date = args.on_date
 
     if args.reminisce:
-        today = datetime.today()
-        args.day = today.day
-        args.month = today.month
+        now = time.parse("now")
+        args.day = now.day
+        args.month = now.month
 
     journal.filter(
         tags=args.text,
