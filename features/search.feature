@@ -235,9 +235,12 @@ Feature: Searching in a journal
         | args       | entry1               | entry2               |
         | -year 2018 | 2018-02-04 06:04 Hi. | 2018-03-05 08:06 Hi. |
         | -year 18   | 2018-02-04 06:04 Hi. | 2018-03-05 08:06 Hi. |
-        Examples: month and day
-        | args            | entry1               | entry2               |
-        | -month 1 -day 3 | 2019-01-03 10:08 Hi. | 2021-01-03 15:39 Hi. |
+        Examples: combinations
+        | args                       | entry1               | entry2                |
+        | -month 1 -day 3            | 2019-01-03 10:08 Hi. | 2021-01-03 15:39 Hi.  |
+        | -month 1 -year 2019        | 2019-01-03 10:08 Hi. | 2019-01-07 01:02 Hi.  |
+        | -day 4 -year 2021          | 2021-01-04 10:21 Hi. | 2021-01-04 12:33 Hi.  |
+        | -month 1 -day 4 -year 2021 | 2021-01-04 10:21 Hi. | 2021-01-04 12:33 Hi.  |
 
     Scenario: Reminiscing
         Given we use the config "dates_similar.yaml"
