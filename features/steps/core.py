@@ -124,7 +124,7 @@ def read_value_from_string(string):
 
 
 def parse_command(command):
-    return command if not on_windows else command.split(" ")
+    return command if not on_windows else command.split()
 
 
 @given('we use the config "{config_file}"')
