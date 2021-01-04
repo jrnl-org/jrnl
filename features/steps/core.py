@@ -123,6 +123,10 @@ def read_value_from_string(string):
     return value
 
 
+def parse_command(command):
+    return command if not on_windows else command.split(" ")
+
+
 @given('we use the config "{config_file}"')
 def set_config(context, config_file):
     full_path = os.path.join("features/configs", config_file)
@@ -179,8 +183,8 @@ def open_editor_and_enter(context, method, text=""):
         file_method = "r+"
 
     def _mock_editor(command):
-        context.editor_command = command
-        tmpfile = command[-1]
+        context.editor_command = parse_command(command)
+        tmpfile = context.editor_command[-1]
         with open(tmpfile, file_method) as f:
             f.write(text)
 
@@ -303,8 +307,8 @@ def run_with_input(context, command, inputs=""):
     args = ushlex(command)[1:]
 
     def _mock_editor(command):
-        context.editor_command = command
-        tmpfile = command[-1]
+        context.editor_command = parse_command(command)
+        tmpfile = context.editor_command[-1]
         with open(tmpfile, "r") as editor_file:
             file_content = editor_file.read()
         context.editor_file = {"name": tmpfile, "content": file_content}
@@ -386,8 +390,8 @@ def run(context, command, text=""):
     args = ushlex(command)
 
     def _mock_editor(command):
-        context.editor_command = command
-        tmpfile = command[-1]
+        context.editor_command = parse_command(command)
+        tmpfile = context.editor_command[-1]
         with open(tmpfile, "r") as editor_file:
             file_content = editor_file.read()
         context.editor_file = {"name": tmpfile, "content": file_content}
