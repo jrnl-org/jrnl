@@ -85,9 +85,9 @@ You can find an inventory of commands in the `makefile`. \*nix users can run the
 
 A typical development workflow includes:
 
+ * Installing dependencies: `poetry install`
  * Running tests: `make test`
  * Running the source in a virtual environment:
-   * `poetry install`
    * `poetry shell`
    * `jrnl` (with or without arguments as necessary)
  * Linting the code to standardize its style: `make lint`
