@@ -11,7 +11,6 @@ from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .os_compat import on_windows
 
-
 def get_text_from_editor(config, template=""):
     suffix = ".jrnl"
     if config["template"]:
@@ -25,7 +24,13 @@ def get_text_from_editor(config, template=""):
             f.write(template)
 
     try:
-        subprocess.call(shlex.split(config["editor"], posix=on_windows) + [tmpfile])
+        # https://stackoverflow.com/questions/33560364/python-windows-parsing-command-lines-with-shlex
+        # https://bugs.python.org/issue1724822
+        if on_windows:
+            parsed_editor_path = config["editor"] + tmpfile 
+        else: 
+            parsed_editor_path = shlex.split(config["editor"]) + [tmpfile]
+        subprocess.call(parsed_editor_path)
     except Exception as e:
         error_msg = f"""
         {ERROR_COLOR}{str(e)}{RESET_COLOR}
