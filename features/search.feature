@@ -239,6 +239,19 @@ Feature: Searching in a journal
         | args            | entry1               | entry2               |
         | -month 1 -day 3 | 2019-01-03 10:08 Hi. | 2021-01-03 15:39 Hi. |
 
+    Scenario: Reminiscing
+        Given we use the config "dates_similar.yaml"
+        And we set current date and time to "2016-03-05 13:37" 
+        When we run "jrnl Hi."
+        Then we flush the output
+        When we run "jrnl -reminisce"
+        Then the output should be
+        """
+        2016-03-05 13:37 Hi.
+
+        2018-03-05 08:06 Hi.
+        """
+    
     Scenario: Loading a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
