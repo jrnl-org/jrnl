@@ -3,6 +3,19 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from collections import Counter
+
+
+def get_date_counts(journal):
+    """Returns a collections.Counter object containing date counts"""
+    # Dates are normalized
+    date_counts = Counter()
+    for entry in journal.entries:
+        # entry.date.date() gets date without time
+        date = str(entry.date.date())
+        date_counts[date] += 1
+    return date_counts
+
 
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
