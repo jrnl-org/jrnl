@@ -226,11 +226,13 @@ Feature: Searching in a journal
         Examples: month
         | args            | entry1               | entry2               |
         | -month 2        | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
+        | -month 02        | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
         | -month February | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
         | -month Feb      | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
         Examples: day
         | args   | entry1               | entry2               |
         | -day 5 | 2018-03-05 08:06 Hi. | 2020-02-05 12:10 Hi. |
+        | -day 05 | 2018-03-05 08:06 Hi. | 2020-02-05 12:10 Hi. |
         Examples: year
         | args       | entry1               | entry2               |
         | -year 2018 | 2018-02-04 06:04 Hi. | 2018-03-05 08:06 Hi. |
