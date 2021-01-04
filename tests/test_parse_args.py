@@ -153,12 +153,14 @@ def test_on_date_alone():
 
 def test_month_alone():
     assert cli_as_dict("-month 1") == expected_args(month="1")
+    assert cli_as_dict("-month 01") == expected_args(month="01")
     assert cli_as_dict("-month January") == expected_args(month="January")
     assert cli_as_dict("-month Jan") == expected_args(month="Jan")
 
 
 def test_day_alone():
     assert cli_as_dict("-day 1") == expected_args(day="1")
+    assert cli_as_dict("-day 01") == expected_args(day="01")
 
 
 def test_year_alone():
