@@ -304,6 +304,7 @@ def _mock_time_parse(context):
     def wrapper(input, *args, **kwargs):
         input = context.now if input == "now" else input
         return original_parse(input, *args, **kwargs)
+
     return wrapper
 
 
