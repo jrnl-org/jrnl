@@ -21,7 +21,5 @@ class DatecountExporter(TextExporter):
     def export_journal(cls, journal):
         """Returns dates and their frequencies for an entire journal."""
         date_counts = get_date_counts(journal)
-        if not date_counts:
-            return "[No dates found in journal.]"
         result = "\n".join(f"{date}, {count}" for date, count in date_counts.items())
         return result
