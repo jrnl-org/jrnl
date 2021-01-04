@@ -8,7 +8,6 @@ from collections import Counter
 
 def get_date_counts(journal):
     """Returns a collections.Counter object containing date counts"""
-    # Dates are normalized
     date_counts = Counter()
     for entry in journal.entries:
         # entry.date.date() gets date without time
