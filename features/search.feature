@@ -214,7 +214,7 @@ Feature: Searching in a journal
         | But I'm better.
         """
 
-    Scenario Outline: Searching by month, day, or year 
+    Scenario Outline: Searching by month, day, or year
         Given we use the config "dates_similar.yaml"
         When we run "jrnl <args>"
         Then we should get no error
