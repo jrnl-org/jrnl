@@ -410,10 +410,12 @@ Feature: Custom formats
         """
         And the content of file "2020-08-29_entry-the-first.md" in the cache should be
         """
+        ---
         title: Entry the first.
         date: 2020-08-29 11:11
         starred: False
         tags: tagone, ipsum, tagtwo
+        ...
 
         Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
         quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque
@@ -458,11 +460,13 @@ Feature: Custom formats
         """
         And the content of file "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md" in the cache should be
         """
+        ---
         title: The third entry finally after weeks without writing.
         date: 2020-09-24 09:14
         starred: False
         tags: tagone, tagthree
-
+        ...
+        
         I'm so excited about emojis. 💯 🎶 💩
 
         Donec semper pellentesque iaculis. Nullam cursus et justo sit amet venenatis.
