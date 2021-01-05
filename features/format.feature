@@ -555,12 +555,20 @@ Feature: Custom formats
         | basic_folder    |
         | basic_dayone    |
 
-    Scenario: Export date counts
-        Given we use the config "datecount.yaml"
+    Scenario Outline: Export date counts
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
         When we run "jrnl --format datecount"
-        Then we should get no error
-        And the output should be
+        Then the output should be
         """
-        2020-05-14, 1
-        2021-10-29, 2
+        2020-08-29, 1
+        2020-08-31, 1
+        2020-09-24, 1
         """
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
