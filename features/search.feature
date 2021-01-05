@@ -263,7 +263,7 @@ Feature: Searching in a journal
         | basic_folder    |
         | basic_dayone    |
 
-    Scenario Outline: Combining month, day, and/or year search terms
+    Scenario Outline: Combining month, day, and year search terms
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
         When we run "jrnl -month 08 -day 29 --short"
