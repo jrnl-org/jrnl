@@ -558,11 +558,12 @@ Feature: Custom formats
     Scenario Outline: Export date counts
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
-        When we run "jrnl --format datecount"
+        When we run "jrnl 2020-08-31 01:01: Hi."
+        And we run "jrnl --format datecount"
         Then the output should be
         """
         2020-08-29, 1
-        2020-08-31, 1
+        2020-08-31, 2
         2020-09-24, 1
         """
 
