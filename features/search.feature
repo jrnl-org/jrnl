@@ -214,47 +214,96 @@ Feature: Searching in a journal
         | But I'm better.
         """
 
-    Scenario Outline: Searching by month, day, or year
-        Given we use the config "dates_similar.yaml"
-        When we run "jrnl <args>"
+    Scenario Outline: Searching by month
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -month 9 --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+        And we flush the output
+        When we run "jrnl -month Sept --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+        And we flush the output
+        When we run "jrnl -month September --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Searching by day
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -day 31 --short"
+        Then the output should be "2020-08-31 14:32 A second entry in what I hope to be a long series."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Searching by year
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl 2019-01-01 01:01: I like this year."
+        And we run "jrnl -year 2019 --short"
+        Then the output should be "2019-01-01 01:01 I like this year."
+        And we flush the output
+        When we run "jrnl -year 19 --short"
+        Then the output should be "2019-01-01 01:01 I like this year."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Combining month, day, and/or year search terms
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -month 08 -day 29 --short"
+        Then the output should be "2020-08-29 11:11 Entry the first."
+        And we flush the output
+        When we run "jrnl -day 29 -year 2020 --short"
+        Then the output should be "2020-08-29 11:11 Entry the first."
+        And we flush the output
+        When we run "jrnl -month 09 -year 2020 --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+        And we flush the output
+        When we run "jrnl -month 08 -day 29 -year 2020 --short"
+        Then the output should be "2020-08-29 11:11 Entry the first."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Reminiscing
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        And we set current date and time to "2020-08-31 14:32"
+        When we run "jrnl 2019-08-31 01:01: Hi, from last year."
+        And we run "jrnl -reminisce --short"
         Then the output should be
         """
-        <entry1>
-
-        <entry2>
+        2019-08-31 01:01 Hi, from last year.
+        2020-08-31 14:32 A second entry in what I hope to be a long series.
         """
-        Examples: month
-        | args            | entry1               | entry2               |
-        | -month 2        | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
-        | -month 02        | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
-        | -month February | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
-        | -month Feb      | 2018-02-04 06:04 Hi. | 2020-02-05 12:10 Hi. |
-        Examples: day
-        | args   | entry1               | entry2               |
-        | -day 5 | 2018-03-05 08:06 Hi. | 2020-02-05 12:10 Hi. |
-        | -day 05 | 2018-03-05 08:06 Hi. | 2020-02-05 12:10 Hi. |
-        Examples: year
-        | args       | entry1               | entry2               |
-        | -year 2018 | 2018-02-04 06:04 Hi. | 2018-03-05 08:06 Hi. |
-        | -year 18   | 2018-02-04 06:04 Hi. | 2018-03-05 08:06 Hi. |
-        Examples: combinations
-        | args                       | entry1               | entry2                |
-        | -month 1 -day 3            | 2019-01-03 10:08 Hi. | 2021-01-03 15:39 Hi.  |
-        | -month 1 -year 2019        | 2019-01-03 10:08 Hi. | 2019-01-07 01:02 Hi.  |
-        | -day 4 -year 2021          | 2021-01-04 10:21 Hi. | 2021-01-04 12:33 Hi.  |
-        | -month 1 -day 4 -year 2021 | 2021-01-04 10:21 Hi. | 2021-01-04 12:33 Hi.  |
 
-    Scenario: Reminiscing
-        Given we use the config "dates_similar.yaml"
-        And we set current date and time to "2021-01-03 15:39"
-        When we run "jrnl -reminisce"
-        Then the output should be
-        """
-        2019-01-03 10:08 Hi.
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
 
-        2021-01-03 15:39 Hi.
-        """
-    
     Scenario: Loading a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
