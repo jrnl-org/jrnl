@@ -18,12 +18,12 @@ pipx install jrnl
 ```
 
 !!! note
-     `pipx` should be installed through `pip`. Missing dependencies and other issues
-     may occur when installing `pipx` through `apt` or another package manager.
+     `pipx` should be installed through either `brew` or `pip`. Missing dependencies and other issues
+     may occur when installing `pipx` through `apt` or another package manager. Further installation
+     instructions can be found in [pipx's documentation](https://pipxproject.github.io/pipx/installation/).
      
-!!! note
-     If you experience path issues after installing `jrnl`, ensure that the previous
-     command was run as the intended user, without `sudo`.
+!!! tip
+     Do not use `sudo` while installing `jrnl`. This may lead to path issues.
 
 The first time you run `jrnl` you will be asked where your journal file
 should be created and whether you wish to encrypt it.
