@@ -1,12 +1,76 @@
 import logging
+import os
 import sys
 
 import colorama
 import yaml
+import xdg.BaseDirectory
 
+from . import __version__
+from .exception import JrnlError
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .output import list_journals
+
+# Constants
+DEFAULT_CONFIG_NAME = "jrnl.yaml"
+XDG_RESOURCE = "jrnl"
+
+DEFAULT_JOURNAL_NAME = "journal.txt"
+DEFAULT_JOURNAL_KEY = "default"
+
+
+def save_config(config):
+    config["version"] = __version__
+    with open(get_config_path(), "w") as f:
+        yaml.safe_dump(
+            config, f, encoding="utf-8", allow_unicode=True, default_flow_style=False
+        )
+
+
+def get_config_path():
+    try:
+        config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
+    except FileExistsError:
+        raise JrnlError(
+            "ConfigDirectoryIsFile",
+            config_directory_path=os.path.join(
+                xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
+            ),
+        )
+    return os.path.join(
+        config_directory_path or os.path.expanduser("~"), DEFAULT_CONFIG_NAME
+    )
+
+
+def get_default_config():
+    return {
+        "version": __version__,
+        "journals": {"default": get_default_journal_path()},
+        "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
+        "encrypt": False,
+        "template": False,
+        "default_hour": 9,
+        "default_minute": 0,
+        "timeformat": "%Y-%m-%d %H:%M",
+        "tagsymbols": "@",
+        "highlight": True,
+        "linewrap": 79,
+        "indent_character": "|",
+        "colors": {
+            "date": "none",
+            "title": "none",
+            "body": "none",
+            "tags": "none",
+        },
+    }
+
+
+def get_default_journal_path():
+    journal_data_path = xdg.BaseDirectory.save_data_path(
+        XDG_RESOURCE
+    ) or os.path.expanduser("~")
+    return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
 
 
 def scope_config(config, journal_name):
@@ -73,13 +137,11 @@ def update_config(config, new_config, scope, force_local=False):
 
 
 def get_journal_name(args, config):
-    from . import install
-
-    args.journal_name = install.DEFAULT_JOURNAL_KEY
+    args.journal_name = DEFAULT_JOURNAL_KEY
     if args.text and args.text[0] in config["journals"]:
         args.journal_name = args.text[0]
         args.text = args.text[1:]
-    elif install.DEFAULT_JOURNAL_KEY not in config["journals"]:
+    elif DEFAULT_JOURNAL_KEY not in config["journals"]:
         print("No default journal configured.", file=sys.stderr)
         print(list_journals(config), file=sys.stderr)
         sys.exit(1)

@@ -61,7 +61,7 @@ jobs:
       env:
         site_url: http://127.0.0.1:8000
       run: |
-        select="{urls: [\"${site_url}/\", .urlset.url[].loc]}"
+        select="{urls: [\"${site_url}/\", \"${site_url}/search.html?q=jrnl\", .urlset.url[].loc]}"
         curl -s "$site_url/sitemap.xml" | poetry run xq "$select" > list.json
 
     - name: Accessibility testing (Pa11y)

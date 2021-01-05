@@ -24,6 +24,7 @@ Feature: Using the installed keyring
         n
         """
         Then we should get no error
+        And we should not see the message "Failed to retrieve keyring"
 
     Scenario: Encrypt journal with no keyring backend and do store in keyring
         Given we use the config "simple.yaml"
@@ -36,14 +37,11 @@ Feature: Using the installed keyring
         y
         """
         Then we should get no error
+        And we should not see the message "Failed to retrieve keyring"
         # @todo add step to check contents of keyring
 
     @todo
     Scenario: Open an encrypted journal with wrong password in keyring
-    # This should ask the user for the password after the keyring fails
-
-    @todo
-    Scenario: Open encrypted journal when keyring exists but fails
     # This should ask the user for the password after the keyring fails
 
     @todo
@@ -52,9 +50,40 @@ Feature: Using the installed keyring
     @todo
     Scenario: Decrypt journal without a keyring
 
-    @todo
+    Scenario: Encrypt journal when keyring exists but fails
+        Given we use the config "simple.yaml"
+        And we have a failed keyring
+        When we run "jrnl --encrypt" and enter
+        """
+        this password will not be saved in keyring
+        this password will not be saved in keyring
+        y
+        """
+        Then we should see the message "Failed to retrieve keyring" 
+        And we should get no error
+        And we should be prompted for a password
+        And the config for journal "default" should have "encrypt" set to "bool:True"
+
     Scenario: Decrypt journal when keyring exists but fails
+        Given we use the config "encrypted.yaml"
+        And we have a failed keyring
+        When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
+        Then we should see the message "Failed to retrieve keyring"
+        And we should get no error
+        And we should be prompted for a password
+        And we should see the message "Journal decrypted"
+        And the config for journal "default" should have "encrypt" set to "bool:False"
+        And the journal should have 2 entries
+
+    Scenario: Open encrypted journal when keyring exists but fails
     # This should ask the user for the password after the keyring fails
+        Given we use the config "encrypted.yaml"
+        And we have a failed keyring
+        When we run "jrnl -n 1" and enter "bad doggie no biscuit"
+        Then we should see the message "Failed to retrieve keyring"
+        And we should get no error 
+        And we should be prompted for a password
+        And the output should contain "2013-06-10 15:40 Life is good"
 
     Scenario: Mistyping your password
         Given we use the config "simple.yaml"

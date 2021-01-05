@@ -8,6 +8,7 @@
 body.wy-body-for-nav,
 section.wy-nav-content-wrap {
   background-color: var(--white);
+  color: var(--black);
 }
 
 .rst-content pre {
@@ -102,7 +103,7 @@ a.icon-home:before {
 .wy-menu-vertical a,
 .wy-menu-vertical li ul li a {
   font-size: 16px;
-  color: var(--off-white);
+  color: var(--white);
   line-height: 2em;
 }
 
@@ -167,7 +168,7 @@ a.icon-home:before {
 }
 
 .wy-menu-vertical li a {
-  color: var(--off-white) !important;
+  color: var(--white) !important;
   font-weight: 300;
 }
 
@@ -185,18 +186,20 @@ footer {
 }
 
 .wy-side-nav-search input[type=text],
+.mkdocs-search input[type=text],
 form .search-query {
-  background-color: var(--black-shadow) !important;
+  background-color: var(--off-white);
   border: none;
-  box-shadow: none;
   margin-bottom: 1em;
-  color: var(--white);
+  color: var(--black);
   font-weight: 500;
+  box-shadow: none;
 }
 
 .wy-side-nav-search input[type=text]::placeholder,
+.mkdocs-search input[type=text]::placeholder,
 form .search-query::placeholder {
-  color: var(--off-white);
+  color: var(--dark-purple);
 }
 
 .wy-side-nav-search > a:hover {
@@ -298,19 +301,54 @@ ol>li:before {
   margin-top: 20px;
 }
 
-.wy-side-nav-search input[type="text"] {
+.wy-side-nav-search input[type="text"],
+.mkdocs-search input[type=text] {
   border-radius: 50px 0 0 50px;
   height: 32px;
   border-right: none;
+  margin: 0;
 }
 
 .mkdocs-search button {
-  background-color: var(--black-shadow);
+  background-color: var(--off-white);
   border: none;
   box-shadow: none;
-  color: var(--white);
+  color: var(--mid-purple);
   border-radius: 0 50px 50px 0;
   height: 32px;
   width: 2.5em;
   overflow: hidden;
+}
+
+.mkdocs-search {
+  border-radius: 50px;
+}
+
+.mkdocs-search:focus-within {
+  box-shadow: 0 2px 25px 0 var(--blacker-shadow);
+  transition: all .5s ease;
+}
+
+.rst-content div[role="main"] .mkdocs-search input[type="text"] {
+  border-right: none;
+  font-size: 100%;
+  height: 48px;
+  margin: 0;
+}
+
+.rst-content div[role="main"] .mkdocs-search button {
+  border-left: none;
+  font-size: 100%;
+  height: 48px;
+}
+
+.rst-content div[role="main"] .mkdocs-search button:before {
+  font-size: 140%;
+  position: relative;
+  left: -7px;
+  top: -1px;
+}
+
+.search-results {
+  margin-top: 0;
 }

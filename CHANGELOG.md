@@ -7,6 +7,14 @@
 **Implemented enhancements:**
 
 - Implement dependency tracker/updater [\#1120](https://github.com/jrnl-org/jrnl/issues/1120)
+- Change temporary file names for better text editor integration [\#1080](https://github.com/jrnl-org/jrnl/issues/1080)
+- Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
+- Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
+
+**Fixed bugs:**
+
+- Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
+- Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
 
 **Build:**
 
@@ -14,9 +22,17 @@
 
 **Documentation:**
 
+- Fix broken search bar in docs site [\#1135](https://github.com/jrnl-org/jrnl/pull/1135) ([wren](https://github.com/wren))
 - Fix search on docs site [\#1133](https://github.com/jrnl-org/jrnl/pull/1133) ([wren](https://github.com/wren))
 - Add packaging label to changelog generator config [\#1132](https://github.com/jrnl-org/jrnl/pull/1132) ([wren](https://github.com/wren))
 - Fix failing contrast test in accessibility tools on docs site [\#1126](https://github.com/jrnl-org/jrnl/pull/1126) ([wren](https://github.com/wren))
+
+**Packaging:**
+
+- Bump keyring from 21.7.0 to 21.8.0 [\#1136](https://github.com/jrnl-org/jrnl/pull/1136) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytz from 2020.4 to 2020.5 [\#1130](https://github.com/jrnl-org/jrnl/pull/1130) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump pytest from 6.2.0 to 6.2.1 [\#1129](https://github.com/jrnl-org/jrnl/pull/1129) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump keyring from 21.5.0 to 21.7.0 [\#1128](https://github.com/jrnl-org/jrnl/pull/1128) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v2.6](https://pypi.org/project/jrnl/v2.6/) (2020-12-20)
 

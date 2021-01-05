@@ -44,3 +44,13 @@ Feature: Journals iteracting with the file system in a way that users can see
         And we change directory to "features"
         And we run "jrnl -n 1"
         Then the output should contain "hello world"
+
+    Scenario: the temporary filename suffix should default to ".jrnl"
+        Given we use the config "editor.yaml"
+        When we run "jrnl --edit"
+        Then the temporary filename suffix should be ".jrnl"
+
+    Scenario: the temporary filename suffix should be "-{template_filename}"
+        Given we use the config "editor_markdown_extension.yaml"
+        When we run "jrnl --edit"
+        Then the temporary filename suffix should be "-extension.md"
