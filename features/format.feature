@@ -559,7 +559,7 @@ Feature: Custom formats
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
         When we run "jrnl 2020-08-31 01:01: Hi."
-        And we run "jrnl --format datecount"
+        And we run "jrnl --format dates"
         Then the output should be
         """
         2020-08-29, 1

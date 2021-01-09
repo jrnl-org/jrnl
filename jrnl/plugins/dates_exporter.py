@@ -7,11 +7,11 @@ from collections import Counter
 from .text_exporter import TextExporter
 
 
-class DatecountExporter(TextExporter):
+class DatesExporter(TextExporter):
     """This Exporter lists dates and their respective counts, for heatingmapping etc."""
 
-    names = ["datecount"]
-    extension = "datecount"
+    names = ["dates"]
+    extension = "dates"
 
     @classmethod
     def export_entry(cls, entry):

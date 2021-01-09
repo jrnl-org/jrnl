@@ -8,7 +8,7 @@ from .jrnl_importer import JRNLImporter
 from .json_exporter import JSONExporter
 from .markdown_exporter import MarkdownExporter
 from .tag_exporter import TagExporter
-from .datecount_exporter import DatecountExporter
+from .dates_exporter import DatesExporter
 from .template_exporter import __all__ as template_exporters
 from .text_exporter import TextExporter
 from .xml_exporter import XMLExporter
@@ -18,7 +18,7 @@ __exporters = [
     JSONExporter,
     MarkdownExporter,
     TagExporter,
-    DatecountExporter,
+    DatesExporter,
     TextExporter,
     XMLExporter,
     YAMLExporter,
