@@ -24,7 +24,9 @@
 
 **Documentation:**
 
+- Clarify installation docs [\#1097](https://github.com/jrnl-org/jrnl/issues/1097)
 - Emphasize installing dependencies before testing [\#1148](https://github.com/jrnl-org/jrnl/pull/1148) ([gumatias](https://github.com/gumatias))
+- Clarify installation documentation \(\#1097\) [\#1137](https://github.com/jrnl-org/jrnl/pull/1137) ([Seopril](https://github.com/Seopril))
 - Fix broken search bar in docs site [\#1135](https://github.com/jrnl-org/jrnl/pull/1135) ([wren](https://github.com/wren))
 - Fix search on docs site [\#1133](https://github.com/jrnl-org/jrnl/pull/1133) ([wren](https://github.com/wren))
 - Add packaging label to changelog generator config [\#1132](https://github.com/jrnl-org/jrnl/pull/1132) ([wren](https://github.com/wren))
