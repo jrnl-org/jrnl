@@ -285,12 +285,12 @@ Feature: Searching in a journal
         | basic_folder    |
         | basic_dayone    |
 
-    Scenario Outline: Reminiscing
+    Scenario Outline: Searching today in history
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
         And we set current date and time to "2020-08-31 14:32"
         When we run "jrnl 2019-08-31 01:01: Hi, from last year."
-        And we run "jrnl -reminisce --short"
+        And we run "jrnl -today-in-history --short"
         Then the output should be
         """
         2019-08-31 01:01 Hi, from last year.

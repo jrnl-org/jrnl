@@ -177,8 +177,8 @@ def parse_args(args=[]):
         "-on", dest="on_date", metavar="DATE", help="Show entries on this date"
     )
     reading.add_argument(
-        "-reminisce",
-        dest="reminisce",
+        "-today-in-history",
+        dest="today_in_history",
         action="store_true",
         help="Show entries of today over the years",
     )

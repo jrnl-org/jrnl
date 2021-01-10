@@ -78,7 +78,7 @@ def _is_write_mode(args, config, **kwargs):
             args.edit,
             args.export,
             args.end_date,
-            args.reminisce,
+            args.today_in_history,
             args.month,
             args.day,
             args.year,
@@ -211,7 +211,7 @@ def _search_journal(args, journal, **kwargs):
     if args.on_date:
         args.start_date = args.end_date = args.on_date
 
-    if args.reminisce:
+    if args.today_in_history:
         now = time.parse("now")
         args.day = now.day
         args.month = now.month

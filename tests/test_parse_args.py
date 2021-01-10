@@ -18,7 +18,7 @@ def expected_args(**kwargs):
         "delete": False,
         "edit": False,
         "end_date": None,
-        "reminisce": False,
+        "today_in_history": False,
         "month": None,
         "day": None,
         "year": None,
@@ -168,8 +168,8 @@ def test_year_alone():
     assert cli_as_dict("-year 21") == expected_args(year="21")
 
 
-def test_reminisce_alone():
-    assert cli_as_dict("-reminisce") == expected_args(reminisce=True)
+def test_today_in_history_alone():
+    assert cli_as_dict("-today-in-history") == expected_args(today_in_history=True)
 
 
 def test_short_alone():
