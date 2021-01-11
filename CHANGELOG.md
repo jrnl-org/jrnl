@@ -7,6 +7,7 @@
 **Implemented enhancements:**
 
 - Implement dependency tracker/updater [\#1120](https://github.com/jrnl-org/jrnl/issues/1120)
+- Automate Arch deployment [\#1112](https://github.com/jrnl-org/jrnl/issues/1112)
 - Change temporary file names for better text editor integration [\#1080](https://github.com/jrnl-org/jrnl/issues/1080)
 - Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
 - Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
@@ -15,6 +16,7 @@
 
 - Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
 - Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
+- Notify user when config directory can't be created because there is already a file with the same name [\#1134](https://github.com/jrnl-org/jrnl/pull/1134) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
@@ -22,6 +24,9 @@
 
 **Documentation:**
 
+- Clarify installation docs [\#1097](https://github.com/jrnl-org/jrnl/issues/1097)
+- Emphasize installing dependencies before testing [\#1148](https://github.com/jrnl-org/jrnl/pull/1148) ([gumatias](https://github.com/gumatias))
+- Clarify installation documentation \(\#1097\) [\#1137](https://github.com/jrnl-org/jrnl/pull/1137) ([Seopril](https://github.com/Seopril))
 - Fix broken search bar in docs site [\#1135](https://github.com/jrnl-org/jrnl/pull/1135) ([wren](https://github.com/wren))
 - Fix search on docs site [\#1133](https://github.com/jrnl-org/jrnl/pull/1133) ([wren](https://github.com/wren))
 - Add packaging label to changelog generator config [\#1132](https://github.com/jrnl-org/jrnl/pull/1132) ([wren](https://github.com/wren))
