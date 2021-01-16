@@ -7,7 +7,7 @@ import colorama
 
 from .os_compat import on_windows
 
-if on_windows:
+if on_windows():
     colorama.init()
 
 WARNING_COLOR = colorama.Fore.YELLOW

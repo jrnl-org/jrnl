@@ -6,7 +6,6 @@ from collections import defaultdict
 import os
 from pathlib import Path
 import re
-import shlex
 import time
 from unittest.mock import patch
 
@@ -23,7 +22,7 @@ from jrnl import __version__
 from jrnl import plugins
 from jrnl.cli import cli
 from jrnl.config import load_config
-from jrnl.os_compat import on_windows
+from jrnl.os_compat import split_args
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -86,10 +85,6 @@ class FailedKeyring(keyring.backend.KeyringBackend):
 
 # set a default keyring
 keyring.set_keyring(TestKeyring())
-
-
-def ushlex(command):
-    return shlex.split(command, posix=not on_windows)
 
 
 def read_journal(context, journal_name="default"):
@@ -319,7 +314,7 @@ def run_with_input(context, command, inputs=""):
     else:
         text = iter([inputs])
 
-    args = ushlex(command)[1:]
+    args = split_args(command)[1:]
 
     def _mock_editor(command):
         context.editor_command = command
@@ -403,7 +398,7 @@ def run(context, command, text=""):
         cache_dir = os.path.join("features", "cache", context.cache_dir)
         command = command.format(cache_dir=cache_dir)
 
-    args = ushlex(command)
+    args = split_args(command)
 
     def _mock_editor(command):
         context.editor_command = command

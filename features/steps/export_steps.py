@@ -169,17 +169,24 @@ def assert_exported_yaml_file_content(context, file_path, cache_dir=None):
 
     for actual_line, expected_line in zip(actual_content, expected_content):
         if actual_line.startswith("tags: ") and expected_line.startswith("tags: "):
-            assert_equal_tags_ignoring_order(actual_line, expected_line)
+            assert_equal_tags_ignoring_order(
+                actual_line, expected_line, actual_content, expected_content
+            )
         else:
             assert actual_line.strip() == expected_line.strip(), [
-                actual_line.strip(),
-                expected_line.strip(),
+                [actual_line.strip(), expected_line.strip()],
+                [actual_content, expected_content],
             ]
 
 
-def assert_equal_tags_ignoring_order(actual_line, expected_line):
+def assert_equal_tags_ignoring_order(
+    actual_line, expected_line, actual_content, expected_content
+):
     actual_tags = set(tag.strip() for tag in actual_line[len("tags: ") :].split(","))
     expected_tags = set(
         tag.strip() for tag in expected_line[len("tags: ") :].split(",")
     )
-    assert actual_tags == expected_tags, [actual_tags, expected_tags]
+    assert actual_tags == expected_tags, [
+        [actual_tags, expected_tags],
+        [expected_content, actual_content],
+    ]
