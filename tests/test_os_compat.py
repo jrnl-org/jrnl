@@ -61,7 +61,7 @@ def test_on_posix(systems):
         ["subl -w", ["subl", "-w"]],
         [
             '"C:\\Program Files\\Sublime Text 3\\subl.exe" -w',
-            ["C:\\Program Files\\Sublime Text 3\\subl.exe", "-w"],
+            ['"C:\\Program Files\\Sublime Text 3\\subl.exe"', "-w"],
         ],
     ],
 )
@@ -77,7 +77,7 @@ def test_split_args_on_windows(args):
         ["vim", ["vim"]],
         [
             'vim -f +Goyo +Limelight "+set spell linebreak"',
-            ["vim", "-f", "+Goyo", "+Limelight", "+set spell linebreak"],
+            ["vim", "-f", "+Goyo", "+Limelight", '"+set spell linebreak"'],
         ],
     ],
 )
