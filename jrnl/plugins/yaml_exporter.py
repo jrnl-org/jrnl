@@ -75,6 +75,11 @@ class YAMLExporter(TextExporter):
         if previous_line not in ["\r", "\n", "\r\n", "\n\r"]:
             newbody = newbody + os.linesep
 
+        # set indentation for YAML body block
+        spacebody = "\t"
+        for line in newbody.splitlines(True):
+            spacebody = spacebody + "\t" + line
+
         if warn_on_heading_level is True:
             print(
                 "{}WARNING{}: Headings increased past H6 on export - {} {}".format(
@@ -113,14 +118,15 @@ class YAMLExporter(TextExporter):
         # source directory is  entry.journal.config['journal']
         # output directory is...?
 
-        return "title: {title}\ndate: {date}\nstarred: {starred}\ntags: {tags}\n{dayone} {body} {space}".format(
+        return "{start}\ntitle: {title}\ndate: {date}\nstarred: {starred}\ntags: {tags}\n{dayone}body: |{body}{end}".format(
+            start="---",
             date=date_str,
             title=entry.title,
             starred=entry.starred,
             tags=", ".join([tag[1:] for tag in entry.tags]),
             dayone=dayone_attributes,
-            body=newbody,
-            space="",
+            body=spacebody,
+            end="...",
         )
 
     @classmethod

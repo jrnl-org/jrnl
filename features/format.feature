@@ -410,29 +410,31 @@ Feature: Custom formats
         """
         And the content of file "2020-08-29_entry-the-first.md" in the cache should be
         """
+        ---
         title: Entry the first.
         date: 2020-08-29 11:11
         starred: False
         tags: tagone, ipsum, tagtwo
+        body: |
+            Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
+            quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque
+            augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
+            consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
+            commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
+            venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
 
-        Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
-        quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque
-        augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
-        consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
-        commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
-        venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
-
-        Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
-        ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
-        potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
-        molestie metus. Mauris porttitor dui ornare gravida porta. Quisque sed lectus
-        hendrerit, lacinia ante eget, vulputate ante. Aliquam vitae erat non felis
-        feugiat sagittis. Phasellus quis arcu fringilla, mattis ligula id, vestibulum
-        urna. Vivamus facilisis leo a mi tincidunt condimentum. Donec eu euismod enim.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu ligula eget
-        velit scelerisque fringilla. Phasellus pharetra justo et nulla fringilla, ac
-        porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
-        conubia nostra, per inceptos himenaeos.
+            Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
+            ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
+            potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
+            molestie metus. Mauris porttitor dui ornare gravida porta. Quisque sed lectus
+            hendrerit, lacinia ante eget, vulputate ante. Aliquam vitae erat non felis
+            feugiat sagittis. Phasellus quis arcu fringilla, mattis ligula id, vestibulum
+            urna. Vivamus facilisis leo a mi tincidunt condimentum. Donec eu euismod enim.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu ligula eget
+            velit scelerisque fringilla. Phasellus pharetra justo et nulla fringilla, ac
+            porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
+            conubia nostra, per inceptos himenaeos.        
+        ...
         """
 
         Examples: configs
@@ -458,21 +460,23 @@ Feature: Custom formats
         """
         And the content of file "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md" in the cache should be
         """
+        ---
         title: The third entry finally after weeks without writing.
         date: 2020-09-24 09:14
         starred: False
         tags: tagone, tagthree
+        body: |
+            I'm so excited about emojis. 💯 🎶 💩
 
-        I'm so excited about emojis. 💯 🎶 💩
-
-        Donec semper pellentesque iaculis. Nullam cursus et justo sit amet venenatis.
-        Vivamus tempus ex dictum metus vehicula gravida. Aliquam sed sem dolor. Nulla
-        eget ultrices purus. Quisque at nunc at quam pharetra consectetur vitae quis
-        dolor. Fusce ultricies purus eu est feugiat, quis scelerisque nibh malesuada.
-        Quisque egestas semper nibh in hendrerit. Nam finibus ex in mi mattis
-        vulputate. Sed mauris urna, consectetur in justo eu, volutpat accumsan justo.
-        Phasellus aliquam lacus placerat convallis vestibulum. Curabitur maximus at
-        ante eget fringilla. @tagthree and also @tagone
+            Donec semper pellentesque iaculis. Nullam cursus et justo sit amet venenatis.
+            Vivamus tempus ex dictum metus vehicula gravida. Aliquam sed sem dolor. Nulla
+            eget ultrices purus. Quisque at nunc at quam pharetra consectetur vitae quis
+            dolor. Fusce ultricies purus eu est feugiat, quis scelerisque nibh malesuada.
+            Quisque egestas semper nibh in hendrerit. Nam finibus ex in mi mattis
+            vulputate. Sed mauris urna, consectetur in justo eu, volutpat accumsan justo.
+            Phasellus aliquam lacus placerat convallis vestibulum. Curabitur maximus at
+            ante eget fringilla. @tagthree and also @tagone        
+        ...
         """
 
         Examples: configs
