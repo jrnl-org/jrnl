@@ -15,4 +15,4 @@ def on_posix():
 
 def split_args(args):
     """Split arguments and add escape characters as appropriate for the OS"""
-    return shlex.split(args, posix=on_posix)
+    return shlex.split(args, posix=on_posix())

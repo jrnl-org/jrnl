@@ -67,7 +67,7 @@ def test_on_posix(systems):
 )
 def test_split_args_on_windows(args):
     input_arguments, expected_split_args = args[0], args[1]
-    with mock.patch("jrnl.os_compat.on_windows", True):
+    with mock.patch("jrnl.os_compat.on_windows", lambda: True):
         assert split_args(input_arguments) == expected_split_args
 
 
@@ -83,5 +83,5 @@ def test_split_args_on_windows(args):
 )
 def test_split_args_on_not_windows(args):
     input_arguments, expected_split_args = args[0], args[1]
-    with mock.patch("jrnl.os_compat.on_windows", True):
+    with mock.patch("jrnl.os_compat.on_windows", lambda: True):
         assert split_args(input_arguments) == expected_split_args
