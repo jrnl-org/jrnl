@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.7-beta](https://pypi.org/project/jrnl/v2.7-beta/) (2021-01-16)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6...v2.7-beta)
 
 **Implemented enhancements:**
 
@@ -17,8 +17,10 @@
 
 **Fixed bugs:**
 
+- `shlex.split` usage for editor config with commands that have spaces [\#1151](https://github.com/jrnl-org/jrnl/issues/1151)
 - YAML Export lacking delimiters [\#1065](https://github.com/jrnl-org/jrnl/issues/1065)
 - Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
+- Fix OS compatibility issues for editors with spaces, slashes, and quotes [\#1153](https://github.com/jrnl-org/jrnl/pull/1153) ([micahellison](https://github.com/micahellison))
 - Add delimiters in YAML format [\#1150](https://github.com/jrnl-org/jrnl/pull/1150) ([Seopril](https://github.com/Seopril))
 - Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
 - Notify user when config directory can't be created because there is already a file with the same name [\#1134](https://github.com/jrnl-org/jrnl/pull/1134) ([micahellison](https://github.com/micahellison))
