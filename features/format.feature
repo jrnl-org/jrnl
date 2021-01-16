@@ -396,6 +396,7 @@ Feature: Custom formats
         | basic_folder    |
         | basic_dayone    |
 
+    @skip_win
     Scenario Outline: Export to yaml
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
