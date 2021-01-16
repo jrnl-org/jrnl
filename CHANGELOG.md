@@ -10,11 +10,13 @@
 - Automate Arch deployment [\#1112](https://github.com/jrnl-org/jrnl/issues/1112)
 - Change temporary file names for better text editor integration [\#1080](https://github.com/jrnl-org/jrnl/issues/1080)
 - Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
+- Add new date format \(`--format date`\) for heatmapping [\#1146](https://github.com/jrnl-org/jrnl/pull/1146) ([KarimPwnz](https://github.com/KarimPwnz))
 - Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
 
 **Fixed bugs:**
 
 - Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
+- Fix YAML export formatting\(\#1065\) [\#1150](https://github.com/jrnl-org/jrnl/pull/1150) ([Seopril](https://github.com/Seopril))
 - Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
 - Notify user when config directory can't be created because there is already a file with the same name [\#1134](https://github.com/jrnl-org/jrnl/pull/1134) ([micahellison](https://github.com/micahellison))
 
