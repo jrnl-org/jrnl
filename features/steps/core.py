@@ -17,6 +17,7 @@ import keyring
 import toml
 import yaml
 
+import jrnl.time
 from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
@@ -159,6 +160,11 @@ def disable_keyring(context):
     keyring.core.set_keyring(NoKeyring())
 
 
+@given('we set current date and time to "{dt}"')
+def set_datetime(context, dt):
+    context.now = dt
+
+
 @when('we change directory to "{path}"')
 def move_up_dir(context, path):
     os.chdir(path)
@@ -197,6 +203,7 @@ def open_editor_and_enter(context, method, text=""):
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
         patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
         patch("sys.stdin.isatty", return_value=True), \
+        patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
         patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
         patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
     :
@@ -289,6 +296,18 @@ def _mock_input(inputs):
     return prompt_return
 
 
+def _mock_time_parse(context):
+    original_parse = jrnl.time.parse
+    if "now" not in context:
+        return original_parse
+
+    def wrapper(input, *args, **kwargs):
+        input = context.now if input == "now" else input
+        return original_parse(input, *args, **kwargs)
+
+    return wrapper
+
+
 @when('we run "{command}" and enter')
 @when('we run "{command}" and enter nothing')
 @when('we run "{command}" and enter "{inputs}"')
@@ -322,6 +341,7 @@ def run_with_input(context, command, inputs=""):
         patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
         patch("sys.stdin.read", side_effect=text) as mock_read, \
         patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
+        patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
         patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
         patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
     :
@@ -406,6 +426,7 @@ def run(context, command, text=""):
             patch("getpass.getpass", side_effect=_mock_getpass(password)) as mock_getpass, \
             patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
             patch("sys.stdin.read", side_effect=lambda: text), \
+            patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
             patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
             patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         :

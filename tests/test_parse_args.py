@@ -18,6 +18,10 @@ def expected_args(**kwargs):
         "delete": False,
         "edit": False,
         "end_date": None,
+        "today_in_history": False,
+        "month": None,
+        "day": None,
+        "year": None,
         "excluded": [],
         "export": False,
         "filename": None,
@@ -145,6 +149,27 @@ def test_list_alone():
 
 def test_on_date_alone():
     assert cli_as_dict("-on 'saturday'") == expected_args(on_date="saturday")
+
+
+def test_month_alone():
+    assert cli_as_dict("-month 1") == expected_args(month="1")
+    assert cli_as_dict("-month 01") == expected_args(month="01")
+    assert cli_as_dict("-month January") == expected_args(month="January")
+    assert cli_as_dict("-month Jan") == expected_args(month="Jan")
+
+
+def test_day_alone():
+    assert cli_as_dict("-day 1") == expected_args(day="1")
+    assert cli_as_dict("-day 01") == expected_args(day="01")
+
+
+def test_year_alone():
+    assert cli_as_dict("-year 2021") == expected_args(year="2021")
+    assert cli_as_dict("-year 21") == expected_args(year="21")
+
+
+def test_today_in_history_alone():
+    assert cli_as_dict("-today-in-history") == expected_args(today_in_history=True)
 
 
 def test_short_alone():

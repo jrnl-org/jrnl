@@ -177,6 +177,30 @@ def parse_args(args=[]):
         "-on", dest="on_date", metavar="DATE", help="Show entries on this date"
     )
     reading.add_argument(
+        "-today-in-history",
+        dest="today_in_history",
+        action="store_true",
+        help="Show entries of today over the years",
+    )
+    reading.add_argument(
+        "-month",
+        dest="month",
+        metavar="DATE",
+        help="Show entries on this month of any year",
+    )
+    reading.add_argument(
+        "-day",
+        dest="day",
+        metavar="DATE",
+        help="Show entries on this day of any month",
+    )
+    reading.add_argument(
+        "-year",
+        dest="year",
+        metavar="DATE",
+        help="Show entries of a specific year",
+    )
+    reading.add_argument(
         "-from",
         dest="start_date",
         metavar="DATE",

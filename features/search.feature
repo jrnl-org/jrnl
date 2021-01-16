@@ -214,6 +214,96 @@ Feature: Searching in a journal
         | But I'm better.
         """
 
+    Scenario Outline: Searching by month
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -month 9 --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+        And we flush the output
+        When we run "jrnl -month Sept --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+        And we flush the output
+        When we run "jrnl -month September --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Searching by day
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -day 31 --short"
+        Then the output should be "2020-08-31 14:32 A second entry in what I hope to be a long series."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Searching by year
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl 2019-01-01 01:01: I like this year."
+        And we run "jrnl -year 2019 --short"
+        Then the output should be "2019-01-01 01:01 I like this year."
+        And we flush the output
+        When we run "jrnl -year 19 --short"
+        Then the output should be "2019-01-01 01:01 I like this year."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Combining month, day, and year search terms
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -month 08 -day 29 --short"
+        Then the output should be "2020-08-29 11:11 Entry the first."
+        And we flush the output
+        When we run "jrnl -day 29 -year 2020 --short"
+        Then the output should be "2020-08-29 11:11 Entry the first."
+        And we flush the output
+        When we run "jrnl -month 09 -year 2020 --short"
+        Then the output should be "2020-09-24 09:14 The third entry finally after weeks without writing."
+        And we flush the output
+        When we run "jrnl -month 08 -day 29 -year 2020 --short"
+        Then the output should be "2020-08-29 11:11 Entry the first."
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
+    Scenario Outline: Searching today in history
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        And we set current date and time to "2020-08-31 14:32"
+        When we run "jrnl 2019-08-31 01:01: Hi, from last year."
+        And we run "jrnl -today-in-history --short"
+        Then the output should be
+        """
+        2019-08-31 01:01 Hi, from last year.
+        2020-08-31 14:32 A second entry in what I hope to be a long series.
+        """
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
     Scenario: Loading a DayOne Journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
