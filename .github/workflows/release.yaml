@@ -6,17 +6,17 @@ on:
         description: 'Version (e.g. v2.5, v2.5.1-beta, v2.6-beta2)'
         required: true
       include_repo_version:
-        description: 'Update version in repo? (yes/no)'
+        description: 'Update version in repo? (true/false)'
         require: true
-        default: yes
+        default: true
       include_pypi:
-        description: 'Publish to PyPI? (yes/no)'
+        description: 'Publish to PyPI? (true/false)'
         required: true
-        default: yes
+        default: true
       include_brew:
-        description: 'Publish to Homebrew? (yes/no)'
+        description: 'Publish to Homebrew? (true/false)'
         required: true
-        default: yes
+        default: true
 
 jobs:
   validate:
@@ -77,13 +77,13 @@ jobs:
       run: pip install poetry
 
     - name: Update version in files
-      if: {{ github.event.inputs.include_repo_version == 'yes' }}
+      if: ${{ github.event.inputs.include_repo_version == 'true' }}
       run: |
         poetry version "$JRNL_VERSION"
         echo __version__ = \"$JRNL_VERSION\" > jrnl/__version__.py
 
     - name: Commit updated files
-      if: ${{ github.event.inputs.include_repo_version == 'yes' && github.repository == env.HOME_REPO }}
+      if: ${{ github.event.inputs.include_repo_version == 'true' && github.repository == env.HOME_REPO }}
       run: |
         git add pyproject.toml jrnl/__version__.py
         git commit -m "Increment version to ${JRNL_VERSION}"
@@ -95,7 +95,7 @@ jobs:
       run: poetry build
 
     - name: Deploy to PyPI
-      if: ${{ github.event.inputs.include_pypi == 'yes' && github.repository == env.HOME_REPO }}
+      if: ${{ github.event.inputs.include_pypi == 'true' && github.repository == env.HOME_REPO }}
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
       run: poetry publish
@@ -107,7 +107,7 @@ jobs:
         echo "::set-output name=pypi_version::$pypi_version"
 
   release_homebrew:
-    if: ${{ github.event.inputs.include_brew == 'yes' }}
+    if: ${{ github.event.inputs.include_brew == 'true' }}
     needs: release_pypi
     name: "Release to Homebrew"
     runs-on: macos-latest
