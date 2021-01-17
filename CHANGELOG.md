@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...HEAD)
+
+**Build:**
+
+- Fix homebrew release, add options for release pipeline [\#1154](https://github.com/jrnl-org/jrnl/pull/1154) ([wren](https://github.com/wren))
+
 ## [v2.7-beta](https://pypi.org/project/jrnl/v2.7-beta/) (2021-01-16)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6...v2.7-beta)
