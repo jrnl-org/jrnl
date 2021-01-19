@@ -35,6 +35,7 @@ def expected_args(**kwargs):
         "strict": False,
         "tags": False,
         "text": [],
+        "config_override":{}
     }
     return {**default_args, **kwargs}
 
@@ -204,6 +205,10 @@ def test_version_alone():
 
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
+def test_editor_override():
+    from jrnl.commands import postconfig_override
+
+    assert cli_as_dict("--override '{\"editor\": \"nano\"}'") == expected_args(config_override={'editor':'nano'})
 
 # @see https://github.com/jrnl-org/jrnl/issues/520
 @pytest.mark.parametrize(

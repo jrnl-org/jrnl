@@ -2,8 +2,10 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import argparse
+from jrnl import config
 import re
 import textwrap
+import json
 
 from .commands import postconfig_decrypt
 from .commands import postconfig_encrypt
@@ -312,6 +314,24 @@ def parse_args(args=[]):
         "-o",
         dest="filename",
         help=argparse.SUPPRESS,
+    )
+
+    overrides = parser.add_argument_group("Config file overrides",textwrap.dedent('These are one-off overrides of the config file options'))
+    overrides.add_argument(
+        "--override",
+        dest="config_override",
+        action="store",
+        type=json.loads,
+        nargs="?",
+        default={},
+        metavar="CONFIG_KV_PAIR",
+        help="""
+        Override configured key-value pairs with CONFIG_KV_PAIR for this command invocation only. 
+
+        For example, to use a different editor for this jrnl entry, call: 
+            jrnl --override '{"editor": "nano"}' 
+        
+        """
     )
 
     # Handle '-123' as a shortcut for '-n 123'
