@@ -49,6 +49,10 @@ def run(args):
             args=args, config=config, original_config=original_config
         )
 
+    # Apply config overrides
+    overrides = args.config_override
+    #TODO: substitute overriden KV pairs in config dict ONLY AFTER ADDING TESTS
+    
     # --- All the standalone commands are now done --- #
 
     # Get the journal we're going to be working with
