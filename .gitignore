@@ -54,3 +54,8 @@ exp/
 _extras/
 *.sublime-*
 site/
+
+.vscode/settings.json
+coverage.xml
+.vscode/launch.json
+.coverage
