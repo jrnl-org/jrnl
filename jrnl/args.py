@@ -316,7 +316,10 @@ def parse_args(args=[]):
         help=argparse.SUPPRESS,
     )
 
-    overrides = parser.add_argument_group("Config file overrides",textwrap.dedent('These are one-off overrides of the config file options'))
+    overrides = parser.add_argument_group(
+        "Config file overrides",
+        textwrap.dedent("These are one-off overrides of the config file options"),
+    )
     overrides.add_argument(
         "--override",
         dest="config_override",
@@ -331,7 +334,7 @@ def parse_args(args=[]):
         For example, to use a different editor for this jrnl entry, call: 
             jrnl --override '{"editor": "nano"}' 
         
-        """
+        """,
     )
 
     # Handle '-123' as a shortcut for '-n 123'
