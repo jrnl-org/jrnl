@@ -212,7 +212,9 @@ def open_editor_and_enter(context, method, text=""):
 
     # fmt: on
 
-
+@then("the editor {editor} should have been called")
+def editor_override(context, editor): 
+    
 @then("the editor should have been called")
 @then("the editor should have been called with {num} arguments")
 def count_editor_args(context, num=None):
