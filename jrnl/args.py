@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import argparse
-from jrnl import config
 import re
 import textwrap
 import json
