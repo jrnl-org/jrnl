@@ -12,6 +12,11 @@
 
 - Fix homebrew release, add options for release pipeline [\#1154](https://github.com/jrnl-org/jrnl/pull/1154) ([wren](https://github.com/wren))
 
+**Documentation:**
+
+- add instructions to add VSCode as an external editor for Windows [\#1155](https://github.com/jrnl-org/jrnl/issues/1155)
+- Clarify editor documentation for PATH variable and VS Code [\#1160](https://github.com/jrnl-org/jrnl/pull/1160) ([micahellison](https://github.com/micahellison))
+
 **Packaging:**
 
 - Bump pyyaml from 5.3.1 to 5.4.1 [\#1158](https://github.com/jrnl-org/jrnl/pull/1158) ([dependabot[bot]](https://github.com/apps/dependabot))
