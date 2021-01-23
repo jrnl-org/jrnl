@@ -1,12 +1,12 @@
-from typing import Any
+
 import pytest
-import pytest_mock
+
 import mock
 
 import yaml
 from jrnl.args import parse_args
 from jrnl.jrnl import run
-from jrnl import install, editor
+from jrnl import install
 
 
 @pytest.fixture()
