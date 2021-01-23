@@ -1,46 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.7](https://pypi.org/project/jrnl/v2.7/) (2021-01-23)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...HEAD)
-
-**Fixed bugs:**
-
-- Editor can't be launched on Windows when using full path to editor executable [\#1096](https://github.com/jrnl-org/jrnl/issues/1096)
-
-**Build:**
-
-- Fix homebrew release, add options for release pipeline [\#1154](https://github.com/jrnl-org/jrnl/pull/1154) ([wren](https://github.com/wren))
-
-**Documentation:**
-
-- add instructions to add VSCode as an external editor for Windows [\#1155](https://github.com/jrnl-org/jrnl/issues/1155)
-- Clarify editor documentation for PATH variable and VS Code [\#1160](https://github.com/jrnl-org/jrnl/pull/1160) ([micahellison](https://github.com/micahellison))
-
-**Packaging:**
-
-- Bump pyyaml from 5.3.1 to 5.4.1 [\#1158](https://github.com/jrnl-org/jrnl/pull/1158) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-## [v2.7-beta](https://pypi.org/project/jrnl/v2.7-beta/) (2021-01-16)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6...v2.7-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...v2.7)
 
 **Implemented enhancements:**
 
-- Filter for entries from the same date in previous years [\#1143](https://github.com/jrnl-org/jrnl/issues/1143)
-- Implement dependency tracker/updater [\#1120](https://github.com/jrnl-org/jrnl/issues/1120)
-- Automate Arch deployment [\#1112](https://github.com/jrnl-org/jrnl/issues/1112)
-- Change temporary file names for better text editor integration [\#1080](https://github.com/jrnl-org/jrnl/issues/1080)
-- Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
 - Add new date format \(`--format date`\) for heatmapping [\#1146](https://github.com/jrnl-org/jrnl/pull/1146) ([KarimPwnz](https://github.com/KarimPwnz))
 - Add new `-today-in-history`, `-month`, `-day`, and `-year` search filters [\#1145](https://github.com/jrnl-org/jrnl/pull/1145) ([KarimPwnz](https://github.com/KarimPwnz))
 - Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
 
 **Fixed bugs:**
 
-- `shlex.split` usage for editor config with commands that have spaces [\#1151](https://github.com/jrnl-org/jrnl/issues/1151)
-- YAML Export lacking delimiters [\#1065](https://github.com/jrnl-org/jrnl/issues/1065)
-- Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
+- Editor can't be launched on Windows when using full path to editor executable [\#1096](https://github.com/jrnl-org/jrnl/issues/1096)
 - Fix OS compatibility issues for editors with spaces, slashes, and quotes [\#1153](https://github.com/jrnl-org/jrnl/pull/1153) ([micahellison](https://github.com/micahellison))
 - Add delimiters in YAML format [\#1150](https://github.com/jrnl-org/jrnl/pull/1150) ([Seopril](https://github.com/Seopril))
 - Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
@@ -48,11 +20,13 @@
 
 **Build:**
 
+- Fix homebrew release, add options for release pipeline [\#1154](https://github.com/jrnl-org/jrnl/pull/1154) ([wren](https://github.com/wren))
 - Fix changelog generator [\#1127](https://github.com/jrnl-org/jrnl/pull/1127) ([wren](https://github.com/wren))
 
 **Documentation:**
 
-- Clarify installation docs [\#1097](https://github.com/jrnl-org/jrnl/issues/1097)
+- add instructions to add VSCode as an external editor for Windows [\#1155](https://github.com/jrnl-org/jrnl/issues/1155)
+- Clarify editor documentation for PATH variable and VS Code [\#1160](https://github.com/jrnl-org/jrnl/pull/1160) ([micahellison](https://github.com/micahellison))
 - Emphasize installing dependencies before testing [\#1148](https://github.com/jrnl-org/jrnl/pull/1148) ([gumatias](https://github.com/gumatias))
 - Clarify installation documentation \(\#1097\) [\#1137](https://github.com/jrnl-org/jrnl/pull/1137) ([Seopril](https://github.com/Seopril))
 - Fix broken search bar in docs site [\#1135](https://github.com/jrnl-org/jrnl/pull/1135) ([wren](https://github.com/wren))
@@ -62,6 +36,7 @@
 
 **Packaging:**
 
+- Bump pyyaml from 5.3.1 to 5.4.1 [\#1158](https://github.com/jrnl-org/jrnl/pull/1158) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 21.7.0 to 21.8.0 [\#1136](https://github.com/jrnl-org/jrnl/pull/1136) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytz from 2020.4 to 2020.5 [\#1130](https://github.com/jrnl-org/jrnl/pull/1130) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pytest from 6.2.0 to 6.2.1 [\#1129](https://github.com/jrnl-org/jrnl/pull/1129) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
