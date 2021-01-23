@@ -31,9 +31,9 @@ Feature: Writing new entries.
     Scenario Outline: CJK entry should be split at fullwidth period without following space.
         Given we use the config "<config_file>.yaml"
         And we use the password "test" if prompted
-        When we run "jrnl 七転び。八起"
+        When we run "jrnl 七転び。八起き"
         And we run "jrnl -1"
-        Then the output should contain "| 八起"
+        Then the output should contain "| 八起き"
 
         Examples: configs
         | config_file     |
