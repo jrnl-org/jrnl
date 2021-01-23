@@ -162,10 +162,13 @@ in your `jrnl.yaml` file. (See [advanced usage](./advanced.md) for details).
 !!! note
     To save and log any entry edits, save and close the file.
 
+If your editor is not in your operating system's `PATH` environment variable,
+then you will have to enter in the full path of your editor.
+
 ### Sublime Text
 
-To use Sublime Text, install the command line tools for Sublime Text and
-configure your `jrnl.yaml` like this:
+To use [Sublime Text](https://www.sublimetext.com/), install the command line
+tools for Sublime Text and configure your `jrnl.yaml` like this:
 
 ```yaml
 editor: "subl -w"
@@ -174,9 +177,21 @@ editor: "subl -w"
 Note the `-w` flag to make sure jrnl waits for Sublime Text to close the
 file before writing into the journal.
 
+### Visual Studio Code
+
+[Visual Studio Code](https://code.visualstudio.com) also requires a flag
+that tells the process to wait until the file is closed before exiting:
+
+```yaml
+editor: "code --wait"
+```
+
+On Windows, `code` is not added to the path by default, so you'll need to
+enter the full path to your `code.exe` file, or add it to the `PATH` variable.
+
 ### MacVim
 
-Similar to Sublime Text, MacVim must be started with a flag that tells
+Also similar to Sublime Text, MacVim must be started with a flag that tells
 the the process to wait until the file is closed before passing control
 back to journal. In the case of MacVim, this is `-f`:
 
@@ -219,29 +234,3 @@ editor: "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession
 The double backslashes are needed so jrnl can read the file path
 correctly. The `-multiInst -nosession` options will cause jrnl to open
 its own Notepad++ window.
-
-### Visual Studio Code
-
-To set [Visual Studo Code](https://code.visualstudio.com) as your editor on Linux, edit `jrnl.yaml` like this:
-
-```yaml
-editor: "/usr/bin/code --wait"
-```
-
-The `--wait` argument tells VS Code to wait for files to be written out before handing back control to jrnl.
-
-On MacOS you will need to add VS Code to your PATH. You can do that by adding:
-
-```sh
-export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-```
-
-to your `.bash_profile`, or by running the **Install 'code' command in PATH** command from the command pallet in VS Code.
-
-Then you can add:
-
-```yaml
-editor: "code --wait"
-```
-
-to `jrnl.yaml`. See also the [Visual Studio Code documentation](https://code.visualstudio.com/docs/setup/mac)
