@@ -4,9 +4,17 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...HEAD)
 
+**Fixed bugs:**
+
+- Editor can't be launched on Windows when using full path to editor executable [\#1096](https://github.com/jrnl-org/jrnl/issues/1096)
+
 **Build:**
 
 - Fix homebrew release, add options for release pipeline [\#1154](https://github.com/jrnl-org/jrnl/pull/1154) ([wren](https://github.com/wren))
+
+**Packaging:**
+
+- Bump pyyaml from 5.3.1 to 5.4.1 [\#1158](https://github.com/jrnl-org/jrnl/pull/1158) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.7-beta](https://pypi.org/project/jrnl/v2.7-beta/) (2021-01-16)
 
