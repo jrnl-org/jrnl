@@ -212,32 +212,35 @@ def open_editor_and_enter(context, method, text=""):
 
     # fmt: on
 
+
 @then("the editor {editor} should have been called")
-def editor_override(context, editor): 
-    
-    def _mock_editor(command_and_journal_file): 
+def editor_override(context, editor):
+    def _mock_editor(command_and_journal_file):
         editor = command_and_journal_file[0]
-        context.tmpfile = command_and_journal_file[-1]
-        print("%s has been launched"%editor)
+        tmpfile = command_and_journal_file[-1]
+        context.tmpfile = tmpfile
+        print("%s has been launched" % editor)
         return tmpfile
-    
-    try :
-                # fmt: off
-        # see: https://github.com/psf/black/issues/664
-        with \
-            patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
-            patch("sys.stdin.isatty", return_value=True), \
-            patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
-            patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
-            patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
-        :
-            cli(['--override','{"editor": "%s"}'%editor])
-            context.exit_status = 0
-            context.editor = mock_editor
-            assert mock_editor.assert_called_once_with(editor, context.tmpfile)
-    except SystemExit as e:
-        context.exit_status = e.code
-    
+
+    # fmt: off
+    # see: https://github.com/psf/black/issues/664
+    with \
+        patch("subprocess.call", side_effect=_mock_editor) as mock_editor, \
+        patch("sys.stdin.isatty", return_value=True), \
+        patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
+        patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
+        patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
+    :
+        try :
+                cli(['--override','{"editor": "%s"}'%editor])
+                context.exit_status = 0
+                context.editor = mock_editor
+                assert mock_editor.assert_called_once_with(editor, context.tmpfile)
+        except SystemExit as e:
+            context.exit_status = e.code
+    # fmt: on
+
+
 @then("the editor should have been called")
 @then("the editor should have been called with {num} arguments")
 def count_editor_args(context, num=None):
