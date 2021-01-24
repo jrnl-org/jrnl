@@ -330,11 +330,11 @@ def parse_args(args=[]):
         help="""
         Override configured key-value pairs with CONFIG_KV_PAIR for this command invocation only. 
 
-        Examples: 
-        - Use a different editor for this jrnl entry, call: 
-            jrnl --config-override '{"editor": "nano"}' 
-        - Override color selections
-            jrnl --config-override '{"colors.body":"blue", "colors.title": "green"}
+        Examples: \n
+        \t - Use a different editor for this jrnl entry, call: \n
+            \t jrnl --config-override '{"editor": "nano"}' \n
+        \t - Override color selections\n
+           \t jrnl --config-override '{"colors.body":"blue", "colors.title": "green"}
         """,
     )
 
