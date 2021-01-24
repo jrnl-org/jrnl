@@ -208,7 +208,7 @@ def test_version_alone():
 
 def test_editor_override():
 
-    assert cli_as_dict('--override \'{"editor": "nano"}\'') == expected_args(
+    assert cli_as_dict('--config-override \'{"editor": "nano"}\'') == expected_args(
         config_override={"editor": "nano"}
     )
 

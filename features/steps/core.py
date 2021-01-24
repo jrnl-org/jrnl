@@ -232,7 +232,7 @@ def editor_override(context, editor):
         patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
     :
         try :
-                cli(['--override','{"editor": "%s"}'%editor])
+                cli(['--config-override','{"editor": "%s"}'%editor])
                 context.exit_status = 0
                 context.editor = mock_editor
                 assert mock_editor.assert_called_once_with(editor, context.tmpfile)

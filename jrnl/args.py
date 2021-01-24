@@ -320,7 +320,7 @@ def parse_args(args=[]):
         textwrap.dedent("These are one-off overrides of the config file options"),
     )
     overrides.add_argument(
-        "--override",
+        "--config-override",
         dest="config_override",
         action="store",
         type=json.loads,
@@ -331,7 +331,7 @@ def parse_args(args=[]):
         Override configured key-value pairs with CONFIG_KV_PAIR for this command invocation only. 
 
         For example, to use a different editor for this jrnl entry, call: 
-            jrnl --override '{"editor": "nano"}' 
+            jrnl --config-override '{"editor": "nano"}' 
         
         """,
     )
