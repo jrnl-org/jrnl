@@ -51,10 +51,9 @@ def run(args):
 
     # Apply config overrides
     overrides = args.config_override
-    # TODO: substitute overriden KV pairs in config dict ONLY AFTER ADDING TESTS
-    for k in overrides:
-        logging.debug("Overriding %s from %s to %s" % (k, config[k], overrides[k]))
-        config[k] = overrides[k]
+    from .override import apply_overrides
+    config = apply_overrides(overrides,config)
+    
     # --- All the standalone commands are now done --- #
 
     # Get the journal we're going to be working with
