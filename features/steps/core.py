@@ -13,11 +13,13 @@ from behave import given
 from behave import then
 from behave import when
 import keyring
+import mock
 import toml
 import yaml
+from yaml.loader import FullLoader
 
 import jrnl.time
-from jrnl import Journal
+from jrnl import Journal, override
 from jrnl import __version__
 from jrnl import plugins
 from jrnl.cli import cli
@@ -211,8 +213,34 @@ def open_editor_and_enter(context, method, text=""):
             context.exit_status = e.code
 
     # fmt: on
-
-
+    
+@then("the runtime config should have {key_as_dots} set to {override_value}")
+def config_override(context, key_as_dots:str, override_value: str): 
+    with open(context.config_path) as f:
+        loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
+        loaded_cfg['journal']='features/journals/simple.journal'
+    base_cfg = loaded_cfg.copy()
+    def _mock_callback(**args): 
+        print("callback executed")
+    # fmt: off
+    try: 
+        with \
+        mock.patch.object(jrnl.override,"recursively_apply",wraps=jrnl.override.recursively_apply) as mock_recurse, \
+        patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
+        patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
+        : 
+            cli(['-1','--config-override', '{"%s": "%s"}'%(key_as_dots,override_value)])
+            # mock_recurse.assert_any_call(base_cfg,key_as_dots.split('.'),override_value)
+            keys_list = key_as_dots.split('.')
+            callList = [
+                (base_cfg,keys_list,override_value),
+                (base_cfg,keys_list[1], override_value)
+            ]
+            mock_recurse.call_args_list
+        
+    except SystemExit as e :
+        context.exit_status = e.code
+    # fmt: on
 @then("the editor {editor} should have been called")
 def editor_override(context, editor):
     def _mock_editor(command_and_journal_file):
