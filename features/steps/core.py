@@ -16,10 +16,10 @@ import keyring
 import mock
 import toml
 import yaml
-from yaml.loader import FullLoader
+
 
 import jrnl.time
-from jrnl import Journal, override
+from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
 from jrnl.cli import cli
@@ -220,7 +220,7 @@ def config_override(context, key_as_dots: str, override_value: str):
     with open(context.config_path) as f:
         loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
         loaded_cfg["journal"] = "features/journals/simple.journal"
-    base_cfg = loaded_cfg.copy()
+    # base_cfg = loaded_cfg.copy()
 
     def _mock_callback(**args):
         print("callback executed")
@@ -233,13 +233,8 @@ def config_override(context, key_as_dots: str, override_value: str):
         patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         : 
             cli(['-1','--config-override', '{"%s": "%s"}'%(key_as_dots,override_value)])
-            # mock_recurse.assert_any_call(base_cfg,key_as_dots.split('.'),override_value)
-            keys_list = key_as_dots.split('.')
-            callList = [
-                (base_cfg,keys_list,override_value),
-                (base_cfg,keys_list[1], override_value)
-            ]
-            mock_recurse.call_args_list
+        mock_recurse.assert_called()
+            
         
     except SystemExit as e :
         context.exit_status = e.code
