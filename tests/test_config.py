@@ -4,14 +4,14 @@ import mock
 
 import yaml
 from jrnl.args import parse_args
-from jrnl.jrnl import run, search_mode
+from jrnl.jrnl import run
 from jrnl import install
 
 
 @pytest.fixture()
 def minimal_config():
     with open("features/data/configs/editor.yaml", "r") as cfg_file:
-        cfg = yaml.load(cfg_file.read())
+        cfg = yaml.load(cfg_file.read(), Loader=yaml.FullLoader)
     yield cfg
 
 
