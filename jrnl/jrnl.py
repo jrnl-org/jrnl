@@ -52,8 +52,9 @@ def run(args):
     # Apply config overrides
     overrides = args.config_override
     from .override import apply_overrides
-    config = apply_overrides(overrides,config)
-    
+
+    config = apply_overrides(overrides, config)
+
     # --- All the standalone commands are now done --- #
 
     # Get the journal we're going to be working with

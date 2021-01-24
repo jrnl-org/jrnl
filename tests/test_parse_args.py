@@ -211,10 +211,13 @@ def test_editor_override():
     assert cli_as_dict('--config-override \'{"editor": "nano"}\'') == expected_args(
         config_override={"editor": "nano"}
     )
-def test_color_override(): 
-    assert cli_as_dict('--config-override \'{"colors.body": "blue"}\'') == expected_args(
-        config_override={"colors.body":"blue"}
-    )
+
+
+def test_color_override():
+    assert cli_as_dict(
+        '--config-override \'{"colors.body": "blue"}\''
+    ) == expected_args(config_override={"colors.body": "blue"})
+
 
 # @see https://github.com/jrnl-org/jrnl/issues/520
 @pytest.mark.parametrize(

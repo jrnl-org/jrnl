@@ -213,15 +213,18 @@ def open_editor_and_enter(context, method, text=""):
             context.exit_status = e.code
 
     # fmt: on
-    
+
+
 @then("the runtime config should have {key_as_dots} set to {override_value}")
-def config_override(context, key_as_dots:str, override_value: str): 
+def config_override(context, key_as_dots: str, override_value: str):
     with open(context.config_path) as f:
         loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
-        loaded_cfg['journal']='features/journals/simple.journal'
+        loaded_cfg["journal"] = "features/journals/simple.journal"
     base_cfg = loaded_cfg.copy()
-    def _mock_callback(**args): 
+
+    def _mock_callback(**args):
         print("callback executed")
+
     # fmt: off
     try: 
         with \
@@ -241,6 +244,8 @@ def config_override(context, key_as_dots:str, override_value: str):
     except SystemExit as e :
         context.exit_status = e.code
     # fmt: on
+
+
 @then("the editor {editor} should have been called")
 def editor_override(context, editor):
     def _mock_editor(command_and_journal_file):
