@@ -204,14 +204,17 @@ class Entry:
 # https://github.com/fnl/segtok
 SENTENCE_SPLITTER = re.compile(
     r"""
-(                       # A sentence ends at one of two sequences:
-    [.!?\u2026\u203C\u203D\u2047\u2048\u2049\u22EF\u3002\uFE52\uFE57\uFF01\uFF0E\uFF1F\uFF61]                # Either, a sequence starting with a sentence terminal,
+    (
+    [.!?\u2026\u203C\u203D\u2047\u2048\u2049\u22EF\uFE52\uFE57] # Sequence starting with a sentence terminal,
     [\'\u2019\"\u201D]? # an optional right quote,
-    [\]\)]*             # optional closing brackets and
-    \s+                 # a sequence of required spaces.
-)""",
+    [\]\)]*             # optional closing bracket
+    \s+                 # AND a sequence of required spaces.
+    )
+    |[\uFF01\uFF0E\uFF1F\uFF61\u3002] # CJK full/half width terminals usually do not have following spaces.
+    """,
     re.VERBOSE,
 )
+
 SENTENCE_SPLITTER_ONLY_NEWLINE = re.compile("\n")
 
 

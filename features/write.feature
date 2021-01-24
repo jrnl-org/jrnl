@@ -28,6 +28,20 @@ Feature: Writing new entries.
         | basic_folder    |
         | basic_dayone    |
 
+    Scenario Outline: CJK entry should be split at fullwidth period without following space.
+        Given we use the config "<config_file>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl 七転び。八起き"
+        And we run "jrnl -1"
+        Then the output should contain "| 八起き"
+
+        Examples: configs
+        | config_file     |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
     Scenario Outline: Writing an entry from command line should store the entry
         Given we use the config "<config_file>.yaml"
         And we use the password "bad doggie no biscuit" if prompted
