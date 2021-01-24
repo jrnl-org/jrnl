@@ -2,7 +2,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
 
 Scenario: Override configured editor with built-in input === editor:''
 Given we use the config "editor-args.yaml"
-When we run "jrnl --config-override '{"editor": """}'"
+When we run "jrnl --config-override '{"editor": ""}'"
 Then the editor "" should have been called 
 
 Scenario: Override configured editor with 'nano'
@@ -31,9 +31,6 @@ Then the output should be
 """
 
 Scenario: Override color selections with runtime overrides 
-Given we use the config "no_colors.yaml"
-When we run "jrnl --config-override '{"colors.body": "blue"}'"
-Then the config should have "colors" set to 
-"""
-'body': 'blue'
-"""
+Given we use the config "editor.yaml"
+When we run "jrnl -1 --config-override '{"colors.body": "blue"}' "
+Then the runtime config should have colors.body set to blue
