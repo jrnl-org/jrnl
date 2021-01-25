@@ -1,4 +1,3 @@
-
 from jrnl.jrnl import run
 from jrnl.os_compat import split_args
 from unittest import mock
@@ -32,14 +31,13 @@ def run_command(context, args):
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
     key_as_vec = key_as_dots.split(".")
-    expected_call_args_list =  [
-                (context.cfg, key_as_vec, override_value),
-                (context.cfg[key_as_vec[0]], key_as_vec[1], override_value)
-            ]
+    expected_call_args_list = [
+        (context.cfg, key_as_vec, override_value),
+        (context.cfg[key_as_vec[0]], key_as_vec[1], override_value),
+    ]
     with open(context.config_path) as f:
         loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
         loaded_cfg["journal"] = "features/journals/simple.journal"
-    
 
     def _mock_callback(**args):
         print("callback executed")
