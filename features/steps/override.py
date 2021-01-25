@@ -1,3 +1,5 @@
+from jrnl import override
+from jrnl.jrnl import run
 from jrnl.os_compat import split_args
 from unittest import mock
 
@@ -9,27 +11,29 @@ import yaml
 from yaml.loader import FullLoader
 
 import jrnl
-from jrnl.override import apply_overrides, _recursively_apply
 from jrnl.cli import cli
-from jrnl.jrnl import run
 
 
 @given("we use the config {config_file}")
 def load_config(context, config_file):
     filepath = os.path.join("features/configs", config_file)
     context.config_path = os.path.abspath(filepath)
-    with open(context.config_path) as cfg:
-        context.config = yaml.load(cfg, Loader=FullLoader)
+    
 
 
 @when("we run jrnl with {args}")
 def run_command(context, args):
     context.args = split_args("%s" % args)
     context.parser = parse_args(context.args)
+    with open(context.config_path,'r') as f: 
+        cfg = yaml.load(f,Loader=FullLoader)
+    context.cfg = cfg 
 
 
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
+    key_as_vec = key_as_dots.split('.')
+
     with open(context.config_path) as f:
         loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
         loaded_cfg["journal"] = "features/journals/simple.journal"
@@ -41,14 +45,17 @@ def config_override(context, key_as_dots: str, override_value: str):
     # fmt: off
     try: 
         with \
-        mock.patch.object(jrnl.override,"recursively_apply",wraps=jrnl.override.recursively_apply) as mock_recurse, \
+        mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as mock_recurse, \
         mock.patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
         mock.patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         : 
-            cli(['-1','--config-override', '{"%s": "%s"}'%(key_as_dots,override_value)])
-        mock_recurse.assert_called()
-            
-        
+            run(context.parser)
+        call_list =  [
+            mock.call(context.cfg, key_as_vec, override_value),
+            mock.call(context.cfg[key_as_vec[0]], key_as_vec[1], override_value)
+        ]
+        assert mock_recurse.call_count == 2
+        mock_recurse.assert_has_calls(call_list, any_order=False)
     except SystemExit as e :
         context.exit_status = e.code
     # fmt: on

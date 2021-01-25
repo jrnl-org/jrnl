@@ -13,7 +13,6 @@ from behave import given
 from behave import then
 from behave import when
 import keyring
-import mock
 
 import toml
 import yaml
