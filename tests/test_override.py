@@ -1,6 +1,6 @@
 import pytest
 
-from jrnl.override import apply_overrides, recursively_apply
+from jrnl.override import apply_overrides, _recursively_apply, _get_config_node
 
 
 @pytest.fixture()
@@ -27,10 +27,9 @@ def test_override_dot_notation(minimal_config):
     assert cfg["colors"] == {"body": "blue", "date": "green"}
 
 
-def test_recursive_override(minimal_config):
-
+def test_recursively_apply():
     cfg = {"colors": {"body": "red", "title": "green"}}
-    cfg = recursively_apply(cfg, ["colors", "body"], "blue")
+    cfg = _recursively_apply(cfg, ["colors", "body"], "blue")
     assert cfg["colors"]["body"] == "blue"
 
 
