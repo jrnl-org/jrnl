@@ -1,4 +1,4 @@
-from jrnl import override
+
 from jrnl.jrnl import run
 from jrnl.os_compat import split_args
 from unittest import mock
@@ -18,21 +18,20 @@ from jrnl.cli import cli
 def load_config(context, config_file):
     filepath = os.path.join("features/configs", config_file)
     context.config_path = os.path.abspath(filepath)
-    
 
 
 @when("we run jrnl with {args}")
 def run_command(context, args):
     context.args = split_args("%s" % args)
     context.parser = parse_args(context.args)
-    with open(context.config_path,'r') as f: 
-        cfg = yaml.load(f,Loader=FullLoader)
-    context.cfg = cfg 
+    with open(context.config_path, "r") as f:
+        cfg = yaml.load(f, Loader=FullLoader)
+    context.cfg = cfg
 
 
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
-    key_as_vec = key_as_dots.split('.')
+    key_as_vec = key_as_dots.split(".")
 
     with open(context.config_path) as f:
         loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
