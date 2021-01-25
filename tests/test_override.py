@@ -32,3 +32,9 @@ def test_recursive_override(minimal_config):
     cfg = {"colors": {"body": "red", "title": "green"}}
     cfg = recursively_apply(cfg, ["colors", "body"], "blue")
     assert cfg["colors"]["body"] == "blue"
+
+
+def test_get_config_node(minimal_config):
+    assert len(minimal_config.keys()) == 3
+    assert _get_config_node(minimal_config, "editor") == "vim"
+    assert _get_config_node(minimal_config, "display_format") == None
