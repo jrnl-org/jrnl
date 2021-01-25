@@ -4,3 +4,4 @@ colors:
   body: none 
   title: green 
 editor: "vim"
+encrypt: false
