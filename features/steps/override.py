@@ -52,7 +52,7 @@ def config_override(context, key_as_dots: str, override_value: str):
         : 
             run(context.parser)
         
-        assert mock_recurse.call_count == 2
+        assert mock_recurse.call_count >= 2
         mock_recurse.call_args_list = expected_call_args_list
         
     except SystemExit as e :
