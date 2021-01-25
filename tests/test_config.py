@@ -10,16 +10,25 @@ from jrnl import install
 
 @pytest.fixture()
 def minimal_config():
-    with open("features/data/configs/editor.yaml", "r") as cfg_file:
-        cfg = yaml.load(cfg_file.read(), Loader=yaml.FullLoader)
+    cfg = {
+        "colors": {"body": "red", "date": "green"},
+        "default": "/tmp/journal.jrnl",
+        "editor": "vim",
+        "encrypt": False,
+        "journals": {
+            "default": "/tmp/journals/journal.jrnl"
+        }
+
+    }
     yield cfg
+
 
 
 @pytest.fixture()
 def expected_override(minimal_config):
     exp_out_cfg = minimal_config.copy()
     exp_out_cfg["editor"] = "nano"
-    exp_out_cfg["journal"] = "features/journals/simple.journal"
+    exp_out_cfg["journal"] = "/tmp/journals/journal.jrnl"
     yield exp_out_cfg
 
 
@@ -61,17 +70,32 @@ def test_override_configured_editor(
 @pytest.fixture()
 def expected_color_override(minimal_config):
     exp_out_cfg = minimal_config.copy()
-    exp_out_cfg["colors"] = {"body": "blue"}
-    exp_out_cfg["journal"] = "features/journals/simple.journal"
+    exp_out_cfg["colors"]["body"] =  "blue"
+    exp_out_cfg["journal"] = "/tmp/journals/journal.jrnl"
     yield exp_out_cfg
 
 
-# @mock.patch.object(install,'load_or_install_jrnl')
-# @mock.patch('subprocess.call')
-# def test_override_configured_colors(mock_load_or_install, mock_subprocess_call, minimal_config, expected_color_override, capsys):
-#     mock_load_or_install.return_value = minimal_config
+@mock.patch("sys.stdin.isatty")
+@mock.patch("jrnl.install.load_or_install_jrnl", wraps=jrnl.install.load_or_install_jrnl)
+@mock.patch("subprocess.call")
+def test_override_configured_colors(
+    mock_isatty,
+    mock_load_or_install,
+    mock_subprocess_call,
+    minimal_config,
+    expected_color_override,
+    capsys,
+):
+    mock_load_or_install.return_value = minimal_config
 
-#     cli_args=["--config-override",'{"colors.body": "blue"}']
-#     parser = parse_args(cli_args)
-#     assert "colors.body" in parser.config_override.keys()
-#     run(parser)
+    cli_args = ["--config-override", '{"colors.body": "blue"}']
+    parser = parse_args(cli_args)
+    assert "colors.body" in parser.config_override.keys()
+    with mock.patch.object(
+        jrnl,
+        "_write_in_editor",
+        side_effect= print("side effect!"),
+        return_value="note_contents",
+    ) as mock_write_in_editor:
+        run(parser)
+    mock_write_in_editor.assert_called_once_with(expected_color_override)
