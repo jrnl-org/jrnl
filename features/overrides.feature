@@ -36,3 +36,10 @@ Scenario: Override color selections with runtime overrides
 Given we use the config "tiny.yaml"
 When we run jrnl with -1 --config-override '{"colors.body": "blue"}' 
 Then the runtime config should have colors.body set to blue
+
+@skip_win 
+Scenario: Apply multiple config overrides 
+Given we use the config "tiny.yaml" 
+When we run jrnl with -1 --config-override '{"colors.body": "green", "editor": "nano"}'
+Then the runtime config should have colors.body set to green 
+And the runtime config should have editor set to nano
