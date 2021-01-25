@@ -32,11 +32,14 @@ def run_command(context, args):
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
     key_as_vec = key_as_dots.split(".")
-
+    expected_call_args_list =  [
+                (context.cfg, key_as_vec, override_value),
+                (context.cfg[key_as_vec[0]], key_as_vec[1], override_value)
+            ]
     with open(context.config_path) as f:
         loaded_cfg = yaml.load(f, Loader=yaml.FullLoader)
         loaded_cfg["journal"] = "features/journals/simple.journal"
-    # base_cfg = loaded_cfg.copy()
+    
 
     def _mock_callback(**args):
         print("callback executed")
@@ -45,16 +48,15 @@ def config_override(context, key_as_dots: str, override_value: str):
     try: 
         with \
         mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as mock_recurse, \
+        mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.cfg), \
         mock.patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
         mock.patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         : 
             run(context.parser)
-        call_list =  [
-            mock.call(context.cfg, key_as_vec, override_value),
-            mock.call(context.cfg[key_as_vec[0]], key_as_vec[1], override_value)
-        ]
+        
         assert mock_recurse.call_count == 2
-        mock_recurse.assert_has_calls(call_list, any_order=False)
+        mock_recurse.call_args_list = expected_call_args_list
+        
     except SystemExit as e :
         context.exit_status = e.code
     # fmt: on
