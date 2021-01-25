@@ -32,5 +32,5 @@ Then the output should be
 
 Scenario: Override color selections with runtime overrides 
 Given we use the config "editor.yaml"
-When we run "jrnl -1 --config-override '{"colors.body": "blue"}' "
+When we run jrnl with "-1 --config-override '{"colors.body": "blue"}' "
 Then the runtime config should have colors.body set to blue
