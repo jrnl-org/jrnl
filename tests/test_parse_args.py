@@ -219,16 +219,18 @@ def test_color_override():
         '--config-override \'{"colors.body": "blue"}\''
     ) == expected_args(config_override={"colors.body": "blue"})
 
-def test_multiple_overrides(): 
+
+def test_multiple_overrides():
     assert cli_as_dict(
         '--config-override \'{"colors.title": "green", "editor":"", "journal.scratchpad": "/tmp/scratchpad"}\''
     ) == expected_args(
         config_override={
             "colors.title": "green",
             "journal.scratchpad": "/tmp/scratchpad",
-            "editor": ""
+            "editor": "",
         }
     )
+
 
 # @see https://github.com/jrnl-org/jrnl/issues/520
 @pytest.mark.parametrize(

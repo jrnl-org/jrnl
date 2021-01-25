@@ -1,11 +1,12 @@
 import pytest
-
 import mock
 
 import yaml
+
 from jrnl.args import parse_args
 from jrnl.jrnl import run
 from jrnl import install
+from jrnl import jrnl
 
 
 @pytest.fixture()
@@ -15,13 +16,9 @@ def minimal_config():
         "default": "/tmp/journal.jrnl",
         "editor": "vim",
         "encrypt": False,
-        "journals": {
-            "default": "/tmp/journals/journal.jrnl"
-        }
-
+        "journals": {"default": "/tmp/journals/journal.jrnl"},
     }
     yield cfg
-
 
 
 @pytest.fixture()
@@ -30,9 +27,6 @@ def expected_override(minimal_config):
     exp_out_cfg["editor"] = "nano"
     exp_out_cfg["journal"] = "/tmp/journals/journal.jrnl"
     yield exp_out_cfg
-
-
-from jrnl import jrnl
 
 
 @mock.patch("sys.stdin.isatty")
@@ -70,13 +64,15 @@ def test_override_configured_editor(
 @pytest.fixture()
 def expected_color_override(minimal_config):
     exp_out_cfg = minimal_config.copy()
-    exp_out_cfg["colors"]["body"] =  "blue"
+    exp_out_cfg["colors"]["body"] = "blue"
     exp_out_cfg["journal"] = "/tmp/journals/journal.jrnl"
     yield exp_out_cfg
 
 
 @mock.patch("sys.stdin.isatty")
-@mock.patch("jrnl.install.load_or_install_jrnl", wraps=jrnl.install.load_or_install_jrnl)
+@mock.patch(
+    "jrnl.install.load_or_install_jrnl", wraps=jrnl.install.load_or_install_jrnl
+)
 @mock.patch("subprocess.call")
 def test_override_configured_colors(
     mock_isatty,
@@ -94,7 +90,7 @@ def test_override_configured_colors(
     with mock.patch.object(
         jrnl,
         "_write_in_editor",
-        side_effect= print("side effect!"),
+        side_effect=print("side effect!"),
         return_value="note_contents",
     ) as mock_write_in_editor:
         run(parser)
