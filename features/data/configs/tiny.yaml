@@ -1,0 +1,7 @@
+journals:
+  default: /tmp/journal.jrnl 
+colors:
+  body: none 
+  title: green 
+editor: "vim"
+encrypt: false
