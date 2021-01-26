@@ -17,7 +17,14 @@ from .plugins import EXPORT_FORMATS
 from .plugins import IMPORT_FORMATS
 from .plugins import util
 
-
+def deserialize_config_args(input: str) -> dict: 
+    _kvpairs = input.strip(' ').split(',')
+    runtime_modifications = {} 
+    for _p in _kvpairs: 
+        l,r = _p.strip().split(':')
+        runtime_modifications[l] = r
+    return runtime_modifications
+    
 class WrappingFormatter(argparse.RawTextHelpFormatter):
     """Used in help screen"""
 
@@ -323,9 +330,9 @@ def parse_args(args=[]):
         "--config-override",
         dest="config_override",
         action="store",
-        type=json.loads,
+        type=deserialize_config_args,
         nargs="?",
-        default={},
+        default=None,
         metavar="CONFIG_KV_PAIR",
         help="""
         Override configured key-value pairs with CONFIG_KV_PAIR for this command invocation only. 
@@ -342,4 +349,6 @@ def parse_args(args=[]):
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
 
-    return parser.parse_intermixed_args(args)
+    
+    parsed_args = parser.parse_intermixed_args(args)
+    return parsed_args
