@@ -36,7 +36,7 @@ def expected_args(**kwargs):
         "strict": False,
         "tags": False,
         "text": [],
-        "config_override": {},
+        "config_override": None,
     }
     return {**default_args, **kwargs}
 
@@ -206,28 +206,46 @@ def test_version_alone():
 
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
+@pytest.mark.parametrize(
+    "input_str",
+    [
+        'editor:"nano", colors.title:blue, default:"/tmp/egg.txt"',
+        'editor:"vi -c startinsert", colors.title:blue, default:"/tmp/egg.txt"',
+        'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"'
+    ]
+)
+def test_deserialize_config_args(input_str): 
+    from jrnl.args import deserialize_config_args 
+    
+    runtime_config = deserialize_config_args(input_str)
+    assert runtime_config.__class__ == dict
+    assert "editor" in runtime_config.keys()
+    assert "colors.title" in runtime_config.keys()
+    assert "default" in runtime_config.keys()
 
 def test_editor_override():
 
-    assert cli_as_dict('--config-override \'{"editor": "nano"}\'') == expected_args(
+    parsed_args = cli_as_dict('--config-override editor:"nano"')
+    assert parsed_args == expected_args(
         config_override={"editor": "nano"}
     )
 
 
 def test_color_override():
     assert cli_as_dict(
-        '--config-override \'{"colors.body": "blue"}\''
+        '--config-override colors.body:blue'
     ) == expected_args(config_override={"colors.body": "blue"})
 
 
 def test_multiple_overrides():
-    assert cli_as_dict(
-        '--config-override \'{"colors.title": "green", "editor":"", "journal.scratchpad": "/tmp/scratchpad"}\''
-    ) == expected_args(
+    parsed_args = cli_as_dict(
+        '--config-override colors.title:green,editor:"nano",journal.scratchpad:"/tmp/scratchpad"'
+    )
+    assert parsed_args == expected_args(
         config_override={
-            "colors.title": "green",
-            "journal.scratchpad": "/tmp/scratchpad",
-            "editor": "",
+            'colors.title': 'green',
+            'journal.scratchpad': '/tmp/scratchpad',
+            'editor': 'nano',
         }
     )
 

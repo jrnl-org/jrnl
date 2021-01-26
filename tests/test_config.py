@@ -1,3 +1,4 @@
+import shlex
 import pytest
 import mock
 
@@ -43,7 +44,7 @@ def test_override_configured_editor(
     mock_load_or_install.return_value = minimal_config
     mock_isatty.return_value = True
 
-    cli_args = ["--config-override", '{"editor": "nano"}']
+    cli_args = shlex.split('--config-override editor:"nano"')
     parser = parse_args(cli_args)
     assert parser.config_override.__len__() == 1
     assert "editor" in parser.config_override.keys()
@@ -84,7 +85,7 @@ def test_override_configured_colors(
 ):
     mock_load_or_install.return_value = minimal_config
 
-    cli_args = ["--config-override", '{"colors.body": "blue"}']
+    cli_args = shlex.split('--config-override colors.body:blue')
     parser = parse_args(cli_args)
     assert "colors.body" in parser.config_override.keys()
     with mock.patch.object(
