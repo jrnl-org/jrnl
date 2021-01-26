@@ -2,18 +2,23 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
 
 Scenario: Override configured editor with built-in input === editor:''
 Given we use the config "editor-args.yaml"
-When we run "jrnl --config-override '{"editor": ""}'"
+When we run jrnl with --config-override editor:""
 Then the editor "" should have been called 
 
-Scenario: Override configured editor with 'nano'
+Scenario Outline: Override configured editor
 Given we use the config "editor.yaml" 
-When we run "jrnl --config-override '{"editor": "nano"}'"
-Then the editor "nano" should have been called
+When we run jrnl with --config-override editor:"<editor>"
+Then the editor "<editor>" should have been called
+Examples: Editor Commands
+|editor|
+|nano|
+|vi -c startinsert| 
+|code -w - | 
 
 @skip_win
 Scenario: Override configured linewrap with a value of 23
 Given we use the config "editor.yaml"
-When we run "jrnl -2 --config-override '{"linewrap": 23}' --format fancy"
+When we run "jrnl -2 --config-override linewrap:23 --format fancy"
 Then the output should be
 """
 ┎─────╮2013-06-09 15:39
@@ -34,12 +39,12 @@ Then the output should be
 @skip_win
 Scenario: Override color selections with runtime overrides 
 Given we use the config "tiny.yaml"
-When we run jrnl with -1 --config-override '{"colors.body": "blue"}' 
+When we run jrnl with -1 --config-override colors.body:blue' 
 Then the runtime config should have colors.body set to blue
 
 @skip_win 
 Scenario: Apply multiple config overrides 
 Given we use the config "tiny.yaml" 
-When we run jrnl with -1 --config-override '{"colors.body": "green", "editor": "nano"}'
+When we run jrnl with -1 --config-override colors.body:green,editor:"nano"
 Then the runtime config should have colors.body set to green 
 And the runtime config should have editor set to nano
