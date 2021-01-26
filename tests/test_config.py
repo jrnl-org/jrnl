@@ -85,7 +85,7 @@ def test_override_configured_colors(
 ):
     mock_load_or_install.return_value = minimal_config
 
-    cli_args = shlex.split('--config-override colors.body:blue')
+    cli_args = shlex.split("--config-override colors.body:blue")
     parser = parse_args(cli_args)
     assert "colors.body" in parser.config_override.keys()
     with mock.patch.object(

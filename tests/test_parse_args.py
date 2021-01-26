@@ -206,35 +206,35 @@ def test_version_alone():
 
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
+
 @pytest.mark.parametrize(
     "input_str",
     [
         'editor:"nano", colors.title:blue, default:"/tmp/egg.txt"',
         'editor:"vi -c startinsert", colors.title:blue, default:"/tmp/egg.txt"',
-        'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"'
-    ]
+        'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"',
+    ],
 )
-def test_deserialize_config_args(input_str): 
-    from jrnl.args import deserialize_config_args 
-    
+def test_deserialize_config_args(input_str):
+    from jrnl.args import deserialize_config_args
+
     runtime_config = deserialize_config_args(input_str)
     assert runtime_config.__class__ == dict
     assert "editor" in runtime_config.keys()
     assert "colors.title" in runtime_config.keys()
     assert "default" in runtime_config.keys()
 
+
 def test_editor_override():
 
     parsed_args = cli_as_dict('--config-override editor:"nano"')
-    assert parsed_args == expected_args(
-        config_override={"editor": "nano"}
-    )
+    assert parsed_args == expected_args(config_override={"editor": "nano"})
 
 
 def test_color_override():
-    assert cli_as_dict(
-        '--config-override colors.body:blue'
-    ) == expected_args(config_override={"colors.body": "blue"})
+    assert cli_as_dict("--config-override colors.body:blue") == expected_args(
+        config_override={"colors.body": "blue"}
+    )
 
 
 def test_multiple_overrides():
@@ -243,9 +243,9 @@ def test_multiple_overrides():
     )
     assert parsed_args == expected_args(
         config_override={
-            'colors.title': 'green',
-            'journal.scratchpad': '/tmp/scratchpad',
-            'editor': 'nano',
+            "colors.title": "green",
+            "journal.scratchpad": "/tmp/scratchpad",
+            "editor": "nano",
         }
     )
 
