@@ -48,3 +48,12 @@ Given we use the config "tiny.yaml"
 When we run jrnl with -1 --config-override colors.body:green,editor:"nano"
 Then the runtime config should have colors.body set to green 
 And the runtime config should have editor set to nano
+        Scenario Outline: Override configured editor
+        Given we use the config "tiny.yaml" 
+        When we run jrnl with --config-override editor:"<editor>"
+        Then the editor <editor> should have been called
+        Examples: Editor Commands
+        | editor            |
+        | nano              |
+        | vi -c startinsert | 
+        | code -w -         | 
