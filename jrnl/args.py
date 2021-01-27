@@ -23,6 +23,13 @@ def deserialize_config_args(input: str) -> dict:
     runtime_modifications = {}
     for _p in _kvpairs:
         l, r = _p.strip().split(":")
+        r = r.strip()
+        if r.isdigit(): 
+            r = int(r) 
+        elif r.lower() == "true": 
+            r = True 
+        elif r.lower() == "false": 
+            r = False
         runtime_modifications[l] = r
     return runtime_modifications
 
@@ -341,9 +348,9 @@ def parse_args(args=[]):
 
         Examples: \n
         \t - Use a different editor for this jrnl entry, call: \n
-            \t jrnl --config-override '{"editor": "nano"}' \n
+            \t jrnl --config-override editor: "nano" \n
         \t - Override color selections\n
-           \t jrnl --config-override '{"colors.body":"blue", "colors.title": "green"}
+           \t jrnl --config-override colors.body: blue, colors.title: green
         """,
     )
 
