@@ -61,7 +61,7 @@ def config_override(context, key_as_dots: str, override_value: str):
         : 
             run(context.parser)
         runtime_cfg = mock_recurse.call_args_list[0][0][0]
-        assert mock_recurse.call_count == key_as_vec.__len__()
+        
         for k in key_as_vec: 
             runtime_cfg = runtime_cfg['%s'%k]
 
@@ -76,7 +76,7 @@ def editor_override(context, editor):
     
     def _mock_write_in_editor(config):
         editor = config['editor']
-        journal = '/tmp/journal.jrnl'
+        journal = 'features/journals/journal.jrnl'
         context.tmpfile = journal
         print("%s has been launched"%editor)
         return journal
@@ -97,7 +97,7 @@ def editor_override(context, editor):
                 context.editor = mock_write_in_editor
                 expected_config = context.cfg
                 expected_config['editor'] = '%s'%editor 
-                expected_config['journal'] ='/tmp/journal.jrnl'
+                expected_config['journal'] ='features/journals/journal.jrnl'
 
                 assert mock_write_in_editor.call_count == 1
                 assert mock_write_in_editor.call_args[0][0]['editor']==editor
@@ -112,7 +112,7 @@ def override_editor_to_use_stdin(context):
         with \
         mock.patch('sys.stdin.read', return_value='Zwei peanuts walk into a bar und one of zem was a-salted')as mock_stdin_read, \
         mock.patch("jrnl.install.load_or_install_jrnl", return_value=context.cfg), \
-        mock.patch("jrnl.Journal.open_journal", spec=False, return_value='/tmp/journal.jrnl'):
+        mock.patch("jrnl.Journal.open_journal", spec=False, return_value='features/journals/journal.jrnl'):
             run(context.parser)
             context.exit_status = 0
         mock_stdin_read.assert_called_once()
