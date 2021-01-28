@@ -1,5 +1,3 @@
-from tests.test_config import expected_override
-from jrnl.editor import get_text_from_stdin
 from jrnl.jrnl import run
 from jrnl.os_compat import split_args
 from unittest import mock
@@ -12,16 +10,18 @@ import yaml
 from yaml.loader import FullLoader
 
 import jrnl
+
+
 def _mock_time_parse(context):
-        original_parse = jrnl.time.parse
-        if "now" not in context:
-            return original_parse
+    original_parse = jrnl.time.parse
+    if "now" not in context:
+        return original_parse
 
-        def wrapper(input, *args, **kwargs):
-            input = context.now if input == "now" else input
-            return original_parse(input, *args, **kwargs)
+    def wrapper(input, *args, **kwargs):
+        input = context.now if input == "now" else input
+        return original_parse(input, *args, **kwargs)
 
-        return wrapper
+    return wrapper
 
 
 @given("we use the config {config_file}")
@@ -73,15 +73,13 @@ def config_override(context, key_as_dots: str, override_value: str):
 
 @then("the editor {editor} should have been called")
 def editor_override(context, editor):
-    
     def _mock_write_in_editor(config):
-        editor = config['editor']
-        journal = 'features/journals/journal.jrnl'
+        editor = config["editor"]
+        journal = "features/journals/journal.jrnl"
         context.tmpfile = journal
-        print("%s has been launched"%editor)
+        print("%s has been launched" % editor)
         return journal
-    
-    
+
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
@@ -105,17 +103,24 @@ def editor_override(context, editor):
             context.exit_status = e.code
     # fmt: on
 
-@then("the stdin prompt must be launched")
-def override_editor_to_use_stdin(context): 
 
-    try: 
-        with \
-        mock.patch('sys.stdin.read', return_value='Zwei peanuts walk into a bar und one of zem was a-salted')as mock_stdin_read, \
-        mock.patch("jrnl.install.load_or_install_jrnl", return_value=context.cfg), \
-        mock.patch("jrnl.Journal.open_journal", spec=False, return_value='features/journals/journal.jrnl'):
+@then("the stdin prompt must be launched")
+def override_editor_to_use_stdin(context):
+
+    try:
+        with mock.patch(
+            "sys.stdin.read",
+            return_value="Zwei peanuts walk into a bar und one of zem was a-salted",
+        ) as mock_stdin_read, mock.patch(
+            "jrnl.install.load_or_install_jrnl", return_value=context.cfg
+        ), mock.patch(
+            "jrnl.Journal.open_journal",
+            spec=False,
+            return_value="features/journals/journal.jrnl",
+        ):
             run(context.parser)
             context.exit_status = 0
         mock_stdin_read.assert_called_once()
 
-    except SystemExit as e :
+    except SystemExit as e:
         context.exit_status = e.code
