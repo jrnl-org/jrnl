@@ -2,7 +2,6 @@ import shlex
 import pytest
 import mock
 
-import yaml
 
 from jrnl.args import parse_args
 from jrnl.jrnl import run

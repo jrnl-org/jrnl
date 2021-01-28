@@ -4,7 +4,6 @@
 import argparse
 import re
 import textwrap
-import json
 
 from .commands import postconfig_decrypt
 from .commands import postconfig_encrypt
@@ -24,11 +23,11 @@ def deserialize_config_args(input: str) -> dict:
     for _p in _kvpairs:
         l, r = _p.strip().split(":")
         r = r.strip()
-        if r.isdigit(): 
-            r = int(r) 
-        elif r.lower() == "true": 
-            r = True 
-        elif r.lower() == "false": 
+        if r.isdigit():
+            r = int(r)
+        elif r.lower() == "true":
+            r = True
+        elif r.lower() == "false":
             r = False
         runtime_modifications[l] = r
     return runtime_modifications

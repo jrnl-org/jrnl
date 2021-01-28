@@ -28,7 +28,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         """
 
         @skip_win
-        @wip
         Scenario: Override color selections with runtime overrides 
         Given we use the config "tiny.yaml"
         When we run jrnl with -1 --config-override colors.body:blue

@@ -1,10 +1,10 @@
-from features.steps.override import config_override
 import shlex
 
 import pytest
 
 from jrnl.args import parse_args
 from jrnl.args import deserialize_config_args
+
 
 def cli_as_dict(str):
     cli = shlex.split(str)
@@ -206,6 +206,7 @@ def test_version_alone():
 
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
+
 class TestDeserialization:
     @pytest.mark.parametrize(
         "input_str",
@@ -215,8 +216,7 @@ class TestDeserialization:
             'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"',
         ],
     )
-    def test_deserialize_multiword_strings(self,input_str):
-        
+    def test_deserialize_multiword_strings(self, input_str):
 
         runtime_config = deserialize_config_args(input_str)
         assert runtime_config.__class__ == dict
@@ -224,18 +224,19 @@ class TestDeserialization:
         assert "colors.title" in runtime_config.keys()
         assert "default" in runtime_config.keys()
 
-    def test_deserialize_int(self): 
-        input = 'linewrap: 23, default_hour: 19'
+    def test_deserialize_int(self):
+        input = "linewrap: 23, default_hour: 19"
         runtime_config = deserialize_config_args(input)
-        assert runtime_config['linewrap'] == 23 
-        assert runtime_config['default_hour'] == 19
+        assert runtime_config["linewrap"] == 23
+        assert runtime_config["default_hour"] == 19
 
-    def test_deserialize_multiple_datatypes(self): 
+    def test_deserialize_multiple_datatypes(self):
         input = 'linewrap: 23, encrypt: false, editor:"vi -c startinsert"'
-        cfg = deserialize_config_args(input) 
-        assert cfg['encrypt'] == False 
-        assert cfg['linewrap'] == 23 
-        assert cfg['editor'] == '"vi -c startinsert"'
+        cfg = deserialize_config_args(input)
+        assert cfg["encrypt"] == False
+        assert cfg["linewrap"] == 23
+        assert cfg["editor"] == '"vi -c startinsert"'
+
 
 def test_editor_override():
 
