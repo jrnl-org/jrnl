@@ -41,6 +41,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And the runtime config should have editor set to nano
 
 
+        @skip_win
         Scenario Outline: Override configured editor
         Given we use the config "tiny.yaml" 
         When we run jrnl with --config-override editor:"<editor>"
