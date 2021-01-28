@@ -42,7 +42,7 @@ def run_command(context, args):
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
     key_as_vec = key_as_dots.split(".")
-    
+
     def _mock_callback(**args):
         print("callback executed")
 
