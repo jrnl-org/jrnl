@@ -71,8 +71,8 @@ def config_override(context, key_as_dots: str, override_value: str):
 @then("the editor {editor} should have been called")
 def editor_override(context, editor):
     def _mock_write_in_editor(config):
-        editor = config['editor']
-        journal = 'features/journals/journal.jrnl'
+        editor = config["editor"]
+        journal = "features/journals/journal.jrnl"
         context.tmpfile = journal
         print("%s has been launched" % editor)
         return journal
@@ -101,11 +101,20 @@ def editor_override(context, editor):
     # fmt: on
 
 
-    try: 
-        with \
-        mock.patch('sys.stdin.read', return_value='Zwei peanuts walk into a bar und one of zem was a-salted')as mock_stdin_read, \
-        mock.patch("jrnl.install.load_or_install_jrnl", return_value=context.cfg), \
-        mock.patch("jrnl.Journal.open_journal", spec=False, return_value='features/journals/journal.jrnl'):
+@then("the stdin prompt must be launched")
+def override_editor_to_use_stdin(context):
+
+    try:
+        with mock.patch(
+            "sys.stdin.read",
+            return_value="Zwei peanuts walk into a bar und one of zem was a-salted",
+        ) as mock_stdin_read, mock.patch(
+            "jrnl.install.load_or_install_jrnl", return_value=context.cfg
+        ), mock.patch(
+            "jrnl.Journal.open_journal",
+            spec=False,
+            return_value="features/journals/journal.jrnl",
+        ):
             run(context.parser)
             context.exit_status = 0
         mock_stdin_read.assert_called_once()
