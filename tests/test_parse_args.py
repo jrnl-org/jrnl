@@ -207,37 +207,6 @@ def test_version_alone():
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
 
-class TestDeserialization:
-    @pytest.mark.parametrize(
-        "input_str",
-        [
-            'editor:"nano", colors.title:blue, default:"/tmp/egg.txt"',
-            'editor:"vi -c startinsert", colors.title:blue, default:"/tmp/egg.txt"',
-            'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"',
-        ],
-    )
-    def test_deserialize_multiword_strings(self, input_str):
-
-        runtime_config = deserialize_config_args(input_str)
-        assert runtime_config.__class__ == dict
-        assert "editor" in runtime_config.keys()
-        assert "colors.title" in runtime_config.keys()
-        assert "default" in runtime_config.keys()
-
-    def test_deserialize_int(self):
-        input = "linewrap: 23, default_hour: 19"
-        runtime_config = deserialize_config_args(input)
-        assert runtime_config["linewrap"] == 23
-        assert runtime_config["default_hour"] == 19
-
-    def test_deserialize_multiple_datatypes(self):
-        input = 'linewrap: 23, encrypt: false, editor:"vi -c startinsert"'
-        cfg = deserialize_config_args(input)
-        assert cfg["encrypt"] == False
-        assert cfg["linewrap"] == 23
-        assert cfg["editor"] == '"vi -c startinsert"'
-
-
 def test_editor_override():
 
     parsed_args = cli_as_dict('--config-override editor:"nano"')
@@ -291,3 +260,55 @@ def test_and_ordering(cli):
 def test_edit_ordering(cli):
     result = expected_args(edit=True, text=["second", "@oldtag", "@newtag"])
     assert cli_as_dict(cli) == result
+
+
+class TestDeserialization:
+    @pytest.mark.parametrize(
+        "input_str",
+        [
+            'editor:"nano", colors.title:blue, default:"/tmp/egg.txt"',
+            'editor:"vi -c startinsert", colors.title:blue, default:"/tmp/egg.txt"',
+            'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"',
+        ],
+    )
+    def test_deserialize_multiword_strings(self, input_str):
+
+        runtime_config = deserialize_config_args(input_str)
+        assert runtime_config.__class__ == dict
+        assert "editor" in runtime_config.keys()
+        assert "colors.title" in runtime_config.keys()
+        assert "default" in runtime_config.keys()
+
+    def test_deserialize_int(self):
+        input = "linewrap: 23, default_hour: 19"
+        runtime_config = deserialize_config_args(input)
+        assert runtime_config["linewrap"] == 23
+        assert runtime_config["default_hour"] == 19
+
+    def test_deserialize_multiple_datatypes(self):
+        input = (
+            'linewrap: 23, encrypt: false, editor:"vi -c startinsert", highlight: true'
+        )
+        cfg = deserialize_config_args(input)
+        assert cfg["encrypt"] == False
+        assert cfg["highlight"] == True
+        assert cfg["linewrap"] == 23
+        assert cfg["editor"] == '"vi -c startinsert"'
+
+    @pytest.mark.parametrize(
+        "delimiter",
+        [
+            ".",
+            ":",
+            ",   ",  # note the whitespaces
+            "-|-",  # no reason not to handle multi-character delimiters
+        ],
+    )
+    def test_split_at_delimiter(self, delimiter):
+        input = delimiter.join(
+            ["eggs ", "ba con", "ham"]
+        )  # The whitespaces are deliberate
+        from jrnl.args import _split_at_delimiter
+
+        assert _split_at_delimiter(input, delimiter) == ["eggs ", "ba con", "ham"]
+        assert _split_at_delimiter(input, delimiter, " ") == ["eggs ", "ba con", "ham"]
