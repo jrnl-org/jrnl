@@ -206,6 +206,7 @@ def test_version_alone():
 
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
+
 def test_editor_override():
 
     parsed_args = cli_as_dict('--config-override editor:"nano"')
