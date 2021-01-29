@@ -1,5 +1,14 @@
 # import logging
 def apply_overrides(overrides: dict, base_config: dict) -> dict:
+    """Unpack parsed overrides in dot-notation and return the "patched" configuration
+
+    Args:
+        overrides (dict): Single-level dict of config fields in dot-notation and their desired values
+        base_config (dict): The "saved" configuration, as read from YAML
+
+    Returns:
+        dict: Updated configuration with applied overrides, in the format of the loaded configuration
+    """
     config = base_config.copy()
     for k in overrides:
         nodes = k.split(".")
@@ -13,9 +22,9 @@ def _recursively_apply(config: dict, nodes: list, override_value) -> dict:
     Credit to iJames on SO: https://stackoverflow.com/a/47276490 for algorithm
 
     Args:
-        config (dict): loaded configuration from YAML
-        nodes (list): vector of override keys; the length of the vector indicates tree depth
-        override_value (str): runtime override passed from the command-line
+        config (dict): Configuration to modify
+        nodes (list): Vector of override keys; the length of the vector indicates tree depth
+        override_value (str): Runtime override passed from the command-line
     """
     key = nodes[0]
     if len(nodes) == 1:
