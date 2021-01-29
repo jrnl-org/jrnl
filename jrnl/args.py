@@ -18,10 +18,34 @@ from .plugins import util
 
 
 def deserialize_config_args(input: str) -> dict:
-    _kvpairs = input.strip(" ").split(",")
+    """Convert a delimited list of configuration key-value pairs into a flat dict
+
+    Example:
+    An input of
+        `colors.title: blue, display_format: json, colors.date: green`
+    will return
+        ```json
+        {
+            'colors.title': 'blue',
+            'display_format': 'json',
+            'colors.date': 'green'
+        }
+        ```
+
+    Args:
+        input (str): list of configuration keys in dot-notation and their respective values.
+
+    Returns:
+        dict: A single level dict of the configuration keys in dot-notation and their respective desired values
+    """
+    slug_delimiter = ","
+    key_value_separator = ":"
+    _kvpairs = _split_at_delimiter(
+        input, slug_delimiter, " "
+    )  # Strip away all whitespace in input, not just leading
     runtime_modifications = {}
     for _p in _kvpairs:
-        l, r = _p.strip().split(":")
+        l, r = _split_at_delimiter(_p, key_value_separator)
         r = r.strip()
         if r.isdigit():
             r = int(r)
@@ -31,6 +55,12 @@ def deserialize_config_args(input: str) -> dict:
             r = False
         runtime_modifications[l] = r
     return runtime_modifications
+
+
+def _split_at_delimiter(
+    input: str, slug_delimiter: str, whitespace_to_strip=None
+) -> list:
+    return input.strip(whitespace_to_strip).split(slug_delimiter)
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):
