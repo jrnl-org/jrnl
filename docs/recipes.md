@@ -154,6 +154,33 @@ only field 1.
 jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
 ```
 
+
+### Launch a terminal for rapid logging 
+You can use this to launch a terminal that is the `jrnl` stdin prompt so you can start typing away immediately. 
+
+```bash
+jrnl now --config-override editor:""
+```
+
+Bind this to a keyboard shortcut. 
+
+Map `Super+Alt+J` to launch the terminal with jrnl prompt
+
+- **xbindkeys**
+In your `.xbindkeysrc`
+
+```ini
+Mod4+Mod1+j
+ alacritty -t floating-jrnl -e jrnl now --config-override editor:"",
+```
+
+- **I3 WM** Launch a floating terminal with the `jrnl` prompt
+
+```ini
+bindsym Mod4+Mod1+j exec --no-startup-id alacritty -t floating-jrnl -e jrnl --config-override editor:""
+for_window[title="floating *"] floating enable
+```
+
 ## External editors
 
 Configure your preferred external editor by updating the `editor` option 
