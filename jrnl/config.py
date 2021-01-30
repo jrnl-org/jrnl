@@ -138,10 +138,18 @@ def update_config(config, new_config, scope, force_local=False):
 
 def get_journal_name(args, config):
     args.journal_name = DEFAULT_JOURNAL_KEY
-    if args.text and args.text[0] in config["journals"]:
-        args.journal_name = args.text[0]
-        args.text = args.text[1:]
-    elif DEFAULT_JOURNAL_KEY not in config["journals"]:
+
+    # The first arg might be a journal name
+    if args.text:
+        potential_journal_name = args.text[0]
+        if potential_journal_name[-1] == ":":
+            potential_journal_name = potential_journal_name[0:-1]
+
+        if potential_journal_name in config["journals"]:
+            args.journal_name = potential_journal_name
+            args.text = args.text[1:]
+
+    if args.journal_name not in config["journals"]:
         print("No default journal configured.", file=sys.stderr)
         print(list_journals(config), file=sys.stderr)
         sys.exit(1)
