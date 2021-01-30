@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7...HEAD)
+
+**Implemented enhancements:**
+
+- Allow timestamps in command line for new entries with editor [\#1083](https://github.com/jrnl-org/jrnl/issues/1083)
+
 ## [v2.7](https://pypi.org/project/jrnl/v2.7/) (2021-01-23)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...v2.7)
