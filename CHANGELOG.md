@@ -1,5 +1,22 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7...HEAD)
+
+**Implemented enhancements:**
+
+- Allow timestamps in command line for new entries with editor [\#1083](https://github.com/jrnl-org/jrnl/issues/1083)
+
+**Fixed bugs:**
+
+- Make journal selection behavior more consistent when there's a colon with no date [\#1164](https://github.com/jrnl-org/jrnl/pull/1164) ([wren](https://github.com/wren))
+
+**Packaging:**
+
+- Bump keyring from 21.8.0 to 22.0.1 [\#1168](https://github.com/jrnl-org/jrnl/pull/1168) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.1 to 6.2.2 [\#1167](https://github.com/jrnl-org/jrnl/pull/1167) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.7](https://pypi.org/project/jrnl/v2.7/) (2021-01-23)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...v2.7)
