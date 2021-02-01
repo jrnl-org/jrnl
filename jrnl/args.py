@@ -18,13 +18,14 @@ from .plugins import util
 
 
 def deserialize_config_args(input: list) -> dict:
-    """Convert a two-element list of configuration key-value pair into a flat dict
+    """
 
-    Args:
-        input (str): list of configuration keys in dot-notation and their respective values.
+    Convert a two-element list of configuration key-value pair into a flat dict
 
-    Returns:
-        dict: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :param input: list of configuration keys in dot-notation and their respective values.
+    :type input: list
+    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :rtype: dict
     """
     assert len(input) == 2
     runtime_modifications = {}
