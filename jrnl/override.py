@@ -1,18 +1,19 @@
 # import logging
-def apply_overrides(overrides: dict, base_config: dict) -> dict:
-    """Unpack parsed overrides in dot-notation and return the "patched" configuration
+def apply_overrides(overrides: list, base_config: dict) -> dict:
+    """Unpack CLI provided overrides into the configuration tree.
 
-    Args:
-        overrides (dict): Single-level dict of config fields in dot-notation and their desired values
-        base_config (dict): The "saved" configuration, as read from YAML
-
-    Returns:
-        dict: Updated configuration with applied overrides, in the format of the loaded configuration
+    :param overrides: List of configuration key-value pairs collected from the CLI
+    :type overrides: list
+    :param base_config: Configuration Loaded from the saved YAML
+    :type base_config: dict
+    :return: Configuration to be used during runtime with the overrides applied
+    :rtype: dict
     """
     config = base_config.copy()
-    for k in overrides:
+    for pairs in overrides:
+        k, v = list(pairs.items())[0]
         nodes = k.split(".")
-        config = _recursively_apply(config, nodes, overrides[k])
+        config = _recursively_apply(config, nodes, v)
     return config
 
 
