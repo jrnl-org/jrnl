@@ -17,50 +17,46 @@ from .plugins import IMPORT_FORMATS
 from .plugins import util
 
 
-def deserialize_config_args(input: str) -> dict:
-    """Convert a delimited list of configuration key-value pairs into a flat dict
+def deserialize_config_args(input: list) -> dict:
 
-    Example:
-    An input of
-        `colors.title: blue, display_format: json, colors.date: green`
-    will return
-        ```json
-        {
-            'colors.title': 'blue',
-            'display_format': 'json',
-            'colors.date': 'green'
-        }
-        ```
-
-    Args:
-        input (str): list of configuration keys in dot-notation and their respective values.
-
-    Returns:
-        dict: A single level dict of the configuration keys in dot-notation and their respective desired values
     """
-    slug_delimiter = ","
-    key_value_separator = ":"
-    _kvpairs = _split_at_delimiter(
-        input, slug_delimiter, " "
-    )  # Strip away all whitespace in input, not just leading
+
+    Convert a two-element list of configuration key-value pair into a flat dict
+
+    :param input: list of configuration keys in dot-notation and their respective values.
+    :type input: list
+    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :rtype: dict
+    """
+
+    assert len(input) == 2
     runtime_modifications = {}
-    for _p in _kvpairs:
-        l, r = _split_at_delimiter(_p, key_value_separator)
-        r = r.strip()
-        if r.isdigit():
-            r = int(r)
-        elif r.lower() == "true":
-            r = True
-        elif r.lower() == "false":
-            r = False
-        runtime_modifications[l] = r
+
+    cfg_key = input[0]
+    cfg_value = input[1]
+    cfg_value = cfg_value.strip()
+
+    # Convert numbers and booleans
+    if cfg_value.isdigit():
+        cfg_value = int(cfg_value)
+    elif cfg_value.lower() == "true":
+        cfg_value = True
+    elif cfg_value.lower() == "false":
+        cfg_value = False
+        
+    runtime_modifications[cfg_key] = cfg_value
+
     return runtime_modifications
 
 
-def _split_at_delimiter(
-    input: str, slug_delimiter: str, whitespace_to_strip=None
-) -> list:
-    return input.strip(whitespace_to_strip).split(slug_delimiter)
+class ConfigurationAction(argparse.Action):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    def __call__(self, parser, namespace, values, option_strings=None) -> None:
+        cfg_overrides = getattr(namespace, self.dest, [])
+        cfg_overrides.append(deserialize_config_args(values))
+        setattr(namespace, self.dest, cfg_overrides)
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):
@@ -361,25 +357,25 @@ def parse_args(args=[]):
     )
 
     config_overrides = parser.add_argument_group(
-        "Config file overrides",
-        textwrap.dedent("These are one-off overrides of the config file options"),
+        "Config file override",
+        textwrap.dedent("Apply a one-off override of the config file option"),
     )
     config_overrides.add_argument(
         "--config-override",
         dest="config_override",
-        action="store",
-        type=deserialize_config_args,
-        nargs="?",
-        default=None,
+        action=ConfigurationAction,
+        type=str,
+        nargs=2,
+        default=[],
         metavar="CONFIG_KV_PAIR",
         help="""
-        Override configured key-value pairs with CONFIG_KV_PAIR for this command invocation only. 
+        Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
 
         Examples: \n
         \t - Use a different editor for this jrnl entry, call: \n
             \t jrnl --config-override editor: "nano" \n
         \t - Override color selections\n
-           \t jrnl --config-override colors.body: blue, colors.title: green
+           \t jrnl --config-override colors.body blue --config-override colors.title green
         """,
     )
 

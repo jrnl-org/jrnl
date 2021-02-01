@@ -36,7 +36,7 @@ def expected_args(**kwargs):
         "strict": False,
         "tags": False,
         "text": [],
-        "config_override": None,
+        "config_override": [],
     }
     return {**default_args, **kwargs}
 
@@ -209,26 +209,26 @@ def test_version_alone():
 
 def test_editor_override():
 
-    parsed_args = cli_as_dict('--config-override editor:"nano"')
-    assert parsed_args == expected_args(config_override={"editor": "nano"})
+    parsed_args = cli_as_dict('--config-override editor "nano"')
+    assert parsed_args == expected_args(config_override=[{"editor": "nano"}])
 
 
 def test_color_override():
-    assert cli_as_dict("--config-override colors.body:blue") == expected_args(
-        config_override={"colors.body": "blue"}
+    assert cli_as_dict("--config-override colors.body blue") == expected_args(
+        config_override=[{"colors.body": "blue"}]
     )
 
 
 def test_multiple_overrides():
     parsed_args = cli_as_dict(
-        '--config-override colors.title:green,editor:"nano",journal.scratchpad:"/tmp/scratchpad"'
+        '--config-override colors.title green --config-override editor "nano" --config-override journal.scratchpad "/tmp/scratchpad"'
     )
     assert parsed_args == expected_args(
-        config_override={
-            "colors.title": "green",
-            "journal.scratchpad": "/tmp/scratchpad",
-            "editor": "nano",
-        }
+        config_override=[
+            {"colors.title": "green"},
+            {"editor": "nano"},
+            {"journal.scratchpad": "/tmp/scratchpad"},
+        ]
     )
 
 
@@ -266,49 +266,27 @@ class TestDeserialization:
     @pytest.mark.parametrize(
         "input_str",
         [
-            'editor:"nano", colors.title:blue, default:"/tmp/egg.txt"',
-            'editor:"vi -c startinsert", colors.title:blue, default:"/tmp/egg.txt"',
-            'editor:"nano", colors.title:blue, default:"/tmp/eg\ g.txt"',
+            ["editor", '"nano"'],
+            ["colors.title", "blue"],
+            ["default", "/tmp/egg.txt"],
         ],
     )
     def test_deserialize_multiword_strings(self, input_str):
 
         runtime_config = deserialize_config_args(input_str)
         assert runtime_config.__class__ == dict
-        assert "editor" in runtime_config.keys()
-        assert "colors.title" in runtime_config.keys()
-        assert "default" in runtime_config.keys()
-
-    def test_deserialize_int(self):
-        input = "linewrap: 23, default_hour: 19"
-        runtime_config = deserialize_config_args(input)
-        assert runtime_config["linewrap"] == 23
-        assert runtime_config["default_hour"] == 19
+        assert input_str[0] in runtime_config.keys()
+        assert runtime_config[input_str[0]] == input_str[1]
 
     def test_deserialize_multiple_datatypes(self):
-        input = (
-            'linewrap: 23, encrypt: false, editor:"vi -c startinsert", highlight: true'
-        )
-        cfg = deserialize_config_args(input)
-        assert cfg["encrypt"] == False
-        assert cfg["highlight"] == True
+        cfg = deserialize_config_args(["linewrap", "23"])
         assert cfg["linewrap"] == 23
+
+        cfg = deserialize_config_args(["encrypt", "false"])
+        assert cfg["encrypt"] == False
+
+        cfg = deserialize_config_args(["editor", '"vi -c startinsert"'])
         assert cfg["editor"] == '"vi -c startinsert"'
 
-    @pytest.mark.parametrize(
-        "delimiter",
-        [
-            ".",
-            ":",
-            ",   ",  # note the whitespaces
-            "-|-",  # no reason not to handle multi-character delimiters
-        ],
-    )
-    def test_split_at_delimiter(self, delimiter):
-        input = delimiter.join(
-            ["eggs ", "ba con", "ham"]
-        )  # The whitespaces are deliberate
-        from jrnl.args import _split_at_delimiter
-
-        assert _split_at_delimiter(input, delimiter) == ["eggs ", "ba con", "ham"]
-        assert _split_at_delimiter(input, delimiter, " ") == ["eggs ", "ba con", "ham"]
+        cfg = deserialize_config_args(["highlight", "true"])
+        assert cfg["highlight"] == True

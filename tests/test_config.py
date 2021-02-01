@@ -43,10 +43,10 @@ def test_override_configured_editor(
     mock_load_or_install.return_value = minimal_config
     mock_isatty.return_value = True
 
-    cli_args = shlex.split('--config-override editor:"nano"')
+    cli_args = shlex.split('--config-override editor "nano"')
     parser = parse_args(cli_args)
     assert parser.config_override.__len__() == 1
-    assert "editor" in parser.config_override.keys()
+    assert {"editor": "nano"} in parser.config_override
 
     def mock_editor_launch(editor):
         print("%s launched! Success!" % editor)
@@ -54,7 +54,7 @@ def test_override_configured_editor(
     with mock.patch.object(
         jrnl,
         "_write_in_editor",
-        side_effect=mock_editor_launch(parser.config_override["editor"]),
+        side_effect=mock_editor_launch("TODO: replace"),
         return_value="note_contents",
     ) as mock_write_in_editor:
         run(parser)
@@ -84,9 +84,9 @@ def test_override_configured_colors(
 ):
     mock_load_or_install.return_value = minimal_config
 
-    cli_args = shlex.split("--config-override colors.body:blue")
+    cli_args = shlex.split("--config-override colors.body blue")
     parser = parse_args(cli_args)
-    assert "colors.body" in parser.config_override.keys()
+    assert {"colors.body": "blue"} in parser.config_override
     with mock.patch.object(
         jrnl,
         "_write_in_editor",
