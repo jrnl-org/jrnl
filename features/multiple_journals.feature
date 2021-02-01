@@ -29,6 +29,20 @@ Feature: Multiple journals
         And journal "work" should have 1 entry
         And journal "work" should contain "2012-07-23"
 
+    Scenario: Write to specified journal without a timestamp but with colon
+        Given we use the config "multiple.yaml"
+        When we run "jrnl work : a long day in the office"
+        Then journal "default" should have 2 entries
+        And journal "work" should have 1 entry
+        And journal "work" should contain "a long day in the office"
+
+    Scenario: Write to specified journal without a timestamp but with colon
+        Given we use the config "multiple.yaml"
+        When we run "jrnl work: a long day in the office"
+        Then journal "default" should have 2 entries
+        And journal "work" should have 1 entry
+        And journal "work" should contain "a long day in the office"
+
    Scenario: Create new journals as required
         Given we use the config "multiple.yaml"
         Then journal "ideas" should not exist
