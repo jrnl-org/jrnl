@@ -11,9 +11,11 @@ def apply_overrides(overrides: list, base_config: dict) -> dict:
     """
     config = base_config.copy()
     for pairs in overrides:
+
         key_as_dots, override_value = list(pairs.items())[0]
         keys = key_as_dots.split(".")
         config = _recursively_apply(config, keys, override_value)
+
     return config
 
 

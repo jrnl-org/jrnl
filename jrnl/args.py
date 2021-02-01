@@ -18,6 +18,7 @@ from .plugins import util
 
 
 def deserialize_config_args(input: list) -> dict:
+
     """
 
     Convert a two-element list of configuration key-value pair into a flat dict
@@ -44,6 +45,7 @@ def deserialize_config_args(input: list) -> dict:
         cfg_value = False
         
     runtime_modifications[cfg_key] = cfg_value
+
     return runtime_modifications
 
 
