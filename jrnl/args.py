@@ -27,19 +27,23 @@ def deserialize_config_args(input: list) -> dict:
     :return: A single level dict of the configuration keys in dot-notation and their respective desired values
     :rtype: dict
     """
+
     assert len(input) == 2
     runtime_modifications = {}
 
-    l = input[0]
-    r = input[1]
-    r = r.strip()
-    if r.isdigit():
-        r = int(r)
-    elif r.lower() == "true":
-        r = True
-    elif r.lower() == "false":
-        r = False
-    runtime_modifications[l] = r
+    cfg_key = input[0]
+    cfg_value = input[1]
+    cfg_value = cfg_value.strip()
+
+    # Convert numbers and booleans
+    if cfg_value.isdigit():
+        cfg_value = int(cfg_value)
+    elif cfg_value.lower() == "true":
+        cfg_value = True
+    elif cfg_value.lower() == "false":
+        cfg_value = False
+        
+    runtime_modifications[cfg_key] = cfg_value
     return runtime_modifications
 
 

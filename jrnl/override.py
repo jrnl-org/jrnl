@@ -11,13 +11,13 @@ def apply_overrides(overrides: list, base_config: dict) -> dict:
     """
     config = base_config.copy()
     for pairs in overrides:
-        k, v = list(pairs.items())[0]
-        nodes = k.split(".")
-        config = _recursively_apply(config, nodes, v)
+        key_as_dots, override_value = list(pairs.items())[0]
+        keys = key_as_dots.split(".")
+        config = _recursively_apply(config, keys, override_value)
     return config
 
 
-def _recursively_apply(config: dict, nodes: list, override_value) -> dict:
+def _recursively_apply(tree: dict, nodes: list, override_value) -> dict:
     """Recurse through configuration and apply overrides at the leaf of the config tree
 
     Credit to iJames on SO: https://stackoverflow.com/a/47276490 for algorithm
@@ -29,12 +29,12 @@ def _recursively_apply(config: dict, nodes: list, override_value) -> dict:
     """
     key = nodes[0]
     if len(nodes) == 1:
-        config[key] = override_value
+        tree[key] = override_value
     else:
         next_key = nodes[1:]
-        _recursively_apply(_get_config_node(config, key), next_key, override_value)
+        _recursively_apply(_get_config_node(tree, key), next_key, override_value)
 
-    return config
+    return tree
 
 
 def _get_config_node(config: dict, key: str):
