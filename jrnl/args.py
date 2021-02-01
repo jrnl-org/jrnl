@@ -42,7 +42,7 @@ def deserialize_config_args(input: list) -> dict:
         cfg_value = True
     elif cfg_value.lower() == "false":
         cfg_value = False
-        
+
     runtime_modifications[cfg_key] = cfg_value
     return runtime_modifications
 
