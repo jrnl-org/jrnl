@@ -1,17 +1,30 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from jrnl.cli import cli
 import json
 import os
 import shutil
 import random
 import string
+from unittest import mock
 from xml.etree import ElementTree
 
 from behave import given
 from behave import then
+from jrnl.jrnl import search_mode
+from jrnl.Entry import Entry
+from jrnl.plugins import get_exporter
 
+@then("the output should be pretty printed text")
+def check_output_text(context): 
+    with mock.patch('jrnl.Entry.Entry.pprint',wraps=Entry.pprint) as mock_entry_pprint, \
+        mock.patch('jrnl.jrnl.search_mode',wraps=search_mode) as mock_search_mode, \
+        mock.patch('jrnl.plugins.get_exporter', wraps=get_exporter) as mock_exporter :
+        cli(context.args)
 
+    mock_exporter.assert_called_once_with('pretty')
+    
 @then("the output should be parsable as json")
 def check_output_json(context):
     out = context.stdout_capture.getvalue()
