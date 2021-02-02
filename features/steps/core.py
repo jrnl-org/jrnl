@@ -401,7 +401,7 @@ def run(context, command, text=""):
         command = command.format(cache_dir=cache_dir)
 
     args = split_args(command)
-
+    context.args = args 
     def _mock_editor(command):
         context.editor_command = command
         tmpfile = command[-1]
