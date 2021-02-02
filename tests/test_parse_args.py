@@ -116,8 +116,14 @@ def test_not_interspersed():
     assert cli_as_dict("two -not one two -not three two") == result
 
 
-def test_export_alone():
-    assert cli_as_dict("--export json") == expected_args(export="json")
+@pytest.mark.parametrize(
+    "export_formats",
+    [
+        "fancy","pretty","json","markdown","xml","txt"
+    ]
+)
+def test_export_alone(export_formats):
+    assert cli_as_dict("--export %s"%export_formats) == expected_args(export=export_formats)
 
 
 def test_import_alone():

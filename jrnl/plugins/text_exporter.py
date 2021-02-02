@@ -9,7 +9,7 @@ import unicodedata
 
 from jrnl.color import ERROR_COLOR
 from jrnl.color import RESET_COLOR
-
+from jrnl.Entry import Entry
 
 class TextExporter:
     """This Exporter can convert entries and journals into text files."""
@@ -77,3 +77,10 @@ class TextExporter:
             return cls.write_file(journal, output)
         else:
             return cls.export_journal(journal)
+
+
+class PrettyExporter(TextExporter):
+    names = ["pretty"]
+    @classmethod
+    def export_entry(cls, entry: Entry): 
+        return entry.pprint()
