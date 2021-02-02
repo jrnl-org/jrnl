@@ -1,4 +1,19 @@
 Feature: Custom formats
+    Scenario: Pretty Printed output
+    Given we use the config "editor.yaml"
+    When we run "jrnl --format pretty -3"
+    Then  we should get no error 
+    And the output should be pretty printed text 
+    And the output should be: 
+    """
+    
+     2013-06-09 15:39 My first entry.
+     | Everything is alright
+
+     2013-06-10 15:40 Life is good.
+     | But I'm better.
+      
+    """
 
     Scenario Outline: JSON format
         Given we use the config "<config>.yaml"
