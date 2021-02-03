@@ -10,7 +10,7 @@ from .markdown_exporter import MarkdownExporter
 from .tag_exporter import TagExporter
 from .dates_exporter import DatesExporter
 from .template_exporter import __all__ as template_exporters
-from .text_exporter import TextExporter
+from .text_exporter import PrettyExporter, TextExporter
 from .xml_exporter import XMLExporter
 from .yaml_exporter import YAMLExporter
 
@@ -20,6 +20,7 @@ __exporters = [
     TagExporter,
     DatesExporter,
     TextExporter,
+    PrettyExporter,
     XMLExporter,
     YAMLExporter,
     FancyExporter,
