@@ -15,6 +15,7 @@ from behave import when
 import keyring
 import toml
 import yaml
+from yaml.loader import FullLoader, Loader
 
 import jrnl.time
 from jrnl import Journal
@@ -129,7 +130,7 @@ def set_config(context, config_file):
         # Add jrnl version to file for 2.x journals
         with open(context.config_path, "a") as cf:
             cf.write("version: {}".format(__version__))
-
+        
 
 @given('we use the password "{password}" if prompted')
 def use_password_forever(context, password):
@@ -393,7 +394,8 @@ def all_input_was_used(context):
 @when('we run "{command}" and pipe "{text}"')
 def run(context, command, text=""):
     text = text or context.text or ""
-
+    with open(context.config_path) as f: 
+        context.jrnl_config = yaml.load(f,Loader=yaml.FullLoader)
     if "cache_dir" in context and context.cache_dir is not None:
         cache_dir = os.path.join("features", "cache", context.cache_dir)
         command = command.format(cache_dir=cache_dir)
@@ -423,6 +425,7 @@ def run(context, command, text=""):
             patch("sys.stdin.read", side_effect=lambda: text), \
             patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
             patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
+            patch("jrnl.install.load_or_install_jrnl",return_value = context.jrnl_config), \
             patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         :
             context.editor = mock_editor
