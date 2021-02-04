@@ -82,7 +82,8 @@ class TextExporter:
 
 
 class PrettyExporter(TextExporter):
-    names=["pretty"]
+    names = ["pretty"]
+
     @classmethod
     def export_entry(cls, entry: Entry) -> Union[str, Any]:
         return entry.pprint()
