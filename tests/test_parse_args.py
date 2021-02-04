@@ -3,6 +3,7 @@ import shlex
 import pytest
 
 from jrnl.args import parse_args
+from jrnl.args import deserialize_config_args
 
 
 def cli_as_dict(str):
@@ -35,6 +36,7 @@ def expected_args(**kwargs):
         "strict": False,
         "tags": False,
         "text": [],
+        "config_override": [],
     }
     return {**default_args, **kwargs}
 
@@ -205,6 +207,31 @@ def test_version_alone():
     assert cli_as_dict("--version") == expected_args(preconfig_cmd=preconfig_version)
 
 
+def test_editor_override():
+
+    parsed_args = cli_as_dict('--config-override editor "nano"')
+    assert parsed_args == expected_args(config_override=[{"editor": "nano"}])
+
+
+def test_color_override():
+    assert cli_as_dict("--config-override colors.body blue") == expected_args(
+        config_override=[{"colors.body": "blue"}]
+    )
+
+
+def test_multiple_overrides():
+    parsed_args = cli_as_dict(
+        '--config-override colors.title green --config-override editor "nano" --config-override journal.scratchpad "/tmp/scratchpad"'
+    )
+    assert parsed_args == expected_args(
+        config_override=[
+            {"colors.title": "green"},
+            {"editor": "nano"},
+            {"journal.scratchpad": "/tmp/scratchpad"},
+        ]
+    )
+
+
 # @see https://github.com/jrnl-org/jrnl/issues/520
 @pytest.mark.parametrize(
     "cli",
@@ -233,3 +260,33 @@ def test_and_ordering(cli):
 def test_edit_ordering(cli):
     result = expected_args(edit=True, text=["second", "@oldtag", "@newtag"])
     assert cli_as_dict(cli) == result
+
+
+class TestDeserialization:
+    @pytest.mark.parametrize(
+        "input_str",
+        [
+            ["editor", '"nano"'],
+            ["colors.title", "blue"],
+            ["default", "/tmp/egg.txt"],
+        ],
+    )
+    def test_deserialize_multiword_strings(self, input_str):
+
+        runtime_config = deserialize_config_args(input_str)
+        assert runtime_config.__class__ == dict
+        assert input_str[0] in runtime_config.keys()
+        assert runtime_config[input_str[0]] == input_str[1]
+
+    def test_deserialize_multiple_datatypes(self):
+        cfg = deserialize_config_args(["linewrap", "23"])
+        assert cfg["linewrap"] == 23
+
+        cfg = deserialize_config_args(["encrypt", "false"])
+        assert cfg["encrypt"] == False
+
+        cfg = deserialize_config_args(["editor", '"vi -c startinsert"'])
+        assert cfg["editor"] == '"vi -c startinsert"'
+
+        cfg = deserialize_config_args(["highlight", "true"])
+        assert cfg["highlight"] == True

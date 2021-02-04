@@ -55,7 +55,10 @@ _extras/
 *.sublime-*
 site/
 
-.coverage
 .vscode/settings.json
 coverage.xml
 .vscode/launch.json
+.coverage
+.vscode/tasks.json
+todo.txt
+

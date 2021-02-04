@@ -16,6 +16,7 @@ from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from .exception import UserAbort
 from . import time
+from .override import apply_overrides
 
 
 def run(args):
@@ -48,6 +49,11 @@ def run(args):
         return args.postconfig_cmd(
             args=args, config=config, original_config=original_config
         )
+
+    # Apply config overrides
+    overrides = args.config_override
+    if overrides:
+        config = apply_overrides(overrides, config)
 
     # --- All the standalone commands are now done --- #
 

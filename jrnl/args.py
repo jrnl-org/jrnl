@@ -17,6 +17,48 @@ from .plugins import IMPORT_FORMATS
 from .plugins import util
 
 
+def deserialize_config_args(input: list) -> dict:
+
+    """
+
+    Convert a two-element list of configuration key-value pair into a flat dict
+
+    :param input: list of configuration keys in dot-notation and their respective values.
+    :type input: list
+    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :rtype: dict
+    """
+
+    assert len(input) == 2
+    runtime_modifications = {}
+
+    cfg_key = input[0]
+    cfg_value = input[1]
+    cfg_value = cfg_value.strip()
+
+    # Convert numbers and booleans
+    if cfg_value.isdigit():
+        cfg_value = int(cfg_value)
+    elif cfg_value.lower() == "true":
+        cfg_value = True
+    elif cfg_value.lower() == "false":
+        cfg_value = False
+        
+    runtime_modifications[cfg_key] = cfg_value
+
+    return runtime_modifications
+
+
+class ConfigurationAction(argparse.Action):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    def __call__(self, parser, namespace, values, option_strings=None) -> None:
+        cfg_overrides = getattr(namespace, self.dest, [])
+        cfg_overrides.append(deserialize_config_args(values))
+        setattr(namespace, self.dest, cfg_overrides)
+
+
 class WrappingFormatter(argparse.RawTextHelpFormatter):
     """Used in help screen"""
 
@@ -314,8 +356,32 @@ def parse_args(args=[]):
         help=argparse.SUPPRESS,
     )
 
+    config_overrides = parser.add_argument_group(
+        "Config file override",
+        textwrap.dedent("Apply a one-off override of the config file option"),
+    )
+    config_overrides.add_argument(
+        "--config-override",
+        dest="config_override",
+        action=ConfigurationAction,
+        type=str,
+        nargs=2,
+        default=[],
+        metavar="CONFIG_KV_PAIR",
+        help="""
+        Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
+
+        Examples: \n
+        \t - Use a different editor for this jrnl entry, call: \n
+            \t jrnl --config-override editor: "nano" \n
+        \t - Override color selections\n
+           \t jrnl --config-override colors.body blue --config-override colors.title green
+        """,
+    )
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
 
-    return parser.parse_intermixed_args(args)
+    parsed_args = parser.parse_intermixed_args(args)
+    return parsed_args
