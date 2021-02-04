@@ -2,6 +2,7 @@
 import re
 from string import punctuation
 from string import whitespace
+from typing import Union
 
 import colorama
 
@@ -15,11 +16,16 @@ ERROR_COLOR = colorama.Fore.RED
 RESET_COLOR = colorama.Fore.RESET
 
 
-def colorize(string, color, bold=False):
+def colorize(string, color: Union[str, None], bold=False):
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
     it returns the string without any modification."""
-    color_escape = getattr(colorama.Fore, color.upper(), None)
+
+    if color is not None:
+        color_escape = getattr(colorama.Fore, color.upper(), None)
+    else:
+        color_escape = None
+
     if not color_escape:
         return string
     elif not bold:
