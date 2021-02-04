@@ -1,7 +1,7 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from jrnl import color
+
 import json
 import os
 import shutil
@@ -14,7 +14,7 @@ from behave import then
 import colorama
 
 
-def style_text(to_bold: bool, text_color: colorama.Fore, text_to_print: str):
+def style_text(to_bold: bool, text_color: Fore, text_to_print: str):
     """Generate colorized and styled text for expected output. Its purpose is the same as Entry.colorize
 
     :param to_bold: Flag whether the text should be bolded

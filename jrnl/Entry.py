@@ -7,7 +7,6 @@ from datetime import datetime
 import re
 
 import ansiwrap
-import colorama
 
 from .color import colorize
 from .color import highlight_tags_with_background_color

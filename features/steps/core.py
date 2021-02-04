@@ -15,7 +15,7 @@ from behave import when
 import keyring
 import toml
 import yaml
-from yaml.loader import FullLoader, Loader
+
 
 import jrnl.time
 from jrnl import Journal

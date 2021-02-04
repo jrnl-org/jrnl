@@ -1,4 +1,3 @@
-import colorama
 import pytest
 
 from jrnl.color import colorize
