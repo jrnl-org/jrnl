@@ -58,3 +58,4 @@ site/
 .coverage
 .vscode/settings.json
 coverage.xml
+.vscode/launch.json

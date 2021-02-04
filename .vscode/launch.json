@@ -8,8 +8,12 @@
             "name": "behave",
             "type": "python",
             "request": "launch",
-			progrma: "behave", // adjust as needed for virtualenv
+            "program": "behave", // adjust as needed for virtualenv
             "args": [
+                "features/upgrade.feature",
+                "--stop",
+                "-n",
+                "without colors to colors"
             ],
             "justMyCode": true,
             "console": "integratedTerminal"
@@ -18,9 +22,8 @@
             "name": "Jrnl",
             "type": "python",
             "request": "launch",
-			program: "jrnl", //adjust as needed for virtualenv
-            "args": [
-            ],
+            "program": "jrnl", //adjust as needed for virtualenv
+            "args": [],
             "justMyCode": false,
             "console": "integratedTerminal"
         }
