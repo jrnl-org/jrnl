@@ -12,8 +12,13 @@
 
 - Make journal selection behavior more consistent when there's a colon with no date [\#1164](https://github.com/jrnl-org/jrnl/pull/1164) ([wren](https://github.com/wren))
 
+**Documentation:**
+
+- Add the -a flag to documentation. [\#1119](https://github.com/jrnl-org/jrnl/issues/1119)
+
 **Packaging:**
 
+- Bump pytz from 2020.5 to 2021.1 [\#1174](https://github.com/jrnl-org/jrnl/pull/1174) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 21.8.0 to 22.0.1 [\#1168](https://github.com/jrnl-org/jrnl/pull/1168) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytest from 6.2.1 to 6.2.2 [\#1167](https://github.com/jrnl-org/jrnl/pull/1167) ([dependabot[bot]](https://github.com/apps/dependabot))
 
