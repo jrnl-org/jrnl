@@ -388,7 +388,6 @@ def all_input_was_used(context):
     for temp in context.iter_text:
         assert "" == temp, "Not all inputs were consumed"
 
-
 @when('we run "{command}"')
 @when('we run "{command}" and pipe')
 @when('we run "{command}" and pipe "{text}"')
@@ -398,8 +397,8 @@ def run(context, command, text=""):
     if "config_path" in context and context.config_path is not None:
         with open(context.config_path) as f:
             context.jrnl_config = yaml.load(f, Loader=yaml.FullLoader)
-    else:
-        context.jrnl_config = None
+    else: 
+        context.jrnl_config = None 
 
     if "cache_dir" in context and context.cache_dir is not None:
         cache_dir = os.path.join("features", "cache", context.cache_dir)
