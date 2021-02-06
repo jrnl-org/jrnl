@@ -3,10 +3,8 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from jrnl.Entry import Entry
 import os
 import re
-from typing import Any, Union
 import unicodedata
 
 from jrnl.color import ERROR_COLOR
@@ -79,11 +77,3 @@ class TextExporter:
             return cls.write_file(journal, output)
         else:
             return cls.export_journal(journal)
-
-
-class PrettyExporter(TextExporter):
-    names = ["pretty"]
-
-    @classmethod
-    def export_entry(cls, entry: Entry) -> Union[str, Any]:
-        return entry.pprint()
