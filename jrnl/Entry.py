@@ -99,25 +99,9 @@ class Entry:
         else:
             indent = ""
 
-        if "colors" in self.journal.config and "date" in self.journal.config["colors"]:
-            date_color = self.journal.config["colors"]["date"]
-        else:
-            date_color = None
-        title_color = (
-            self.journal.config["colors"]["title"]
-            if "colors" in self.journal.config
-            and "title" in self.journal.config["colors"]
-            else None
-        )
-        body_color = (
-            self.journal.config["colors"]["body"]
-            if "colors" in self.journal.config
-            and "title" in self.journal.config["colors"]
-            else None
-        )
         date_str = colorize(
             self.date.strftime(self.journal.config["timeformat"]),
-            date_color,
+            self.journal.config["colors"]["date"],
             bold=True,
         )
 
@@ -129,13 +113,13 @@ class Entry:
                 + highlight_tags_with_background_color(
                     self,
                     self.title,
-                    title_color,
+                    self.journal.config["colors"]["title"],
                     is_title=True,
                 ),
                 self.journal.config["linewrap"],
             )
             body = highlight_tags_with_background_color(
-                self, self.body.rstrip(" \n"), body_color
+                self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
             )
             body_text = [
                 colorize(
@@ -146,7 +130,7 @@ class Entry:
                         subsequent_indent=indent,
                         drop_whitespace=True,
                     ),
-                    body_color,
+                    self.journal.config["colors"]["body"],
                 )
                 or indent
                 for line in body.rstrip(" \n").splitlines()
@@ -158,29 +142,27 @@ class Entry:
             # properly. textwrap doesn't have this issue, however, it doesn't wrap
             # the strings properly as it counts ANSI escapes as literal characters.
             # TL;DR: I'm sorry.
-
             body = "\n".join(
                 [
-                    colorize(indent, body_color) + line
+                    colorize(indent, self.journal.config["colors"]["body"]) + line
                     if not ansiwrap.strip_color(line).startswith(indent)
                     else line
                     for line in body_text
                 ]
             )
         else:
-
             title = (
                 date_str
                 + " "
                 + highlight_tags_with_background_color(
                     self,
                     self.title.rstrip("\n"),
-                    title_color,
+                    self.journal.config["colors"]["title"],
                     is_title=True,
                 )
             )
             body = highlight_tags_with_background_color(
-                self, self.body.rstrip("\n "), body_color
+                self, self.body.rstrip("\n "), self.journal.config["colors"]["body"]
             )
 
         # Suppress bodies that are just blanks and new lines.
