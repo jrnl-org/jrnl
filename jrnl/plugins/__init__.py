@@ -27,6 +27,7 @@ __exporters = [
 __importers = [JRNLImporter]
 
 __exporter_types = {name: plugin for plugin in __exporters for name in plugin.names}
+__exporter_types["pretty"] = None
 __importer_types = {name: plugin for plugin in __importers for name in plugin.names}
 
 EXPORT_FORMATS = sorted(__exporter_types.keys())
