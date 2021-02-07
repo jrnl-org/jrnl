@@ -1,9 +1,10 @@
 Feature: Custom formats
+
     Scenario: Pretty Printing aka the Default 
-    Given We use the config "pretty.yaml"
-    When we run "jrnl --format pretty -3"
-    Then we should get no error
-    And the output should be pretty printed
+        Given We use the config "pretty.yaml"
+        When we run "jrnl --format pretty -3"
+        Then we should get no error
+        And the output should be pretty printed
 
     Scenario Outline: JSON format
         Given we use the config "<config>.yaml"
