@@ -6,7 +6,7 @@ import sys
 
 from . import install
 from . import plugins
-from .Journal import open_journal
+from .Journal import Journal, open_journal
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .config import get_journal_name
@@ -323,10 +323,31 @@ def _display_search_results(args, journal, **kwargs):
         print(plugins.get_exporter("tags").export(journal))
 
     elif args.export:
-        exporter = plugins.get_exporter(args.export)
-        print(exporter.export(journal, args.filename))
+        _export_journal(args, journal)
     elif kwargs["config"].get("display_format"):
         exporter = plugins.get_exporter(kwargs["config"]["display_format"])
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
+
+
+from argparse import Namespace
+
+
+def _export_journal(args: Namespace, journal: Journal):
+    """Export journal using supplied export format
+    Export formats "short" and "pretty" are shorthands for pre-configured
+    jrnl behavior, hence those export formats bypass the export plugins.
+
+    :param args: parsed arguments
+    :type args: Namespace
+    :param journal: journal under use
+    :type journal: Journal
+    """
+    if args.export == "pretty":
+        print(journal.pprint(short=False))
+    elif args.export == "short":
+        print(journal.pprint(short=True))
+    else:
+        exporter = plugins.get_exporter(args.export)
+        print(exporter.export(journal, args.filename))
