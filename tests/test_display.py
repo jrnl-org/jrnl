@@ -1,7 +1,7 @@
 import argparse
 import jrnl
 import pytest
-import mock
+from unittest import mock
 from jrnl.jrnl import _export_journal
 
 
