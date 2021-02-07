@@ -1,5 +1,11 @@
 Feature: Custom formats
 
+    Scenario: Short printing via --format flag
+        Given We use the config "pretty.yaml"
+        When we run "jrnl --format short -3"
+        Then we should get no error 
+        And the output should be pretty printed
+    
     Scenario: Pretty Printing aka the Default 
         Given We use the config "pretty.yaml"
         When we run "jrnl --format pretty -3"
