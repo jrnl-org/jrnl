@@ -2,22 +2,39 @@ import argparse
 import jrnl
 import pytest 
 import mock
-from jrnl.jrnl import _export_journal, _display_search_results
+from jrnl.jrnl import _export_journal
 @pytest.mark.parametrize(
     "export_format",
     [
         "pretty",
         "short",
-        "markdown",
-        "json"
     ]
 )
-@mock.patch.object(argparse,'Namespace',autospec=True)
-@mock.patch.object(jrnl,'Journal',autospec=True)
-def test_export_format(mock_journal, mock_args, export_format): 
+@mock.patch.object(argparse,'Namespace',return_value={"export":None,"filename":None})
+def test_export_format(mock_args,export_format): 
+    
+    test_journal = jrnl.Journal.Journal 
     mock_args.export = export_format
     mock_args.filename = "foo.jrnl"
-    with mock.patch('builtins.print', wraps=print) as print_spy:
-        _export_journal(mock_args,mock_journal)
-    print_spy.assert_called_once()
+    with mock.patch('builtins.print') as print_spy, \
+        mock.patch('jrnl.Journal.Journal.pprint') as mock_pprint:
+        _export_journal(mock_args,test_journal)
+    print_spy.call_args_list = mock_pprint
+    
+    
+
+@mock.patch.object(argparse,'Namespace',return_value={"export":None,"filename":None})
+def test_export_plugin(mock_args): 
+    export_format = "markdown"
+    
+    test_journal = jrnl.Journal.Journal 
+    mock_args.export = export_format
+    mock_args.filename = "foo.jrnl"
+    with mock.patch('builtins.print') as print_spy, \
+        mock.patch('jrnl.plugins.get_exporter') as mock_get_exporter,\
+        mock.patch('jrnl.Journal.Journal.pprint') as mock_pprint:
+        _export_journal(mock_args,test_journal)
+    print_spy.call_args_list = mock_pprint
+    mock_get_exporter.assert_called_once_with(export_format)
+    
     
