@@ -587,7 +587,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "yq"
-version = "2.11.1"
+version = "2.12.0"
 description = "Command-line YAML/XML processor - jq wrapper for YAML/XML documents"
 category = "dev"
 optional = false
@@ -596,6 +596,7 @@ python-versions = "*"
 [package.dependencies]
 argcomplete = ">=1.8.1"
 PyYAML = ">=3.11"
+toml = ">=0.10.0"
 xmltodict = ">=0.11.0"
 
 [package.extras]
@@ -683,6 +684,7 @@ cffi = [
     {file = "cffi-1.14.4-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:840793c68105fe031f34d6a086eaea153a0cd5c491cde82a74b420edd0a2b909"},
     {file = "cffi-1.14.4-cp39-cp39-manylinux1_i686.whl", hash = "sha256:b18e0a9ef57d2b41f5c68beefa32317d286c3d6ac0484efd10d6e07491bb95dd"},
     {file = "cffi-1.14.4-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:045d792900a75e8b1e1b0ab6787dd733a8190ffcf80e8c8ceb2fb10a29ff238a"},
+    {file = "cffi-1.14.4-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:7ef7d4ced6b325e92eb4d3502946c78c5367bc416398d387b39591532536734e"},
     {file = "cffi-1.14.4-cp39-cp39-win32.whl", hash = "sha256:ba4e9e0ae13fc41c6b23299545e5ef73055213e466bd107953e4a013a5ddd7e3"},
     {file = "cffi-1.14.4-cp39-cp39-win_amd64.whl", hash = "sha256:f032b34669220030f905152045dfa27741ce1a6db3324a5bc0b96b6c7420c87b"},
     {file = "cffi-1.14.4.tar.gz", hash = "sha256:1a465cbe98a7fd391d47dce4b8f7e5b921e6cd805ef421d04f5f66ba8f06086c"},
@@ -1048,8 +1050,8 @@ xmltodict = [
     {file = "xmltodict-0.12.0.tar.gz", hash = "sha256:50d8c638ed7ecb88d90561beedbf720c9b4e851a9fa6c47ebd64e99d166d8a21"},
 ]
 yq = [
-    {file = "yq-2.11.1-py2.py3-none-any.whl", hash = "sha256:c1e1d6abb6e80beacb9c40f9eb1105b6fc2a08d3dc908237f69f197e683cff1b"},
-    {file = "yq-2.11.1.tar.gz", hash = "sha256:74f64e3784a34d8a18efd8addc83cf5ca3478a0a69517d70fd9158a3809f99e0"},
+    {file = "yq-2.12.0-py2.py3-none-any.whl", hash = "sha256:1f124f48dee77ad5e0be8607777fed183e96c8d31fa577de14201c7a614e4819"},
+    {file = "yq-2.12.0.tar.gz", hash = "sha256:1d2ad403504d306b5258b86c698f9856d7ad58b7bb17a2b875691a6a7b8c4c20"},
 ]
 zipp = [
     {file = "zipp-3.4.0-py3-none-any.whl", hash = "sha256:102c24ef8f171fd729d46599845e95c7ab894a4cf45f5de11a44cc7444fb1108"},
