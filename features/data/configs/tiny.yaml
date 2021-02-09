@@ -1,8 +1,0 @@
-journals:
-  default: features/journals/simple.journal
-colors:
-  body: none 
-  title: green 
-editor: "vim"
-encrypt: false
-#

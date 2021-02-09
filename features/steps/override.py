@@ -1,17 +1,14 @@
 from jrnl.jrnl import run
-from jrnl.os_compat import split_args
 from unittest import mock
 
 # from __future__ import with_statement
 from jrnl.args import parse_args
 import os
-from behave import given, when, then
-import yaml
-from yaml.loader import FullLoader
+from behave import given, then
 
 import jrnl
 
-from features.steps.core import _mock_time_parse
+from features.steps.core import _mock_getpass, _mock_time_parse
 
 
 @given("we use the config {config_file}")

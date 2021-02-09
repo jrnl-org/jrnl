@@ -38,6 +38,12 @@ def run(args):
     try:
         config = install.load_or_install_jrnl()
         original_config = config.copy()
+
+        # Apply config overrides
+        overrides = args.config_override
+        if overrides:
+            config = apply_overrides(overrides, config)
+
         args = get_journal_name(args, config)
         config = scope_config(config, args.journal_name)
     except UserAbort as err:
@@ -49,11 +55,6 @@ def run(args):
         return args.postconfig_cmd(
             args=args, config=config, original_config=original_config
         )
-
-    # Apply config overrides
-    overrides = args.config_override
-    if overrides:
-        config = apply_overrides(overrides, config)
 
     # --- All the standalone commands are now done --- #
 
