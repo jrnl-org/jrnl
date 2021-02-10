@@ -49,7 +49,8 @@ def config_override(context, key_as_dots: str, override_value: str):
 
 
 @then("the editor {editor} should have been called")
-def editor_override(context, editor):
+@then("No editor should have been called")
+def editor_override(context, editor=None):
     def _mock_write_in_editor(config):
         editor = config["editor"]
         journal = "features/journals/journal.jrnl"
@@ -80,8 +81,12 @@ def editor_override(context, editor):
                 expected_config['editor'] = '%s'%editor 
                 expected_config['journal'] ='features/journals/journal.jrnl'
 
-                assert mock_write_in_editor.call_count == 1
-                assert mock_write_in_editor.call_args[0][0]['editor']==editor
+                if editor is not None:
+                    assert mock_write_in_editor.call_count == 1
+                    assert mock_write_in_editor.call_args[0][0]['editor']==editor
+                else: 
+                    # Expect that editor is *never* called
+                    mock_write_in_editor.assert_not_called() 
         except SystemExit as e:
             context.exit_status = e.code
     # fmt: on

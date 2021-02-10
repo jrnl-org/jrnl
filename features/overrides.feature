@@ -12,7 +12,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         When we run "jrnl --decrypt --config-override highlight false --config-override editor nano"
         Then the runtime config should have "encrypt" set to "false"
         And the runtime config should have "highlight" set to "false"
-        And the editor "N/A" should have been called
+        And no editor should have been called
         
         @skip_win
         Scenario: Override configured linewrap with a value of 23
