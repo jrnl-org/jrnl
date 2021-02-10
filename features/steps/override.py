@@ -20,7 +20,10 @@ def load_config(context, config_file):
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
     key_as_vec = key_as_dots.split(".")
-
+    if "password" in context:
+        password = context.password
+    else:
+        password = ""
     # fmt: off
     try: 
         with \
@@ -28,6 +31,7 @@ def config_override(context, key_as_dots: str, override_value: str):
         mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as mock_recurse, \
         mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.jrnl_config), \
         mock.patch('jrnl.time.parse', side_effect=_mock_time_parse(context)), \
+        mock.patch('getpass.getpass',side_effect=_mock_getpass(password)), \
         mock.patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
         mock.patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         : 
@@ -53,17 +57,23 @@ def editor_override(context, editor):
         print("%s has been launched" % editor)
         return journal
 
+    if "password" in context:
+        password = context.password
+    else:
+        password = ""
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
         mock.patch("jrnl.jrnl._write_in_editor", side_effect=_mock_write_in_editor(context.jrnl_config)) as mock_write_in_editor, \
         mock.patch("sys.stdin.isatty", return_value=True), \
+        mock.patch('getpass.getpass',side_effect=_mock_getpass(password)), \
         mock.patch("jrnl.time.parse", side_effect = _mock_time_parse(context)), \
         mock.patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
         mock.patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
     :
         try :
-                run(context.parser)
+                parsed_args = parse_args(context.args)
+                run(parsed_args)
                 context.exit_status = 0
                 context.editor = mock_write_in_editor
                 expected_config = context.jrnl_config
@@ -90,8 +100,11 @@ def override_editor_to_use_stdin(context):
             "jrnl.Journal.open_journal",
             spec=False,
             return_value="features/journals/journal.jrnl",
+        ), mock.patch(
+            "getpass.getpass", side_effect=_mock_getpass("test")
         ):
-            run(context.parser)
+            parsed_args = parse_args(context.args)
+            run(parsed_args)
             context.exit_status = 0
         mock_stdin_read.assert_called_once()
 
