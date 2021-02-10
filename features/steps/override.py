@@ -27,13 +27,7 @@ def config_override(context, key_as_dots: str, override_value: str):
     # fmt: off
     try: 
         with \
-        mock.patch("jrnl.jrnl.search_mode"), \
-        mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as mock_recurse, \
         mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.jrnl_config), \
-        mock.patch('jrnl.time.parse', side_effect=_mock_time_parse(context)), \
-        mock.patch('getpass.getpass',side_effect=_mock_getpass(password)), \
-        mock.patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
-        mock.patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         : 
             parsed_args = parse_args(context.args)
             run(parsed_args)
