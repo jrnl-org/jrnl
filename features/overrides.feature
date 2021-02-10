@@ -64,3 +64,9 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         | nano              |
         | vi -c startinsert | 
         | code -w           | 
+
+        Scenario: Override configured journal
+        Given we use the config "basic_dayone.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl --debug --config-override editor '' --config-override journals.default \"todo.jrnl\" "
+        Then we should get no error 
