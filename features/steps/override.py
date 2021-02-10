@@ -27,6 +27,7 @@ def config_override(context, key_as_dots: str, override_value: str):
     # fmt: off
     try: 
         with \
+        mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as spy_recurse, \
         mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.jrnl_config), \
         : 
             parsed_args = parse_args(context.args)
