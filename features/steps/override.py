@@ -28,6 +28,7 @@ def config_override(context, key_as_dots: str, override_value: str):
             run(parsed_args)
         runtime_cfg = spy_recurse.call_args_list[0][0][0]
         
+        # extract the value of the desired key from the configuration after overrides have been applied
         for k in key_as_vec: 
             runtime_cfg = runtime_cfg['%s'%k]
 
