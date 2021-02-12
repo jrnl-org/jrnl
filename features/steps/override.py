@@ -10,12 +10,6 @@ import jrnl
 from features.steps.core import _mock_getpass, _mock_time_parse
 
 
-@given("we use the config {config_file}")
-def load_config(context, config_file):
-    filepath = os.path.join("features/configs", config_file)
-    context.config_path = os.path.abspath(filepath)
-
-
 @then("the runtime config should have {key_as_dots} set to {override_value}")
 def config_override(context, key_as_dots: str, override_value: str):
     key_as_vec = key_as_dots.split(".")
