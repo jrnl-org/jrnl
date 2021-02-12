@@ -3,8 +3,7 @@ from unittest import mock
 
 # from __future__ import with_statement
 from jrnl.args import parse_args
-import os
-from behave import given, then
+from behave import then
 
 import jrnl
 
