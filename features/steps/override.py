@@ -32,7 +32,7 @@ def config_override(context, key_as_dots: str, override_value: str):
         : 
             parsed_args = parse_args(context.args)
             run(parsed_args)
-        runtime_cfg = mock_recurse.call_args_list[0][0][0]
+        runtime_cfg = spy_recurse.call_args_list[0][0][0]
         
         for k in key_as_vec: 
             runtime_cfg = runtime_cfg['%s'%k]
