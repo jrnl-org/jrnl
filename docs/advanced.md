@@ -76,7 +76,7 @@ You can specify multiple overrides as multiple calls to `--config-override`.
 jrnl --config-override editor ""
 
 #Populate a project's log
-jrnl --config-override journal "$(git rev-parse --show-toplevel)/todo.txt"
+jrnl --config-override journals.todo "$(git rev-parse --show-toplevel)/todo.txt" todo find my towel 
 
 #Pass multiple overrides 
 jrnl --config-override display_format fancy --config-override linewrap 20 \
