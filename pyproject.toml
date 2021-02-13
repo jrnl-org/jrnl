@@ -46,7 +46,6 @@ black = {version = "^20.8b1",allow-prereleases = true}
 toml = ">=0.10"
 pyflakes = ">=2.2.0"
 pytest = ">=6.2"
-mock = "^4.0.3"
 yq = ">=2.11"
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
