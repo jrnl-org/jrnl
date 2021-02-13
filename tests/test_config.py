@@ -1,6 +1,6 @@
 import shlex
 import pytest
-import mock
+from unittest import mock
 
 
 from jrnl.args import parse_args
