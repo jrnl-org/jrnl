@@ -83,16 +83,16 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         Scenario: Make an entry into an overridden journal 
         Given we use the config "basic_dayone.yaml"
         And we use the password "test" if prompted
-        When we run "jrnl 06 September 2069: @knights Ni --config-override journal features/journals/simple.journal "
-        And we run "jrnl -3"
-        Then the output should be 
+        When we run "jrnl --config-override journals.temp features/journals/simple.journal temp Sep 06 1969: @say Ni"
+        And we run "jrnl --config-override journals.temp features/journals/simple.journal temp -3" 
+        Then we should get no error 
+        And the output should be 
         """
-        
+        1969-09-06 09:00 @say Ni
+
         2013-06-09 15:39 My first entry.
         | Everything is alright
-      
+        
         2013-06-10 15:40 Life is good.
         | But I'm better.
-        
-        2069-06-09 9:00 @knights Ni
         """
