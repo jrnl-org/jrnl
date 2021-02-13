@@ -33,7 +33,7 @@ test = ["coverage", "flake8", "pexpect", "wheel"]
 
 [[package]]
 name = "asteval"
-version = "0.9.21"
+version = "0.9.22"
 description = "Safe, minimalistic evaluator of python expression using ast module"
 category = "main"
 optional = false
@@ -633,7 +633,7 @@ argcomplete = [
     {file = "argcomplete-1.12.2.tar.gz", hash = "sha256:de0e1282330940d52ea92a80fea2e4b9e0da1932aaa570f84d268939d1897b04"},
 ]
 asteval = [
-    {file = "asteval-0.9.21.tar.gz", hash = "sha256:ee14ba2211cda1c76114e3e7b552cdd57e940309203d5f4106e6d6f2c2346a2e"},
+    {file = "asteval-0.9.22.tar.gz", hash = "sha256:74a0939765fc6b1421e6672ccf74c52edc3c7af7d6a8298b057b0d50ac51aea8"},
 ]
 atomicwrites = [
     {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
