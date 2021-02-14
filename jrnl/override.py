@@ -12,11 +12,22 @@ def apply_overrides(overrides: list, base_config: dict) -> dict:
     config = base_config.copy()
     for pairs in overrides:
 
-        key_as_dots, override_value = list(pairs.items())[0]
-        keys = key_as_dots.split(".")
-        config = _recursively_apply(config, keys, override_value)
+        key_as_dots, override_value = _get_key_and_value_from_pair(pairs)
+        keys = _convert_dots_to_list(key_as_dots)
+        config.update(_recursively_apply(config, keys, override_value))
 
     return config
+
+
+def _get_key_and_value_from_pair(pairs):
+    key_as_dots, override_value = list(pairs.items())[0]
+    return key_as_dots, override_value
+
+
+def _convert_dots_to_list(key_as_dots):
+    keys = key_as_dots.split(".")
+    keys = [k for k in keys if k != ""]
+    return keys
 
 
 def _recursively_apply(tree: dict, nodes: list, override_value) -> dict:
@@ -34,7 +45,8 @@ def _recursively_apply(tree: dict, nodes: list, override_value) -> dict:
         tree[key] = override_value
     else:
         next_key = nodes[1:]
-        _recursively_apply(_get_config_node(tree, key), next_key, override_value)
+        next_node = _get_config_node(tree, key)
+        _recursively_apply(next_node, next_key, override_value)
 
     return tree
 

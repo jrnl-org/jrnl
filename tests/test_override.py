@@ -15,10 +15,9 @@ def minimal_config():
 
 
 def test_apply_override(minimal_config):
-    config = minimal_config.copy()
     overrides = [{"editor": "nano"}]
-    config = apply_overrides(overrides, config)
-    assert config["editor"] == "nano"
+    apply_overrides(overrides, minimal_config)
+    assert minimal_config["editor"] == "nano"
 
 
 def test_override_dot_notation(minimal_config):
@@ -52,3 +51,29 @@ def test_get_config_node(minimal_config):
     assert len(minimal_config.keys()) == 4
     assert _get_config_node(minimal_config, "editor") == "vim"
     assert _get_config_node(minimal_config, "display_format") == None
+
+
+from jrnl.override import _get_key_and_value_from_pair
+
+
+def test_get_kv_from_pair():
+    pair = {"ab.cde": "fgh"}
+    k, v = _get_key_and_value_from_pair(pair)
+    assert k == "ab.cde"
+    assert v == "fgh"
+
+
+from jrnl.override import _convert_dots_to_list
+
+
+class TestDotNotationToList:
+    def test_unpack_dots_to_list(self):
+
+        keys = "a.b.c.d.e.f"
+        keys_list = _convert_dots_to_list(keys)
+        assert len(keys_list) == 6
+
+    def test_sequential_delimiters(self):
+        k = "g.r..h.v"
+        k_l = _convert_dots_to_list(k)
+        assert len(k_l) == 4
