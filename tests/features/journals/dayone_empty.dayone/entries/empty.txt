@@ -1,1 +1,0 @@
-This file exists to preserve the directory structure, but should be ignored by jrnl.
