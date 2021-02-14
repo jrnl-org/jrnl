@@ -6,3 +6,13 @@ Feature: Functionality of jrnl outside of actually handling journals
         Then we should get no error
         Then the output should match "^jrnl version v\d+\.\d+(\.\d+)?(-(alpha|beta)\d*)?"
 
+    Scenario: Running the diagnostic command
+        Given we use the config "simple.yaml"
+        When we run "jrnl --diagnostic"
+        Then the output should contain "jrnl"
+        And the output should contain "Python"
+        And the output should contain "OS"
+
+    @todo
+    Scenario: Listing available journals
+

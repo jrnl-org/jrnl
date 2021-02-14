@@ -91,3 +91,10 @@ def matches_std_output(regex, cli_run):
     out = cli_run["stdout"]
     matches = re.findall(regex, out)
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
+
+
+@then(parse("the output should contain\n{text}"))
+@then(parse('the output should contain "{text}"'))
+def check_output_inline(text, cli_run):
+    assert text and text in cli_run['stdout']
+
