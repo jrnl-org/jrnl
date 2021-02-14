@@ -65,28 +65,34 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         | vi -c startinsert | 
         | code -w           | 
 
-        Scenario: Override configured journal
+        Scenario: Override default journal
         Given we use the config "basic_dayone.yaml"
         And we use the password "test" if prompted
-        When we run "jrnl --debug -3 --config-override journals.default features/journals/simple.journal"
+        When we run "jrnl --debug --config-override journals.default features/journals/simple.journal 20 Mar 2000: The rain in Spain comes from clouds"
         Then we should get no error
-        And the output should be  
+        And we should see the message "Entry added"
+        When we run "jrnl -3 --debug --config-override journals.default features/journals/simple.journal"
+        Then the output should be 
         """
+        2000-03-20 09:00 The rain in Spain comes from clouds
+
         2013-06-09 15:39 My first entry.
         | Everything is alright
       
         2013-06-10 15:40 Life is good.
         | But I'm better.
         """
+        
 
         @wip
         Scenario: Make an entry into an overridden journal 
         Given we use the config "basic_dayone.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --config-override journals.temp features/journals/simple.journal temp Sep 06 1969: @say Ni"
-        And we run "jrnl --config-override journals.temp features/journals/simple.journal temp -3" 
-        Then we should get no error 
-        And the output should be 
+       Then we should get no error
+        And we should see the message "Entry added"
+        When we run "jrnl --config-override journals.temp features/journals/simple.journal temp -3" 
+        Then the output should be 
         """
         1969-09-06 09:00 @say Ni
 
