@@ -36,15 +36,15 @@ def working_dir(request):
 def set_config(config_file, temp_dir, working_dir):
     # Copy the config file over
     config_source = os.path.join(
-        working_dir, "features", "data", "configs", config_file
+        working_dir, "data", "configs", config_file
     )
     config_dest = os.path.join(temp_dir.name, config_file)
     shutil.copy2(config_source, config_dest)
 
     # @todo make this only copy some journals over
     # Copy all of the journals over
-    journal_source = os.path.join(working_dir, "features", "data", "journals")
-    journal_dest = os.path.join(temp_dir.name, "features", "journals")
+    journal_source = os.path.join(working_dir, "data", "journals")
+    journal_dest = os.path.join(temp_dir.name, "journals")
     shutil.copytree(journal_source, journal_dest)
 
     # @todo get rid of this by using default config values
