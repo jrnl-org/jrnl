@@ -5,6 +5,7 @@ import shutil
 import os
 import re
 import tempfile
+import toml
 
 from pytest import fixture
 from pytest_bdd import given
@@ -30,6 +31,11 @@ def temp_dir():
 def working_dir(request):
     return os.path.join(request.config.rootpath, "tests")
 
+@fixture
+def toml_version(working_dir):
+    pyproject = os.path.join(working_dir, "..", "pyproject.toml")
+    pyproject_contents = toml.load(pyproject)
+    return pyproject_contents["tool"]["poetry"]["version"]
 
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
@@ -97,4 +103,10 @@ def matches_std_output(regex, cli_run):
 @then(parse('the output should contain "{text}"'))
 def check_output_inline(text, cli_run):
     assert text and text in cli_run['stdout']
+
+
+@then("the output should contain pyproject.toml version")
+def check_output_version_inline(cli_run, toml_version):
+    out = cli_run['stdout']
+    assert toml_version in out, toml_version
 
