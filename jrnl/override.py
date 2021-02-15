@@ -1,3 +1,5 @@
+from .config import update_config
+
 # import logging
 def apply_overrides(overrides: list, base_config: dict) -> dict:
     """Unpack CLI provided overrides into the configuration tree.
@@ -9,14 +11,17 @@ def apply_overrides(overrides: list, base_config: dict) -> dict:
     :return: Configuration to be used during runtime with the overrides applied
     :rtype: dict
     """
-    config = base_config.copy()
+    cfg_with_overrides = base_config.copy()
     for pairs in overrides:
 
         key_as_dots, override_value = _get_key_and_value_from_pair(pairs)
         keys = _convert_dots_to_list(key_as_dots)
-        config.update(_recursively_apply(config, keys, override_value))
+        cfg_with_overrides = _recursively_apply(
+            cfg_with_overrides, keys, override_value
+        )
 
-    return config
+    update_config(base_config, cfg_with_overrides, None)
+    return base_config
 
 
 def _get_key_and_value_from_pair(pairs):
@@ -26,7 +31,7 @@ def _get_key_and_value_from_pair(pairs):
 
 def _convert_dots_to_list(key_as_dots):
     keys = key_as_dots.split(".")
-    keys = [k for k in keys if k != ""]
+    keys = [k for k in keys if k != ""]  # remove empty elements
     return keys
 
 
