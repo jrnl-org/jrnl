@@ -37,7 +37,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         ┖─────────────────────┘
         """
 
-        @skip_win
         Scenario: Override color selections with runtime overrides 
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
