@@ -266,7 +266,7 @@ class TestDeserialization:
     @pytest.mark.parametrize(
         "input_str",
         [
-            ["editor", '"nano"'],
+            ["editor", "nano"],
             ["colors.title", "blue"],
             ["default", "/tmp/egg.txt"],
         ],
@@ -285,8 +285,8 @@ class TestDeserialization:
         cfg = deserialize_config_args(["encrypt", "false"])
         assert cfg["encrypt"] == False
 
-        cfg = deserialize_config_args(["editor", '"vi -c startinsert"'])
-        assert cfg["editor"] == '"vi -c startinsert"'
+        cfg = deserialize_config_args(["editor", "vi -c startinsert"])
+        assert cfg["editor"] == "vi -c startinsert"
 
         cfg = deserialize_config_args(["highlight", "true"])
         assert cfg["highlight"] == True

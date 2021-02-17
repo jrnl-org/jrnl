@@ -4,6 +4,8 @@
 import argparse
 import re
 import textwrap
+import yaml
+from yaml.loader import FullLoader
 
 from .commands import postconfig_decrypt
 from .commands import postconfig_encrypt
@@ -15,6 +17,8 @@ from .output import deprecated_cmd
 from .plugins import EXPORT_FORMATS
 from .plugins import IMPORT_FORMATS
 from .plugins import util
+
+YAML_SEPARATOR = ": "
 
 
 def deserialize_config_args(input: list) -> dict:
@@ -30,21 +34,10 @@ def deserialize_config_args(input: list) -> dict:
     """
 
     assert len(input) == 2
-    runtime_modifications = {}
 
-    cfg_key = input[0]
-    cfg_value = input[1]
-    cfg_value = cfg_value.strip()
-
-    # Convert numbers and booleans
-    if cfg_value.isdigit():
-        cfg_value = int(cfg_value)
-    elif cfg_value.lower() == "true":
-        cfg_value = True
-    elif cfg_value.lower() == "false":
-        cfg_value = False
-
-    runtime_modifications[cfg_key] = cfg_value
+    # yaml compatible strings are of the form Key:Value
+    yamlstr = YAML_SEPARATOR.join(input)
+    runtime_modifications = yaml.load(yamlstr, Loader=FullLoader)
 
     return runtime_modifications
 
