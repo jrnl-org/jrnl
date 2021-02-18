@@ -41,15 +41,15 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
         When we run "jrnl -1 --config-override colors.body blue"
-        Then the runtime config should have colors.body set to blue
+        Then the config should have "colors.body" set to "blue"
 
         @skip_win 
         Scenario: Apply multiple config overrides 
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted 
         When we run "jrnl -1 --config-override colors.body green --config-override editor 'nano'"
-        Then the runtime config should have colors.body set to green 
-        And the runtime config should have editor set to nano
+        Then the config should have "colors.body" set to "green" 
+        And the config should have "editor" set to "nano"
 
 
         @skip_win

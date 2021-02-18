@@ -5,37 +5,7 @@ from unittest import mock
 from jrnl.args import parse_args
 from behave import then
 
-import jrnl
-
 from features.steps.core import _mock_getpass, _mock_time_parse
-
-
-@then("the runtime config should have {key_as_dots} set to {override_value}")
-def config_override(context, key_as_dots: str, override_value: str):
-    key_as_vec = key_as_dots.split(".")
-    if "password" in context:
-        password = context.password
-    else:
-        password = ""
-    # fmt: off
-    try: 
-        with \
-        mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as spy_recurse, \
-        mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.jrnl_config), \
-        mock.patch('getpass.getpass',side_effect=_mock_getpass(password)) \
-        : 
-            parsed_args = parse_args(context.args)
-            run(parsed_args)
-        runtime_cfg = spy_recurse.call_args_list[0][0][0]
-        
-        # extract the value of the desired key from the configuration after overrides have been applied
-        for k in key_as_vec: 
-            runtime_cfg = runtime_cfg['%s'%k]
-
-        assert runtime_cfg == override_value
-    except SystemExit as e :
-        context.exit_status = e.code
-    # fmt: on
 
 
 @then("the editor {editor} should have been called")

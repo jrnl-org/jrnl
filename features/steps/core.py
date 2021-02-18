@@ -3,6 +3,7 @@
 
 import ast
 from collections import defaultdict
+from jrnl.args import parse_args
 import os
 from pathlib import Path
 import re
@@ -26,6 +27,7 @@ from jrnl import plugins
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
+from jrnl.override import apply_overrides, _recursively_apply
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -117,8 +119,15 @@ def read_value_from_string(string):
         return ast.literal_eval(string)
 
     # Takes strings like "bool:true" or "int:32" and coerces them into proper type
-    t, value = string.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
+    string_parts = string.split(":")
+    if len(string_parts) > 1:
+        type = string_parts[0]
+        value = string_parts[1:][0]  # rest of the text
+        value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[type](
+            value
+        )
+    else:
+        value = string_parts[0]
     return value
 
 
@@ -318,6 +327,7 @@ def run_with_input(context, command, inputs=""):
         text = iter([inputs])
 
     args = split_args(command)[1:]
+    context.args = args
 
     def _mock_editor(command):
         context.editor_command = command
@@ -611,15 +621,61 @@ def journal_exists(context, journal_name="default"):
 @then('the config should have "{key}" set to')
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
+@then('the config should have "{key}" set to "{value}"')
 def config_var(context, key, value="", journal=None):
+    key_as_vec = key.split(".")
+
+    if "args" in context:
+        parsed = parse_args(context.args)
+        overrides = parsed.config_override
     value = read_value_from_string(value or context.text or "")
     configuration = load_config(context.config_path)
 
     if journal:
         configuration = configuration["journals"][journal]
 
-    assert key in configuration
-    assert configuration[key] == value
+    if overrides:
+        with patch.object(
+            jrnl.override, "_recursively_apply", wraps=_recursively_apply
+        ) as spy_recurse:
+            configuration = apply_overrides(overrides, configuration)
+            runtime_cfg = spy_recurse.call_args_list[0][0][0]
+    else:
+        runtime_cfg = configuration
+        # extract the value of the desired key from the configuration after overrides have been applied
+    for k in key_as_vec:
+        runtime_cfg = runtime_cfg["%s" % k]
+    assert runtime_cfg == value
+
+
+
+@then("the runtime config should have {key_as_dots} set to {override_value}")
+def config_override(context, key_as_dots: str, override_value: str):
+    key_as_vec = key_as_dots.split(".")
+    if "password" in context:
+        password = context.password
+    else:
+        password = ""
+    # fmt: off
+    try: 
+        with \
+        mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as spy_recurse, \
+        mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.jrnl_config), \
+        mock.patch('getpass.getpass',side_effect=_mock_getpass(password)) \
+        : 
+            parsed_args = parse_args(context.args)
+            run(parsed_args)
+        runtime_cfg = spy_recurse.call_args_list[0][0][0]
+        
+        # extract the value of the desired key from the configuration after overrides have been applied
+        for k in key_as_vec: 
+            runtime_cfg = runtime_cfg['%s'%k]
+
+        assert runtime_cfg == override_value
+    except SystemExit as e :
+        context.exit_status = e.code
+    # fmt: on
+
 
 
 @then('the config for journal "{journal}" should not have "{key}" set')
