@@ -647,7 +647,6 @@ def config_var(context, key, value="", journal=None):
     assert runtime_cfg == value
 
 
-
 @then('the config for journal "{journal}" should not have "{key}" set')
 def config_no_var(context, key, value="", journal=None):
     configuration = load_config(context.config_path)
