@@ -621,7 +621,6 @@ def journal_exists(context, journal_name="default"):
 @then('the config should have "{key}" set to')
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
-@then('the config should have "{key}" set to "{value}"')
 def config_var(context, key, value="", journal=None):
     key_as_vec = key.split(".")
 
@@ -646,35 +645,6 @@ def config_var(context, key, value="", journal=None):
     for k in key_as_vec:
         runtime_cfg = runtime_cfg["%s" % k]
     assert runtime_cfg == value
-
-
-
-@then("the runtime config should have {key_as_dots} set to {override_value}")
-def config_override(context, key_as_dots: str, override_value: str):
-    key_as_vec = key_as_dots.split(".")
-    if "password" in context:
-        password = context.password
-    else:
-        password = ""
-    # fmt: off
-    try: 
-        with \
-        mock.patch.object(jrnl.override,"_recursively_apply",wraps=jrnl.override._recursively_apply) as spy_recurse, \
-        mock.patch('jrnl.install.load_or_install_jrnl', return_value=context.jrnl_config), \
-        mock.patch('getpass.getpass',side_effect=_mock_getpass(password)) \
-        : 
-            parsed_args = parse_args(context.args)
-            run(parsed_args)
-        runtime_cfg = spy_recurse.call_args_list[0][0][0]
-        
-        # extract the value of the desired key from the configuration after overrides have been applied
-        for k in key_as_vec: 
-            runtime_cfg = runtime_cfg['%s'%k]
-
-        assert runtime_cfg == override_value
-    except SystemExit as e :
-        context.exit_status = e.code
-    # fmt: on
 
 
 
