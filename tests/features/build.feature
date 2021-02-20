@@ -1,6 +1,5 @@
 Feature: Build process
 
-    @deployment_tests
     Scenario: Version numbers should stay in sync
         Given we use the config "simple.yaml"
         When we run "jrnl --version"

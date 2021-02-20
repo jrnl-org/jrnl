@@ -1,35 +1,39 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import shutil
 import os
 import re
+import shutil
 import tempfile
-import toml
+from unittest.mock import patch
 
-from pytest import fixture
 from pytest_bdd import given
 from pytest_bdd import then
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
-from unittest.mock import patch
+from pytest import fixture
+import toml
 
 from jrnl import __version__
-from jrnl.os_compat import split_args
 from jrnl.cli import cli
+from jrnl.os_compat import split_args
+
 
 # ----- FIXTURES ----- #
 @fixture
 def cli_run():
     return {"status": 0, "stdout": None, "stderr": None}
 
+
 @fixture
 def temp_dir():
     return tempfile.TemporaryDirectory()
 
+
 @fixture
 def working_dir(request):
     return os.path.join(request.config.rootpath, "tests")
+
 
 @fixture
 def toml_version(working_dir):
@@ -37,13 +41,20 @@ def toml_version(working_dir):
     pyproject_contents = toml.load(pyproject)
     return pyproject_contents["tool"]["poetry"]["version"]
 
+
+@fixture
+def read_journal(journal_name="default"):
+    configuration = load_config(context.config_path)
+    with open(configuration["journals"][journal_name]) as journal_file:
+        journal = journal_file.read()
+    return journal
+
+
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 def set_config(config_file, temp_dir, working_dir):
     # Copy the config file over
-    config_source = os.path.join(
-        working_dir, "data", "configs", config_file
-    )
+    config_source = os.path.join(working_dir, "data", "configs", config_file)
     config_dest = os.path.join(temp_dir.name, config_file)
     shutil.copy2(config_source, config_dest)
 
@@ -102,11 +113,23 @@ def matches_std_output(regex, cli_run):
 @then(parse("the output should contain\n{text}"))
 @then(parse('the output should contain "{text}"'))
 def check_output_inline(text, cli_run):
-    assert text and text in cli_run['stdout']
+    assert text and text in cli_run["stdout"]
 
 
 @then("the output should contain pyproject.toml version")
 def check_output_version_inline(cli_run, toml_version):
-    out = cli_run['stdout']
+    out = cli_run["stdout"]
     assert toml_version in out, toml_version
 
+
+@then(parse('we should see the message "{text}"'))
+def check_message(text, cli_run):
+    out = cli_run["stderr"]
+    assert text in out, [text, out]
+
+
+@then(parse('the journal should contain "{text}"'))
+@then(parse('journal "{journal_name}" should contain "{text}"'))
+def check_journal_content(context, text, journal_name="default"):
+    journal = read_journal(context, journal_name)
+    assert text in journal, journal
