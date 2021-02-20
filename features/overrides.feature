@@ -82,7 +82,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         """
         
 
-        @wip
         Scenario: Make an entry into an overridden journal 
         Given we use the config "basic_dayone.yaml"
         And we use the password "test" if prompted
