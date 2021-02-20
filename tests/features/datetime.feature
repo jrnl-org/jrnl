@@ -48,3 +48,22 @@ Feature: Reading and writing to journal with custom date formats
         | little_endian_dates.yaml | 2032-02-01: Test.            | 01.02.2032 09:00 Test.            |
         | little_endian_dates.yaml | 2020-01-01: Test.            | 01.01.2020 09:00 Test.            |
         | little_endian_dates.yaml | 2020-12-31: Test.            | 31.12.2020 09:00 Test.            |
+
+
+    Scenario Outline: Searching for dates with custom date
+        Given we use the config "<config_file>"
+        When we run "jrnl <command>"
+        Then the output should be "<output>"
+
+        Examples: Day-first Dates
+        | config_file              | command                    | output                           |
+        | little_endian_dates.yaml | -on '2013-07-10' --short   | 10.07.2013 15:40 Life is good.   |
+        | little_endian_dates.yaml | -on 'june 9 2013' --short  | 09.06.2013 15:39 My first entry. |
+        | little_endian_dates.yaml | -on 'july 10 2013' --short | 10.07.2013 15:40 Life is good.   |
+        | little_endian_dates.yaml | -on 'june 2013' --short    | 09.06.2013 15:39 My first entry. |
+        | little_endian_dates.yaml | -on 'july 2013' --short    | 10.07.2013 15:40 Life is good.   |
+        # @todo month alone with no year should work
+        # | little_endian_dates.yaml | -on 'june' --short         | 09.06.2013 15:39 My first entry. |
+        # | little_endian_dates.yaml | -on 'july' --short         | 10.07.2013 15:40 Life is good.   |
+
+
