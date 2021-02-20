@@ -19,6 +19,11 @@ from jrnl.cli import cli
 from jrnl.os_compat import split_args
 
 
+# ----- UTILS ----- #
+def failed_msg(msg, expected, actual):
+    return f"{msg}\nExpected:\n{expected}\n---end---\nActual:\n{actual}\n---end---\n"
+
+
 # ----- FIXTURES ----- #
 @fixture
 def cli_run():
@@ -45,7 +50,7 @@ def toml_version(working_dir):
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 @given('we use the config "<config_file>"', target_fixture="config_path")
-def set_config(config_file, temp_dir, working_dir):
+def we_use_the_config(config_file, temp_dir, working_dir):
     # Move into temp dir as cwd
     os.chdir(temp_dir.name)
 
@@ -72,7 +77,7 @@ def set_config(config_file, temp_dir, working_dir):
 
 @when(parse('we run "jrnl {command}"'))
 @when('we run "jrnl <command>"')
-def run(command, config_path, cli_run, capsys):
+def we_run(command, config_path, cli_run, capsys):
     args = split_args(command)
     status = 0
 
@@ -96,12 +101,12 @@ def run(command, config_path, cli_run, capsys):
 
 
 @then("we should get no error")
-def no_error(cli_run):
+def should_get_no_error(cli_run):
     assert cli_run["status"] == 0, cli_run["status"]
 
 
 @then(parse('the output should match "{regex}"'))
-def matches_std_output(regex, cli_run):
+def output_should_match(regex, cli_run):
     out = cli_run["stdout"]
     matches = re.findall(regex, out)
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
@@ -110,38 +115,28 @@ def matches_std_output(regex, cli_run):
 @then(parse("the output should contain\n{output}"))
 @then(parse('the output should contain "{output}"'))
 @then('the output should contain "<output>"')
-def check_output_inline(output, cli_run):
+def output_should_contain(output, cli_run):
     assert output and output in cli_run["stdout"]
 
 
 @then(parse("the output should be\n{output}"))
 @then(parse('the output should be "{output}"'))
 @then('the output should be "<output>"')
-def test_check_output_inline(output, cli_run):
+def output_should_be(output, cli_run):
     actual_out = cli_run["stdout"].strip()
     output = output.strip()
     assert (
         output and output == actual_out
-    ), f"Output does not match.\nExpected:\n{output}\n---end---\nActual:\n{actual_out}\n---end---\n"
-
-
-@then(parse('the output should be "{expected_out}"'))
-@then(parse("the output should be\n{expected_out}"))
-def check_output(cli_run, expected_out):
-    expected_out = expected_out.strip()
-    actual_out = cli_run["stdout"].strip()
-    assert (
-        expected_out == actual_out
-    ), f"Output does not match.\nExpected:\n{expected_out}\n---end---\nActual:\n{actual_out}\n---end---\n"
+    ), failed_msg('Output does not match.', output, actual_out)
 
 
 @then("the output should contain pyproject.toml version")
-def check_output_version_inline(cli_run, toml_version):
+def output_should_contain_version(cli_run, toml_version):
     out = cli_run["stdout"]
     assert toml_version in out, toml_version
 
 
 @then(parse('we should see the message "{text}"'))
-def check_message(text, cli_run):
+def should_see_the_message(text, cli_run):
     out = cli_run["stderr"]
     assert text in out, [text, out]
