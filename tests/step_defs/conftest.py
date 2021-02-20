@@ -42,16 +42,9 @@ def toml_version(working_dir):
     return pyproject_contents["tool"]["poetry"]["version"]
 
 
-@fixture
-def read_journal(journal_name="default"):
-    configuration = load_config(context.config_path)
-    with open(configuration["journals"][journal_name]) as journal_file:
-        journal = journal_file.read()
-    return journal
-
-
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
+@given('we use the config "<config_file>"', target_fixture="config_path")
 def set_config(config_file, temp_dir, working_dir):
     # Move into temp dir as cwd
     os.chdir(temp_dir.name)
@@ -77,7 +70,8 @@ def set_config(config_file, temp_dir, working_dir):
     return config_dest
 
 
-@when(parse('we run "{command}"'))
+@when(parse('we run "jrnl {command}"'))
+@when('we run "jrnl <command>"')
 def run(command, config_path, cli_run, capsys):
     args = split_args(command)
     status = 0
@@ -85,12 +79,12 @@ def run(command, config_path, cli_run, capsys):
     # fmt: off
     # see: https://github.com/psf/black/issues/664
     with \
-        patch("sys.argv", args), \
+        patch("sys.argv", ['jrnl'] + args), \
         patch("jrnl.config.get_config_path", side_effect=lambda: config_path), \
         patch("jrnl.install.get_config_path", side_effect=lambda: config_path) \
     :
         try:
-            cli(args[1:])
+            cli(args)
         except SystemExit as e:
             status = e.code
     # fmt: on
@@ -113,10 +107,11 @@ def matches_std_output(regex, cli_run):
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
 
 
-@then(parse("the output should contain\n{text}"))
-@then(parse('the output should contain "{text}"'))
-def check_output_inline(text, cli_run):
-    assert text and text in cli_run["stdout"]
+@then(parse("the output should contain\n{output}"))
+@then(parse('the output should contain "{output}"'))
+@then('the output should contain "<output>"')
+def check_output_inline(output, cli_run):
+    assert output and output in cli_run["stdout"]
 
 
 @then(parse('the output should be "{expected_out}"'))
@@ -124,8 +119,9 @@ def check_output_inline(text, cli_run):
 def check_output(cli_run, expected_out):
     expected_out = expected_out.strip()
     actual_out = cli_run["stdout"].strip()
-    assert expected_out == actual_out, \
-        f"Output does not match.\nExpected:\n{expected_out}\n---end---\nActual:\n{actual_out}\n---end---\n"
+    assert (
+        expected_out == actual_out
+    ), f"Output does not match.\nExpected:\n{expected_out}\n---end---\nActual:\n{actual_out}\n---end---\n"
 
 
 @then("the output should contain pyproject.toml version")
@@ -138,4 +134,3 @@ def check_output_version_inline(cli_run, toml_version):
 def check_message(text, cli_run):
     out = cli_run["stderr"]
     assert text in out, [text, out]
-
