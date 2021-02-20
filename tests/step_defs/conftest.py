@@ -53,6 +53,9 @@ def read_journal(journal_name="default"):
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 def set_config(config_file, temp_dir, working_dir):
+    # Move into temp dir as cwd
+    os.chdir(temp_dir.name)
+
     # Copy the config file over
     config_source = os.path.join(working_dir, "data", "configs", config_file)
     config_dest = os.path.join(temp_dir.name, config_file)
@@ -61,7 +64,7 @@ def set_config(config_file, temp_dir, working_dir):
     # @todo make this only copy some journals over
     # Copy all of the journals over
     journal_source = os.path.join(working_dir, "data", "journals")
-    journal_dest = os.path.join(temp_dir.name, "journals")
+    journal_dest = os.path.join(temp_dir.name, "features", "journals")
     shutil.copytree(journal_source, journal_dest)
 
     # @todo get rid of this by using default config values
@@ -116,6 +119,15 @@ def check_output_inline(text, cli_run):
     assert text and text in cli_run["stdout"]
 
 
+@then(parse('the output should be "{expected_out}"'))
+@then(parse("the output should be\n{expected_out}"))
+def check_output(cli_run, expected_out):
+    expected_out = expected_out.strip()
+    actual_out = cli_run["stdout"].strip()
+    assert expected_out == actual_out, \
+        f"Output does not match.\nExpected:\n{expected_out}\n---end---\nActual:\n{actual_out}\n---end---\n"
+
+
 @then("the output should contain pyproject.toml version")
 def check_output_version_inline(cli_run, toml_version):
     out = cli_run["stdout"]
@@ -127,9 +139,3 @@ def check_message(text, cli_run):
     out = cli_run["stderr"]
     assert text in out, [text, out]
 
-
-@then(parse('the journal should contain "{text}"'))
-@then(parse('journal "{journal_name}" should contain "{text}"'))
-def check_journal_content(context, text, journal_name="default"):
-    journal = read_journal(context, journal_name)
-    assert text in journal, journal
