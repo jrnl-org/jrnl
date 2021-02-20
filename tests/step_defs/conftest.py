@@ -114,6 +114,17 @@ def check_output_inline(output, cli_run):
     assert output and output in cli_run["stdout"]
 
 
+@then(parse("the output should be\n{output}"))
+@then(parse('the output should be "{output}"'))
+@then('the output should be "<output>"')
+def test_check_output_inline(output, cli_run):
+    actual_out = cli_run["stdout"].strip()
+    output = output.strip()
+    assert (
+        output and output == actual_out
+    ), f"Output does not match.\nExpected:\n{output}\n---end---\nActual:\n{actual_out}\n---end---\n"
+
+
 @then(parse('the output should be "{expected_out}"'))
 @then(parse("the output should be\n{expected_out}"))
 def check_output(cli_run, expected_out):
