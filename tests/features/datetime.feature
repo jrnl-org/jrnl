@@ -67,3 +67,39 @@ Feature: Reading and writing to journal with custom date formats
         # | little_endian_dates.yaml | -on 'july' --short         | 10.07.2013 15:40 Life is good.   |
 
 
+    Scenario: Writing an entry at the prompt with custom date
+        Given we use the config "little_endian_dates.yaml"
+        When we run "jrnl" and enter "2013-05-10: I saw Elvis. He's alive."
+        Then we should get no error
+        When we run "jrnl -999"
+        Then the output should contain "10.05.2013 09:00 I saw Elvis."
+        And the output should contain "He's alive."
+
+
+    Scenario: Viewing today's entries does not print the entire journal
+        # see: https://github.com/jrnl-org/jrnl/issues/741
+        Given we use the config "simple.yaml"
+        When we run "jrnl -on today"
+        Then the output should not contain "Life is good"
+        And the output should not contain "But I'm better."
+
+
+    Scenario Outline: Create entry using day of the week as entry date.
+        Given we use the config "simple.yaml"
+        When we run "jrnl <command>"
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
+        Then the output should contain "<output>"
+        Then the output should contain the date "<date>"
+
+        Examples: Days of the week
+        | command                         | output               | date             |
+        | Monday: entry on a monday       | entry on a monday    | monday at 9am    |
+        | Tuesday: entry on a tuesday     | entry on a tuesday   | tuesday at 9am   |
+        | Wednesday: entry on a wednesday | entry on a wednesday | wednesday at 9am |
+        | Thursday: entry on a thursday   | entry on a thursday  | thursday at 9am  |
+        | Friday: entry on a friday       | entry on a friday    | friday at 9am    |
+        | Saturday: entry on a saturday   | entry on a saturday  | saturday at 9am  |
+        | Sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
+        | sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
+        | sUndAy: entry on a sunday       | entry on a sunday    | sunday at 9am    |

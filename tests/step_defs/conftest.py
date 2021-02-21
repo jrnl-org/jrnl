@@ -47,6 +47,16 @@ def toml_version(working_dir):
     return pyproject_contents["tool"]["poetry"]["version"]
 
 
+@fixture
+def command():
+    return ''
+
+
+@fixture
+def user_input():
+    return ''
+
+
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 @given('we use the config "<config_file>"', target_fixture="config_path")
@@ -77,7 +87,9 @@ def we_use_the_config(config_file, temp_dir, working_dir):
 
 @when(parse('we run "jrnl {command}"'))
 @when('we run "jrnl <command>"')
-def we_run(command, config_path, cli_run, capsys):
+@when('we run "jrnl"')
+@when(parse('we run "jrnl" and enter "{user_input}"'))
+def we_run(command, config_path, user_input, cli_run, capsys):
     args = split_args(command)
     status = 0
 
@@ -85,8 +97,8 @@ def we_run(command, config_path, cli_run, capsys):
     # see: https://github.com/psf/black/issues/664
     with \
         patch("sys.argv", ['jrnl'] + args), \
-        patch("jrnl.config.get_config_path", side_effect=lambda: config_path), \
-        patch("jrnl.install.get_config_path", side_effect=lambda: config_path) \
+        patch("sys.stdin.read", return_value=user_input) as mock_read, \
+        patch("jrnl.install.get_config_path", return_value=config_path) \
     :
         try:
             cli(args)
@@ -119,6 +131,13 @@ def output_should_contain(output, cli_run):
     assert output and output in cli_run["stdout"]
 
 
+@then(parse("the output should not contain\n{output}"))
+@then(parse('the output should not contain "{output}"'))
+@then('the output should not contain "<output>"')
+def output_should_contain(output, cli_run):
+    assert output not in cli_run["stdout"]
+
+
 @then(parse("the output should be\n{output}"))
 @then(parse('the output should be "{output}"'))
 @then('the output should be "<output>"')
@@ -128,6 +147,11 @@ def output_should_be(output, cli_run):
     assert (
         output and output == actual_out
     ), failed_msg('Output does not match.', output, actual_out)
+
+
+@then('the output should contain the date "<date>"')
+def output_should_contain(output, cli_run):
+    assert output and output in cli_run["stdout"]
 
 
 @then("the output should contain pyproject.toml version")
