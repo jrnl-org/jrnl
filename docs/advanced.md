@@ -123,7 +123,8 @@ journals:
     journal: ~/recipes.txt 
 ```
 
-The `work` journal is encrypted and prints to `json` by default. It's also edited using an existing instance of VSCode. Similarly, the `food` journal prints to markdown by default.
+The `work` journal is encrypted, prints to `json` by default, and is edited using an existing window of VSCode. Similarly, the `food` journal prints to markdown by default, but uses all the other defaults.
+
 !!! note
     Changing `encrypt` to a different value will not encrypt or decrypt your
     journal file, it merely says whether or not your journal
