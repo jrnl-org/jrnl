@@ -99,11 +99,30 @@ food: ~/my_recipes.txt
 ```
 
 Your `default` and your `food` journals won't be encrypted, however your
-`work` journal will! You can override all options that are present at
+`work` journal will!
+
+You can override all options that are present at
 the top level of `jrnl.yaml`, just make sure that at the very least
 you specify a `journal: ...` key that points to the journal file of
 that journal.
 
+Consider the following example configuration
+
+```yaml
+editor: vi -c startinsert 
+journals: 
+  default: ~/journal.txt 
+  work: 
+    journal: ~/work.txt 
+    encrypt: true 
+    display_format: json 
+    editor: code -rw 
+  food:
+    display_format: markdown 
+    journal: ~/recipes.txt 
+```
+
+The `work` journal is encrypted and prints to `json` by default. It's also edited using an existing instance of VSCode. Similarly, the `food` journal prints to markdown by default.
 !!! note
     Changing `encrypt` to a different value will not encrypt or decrypt your
     journal file, it merely says whether or not your journal
