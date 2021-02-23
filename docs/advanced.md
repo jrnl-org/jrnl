@@ -1,5 +1,6 @@
 <!-- Copyright (C) 2012-2021 jrnl contributors
      License: https://www.gnu.org/licenses/gpl-3.0.html -->
+
 # Advanced Usage
 
 ## Configuration File
@@ -19,29 +20,29 @@ and can be edited with a plain text editor.
     Backup your journal and config file before editing. Changes to the config file
     can have destructive effects on your journal!
 
-  - `journals`
+- `journals`
     paths to your journal files
-  - `editor`
+- `editor`
     if set, executes this command to launch an external editor for
     writing your entries, e.g. `vim`. Some editors require special
     options to work properly, see `FAQ <recipes>` for details.
-  - `encrypt`
+- `encrypt`
     if `true`, encrypts your journal using AES.
-  - `tagsymbols`
+- `tagsymbols`
     Symbols to be interpreted as tags. (See note below)
-  - `default_hour` and `default_minute`
+- `default_hour` and `default_minute`
     if you supply a date, such as `last thursday`, but no specific
     time, the entry will be created at this time
-  - `timeformat`
+- `timeformat`
     how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-  - `highlight`
+- `highlight`
     if `true`, tags will be highlighted in cyan.
-  - `linewrap`
+- `linewrap`
     controls the width of the output. Set to `false` if you don't want to wrap long lines.
-  - `colors`
+- `colors`
     dictionary that controls the colors used to display journal entries. It has four subkeys, which are: `body`, `date`, `tags`, and `title`. Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE`, and `NONE`. `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output). To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
-  - `display_format`
-    specifies formatter to use, formatters available are: 
+- `display_format`
+    specifies formatter to use, formatters available are:
     `boxed`, `fancy`, `json`, `markdown`, `md`, `tags`, `text`, `txt`, `xml`, or `yaml`.
 
 !!! note
