@@ -46,6 +46,10 @@ def toml_version(working_dir):
     pyproject_contents = toml.load(pyproject)
     return pyproject_contents["tool"]["poetry"]["version"]
 
+@fixture
+def password():
+    return ''
+
 
 @fixture
 def command():
@@ -55,7 +59,6 @@ def command():
 @fixture
 def user_input():
     return ''
-
 
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
@@ -85,11 +88,17 @@ def we_use_the_config(config_file, temp_dir, working_dir):
     return config_dest
 
 
+@given(parse('we use the password "{pw}" if prompted'), target_fixture="password")
+def use_password_forever(pw):
+    return pw
+
+
 @when(parse('we run "jrnl {command}"'))
 @when('we run "jrnl <command>"')
 @when('we run "jrnl"')
 @when(parse('we run "jrnl" and enter "{user_input}"'))
-def we_run(command, config_path, user_input, cli_run, capsys):
+@when(parse('we run "jrnl {command}" and enter\n{user_input}'))
+def we_run(command, config_path, user_input, cli_run, capsys, password):
     args = split_args(command)
     status = 0
 
@@ -97,7 +106,9 @@ def we_run(command, config_path, user_input, cli_run, capsys):
     # see: https://github.com/psf/black/issues/664
     with \
         patch("sys.argv", ['jrnl'] + args), \
-        patch("sys.stdin.read", return_value=user_input) as mock_read, \
+        patch("sys.stdin.read", side_effect=user_input.splitlines()) as mock_read, \
+        patch("builtins.input", side_effect=user_input.splitlines()) as mock_read, \
+        patch("getpass.getpass", side_effect=password.splitlines()) as mock_getpass, \
         patch("jrnl.install.get_config_path", return_value=config_path), \
         patch("jrnl.config.get_config_path", return_value=config_path) \
     : # @TODO: single point of truth for get_config_path (move from all calls from install to config)
