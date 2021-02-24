@@ -123,3 +123,9 @@ Feature: Reading and writing to journal with custom date formats
         | Sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
         | sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
         | sUn: entry on a sunday    | entry on a sunday    | sunday at 9am    |
+
+    Scenario: Journals with unreadable dates should still be loaded
+        Given we use the config "unreadabledates.yaml"
+        When we run "jrnl -2"
+        Then the output should contain "I've lost track of time."
+        And the output should contain "Time has no meaning."
