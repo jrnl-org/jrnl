@@ -104,6 +104,7 @@ Feature: Reading and writing to journal with custom date formats
         | sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
         | sUndAy: entry on a sunday       | entry on a sunday    | sunday at 9am    |
 
+
     Scenario Outline: Create entry using day of the week as entry date.
         Given we use the config "simple.yaml"
         When we run "jrnl <command>"
@@ -124,11 +125,13 @@ Feature: Reading and writing to journal with custom date formats
         | sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
         | sUn: entry on a sunday    | entry on a sunday    | sunday at 9am    |
 
+
     Scenario: Journals with unreadable dates should still be loaded
         Given we use the config "unreadabledates.yaml"
         When we run "jrnl -2"
         Then the output should contain "I've lost track of time."
         And the output should contain "Time has no meaning."
+
 
     Scenario: Journals with readable dates AND unreadable dates should still contain all data.
         Given we use the config "mostlyreadabledates.yaml"
@@ -138,16 +141,19 @@ Feature: Reading and writing to journal with custom date formats
             2019-07-18 14:23 The first entry
             2019-07-19 14:23 The second entry
 
+
     Scenario: Update near-valid dates after journal is edited
         Given we use the config "mostlyreadabledates.yaml"
         When we run "jrnl 2222-08-19: I have made it exactly one month into the future."
         When we run "jrnl -2"
         Then the output should contain "2019-07-19 14:23 The second entry"
 
+
     Scenario: Integers in square brackets should not be read as dates
         Given we use the config "brackets.yaml"
         When we run "jrnl -1"
         Then the output should contain "[1] line starting with 1"
+
 
     # broken still
     @skip
@@ -156,6 +162,7 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl -until 'feb 2013'"
         Then we should get no error
         And the output should contain "2013-01-17T18:37Z" in the local time
+
 
     Scenario: Loading entry with ambiguous time stamp in timezone-aware journal (like Dayone)
         #https://github.com/jrnl-org/jrnl/issues/153
