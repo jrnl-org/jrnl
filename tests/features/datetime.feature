@@ -143,3 +143,24 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl 2222-08-19: I have made it exactly one month into the future."
         When we run "jrnl -2"
         Then the output should contain "2019-07-19 14:23 The second entry"
+
+    Scenario: Integers in square brackets should not be read as dates
+        Given we use the config "brackets.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "[1] line starting with 1"
+
+    # broken still
+    @skip
+    Scenario: Dayone entries without timezone information are interpreted in current timezone
+        Given we use the config "dayone.yaml"
+        When we run "jrnl -until 'feb 2013'"
+        Then we should get no error
+        And the output should contain "2013-01-17T18:37Z" in the local time
+
+    Scenario: Loading entry with ambiguous time stamp in timezone-aware journal (like Dayone)
+        #https://github.com/jrnl-org/jrnl/issues/153
+        Given we use the config "bug153.yaml"
+        When we run "jrnl -1"
+        Then we should get no error
+        And the output should be
+            2013-10-27 03:27 Some text.
