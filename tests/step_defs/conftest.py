@@ -98,8 +98,9 @@ def we_run(command, config_path, user_input, cli_run, capsys):
     with \
         patch("sys.argv", ['jrnl'] + args), \
         patch("sys.stdin.read", return_value=user_input) as mock_read, \
-        patch("jrnl.install.get_config_path", return_value=config_path) \
-    :
+        patch("jrnl.install.get_config_path", return_value=config_path), \
+        patch("jrnl.config.get_config_path", return_value=config_path) \
+    : # @TODO: single point of truth for get_config_path (move from all calls from install to config)
         try:
             cli(args)
         except SystemExit as e:
