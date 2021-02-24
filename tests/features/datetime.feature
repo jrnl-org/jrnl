@@ -103,3 +103,23 @@ Feature: Reading and writing to journal with custom date formats
         | Sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
         | sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
         | sUndAy: entry on a sunday       | entry on a sunday    | sunday at 9am    |
+
+    Scenario Outline: Create entry using day of the week as entry date.
+        Given we use the config "simple.yaml"
+        When we run "jrnl <command>"
+        Then we should see the message "Entry added"
+        When we run "jrnl -1"
+        Then the output should contain "<output>"
+        Then the output should contain the date "<date>"
+
+        Examples: Days of the week
+        | command                   | output               | date             |
+        | Mon: entry on a monday    | entry on a monday    | monday at 9am    |
+        | Tue: entry on a tuesday   | entry on a tuesday   | tuesday at 9am   |
+        | Wed: entry on a wednesday | entry on a wednesday | wednesday at 9am |
+        | Thu: entry on a thursday  | entry on a thursday  | thursday at 9am  |
+        | Fri: entry on a friday    | entry on a friday    | friday at 9am    |
+        | Sat: entry on a saturday  | entry on a saturday  | saturday at 9am  |
+        | Sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
+        | sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
+        | sUn: entry on a sunday    | entry on a sunday    | sunday at 9am    |
