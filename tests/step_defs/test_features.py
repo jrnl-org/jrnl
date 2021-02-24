@@ -3,7 +3,7 @@ from pytest_bdd import scenarios
 scenarios("../features/build.feature")
 scenarios("../features/core.feature")
 scenarios("../features/datetime.feature")
-# scenarios("../features/delete.feature")
+scenarios("../features/delete.feature")
 # scenarios("../features/encrypt.feature")
 # scenarios("../features/file_storage.feature")
 # scenarios("../features/format.feature")
