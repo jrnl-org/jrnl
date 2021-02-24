@@ -137,3 +137,9 @@ Feature: Reading and writing to journal with custom date formats
             2019-07-01 14:23 The third entry
             2019-07-18 14:23 The first entry
             2019-07-19 14:23 The second entry
+
+    Scenario: Update near-valid dates after journal is edited
+        Given we use the config "mostlyreadabledates.yaml"
+        When we run "jrnl 2222-08-19: I have made it exactly one month into the future."
+        When we run "jrnl -2"
+        Then the output should contain "2019-07-19 14:23 The second entry"
