@@ -129,3 +129,11 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl -2"
         Then the output should contain "I've lost track of time."
         And the output should contain "Time has no meaning."
+
+    Scenario: Journals with readable dates AND unreadable dates should still contain all data.
+        Given we use the config "mostlyreadabledates.yaml"
+        When we run "jrnl --short"
+        Then the output should be
+            2019-07-01 14:23 The third entry
+            2019-07-18 14:23 The first entry
+            2019-07-19 14:23 The second entry
