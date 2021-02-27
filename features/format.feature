@@ -1,16 +1,30 @@
 Feature: Custom formats
 
-    Scenario: Short printing via --format flag
-        Given We use the config "pretty.yaml"
+    Scenario Outline: Short printing via --format flag
+        Given We use the config "<config>.yaml"
+        And we use the password "test" if prompted
         When we run "jrnl --format short -3"
         Then we should get no error 
-        And the output should be pretty printed
-    
-    Scenario: Pretty Printing aka the Default 
-        Given We use the config "pretty.yaml"
+        
+        Examples: configs
+        |   config          |
+        |   basic_onefile   |
+        |   basic_encrypted |
+        |   basic_folder    |
+        |   basic_dayone    |
+
+    Scenario Outline: Pretty Printing aka the Default 
+        Given We use the config "<config>.yaml"
+        And we use the password "test" if prompted
         When we run "jrnl --format pretty -3"
         Then we should get no error
-        And the output should be pretty printed
+        
+        Examples: configs
+        |   config          |
+        |   basic_onefile   |
+        |   basic_encrypted |
+        |   basic_folder    |
+        |   basic_dayone    |
 
     Scenario Outline: JSON format
         Given we use the config "<config>.yaml"

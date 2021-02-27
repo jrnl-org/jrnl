@@ -430,7 +430,6 @@ def run(context, command, text=""):
             patch("sys.stdin.read", side_effect=lambda: text), \
             patch("jrnl.time.parse", side_effect=_mock_time_parse(context)), \
             patch("jrnl.config.get_config_path", side_effect=lambda: context.config_path), \
-            patch("jrnl.install.load_or_install_jrnl",wraps=jrnl.install.load_or_install_jrnl), \
             patch("jrnl.install.get_config_path", side_effect=lambda: context.config_path) \
         :
             context.editor = mock_editor

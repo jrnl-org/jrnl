@@ -1,6 +1,7 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from argparse import Namespace
 import logging
 import sys
 
@@ -316,22 +317,23 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 
 def _display_search_results(args, journal, **kwargs):
-    if args.short:
+    if args.short or args.export == "short":
         print(journal.pprint(short=True))
+
+    elif args.export == "pretty":
+        print(journal.pprint())
 
     elif args.tags:
         print(plugins.get_exporter("tags").export(journal))
 
     elif args.export:
         _export_journal(args, journal)
+
     elif kwargs["config"].get("display_format"):
         exporter = plugins.get_exporter(kwargs["config"]["display_format"])
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
-
-
-from argparse import Namespace
 
 
 def _export_journal(args: Namespace, journal: Journal):
@@ -344,10 +346,7 @@ def _export_journal(args: Namespace, journal: Journal):
     :param journal: journal under use
     :type journal: Journal
     """
-    if args.export == "pretty":
-        print(journal.pprint(short=False))
-    elif args.export == "short":
-        print(journal.pprint(short=True))
-    else:
-        exporter = plugins.get_exporter(args.export)
-        print(exporter.export(journal, args.filename))
+    # There are no exporter 'plugins' for pretty and short. We shouldn't expect this to be called for those two export formats.
+    assert args.export and args.export not in ("pretty", "short")
+    exporter = plugins.get_exporter(args.export)
+    print(exporter.export(journal, args.filename))

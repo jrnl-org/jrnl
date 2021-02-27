@@ -8,48 +8,8 @@ import shutil
 import random
 import string
 from xml.etree import ElementTree
-from colorama import Fore, Style
 from behave import given
 from behave import then
-import colorama
-
-
-def style_text(to_bold: bool, text_color: Fore, text_to_print: str):
-    """Generate colorized and styled text for expected output. Its purpose is the same as Entry.colorize
-
-    :param to_bold: Flag whether the text should be bolded
-    :type to_bold: bool
-    :param text_color: Valid colorama.Fore color for the text
-    :type text_color: colorama.Fore
-    :param text_to_print: Message contents
-    :type text_to_print: str
-    :return: Styled and colored output
-    :rtype: str
-    """
-    if to_bold:
-        text_style = Style.BRIGHT
-    else:
-        text_style = Style.NORMAL
-    text_color = getattr(colorama.Fore, text_color.upper(), None)
-    return text_style + text_color + text_to_print + Style.RESET_ALL
-
-
-@then("the output should be pretty printed")
-def check_export_pretty(context):
-    out = context.stdout_capture.getvalue()
-    lines = out.splitlines()
-
-    # As per the configuration,
-    expected_colorized_title = (
-        style_text(
-            True, context.jrnl_config["colors"]["date"].upper(), "2013-06-09 15:39"
-        )
-        + " "
-        + style_text(
-            True, context.jrnl_config["colors"]["title"].upper(), "My first entry."
-        )
-    )
-    assert lines[0] == expected_colorized_title
 
 
 @then("the output should be parsable as json")
