@@ -1,21 +1,17 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.7.1](https://pypi.org/project/jrnl/v2.7.1/) (2021-02-27)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1-beta...v2.7.1)
+
+**Fixed bugs:**
+
+- Make journal selection behavior more consistent when there's a colon with no date [\#1164](https://github.com/jrnl-org/jrnl/pull/1164) ([wren](https://github.com/wren))
 
 **Documentation:**
 
 - Update documentation about journal-level config values [\#1196](https://github.com/jrnl-org/jrnl/issues/1196)
 - update per-journal config documentation [\#1199](https://github.com/jrnl-org/jrnl/pull/1199) ([sriniv27](https://github.com/sriniv27))
-
-## [v2.7.1-beta](https://pypi.org/project/jrnl/v2.7.1-beta/) (2021-02-20)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7...v2.7.1-beta)
-
-**Fixed bugs:**
-
-- Make journal selection behavior more consistent when there's a colon with no date [\#1164](https://github.com/jrnl-org/jrnl/pull/1164) ([wren](https://github.com/wren))
 
 **Packaging:**
 
