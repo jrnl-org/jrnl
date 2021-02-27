@@ -60,6 +60,7 @@ def command():
 def user_input():
     return ''
 
+
 # ----- STEPS ----- #
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 @given('we use the config "<config_file>"', target_fixture="config_path")
@@ -106,8 +107,8 @@ def we_run(command, config_path, user_input, cli_run, capsys, password):
     # see: https://github.com/psf/black/issues/664
     with \
         patch("sys.argv", ['jrnl'] + args), \
-        patch("sys.stdin.read", side_effect=user_input.splitlines()) as mock_read, \
-        patch("builtins.input", side_effect=user_input.splitlines()) as mock_read, \
+        patch("sys.stdin.read", side_effect=user_input.splitlines()) as mock_stdin, \
+        patch("builtins.input", side_effect=user_input.splitlines()) as mock_input, \
         patch("getpass.getpass", side_effect=password.splitlines()) as mock_getpass, \
         patch("jrnl.install.get_config_path", return_value=config_path), \
         patch("jrnl.config.get_config_path", return_value=config_path) \
@@ -118,10 +119,16 @@ def we_run(command, config_path, user_input, cli_run, capsys, password):
             status = e.code
     # fmt: on
 
-    cli_run["status"] = status
     captured = capsys.readouterr()
+
+    cli_run["status"] = status
     cli_run["stdout"] = captured.out
     cli_run["stderr"] = captured.err
+    cli_run["mocks"] = {
+        "stdin": mock_stdin,
+        "input": mock_input,
+        "getpass": mock_getpass,
+    }
 
 
 @then("we should get no error")
