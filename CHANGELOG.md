@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1-beta...HEAD)
+
+**Documentation:**
+
+- Update documentation about journal-level config values [\#1196](https://github.com/jrnl-org/jrnl/issues/1196)
+- update per-journal config documentation [\#1199](https://github.com/jrnl-org/jrnl/pull/1199) ([sriniv27](https://github.com/sriniv27))
+
 ## [v2.7.1-beta](https://pypi.org/project/jrnl/v2.7.1-beta/) (2021-02-20)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7...v2.7.1-beta)
