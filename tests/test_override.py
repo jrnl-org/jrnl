@@ -21,13 +21,13 @@ def minimal_config():
 
 
 def test_apply_override(minimal_config):
-    overrides = [{"editor": "nano"}]
+    overrides = [["editor", "nano"]]
     apply_overrides(overrides, minimal_config)
     assert minimal_config["editor"] == "nano"
 
 
 def test_override_dot_notation(minimal_config):
-    overrides = [{"colors.body": "blue"}]
+    overrides = [["colors.body", "blue"]]
 
     cfg = apply_overrides(overrides=overrides, base_config=minimal_config)
     assert cfg["colors"] == {"body": "blue", "date": "green"}
@@ -35,9 +35,9 @@ def test_override_dot_notation(minimal_config):
 
 def test_multiple_overrides(minimal_config):
     overrides = [
-        {"colors.title": "magenta"},
-        {"editor": "nano"},
-        {"journals.burner": "/tmp/journals/burner.jrnl"},
+        ["colors.title", "magenta"],
+        ["editor", "nano"],
+        ["journals.burner", "/tmp/journals/burner.jrnl"],
     ]  # as returned by parse_args, saved in parser.config_override
 
     cfg = apply_overrides(overrides, minimal_config)

@@ -19,6 +19,29 @@ XDG_RESOURCE = "jrnl"
 DEFAULT_JOURNAL_NAME = "journal.txt"
 DEFAULT_JOURNAL_KEY = "default"
 
+YAML_SEPARATOR = ": "
+
+
+def deserialize_config_args(input: list) -> dict:
+
+    """
+
+    Convert a two-element list of configuration key-value pair into a flat dict
+
+    :param input: list of configuration keys in dot-notation and their respective values.
+    :type input: list
+    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :rtype: dict
+    """
+
+    assert len(input) == 2
+
+    # yaml compatible strings are of the form Key:Value
+    yamlstr = YAML_SEPARATOR.join(input)
+    runtime_modifications = yaml.load(yamlstr, Loader=yaml.FullLoader)
+
+    return runtime_modifications
+
 
 def save_config(config):
     config["version"] = __version__

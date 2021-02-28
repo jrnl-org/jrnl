@@ -3,7 +3,7 @@ import shlex
 import pytest
 
 from jrnl.args import parse_args
-from jrnl.args import deserialize_config_args
+from jrnl.config import deserialize_config_args
 
 
 def cli_as_dict(str):
@@ -210,12 +210,12 @@ def test_version_alone():
 def test_editor_override():
 
     parsed_args = cli_as_dict('--config-override editor "nano"')
-    assert parsed_args == expected_args(config_override=[{"editor": "nano"}])
+    assert parsed_args == expected_args(config_override=[["editor", "nano"]])
 
 
 def test_color_override():
     assert cli_as_dict("--config-override colors.body blue") == expected_args(
-        config_override=[{"colors.body": "blue"}]
+        config_override=[["colors.body", "blue"]]
     )
 
 
@@ -225,9 +225,9 @@ def test_multiple_overrides():
     )
     assert parsed_args == expected_args(
         config_override=[
-            {"colors.title": "green"},
-            {"editor": "nano"},
-            {"journal.scratchpad": "/tmp/scratchpad"},
+            ["colors.title", "green"],
+            ["editor", "nano"],
+            ["journal.scratchpad", "/tmp/scratchpad"],
         ]
     )
 

@@ -4,8 +4,6 @@
 import argparse
 import re
 import textwrap
-import yaml
-from yaml.loader import FullLoader
 
 from .commands import postconfig_decrypt
 from .commands import postconfig_encrypt
@@ -17,39 +15,6 @@ from .output import deprecated_cmd
 from .plugins import EXPORT_FORMATS
 from .plugins import IMPORT_FORMATS
 from .plugins import util
-
-YAML_SEPARATOR = ": "
-
-
-def deserialize_config_args(input: list) -> dict:
-
-    """
-
-    Convert a two-element list of configuration key-value pair into a flat dict
-
-    :param input: list of configuration keys in dot-notation and their respective values.
-    :type input: list
-    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
-    :rtype: dict
-    """
-
-    assert len(input) == 2
-
-    # yaml compatible strings are of the form Key:Value
-    yamlstr = YAML_SEPARATOR.join(input)
-    runtime_modifications = yaml.load(yamlstr, Loader=FullLoader)
-
-    return runtime_modifications
-
-
-class ConfigurationAction(argparse.Action):
-    def __init__(self, **kwargs) -> None:
-        super().__init__(**kwargs)
-
-    def __call__(self, parser, namespace, values, option_strings=None) -> None:
-        cfg_overrides = getattr(namespace, self.dest, [])
-        cfg_overrides.append(deserialize_config_args(values))
-        setattr(namespace, self.dest, cfg_overrides)
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):
@@ -356,7 +321,7 @@ def parse_args(args=[]):
     config_overrides.add_argument(
         "--config-override",
         dest="config_override",
-        action=ConfigurationAction,
+        action="append",
         type=str,
         nargs=2,
         default=[],
