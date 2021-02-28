@@ -1,6 +1,12 @@
 import pytest
 
-from jrnl.override import apply_overrides, _recursively_apply, _get_config_node
+from jrnl.override import (
+    apply_overrides,
+    _recursively_apply,
+    _get_config_node,
+    _get_key_and_value_from_pair,
+    _convert_dots_to_list,
+)
 
 
 @pytest.fixture()
@@ -53,17 +59,11 @@ def test_get_config_node(minimal_config):
     assert _get_config_node(minimal_config, "display_format") == None
 
 
-from jrnl.override import _get_key_and_value_from_pair
-
-
 def test_get_kv_from_pair():
     pair = {"ab.cde": "fgh"}
     k, v = _get_key_and_value_from_pair(pair)
     assert k == "ab.cde"
     assert v == "fgh"
-
-
-from jrnl.override import _convert_dots_to_list
 
 
 class TestDotNotationToList:
