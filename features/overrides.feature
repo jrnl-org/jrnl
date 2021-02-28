@@ -83,7 +83,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         Given we use the config "basic_dayone.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --config-override journals.temp features/journals/simple.journal temp Sep 06 1969: @say Ni"
-       Then we should get no error
+        Then we should get no error
         And we should see the message "Entry added"
         When we run "jrnl --config-override journals.temp features/journals/simple.journal temp -3" 
         Then the output should be 

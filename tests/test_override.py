@@ -11,7 +11,7 @@ def minimal_config():
         "editor": "vim",
         "journals": {"default": "/tmp/journals/journal.jrnl"},
     }
-    yield cfg
+    return cfg
 
 
 def test_apply_override(minimal_config):
@@ -21,9 +21,9 @@ def test_apply_override(minimal_config):
 
 
 def test_override_dot_notation(minimal_config):
-    cfg = minimal_config.copy()
     overrides = [{"colors.body": "blue"}]
-    cfg = apply_overrides(overrides=overrides, base_config=cfg)
+
+    cfg = apply_overrides(overrides=overrides, base_config=minimal_config)
     assert cfg["colors"] == {"body": "blue", "date": "green"}
 
 
@@ -34,7 +34,7 @@ def test_multiple_overrides(minimal_config):
         {"journals.burner": "/tmp/journals/burner.jrnl"},
     ]  # as returned by parse_args, saved in parser.config_override
 
-    cfg = apply_overrides(overrides, minimal_config.copy())
+    cfg = apply_overrides(overrides, minimal_config)
     assert cfg["editor"] == "nano"
     assert cfg["colors"]["title"] == "magenta"
     assert "burner" in cfg["journals"]

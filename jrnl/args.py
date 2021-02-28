@@ -376,5 +376,4 @@ def parse_args(args=[]):
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
 
-    parsed_args = parser.parse_intermixed_args(args)
-    return parsed_args
+    return parser.parse_intermixed_args(args)
