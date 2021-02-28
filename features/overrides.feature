@@ -13,7 +13,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         Then the config should have "highlight" set to "bool:false"
         And no editor should have been called
         
-        @skip_win
         Scenario: Override configured linewrap with a value of 23
         Given we use the config "simple.yaml"
         And we use the password "test" if prompted
@@ -42,7 +41,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         When we run "jrnl -1 --config-override colors.body blue"
         Then the config should have "colors.body" set to "blue"
 
-        @skip_win 
         Scenario: Apply multiple config overrides 
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted 
@@ -51,7 +49,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And the config should have "editor" set to "nano"
 
 
-        @skip_win
         Scenario Outline: Override configured editor
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted 
