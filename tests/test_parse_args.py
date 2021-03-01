@@ -3,7 +3,7 @@ import shlex
 import pytest
 
 from jrnl.args import parse_args
-from jrnl.config import deserialize_config_args
+from jrnl.config import make_yaml_valid_dict
 
 
 def cli_as_dict(str):
@@ -273,20 +273,20 @@ class TestDeserialization:
     )
     def test_deserialize_multiword_strings(self, input_str):
 
-        runtime_config = deserialize_config_args(input_str)
+        runtime_config = make_yaml_valid_dict(input_str)
         assert runtime_config.__class__ == dict
         assert input_str[0] in runtime_config.keys()
         assert runtime_config[input_str[0]] == input_str[1]
 
     def test_deserialize_multiple_datatypes(self):
-        cfg = deserialize_config_args(["linewrap", "23"])
+        cfg = make_yaml_valid_dict(["linewrap", "23"])
         assert cfg["linewrap"] == 23
 
-        cfg = deserialize_config_args(["encrypt", "false"])
+        cfg = make_yaml_valid_dict(["encrypt", "false"])
         assert cfg["encrypt"] == False
 
-        cfg = deserialize_config_args(["editor", "vi -c startinsert"])
+        cfg = make_yaml_valid_dict(["editor", "vi -c startinsert"])
         assert cfg["editor"] == "vi -c startinsert"
 
-        cfg = deserialize_config_args(["highlight", "true"])
+        cfg = make_yaml_valid_dict(["highlight", "true"])
         assert cfg["highlight"] == True

@@ -22,11 +22,14 @@ DEFAULT_JOURNAL_KEY = "default"
 YAML_SEPARATOR = ": "
 
 
-def deserialize_config_args(input: list) -> dict:
+def make_yaml_valid_dict(input: list) -> dict:
 
     """
 
-    Convert a two-element list of configuration key-value pair into a flat dict
+    Convert a two-element list of configuration key-value pair into a flat dict.
+
+    The dict is created through the yaml loader, with the assumption that
+    "input[0]: input[1]" is valid yaml.
 
     :param input: list of configuration keys in dot-notation and their respective values.
     :type input: list

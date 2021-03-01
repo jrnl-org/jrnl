@@ -1,4 +1,4 @@
-from .config import update_config, deserialize_config_args
+from .config import update_config, make_yaml_valid_dict
 
 # import logging
 def apply_overrides(overrides: list, base_config: dict) -> dict:
@@ -14,7 +14,7 @@ def apply_overrides(overrides: list, base_config: dict) -> dict:
     cfg_with_overrides = base_config.copy()
     for pairs in overrides:
 
-        pairs = deserialize_config_args(pairs)
+        pairs = make_yaml_valid_dict(pairs)
         key_as_dots, override_value = _get_key_and_value_from_pair(pairs)
         keys = _convert_dots_to_list(key_as_dots)
         cfg_with_overrides = _recursively_apply(
