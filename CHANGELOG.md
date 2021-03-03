@@ -1,5 +1,22 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1...HEAD)
+
+**Implemented enhancements:**
+
+- Add `--config-override` feature [\#1169](https://github.com/jrnl-org/jrnl/pull/1169) ([sriniv27](https://github.com/sriniv27))
+
+**Fixed bugs:**
+
+- bash: syntax error near unexpected token `newline' at input \>\_\> [\#1208](https://github.com/jrnl-org/jrnl/issues/1208)
+
+**Packaging:**
+
+- Bump keyring from 22.0.1 to 22.3.0 [\#1210](https://github.com/jrnl-org/jrnl/pull/1210) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump asteval from 0.9.22 to 0.9.23 [\#1209](https://github.com/jrnl-org/jrnl/pull/1209) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.7.1](https://pypi.org/project/jrnl/v2.7.1/) (2021-02-27)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1-beta...v2.7.1)
