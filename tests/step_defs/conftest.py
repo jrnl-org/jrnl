@@ -1,7 +1,12 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import ast
 import os
+from collections import defaultdict
+from keyring import backend
+from keyring import set_keyring
+from keyring import errors
 import re
 import shutil
 import tempfile
@@ -16,12 +21,73 @@ import toml
 
 from jrnl import __version__
 from jrnl.cli import cli
+from jrnl.config import load_config
 from jrnl.os_compat import split_args
+
+
+class TestKeyring(backend.KeyringBackend):
+    """A test keyring that just stores its values in a hash"""
+
+    priority = 1
+    keys = defaultdict(dict)
+
+    def set_password(self, servicename, username, password):
+        self.keys[servicename][username] = password
+
+    def get_password(self, servicename, username):
+        return self.keys[servicename].get(username)
+
+    def delete_password(self, servicename, username):
+        self.keys[servicename][username] = None
+
+
+class NoKeyring(backend.KeyringBackend):
+    """A keyring that simulated an environment with no keyring backend."""
+
+    priority = 2
+    keys = defaultdict(dict)
+
+    def set_password(self, servicename, username, password):
+        raise errors.NoKeyringError
+
+    def get_password(self, servicename, username):
+        raise errors.NoKeyringError
+
+    def delete_password(self, servicename, username):
+        raise errors.NoKeyringError
+
+
+class FailedKeyring(backend.KeyringBackend):
+    """
+    A keyring that cannot be retrieved.
+    """
+
+    priority = 2
+
+    def set_password(self, servicename, username, password):
+        raise errors.KeyringError
+
+    def get_password(self, servicename, username):
+        raise errors.KeyringError
+
+    def delete_password(self, servicename, username):
+        raise errors.KeyringError
 
 
 # ----- UTILS ----- #
 def failed_msg(msg, expected, actual):
     return f"{msg}\nExpected:\n{expected}\n---end---\nActual:\n{actual}\n---end---\n"
+
+
+def read_value_from_string(string):
+    if string[0] == "{":
+        # Handle value being a dictionary
+        return ast.literal_eval(string)
+
+    # Takes strings like "bool:true" or "int:32" and coerces them into proper type
+    t, value = string.split(":")
+    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
+    return value
 
 
 # ----- FIXTURES ----- #
@@ -46,22 +112,38 @@ def toml_version(working_dir):
     pyproject_contents = toml.load(pyproject)
     return pyproject_contents["tool"]["poetry"]["version"]
 
+
 @fixture
 def password():
-    return ''
+    return ""
 
 
 @fixture
 def command():
-    return ''
+    return ""
 
 
 @fixture
 def user_input():
-    return ''
+    return ""
+
+
+@fixture
+def keyring():
+    set_keyring(NoKeyring())
+
+
+@fixture
+def config_data(config_path):
+    return load_config(config_path)
 
 
 # ----- STEPS ----- #
+@given("we have a keyring", target_fixture="keyring")
+def we_have_keyring():
+    set_keyring(FailedKeyring())
+
+
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 @given('we use the config "<config_file>"', target_fixture="config_path")
 def we_use_the_config(config_file, temp_dir, working_dir):
@@ -99,9 +181,12 @@ def use_password_forever(pw):
 @when('we run "jrnl"')
 @when(parse('we run "jrnl" and enter "{user_input}"'))
 @when(parse('we run "jrnl {command}" and enter\n{user_input}'))
-def we_run(command, config_path, user_input, cli_run, capsys, password):
+def we_run(command, config_path, user_input, cli_run, capsys, password, keyring):
     args = split_args(command)
     status = 0
+
+    if not password and user_input:
+        password = user_input
 
     # fmt: off
     # see: https://github.com/psf/black/issues/664
@@ -163,9 +248,9 @@ def output_should_not_contain(output, cli_run):
 def output_should_be(output, cli_run):
     actual_out = cli_run["stdout"].strip()
     output = output.strip()
-    assert (
-        output and output == actual_out
-    ), failed_msg('Output does not match.', output, actual_out)
+    assert output and output == actual_out, failed_msg(
+        "Output does not match.", output, actual_out
+    )
 
 
 @then('the output should contain the date "<date>"')
@@ -183,3 +268,17 @@ def output_should_contain_version(cli_run, toml_version):
 def should_see_the_message(text, cli_run):
     out = cli_run["stderr"]
     assert text in out, [text, out]
+
+
+@then(parse('the config should have "{key}" set to'))
+@then(parse('the config should have "{key}" set to "{value}"'))
+@then(parse('the config for journal "{journal}" should have "{key}" set to "{value}"'))
+def config_var(config_data, key, value="", journal=None):
+    value = read_value_from_string(value)
+
+    configuration = config_data
+    if journal:
+        configuration = configuration["journals"][journal]
+
+    assert key in configuration
+    assert configuration[key] == value
