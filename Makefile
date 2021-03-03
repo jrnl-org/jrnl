@@ -18,7 +18,7 @@ format: ## Format files to match style
 
 lint: ## Check style with various tools
 	poetry check
-	poetry run pyflakes .
+	poetry run pyflakes jrnl tests
 	poetry run black --check --diff .
 
 test: lint ## Run unit tests and behave tests

@@ -153,7 +153,7 @@ def output_should_contain(output, cli_run):
 @then(parse("the output should not contain\n{output}"))
 @then(parse('the output should not contain "{output}"'))
 @then('the output should not contain "<output>"')
-def output_should_contain(output, cli_run):
+def output_should_not_contain(output, cli_run):
     assert output not in cli_run["stdout"]
 
 
@@ -169,7 +169,7 @@ def output_should_be(output, cli_run):
 
 
 @then('the output should contain the date "<date>"')
-def output_should_contain(output, cli_run):
+def output_should_contain_date(output, cli_run):
     assert output and output in cli_run["stdout"]
 
 
