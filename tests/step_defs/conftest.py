@@ -134,14 +134,27 @@ def keyring():
 
 
 @fixture
+def keyring_type():
+    return "default"
+
+
+@fixture
 def config_data(config_path):
     return load_config(config_path)
 
 
+@fixture
+def journal_name():
+    return None
+
 # ----- STEPS ----- #
 @given("we have a keyring", target_fixture="keyring")
-def we_have_keyring():
-    set_keyring(FailedKeyring())
+@given(parse("we have a {keyring_type} keyring"), target_fixture="keyring")
+def we_have_type_of_keyring(keyring_type):
+    if keyring_type == "failed":
+        set_keyring(FailedKeyring())
+    else:
+        set_keyring(TestKeyring())
 
 
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
@@ -270,15 +283,26 @@ def should_see_the_message(text, cli_run):
     assert text in out, [text, out]
 
 
-@then(parse('the config should have "{key}" set to'))
+@then(parse('the config should have "{key}" set to\n{value}'))
 @then(parse('the config should have "{key}" set to "{value}"'))
-@then(parse('the config for journal "{journal}" should have "{key}" set to "{value}"'))
-def config_var(config_data, key, value="", journal=None):
+@then(parse('the config for journal "{journal_name}" should have "{key}" set to "{value}"'))
+def config_var(config_data, key, value, journal_name):
     value = read_value_from_string(value)
 
     configuration = config_data
-    if journal:
-        configuration = configuration["journals"][journal]
+    if journal_name:
+        configuration = configuration["journals"][journal_name]
 
     assert key in configuration
     assert configuration[key] == value
+
+
+@then("we should be prompted for a password")
+def password_was_called(cli_run):
+    assert cli_run["mocks"]["getpass"].called
+
+
+@then("we should not be prompted for a password")
+def password_was_not_called(cli_run):
+    assert not cli_run["mocks"]["getpass"].called
+
