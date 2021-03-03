@@ -334,19 +334,3 @@ def _display_search_results(args, journal, **kwargs):
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
-
-
-def _export_journal(args: Namespace, journal: Journal):
-    """Export journal using supplied export format
-    Export formats "short" and "pretty" are shorthands for pre-configured
-    jrnl behavior, hence those export formats bypass the export plugins.
-
-    :param args: parsed arguments
-    :type args: Namespace
-    :param journal: journal under use
-    :type journal: Journal
-    """
-    # There are no exporter 'plugins' for pretty and short. We shouldn't expect this to be called for those two export formats.
-    assert args.export and args.export not in ("pretty", "short")
-    exporter = plugins.get_exporter(args.export)
-    print(exporter.export(journal, args.filename))
