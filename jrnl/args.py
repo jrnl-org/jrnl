@@ -314,6 +314,29 @@ def parse_args(args=[]):
         help=argparse.SUPPRESS,
     )
 
+    config_overrides = parser.add_argument_group(
+        "Config file override",
+        textwrap.dedent("Apply a one-off override of the config file option"),
+    )
+    config_overrides.add_argument(
+        "--config-override",
+        dest="config_override",
+        action="append",
+        type=str,
+        nargs=2,
+        default=[],
+        metavar="CONFIG_KV_PAIR",
+        help="""
+        Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
+
+        Examples: \n
+        \t - Use a different editor for this jrnl entry, call: \n
+            \t jrnl --config-override editor: "nano" \n
+        \t - Override color selections\n
+           \t jrnl --config-override colors.body blue --config-override colors.title green
+        """,
+    )
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]

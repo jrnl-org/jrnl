@@ -3,6 +3,7 @@
 
 import ast
 from collections import defaultdict
+from jrnl.args import parse_args
 import os
 from pathlib import Path
 import re
@@ -13,8 +14,11 @@ from behave import given
 from behave import then
 from behave import when
 import keyring
+
 import toml
 import yaml
+from yaml.loader import FullLoader
+
 
 import jrnl.time
 from jrnl import Journal
@@ -23,6 +27,7 @@ from jrnl import plugins
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
+from jrnl.override import apply_overrides, _recursively_apply
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -114,8 +119,15 @@ def read_value_from_string(string):
         return ast.literal_eval(string)
 
     # Takes strings like "bool:true" or "int:32" and coerces them into proper type
-    t, value = string.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
+    string_parts = string.split(":")
+    if len(string_parts) > 1:
+        type = string_parts[0]
+        value = string_parts[1:][0]  # rest of the text
+        value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[type](
+            value
+        )
+    else:
+        value = string_parts[0]
     return value
 
 
@@ -315,6 +327,7 @@ def run_with_input(context, command, inputs=""):
         text = iter([inputs])
 
     args = split_args(command)[1:]
+    context.args = args
 
     def _mock_editor(command):
         context.editor_command = command
@@ -397,8 +410,13 @@ def run(context, command, text=""):
     if "cache_dir" in context and context.cache_dir is not None:
         cache_dir = os.path.join("features", "cache", context.cache_dir)
         command = command.format(cache_dir=cache_dir)
+    if "config_path" in context and context.config_path is not None:
+        with open(context.config_path, "r") as f:
+            cfg = yaml.load(f, Loader=FullLoader)
+        context.jrnl_config = cfg
 
     args = split_args(command)
+    context.args = args[1:]
 
     def _mock_editor(command):
         context.editor_command = command
@@ -604,14 +622,29 @@ def journal_exists(context, journal_name="default"):
 @then('the config should have "{key}" set to "{value}"')
 @then('the config for journal "{journal}" should have "{key}" set to "{value}"')
 def config_var(context, key, value="", journal=None):
+    key_as_vec = key.split(".")
+
+    if "args" in context:
+        parsed = parse_args(context.args)
+        overrides = parsed.config_override
     value = read_value_from_string(value or context.text or "")
     configuration = load_config(context.config_path)
 
     if journal:
         configuration = configuration["journals"][journal]
 
-    assert key in configuration
-    assert configuration[key] == value
+    if overrides:
+        with patch.object(
+            jrnl.override, "_recursively_apply", wraps=_recursively_apply
+        ) as spy_recurse:
+            configuration = apply_overrides(overrides, configuration)
+            runtime_cfg = spy_recurse.call_args_list[0][0][0]
+    else:
+        runtime_cfg = configuration
+        # extract the value of the desired key from the configuration after overrides have been applied
+    for k in key_as_vec:
+        runtime_cfg = runtime_cfg["%s" % k]
+    assert runtime_cfg == value
 
 
 @then('the config for journal "{journal}" should not have "{key}" set')

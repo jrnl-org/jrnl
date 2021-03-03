@@ -16,6 +16,7 @@ from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from .exception import UserAbort
 from . import time
+from .override import apply_overrides
 
 
 def run(args):
@@ -37,6 +38,12 @@ def run(args):
     try:
         config = install.load_or_install_jrnl()
         original_config = config.copy()
+
+        # Apply config overrides
+        overrides = args.config_override
+        if overrides:
+            config = apply_overrides(overrides, config)
+
         args = get_journal_name(args, config)
         config = scope_config(config, args.journal_name)
     except UserAbort as err:

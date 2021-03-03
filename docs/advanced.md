@@ -62,6 +62,29 @@ and can be edited with a plain text editor.
   Or use the built-in prompt or an external editor to compose your
   entries.
 
+### Modifying Configurations from the Command line 
+
+You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot-notation and `CONFIG_VALUE` is the (valid) desired override value.
+
+You can specify multiple overrides as multiple calls to `--config-override`.
+!!! note
+    These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing. 
+
+#### Examples: 
+
+``` sh
+#Create an entry using the `stdin` prompt, for rapid logging
+jrnl --config-override editor ""
+
+#Populate a project's log
+jrnl --config-override journals.todo "$(git rev-parse --show-toplevel)/todo.txt" todo find my towel 
+
+#Pass multiple overrides 
+jrnl --config-override display_format fancy --config-override linewrap 20 \
+--config-override colors.title green
+
+```
+
 ## Multiple journal files
 
 You can configure `jrnl`to use with multiple journals (eg.
