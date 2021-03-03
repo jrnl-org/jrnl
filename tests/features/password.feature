@@ -22,3 +22,41 @@ Feature: Using the installed keyring
         Then we should get no error
         And the output should not contain "Failed to retrieve keyring"
 
+
+    Scenario: Encrypt journal with no keyring backend and do store in keyring
+        Given we use the config "simple.yaml"
+        When we run "jrnl test entry"
+        And we run "jrnl --encrypt" and enter
+            password
+            password
+            y
+        Then we should get no error
+        And the output should not contain "Failed to retrieve keyring"
+        # @todo add step to check contents of keyring
+
+
+    @todo
+    Scenario: Open an encrypted journal with wrong password in keyring
+    # This should ask the user for the password after the keyring fails
+
+
+    @todo
+    Scenario: Decrypt journal with password in keyring
+
+
+    @todo
+    Scenario: Decrypt journal without a keyring
+
+
+    Scenario: Encrypt journal when keyring exists but fails
+        Given we use the config "simple.yaml"
+        And we have a failed keyring
+        When we run "jrnl --encrypt" and enter
+            this password will not be saved in keyring
+            this password will not be saved in keyring
+            y
+        Then we should see the message "Failed to retrieve keyring"
+        And we should get no error
+        And we should be prompted for a password
+        And the config for journal "default" should have "encrypt" set to "bool:True"
+
