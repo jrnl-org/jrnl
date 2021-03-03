@@ -1,13 +1,12 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from argparse import Namespace
 import logging
 import sys
 
 from . import install
 from . import plugins
-from .Journal import Journal, open_journal
+from .Journal import open_journal
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .config import get_journal_name
@@ -327,8 +326,8 @@ def _display_search_results(args, journal, **kwargs):
         print(plugins.get_exporter("tags").export(journal))
 
     elif args.export:
-        _export_journal(args, journal)
-
+        exporter = plugins.get_exporter(args.export)
+        print(exporter.export(journal, args.filename))
     elif kwargs["config"].get("display_format"):
         exporter = plugins.get_exporter(kwargs["config"]["display_format"])
         print(exporter.export(journal, args.filename))
