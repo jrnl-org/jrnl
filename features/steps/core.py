@@ -16,7 +16,6 @@ import keyring
 import toml
 import yaml
 
-
 import jrnl.time
 from jrnl import Journal
 from jrnl import __version__
