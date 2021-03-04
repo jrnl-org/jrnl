@@ -302,9 +302,9 @@ Feature: Custom formats
     Scenario Outline: Export fancy with small linewrap
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
-        When we run "jrnl --config-override linewrap 12 --format fancy -3"
+        When we run "jrnl --config-override linewrap 35 --format fancy -3"
         Then we should get no error
-        And the output should be "12" columns wide
+        And the output should be 35 columns wide
         
         Examples: configs
         | config          |

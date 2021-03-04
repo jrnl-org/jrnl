@@ -12,6 +12,14 @@ from behave import given
 from behave import then
 
 
+@then("the output should be {width:d} columns wide")
+def check_output_width(context, width):
+    out = context.stdout_capture.getvalue()
+    out_lines = out.splitlines()
+    for line in out_lines:
+        assert len(line) <= width
+
+
 @then("the output should be parsable as json")
 def check_output_json(context):
     out = context.stdout_capture.getvalue()

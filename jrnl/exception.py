@@ -30,7 +30,21 @@ class JrnlError(Exception):
 
                 Removing this file will allow jrnl to save its configuration.
             """
-            )
+            ),
+            "LineWrapTooSmallForDateFormat": textwrap.dedent(
+                """
+                The provided linewrap value of {config_linewrap} is too small
+                to display the timestamps in the configured time format.
+                """
+            ),
+            "LineWrapTooSmallForFancy": textwrap.dedent(
+                """
+                The provided linewrap value of {config_linewrap} is too small 
+                to properly format journal contents in fancy/boxed format. 
+                Either provide a larger value for the linewrap or display the
+                journal in another format.
+                """
+            ),
         }
 
         return error_messages[self.error_type].format(**kwargs)
