@@ -323,8 +323,11 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 
 def _display_search_results(args, journal, **kwargs):
-    if args.short:
+    if args.short or args.export == "short":
         print(journal.pprint(short=True))
+
+    elif args.export == "pretty":
+        print(journal.pprint())
 
     elif args.tags:
         print(plugins.get_exporter("tags").export(journal))
