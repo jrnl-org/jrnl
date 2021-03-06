@@ -147,6 +147,12 @@ def config_data(config_path):
 def journal_name():
     return None
 
+
+@fixture
+def output_to_error():
+    return False
+
+
 # ----- STEPS ----- #
 @given("we have a keyring", target_fixture="keyring")
 @given(parse("we have a {keyring_type} keyring"), target_fixture="keyring")
@@ -198,6 +204,12 @@ def we_run(command, config_path, user_input, cli_run, capsys, password, keyring)
     args = split_args(command)
     status = 0
 
+    if user_input:
+        user_input = user_input.splitlines()
+
+    if password:
+        password = password.splitlines()
+
     if not password and user_input:
         password = user_input
 
@@ -205,9 +217,9 @@ def we_run(command, config_path, user_input, cli_run, capsys, password, keyring)
     # see: https://github.com/psf/black/issues/664
     with \
         patch("sys.argv", ['jrnl'] + args), \
-        patch("sys.stdin.read", side_effect=user_input.splitlines()) as mock_stdin, \
-        patch("builtins.input", side_effect=user_input.splitlines()) as mock_input, \
-        patch("getpass.getpass", side_effect=password.splitlines()) as mock_getpass, \
+        patch("sys.stdin.read", side_effect=user_input) as mock_stdin, \
+        patch("builtins.input", side_effect=user_input) as mock_input, \
+        patch("getpass.getpass", side_effect=password) as mock_getpass, \
         patch("jrnl.install.get_config_path", return_value=config_path), \
         patch("jrnl.config.get_config_path", return_value=config_path) \
     : # @TODO: single point of truth for get_config_path (move from all calls from install to config)
@@ -244,8 +256,13 @@ def output_should_match(regex, cli_run):
 @then(parse("the output should contain\n{output}"))
 @then(parse('the output should contain "{output}"'))
 @then('the output should contain "<output>"')
-def output_should_contain(output, cli_run):
-    assert output and output in cli_run["stdout"]
+@then(parse("the {output_to_error} output should contain\n{output}"))
+@then(parse('the {output_to_error} output should contain "{output}"'))
+def output_should_contain(output, output_to_error, cli_run):
+    assert output and (
+        (output_to_error and output in cli_run["stderr"])
+        or (not output_to_error and output in cli_run["stdout"])
+    )
 
 
 @then(parse("the output should not contain\n{output}"))
@@ -285,7 +302,11 @@ def should_see_the_message(text, cli_run):
 
 @then(parse('the config should have "{key}" set to\n{value}'))
 @then(parse('the config should have "{key}" set to "{value}"'))
-@then(parse('the config for journal "{journal_name}" should have "{key}" set to "{value}"'))
+@then(
+    parse(
+        'the config for journal "{journal_name}" should have "{key}" set to "{value}"'
+    )
+)
 def config_var(config_data, key, value, journal_name):
     value = read_value_from_string(value)
 
@@ -305,4 +326,3 @@ def password_was_called(cli_run):
 @then("we should not be prompted for a password")
 def password_was_not_called(cli_run):
     assert not cli_run["mocks"]["getpass"].called
-
