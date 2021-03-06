@@ -206,7 +206,7 @@ jobs:
         max_attempts: 6
         retry_wait_seconds: 30
         command: >
-          brew bump-formula-pr "Formula/${FORMULA_NAME}.rb"
+          brew bump-formula-pr "Formula/${FORMULA_NAME}"
           --url $(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)
           --sha256 $(jq ".releases[\"${PYPI_VERSION}\"][1].digests.sha256" -r api_response.json)
           --version=$PYPI_VERSION
