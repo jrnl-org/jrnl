@@ -164,6 +164,7 @@ jobs:
 
     - name: Create branch
       run: |
+        echo "$(PWD)"
         BRANCH_NAME="jrnl-${JRNL_VERSION}--${RANDOM}"
         git remote rename origin upstream
         git remote add origin "https://github.com/${BOT_REPO}.git"
