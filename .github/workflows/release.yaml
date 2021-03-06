@@ -158,10 +158,10 @@ jobs:
         token: ${{ secrets.JRNL_BOT_TOKEN }}
         repository: ${{ env.FORMULA_REPO }}
 
-  - name: Symlink repo into Homebrew's tap directory
-    run: |
-      mkdir -p "$(brew --repository)/Library/Taps/${REPO_NAME}"
-      ln -s "$(pwd)" "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
+    - name: Symlink repo into Homebrew's tap directory
+      run: |
+        mkdir -p "$(brew --repository)/Library/Taps/${REPO_NAME}"
+        ln -s "$(pwd)" "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
 
     - name: Config git user
       run: |
