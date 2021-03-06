@@ -156,9 +156,7 @@ jobs:
       run: |
         brew tap ${FORMULA_REPO}
         echo '::debug::Set tap directory'
-          {
-            echo "BREW_TAP_DIRECTORY=$(brew --repository)/Library/Taps/${FORMULA_REPO}"
-          } >> $GITHUB_ENV
+        echo "BREW_TAP_DIRECTORY='$(brew --repository)/Library/Taps/${FORMULA_REPO}'" >> $GITHUB_ENV
 
     - name: Config git user
       working-directory: ${{ env.BREW_TAP_DIRECTORY }}
