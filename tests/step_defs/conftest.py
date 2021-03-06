@@ -149,8 +149,8 @@ def journal_name():
 
 
 @fixture
-def output_to_error():
-    return False
+def which_output_stream():
+    return None
 
 
 # ----- STEPS ----- #
@@ -256,13 +256,21 @@ def output_should_match(regex, cli_run):
 @then(parse("the output should contain\n{output}"))
 @then(parse('the output should contain "{output}"'))
 @then('the output should contain "<output>"')
-@then(parse("the {output_to_error} output should contain\n{output}"))
-@then(parse('the {output_to_error} output should contain "{output}"'))
-def output_should_contain(output, output_to_error, cli_run):
-    assert output and (
-        (output_to_error and output in cli_run["stderr"])
-        or (not output_to_error and output in cli_run["stdout"])
-    )
+@then(parse("the {which_output_stream} output should contain\n{output}"))
+@then(parse('the {which_output_stream} output should contain "{output}"'))
+def output_should_contain(output, which_output_stream, cli_run):
+    assert output
+    if which_output_stream is None:
+        assert (output in cli_run["stdout"]) or (output in cli_run["stderr"])
+
+    elif which_output_stream == "standard":
+        assert output in cli_run["stdout"]
+
+    elif which_output_stream == "error":
+        assert output in cli_run["stderr"]
+
+    else:
+        assert output in cli_run[which_output_stream]
 
 
 @then(parse("the output should not contain\n{output}"))

@@ -77,3 +77,15 @@ Feature: Using the installed keyring
             2013-06-09 15:39 My first entry.
             2013-06-10 15:40 Life is good.
 
+
+    Scenario: Open encrypted journal when keyring exists but fails
+    # This should ask the user for the password after the keyring fails
+        Given we use the config "encrypted.yaml"
+        And we have a failed keyring
+        And we use the password "bad doggie no biscuit" if prompted
+        When we run "jrnl -n 1"
+        Then we should get no error
+        And we should be prompted for a password
+        And the output should contain "Failed to retrieve keyring"
+        And the output should contain "2013-06-10 15:40 Life is good"
+
