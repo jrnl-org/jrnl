@@ -138,6 +138,7 @@ jobs:
             echo "FORMULA_REPO=${REPO_OWNER}/homebrew-prerelease"
             echo "BOT_REPO=jrnl-bot/homebrew-prerelease"
             echo "FORMULA_NAME=jrnl-beta"
+            echo "BREW_TAP_DIRECTORY=$(brew --repository)/Library/Taps/${FORMULA_REPO}"
           } >> $GITHUB_ENV
         else
           echo '::debug::Full release (not a prerelease)'
@@ -149,20 +150,22 @@ jobs:
             echo "FORMULA_REPO=${REPO_OWNER}/homebrew-core"
             echo "BOT_REPO=jrnl-bot/homebrew-core"
             echo "FORMULA_NAME=jrnl"
+            echo "BREW_TAP_DIRECTORY=$(brew --repository)/Library/Taps/${FORMULA_REPO}"
           } >> $GITHUB_ENV
         fi
 
     - name: Tap formula
       run: |
         brew tap ${FORMULA_REPO}
-        cd "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
 
     - name: Config git user
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         git config --global user.name "${{ secrets.JRNL_BOT_NAME }}"
         git config --global user.email "${{ secrets.JRNL_BOT_EMAIL }}"
 
     - name: Create branch
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         echo "$(PWD)"
         BRANCH_NAME="jrnl-${JRNL_VERSION}--${RANDOM}"
@@ -212,6 +215,7 @@ jobs:
           --verbose
 
     - name: Update commit message
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         git commit --amend \
         -m "jrnl ${JRNL_VERSION}" \
@@ -219,11 +223,13 @@ jobs:
         -m '${{ secrets.RELEASE_COAUTHORS }}'
 
     - name: Push commit
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         git show head
         git push
 
     - name: Open pull request
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       env:
         GH_TOKEN: ${{ secrets.JRNL_BOT_TOKEN }}
       run: >
