@@ -154,7 +154,7 @@ jobs:
 
     - name: Tap formula
       run: |
-        brew tap ${FORMULA_NAME}
+        brew tap ${FORMULA_REPO}
         cd "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
 
     - name: Config git user
