@@ -160,7 +160,7 @@ jobs:
 
     - name: Symlink repo into Homebrew's tap directory
       run: |
-        mkdir -p "$(brew --repository)/Library/Taps/${REPO_NAME}"
+        mkdir -p "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
         ln -s "$(pwd)" "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
 
     - name: Config git user
