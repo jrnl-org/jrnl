@@ -169,7 +169,6 @@ jobs:
     - name: Create branch
       working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
-        echo "$(PWD)"
         BRANCH_NAME="jrnl-${JRNL_VERSION}--${RANDOM}"
         git remote rename origin upstream
         git remote add origin "https://${{ secrets.JRNL_BOT_NAME }}:${{ secrets.JRNL_BOT_TOKEN }}@github.com/${BOT_REPO}.git"
