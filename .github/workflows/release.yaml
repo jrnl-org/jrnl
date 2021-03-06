@@ -152,16 +152,10 @@ jobs:
           } >> $GITHUB_ENV
         fi
 
-    - name: Checkout homebrew repo
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.JRNL_BOT_TOKEN }}
-        repository: ${{ env.FORMULA_REPO }}
-
-    - name: Symlink repo into Homebrew's tap directory
+    - name: Tap formula
       run: |
-        mkdir -p "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
-        ln -s "$(pwd)" "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
+        brew tap ${FORMULA_NAME}
+        cd "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
 
     - name: Config git user
       run: |
