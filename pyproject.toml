@@ -21,6 +21,11 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 
+[tool.poetry.urls]
+"Documentation" = "https://jrnl.sh"
+"Issue Tracker" = "https://github.com/jrnl-org/jrnl/issues"
+"Funding" = "https://opencollective.com/jrnl"
+
 [tool.poetry.dependencies]
 python = ">=3.7.0, <3.10"
 
