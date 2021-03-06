@@ -138,7 +138,6 @@ jobs:
             echo "FORMULA_REPO=${REPO_OWNER}/homebrew-prerelease"
             echo "BOT_REPO=jrnl-bot/homebrew-prerelease"
             echo "FORMULA_NAME=jrnl-beta"
-            echo "BREW_TAP_DIRECTORY=$(brew --repository)/Library/Taps/${FORMULA_REPO}"
           } >> $GITHUB_ENV
         else
           echo '::debug::Full release (not a prerelease)'
@@ -150,13 +149,16 @@ jobs:
             echo "FORMULA_REPO=${REPO_OWNER}/homebrew-core"
             echo "BOT_REPO=jrnl-bot/homebrew-core"
             echo "FORMULA_NAME=jrnl"
-            echo "BREW_TAP_DIRECTORY=$(brew --repository)/Library/Taps/${FORMULA_REPO}"
           } >> $GITHUB_ENV
         fi
 
     - name: Tap formula
       run: |
         brew tap ${FORMULA_REPO}
+        echo '::debug::Set tap directory'
+          {
+            echo "BREW_TAP_DIRECTORY=$(brew --repository)/Library/Taps/${FORMULA_REPO}"
+          } >> $GITHUB_ENV
 
     - name: Config git user
       working-directory: ${{ env.BREW_TAP_DIRECTORY }}
