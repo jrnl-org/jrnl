@@ -116,7 +116,6 @@ jobs:
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       HOME_REPO: ${{ secrets.HOME_REPO }}
     steps:
-
     - name: Get version
       run: |
         JRNL_VERSION="${{ github.event.inputs.version }}"
@@ -153,23 +152,26 @@ jobs:
           } >> $GITHUB_ENV
         fi
 
-    - name: Checkout homebrew repo
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.JRNL_BOT_TOKEN }}
-        repository: ${{ env.FORMULA_REPO }}
+    - name: Tap formula
+      run: |
+        brew tap ${FORMULA_REPO}
+        echo '::debug::Set tap directory'
+        echo "BREW_TAP_DIRECTORY='$(brew --repository)/Library/Taps/${FORMULA_REPO}'" >> $GITHUB_ENV
 
     - name: Config git user
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         git config --global user.name "${{ secrets.JRNL_BOT_NAME }}"
         git config --global user.email "${{ secrets.JRNL_BOT_EMAIL }}"
 
     - name: Create branch
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         BRANCH_NAME="jrnl-${JRNL_VERSION}--${RANDOM}"
         git remote rename origin upstream
-        git remote add origin "https://github.com/${BOT_REPO}.git"
-        git fetch --unshallow upstream
+        git remote add origin "https://${{ secrets.JRNL_BOT_NAME }}:${{ secrets.JRNL_BOT_TOKEN }}@github.com/${BOT_REPO}.git"
+
+        git fetch upstream
         git fetch origin
         git checkout -b $BRANCH_NAME
         git push -u origin $BRANCH_NAME
@@ -202,7 +204,7 @@ jobs:
         max_attempts: 6
         retry_wait_seconds: 30
         command: >
-          brew bump-formula-pr "Formula/${FORMULA_NAME}.rb"
+          brew bump-formula-pr "${FORMULA_NAME}"
           --url $(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)
           --sha256 $(jq ".releases[\"${PYPI_VERSION}\"][1].digests.sha256" -r api_response.json)
           --version=$PYPI_VERSION
@@ -213,6 +215,7 @@ jobs:
           --verbose
 
     - name: Update commit message
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         git commit --amend \
         -m "jrnl ${JRNL_VERSION}" \
@@ -220,11 +223,13 @@ jobs:
         -m '${{ secrets.RELEASE_COAUTHORS }}'
 
     - name: Push commit
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       run: |
         git show head
         git push
 
     - name: Open pull request
+      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
       env:
         GH_TOKEN: ${{ secrets.JRNL_BOT_TOKEN }}
       run: >
