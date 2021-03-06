@@ -116,7 +116,6 @@ jobs:
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       HOME_REPO: ${{ secrets.HOME_REPO }}
     steps:
-
     - name: Get version
       run: |
         JRNL_VERSION="${{ github.event.inputs.version }}"
@@ -158,6 +157,11 @@ jobs:
       with:
         token: ${{ secrets.JRNL_BOT_TOKEN }}
         repository: ${{ env.FORMULA_REPO }}
+
+  - name: Symlink repo into Homebrew's tap directory
+    run: |
+      mkdir -p "$(brew --repository)/Library/Taps/${REPO_NAME}"
+      ln -s "$(pwd)" "$(brew --repository)/Library/Taps/${FORMULA_REPO}"
 
     - name: Config git user
       run: |
