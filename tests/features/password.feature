@@ -60,3 +60,20 @@ Feature: Using the installed keyring
         And we should be prompted for a password
         And the config for journal "default" should have "encrypt" set to "bool:True"
 
+
+    Scenario: Decrypt journal when keyring exists but fails
+        Given we use the config "encrypted.yaml"
+        And we have a failed keyring
+        And we use the password "bad doggie no biscuit" if prompted
+        When we run "jrnl --decrypt"
+        Then the error output should contain "Failed to retrieve keyring"
+        And we should get no error
+        And we should be prompted for a password
+        And we should see the message "Journal decrypted"
+        And the config for journal "default" should have "encrypt" set to "bool:False"
+        When we run "jrnl --short"
+        Then we should not be prompted for a password
+        And the output should be
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
+
