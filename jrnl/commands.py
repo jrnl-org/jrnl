@@ -28,6 +28,12 @@ def preconfig_diagnostic(_):
 def preconfig_version(_):
     from jrnl import __title__
     from jrnl import __version__
+    from jrnl.plugins.meta import (
+        IMPORT_FORMATS,
+        EXPORT_FORMATS,
+        get_exporter,
+        get_importer,
+    )
 
     version_str = f"""{__title__} version {__version__}
 
@@ -37,6 +43,22 @@ This is free software, and you are welcome to redistribute it under certain
 conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
 
     print(version_str)
+    print()
+    print("Active Plugins:")
+    print("    Importers:")
+    for importer in IMPORT_FORMATS:
+        importer_class = get_importer(importer)
+        print(
+            f"        {importer} : {importer_class.version} from",
+            f"{importer_class().class_path()}",
+        )
+    print("    Exporters:")
+    for exporter in EXPORT_FORMATS:
+        exporter_class = get_exporter(exporter)
+        # print(f"        {exporter} : {exporter_class.version} from {exporter_class().class_path()}")
+        print(f"        {exporter} : ", end="")
+        print(f"{exporter_class.version} from ", end="")
+        print(f"{exporter_class().class_path()}")
 
 
 def postconfig_list(config, **kwargs):

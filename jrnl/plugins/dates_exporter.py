@@ -4,7 +4,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 from collections import Counter
 
-from .text_exporter import TextExporter
+from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
 
 class DatesExporter(TextExporter):

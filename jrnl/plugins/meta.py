@@ -58,21 +58,35 @@ __exporter_types = {
     **__exporter_types_builtin,
     **__exporter_types_contrib,
 }
-__importer_types = {**__importer_types_builtin, **__importer_types_contrib}
+__importer_types = {
+    **__importer_types_builtin,
+    **__importer_types_contrib,
+}
 
 EXPORT_FORMATS = sorted(__exporter_types.keys())
 IMPORT_FORMATS = sorted(__importer_types.keys())
 
 
 def get_exporter(format):
-    for exporter in __exporters:
-        if hasattr(exporter, "names") and format in exporter.names:
-            return exporter
+    # print('get_exporter')
+    # print(__exporter_types)
+    for exporter_name, exporter_class in __exporter_types.items():
+        # print(exporter_class, exporter_class.Exporter.names)
+        if (
+            hasattr(exporter_class, "Exporter")
+            and hasattr(exporter_class.Exporter, "names")
+            and format in exporter_class.Exporter.names
+        ):
+            return exporter_class.Exporter
     return None
 
 
 def get_importer(format):
-    for importer in __importers:
-        if hasattr(importer, "names") and format in importer.names:
-            return importer
+    for importer_name, importer_class in __importer_types.items():
+        if (
+            hasattr(importer_class, "Importer")
+            and hasattr(importer_class.Importer, "names")
+            and format in importer_class.Importer.names
+        ):
+            return importer_class.Importer
     return None

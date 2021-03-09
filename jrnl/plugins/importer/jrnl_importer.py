@@ -5,11 +5,17 @@
 
 import sys
 
+from jrnl import __version__
 
 class Importer:
     """This plugin imports entries from other jrnl files."""
 
     names = ["jrnl"]
+    version = __version__
+
+    @classmethod
+    def class_path(cls):
+        return cls.__module__
 
     @staticmethod
     def import_(journal, input=None):

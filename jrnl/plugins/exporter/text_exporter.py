@@ -7,6 +7,7 @@ import os
 import re
 import unicodedata
 
+from jrnl import __version__
 from jrnl.color import ERROR_COLOR
 from jrnl.color import RESET_COLOR
 
@@ -16,6 +17,11 @@ class Exporter:
 
     names = ["text", "txt"]
     extension = "txt"
+    version = __version__
+
+    @classmethod
+    def class_path(cls):
+        return cls.__module__
 
     @classmethod
     def export_entry(cls, entry):
