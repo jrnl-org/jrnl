@@ -1,8 +1,7 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1...HEAD)
+## [v2.8-beta](https://pypi.org/project/jrnl/v2.8-beta/) (2021-03-13)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.2-beta...HEAD)
 
 **Implemented enhancements:**
 
@@ -21,8 +20,28 @@
 - Bump keyring from 22.0.1 to 22.3.0 [\#1210](https://github.com/jrnl-org/jrnl/pull/1210) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump asteval from 0.9.22 to 0.9.23 [\#1209](https://github.com/jrnl-org/jrnl/pull/1209) ([dependabot[bot]](https://github.com/apps/dependabot))
 
+## [v2.7.2-beta](https://pypi.org/project/jrnl/v2.7.2-beta/) (2021-03-06)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1...v2.7.2-beta)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1-beta...v2.7.1)
+**Implemented enhancements:**
+
+- Add pypi project links [\#1197](https://github.com/jrnl-org/jrnl/issues/1197)
+- Add `--config-override` feature [\#1169](https://github.com/jrnl-org/jrnl/pull/1169) ([sriniv27](https://github.com/sriniv27))
+
+**Fixed bugs:**
+
+- bash: syntax error near unexpected token `newline' at input \>\_\> [\#1208](https://github.com/jrnl-org/jrnl/issues/1208)
+- `jrnl --format short` returns an error [\#1173](https://github.com/jrnl-org/jrnl/issues/1173)
+- `jrnl --format pretty` returns an error [\#1172](https://github.com/jrnl-org/jrnl/issues/1172)
+- Fix bug that prevented --format pretty and --format short from working [\#1177](https://github.com/jrnl-org/jrnl/pull/1177) ([sriniv27](https://github.com/sriniv27))
+
+**Packaging:**
+
+- Bump keyring from 22.0.1 to 22.3.0 [\#1210](https://github.com/jrnl-org/jrnl/pull/1210) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump asteval from 0.9.22 to 0.9.23 [\#1209](https://github.com/jrnl-org/jrnl/pull/1209) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.7.1](https://pypi.org/project/jrnl/v2.7.1/) (2021-02-27)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7...v2.7.1)
 
 **Fixed bugs:**
 
