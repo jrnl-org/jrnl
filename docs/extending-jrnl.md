@@ -68,7 +68,10 @@ class Importer:
 
     @staticmethod
     def import_(journal, input=None)
-        """Given a nicely formatted JSON file, will add the contained Entries to the journal."""
+        """
+        Given a nicely formatted JSON file, will add the
+        contained Entries to the journal.
+        """
         
         old_count = len(journal.entries)
         if input:
@@ -78,7 +81,10 @@ class Importer:
             try:
                 data = sys.stdin.read()
             except KeyboardInterrupt:
-                print("[Entries NOT imported into journal.]", file=sys.stderr)
+                print(
+                    "[Entries NOT imported into journal.]",
+                    file=sys.stderr,
+                )
                 sys.exit(0)
 
         for json_entry in data:
@@ -89,7 +95,9 @@ class Importer:
 
         new_cnt = len(journal.entries)
         print(
-            "[{} imported to {} journal]".format(new_cnt - old_cnt, journal.name),
+            "[{} imported to {} journal]".format(
+                new_cnt - old_cnt, journal.name
+            ),
             file=sys.stderr,
         )
 ~~~
@@ -133,7 +141,9 @@ import json
 from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
 class Exporter(TextExporter):
-    """This basic Exporter can convert entries and journals into JSON."""
+    """
+    This basic Exporter can convert entries and journals into JSON.
+    """
 
     names = ["json"]
     extension = "json"
@@ -156,7 +166,9 @@ class Exporter(TextExporter):
         """Returns a json representation of an entire journal."""
         tags = get_tags_count(journal)
         result = {
-            "entries": [cls.entry_to_dict(e) for e in journal.entries],
+            "entries": [
+                cls.entry_to_dict(e) for e in journal.entries
+            ],
         }
         return json.dumps(result, indent=2)
 ~~~
