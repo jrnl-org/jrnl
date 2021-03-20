@@ -119,8 +119,18 @@ def password():
 
 
 @fixture
+def str_value():
+    return ""
+
+
+@fixture
 def command():
     return ""
+
+
+@fixture
+def should_not():
+    return False
 
 
 @fixture
@@ -225,6 +235,9 @@ def we_run(command, config_path, user_input, cli_run, capsys, password, keyring)
     : # @TODO: single point of truth for get_config_path (move from all calls from install to config)
         try:
             cli(args)
+        except StopIteration:
+            # This happens when input is expected, but don't have any input left
+            pass
         except SystemExit as e:
             status = e.code
     # fmt: on
@@ -308,22 +321,37 @@ def should_see_the_message(text, cli_run):
     assert text in out, [text, out]
 
 
-@then(parse('the config should have "{key}" set to\n{value}'))
-@then(parse('the config should have "{key}" set to "{value}"'))
+@then(parse('the config should have "{key}" set to\n{str_value}'))
+@then(parse('the config should have "{key}" set to "{str_value}"'))
 @then(
     parse(
-        'the config for journal "{journal_name}" should have "{key}" set to "{value}"'
+        'the config for journal "{journal_name}" should have "{key}" set to "{str_value}"'
     )
 )
-def config_var(config_data, key, value, journal_name):
-    value = read_value_from_string(value)
+@then(parse('the config should {should_not} have "{key}" set'))
+@then(parse('the config should {should_not} have "{key}" set'))
+@then(
+    parse(
+        'the config for journal "{journal_name}" should {should_not} have "{key}" set'
+    )
+)
+def config_var(config_data, key, str_value, journal_name, should_not):
+    str_value = read_value_from_string(str_value) if len(str_value) else str_value
 
     configuration = config_data
     if journal_name:
         configuration = configuration["journals"][journal_name]
 
-    assert key in configuration
-    assert configuration[key] == value
+    # is the config a string?
+    # @todo this should probably be a function
+    if type(configuration) is str:
+        configuration = {"journal": configuration}
+
+    if should_not:
+        assert key not in configuration
+    else:
+        assert key in configuration
+        assert configuration[key] == str_value
 
 
 @then("we should be prompted for a password")
