@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8-beta...HEAD)
+
+**Implemented enhancements:**
+
+- Assigning a number to each entry when viewing [\#1218](https://github.com/jrnl-org/jrnl/issues/1218)
+
+**Packaging:**
+
+- Bump pyflakes from 2.2.0 to 2.3.0 [\#1215](https://github.com/jrnl-org/jrnl/pull/1215) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8-beta](https://pypi.org/project/jrnl/v2.8-beta/) (2021-03-13)
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.2-beta...HEAD)
 
