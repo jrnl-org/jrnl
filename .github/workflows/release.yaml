@@ -127,7 +127,7 @@ jobs:
         echo "JRNL_VERSION=$JRNL_VERSION" >> $GITHUB_ENV
         echo "PYPI_VERSION=$PYPI_VERSION" >> $GITHUB_ENV
 
-    - name: Determine type of release
+    - name: Set env variables
       env:
         REPO_OWNER: ${{ github.repository_owner }}
       run: |
@@ -157,24 +157,6 @@ jobs:
         brew tap ${FORMULA_REPO}
         echo '::debug::Set tap directory'
         echo "BREW_TAP_DIRECTORY='$(brew --repository)/Library/Taps/${FORMULA_REPO}'" >> $GITHUB_ENV
-
-    - name: Config git user
-      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
-      run: |
-        git config --local user.name "${{ secrets.JRNL_BOT_NAME }}"
-        git config --local user.email "${{ secrets.JRNL_BOT_EMAIL }}"
-
-    - name: Create branch
-      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
-      run: |
-        BRANCH_NAME="jrnl-${JRNL_VERSION}--${RANDOM}"
-        git remote rename origin upstream
-        git remote add origin "https://${{ secrets.JRNL_BOT_NAME }}:${{ secrets.JRNL_BOT_TOKEN }}@github.com/${BOT_REPO}.git"
-
-        git fetch upstream
-        git fetch origin
-        git checkout -b $BRANCH_NAME
-        git push -u origin $BRANCH_NAME
 
     - name: Install dependencies
       run: brew install pipgrip
@@ -210,29 +192,26 @@ jobs:
           --version=$PYPI_VERSION
           --no-audit
           --write
-          --commit
           --force
-          --verbose
 
-    - name: Update commit message
-      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
-      run: |
-        git commit --amend \
-        -m "jrnl ${JRNL_VERSION}" \
-        -m "Update jrnl to ${JRNL_VERSION}" \
-        -m '${{ secrets.RELEASE_COAUTHORS }}'
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        path: ${{ env.BREW_TAP_DIRECTORY }}
+        token: ${{ secrets.JRNL_BOT_TOKEN }}
+        push-to-fork: ${{ env.BOT_REPO }}
 
-    - name: Push commit
-      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
-      run: |
-        git show head
-        git push
+        committer: ${{ secrets.JRNL_BOT_NAME }} <${{ secrets.JRNL_BOT_EMAIL }}>
+        author: ${{ secrets.JRNL_BOT_NAME }} <${{ secrets.JRNL_BOT_EMAIL }}>
 
-    - name: Open pull request
-      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
-      env:
-        GH_TOKEN: ${{ secrets.JRNL_BOT_TOKEN }}
-      run: >
-        gh pr create
-        --title "jrnl ${JRNL_VERSION}"
-        --body 'Created with `brew bump-formula-pr`.'
+        title: jrnl ${{ env.JRNL_VERSION }}
+        body: Created with `brew bump-formula-pr`
+
+        branch: jrnl-${{ env.JRNL_VERSION }}--
+        branch-suffix: random
+        commit-message: |
+          jrnl ${{ env.JRNL_VERSION }}
+
+          Update jrnl to ${{ env.JRNL_VERSION }}
+
+          ${{ secrets.RELEASE_COAUTHORS }}
