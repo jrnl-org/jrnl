@@ -89,3 +89,17 @@ Feature: Using the installed keyring
         And the output should contain "Failed to retrieve keyring"
         And the output should contain "2013-06-10 15:40 Life is good"
 
+
+    Scenario: Mistyping your password
+        Given we use the config "simple.yaml"
+        When we run "jrnl --encrypt" and enter
+            swordfish
+            sordfish
+        Then we should be prompted for a password
+        And we should see the message "Passwords did not match"
+        And the config for journal "default" should not have "encrypt" set
+        When we run "jrnl --short"
+        Then the output should be
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
+
