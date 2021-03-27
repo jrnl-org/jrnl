@@ -156,14 +156,7 @@ jobs:
       run: |
         brew tap ${FORMULA_REPO}
         echo '::debug::Set tap directory'
-        echo "BREW_TAP_DIRECTORY='$(brew --repository)/Library/Taps/${FORMULA_REPO}'" >> $GITHUB_ENV
-
-    - name: Config git user
-      working-directory: ${{ env.BREW_TAP_DIRECTORY }}
-      run: |
-        git config --local user.name "${{ secrets.JRNL_BOT_NAME }}"
-        git config --local user.email "${{ secrets.JRNL_BOT_EMAIL }}"
-
+        echo "BREW_TAP_DIRECTORY=$(brew --repo ${FORMULA_REPO})" >> $GITHUB_ENV
     - name: Install dependencies
       run: brew install pipgrip
 

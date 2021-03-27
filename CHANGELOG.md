@@ -1,54 +1,25 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.8](https://pypi.org/project/jrnl/v2.8/) (2021-03-27)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8-beta...v2.8)
 
 **Implemented enhancements:**
 
-- Assigning a number to each entry when viewing [\#1218](https://github.com/jrnl-org/jrnl/issues/1218)
+- Add `--config-override` feature [\#1169](https://github.com/jrnl-org/jrnl/pull/1169) ([sriniv27](https://github.com/sriniv27))
+
+**Fixed bugs:**
+
+- Fix bug that prevented --format pretty and --format short from working [\#1177](https://github.com/jrnl-org/jrnl/pull/1177) ([sriniv27](https://github.com/sriniv27))
+
+**Build:**
+
+- Fix broken brew release process [\#1211](https://github.com/jrnl-org/jrnl/pull/1211) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
 - Bump pyflakes from 2.2.0 to 2.3.0 [\#1215](https://github.com/jrnl-org/jrnl/pull/1215) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-## [v2.8-beta](https://pypi.org/project/jrnl/v2.8-beta/) (2021-03-13)
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.2-beta...HEAD)
-
-**Implemented enhancements:**
-
-- Add pypi project links [\#1197](https://github.com/jrnl-org/jrnl/issues/1197)
-- Add `--config-override` feature [\#1169](https://github.com/jrnl-org/jrnl/pull/1169) ([sriniv27](https://github.com/sriniv27))
-
-**Fixed bugs:**
-
-- bash: syntax error near unexpected token `newline' at input \>\_\> [\#1208](https://github.com/jrnl-org/jrnl/issues/1208)
-- `jrnl --format short` returns an error [\#1173](https://github.com/jrnl-org/jrnl/issues/1173)
-- `jrnl --format pretty` returns an error [\#1172](https://github.com/jrnl-org/jrnl/issues/1172)
-- Fix bug that prevented --format pretty and --format short from working [\#1177](https://github.com/jrnl-org/jrnl/pull/1177) ([sriniv27](https://github.com/sriniv27))
-
-**Packaging:**
-
-- Bump keyring from 22.0.1 to 22.3.0 [\#1210](https://github.com/jrnl-org/jrnl/pull/1210) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump asteval from 0.9.22 to 0.9.23 [\#1209](https://github.com/jrnl-org/jrnl/pull/1209) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-## [v2.7.2-beta](https://pypi.org/project/jrnl/v2.7.2-beta/) (2021-03-06)
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7.1...v2.7.2-beta)
-
-**Implemented enhancements:**
-
-- Add pypi project links [\#1197](https://github.com/jrnl-org/jrnl/issues/1197)
-- Add `--config-override` feature [\#1169](https://github.com/jrnl-org/jrnl/pull/1169) ([sriniv27](https://github.com/sriniv27))
-
-**Fixed bugs:**
-
-- bash: syntax error near unexpected token `newline' at input \>\_\> [\#1208](https://github.com/jrnl-org/jrnl/issues/1208)
-- `jrnl --format short` returns an error [\#1173](https://github.com/jrnl-org/jrnl/issues/1173)
-- `jrnl --format pretty` returns an error [\#1172](https://github.com/jrnl-org/jrnl/issues/1172)
-- Fix bug that prevented --format pretty and --format short from working [\#1177](https://github.com/jrnl-org/jrnl/pull/1177) ([sriniv27](https://github.com/sriniv27))
-
-**Packaging:**
-
+- Bump keyring from 22.3.0 to 23.0.0 [\#1213](https://github.com/jrnl-org/jrnl/pull/1213) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 22.0.1 to 22.3.0 [\#1210](https://github.com/jrnl-org/jrnl/pull/1210) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump asteval from 0.9.22 to 0.9.23 [\#1209](https://github.com/jrnl-org/jrnl/pull/1209) ([dependabot[bot]](https://github.com/apps/dependabot))
 
