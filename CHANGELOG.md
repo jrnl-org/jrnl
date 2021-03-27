@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8...HEAD)
+
+**Documentation:**
+
+- Docs: Add emacs as external editor to recipes [\#1220](https://github.com/jrnl-org/jrnl/pull/1220) ([mandarvaze](https://github.com/mandarvaze))
+
+**Packaging:**
+
+- Bump cryptography from 3.4.6 to 3.4.7 [\#1223](https://github.com/jrnl-org/jrnl/pull/1223) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8](https://pypi.org/project/jrnl/v2.8/) (2021-03-27)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8-beta...v2.8)
