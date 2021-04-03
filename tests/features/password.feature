@@ -103,3 +103,20 @@ Feature: Using the installed keyring
             2013-06-09 15:39 My first entry.
             2013-06-10 15:40 Life is good.
 
+
+    Scenario: Mistyping your password, then getting it right
+        Given we use the config "simple.yaml"
+        When we run "jrnl --encrypt" and enter
+            swordfish
+            sordfish
+            swordfish
+            swordfish
+            n
+        Then we should be prompted for a password
+        And we should see the message "Passwords did not match"
+        And we should see the message "Journal encrypted"
+        And the config for journal "default" should have "encrypt" set to "bool:True"
+        When we run "jrnl -1" and enter "swordfish"
+        Then we should be prompted for a password
+        And the output should contain "2013-06-10 15:40 Life is good"
+

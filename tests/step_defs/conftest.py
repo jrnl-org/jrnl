@@ -16,6 +16,7 @@ from pytest_bdd import given
 from pytest_bdd import then
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
+from pytest_bdd import parsers
 from pytest import fixture
 import toml
 
@@ -205,11 +206,12 @@ def use_password_forever(pw):
     return pw
 
 
+@when(parse('we run "jrnl {command}" and enter\n{user_input}'))
+@when(parsers.re('we run "jrnl (?P<command>[^"]+)" and enter "(?P<user_input>[^"]+)"'))
 @when(parse('we run "jrnl {command}"'))
+@when(parse('we run "jrnl" and enter "{user_input}"'))
 @when('we run "jrnl <command>"')
 @when('we run "jrnl"')
-@when(parse('we run "jrnl" and enter "{user_input}"'))
-@when(parse('we run "jrnl {command}" and enter\n{user_input}'))
 def we_run(command, config_path, user_input, cli_run, capsys, password, keyring):
     args = split_args(command)
     status = 0
