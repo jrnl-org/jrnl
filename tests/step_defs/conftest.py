@@ -7,10 +7,13 @@ from collections import defaultdict
 from keyring import backend
 from keyring import set_keyring
 from keyring import errors
+import random
+import string
 import re
 import shutil
 import tempfile
 from unittest.mock import patch
+from xml.etree import ElementTree
 
 from pytest_bdd import given
 from pytest_bdd import then
@@ -120,6 +123,11 @@ def password():
 
 
 @fixture
+def cache_dir():
+    return {"exists": False, "path": ""}
+
+
+@fixture
 def str_value():
     return ""
 
@@ -212,7 +220,12 @@ def use_password_forever(pw):
 @when(parse('we run "jrnl" and enter "{user_input}"'))
 @when('we run "jrnl <command>"')
 @when('we run "jrnl"')
-def we_run(command, config_path, user_input, cli_run, capsys, password, keyring):
+def we_run(
+    command, config_path, user_input, cli_run, capsys, password, keyring, cache_dir
+):
+    if cache_dir["exists"]:
+        command = command.format(cache_dir=cache_dir["path"])
+
     args = split_args(command)
     status = 0
 
@@ -364,3 +377,111 @@ def password_was_called(cli_run):
 @then("we should not be prompted for a password")
 def password_was_not_called(cli_run):
     assert not cli_run["mocks"]["getpass"].called
+
+
+@then(parse("the cache directory should contain the files\n{file_list}"))
+def assert_dir_contains_files(file_list, cache_dir):
+    actual_files = os.listdir(cache_dir["path"])
+    expected_files = file_list.split("\n")
+
+    # sort to deal with inconsistent default file ordering on different OS's
+    actual_files.sort()
+    expected_files.sort()
+
+    assert actual_files == expected_files, [actual_files, expected_files]
+
+
+@given("we create a cache directory", target_fixture="cache_dir")
+def create_cache_dir(temp_dir):
+    random_str = "".join(random.choices(string.ascii_uppercase + string.digits, k=20))
+
+    dir_path = os.path.join(temp_dir.name, "cache_" + random_str)
+    os.mkdir(dir_path)
+    return {"exists": True, "path": dir_path}
+
+
+@then(parse('the content of file "{file_path}" in the cache should be\n{file_content}'))
+def content_of_file_should_be(file_path, file_content, cache_dir):
+    assert cache_dir["exists"]
+    expected_content = file_content.strip().splitlines()
+
+    with open(os.path.join(cache_dir["path"], file_path), "r") as f:
+        actual_content = f.read().strip().splitlines()
+
+    for actual_line, expected_line in zip(actual_content, expected_content):
+        if actual_line.startswith("tags: ") and expected_line.startswith("tags: "):
+            assert_equal_tags_ignoring_order(
+                actual_line, expected_line, actual_content, expected_content
+            )
+        else:
+            assert actual_line.strip() == expected_line.strip(), [
+                [actual_line.strip(), expected_line.strip()],
+                [actual_content, expected_content],
+            ]
+
+
+def assert_equal_tags_ignoring_order(
+    actual_line, expected_line, actual_content, expected_content
+):
+    actual_tags = set(tag.strip() for tag in actual_line[len("tags: ") :].split(","))
+    expected_tags = set(
+        tag.strip() for tag in expected_line[len("tags: ") :].split(",")
+    )
+    assert actual_tags == expected_tags, [
+        [actual_tags, expected_tags],
+        [expected_content, actual_content],
+    ]
+
+
+@then(parse("the cache should contain the files\n{file_list}"))
+def cache_dir_contains_files(file_list, cache_dir):
+    assert cache_dir["exists"]
+
+    actual_files = os.listdir(cache_dir["path"])
+    expected_files = file_list.split("\n")
+
+    # sort to deal with inconsistent default file ordering on different OS's
+    actual_files.sort()
+    expected_files.sort()
+
+    assert actual_files == expected_files, [actual_files, expected_files]
+
+
+@then("the output should be a valid XML string")
+def assert_valid_xml_string(cli_run):
+    output = cli_run["stdout"]
+    xml_tree = ElementTree.fromstring(output)
+    assert xml_tree, output
+
+
+@then(parse('"{item}" node in the xml output should have {number:d} elements'))
+def assert_xml_output_entries_count(item, number, cli_run):
+    output = cli_run["stdout"]
+    xml_tree = ElementTree.fromstring(output)
+
+    xml_tags = (node.tag for node in xml_tree)
+    assert item in xml_tags, str(list(xml_tags))
+
+    actual_entry_count = len(xml_tree.find(item))
+    assert actual_entry_count == number, actual_entry_count
+
+
+@then(parse('"tags" in the xml output should contain\n{expected_tags}'))
+def assert_xml_output_tags(expected_tags, cli_run):
+    output = cli_run["stdout"]
+    expected_tags = expected_tags.split("\n")
+
+    xml_tree = ElementTree.fromstring(output)
+
+    xml_tags = (node.tag for node in xml_tree)
+    assert "tags" in xml_tags, str(list(xml_tags))
+
+    actual_tags = set(t.attrib["name"] for t in xml_tree.find("tags"))
+    assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
+
+
+@then(parse('there should be {number:d} "{item}" elements'))
+def count_elements(number, item, cli_run):
+    output = cli_run["stdout"]
+    xml_tree = ElementTree.fromstring(output)
+    assert len(xml_tree.findall(".//" + item)) == number
