@@ -8,6 +8,7 @@ import pytest
 def datestr():
     yield "2020-10-20 16:59"
 
+
 def build_card_header(datestr):
     top_left_corner = "┎─╮"
     content = top_left_corner + datestr
