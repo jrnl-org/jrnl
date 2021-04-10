@@ -6,19 +6,7 @@ import pytest
 
 @pytest.fixture()
 def datestr():
-
     yield "2020-10-20 16:59"
-
-
-from textwrap import TextWrapper
-
-
-def provide_date_wrapper(initial_linewrap):
-    wrapper = TextWrapper(
-        width=initial_linewrap, initial_indent=" ", subsequent_indent=" "
-    )
-    return wrapper
-
 
 def build_card_header(datestr):
     top_left_corner = "┎─╮"
