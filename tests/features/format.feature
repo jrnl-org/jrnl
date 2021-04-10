@@ -265,9 +265,10 @@ Feature: Custom formats
         Given we use the config "tags.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --export xml"
-        Then the output should be a valid XML string
-        And "entries" node in the xml output should have 2 elements
-        And "tags" in the xml output should contain
+        Then the output should be valid XML
+        Given we parse the output as XML
+        Then "entries" node in the parsed output should have 2 elements
+        And "tags" in the parsed output should be
             @idea
             @journal
             @dan
