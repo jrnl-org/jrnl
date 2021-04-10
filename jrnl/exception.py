@@ -33,8 +33,10 @@ class JrnlError(Exception):
             ),
             "LineWrapTooSmallForDateFormat": textwrap.dedent(
                 """
-                The provided linewrap value of {config_linewrap} is too small
-                to display the timestamps in the configured time format.
+                The provided linewrap value of {config_linewrap} is too small by {columns} columns
+                to display the timestamps in the configured time format for journal {journal}.
+
+                You can avoid this error by specifying a linewrap value that is larger by at least {columns} in the configuration file or by using --config-override at the command line 
                 """
             ),
         }

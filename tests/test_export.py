@@ -1,6 +1,5 @@
 from jrnl.exception import JrnlError
-from jrnl.plugins.fancy_exporter import FancyExporter
-
+from jrnl.plugins.fancy_exporter import check_provided_linewrap_viability
 
 import pytest
 
@@ -30,10 +29,11 @@ def build_card_header(datestr):
 class TestFancy:
     def test_too_small_linewrap(self, datestr):
 
+        journal = "test_journal"
         content = build_card_header(datestr)
 
         total_linewrap = 12
 
         with pytest.raises(JrnlError) as e:
-            FancyExporter.check_linewrap(total_linewrap, [content])
+            check_provided_linewrap_viability(total_linewrap, [content], journal)
         assert e.value.error_type == "LineWrapTooSmallForDateFormat"

@@ -41,7 +41,8 @@ class FancyExporter(TextExporter):
         card = [
             cls.border_a + cls.border_b * (initial_linewrap) + cls.border_c + date_str
         ]
-        cls.check_linewrap(linewrap, card)
+        check_provided_linewrap_viability(linewrap, card, entry.journal)
+
         w = TextWrapper(
             width=initial_linewrap,
             initial_indent=cls.border_g + " ",
@@ -76,13 +77,19 @@ class FancyExporter(TextExporter):
         return "\n".join(card)
 
     @classmethod
-    def check_linewrap(cls, linewrap, card):
-        if len(card[0]) > linewrap:
-            raise JrnlError("LineWrapTooSmallForDateFormat", config_linewrap=linewrap)
-        else:
-            pass
-
-    @classmethod
     def export_journal(cls, journal):
         """Returns a unicode representation of an entire journal."""
         return "\n".join(cls.export_entry(entry) for entry in journal)
+
+
+def check_provided_linewrap_viability(linewrap, card, journal):
+    if len(card[0]) > linewrap:
+        width_violation = len(card[0]) - linewrap
+        raise JrnlError(
+            "LineWrapTooSmallForDateFormat",
+            config_linewrap=linewrap,
+            columns=width_violation,
+            journal=journal,
+        )
+    else:
+        pass

@@ -61,6 +61,3 @@ coverage.xml
 .coverage
 .vscode/tasks.json
 todo.txt
-
-tags
-.vimrc
