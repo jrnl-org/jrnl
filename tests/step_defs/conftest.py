@@ -173,6 +173,11 @@ def which_output_stream():
     return None
 
 
+@fixture
+def parsed_output():
+    return {"lang": None, "obj": None}
+
+
 # ----- STEPS ----- #
 @given("we have a keyring", target_fixture="keyring")
 @given(parse("we have a {keyring_type} keyring"), target_fixture="keyring")
@@ -447,6 +452,7 @@ def cache_dir_contains_files(file_list, cache_dir):
 
     assert actual_files == expected_files, [actual_files, expected_files]
 
+
 @then(parse("the output should be valid {language_name}"))
 def assert_output_is_valid_language(cli_run, language_name):
     language_name = language_name.upper()
@@ -458,30 +464,60 @@ def assert_output_is_valid_language(cli_run, language_name):
     else:
         assert False, f"Language name {language_name} not recognized"
 
-@then(parse('"{item}" node in the xml output should have {number:d} elements'))
-def assert_xml_output_entries_count(item, number, cli_run):
+
+@given(parse("we parse the output as {language_name}"), target_fixture="parsed_output")
+def parse_output_as_language(cli_run, language_name):
+    language_name = language_name.upper()
     output = cli_run["stdout"]
-    xml_tree = ElementTree.fromstring(output)
 
-    xml_tags = (node.tag for node in xml_tree)
-    assert item in xml_tags, str(list(xml_tags))
+    if language_name == "XML":
+        parsed_output = ElementTree.fromstring(output)
+    elif language_name == "JSON":
+        parsed_output = json.loads(output)
+    else:
+        assert False, f"Language name {language_name} not recognized"
 
-    actual_entry_count = len(xml_tree.find(item))
-    assert actual_entry_count == number, actual_entry_count
+    return {"lang": language_name, "obj": parsed_output}
 
 
-@then(parse('"tags" in the xml output should contain\n{expected_tags}'))
-def assert_xml_output_tags(expected_tags, cli_run):
-    output = cli_run["stdout"]
+@then(parse('"{node_name}" node in the parsed output should have {number:d} elements'))
+def assert_parsed_output_item_count(node_name, number, parsed_output):
+    lang = parsed_output["lang"]
+    obj = parsed_output["obj"]
+
+    if lang == "XML":
+        xml_node_names = (node.tag for node in obj)
+        assert node_name in xml_node_names, str(list(xml_node_names))
+
+        actual_entry_count = len(obj.find(node_name))
+        assert actual_entry_count == number, actual_entry_count
+
+    elif lang == "JSON":
+        assert node_name in obj, [node_name, obj]
+        assert len(obj[node_name]) == number, len(obj[node_name])
+
+    else:
+        assert False, f"Language name {lang} not recognized"
+
+
+@then(parse('"tags" in the parsed output should be\n{expected_tags}'))
+def assert_xml_output_tags(expected_tags, cli_run, parsed_output):
+    lang = parsed_output["lang"]
+    obj = parsed_output["obj"]
     expected_tags = expected_tags.split("\n")
 
-    xml_tree = ElementTree.fromstring(output)
+    if lang == "XML":
+        xml_node_names = (node.tag for node in obj)
+        assert "tags" in xml_node_names, str(list(xml_node_names))
 
-    xml_tags = (node.tag for node in xml_tree)
-    assert "tags" in xml_tags, str(list(xml_tags))
+        actual_tags = set(t.attrib["name"] for t in obj.find("tags"))
+        assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
 
-    actual_tags = set(t.attrib["name"] for t in xml_tree.find("tags"))
-    assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
+    elif lang == "JSON":
+        assert False, "JSON not implemented in this step"
+
+    else:
+        assert False, f"Language name {lang} not recognized"
 
 
 @then(parse('there should be {number:d} "{item}" elements'))
