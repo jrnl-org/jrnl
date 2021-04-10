@@ -499,23 +499,33 @@ def assert_parsed_output_item_count(node_name, number, parsed_output):
     else:
         assert False, f"Language name {lang} not recognized"
 
-
-@then(parse('"tags" in the parsed output should be\n{expected_tags}'))
-def assert_xml_output_tags(expected_tags, cli_run, parsed_output):
+@then(parse('"{field_name}" in the parsed output should be\n{expected_keys}'))
+def assert_xml_output_tags(field_name, expected_keys, cli_run, parsed_output):
     lang = parsed_output["lang"]
     obj = parsed_output["obj"]
-    expected_tags = expected_tags.split("\n")
+    expected_keys = expected_keys.split("\n")
 
     if lang == "XML":
         xml_node_names = (node.tag for node in obj)
-        assert "tags" in xml_node_names, str(list(xml_node_names))
+        assert field_name in xml_node_names, str(list(xml_node_names))
 
-        actual_tags = set(t.attrib["name"] for t in obj.find("tags"))
-        assert actual_tags == set(expected_tags), [actual_tags, set(expected_tags)]
+        if field_name == "tags":
+            actual_tags = set(t.attrib["name"] for t in obj.find("tags"))
+            assert set(actual_tags) == set(expected_keys), [actual_tags, set(expected_keys)]
+        else:
+            assert False, "This test only works for tags in XML"
 
     elif lang == "JSON":
-        assert False, "JSON not implemented in this step"
+        my_obj = obj
 
+        for node in field_name.split("."):
+            try:
+                my_obj = my_obj[int(node)]
+            except ValueError:
+                assert field_name in my_obj
+                my_obj = my_obj[node]
+
+        assert set(expected_keys) == set(my_obj)
     else:
         assert False, f"Language name {lang} not recognized"
 
