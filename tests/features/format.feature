@@ -5,7 +5,7 @@ Feature: Custom formats
         And we use the password "test" if prompted
         When we run "jrnl --format json"
         Then we should get no error
-        And the output should be parsable as json
+        And the output should be valid JSON
         And "entries" in the json output should have 3 elements
         And "tags" in the json output should contain "@ipsum"
         And "tags" in the json output should contain "@tagone"
@@ -26,7 +26,7 @@ Feature: Custom formats
         Given we use the config "dayone.yaml"
         When we run "jrnl --export json"
         Then we should get no error
-        And the output should be parsable as json
+        And the output should be valid JSON
         And the json output should contain entries.0.uuid = "4BB1F46946AD439996C9B59DE7C4DDC1"
 
     Scenario Outline: Printing a journal that has multiline entries with tags
@@ -67,9 +67,9 @@ Feature: Custom formats
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl -until 'August 2020' --format json"
-        Then the output should be parsable as json
+        Then the output should be valid JSON
         Then we should get no error
-        And the output should be parsable as json
+        And the output should be valid JSON
         And "entries" in the json output should have 2 elements
         And "tags" in the json output should contain "@ipsum"
         And "tags" in the json output should contain "@tagone"

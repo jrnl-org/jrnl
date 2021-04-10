@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import ast
+import json
 import os
 from collections import defaultdict
 from keyring import backend
@@ -446,13 +447,16 @@ def cache_dir_contains_files(file_list, cache_dir):
 
     assert actual_files == expected_files, [actual_files, expected_files]
 
-
-@then("the output should be a valid XML string")
-def assert_valid_xml_string(cli_run):
-    output = cli_run["stdout"]
-    xml_tree = ElementTree.fromstring(output)
-    assert xml_tree, output
-
+@then(parse("the output should be valid {language_name}"))
+def assert_output_is_valid_language(cli_run, language_name):
+    language_name = language_name.upper()
+    if language_name == "XML":
+        xml_tree = ElementTree.fromstring(cli_run["stdout"])
+        assert xml_tree, "Invalid XML"
+    elif language_name == "JSON":
+        assert json.loads(cli_run["stdout"]), "Invalid JSON"
+    else:
+        assert False, f"Language name {language_name} not recognized"
 
 @then(parse('"{item}" node in the xml output should have {number:d} elements'))
 def assert_xml_output_entries_count(item, number, cli_run):
