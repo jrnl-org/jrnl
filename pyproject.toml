@@ -69,6 +69,12 @@ markers = [
     "todo",
 ]
 
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore:Flag style will be deprecated in.*",
+    "ignore:[WinError 32].*",
+    "ignore:[WinError 5].*"
+]
 
 [build-system]
 requires = ["poetry>=1.1"]
