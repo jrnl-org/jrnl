@@ -323,6 +323,22 @@ Feature: Custom formats
         | basic_folder    |
         | basic_dayone    |
 
+    
+    
+    Scenario Outline: Export fancy with small linewrap
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl --config-override linewrap 35 --format fancy -3"
+        Then we should get no error
+        And the output should be 35 columns wide
+        
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |
+
     @todo
     Scenario Outline: Exporting fancy
         # Needs better emoji support

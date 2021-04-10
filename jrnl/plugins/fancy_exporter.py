@@ -3,6 +3,7 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from jrnl.exception import JrnlError
 from textwrap import TextWrapper
 
 from .text_exporter import TextExporter
@@ -14,12 +15,14 @@ class FancyExporter(TextExporter):
     names = ["fancy", "boxed"]
     extension = "txt"
 
+    # Top border of the card
     border_a = "┎"
     border_b = "─"
     border_c = "╮"
     border_d = "╘"
     border_e = "═"
     border_f = "╕"
+
     border_g = "┃"
     border_h = "│"
     border_i = "┠"
@@ -33,16 +36,19 @@ class FancyExporter(TextExporter):
         """Returns a fancy unicode representation of a single entry."""
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         linewrap = entry.journal.config["linewrap"] or 78
-        initial_linewrap = linewrap - len(date_str) - 2
+        initial_linewrap = max((1, linewrap - len(date_str) - 2))
         body_linewrap = linewrap - 2
         card = [
             cls.border_a + cls.border_b * (initial_linewrap) + cls.border_c + date_str
         ]
+        check_provided_linewrap_viability(linewrap, card, entry.journal)
+
         w = TextWrapper(
             width=initial_linewrap,
             initial_indent=cls.border_g + " ",
             subsequent_indent=cls.border_g + " ",
         )
+
         title_lines = w.wrap(entry.title)
         card.append(
             title_lines[0].ljust(initial_linewrap + 1)
@@ -74,3 +80,14 @@ class FancyExporter(TextExporter):
     def export_journal(cls, journal):
         """Returns a unicode representation of an entire journal."""
         return "\n".join(cls.export_entry(entry) for entry in journal)
+
+
+def check_provided_linewrap_viability(linewrap, card, journal):
+    if len(card[0]) > linewrap:
+        width_violation = len(card[0]) - linewrap
+        raise JrnlError(
+            "LineWrapTooSmallForDateFormat",
+            config_linewrap=linewrap,
+            columns=width_violation,
+            journal=journal,
+        )
