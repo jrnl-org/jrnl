@@ -91,5 +91,3 @@ def check_provided_linewrap_viability(linewrap, card, journal):
             columns=width_violation,
             journal=journal,
         )
-    else:
-        pass
