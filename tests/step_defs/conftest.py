@@ -480,7 +480,7 @@ def parse_output_as_language(cli_run, language_name):
     return {"lang": language_name, "obj": parsed_output}
 
 
-@then(parse('"{node_name}" node in the parsed output should have {number:d} elements'))
+@then(parse('"{node_name}" in the parsed output should have {number:d} elements'))
 def assert_parsed_output_item_count(node_name, number, parsed_output):
     lang = parsed_output["lang"]
     obj = parsed_output["obj"]
@@ -493,14 +493,23 @@ def assert_parsed_output_item_count(node_name, number, parsed_output):
         assert actual_entry_count == number, actual_entry_count
 
     elif lang == "JSON":
-        assert node_name in obj, [node_name, obj]
-        assert len(obj[node_name]) == number, len(obj[node_name])
+        my_obj = obj
+
+        for node in node_name.split("."):
+            try:
+                my_obj = my_obj[int(node)]
+            except ValueError:
+                assert node in my_obj
+                my_obj = my_obj[node]
+
+        assert len(my_obj) == number, len(my_obj)
 
     else:
         assert False, f"Language name {lang} not recognized"
 
+
 @then(parse('"{field_name}" in the parsed output should be\n{expected_keys}'))
-def assert_xml_output_tags(field_name, expected_keys, cli_run, parsed_output):
+def assert_output_field_content(field_name, expected_keys, cli_run, parsed_output):
     lang = parsed_output["lang"]
     obj = parsed_output["obj"]
     expected_keys = expected_keys.split("\n")
@@ -511,7 +520,10 @@ def assert_xml_output_tags(field_name, expected_keys, cli_run, parsed_output):
 
         if field_name == "tags":
             actual_tags = set(t.attrib["name"] for t in obj.find("tags"))
-            assert set(actual_tags) == set(expected_keys), [actual_tags, set(expected_keys)]
+            assert set(actual_tags) == set(expected_keys), [
+                actual_tags,
+                set(expected_keys),
+            ]
         else:
             assert False, "This test only works for tags in XML"
 
@@ -522,10 +534,13 @@ def assert_xml_output_tags(field_name, expected_keys, cli_run, parsed_output):
             try:
                 my_obj = my_obj[int(node)]
             except ValueError:
-                assert field_name in my_obj
+                assert node in my_obj, [my_obj.keys(), node]
                 my_obj = my_obj[node]
 
-        assert set(expected_keys) == set(my_obj)
+        if type(my_obj) is str:
+            my_obj = [my_obj]
+
+        assert set(expected_keys) == set(my_obj), [set(my_obj), set(expected_keys)]
     else:
         assert False, f"Language name {lang} not recognized"
 
