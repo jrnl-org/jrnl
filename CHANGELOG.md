@@ -10,6 +10,7 @@
 
 **Packaging:**
 
+- Bump pytest from 6.2.2 to 6.2.3 [\#1228](https://github.com/jrnl-org/jrnl/pull/1228) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 3.4.6 to 3.4.7 [\#1223](https://github.com/jrnl-org/jrnl/pull/1223) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.0.0 to 23.0.1 [\#1222](https://github.com/jrnl-org/jrnl/pull/1222) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pyflakes from 2.3.0 to 2.3.1 [\#1221](https://github.com/jrnl-org/jrnl/pull/1221) ([dependabot[bot]](https://github.com/apps/dependabot))
