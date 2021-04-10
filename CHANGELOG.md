@@ -4,6 +4,11 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8...HEAD)
 
+**Fixed bugs:**
+
+- Fancy format crashes on low linewrap values [\#1201](https://github.com/jrnl-org/jrnl/issues/1201)
+- More graceful handling of low linewrap values  [\#1219](https://github.com/jrnl-org/jrnl/pull/1219) ([sriniv27](https://github.com/sriniv27))
+
 **Documentation:**
 
 - Docs: Add emacs as external editor to recipes [\#1220](https://github.com/jrnl-org/jrnl/pull/1220) ([mandarvaze](https://github.com/mandarvaze))
