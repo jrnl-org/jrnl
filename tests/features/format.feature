@@ -116,7 +116,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
-    @skip # .TODO return after editor steps implemented
+    @skip_editor # .TODO return after editor steps implemented
     Scenario Outline: Increasing Headings on Markdown export
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
@@ -214,7 +214,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
     # | basic_dayone.yaml    | @todo
 
-    @skip # .TODO return after editor steps implemented
+    @skip_editor # .TODO return after editor steps implemented
     Scenario Outline: Add a blank line to Markdown export if there isn't one already
         # https://github.com/jrnl-org/jrnl/issues/768
         # https://github.com/jrnl-org/jrnl/issues/881
