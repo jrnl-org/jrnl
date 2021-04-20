@@ -47,7 +47,7 @@ Feature: Custom formats
             | consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
             | commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
             | venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
-            |
+            | 
             | Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
             | ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
             | potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
