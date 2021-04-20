@@ -51,6 +51,7 @@ toml = ">=0.10"
 pyflakes = ">=2.2.0"
 pytest = ">=6.2"
 pytest-bdd = "^4.0.1"
+pytest-icdiff = "^0.5"
 yq = ">=2.11"
 
 [tool.poetry.scripts]
