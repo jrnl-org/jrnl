@@ -74,12 +74,14 @@ Feature: Custom formats
         Then the output should be valid JSON
         Then we should get no error
         And the output should be valid JSON
-        And "entries" in the json output should have 2 elements
-        And "tags" in the json output should contain "@ipsum"
-        And "tags" in the json output should contain "@tagone"
-        And "tags" in the json output should contain "@tagtwo"
-        And entry 1 should have an array "tags" with 3 elements
-        And entry 2 should have an array "tags" with 1 elements
+        Given we parse the output as JSON
+        Then "entries" in the parsed output should have 2 elements
+        And "tags" in the parsed output should be
+            @ipsum
+            @tagone
+            @tagtwo
+        And "entries.0.tags" in the parsed output should have 3 elements
+        And "entries.1.tags" in the parsed output should have 1 elements
 
         Examples: configs
         | config_file          |
