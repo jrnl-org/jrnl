@@ -22,12 +22,14 @@ from pytest_bdd import when
 from pytest_bdd.parsers import parse
 from pytest_bdd import parsers
 from pytest import fixture
+from pytest import mark
 import toml
 
 from jrnl import __version__
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
+from jrnl.os_compat import on_windows
 
 
 class TestKeyring(backend.KeyringBackend):
@@ -77,6 +79,22 @@ class FailedKeyring(backend.KeyringBackend):
 
     def delete_password(self, servicename, username):
         raise errors.KeyringError
+
+
+# ----- MARKERS ----- #
+def pytest_bdd_apply_tag(tag, function):
+    if tag == "skip_win":
+        marker = mark.skipif(on_windows, reason="Skip test on Windows")
+    elif tag == "skip_editor":
+        marker = mark.skip(
+            reason="Skipping editor-related test. We should come back to this!"
+        )
+    else:
+        # Fall back to pytest-bdd's default behavior
+        return None
+
+    marker(function)
+    return True
 
 
 # ----- UTILS ----- #
