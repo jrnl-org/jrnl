@@ -92,7 +92,6 @@ Feature: Custom formats
 
     Scenario Outline: Exporting using custom templates
         Given we use the config "<config_file>"
-        And we load template "sample.template"
         And we use the password "test" if prompted
         When we run "jrnl -1 --format sample"
         Then the output should be
@@ -117,6 +116,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
+    @skip # .TODO return after editor steps implemented
     Scenario Outline: Increasing Headings on Markdown export
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
@@ -214,6 +214,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
     # | basic_dayone.yaml    | @todo
 
+    @skip # .TODO return after editor steps implemented
     Scenario Outline: Add a blank line to Markdown export if there isn't one already
         # https://github.com/jrnl-org/jrnl/issues/768
         # https://github.com/jrnl-org/jrnl/issues/881
@@ -431,7 +432,7 @@ Feature: Custom formats
                 porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
                 conubia nostra, per inceptos himenaeos.        
             ...
-
+            
         Examples: configs
         | config_file          |
         | basic_onefile.yaml   |
