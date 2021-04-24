@@ -32,7 +32,7 @@ Feature: Importing data
         And the output should contain "end of entry."
 
         Examples: Configs
-        | config               |
+        | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
         # | basic_folder.yaml    | @todo
@@ -54,7 +54,7 @@ Feature: Importing data
         And the output should contain "Sed dignissim"
 
         Examples: Configs
-        | config               |
+        | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
         # | basic_folder.yaml    | @todo
