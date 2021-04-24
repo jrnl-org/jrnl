@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...HEAD)
+
+**Build:**
+
+- Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
+
 ## [v2.8.1](https://pypi.org/project/jrnl/v2.8.1/) (2021-04-24)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1-beta...v2.8.1)
