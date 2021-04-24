@@ -419,14 +419,15 @@ def output_should_not_contain(output, cli_run):
     assert output not in cli_run["stdout"]
 
 
-@then(parse("the output should be\n{output}"))
-@then(parse('the output should be "{output}"'))
-@then('the output should be "<output>"')
-def output_should_be(output, cli_run):
+@then(parse("the output should be\n{str_value}"))
+@then(parse('the output should be "{str_value}"'))
+@then('the output should be "<str_value>"')
+@then("the output should be empty")
+def output_should_be(str_value, cli_run):
     actual_out = cli_run["stdout"].strip()
-    output = output.strip()
-    assert output and output == actual_out, failed_msg(
-        "Output does not match.", output, actual_out
+    expected = str_value.strip()
+    assert expected == actual_out, failed_msg(
+        "Output does not match.", expected, actual_out
     )
 
 
