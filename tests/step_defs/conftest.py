@@ -8,6 +8,7 @@ from collections import defaultdict
 from keyring import backend
 from keyring import set_keyring
 from keyring import errors
+from pathlib import Path
 import random
 import string
 import re
@@ -192,11 +193,87 @@ def which_output_stream():
 
 
 @fixture
+def editor_input():
+    return None
+
+
+@fixture
+def num_args():
+    return None
+
+
+@fixture
 def parsed_output():
     return {"lang": None, "obj": None}
 
 
+@fixture
+def editor_state():
+    return {
+        "command": "",
+        "intent": {"method": "r", "input": None},
+        "tmpfile": {"name": None, "content": None},
+    }
+
+
+@fixture
+def editor(editor_state):
+    def _mock_editor(editor_command):
+        tmpfile = editor_command[-1]
+
+        editor_state["command"] = editor_command
+        editor_state["tmpfile"]["name"] = tmpfile
+
+        Path(tmpfile).touch()
+        with open(tmpfile, editor_state["intent"]["method"]) as f:
+            # Touch the file so jrnl knows it was edited
+            if editor_state["intent"]["input"] != None:
+                f.write(editor_state["intent"]["input"])
+
+            file_content = f.read()
+            editor_state["tmpfile"]["content"] = file_content
+
+    return _mock_editor
+
+
 # ----- STEPS ----- #
+@given(parse("we {editor_method} to the editor if opened\n{editor_input}"))
+@given(parse("we {editor_method} nothing to the editor if opened"))
+def we_enter_editor(editor_method, editor_input, editor_state):
+    file_method = editor_state["intent"]["method"]
+    if editor_method == "write":
+        file_method = "w+"
+    elif editor_method == "append":
+        file_method = "a+"
+    else:
+        assert False, f"Method '{editor_method}' not supported"
+
+    editor_state["intent"] = {"method": file_method, "input": editor_input}
+
+
+@then(parse("the editor should have been called"))
+@then(parse("the editor should have been called with {num_args} arguments"))
+def count_editor_args(num_args, cli_run, editor_state):
+    assert cli_run["mocks"]["editor"].called
+
+    if isinstance(num_args, int):
+        assert len(editor_state["command"]) == int(num_args)
+
+
+@then(parse('the editor file content should {comparison} "{str_value}"'))
+@then(parse("the editor file content should {comparison} empty"))
+@then(parse("the editor file content should {comparison}\n{str_value}"))
+def contains_editor_file(comparison, str_value, editor_state):
+    content = editor_state["tmpfile"]["content"]
+    # content = f'\n"""\n{content}\n"""\n'
+    if comparison == "be":
+        assert content == str_value
+    elif comparison == "contain":
+        assert str_value in content
+    else:
+        assert False, f"Comparison '{comparison}' not supported"
+
+
 @given("we have a keyring", target_fixture="keyring")
 @given(parse("we have a {keyring_type} keyring"), target_fixture="keyring")
 def we_have_type_of_keyring(keyring_type):
@@ -245,7 +322,15 @@ def use_password_forever(pw):
 @when('we run "jrnl <command>"')
 @when('we run "jrnl"')
 def we_run(
-    command, config_path, user_input, cli_run, capsys, password, keyring, cache_dir
+    command,
+    config_path,
+    user_input,
+    cli_run,
+    capsys,
+    password,
+    keyring,
+    cache_dir,
+    editor,
 ):
     if cache_dir["exists"]:
         command = command.format(cache_dir=cache_dir["path"])
@@ -270,7 +355,8 @@ def we_run(
         patch("builtins.input", side_effect=user_input) as mock_input, \
         patch("getpass.getpass", side_effect=password) as mock_getpass, \
         patch("jrnl.install.get_config_path", return_value=config_path), \
-        patch("jrnl.config.get_config_path", return_value=config_path) \
+        patch("jrnl.config.get_config_path", return_value=config_path), \
+        patch("subprocess.call", side_effect=editor) as mock_editor \
     : # @TODO: single point of truth for get_config_path (move from all calls from install to config)
         try:
             cli(args)
@@ -290,6 +376,7 @@ def we_run(
         "stdin": mock_stdin,
         "input": mock_input,
         "getpass": mock_getpass,
+        "editor": mock_editor,
     }
 
 
@@ -526,11 +613,15 @@ def assert_parsed_output_item_count(node_name, number, parsed_output):
         assert False, f"Language name {lang} not recognized"
 
 
-@then(parse('"{field_name}" in the parsed output should be\n{expected_keys}'))
-def assert_output_field_content(field_name, expected_keys, cli_run, parsed_output):
+@then(parse('"{field_name}" in the parsed output should {comparison}\n{expected_keys}'))
+def assert_output_field_content(
+    field_name, comparison, expected_keys, cli_run, parsed_output
+):
     lang = parsed_output["lang"]
     obj = parsed_output["obj"]
     expected_keys = expected_keys.split("\n")
+    if len(expected_keys) == 1:
+        expected_keys = expected_keys[0]
 
     if lang == "XML":
         xml_node_names = (node.tag for node in obj)
@@ -555,10 +646,22 @@ def assert_output_field_content(field_name, expected_keys, cli_run, parsed_outpu
                 assert node in my_obj, [my_obj.keys(), node]
                 my_obj = my_obj[node]
 
-        if type(my_obj) is str:
-            my_obj = [my_obj]
-
-        assert set(expected_keys) == set(my_obj), [set(my_obj), set(expected_keys)]
+        if comparison == "be":
+            if type(my_obj) is str:
+                assert expected_keys == my_obj, [my_obj, expected_keys]
+            else:
+                assert set(expected_keys) == set(my_obj), [
+                    set(my_obj),
+                    set(expected_keys),
+                ]
+        elif comparison == "contain":
+            if type(my_obj) is str:
+                assert expected_keys in my_obj, [my_obj, expected_keys]
+            else:
+                assert all(elem in my_obj for elem in expected_keys), [
+                    my_obj,
+                    expected_keys,
+                ]
     else:
         assert False, f"Language name {lang} not recognized"
 
