@@ -1,16 +1,16 @@
 # Changelog
 
-## [v2.8.1-beta](https://pypi.org/project/jrnl/v2.8.1-beta/) (2021-04-20)
+## [v2.8.1](https://pypi.org/project/jrnl/v2.8.1/) (2021-04-24)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8...v2.8.1-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1-beta...v2.8.1)
 
 **Fixed bugs:**
 
-- Fancy format crashes on low linewrap values [\#1201](https://github.com/jrnl-org/jrnl/issues/1201)
 - More graceful handling of low linewrap values  [\#1219](https://github.com/jrnl-org/jrnl/pull/1219) ([sriniv27](https://github.com/sriniv27))
 
 **Documentation:**
 
+- Update absolute URLs to preview images in metatags [\#1229](https://github.com/jrnl-org/jrnl/pull/1229) ([maebert](https://github.com/maebert))
 - Docs: Add emacs as external editor to recipes [\#1220](https://github.com/jrnl-org/jrnl/pull/1220) ([mandarvaze](https://github.com/mandarvaze))
 
 **Packaging:**
