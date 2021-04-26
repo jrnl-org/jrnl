@@ -46,7 +46,7 @@ tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGE
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
 mkdocs = "^1.0"
-black = {version = "^20.8b1",allow-prereleases = true}
+black = {version = "^21.4b0",allow-prereleases = true}
 toml = ">=0.10"
 pyflakes = ">=2.2.0"
 pytest = ">=6.2"
