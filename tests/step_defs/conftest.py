@@ -4,6 +4,7 @@
 import ast
 import json
 import os
+from datetime import datetime
 from collections import defaultdict
 from keyring import backend
 from keyring import set_keyring
@@ -15,6 +16,7 @@ import re
 import shutil
 import tempfile
 from unittest.mock import patch
+from unittest.mock import MagicMock
 from xml.etree import ElementTree
 
 from pytest_bdd import given
@@ -31,6 +33,7 @@ from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
 from jrnl.os_compat import on_windows
+from jrnl.time import __get_pdt_calendar
 
 
 class TestKeyring(backend.KeyringBackend):
@@ -99,10 +102,6 @@ def pytest_bdd_apply_tag(tag, function):
 
 
 # ----- UTILS ----- #
-def failed_msg(msg, expected, actual):
-    return f"{msg}\nExpected:\n{expected}\n---end---\nActual:\n{actual}\n---end---\n"
-
-
 def read_value_from_string(string):
     if string[0] == "{":
         # Handle value being a dictionary
@@ -140,6 +139,11 @@ def toml_version(working_dir):
 @fixture
 def password():
     return ""
+
+
+@fixture
+def now_date():
+    return {"datetime": datetime, "calendar_parse": __get_pdt_calendar()}
 
 
 @fixture
@@ -251,6 +255,29 @@ def we_enter_editor(editor_method, editor_input, editor_state):
     editor_state["intent"] = {"method": file_method, "input": editor_input}
 
 
+@given(parse('now is "<date_str>"'), target_fixture="now_date")
+@given(parse('now is "{date_str}"'), target_fixture="now_date")
+def now_is_str(date_str):
+    class DatetimeMagicMock(MagicMock):
+        # needed because jrnl does some reflection on datetime
+        def __instancecheck__(self, subclass):
+            return isinstance(subclass, datetime)
+
+    my_date = datetime.strptime(date_str, "%Y-%m-%d %I:%M:%S %p")
+
+    # jrnl uses two different classes to parse dates, so both must be mocked
+    datetime_mock = DatetimeMagicMock(wraps=datetime)
+    datetime_mock.now.return_value = my_date
+
+    pdt = __get_pdt_calendar()
+    calendar_mock = MagicMock(wraps=pdt)
+    calendar_mock.parse.side_effect = lambda date_str_input: pdt.parse(
+        date_str_input, my_date
+    )
+
+    return {"datetime": datetime_mock, "calendar_parse": calendar_mock}
+
+
 @then(parse("the editor should have been called"))
 @then(parse("the editor should have been called with {num_args} arguments"))
 def count_editor_args(num_args, cli_run, editor_state):
@@ -328,9 +355,9 @@ def we_run(
     cli_run,
     capsys,
     password,
-    keyring,
     cache_dir,
     editor,
+    now_date,
 ):
     if cache_dir["exists"]:
         command = command.format(cache_dir=cache_dir["path"])
@@ -354,6 +381,8 @@ def we_run(
         patch("sys.stdin.read", side_effect=user_input) as mock_stdin, \
         patch("builtins.input", side_effect=user_input) as mock_input, \
         patch("getpass.getpass", side_effect=password) as mock_getpass, \
+        patch("datetime.datetime", new=now_date["datetime"]), \
+        patch("jrnl.time.__get_pdt_calendar", return_value=now_date["calendar_parse"]), \
         patch("jrnl.install.get_config_path", return_value=config_path), \
         patch("jrnl.config.get_config_path", return_value=config_path), \
         patch("subprocess.call", side_effect=editor) as mock_editor \
@@ -392,48 +421,53 @@ def output_should_match(regex, cli_run):
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
 
 
-@then(parse("the output should contain\n{output}"))
-@then(parse('the output should contain "{output}"'))
-@then('the output should contain "<output>"')
-@then(parse("the {which_output_stream} output should contain\n{output}"))
-@then(parse('the {which_output_stream} output should contain "{output}"'))
-def output_should_contain(output, which_output_stream, cli_run):
-    assert output
+@then(parse("the output should contain\n{expected_output}"))
+@then(parse('the output should contain "{expected_output}"'))
+@then('the output should contain "<expected_output>"')
+@then(parse("the {which_output_stream} output should contain\n{expected_output}"))
+@then(parse('the {which_output_stream} output should contain "{expected_output}"'))
+def output_should_contain(expected_output, which_output_stream, cli_run):
+    assert expected_output
     if which_output_stream is None:
-        assert (output in cli_run["stdout"]) or (output in cli_run["stderr"])
+        assert (expected_output in cli_run["stdout"]) or (
+            expected_output in cli_run["stderr"]
+        )
 
     elif which_output_stream == "standard":
-        assert output in cli_run["stdout"]
+        assert expected_output in cli_run["stdout"]
 
     elif which_output_stream == "error":
-        assert output in cli_run["stderr"]
+        assert expected_output in cli_run["stderr"]
 
     else:
-        assert output in cli_run[which_output_stream]
+        assert expected_output in cli_run[which_output_stream]
 
 
-@then(parse("the output should not contain\n{output}"))
-@then(parse('the output should not contain "{output}"'))
-@then('the output should not contain "<output>"')
-def output_should_not_contain(output, cli_run):
-    assert output not in cli_run["stdout"]
+@then(parse("the output should not contain\n{expected_output}"))
+@then(parse('the output should not contain "{expected_output}"'))
+@then('the output should not contain "<expected_output>"')
+def output_should_not_contain(expected_output, cli_run):
+    assert expected_output not in cli_run["stdout"]
 
 
-@then(parse("the output should be\n{str_value}"))
-@then(parse('the output should be "{str_value}"'))
-@then('the output should be "<str_value>"')
+@then(parse("the output should be\n{expected_output}"))
+@then(parse('the output should be "{expected_output}"'))
+@then('the output should be "<expected_output>"')
+def output_should_be(expected_output, cli_run):
+    actual = cli_run["stdout"].strip()
+    expected = expected_output.strip()
+    assert expected == actual
+
+
 @then("the output should be empty")
-def output_should_be(str_value, cli_run):
-    actual_out = cli_run["stdout"].strip()
-    expected = str_value.strip()
-    assert expected == actual_out, failed_msg(
-        "Output does not match.", expected, actual_out
-    )
+def output_should_be_empty(cli_run):
+    actual = cli_run["stdout"].strip()
+    assert actual == ""
 
 
 @then('the output should contain the date "<date>"')
-def output_should_contain_date(output, cli_run):
-    assert output and output in cli_run["stdout"]
+def output_should_contain_date(date, cli_run):
+    assert date and date in cli_run["stdout"]
 
 
 @then("the output should contain pyproject.toml version")
@@ -574,12 +608,12 @@ def assert_output_is_valid_language(cli_run, language_name):
 @given(parse("we parse the output as {language_name}"), target_fixture="parsed_output")
 def parse_output_as_language(cli_run, language_name):
     language_name = language_name.upper()
-    output = cli_run["stdout"]
+    actual_output = cli_run["stdout"]
 
     if language_name == "XML":
-        parsed_output = ElementTree.fromstring(output)
+        parsed_output = ElementTree.fromstring(actual_output)
     elif language_name == "JSON":
-        parsed_output = json.loads(output)
+        parsed_output = json.loads(actual_output)
     else:
         assert False, f"Language name {language_name} not recognized"
 
@@ -669,6 +703,6 @@ def assert_output_field_content(
 
 @then(parse('there should be {number:d} "{item}" elements'))
 def count_elements(number, item, cli_run):
-    output = cli_run["stdout"]
-    xml_tree = ElementTree.fromstring(output)
+    actual_output = cli_run["stdout"]
+    xml_tree = ElementTree.fromstring(actual_output)
     assert len(xml_tree.findall(".//" + item)) == number

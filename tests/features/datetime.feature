@@ -36,10 +36,10 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl <command>"
         Then we should see the message "Entry added"
         When we run "jrnl -n 1"
-        Then the output should contain "<output>"
+        Then the output should contain "<expected_output>"
 
         Examples: Day-first Dates
-        | config_file              | command                      | output                            |
+        | config_file              | command                      | expected_output                   |
         | little_endian_dates.yaml | 2020-09-19: My first entry.  | 19.09.2020 09:00 My first entry.  |
         | little_endian_dates.yaml | 2020-08-09: My second entry. | 09.08.2020 09:00 My second entry. |
         | little_endian_dates.yaml | 2020-02-29: Test.            | 29.02.2020 09:00 Test.            |
@@ -53,10 +53,10 @@ Feature: Reading and writing to journal with custom date formats
     Scenario Outline: Searching for dates with custom date
         Given we use the config "<config_file>"
         When we run "jrnl <command>"
-        Then the output should be "<output>"
+        Then the output should be "<expected_output>"
 
         Examples: Day-first Dates
-        | config_file              | command                    | output                           |
+        | config_file              | command                    | expected_output                  |
         | little_endian_dates.yaml | -on '2013-07-10' --short   | 10.07.2013 15:40 Life is good.   |
         | little_endian_dates.yaml | -on 'june 9 2013' --short  | 09.06.2013 15:39 My first entry. |
         | little_endian_dates.yaml | -on 'july 10 2013' --short | 10.07.2013 15:40 Life is good.   |
@@ -83,47 +83,48 @@ Feature: Reading and writing to journal with custom date formats
         Then the output should not contain "Life is good"
         And the output should not contain "But I'm better."
 
-
-    Scenario Outline: Create entry using day of the week as entry date.
+    Scenario Outline: Create entry using day of the week as entry date one.
         Given we use the config "simple.yaml"
+        And now is "2019-03-12 01:30:32 PM"
         When we run "jrnl <command>"
         Then we should see the message "Entry added"
         When we run "jrnl -1"
-        Then the output should contain "<output>"
+        Then the output should contain "<expected_output>"
         Then the output should contain the date "<date>"
 
         Examples: Days of the week
-        | command                         | output               | date             |
-        | Monday: entry on a monday       | entry on a monday    | monday at 9am    |
-        | Tuesday: entry on a tuesday     | entry on a tuesday   | tuesday at 9am   |
-        | Wednesday: entry on a wednesday | entry on a wednesday | wednesday at 9am |
-        | Thursday: entry on a thursday   | entry on a thursday  | thursday at 9am  |
-        | Friday: entry on a friday       | entry on a friday    | friday at 9am    |
-        | Saturday: entry on a saturday   | entry on a saturday  | saturday at 9am  |
-        | Sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
-        | sunday: entry on a sunday       | entry on a sunday    | sunday at 9am    |
-        | sUndAy: entry on a sunday       | entry on a sunday    | sunday at 9am    |
+        | command                         | expected_output      | date             |
+        | Monday: entry on a monday       | entry on a monday    | 2019-03-11 09:00 |
+        | Tuesday: entry on a tuesday     | entry on a tuesday   | 2019-03-05 09:00 |
+        | Wednesday: entry on a wednesday | entry on a wednesday | 2019-03-06 09:00 |
+        | Thursday: entry on a thursday   | entry on a thursday  | 2019-03-07 09:00 |
+        | Friday: entry on a friday       | entry on a friday    | 2019-03-08 09:00 |
+        | Saturday: entry on a saturday   | entry on a saturday  | 2019-03-09 09:00 |
+        | Sunday: entry on a sunday       | entry on a sunday    | 2019-03-10 09:00 |
+        | sunday: entry on a sunday       | entry on a sunday    | 2019-03-10 09:00 |
+        | sUndAy: entry on a sunday       | entry on a sunday    | 2019-03-10 09:00 |
 
 
-    Scenario Outline: Create entry using day of the week as entry date.
+    Scenario Outline: Create entry using day of the week as entry date two.
         Given we use the config "simple.yaml"
+        And now is "2019-03-12 01:30:32 PM"
         When we run "jrnl <command>"
         Then we should see the message "Entry added"
         When we run "jrnl -1"
-        Then the output should contain "<output>"
+        Then the output should contain "<expected_output>"
         Then the output should contain the date "<date>"
 
         Examples: Days of the week
-        | command                   | output               | date             |
-        | Mon: entry on a monday    | entry on a monday    | monday at 9am    |
-        | Tue: entry on a tuesday   | entry on a tuesday   | tuesday at 9am   |
-        | Wed: entry on a wednesday | entry on a wednesday | wednesday at 9am |
-        | Thu: entry on a thursday  | entry on a thursday  | thursday at 9am  |
-        | Fri: entry on a friday    | entry on a friday    | friday at 9am    |
-        | Sat: entry on a saturday  | entry on a saturday  | saturday at 9am  |
-        | Sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
-        | sun: entry on a sunday    | entry on a sunday    | sunday at 9am    |
-        | sUn: entry on a sunday    | entry on a sunday    | sunday at 9am    |
+        | command                   | expected_output      | date             |
+        | Mon: entry on a monday    | entry on a monday    | 2019-03-11 09:00 |
+        | Tue: entry on a tuesday   | entry on a tuesday   | 2019-03-05 09:00 |
+        | Wed: entry on a wednesday | entry on a wednesday | 2019-03-06 09:00 |
+        | Thu: entry on a thursday  | entry on a thursday  | 2019-03-07 09:00 |
+        | Fri: entry on a friday    | entry on a friday    | 2019-03-08 09:00 |
+        | Sat: entry on a saturday  | entry on a saturday  | 2019-03-09 09:00 |
+        | Sun: entry on a sunday    | entry on a sunday    | 2019-03-10 09:00 |
+        | sun: entry on a sunday    | entry on a sunday    | 2019-03-10 09:00 |
+        | sUn: entry on a sunday    | entry on a sunday    | 2019-03-10 09:00 |
 
 
     Scenario: Journals with unreadable dates should still be loaded

@@ -2,7 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 
-from datetime import datetime
+import datetime
 import logging
 import os
 import re
@@ -134,7 +134,9 @@ class Journal:
         for match in date_blob_re.finditer(journal_txt):
             date_blob = match.groups()[0]
             try:
-                new_date = datetime.strptime(date_blob, self.config["timeformat"])
+                new_date = datetime.datetime.strptime(
+                    date_blob, self.config["timeformat"]
+                )
             except ValueError:
                 # Passing in a date that had brackets around it
                 new_date = time.parse(date_blob, bracketed=True)
@@ -347,7 +349,7 @@ class LegacyJournal(Journal):
         """Parses a journal that's stored in a string and returns a list of entries"""
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
-        date_length = len(datetime.today().strftime(self.config["timeformat"]))
+        date_length = len(datetime.datetime.today().strftime(self.config["timeformat"]))
 
         # Initialise our current entry
         entries = []
@@ -357,7 +359,7 @@ class LegacyJournal(Journal):
             line = line.rstrip()
             try:
                 # try to parse line as date => new entry begins
-                new_date = datetime.strptime(
+                new_date = datetime.datetime.strptime(
                     line[:date_length], self.config["timeformat"]
                 )
 
