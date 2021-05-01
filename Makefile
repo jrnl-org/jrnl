@@ -21,9 +21,16 @@ lint: ## Check style with various tools
 	poetry run pyflakes jrnl tests
 	poetry run black --check --diff .
 
-test: lint ## Run unit tests and behave tests
-	poetry run pytest
-	poetry run behave --no-skipped --format progress2
+unit: # unit tests
+	poetry run pytest tests/unit
+
+e2e: # end-to-end tests
+	poetry run pytest tests/step_defs --gherkin-terminal-reporter --tb=native --diff-type=unified
+
+e2e-debug: # end-to-end tests
+	poetry run pytest tests/step_defs --gherkin-terminal-reporter --tb=native --diff-type=unified -x -vv
+
+test: lint unit e2e ## Run unit tests and behave tests
 
 build:
 	poetry build

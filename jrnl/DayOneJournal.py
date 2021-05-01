@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 import fnmatch
 import os
 from pathlib import Path
@@ -116,7 +116,7 @@ class DayOne(Journal.Journal):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
             if entry.modified:
-                utc_time = datetime.utcfromtimestamp(
+                utc_time = datetime.datetime.utcfromtimestamp(
                     time.mktime(entry.date.timetuple())
                 )
 

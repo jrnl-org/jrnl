@@ -2,7 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 
-from datetime import datetime
+import datetime
 import re
 
 import ansiwrap
@@ -14,7 +14,7 @@ from .color import highlight_tags_with_background_color
 class Entry:
     def __init__(self, journal, date=None, text="", starred=False):
         self.journal = journal  # Reference to journal mainly to access its config
-        self.date = date or datetime.now()
+        self.date = date or datetime.datetime.now()
         self.text = text
         self._title = None
         self._body = None
