@@ -5,14 +5,17 @@
 
 from textwrap import TextWrapper
 
-from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
+from jrnl.plugins.base import BaseExporter
+
+from ... import __version__
 
 
-class Exporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter can convert entries and journals into text with unicode box drawing characters."""
 
     names = ["fancy", "boxed"]
     extension = "txt"
+    version = __version__
 
     border_a = "┎"
     border_b = "─"

@@ -9,14 +9,17 @@ import sys
 
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
-from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
+from jrnl.plugins.base import BaseExporter
+
+from ... import __version__
 
 
-class Exporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter can convert entries and journals into Markdown."""
 
     names = ["md", "markdown"]
     extension = "md"
+    version = __version__
 
     @classmethod
     def export_entry(cls, entry, to_multifile=True):

@@ -6,12 +6,15 @@
 from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 from jrnl.plugins.util import get_tags_count
 
+from ... import __version__
+
 
 class Exporter(TextExporter):
     """This Exporter can lists the tags for entries and journals, exported as a plain text file."""
 
     names = ["tags"]
     extension = "tags"
+    version = __version__
 
     @classmethod
     def export_entry(cls, entry):

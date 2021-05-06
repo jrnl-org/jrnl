@@ -10,14 +10,17 @@ import sys
 from jrnl.color import ERROR_COLOR
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
-from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
+from jrnl.plugins.base import BaseExporter
+
+from ... import __version__
 
 
-class Exporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter can convert entries and journals into Markdown formatted text with YAML front matter."""
 
     names = ["yaml"]
     extension = "md"
+    version = __version__
 
     @classmethod
     def export_entry(cls, entry, to_multifile=True):
@@ -132,9 +135,10 @@ class Exporter(TextExporter):
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
         print(
-            "{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(
-                ERROR_COLOR, RESET_COLOR
+            (
+                f"[{ERROR_COLOR}ERROR{RESET_COLOR}: YAML export must be to "
+                "individual files. Please specify a directory to export to.]"
             ),
             file=sys.stderr,
         )
-        return
+        raise NotImplementedError
