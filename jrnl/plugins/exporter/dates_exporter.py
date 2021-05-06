@@ -4,14 +4,16 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 from collections import Counter
 
+from jrnl import __version__
 from jrnl.plugins.exporter.text_exporter import Exporter as TextExporter
 
 
-class DatesExporter(TextExporter):
+class Exporter(TextExporter):
     """This Exporter lists dates and their respective counts, for heatingmapping etc."""
 
     names = ["dates"]
     extension = "dates"
+    version = __version__
 
     @classmethod
     def export_entry(cls, entry):
