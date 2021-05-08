@@ -12,6 +12,9 @@ extra_css:
     - assets/highlight.css
 markdown_extensions:
   - admonition
+plugins:
+  - include-markdown
+  - search
 repo_url: https://github.com/jrnl-org/jrnl/
 edit_uri: edit/develop/docs/
 site_author: jrnl contributors

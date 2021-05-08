@@ -1,1 +1,2 @@
-mkdocs==1.1
+mkdocs==1.1.2
+mkdocs-include-markdown-plugin=2.8.0

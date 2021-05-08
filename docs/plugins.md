@@ -49,54 +49,10 @@ entries to a Journal. Here is a basic Importer, assumed to be provided with a
 nicely formated JSON file:
 
 ~~~ python
-# pelican\contrib\importer\sample_json.py
-import sys
-
-from jrnl import Entry
-from jrnl.plugins.base import BaseImporter
-
-__version__ = "1.0.0"
-
-class Importer:
-    """JSON Importer for jrnl."""
-
-    names = ["json"]
-    version = __version__
-
-    @staticmethod
-    def import_(journal, input=None)
-        """
-        Given a nicely formatted JSON file, will add the
-        contained Entries to the journal.
-        """
-        
-        old_count = len(journal.entries)
-        if input:
-            with open(input, "r", encoding="utf-8") as f:
-                data = json.loads(f)
-        else:
-            try:
-                data = sys.stdin.read()
-            except KeyboardInterrupt:
-                print(
-                    "[Entries NOT imported into journal.]",
-                    file=sys.stderr,
-                )
-                sys.exit(0)
-
-        for json_entry in data:
-            raw = json_entry["title"] + "/n" + json_entry["body"]
-            date = json_entry["date"]
-            entry = Entry.Entry(self, date, raw)
-            journal.entries.append(entry)
-
-        new_cnt = len(journal.entries)
-        print(
-            "[{} entries imported to '{}' journal]".format(
-                new_cnt - old_cnt, journal.name
-            ),
-            file=sys.stderr,
-        )
+{%
+  include-markdown "../tests/external_plugins_src/jrnl/contrib/importer/sample_json.py"
+  comments=false
+%}
 ~~~
 
 Note that the above is very minimal, doesn't do any error checking, and doesn't
@@ -133,45 +89,10 @@ included in jrnl and so this (if installed) would override the built in
 exporter.
 
 ~~~ python
-# pelican\contrib\exporter\custom_json.py
-import json
-
-from jrnl.plugins.base import BaseExporter
-
-__version__ = "1.0.0"
-
-class Exporter(BaseExporter):
-    """
-    This basic Exporter can convert entries and journals into JSON.
-    """
-
-    names = ["json"]
-    extension = "json"
-    version = __version__
-
-    @classmethod
-    def entry_to_dict(cls, entry):
-        return = {
-            "title": entry.title,
-            "body": entry.body,
-            "date": entry.date.strftime("%Y-%m-%d"),
-        }
-
-    @classmethod
-    def export_entry(cls, entry):
-        """Returns a json representation of a single entry."""
-        return json.dumps(cls.entry_to_dict(entry), indent=2) + "\n"
-
-    @classmethod
-    def export_journal(cls, journal):
-        """Returns a json representation of an entire journal."""
-        tags = get_tags_count(journal)
-        result = {
-            "entries": [
-                cls.entry_to_dict(e) for e in journal.entries
-            ],
-        }
-        return json.dumps(result, indent=2)
+{%
+  include-markdown "../tests/external_plugins_src/jrnl/contrib/exporter/custom_json.py"
+  comments=false
+%}
 ~~~
 
 Note that the above is very minimal, doesn't do any error checking, and doesn't
