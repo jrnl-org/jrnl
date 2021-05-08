@@ -24,5 +24,5 @@ nav:
   - Privacy and Security: privacy-and-security.md
   - Formats: formats.md
   - Advanced Usage: advanced.md
-  - Custom Importers & Exporters: extending-jrnl.md
+  - Custom Importers & Exporters: plugins.md
   - Recipes: recipes.md
