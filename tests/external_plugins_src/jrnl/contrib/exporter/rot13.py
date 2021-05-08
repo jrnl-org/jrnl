@@ -2,10 +2,11 @@ import codecs
 
 from jrnl.plugins.base import BaseExporter
 
-__version__ = "1.0.0"
+__version__ = "v1.0.0"
+
 
 class Exporter(BaseExporter):
-    names = ["rot13"]
+    names = ["rot13", "txt"]
     extension = "txt"
     version = __version__
 

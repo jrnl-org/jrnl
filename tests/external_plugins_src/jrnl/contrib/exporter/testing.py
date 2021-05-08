@@ -13,3 +13,4 @@ from jrnl.plugins.base import BaseExporter
 class Exporter(BaseExporter):
     names = ["testing", "test"]
     version = "v0.0.1"
+    extension = "test"
