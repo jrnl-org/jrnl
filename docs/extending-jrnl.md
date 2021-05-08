@@ -49,7 +49,7 @@ entries to a Journal. Here is a basic Importer, assumed to be provided with a
 nicely formated JSON file:
 
 ~~~ python
-# pelican\contrib\importer\json_importer.py
+# pelican\contrib\importer\sample_json.py
 import sys
 
 from jrnl import Entry
@@ -133,7 +133,7 @@ included in jrnl and so this (if installed) would override the built in
 exporter.
 
 ~~~ python
-# pelican\contrib\exporter\custom_json_exporter.py
+# pelican\contrib\exporter\custom_json.py
 import json
 
 from jrnl.plugins.base import BaseExporter
@@ -187,7 +187,7 @@ Some implementation notes:
   Python interpreter running jrnl.
 - the exporter should expose at least the following the following members
   (there are a few more you will need to define if you don't subclass
-  `jrnl.plugins.exporter.text_exporter`):
+  `jrnl.plugins.base.BaseExporter`):
     - **version** (string): the version of the plugin. Displayed to help the
       user debug their installations.
     - **names** (list of strings): these are the "names" that can be passed to
