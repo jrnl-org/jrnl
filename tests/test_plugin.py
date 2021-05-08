@@ -1,9 +1,12 @@
-import pytest
-
-from jrnl.plugins.exporter import testing_exporter, json_exporter
-from jrnl import Entry, Journal
 from datetime import date
 import json
+
+import pytest
+
+from jrnl import Entry
+from jrnl import Journal
+from jrnl.plugins.exporter import json as json_exporter
+from jrnl.plugins.exporter import testing as testing_exporter
 
 
 @pytest.fixture()
