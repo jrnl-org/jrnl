@@ -14,7 +14,7 @@ class UpgradeValidationException(Exception):
 
 
 class JrnlError(Exception):
-    """Common exceptions raised by jrnl. """
+    """Common exceptions raised by jrnl."""
 
     def __init__(self, error_type, **kwargs):
         self.error_type = error_type
