@@ -214,7 +214,7 @@ def _get_editor_template(config, **kwargs):
 
 
 def _search_journal(args, journal, **kwargs):
-    """ Search the journal with the given args"""
+    """Search the journal with the given args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
 
