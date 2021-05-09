@@ -3,6 +3,11 @@ import shutil
 
 from jrnl.os_compat import on_windows
 
+try:
+    from jrnl.contrib.exporter import testing as testing_exporter
+except ImportError:
+    testing_exporter = None
+
 CWD = os.getcwd()
 
 # @see https://behave.readthedocs.io/en/latest/tutorial.html#debug-on-error-in-case-of-step-failures
@@ -46,6 +51,14 @@ def before_feature(context, feature):
         feature.skip("Skipping on Windows")
         return
 
+    if "skip_only_with_external_plugins" in feature.tags and testing_exporter is None:
+        feature.skip("Requires test external plugins installed")
+        return
+
+    if "skip_no_external_plugins" in feature.tags and testing_exporter:
+        feature.skip("Skipping with external plugins installed")
+        return
+
 
 def before_scenario(context, scenario):
     """Before each scenario, backup all config and journal test data."""
@@ -71,6 +84,17 @@ def before_scenario(context, scenario):
 
     if "skip_win" in scenario.effective_tags and on_windows():
         scenario.skip("Skipping on Windows")
+        return
+
+    if (
+        "skip_only_with_external_plugins" in scenario.effective_tags
+        and testing_exporter is None
+    ):
+        scenario.skip("Requires test external plugins installed")
+        return
+
+    if "skip_no_external_plugins" in scenario.effective_tags and testing_exporter:
+        scenario.skip("Skipping with external plugins installed")
         return
 
 

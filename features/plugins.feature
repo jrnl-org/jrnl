@@ -1,12 +1,12 @@
 Feature: Functionality of Importer and Exporter Plugins
 
-    not @external_plugins
+    @skip_no_external_plugins
     Scenario Outline: List buildin plugin names in --version 
         Given We use the config "basic_onefile.yaml"
         When We run "jrnl --version"
         Then the output should contain pyproject.toml version
         And The output should contain "<plugin_name> : <version> from jrnl.<source>.<type>.<filename>" 
-        And the output should not contain "contrib"
+        And the output should not contain ".contrib."
 
         Examples:
             | plugin_name | version     | source  | type     | filename |
@@ -23,7 +23,7 @@ Feature: Functionality of Importer and Exporter Plugins
             | xml         | v2.7.2-beta | plugins | exporter | xml      |
             | yaml        | v2.7.2-beta | plugins | exporter | yaml     |
 
-    @external_plugins
+    @skip_only_with_external_plugins
     Scenario Outline: List external plugin names in --version 
         Given We use the config "basic_onefile.yaml"
         When We run "jrnl --version"
@@ -47,7 +47,7 @@ Feature: Functionality of Importer and Exporter Plugins
             | rot13       | v1.0.0      | contrib | exporter | rot13    |
             | testing     | v0.0.1      | contrib | exporter | testing  |
         
-    @external_plugins
+    @skip_only_with_external_plugins
     Scenario Outline: Do not list overridden plugin names in --version 
         Given We use the config "basic_onefile.yaml"
         When We run "jrnl --version"

@@ -69,4 +69,4 @@ jobs:
 
     - name: Test with behave
       if: success() || failure()
-      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave --tags "~external_plugins"
+      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
