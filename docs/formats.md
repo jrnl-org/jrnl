@@ -13,7 +13,10 @@ used alone (e.g. `jrnl --format json`) to display all entries from the selected 
 
 This page shows examples of all the built-in formats, but since `jrnl` supports adding
 more formats through plugins, you may have more available on your system. Please see
-`jrnl --help` for a list of which formats are available on your system.
+`jrnl --version` for a list of which formats are available on your system. Note
+that plugins can also override built-in formats, so review your installed
+plugins if your output does not match what is listed here. You can also [write
+your own plugins](./plugins.md) to create custom formats.
 
 Any of these formats can be used interchangeably, and are only grouped into "display",
 "data", and "report" formats below for convenience.

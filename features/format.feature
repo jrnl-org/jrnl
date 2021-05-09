@@ -112,6 +112,7 @@ Feature: Custom formats
         | basic_folder    |
         | basic_dayone    |
 
+    @skip  # template exporters have been removed
     Scenario Outline: Exporting using custom templates
         Given we use the config "<config>.yaml"
         And we load template "sample.template"
