@@ -540,6 +540,11 @@ def check_output_version_inline(context):
 @then('the output should contain "{text}" or "{text2}"')
 def check_output_inline(context, text=None, text2=None):
     text = text or context.text
+    if "<pyproject.toml version>" in text:
+        pyproject = (Path(__file__) / ".." / ".." / ".." / "pyproject.toml").resolve()
+        pyproject_contents = toml.load(pyproject)
+        pyproject_version = pyproject_contents["tool"]["poetry"]["version"]
+        text = text.replace("<pyproject.toml version>", pyproject_version)
     out = context.stdout_capture.getvalue()
     assert (text and text in out) or (text2 and text2 in out)
 
