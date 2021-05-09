@@ -3,14 +3,33 @@
 
 # Extending jrnl
 
-jrnl can be extended with custom importers and exporters.
+*jrnl* can be extended with custom importers and exporters.
 
 Note that custom importers and exporters can be given the same name as a
 built-in importer or exporter to override it.
 
 Custom Importers and Exporters are traditional Python packages, and are
-installed (into jrnl) simply by installing them so they are available to the
-Python interpreter that is running jrnl.
+installed (into *jrnl*) simply by installing them so they are available to the
+Python interpreter that is running *jrnl*.
+
+Exporter are also used as "formatters" when entries are written to the command
+line.
+
+## Rational
+
+I added this feature because *jrnl* was overall working well for me, but I
+found myself maintaining a private fork so I could have a slightly customized
+export format. Implemeneting (import and) export plugins was seen as a way to
+maintain my custom exporter without the need to maintaining my private fork.
+
+This implementation tries to keep plugins as light as possible, and as free of
+boilerplate code as reasonable. As well, internal importers and exporters are
+implemented in almost exactly the same way as custom importers and exporters,
+and so it is hoped that plugins can be moved from "contributed" to "internal"
+easily, or that internal plugins can serve as a base and/or a demonstration for
+external plugins.
+
+-- @MinchinWeb, May 2021
 
 ## Entry Class
 
@@ -63,7 +82,9 @@ Some implementation notes:
 - The importer class must be named **Importer**, and should sub-class
   **jrnl.plugins.base.BaseImporter**.
 - The importer module must be within the **jrnl.contrib.importer** namespace.
-- The importer must not have any `__init__.py` files in the base directories.
+- The importer must not have any `__init__.py` files in the base directories
+  (but you can have one for your importer base directory if it is in a
+  directory rather than a single file).
 - The importer must be installed as a Python package available to the same
   Python interpreter running jrnl.
 - The importer must expose at least the following the following members:
@@ -85,7 +106,7 @@ generator or blogging engine.
 
 An exporter take either a whole journal or a specific entry and exports it.
 Below is a basic JSON Exporter; note that a more extensive JSON exporter is
-included in jrnl and so this (if installed) would override the built in
+included in *jrnl* and so this (if installed) would override the built in
 exporter.
 
 ~~~ python
@@ -103,7 +124,9 @@ Some implementation notes:
 - the exporter class must be named **Exporter** and should sub-class
   **jrnl.plugins.base.BaseExporter**.
 - the exporter module must be within the **jrnl.contrib.exporter** namespace.
-- The exporter must not have any `__init__.py` files in the base directories.
+- The exporter must not have any `__init__.py` files in the base directories
+  (but you can have one for your exporter base directory if it is in a
+  directory rather than a single file).
 - The exporter must be installed as a Python package available to the same
   Python interpreter running jrnl.
 - the exporter should expose at least the following the following members
@@ -118,11 +141,16 @@ Some implementation notes:
     - **extension** (string): the file extention used on exported entries.
     - **export_entry(entry)**: given an entry, returns a string of the formatted,
       exported entry.
-    - **export_journal(journal)**: given a journal, returns a string of the
-      formatted, exported entries of the journal.
+    - **export_journal(journal)**: (optional) given a journal, returns a string
+      of the formatted, exported entries of the journal. If not implemented,
+      *jrnl* will call **export_entry()** on each entry in turn and then
+      concatenate the results together.
 
 ## Development Tips
 
 - editable installs (`pip install -e ...`) don't seem to play nice with
   the namespace layout. If your plugin isn't appearing, try a non-editable
-  install of both jrnl and your plugin.
+  install of both *jrnl* and your plugin.
+- for examples, you can look to the *jrnl*'s internal importers and exporters.
+  As well, there are some basic external examples included in *jrnl*'s git repo
+  at `tests/external_plugins_src` (including the example code above).
