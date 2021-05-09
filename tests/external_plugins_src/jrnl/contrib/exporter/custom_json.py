@@ -2,7 +2,6 @@
 import json
 
 from jrnl.plugins.base import BaseExporter
-from jrnl.plugins.util import get_tags_count
 
 __version__ = "v1.0.0"
 
@@ -32,7 +31,6 @@ class Exporter(BaseExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns a json representation of an entire journal."""
-        tags = get_tags_count(journal)
         result = {
             "entries": [cls.entry_to_dict(e) for e in journal.entries],
         }

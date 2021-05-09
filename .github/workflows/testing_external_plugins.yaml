@@ -32,11 +32,6 @@ jobs:
             python-version: 3.9
 
     steps:
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-
     - uses: actions/checkout@v2
 
     - name: Set up Python ${{ matrix.python-version }}
@@ -56,7 +51,7 @@ jobs:
         poetry config --local virtualenvs.in-project true
         poetry install --remove-untracked
         poetry install
-        poetry run python -m pip install -e "git+${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git@{{ steps.extract_branch.outputs.branch }}#egg=jrnl-demo-plugins&subdirectory=tests/external_plugins_src"
+        poetry run python -m pip install -e "git+${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git@${GITHUB_SHA}#egg=jrnl-demo-plugins&subdirectory=tests/external_plugins_src"
 
     - name: Test with pytest
       if: success() || failure()

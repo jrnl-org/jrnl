@@ -3,7 +3,6 @@
 
 import ast
 from collections import defaultdict
-from jrnl.args import parse_args
 import os
 from pathlib import Path
 import re
@@ -14,20 +13,20 @@ from behave import given
 from behave import then
 from behave import when
 import keyring
-
 import toml
 import yaml
 from yaml.loader import FullLoader
 
-
-import jrnl.time
 from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
+from jrnl.args import parse_args
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
-from jrnl.override import apply_overrides, _recursively_apply
+from jrnl.override import _recursively_apply
+from jrnl.override import apply_overrides
+import jrnl.time
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -461,7 +460,7 @@ def run(context, command, text=""):
 @given('we load template "{filename}"')
 def load_template(context, filename):
     full_path = os.path.join("features/data/templates", filename)
-    
+
     exporter = plugins.template_exporter.__exporter_from_file(full_path)
     plugins.meta.__exporter_types[exporter.names[0]] = exporter
 
