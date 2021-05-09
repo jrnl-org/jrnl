@@ -261,3 +261,14 @@ editor: "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession
 The double backslashes are needed so jrnl can read the file path
 correctly. The `-multiInst -nosession` options will cause jrnl to open
 its own Notepad++ window.
+
+
+### emacs
+
+To use `emacs` as your editor, edit the jrnl config file (`jrnl.yaml`) like this:
+
+```yaml
+editor: emacsclient -a "" -c
+```
+
+When you're done editing the message, save and `C-x #` to close the buffer and stop the emacsclient process.

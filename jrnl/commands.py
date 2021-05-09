@@ -109,7 +109,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
 
 
 def postconfig_decrypt(args, config, original_config, **kwargs):
-    """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
+    """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
     from .Journal import PlainJournal
     from .Journal import open_journal
     from .config import update_config
