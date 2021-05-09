@@ -146,6 +146,17 @@ Some implementation notes:
       *jrnl* will call **export_entry()** on each entry in turn and then
       concatenate the results together.
 
+### Special Exporters
+
+There are a few "special" exporters, in that they are called by *jrnl* in
+situations other than a traditional export. They are:
+
+- **short** -- called by `jrnl --short`. Displays each entry on a single line.
+  The default is to print the timestamp of the entry, followed by the title.
+  The built-in (default) plugin is at `jrnl.plugins.exporter.short`.
+- **default** -- called when a different format is not specified. The built-in
+  (default) plugin is at `jrnl.plugins.exporter.pretty`.
+
 ## Development Tips
 
 - editable installs (`pip install -e ...`) don't seem to play nice with
