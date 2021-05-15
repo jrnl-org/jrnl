@@ -44,9 +44,9 @@ Feature: Journals iteracting with the file system in a way that users can see
         Given we use the config "editor.yaml"
         When we run "jrnl --edit"
         Then the editor should have been called
-        Then the temporary filename suffix should be ".jrnl"
+        Then the editor filename should end with ".jrnl"
 
     Scenario: the temporary filename suffix should be "-{template_filename}"
         Given we use the config "editor_markdown_extension.yaml"
         When we run "jrnl --edit"
-        Then the temporary filename suffix should be "-extension.md"
+        Then the editor filename should end with "-extension.md"
