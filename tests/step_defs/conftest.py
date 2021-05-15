@@ -141,6 +141,10 @@ def temp_dir():
 def working_dir(request):
     return os.path.join(request.config.rootpath, "tests")
 
+@fixture
+def config_path(temp_dir):
+    os.chdir(temp_dir.name)
+    return temp_dir.name + "/jrnl.yaml"
 
 @fixture
 def toml_version(working_dir):
@@ -197,7 +201,7 @@ def keyring_type():
 @fixture
 def config_data(config_path):
     return load_config(config_path)
-
+        
 
 @fixture
 def journal_name():
@@ -549,6 +553,14 @@ def journal_directory_should_contain(config_data, file_list):
     scoped_config = scope_config(config_data, "default")
 
     assert does_directory_contain_files(file_list, scoped_config["journal"])
+
+
+@when(parse('we change directory to "{directory_name}"'))
+def when_we_change_directory(directory_name):
+    if not os.path.isdir(directory_name):
+        os.mkdir(directory_name)
+
+    os.chdir(directory_name)
 
 
 @then(parse("the journal {should_or_should_not} exist"))

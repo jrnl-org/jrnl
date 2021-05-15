@@ -32,11 +32,11 @@ Feature: Journals iteracting with the file system in a way that users can see
         Then the output should contain "This is a new entry in my journal"
 
     Scenario: Creating journal with relative path should update to absolute path
-        Given we use the config "missingconfig"
         When we run "jrnl hello world" and enter
             test.txt
             n
-        And we change directory to "features"
+        Then the output should contain "Journal 'default' created"
+        When we change directory to "subfolder"
         And we run "jrnl -n 1"
         Then the output should contain "hello world"
 
