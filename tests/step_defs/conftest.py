@@ -31,6 +31,7 @@ import toml
 from jrnl import __version__
 from jrnl.cli import cli
 from jrnl.config import load_config
+from jrnl.config import scope_config
 from jrnl.os_compat import split_args
 from jrnl.os_compat import on_windows
 from jrnl.time import __get_pdt_calendar
@@ -111,6 +112,13 @@ def read_value_from_string(string):
     t, value = string.split(":")
     value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
     return value
+
+def assert_directory_contains_files(file_list, directory_path):
+    assert os.path.isdir(directory_path), "Directory path is not a directory"
+
+    for file in file_list.split("\n"):
+        fullpath = directory_path + '/' + file
+        assert os.path.isfile(fullpath)
 
 
 # ----- FIXTURES ----- #
@@ -358,6 +366,7 @@ def we_run(
     cache_dir,
     editor,
     now_date,
+    keyring
 ):
     if cache_dir["exists"]:
         command = command.format(cache_dir=cache_dir["path"])
@@ -527,15 +536,17 @@ def password_was_not_called(cli_run):
 
 @then(parse("the cache directory should contain the files\n{file_list}"))
 def assert_dir_contains_files(file_list, cache_dir):
-    actual_files = os.listdir(cache_dir["path"])
-    expected_files = file_list.split("\n")
+    assert_directory_contains_files(file_list, cache_dir["path"])
 
-    # sort to deal with inconsistent default file ordering on different OS's
-    actual_files.sort()
-    expected_files.sort()
+@then(parse("the journal directory should contain\n{file_list}"))
+def journal_directory_should_contain(config_data, file_list, journal_name):
+    if not journal_name:
+        journal_name = "default"
 
-    assert actual_files == expected_files, [actual_files, expected_files]
+    scoped_config = scope_config(config_data, journal_name)
+    journal_path = scoped_config["journal"]
 
+    assert_directory_contains_files(file_list, journal_path)
 
 @given("we create a cache directory", target_fixture="cache_dir")
 def create_cache_dir(temp_dir):
@@ -706,3 +717,4 @@ def count_elements(number, item, cli_run):
     actual_output = cli_run["stdout"]
     xml_tree = ElementTree.fromstring(actual_output)
     assert len(xml_tree.findall(".//" + item)) == number
+
