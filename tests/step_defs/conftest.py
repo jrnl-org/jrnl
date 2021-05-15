@@ -141,10 +141,12 @@ def temp_dir():
 def working_dir(request):
     return os.path.join(request.config.rootpath, "tests")
 
+
 @fixture
 def config_path(temp_dir):
     os.chdir(temp_dir.name)
     return temp_dir.name + "/jrnl.yaml"
+
 
 @fixture
 def toml_version(working_dir):
@@ -201,7 +203,7 @@ def keyring_type():
 @fixture
 def config_data(config_path):
     return load_config(config_path)
-        
+
 
 @fixture
 def journal_name():
@@ -302,6 +304,13 @@ def count_editor_args(num_args, cli_run, editor_state):
 
     if isinstance(num_args, int):
         assert len(editor_state["command"]) == int(num_args)
+
+
+@then(parse('the editor filename should end with "{suffix}"'))
+def editor_filename_suffix(suffix, editor_state):
+    editor_filename = editor_state["tmpfile"]["name"]
+
+    assert editor_state["tmpfile"]["name"].endswith(suffix), (editor_filename, suffix)
 
 
 @then(parse('the editor file content should {comparison} "{str_value}"'))
