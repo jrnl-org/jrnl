@@ -113,12 +113,17 @@ def read_value_from_string(string):
     value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
     return value
 
-def assert_directory_contains_files(file_list, directory_path):
-    assert os.path.isdir(directory_path), "Directory path is not a directory"
+
+def does_directory_contain_files(file_list, directory_path):
+    if not os.path.isdir(directory_path):
+        return False
 
     for file in file_list.split("\n"):
-        fullpath = directory_path + '/' + file
-        assert os.path.isfile(fullpath)
+        fullpath = directory_path + "/" + file
+        if not os.path.isfile(fullpath):
+            return False
+
+    return True
 
 
 # ----- FIXTURES ----- #
@@ -366,7 +371,7 @@ def we_run(
     cache_dir,
     editor,
     now_date,
-    keyring
+    keyring,
 ):
     if cache_dir["exists"]:
         command = command.format(cache_dir=cache_dir["path"])
@@ -536,17 +541,32 @@ def password_was_not_called(cli_run):
 
 @then(parse("the cache directory should contain the files\n{file_list}"))
 def assert_dir_contains_files(file_list, cache_dir):
-    assert_directory_contains_files(file_list, cache_dir["path"])
+    assert does_directory_contain_files(file_list, cache_dir["path"])
+
 
 @then(parse("the journal directory should contain\n{file_list}"))
-def journal_directory_should_contain(config_data, file_list, journal_name):
-    if not journal_name:
-        journal_name = "default"
+def journal_directory_should_contain(config_data, file_list):
+    scoped_config = scope_config(config_data, "default")
 
-    scoped_config = scope_config(config_data, journal_name)
-    journal_path = scoped_config["journal"]
+    assert does_directory_contain_files(file_list, scoped_config["journal"])
 
-    assert_directory_contains_files(file_list, journal_path)
+
+@then(parse("the journal {should_or_should_not} exist"))
+def journal_should_not_exist(config_data, should_or_should_not):
+    scoped_config = scope_config(config_data, "default")
+    expected_path = scoped_config["journal"]
+
+    contains_files = does_directory_contain_files(expected_path, ".")
+
+    if should_or_should_not == "should":
+        assert contains_files
+    elif should_or_should_not == "should not":
+        assert not contains_files
+    else:
+        raise Exception(
+            "should_or_should_not valid values are 'should' or 'should not'"
+        )
+
 
 @given("we create a cache directory", target_fixture="cache_dir")
 def create_cache_dir(temp_dir):
@@ -717,4 +737,3 @@ def count_elements(number, item, cli_run):
     actual_output = cli_run["stdout"]
     xml_tree = ElementTree.fromstring(actual_output)
     assert len(xml_tree.findall(".//" + item)) == number
-
