@@ -28,7 +28,7 @@ def preconfig_diagnostic(_):
 def preconfig_version(_):
     from jrnl import __title__
     from jrnl import __version__
-    from jrnl.plugins.meta import (
+    from jrnl.plugins.collector import (
         IMPORT_FORMATS,
         EXPORT_FORMATS,
         get_exporter,
@@ -69,7 +69,7 @@ def postconfig_list(config, **kwargs):
 
 def postconfig_import(args, config, **kwargs):
     from .Journal import open_journal
-    from .plugins.meta import get_importer
+    from .plugins.collector import get_importer
 
     # Requires opening the journal
     journal = open_journal(args.journal_name, config)

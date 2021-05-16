@@ -13,8 +13,8 @@ from .commands import preconfig_diagnostic
 from .commands import preconfig_version
 from .output import deprecated_cmd
 from .plugins import util
-from .plugins.meta import EXPORT_FORMATS
-from .plugins.meta import IMPORT_FORMATS
+from .plugins.collector import EXPORT_FORMATS
+from .plugins.collector import IMPORT_FORMATS
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):

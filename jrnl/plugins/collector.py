@@ -4,8 +4,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-This file ("meta") uses that title in the reflexive sense; i.e. it is the
-collection of code that allows plugins to deal with themselves.
+Code relating to the collecting of plugins and distributing calls to them.
 
 In particular, the code here collects the list of imports and exporters, both
 internal and external, and tells the main program which plugins are available.
@@ -14,6 +13,9 @@ functions are importable/callable at predetermined (code) locations.
 
 Internal plugins are located in the `jrnl.plugins` namespace, and external
 plugins are located in the `jrnl.contrib` namespace.
+
+This file was originally called "meta", using that title in the reflexive sense;
+i.e. it is the collection of code that allows plugins to deal with themselves.
 """
 
 import importlib
