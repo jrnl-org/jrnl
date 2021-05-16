@@ -19,7 +19,7 @@ line.
 
 I added this feature because *jrnl* was overall working well for me, but I
 found myself maintaining a private fork so I could have a slightly customized
-export format. Implemeneting (import and) export plugins was seen as a way to
+export format. Implementing (import and) export plugins was seen as a way to
 maintain my custom exporter without the need to maintaining my private fork.
 
 This implementation tries to keep plugins as light as possible, and as free of
@@ -65,7 +65,7 @@ If you have a (custom) datasource that you want to import into your jrnl
 
 An importer takes the source data, turns it into Entries and then appends those
 entries to a Journal. Here is a basic Importer, assumed to be provided with a
-nicely formated JSON file:
+nicely formatted JSON file:
 
 ~~~ python
 {%
@@ -76,6 +76,12 @@ nicely formated JSON file:
 
 Note that the above is very minimal, doesn't do any error checking, and doesn't
 try to import all possible entry metadata.
+
+Another potential use of a custom importer is to effectively create a scripted
+entry creator. For example, maybe each day you want to create a journal entry
+that contains the answers to specific questions; you could create a custom
+"importer" that would ask you the questions, and then create an entry containing
+the answers provided.
 
 Some implementation notes:
 
@@ -91,7 +97,7 @@ Some implementation notes:
     - **version** (string): the version of the plugin. Displayed to help the
       user debug their installations.
     - **names** (list of strings): these are the "names" that can be passed to
-      the CLI to invole your importer. If you specify one used by a built-in
+      the CLI to involve your importer. If you specify one used by a built-in
       plugin, it will overwrite it (effectively making the built-in one
       unavailable).
     - **import_(journal, input=None)**: the actual importer. Must append
@@ -100,7 +106,7 @@ Some implementation notes:
 
 ## Custom Exporter
 
-Custom exporters are useful to make jrnl's data available to other programs.
+Custom exporters are useful to make *jrnl*'s data available to other programs.
 One common usecase would to generate the input to be used by a static site
 generator or blogging engine.
 
