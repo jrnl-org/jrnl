@@ -64,3 +64,23 @@ Feature: Functionality of Importer and Exporter Plugins
             | plugin_name | version                  | source  | type     | filename |
             | json        | <pyproject.toml version> | plugins | exporter | json     |
             | txt         | <pyproject.toml version> | plugins | exporter | text     |
+
+
+    @skip_only_with_external_plugins
+    Scenario Outline: JSON format
+        Given we use the config "<config>.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl --format json"
+        Then we should get no error
+        And the output should be parsable as json
+        And "entries" in the json output should have 3 elements
+        And entry 1 should not have an array "tags"
+        And entry 2 should not have an array "tags"
+        And entry 3 should not have an array "tags"
+
+        Examples: configs
+        | config          |
+        | basic_onefile   |
+        | basic_encrypted |
+        | basic_folder    |
+        | basic_dayone    |

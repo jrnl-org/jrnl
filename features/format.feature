@@ -26,6 +26,7 @@ Feature: Custom formats
         |   basic_folder    |
         |   basic_dayone    |
 
+    @skip_no_external_plugins
     Scenario Outline: JSON format
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
@@ -48,6 +49,7 @@ Feature: Custom formats
         | basic_folder    |
         | basic_dayone    |
 
+    @skip_no_external_plugins
     Scenario: Exporting dayone to json
         Given we use the config "dayone.yaml"
         When we run "jrnl --export json"
@@ -91,6 +93,7 @@ Feature: Custom formats
         | basic_folder    |
         | basic_dayone    |
 
+    @skip_no_external_plugins
     Scenario Outline: Exporting using filters should only export parts of the journal
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
