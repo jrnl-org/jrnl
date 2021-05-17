@@ -45,6 +45,24 @@ jobs:
         path: .venv
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-v2-namespace-plugins
 
+    - name: Set up and Activate Virtual Environment (Linux)
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+
+    - name: Set up and Activate Virtual Environment (Mac)
+      if: startsWith(matrix.os, 'macOS')
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+
+    - name:  Set up and Activate Virtual Environment (Windows)
+      if: startsWith(matrix.os, 'windows')
+      run: |
+        python -m venv .venv
+        venv/Scripts/activate
+
     - name: Install dependencies
       run: |
         python -m pip install pip --upgrade
@@ -59,10 +77,8 @@ jobs:
 
     - name: Test with pytest
       if: success() || failure()
-      run: poetry run pytest --junitxml=reports/pytest/results.xml
-      shell: poetry shell {0}
+      run: poetry run pytest --junitxml=../reports/pytest/results.xml
 
     - name: Test with behave
       if: success() || failure()
-      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
-      shell: poetry shell {0}
+      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory ../reports/behave
