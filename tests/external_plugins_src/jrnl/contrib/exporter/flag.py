@@ -6,6 +6,8 @@
 """
 Exporter for testing and experimentation purposes.
 
+It is not called "testing" because then it's not installed.
+
 The presence of this plugin is also used as a "switch" by the test suite to
 decide on whether or not to run the "vanilla" test suite, or the test suite
 for external plugins.

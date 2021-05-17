@@ -5,7 +5,7 @@ import shutil
 from jrnl.os_compat import on_windows
 
 try:
-    from jrnl.contrib.exporter import testing as testing_exporter
+    from jrnl.contrib.exporter import flag as testing_exporter
 except ImportError:
     testing_exporter = None
 

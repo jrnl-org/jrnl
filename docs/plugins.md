@@ -168,6 +168,7 @@ situations other than a traditional export. They are:
 - editable installs (`pip install -e ...`) don't seem to play nice with
   the namespace layout. If your plugin isn't appearing, try a non-editable
   install of both *jrnl* and your plugin.
-- for examples, you can look to the *jrnl*'s internal importers and exporters.
+- Don't name your plugin file "testing.py" or it won't be installed (at least
+  automatically) by pip.
   As well, there are some basic external examples included in *jrnl*'s git repo
   at `tests/external_plugins_src` (including the example code above).
