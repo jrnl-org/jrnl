@@ -89,14 +89,12 @@ def entry_array_count(context, entry_number, name, items_number):
     assert len(out_json["entries"][entry_number - 1][name]) == items_number
 
 
-@then(
-    'entry {entry_number:d} should not have an array "{name}"'
-)
+@then('entry {entry_number:d} should not have an array "{name}"')
 def entry_not_array_item(context, entry_number, name):
     # note that entry_number is 1-indexed.
     out = context.stdout_capture.getvalue()
     out_json = json.loads(out)
-    assert (name not in out_json["entries"][entry_number - 1])
+    assert name not in out_json["entries"][entry_number - 1]
 
 
 @then("the output should be a valid XML string")

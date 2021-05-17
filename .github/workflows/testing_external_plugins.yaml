@@ -52,8 +52,8 @@ jobs:
         poetry install --remove-untracked
         poetry install
         poetry run python -m pip install ./tests/external_plugins_src/
-        cd ..
         poetry shell
+        cd ..
     # installed test plugins aren't recognized by "behave" if run from the
     # project's root folder, but "poetry run" doesn't work on folders upstream
     # from project root
