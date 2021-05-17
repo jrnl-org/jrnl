@@ -30,6 +30,8 @@ jobs:
         exclude: # Added for GitHub Actions PR problem 2020-12-19 -- remove later!
           - os: windows-latest
             python-version: 3.9
+          - os: windows-latest
+            python-version: 3.8
 
     steps:
     - uses: actions/checkout@v2
