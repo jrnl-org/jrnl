@@ -90,28 +90,16 @@ def get_exporter(format):
     """
     Given an export format, returns the (callable) class of the corresponding exporter.
     """
-    # print('get_exporter')
-    # print(__exporter_types)
-    for exporter_name, exporter_class in __exporter_types.items():
-        # print(exporter_class, exporter_class.Exporter.names)
-        if (
-            hasattr(exporter_class, "Exporter")
-            and hasattr(exporter_class.Exporter, "names")
-            and format in exporter_class.Exporter.names
-        ):
-            return exporter_class.Exporter
-    return None
-
+    try:
+        return __exporter_types[format].Exporter
+    except (AttributeError, KeyError):
+        return None
 
 def get_importer(format):
     """
     Given an import format, returns the (callable) class of the corresponding importer.
     """
-    for importer_name, importer_class in __importer_types.items():
-        if (
-            hasattr(importer_class, "Importer")
-            and hasattr(importer_class.Importer, "names")
-            and format in importer_class.Importer.names
-        ):
-            return importer_class.Importer
-    return None
+    try:
+        return __importer_types[format].Importer
+    except (AttributeError, KeyError):
+        return None
