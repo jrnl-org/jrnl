@@ -21,6 +21,9 @@ from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
 from jrnl.args import parse_args
+from jrnl.behave_testing import _mock_getpass
+from jrnl.behave_testing import _mock_input
+from jrnl.behave_testing import _mock_time_parse
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
@@ -276,42 +279,6 @@ def extension_editor_file(context, suffix):
     delimiter = "-" if "-" in filename else "."
     filename_suffix = delimiter + filename.split(delimiter)[-1]
     assert filename_suffix == suffix
-
-
-def _mock_getpass(inputs):
-    def prompt_return(prompt=""):
-        if type(inputs) == str:
-            return inputs
-        try:
-            return next(inputs)
-        except StopIteration:
-            raise KeyboardInterrupt
-
-    return prompt_return
-
-
-def _mock_input(inputs):
-    def prompt_return(prompt=""):
-        try:
-            val = next(inputs)
-            print(prompt, val)
-            return val
-        except StopIteration:
-            raise KeyboardInterrupt
-
-    return prompt_return
-
-
-def _mock_time_parse(context):
-    original_parse = jrnl.time.parse
-    if "now" not in context:
-        return original_parse
-
-    def wrapper(input, *args, **kwargs):
-        input = context.now if input == "now" else input
-        return original_parse(input, *args, **kwargs)
-
-    return wrapper
 
 
 @when('we run "{command}" and enter')

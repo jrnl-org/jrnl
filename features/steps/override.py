@@ -1,11 +1,11 @@
-from jrnl.jrnl import run
 from unittest import mock
 
-# from __future__ import with_statement
-from jrnl.args import parse_args
 from behave import then
 
-from features.steps.core import _mock_getpass, _mock_time_parse
+from jrnl.args import parse_args
+from jrnl.behave_testing import _mock_getpass
+from jrnl.behave_testing import _mock_time_parse
+from jrnl.jrnl import run
 
 
 @then("the editor {editor} should have been called")

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import shutil
 
 from jrnl.os_compat import on_windows
@@ -9,6 +10,7 @@ except ImportError:
     testing_exporter = None
 
 CWD = os.getcwd()
+HERE = Path(__file__).resolve().parent
 
 # @see https://behave.readthedocs.io/en/latest/tutorial.html#debug-on-error-in-case-of-step-failures
 BEHAVE_DEBUG_ON_ERROR = False
@@ -32,10 +34,10 @@ def before_all(context):
 
 
 def clean_all_working_dirs():
-    if os.path.exists("test.txt"):
-        os.remove("test.txt")
+    if os.path.exists(HERE / "test.txt"):
+        os.remove(HERE / "test.txt")
     for folder in ("configs", "journals", "cache"):
-        working_dir = os.path.join("features", folder)
+        working_dir = HERE / folder
         if os.path.exists(working_dir):
             shutil.rmtree(working_dir)
 
@@ -65,14 +67,14 @@ def before_scenario(context, scenario):
     # Clean up in case something went wrong
     clean_all_working_dirs()
     for folder in ("configs", "journals"):
-        original = os.path.join("features", "data", folder)
-        working_dir = os.path.join("features", folder)
+        original = HERE / "data" / folder
+        working_dir = HERE / folder
         if not os.path.exists(working_dir):
             os.mkdir(working_dir)
         for filename in os.listdir(original):
-            source = os.path.join(original, filename)
+            source = original / filename
             if os.path.isdir(source):
-                shutil.copytree(source, os.path.join(working_dir, filename))
+                shutil.copytree(source, (working_dir / filename))
             else:
                 shutil.copy2(source, working_dir)
 
