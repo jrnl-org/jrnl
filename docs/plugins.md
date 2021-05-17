@@ -69,7 +69,7 @@ nicely formatted JSON file:
 
 ~~~ python
 {%
-  include-markdown "../tests/external_plugins_src/jrnl/contrib/importer/sample_json.py"
+  include-markdown "../tests/external_plugins_src/jrnl/contrib/importer/simple_json.py"
   comments=false
 %}
 ~~~
