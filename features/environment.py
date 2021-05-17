@@ -11,6 +11,7 @@ except ImportError:
 
 CWD = os.getcwd()
 HERE = Path(__file__).resolve().parent
+TARGET_CWD = HERE.parent  # project root folder
 
 # @see https://behave.readthedocs.io/en/latest/tutorial.html#debug-on-error-in-case-of-step-failures
 BEHAVE_DEBUG_ON_ERROR = False
@@ -22,6 +23,8 @@ def setup_debug_on_error(userdata):
 
 
 def before_all(context):
+    # always start in project root directory
+    os.chdir(TARGET_CWD)
     setup_debug_on_error(context.config.userdata)
 
 
@@ -102,8 +105,8 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     """After each scenario, restore all test data and remove working_dirs."""
-    if os.getcwd() != CWD:
-        os.chdir(CWD)
+    if os.getcwd() != TARGET_CWD:
+        os.chdir(TARGET_CWD)
 
     # only clean up if debugging is off and the scenario passed
     if BEHAVE_DEBUG_ON_ERROR and scenario.status != "failed":

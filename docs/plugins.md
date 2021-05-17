@@ -165,10 +165,17 @@ situations other than a traditional export. They are:
 
 ## Development Tips
 
-- editable installs (`pip install -e ...`) don't seem to play nice with
+- Editable installs (`pip install -e ...`) don't seem to play nice with
   the namespace layout. If your plugin isn't appearing, try a non-editable
   install of both *jrnl* and your plugin.
+- If you run *jrnl* from the main project root directory (the one that contains
+  *jrnl*'s source code), namespace plugins won't be recognized. This is (I
+  suspect) because the Python interpreter will find your *jrnl* source directory
+  (which doesn't contain your namespace plugins) before it find your
+  "site-packages" directory (i.e. installed packages, which will recognize
+  namespace packages).
 - Don't name your plugin file "testing.py" or it won't be installed (at least
   automatically) by pip.
+- For examples, you can look to the *jrnl*'s internal importers and exporters.
   As well, there are some basic external examples included in *jrnl*'s git repo
   at `tests/external_plugins_src` (including the example code above).
