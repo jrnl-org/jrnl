@@ -59,7 +59,7 @@ jobs:
 
     - name:  Activate Virtual Environment (Windows)
       if: startsWith(matrix.os, 'windows')
-      run: venv/Scripts/activate
+      run: .\.venv\Scripts\activate.ps1
 
     - name: Install dependencies
       run: |

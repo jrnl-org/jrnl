@@ -29,6 +29,8 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         exclude: # Added for GitHub Actions PR problem 2020-12-19 -- remove later!
           - os: windows-latest
+            python-version: 3.8
+          - os: windows-latest
             python-version: 3.9
 
     steps:
