@@ -39,29 +39,29 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: poetry cache
-      uses: actions/cache@v2
-      with:
-        path: .venv
-        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-v2-namespace-plugins
+    # - name: poetry cache
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: .venv
+    #     key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-v2-namespace-plugins
 
-    - name: Create and Activate Virtual Environment (Linux)
-      if: startsWith(matrix.os, 'ubuntu')
-      run: |
-        python -m venv .venv
-        source .venv/bin/activate
+    # - name: Create and Activate Virtual Environment (Linux)
+    #   if: startsWith(matrix.os, 'ubuntu')
+    #   run: |
+    #     python -m venv .venv
+    #     source .venv/bin/activate
 
-    - name: Create and Activate Virtual Environment (Mac)
-      if: startsWith(matrix.os, 'macOS')
-      run: |
-        python3 -m venv .venv
-        source .venv/bin/activate
+    # - name: Create and Activate Virtual Environment (Mac)
+    #   if: startsWith(matrix.os, 'macOS')
+    #   run: |
+    #     python3 -m venv .venv
+    #     source .venv/bin/activate
 
-    - name: Create and Activate Virtual Environment (Windows)
-      if: startsWith(matrix.os, 'windows')
-      run: |
-        python -m venv .venv
-        .\.venv\Scripts\activate.ps1
+    # - name: Create and Activate Virtual Environment (Windows)
+    #   if: startsWith(matrix.os, 'windows')
+    #   run: |
+    #     python -m venv .venv
+    #     .\.venv\Scripts\activate.ps1
 
     - name: Install dependencies
       run: |
