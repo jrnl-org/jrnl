@@ -3,8 +3,8 @@ Feature: Encrypting and decrypting journals
     Scenario: Decrypting a journal
         Given we use the config "encrypted.yaml"
         When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
+        Then we should see the message "Journal decrypted"
         Then the config for journal "default" should have "encrypt" set to "bool:False"
-        And we should see the message "Journal decrypted"
         When we run "jrnl -99 --short"
         Then the output should be
             2013-06-09 15:39 My first entry.

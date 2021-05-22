@@ -6,7 +6,7 @@ highlight: true
 template: false
 journals:
   default: features/journals/simple.journal
-  ideas: features/journals/nothing.journal
+  ideas: features/journals/does-not-exist.journal
   simple: features/journals/simple.journal
   work: features/journals/work.journal
   new_encrypted:
