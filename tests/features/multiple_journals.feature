@@ -4,30 +4,32 @@ Feature: Multiple journals
         Given we use the config "multiple.yaml"
         When we run "jrnl -99 --short"
         Then the output should be
-            @todo something
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
         When we run "jrnl work -99 --short"
-        Then the output should be
-            @todo something
+        Then the output should be empty
 
     Scenario: Write to default config by default
         Given we use the config "multiple.yaml"
         When we run "jrnl this goes to default"
         When we run "jrnl -99 --short"
-        Then the output should be
-            @todo something
+        Then the output should contain
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
+        Then the output should contain
+            this goes to default
         When we run "jrnl work -99 --short"
-        Then the output should be
-            @todo something
+        Then the output should be empty
 
     Scenario: Write to specified journal
         Given we use the config "multiple.yaml"
         When we run "jrnl work a long day in the office"
         When we run "jrnl -99 --short"
         Then the output should be
-            @todo something
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
         When we run "jrnl work -99 --short"
-        Then the output should be
-            @todo something
+        Then the output should contain "a long day in the office"
 
     Scenario: Tell user which journal was used
         Given we use the config "multiple.yaml"
@@ -39,29 +41,32 @@ Feature: Multiple journals
         When we run "jrnl work 23 july 2012: a long day in the office"
         When we run "jrnl -99 --short"
         Then the output should be
-            @todo something
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
         When we run "jrnl work -99 --short"
         Then the output should be
-            @todo something
+            2012-07-23 09:00 a long day in the office
 
     Scenario: Write to specified journal without a timestamp but with colon
         Given we use the config "multiple.yaml"
         When we run "jrnl work : a long day in the office"
         Then the output should be
-            @todo something
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
         When we run "jrnl work -99 --short"
-        Then the output should be
-            @todo something
+        Then the output should be contain
+            a long day in the office
 
     Scenario: Write to specified journal without a timestamp but with colon
         Given we use the config "multiple.yaml"
         When we run "jrnl work: a long day in the office"
         When we run "jrnl -99 --short"
         Then the output should be
-            @todo something
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
         When we run "jrnl work -99 --short"
-        Then the output should be
-            @todo something
+        Then the output should contain
+            a long day in the office
 
    Scenario: Create new journals as required
         Given we use the config "multiple.yaml"
@@ -69,7 +74,7 @@ Feature: Multiple journals
         When we run "jrnl ideas 23 july 2012: sell my junk on ebay and make lots of money"
         When we run "jrnl ideas -99 --short"
         Then the output should be
-            @todo something
+            2012-07-23 09:00 sell my junk on ebay and make lots of money
 
    Scenario: Don't crash if no default journal is specified
         Given we use the config "bug343.yaml"

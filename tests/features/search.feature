@@ -267,7 +267,7 @@ Feature: Searching in a journal
     Scenario Outline: Searching today in history
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
-        And we set current date and time to "2020-08-31 14:32"
+        And now is "2020-08-31 02:32:00 PM"
         When we run "jrnl 2019-08-31 01:01: Hi, from last year."
         And we run "jrnl -today-in-history --short"
         Then the output should be

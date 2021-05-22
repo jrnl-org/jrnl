@@ -164,6 +164,7 @@ def password():
 def input_method():
     return ""
 
+
 @fixture
 def now_date():
     return {"datetime": datetime, "calendar_parse": __get_pdt_calendar()}
@@ -373,7 +374,11 @@ def use_password_forever(pw):
 
 
 @when(parse('we run "jrnl {command}" and {input_method}\n{user_input}'))
-@when(parsers.re('we run "jrnl (?P<command>[^"]+)" and (?P<input_method>enter|pipe) "(?P<user_input>[^"]+)"'))
+@when(
+    parsers.re(
+        'we run "jrnl (?P<command>[^"]+)" and (?P<input_method>enter|pipe) "(?P<user_input>[^"]+)"'
+    )
+)
 @when(parse('we run "jrnl" and {input_method} "{user_input}"'))
 @when(parse('we run "jrnl {command}"'))
 @when('we run "jrnl <command>"')
@@ -391,8 +396,8 @@ def we_run(
     keyring,
     input_method,
 ):
-    assert input_method in ['', 'enter', 'pipe']
-    is_tty = input_method != 'pipe'
+    assert input_method in ["", "enter", "pipe"]
+    is_tty = input_method != "pipe"
 
     if cache_dir["exists"]:
         command = command.format(cache_dir=cache_dir["path"])
@@ -571,6 +576,15 @@ def journal_directory_should_contain(config_data, file_list):
     scoped_config = scope_config(config_data, "default")
 
     assert does_directory_contain_files(file_list, scoped_config["journal"])
+
+
+@then(parse('journal "{journal_name}" should not exist'))
+def journal_directory_should_contain(config_data, journal_name):
+    scoped_config = scope_config(config_data, journal_name)
+
+    assert not does_directory_contain_files(
+        scoped_config["journal"], "."
+    ), f'Journal "{journal_name}" does exist'
 
 
 @when(parse('we change directory to "{directory_name}"'))
