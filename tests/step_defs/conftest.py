@@ -161,6 +161,10 @@ def password():
 
 
 @fixture
+def input_method():
+    return ""
+
+@fixture
 def now_date():
     return {"datetime": datetime, "calendar_parse": __get_pdt_calendar()}
 
@@ -368,10 +372,10 @@ def use_password_forever(pw):
     return pw
 
 
-@when(parse('we run "jrnl {command}" and enter\n{user_input}'))
-@when(parsers.re('we run "jrnl (?P<command>[^"]+)" and enter "(?P<user_input>[^"]+)"'))
+@when(parse('we run "jrnl {command}" and {input_method}\n{user_input}'))
+@when(parsers.re('we run "jrnl (?P<command>[^"]+)" and (?P<input_method>enter|pipe) "(?P<user_input>[^"]+)"'))
+@when(parse('we run "jrnl" and {input_method} "{user_input}"'))
 @when(parse('we run "jrnl {command}"'))
-@when(parse('we run "jrnl" and enter "{user_input}"'))
 @when('we run "jrnl <command>"')
 @when('we run "jrnl"')
 def we_run(
@@ -385,7 +389,11 @@ def we_run(
     editor,
     now_date,
     keyring,
+    input_method,
 ):
+    assert input_method in ['', 'enter', 'pipe']
+    is_tty = input_method != 'pipe'
+
     if cache_dir["exists"]:
         command = command.format(cache_dir=cache_dir["path"])
 
@@ -393,7 +401,7 @@ def we_run(
     status = 0
 
     if user_input:
-        user_input = user_input.splitlines()
+        user_input = user_input.splitlines() if is_tty else [user_input]
 
     if password:
         password = password.splitlines()
@@ -406,6 +414,7 @@ def we_run(
     with \
         patch("sys.argv", ['jrnl'] + args), \
         patch("sys.stdin.read", side_effect=user_input) as mock_stdin, \
+        patch("sys.stdin.isatty", return_value=is_tty), \
         patch("builtins.input", side_effect=user_input) as mock_input, \
         patch("getpass.getpass", side_effect=password) as mock_getpass, \
         patch("datetime.datetime", new=now_date["datetime"]), \

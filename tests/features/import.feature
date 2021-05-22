@@ -4,8 +4,7 @@ Feature: Importing data
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl --import" and pipe "[2020-07-05 15:00] Observe and import."
-        Then we flush the output
-        When we run "jrnl -c import"
+        When we run "jrnl -9 --short"
         Then the output should contain "Observe and import"
 
         Examples: Configs

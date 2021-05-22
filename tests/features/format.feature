@@ -163,7 +163,6 @@ Feature: Custom formats
 
             More stuff
             more stuff again
-        Then we flush the output
         When we run "jrnl -1 --export markdown"
         Then the output should be
             # 2020
@@ -224,7 +223,6 @@ Feature: Custom formats
             [2020-10-29 11:11] First entry.
             [2020-10-29 11:11] Second entry.
             [2020-10-29 11:13] Third entry.
-        Then we flush the output
         When we run "jrnl -3 --format markdown"
         Then the output should be
             # 2020
