@@ -7,7 +7,7 @@ Feature: Using the installed keyring
             sabertooth
             sabertooth
             Y
-        Then the config for journal "simple" should have "encrypt" set to "bool:True"
+        Then the config for journal "simple" should contain "encrypt: true"
         When we run "jrnl simple -n 1"
         Then the output should contain "2013-06-10 15:40 Life is good"
 
@@ -58,7 +58,7 @@ Feature: Using the installed keyring
         Then we should see the message "Failed to retrieve keyring"
         And we should get no error
         And we should be prompted for a password
-        And the config for journal "default" should have "encrypt" set to "bool:True"
+        And the config for journal "default" should contain "encrypt: true"
 
 
     Scenario: Decrypt journal when keyring exists but fails
@@ -70,7 +70,7 @@ Feature: Using the installed keyring
         And we should get no error
         And we should be prompted for a password
         And we should see the message "Journal decrypted"
-        And the config for journal "default" should have "encrypt" set to "bool:False"
+        And the config for journal "default" should contain "encrypt: false"
         When we run "jrnl --short"
         Then we should not be prompted for a password
         And the output should be
@@ -97,7 +97,7 @@ Feature: Using the installed keyring
             sordfish
         Then we should be prompted for a password
         And we should see the message "Passwords did not match"
-        And the config for journal "default" should not have "encrypt" set
+        And the config for journal "default" should not contain "encrypt: true"
         When we run "jrnl --short"
         Then the output should be
             2013-06-09 15:39 My first entry.
@@ -115,7 +115,7 @@ Feature: Using the installed keyring
         Then we should be prompted for a password
         And we should see the message "Passwords did not match"
         And we should see the message "Journal encrypted"
-        And the config for journal "default" should have "encrypt" set to "bool:True"
+        And the config for journal "default" should contain "encrypt: true"
         When we run "jrnl -1" and enter "swordfish"
         Then we should be prompted for a password
         And the output should contain "2013-06-10 15:40 Life is good"

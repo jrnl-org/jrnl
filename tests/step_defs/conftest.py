@@ -15,6 +15,7 @@ import string
 import re
 import shutil
 import tempfile
+import yaml
 from unittest.mock import patch
 from unittest.mock import MagicMock
 from xml.etree import ElementTree
@@ -103,17 +104,6 @@ def pytest_bdd_apply_tag(tag, function):
 
 
 # ----- UTILS ----- #
-def read_value_from_string(string):
-    if string[0] == "{":
-        # Handle value being a dictionary
-        return ast.literal_eval(string)
-
-    # Takes strings like "bool:true" or "int:32" and coerces them into proper type
-    t, value = string.split(":")
-    value = {"bool": lambda v: v.lower() == "true", "int": int, "str": str}[t](value)
-    return value
-
-
 def does_directory_contain_files(file_list, directory_path):
     if not os.path.isdir(directory_path):
         return False
@@ -523,37 +513,46 @@ def should_see_the_message(text, cli_run):
     assert text in out, [text, out]
 
 
-@then(parse('the config should have "{key}" set to\n{str_value}'))
-@then(parse('the config should have "{key}" set to "{str_value}"'))
-@then(
-    parse(
-        'the config for journal "{journal_name}" should have "{key}" set to "{str_value}"'
-    )
-)
-@then(parse('the config should {should_not} have "{key}" set'))
-@then(parse('the config should {should_not} have "{key}" set'))
-@then(
-    parse(
-        'the config for journal "{journal_name}" should {should_not} have "{key}" set'
-    )
-)
-def config_var(config_data, key, str_value, journal_name, should_not):
-    str_value = read_value_from_string(str_value) if len(str_value) else str_value
-
-    configuration = config_data
-    if journal_name:
-        configuration = configuration["journals"][journal_name]
-
-    # is the config a string?
-    # @todo this should probably be a function
-    if type(configuration) is str:
-        configuration = {"journal": configuration}
-
-    if should_not:
-        assert key not in configuration
+def parse_should_or_should_not(should_or_should_not):
+    if should_or_should_not == "should":
+        return True
+    elif should_or_should_not == "should not":
+        return False
     else:
-        assert key in configuration
-        assert configuration[key] == str_value
+        raise Exception(
+            "should_or_should_not valid values are 'should' or 'should not'"
+        )
+
+
+@then(
+    parse(
+        'the config for journal "{journal_name}" {should_or_should_not} contain "{some_yaml}"'
+    )
+)
+@then(
+    parse(
+        'the config for journal "{journal_name}" {should_or_should_not} contain\n{some_yaml}'
+    )
+)
+@then(parse('the config {should_or_should_not} contain "{some_yaml}"'))
+@then(parse("the config {should_or_should_not} contain\n{some_yaml}"))
+def config_var(config_data, journal_name, should_or_should_not, some_yaml):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
+    actual = config_data
+    if journal_name:
+        actual = actual["journals"][journal_name]
+
+    expected = yaml.load(some_yaml, Loader=yaml.FullLoader)
+
+    actual_slice = actual
+    if type(actual) is dict:
+        actual_slice = {key: actual.get(key, None) for key in expected.keys()}
+
+    if we_should:
+        assert expected == actual_slice
+    else:
+        assert expected != actual_slice
 
 
 @then("we should be prompted for a password")

@@ -4,7 +4,7 @@ Feature: Encrypting and decrypting journals
         Given we use the config "encrypted.yaml"
         When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
         Then we should see the message "Journal decrypted"
-        Then the config for journal "default" should have "encrypt" set to "bool:False"
+        And the config for journal "default" should contain "encrypt: false"
         When we run "jrnl -99 --short"
         Then the output should be
             2013-06-09 15:39 My first entry.
@@ -16,7 +16,7 @@ Feature: Encrypting and decrypting journals
         # This should warn the user that the journal is already encrypted
         Given we use the config "simple.yaml"
         When we run "jrnl --decrypt"
-        Then the config for journal "default" should have "encrypt" set to "bool:False"
+        Then the config for journal "default" should contain "encrypt: false"
         When we run "jrnl -99 --short"
         Then the output should be
             2013-06-09 15:39 My first entry.
@@ -35,7 +35,7 @@ Feature: Encrypting and decrypting journals
             swordfish
             n
         Then we should see the message "Journal encrypted"
-        And the config for journal "default" should have "encrypt" set to "bool:True"
+        And the config for journal "default" should contain "encrypt: true"
         When we run "jrnl -n 1" and enter "swordfish"
         Then we should be prompted for a password
         And the output should contain "2013-06-10 15:40 Life is good"

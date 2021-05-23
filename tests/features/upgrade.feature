@@ -5,7 +5,8 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
         When we run "jrnl -9" and enter "Y"
         When we run "jrnl -99 --short"
         Then the output should be
-            @todo something
+            2010-06-10 15:00 A life without chocolate is like a bad analogy.
+            2013-06-10 15:40 He said "[this] is the best time to be alive".Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
         And the output should contain
             2010-06-10 15:00 A life without chocolate is like a bad analogy.
         And the output should contain
@@ -23,11 +24,12 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
     Scenario: Upgrading a config without colors to colors
         Given we use the config "no_colors.yaml"
         When we run "jrnl -n 1"
-        Then the config should have "colors" set to
-            date: none
-            title: none
-            body: none
-            tags: none
+        Then the config should contain
+            colors:
+                date: none
+                title: none
+                body: none
+                tags: none
 
     Scenario: Upgrade and parse journals with little endian date format
         Given we use the config "upgrade_from_195_little_endian_dates.json"
