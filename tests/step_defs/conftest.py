@@ -1,7 +1,6 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import ast
 import json
 import os
 from datetime import datetime
@@ -406,6 +405,7 @@ def we_run(
 
     # fmt: off
     # see: https://github.com/psf/black/issues/664
+    # @todo https://docs.python.org/3/library/contextlib.html#contextlib.ExitStack
     with \
         patch("sys.argv", ['jrnl'] + args), \
         patch("sys.stdin.read", side_effect=user_input) as mock_stdin, \
@@ -578,7 +578,7 @@ def journal_directory_should_contain(config_data, file_list):
 
 
 @then(parse('journal "{journal_name}" should not exist'))
-def journal_directory_should_contain(config_data, journal_name):
+def journal_directory_should_not_exist(config_data, journal_name):
     scoped_config = scope_config(config_data, journal_name)
 
     assert not does_directory_contain_files(
@@ -723,9 +723,7 @@ def assert_parsed_output_item_count(node_name, number, parsed_output):
 
 
 @then(parse('"{field_name}" in the parsed output should {comparison}\n{expected_keys}'))
-def assert_output_field_content(
-    field_name, comparison, expected_keys, cli_run, parsed_output
-):
+def assert_output_field_content(field_name, comparison, expected_keys, parsed_output):
     lang = parsed_output["lang"]
     obj = parsed_output["obj"]
     expected_keys = expected_keys.split("\n")
