@@ -33,16 +33,15 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
 
     Scenario: Upgrade and parse journals with little endian date format
         Given we use the config "upgrade_from_195_little_endian_dates.json"
-        When we run "jrnl -9" and enter "Y"
-        Then the output should be
+        When we run "jrnl -9 --short" and enter "Y"
+        Then the output should contain
             10.06.2010 15:00 A life without chocolate is like a bad analogy.
             10.06.2013 15:40 He said "[this] is the best time to be alive".
 
     Scenario: Upgrade with missing journal
         Given we use the config "upgrade_from_195_with_missing_journal.json"
-        When we run "jrnl --list" and enter
-            Y
-        Then the error output should contain "Error: features/journals/missing.journal does not exist."
+        When we run "jrnl --list" and enter "Y"
+        Then the output should contain "Error: features/journals/missing.journal does not exist."
         And we should get no error
 
     Scenario: Upgrade with missing encrypted journal
@@ -50,6 +49,6 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
         When we run "jrnl --list" and enter
             Y
             bad doggie no biscuit
-        Then the error output should contain "Error: features/journals/missing.journal does not exist."
-        And the error output should contain "We're all done"
+        Then the output should contain "Error: features/journals/missing.journal does not exist."
+        And the output should contain "We're all done"
         And we should get no error
