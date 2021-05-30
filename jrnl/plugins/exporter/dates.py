@@ -2,16 +2,20 @@
 # encoding: utf-8
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
+
 from collections import Counter
 
-from .text_exporter import TextExporter
+from jrnl.plugins.base import BaseExporter
+
+from ... import __version__
 
 
-class DatesExporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter lists dates and their respective counts, for heatingmapping etc."""
 
     names = ["dates"]
     extension = "dates"
+    version = __version__
 
     @classmethod
     def export_entry(cls, entry):

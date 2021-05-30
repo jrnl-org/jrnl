@@ -3,15 +3,19 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from .text_exporter import TextExporter
-from .util import get_tags_count
+
+from jrnl.plugins.base import BaseExporter
+from jrnl.plugins.util import get_tags_count
+
+from ... import __version__
 
 
-class TagExporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter can lists the tags for entries and journals, exported as a plain text file."""
 
     names = ["tags"]
     extension = "tags"
+    version = __version__
 
     @classmethod
     def export_entry(cls, entry):

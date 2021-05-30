@@ -3,11 +3,13 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from jrnl.exception import JrnlError
+
 
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
     # Astute reader: should the following line leave you as puzzled as me the first time
-    # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+    # I came across this construction, worry not and embrace the ensuing moment of enlightenment.
     tags = [tag for entry in journal.entries for tag in set(entry.tags)]
     # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
     tag_counts = {(tags.count(tag), tag) for tag in tags}
@@ -25,3 +27,14 @@ def oxford_list(lst):
         return lst[0] + " or " + lst[1]
     else:
         return ", ".join(lst[:-1]) + ", or " + lst[-1]
+
+
+def check_provided_linewrap_viability(linewrap, card, journal):
+    if len(card[0]) > linewrap:
+        width_violation = len(card[0]) - linewrap
+        raise JrnlError(
+            "LineWrapTooSmallForDateFormat",
+            config_linewrap=linewrap,
+            columns=width_violation,
+            journal=journal,
+        )

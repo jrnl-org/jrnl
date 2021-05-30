@@ -3,17 +3,21 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from jrnl.exception import JrnlError
+
 from textwrap import TextWrapper
 
-from .text_exporter import TextExporter
+from jrnl.plugins.base import BaseExporter
+from jrnl.plugins.util import check_provided_linewrap_viability
+
+from ... import __version__
 
 
-class FancyExporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter can convert entries and journals into text with unicode box drawing characters."""
 
     names = ["fancy", "boxed"]
     extension = "txt"
+    version = __version__
 
     # Top border of the card
     border_a = "┎"
@@ -80,14 +84,3 @@ class FancyExporter(TextExporter):
     def export_journal(cls, journal):
         """Returns a unicode representation of an entire journal."""
         return "\n".join(cls.export_entry(entry) for entry in journal)
-
-
-def check_provided_linewrap_viability(linewrap, card, journal):
-    if len(card[0]) > linewrap:
-        width_violation = len(card[0]) - linewrap
-        raise JrnlError(
-            "LineWrapTooSmallForDateFormat",
-            config_linewrap=linewrap,
-            columns=width_violation,
-            journal=journal,
-        )

@@ -5,15 +5,18 @@
 
 import json
 
-from .text_exporter import TextExporter
-from .util import get_tags_count
+from jrnl.plugins.base import BaseExporter
+from jrnl.plugins.util import get_tags_count
+
+from ... import __version__
 
 
-class JSONExporter(TextExporter):
+class Exporter(BaseExporter):
     """This Exporter can convert entries and journals into json."""
 
     names = ["json"]
     extension = "json"
+    version = __version__
 
     @classmethod
     def entry_to_dict(cls, entry):

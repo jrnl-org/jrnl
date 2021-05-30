@@ -7,7 +7,7 @@ from jrnl.jrnl import _display_search_results
 
 # fmt: off
 # see: https://github.com/psf/black/issues/664
-@pytest.mark.parametrize("export_format", [ "pretty", "short","markdown"])
+@pytest.mark.parametrize("export_format", [ "pretty", "short", "markdown"])
 #fmt: on
 @mock.patch.object(argparse, "Namespace", return_value={"export": "markdown", "filename": "irrele.vant"})
 def test_export_format(mock_args, export_format):
