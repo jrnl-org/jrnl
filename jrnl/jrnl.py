@@ -324,19 +324,17 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 def _display_search_results(args, journal, **kwargs):
     if args.short or args.export == "short":
-        print(journal.pprint(short=True))
-
-    elif args.export == "pretty":
-        print(journal.pprint())
+        print(plugins.collector.get_exporter("short").export(journal))
 
     elif args.tags:
-        print(plugins.get_exporter("tags").export(journal))
+        print(plugins.collector.get_exporter("tags").export(journal))
 
     elif args.export:
-        exporter = plugins.get_exporter(args.export)
+        exporter = plugins.collector.get_exporter(args.export)
         print(exporter.export(journal, args.filename))
     elif kwargs["config"].get("display_format"):
-        exporter = plugins.get_exporter(kwargs["config"]["display_format"])
+        exporter = plugins.collector.get_exporter(kwargs["config"]["display_format"])
         print(exporter.export(journal, args.filename))
     else:
-        print(journal.pprint())
+        # print(journal.pprint())
+        print(plugins.collector.get_exporter("default").export(journal))

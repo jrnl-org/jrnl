@@ -4,30 +4,18 @@
 
 from xml.dom import minidom
 
-from .json_exporter import JSONExporter
-from .util import get_tags_count
+from jrnl.plugins.base import BaseExporter
+from jrnl.plugins.util import get_tags_count
+
+from ... import __version__
 
 
-class XMLExporter(JSONExporter):
+class Exporter(BaseExporter):
     """This Exporter can convert entries and journals into XML."""
 
     names = ["xml"]
     extension = "xml"
-
-    @classmethod
-    def export_entry(cls, entry, doc=None):
-        """Returns an XML representation of a single entry."""
-        doc_el = doc or minidom.Document()
-        entry_el = doc_el.createElement("entry")
-        for key, value in cls.entry_to_dict(entry).items():
-            elem = doc_el.createElement(key)
-            elem.appendChild(doc_el.createTextNode(value))
-            entry_el.appendChild(elem)
-        if not doc:
-            doc_el.appendChild(entry_el)
-            return doc_el.toprettyxml()
-        else:
-            return entry_el
+    version = __version__
 
     @classmethod
     def entry_to_xml(cls, entry, doc):
@@ -43,6 +31,21 @@ class XMLExporter(JSONExporter):
             entry_el.appendChild(tag_el)
         entry_el.appendChild(doc.createTextNode(entry.fulltext))
         return entry_el
+
+    @classmethod
+    def export_entry(cls, entry, doc=None):
+        """Returns an XML representation of a single entry."""
+        doc_el = doc or minidom.Document()
+        entry_el = doc_el.createElement("entry")
+        for key, value in cls.entry_to_dict(entry).items():
+            elem = doc_el.createElement(key)
+            elem.appendChild(doc_el.createTextNode(value))
+            entry_el.appendChild(elem)
+        if not doc:
+            doc_el.appendChild(entry_el)
+            return doc_el.toprettyxml()
+        else:
+            return entry_el
 
     @classmethod
     def export_journal(cls, journal):
