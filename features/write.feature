@@ -183,6 +183,8 @@ Feature: Writing new entries.
         And we run "jrnl -until 1980"
         Then the output should be "1979-05-01 09:00 Being born hurts."
 
+    # the testing plugins override the JSON exporter
+    @skip_no_external_plugins
     Scenario: Writing into Dayone adds extended metadata
         Given we use the config "dayone.yaml"
         When we run "jrnl 01 may 1979: Being born hurts."

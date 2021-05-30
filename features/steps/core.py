@@ -3,7 +3,6 @@
 
 import ast
 from collections import defaultdict
-from jrnl.args import parse_args
 import os
 from pathlib import Path
 import re
@@ -14,20 +13,23 @@ from behave import given
 from behave import then
 from behave import when
 import keyring
-
 import toml
 import yaml
 from yaml.loader import SafeLoader
 
-
-import jrnl.time
 from jrnl import Journal
 from jrnl import __version__
 from jrnl import plugins
+from jrnl.args import parse_args
+from jrnl.behave_testing import _mock_getpass
+from jrnl.behave_testing import _mock_input
+from jrnl.behave_testing import _mock_time_parse
 from jrnl.cli import cli
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
-from jrnl.override import apply_overrides, _recursively_apply
+from jrnl.override import _recursively_apply
+from jrnl.override import apply_overrides
+import jrnl.time
 
 try:
     import parsedatetime.parsedatetime_consts as pdt
@@ -279,42 +281,6 @@ def extension_editor_file(context, suffix):
     assert filename_suffix == suffix
 
 
-def _mock_getpass(inputs):
-    def prompt_return(prompt=""):
-        if type(inputs) == str:
-            return inputs
-        try:
-            return next(inputs)
-        except StopIteration:
-            raise KeyboardInterrupt
-
-    return prompt_return
-
-
-def _mock_input(inputs):
-    def prompt_return(prompt=""):
-        try:
-            val = next(inputs)
-            print(prompt, val)
-            return val
-        except StopIteration:
-            raise KeyboardInterrupt
-
-    return prompt_return
-
-
-def _mock_time_parse(context):
-    original_parse = jrnl.time.parse
-    if "now" not in context:
-        return original_parse
-
-    def wrapper(input, *args, **kwargs):
-        input = context.now if input == "now" else input
-        return original_parse(input, *args, **kwargs)
-
-    return wrapper
-
-
 @when('we run "{command}" and enter')
 @when('we run "{command}" and enter nothing')
 @when('we run "{command}" and enter "{inputs}"')
@@ -461,8 +427,9 @@ def run(context, command, text=""):
 @given('we load template "{filename}"')
 def load_template(context, filename):
     full_path = os.path.join("features/data/templates", filename)
+
     exporter = plugins.template_exporter.__exporter_from_file(full_path)
-    plugins.__exporter_types[exporter.names[0]] = exporter
+    plugins.collector.__exporter_types[exporter.names[0]] = exporter
 
 
 @when('we set the keyring password of "{journal}" to "{password}"')
@@ -540,6 +507,11 @@ def check_output_version_inline(context):
 @then('the output should contain "{text}" or "{text2}"')
 def check_output_inline(context, text=None, text2=None):
     text = text or context.text
+    if "<pyproject.toml version>" in text:
+        pyproject = (Path(__file__) / ".." / ".." / ".." / "pyproject.toml").resolve()
+        pyproject_contents = toml.load(pyproject)
+        pyproject_version = pyproject_contents["tool"]["poetry"]["version"]
+        text = text.replace("<pyproject.toml version>", pyproject_version)
     out = context.stdout_capture.getvalue()
     assert (text and text in out) or (text2 and text2 in out)
 
