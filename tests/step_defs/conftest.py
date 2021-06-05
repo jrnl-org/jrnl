@@ -5,6 +5,7 @@ import json
 import os
 from datetime import datetime
 from collections import defaultdict
+from contextlib import ExitStack
 from keyring import backend
 from keyring import set_keyring
 from keyring import errors
@@ -122,6 +123,11 @@ def cli_run():
 
 
 @fixture
+def mocks():
+    return dict()
+
+
+@fixture
 def temp_dir():
     return tempfile.TemporaryDirectory()
 
@@ -152,11 +158,6 @@ def password():
 @fixture
 def input_method():
     return ""
-
-
-@fixture
-def now_date():
-    return {"datetime": datetime, "calendar_parse": __get_pdt_calendar()}
 
 
 @fixture
@@ -268,27 +269,37 @@ def we_enter_editor(editor_method, editor_input, editor_state):
     editor_state["intent"] = {"method": file_method, "input": editor_input}
 
 
-@given(parse('now is "<date_str>"'), target_fixture="now_date")
-@given(parse('now is "{date_str}"'), target_fixture="now_date")
-def now_is_str(date_str):
+@given(parse('now is "<date_str>"'))
+@given(parse('now is "{date_str}"'))
+def now_is_str(date_str, mocks):
     class DatetimeMagicMock(MagicMock):
         # needed because jrnl does some reflection on datetime
         def __instancecheck__(self, subclass):
             return isinstance(subclass, datetime)
 
-    my_date = datetime.strptime(date_str, "%Y-%m-%d %I:%M:%S %p")
+    def mocked_now(tz=None):
+        now = datetime.strptime(date_str, "%Y-%m-%d %I:%M:%S %p")
+
+        if tz:
+            time_zone = datetime.utcnow().astimezone().tzinfo
+            now = now.replace(tzinfo=time_zone)
+
+        return now
 
     # jrnl uses two different classes to parse dates, so both must be mocked
     datetime_mock = DatetimeMagicMock(wraps=datetime)
-    datetime_mock.now.return_value = my_date
+    datetime_mock.now.side_effect = mocked_now
 
     pdt = __get_pdt_calendar()
     calendar_mock = MagicMock(wraps=pdt)
     calendar_mock.parse.side_effect = lambda date_str_input: pdt.parse(
-        date_str_input, my_date
+        date_str_input, mocked_now()
     )
 
-    return {"datetime": datetime_mock, "calendar_parse": calendar_mock}
+    mocks["datetime"] = patch("datetime.datetime", new=datetime_mock)
+    mocks["calendar_parse"] = patch(
+        "jrnl.time.__get_pdt_calendar", return_value=calendar_mock
+    )
 
 
 @then(parse("the editor should have been called"))
@@ -381,9 +392,9 @@ def we_run(
     password,
     cache_dir,
     editor,
-    now_date,
     keyring,
     input_method,
+    mocks,
 ):
     assert input_method in ["", "enter", "pipe"]
     is_tty = input_method != "pipe"
@@ -403,21 +414,36 @@ def we_run(
     if not password and user_input:
         password = user_input
 
-    # fmt: off
-    # see: https://github.com/psf/black/issues/664
-    # @todo https://docs.python.org/3/library/contextlib.html#contextlib.ExitStack
-    with \
-        patch("sys.argv", ['jrnl'] + args), \
-        patch("sys.stdin.read", side_effect=user_input) as mock_stdin, \
-        patch("sys.stdin.isatty", return_value=is_tty), \
-        patch("builtins.input", side_effect=user_input) as mock_input, \
-        patch("getpass.getpass", side_effect=password) as mock_getpass, \
-        patch("datetime.datetime", new=now_date["datetime"]), \
-        patch("jrnl.time.__get_pdt_calendar", return_value=now_date["calendar_parse"]), \
-        patch("jrnl.install.get_config_path", return_value=config_path), \
-        patch("jrnl.config.get_config_path", return_value=config_path), \
-        patch("subprocess.call", side_effect=editor) as mock_editor \
-    : # @TODO: single point of truth for get_config_path (move from all calls from install to config)
+    with ExitStack() as stack:
+
+        stack.enter_context(patch("sys.argv", ["jrnl"] + args))
+
+        mock_stdin = stack.enter_context(
+            patch("sys.stdin.read", side_effect=user_input)
+        )
+        stack.enter_context(patch("sys.stdin.isatty", return_value=is_tty))
+        mock_input = stack.enter_context(
+            patch("builtins.input", side_effect=user_input)
+        )
+        mock_getpass = stack.enter_context(
+            patch("getpass.getpass", side_effect=password)
+        )
+
+        if "datetime" in mocks:
+            stack.enter_context(mocks["datetime"])
+            stack.enter_context(mocks["calendar_parse"])
+
+            # stack.enter_context(patch("datetime.datetime", new=mocks["datetime"]))
+            # stack.enter_context(patch("jrnl.time.__get_pdt_calendar", return_value=mocks["calendar_parse"]))
+
+        stack.enter_context(
+            patch("jrnl.install.get_config_path", return_value=config_path)
+        )
+        stack.enter_context(
+            patch("jrnl.config.get_config_path", return_value=config_path)
+        )
+        mock_editor = stack.enter_context(patch("subprocess.call", side_effect=editor))
+
         try:
             cli(args)
         except StopIteration:
@@ -425,7 +451,6 @@ def we_run(
             pass
         except SystemExit as e:
             status = e.code
-    # fmt: on
 
     captured = capsys.readouterr()
 
