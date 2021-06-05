@@ -196,16 +196,14 @@ Feature: Writing new entries.
         And "entries.0.creator.software_agent" in the parsed output should contain
             jrnl
 
-    # fails when system time is UTC (as on Travis-CI)
-    # @skip
     Scenario: Title with an embedded period on DayOne journal
         Given we use the config "dayone.yaml"
-        When we run "jrnl 04-24-2014: "Ran 6.2 miles today in 1:02:03. I'm feeling sore because I forgot to stretch.""
+        When we run "jrnl 04-24-2014: Ran 6.2 miles today in 1:02:03. I am feeling sore because I forgot to stretch."
         Then we should see the message "Entry added"
         When we run "jrnl -1"
         Then the output should be
             2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
-            | I'm feeling sore because I forgot to stretch.
+            | I am feeling sore because I forgot to stretch.
 
     Scenario: Opening an folder that's not a DayOne folder should treat as folder journal
         Given we use the config "empty_folder.yaml"
