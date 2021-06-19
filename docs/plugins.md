@@ -18,9 +18,12 @@ same Python interpreter that was used to install them.
 
 ## Getting Started
 
-Before you start working on a plugin, it's good to have a basic understanding of [Python packaging](https://packaging.python.org/guides/) and namespace packages in particular.
+Before you start working on a plugin, it's good to have a basic understanding
+of [Python packaging](https://packaging.python.org/guides/) and namespace
+packages in particular.
 
-You can find a sample plugin in the in the `/tests/external_plugins_src/` directory of the `jrnl` [source](https://github.com/jrnl-org/jrnl).
+You can find sample plugins in the `/tests/external_plugins_src/` directory of
+the [jrnl source](https://github.com/jrnl-org/jrnl).
 
 ## Understanding the Entry Class
 
@@ -45,7 +48,10 @@ generally access the following properties and functions of this class:
       - **starred** (boolean)
 
 !!! warning
-    The Entry class is likely to change in future versions of journal. In particular, there may be a unique identifier added to it. Also, when using the DayOne backend, entries have additional metadata, including a "uuid" unique identifier.
+    The Entry class is likely to change in future versions of journal. In
+    particular, there may be a unique identifier added to it. Also, when
+    using the DayOne backend, entries have additional metadata, including
+    a "uuid" unique identifier.
 
 ## Creating an Importer Plugin
 
@@ -73,17 +79,14 @@ entries to a Journal.
 
 ### Importer Example
 
-Here is a basic Importer, assumed to be provided with a
-nicely formatted JSON file:
+You can find a basic Importer plugin in the `jrnl`
+[source](https://github.com/jrnl-org/jrnl) at
+`/tests/external_plugins_src/jrnl/contrib/importer/simple_json.py`. The
+sample plugin assumes that it will be provided with a nicely formatted JSON
+file.
 
-~~~ python
-{%
-  include-markdown "../tests/external_plugins_src/jrnl/contrib/importer/simple_json.py"
-  comments=false
-%}
-~~~
 !!! warning
-    The above sample code is very minimal, doesn't do any error checking, and doesn't
+    This sample code is very minimal, doesn't do any error checking, and doesn't
     try to import all possible entry metadata.
 
 ### Use Cases
@@ -124,16 +127,14 @@ An exporter takes either a whole journal or a specific entry and exports it.
       concatenate the results together.
 
 ### Exporter Example
-Below is a basic JSON Exporter; note that a more extensive JSON exporter is
+
+You can find a basic Exporter plugin in the `jrnl`
+[source](https://github.com/jrnl-org/jrnl) at
+`/tests/external_plugins_src/jrnl/contrib/exporter/custom_json.py`.
+
+Note that a more extensive JSON exporter is
 included in `jrnl` and so this (if installed) would override the built in
 exporter.
-
-~~~ python
-{%
-  include-markdown "../tests/external_plugins_src/jrnl/contrib/exporter/custom_json.py"
-  comments=false
-%}
-~~~
 
 !!! warning
     The above is very minimal, doesn't do any error checking, and doesn't
