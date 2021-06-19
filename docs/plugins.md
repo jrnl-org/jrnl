@@ -1,89 +1,58 @@
 <!-- Copyright (C) 2012-2021 jrnl contributors
      License: https://www.gnu.org/licenses/gpl-3.0.html -->
 
-# Extending jrnl
+# Creating Importer and Exporter Plugins
 
-*jrnl* can be extended with custom importers and exporters.
+You can extend `jrnl` with custom importer and exporter plugins. Importer
+plugins add new ways to import data into `jrnl`, while exporter plugins add
+new ways to change the output of `jrnl`, whether to make data available to
+other programs or just view entries differently in the console.
 
-Note that custom importers and exporters can be given the same name as a
-built-in importer or exporter to override it.
+Both types of plugins use
+[native namespace packages](https://packaging.python.org/guides/packaging-namespace-packages/#native-namespace-packages).
+Once they are installed, they should be available to jrnl when using the
+same Python interpreter that was used to install them.
 
-Custom Importers and Exporters are traditional Python packages, and are
-installed (into *jrnl*) simply by installing them so they are available to the
-Python interpreter that is running *jrnl*.
+!!! tip
+    To confirm that a plugin is present, run `jrnl --diagnostic`
 
-Exporter are also used as "formatters" when entries are written to the command
-line.
+## Getting Started
 
-## Rational
+Before you start working on a plugin, it's good to have a basic understanding of [Python packaging](https://packaging.python.org/guides/) and namespace packages in particular.
 
-I added this feature because *jrnl* was overall working well for me, but I
-found myself maintaining a private fork so I could have a slightly customized
-export format. Implementing (import and) export plugins was seen as a way to
-maintain my custom exporter without the need to maintaining my private fork.
+You can find a sample plugin in the in the `/tests/external_plugins_src/` directory of the `jrnl` [source](https://github.com/jrnl-org/jrnl).
 
-This implementation tries to keep plugins as light as possible, and as free of
-boilerplate code as reasonable. As well, internal importers and exporters are
-implemented in almost exactly the same way as custom importers and exporters,
-and so it is hoped that plugins can be moved from "contributed" to "internal"
-easily, or that internal plugins can serve as a base and/or a demonstration for
-external plugins.
+## Understanding the Entry Class
 
--- @MinchinWeb, May 2021
+Importer and exporter plugins work on the `Entry` class, which is
+responsible for representing the data in a journal entry. Plugins will
+generally access the following properties and functions of this class:
 
-## Entry Class
+  - **title** (string): a single line that represents a entry's title.
+  - **date** (datetime.datetime): the date and time assigned to an entry.
+  - **body** (string): the main body of the entry. Can be any length.
+      `jrnl` assumes no particular structure here.
+  - **starred** (boolean): true if an entry is "starred"
+  - **tags** (list of strings): the tags attached to an entry. Each tag
+    includes the pre-facing "tag symbol" which defaults to `@`.
+  - **\_\_init\_\_(journal, date=None, text="", starred=False)**: constructor for new entries
+      - **journal** (*jrnl.Journal.Journal*): a link to an existing Journal
+        class. Mainly used to access its configuration.
+      - **date** (datetime.datetime): the date of the entry
+      - **text** (string): includes the entry's title and its body if one is included.
+        When the title, body, or tags of an entry are requested, this text
+        will the parsed to determine the tree.
+      - **starred** (boolean)
 
-Both the Importers and the Exporters work on the `Entry` class. Below is a
-(selective) description of the class, it's properties and functions:
+!!! warning
+    The Entry class is likely to change in future versions of journal. In particular, there may be a unique identifier added to it. Also, when using the DayOne backend, entries have additional metadata, including a "uuid" unique identifier.
 
-- **Entry** (class) at `jrnl.Entry.Entry`.
-    - **title** (string): a single line that represents a entry's title.
-    - **date** (datetime.datetime): the date and time assigned to an entry.
-    - **body** (string): the main body of the entry. Can be basically any
-      length. *jrnl* assumes no particular structure here.
-    - **starred** (boolean): is an entry starred? Presumably, starred entries
-      are of particular importance.
-    - **tags** (list of strings): the tags attached to an entry. Each tag
-      includes the pre-facing "tag symbol".
-    - **\_\_init\_\_(journal, date=None, text="", starred=False)**: contractor
-      method
-        - **journal** (*jrnl.Journal.Journal*): a link to an existing Journal
-          class. Mainly used to access it's configuration.
-        - **date** (datetime.datetime)
-        - **text** (string): assumed to include both the title and the body.
-          When the title, body, or tags of an entry are requested, this text
-          will the parsed to determine the tree.
-        - **starred** (boolean)
+## Creating an Importer Plugin
 
-Entries also have "advanced" metadata if they are using the DayOne backend, but
-we'll ignore that for the purposes of this demo.
+An importer takes source data, turns it into Entries and then appends those
+entries to a Journal.
 
-## Custom Importer
-
-If you have a (custom) datasource that you want to import into your jrnl
-(perhaps like a blog export), you can write a custom importer to do this.
-
-An importer takes the source data, turns it into Entries and then appends those
-entries to a Journal. Here is a basic Importer, assumed to be provided with a
-nicely formatted JSON file:
-
-~~~ python
-{%
-  include-markdown "../tests/external_plugins_src/jrnl/contrib/importer/simple_json.py"
-  comments=false
-%}
-~~~
-
-Note that the above is very minimal, doesn't do any error checking, and doesn't
-try to import all possible entry metadata.
-
-Another potential use of a custom importer is to effectively create a scripted
-entry creator. For example, maybe each day you want to create a journal entry
-that contains the answers to specific questions; you could create a custom
-"importer" that would ask you the questions, and then create an entry containing
-the answers provided.
-
-Some implementation notes:
+### Structure
 
 - The importer class must be named **Importer**, and should sub-class
   **jrnl.plugins.base.BaseImporter**.
@@ -91,8 +60,6 @@ Some implementation notes:
 - The importer must not have any `__init__.py` files in the base directories
   (but you can have one for your importer base directory if it is in a
   directory rather than a single file).
-- The importer must be installed as a Python package available to the same
-  Python interpreter running jrnl.
 - The importer must expose at least the following the following members:
     - **version** (string): the version of the plugin. Displayed to help the
       user debug their installations.
@@ -104,38 +71,42 @@ Some implementation notes:
       entries to the journal passed to it. It is recommended to accept either a
       filename or standard input as a source.
 
-## Custom Exporter
+### Importer Example
 
-Custom exporters are useful to make *jrnl*'s data available to other programs.
-One common usecase would to generate the input to be used by a static site
-generator or blogging engine.
-
-An exporter take either a whole journal or a specific entry and exports it.
-Below is a basic JSON Exporter; note that a more extensive JSON exporter is
-included in *jrnl* and so this (if installed) would override the built in
-exporter.
+Here is a basic Importer, assumed to be provided with a
+nicely formatted JSON file:
 
 ~~~ python
 {%
-  include-markdown "../tests/external_plugins_src/jrnl/contrib/exporter/custom_json.py"
+  include-markdown "../tests/external_plugins_src/jrnl/contrib/importer/simple_json.py"
   comments=false
 %}
 ~~~
+!!! warning
+    The above sample code is very minimal, doesn't do any error checking, and doesn't
+    try to import all possible entry metadata.
 
-Note that the above is very minimal, doesn't do any error checking, and doesn't
-export all entry metadata.
+### Use Cases
 
-Some implementation notes:
+Another potential use of a custom importer is to effectively create a scripted
+entry creator. For example, maybe each day you want to create a journal entry
+that contains the answers to specific questions; you could create a custom
+"importer" that would ask you the questions, and then create an entry containing
+the answers provided.
 
-- the exporter class must be named **Exporter** and should sub-class
+## Creating an Exporter Plugin
+
+An exporter takes either a whole journal or a specific entry and exports it.
+
+### Structure
+
+- The exporter class must be named **Exporter** and should sub-class
   **jrnl.plugins.base.BaseExporter**.
-- the exporter module must be within the **jrnl.contrib.exporter** namespace.
+- The exporter module must be within the **jrnl.contrib.exporter** namespace.
 - The exporter must not have any `__init__.py` files in the base directories
   (but you can have one for your exporter base directory if it is in a
   directory rather than a single file).
-- The exporter must be installed as a Python package available to the same
-  Python interpreter running jrnl.
-- the exporter should expose at least the following the following members
+- The exporter should expose at least the following the following members
   (there are a few more you will need to define if you don't subclass
   `jrnl.plugins.base.BaseExporter`):
     - **version** (string): the version of the plugin. Displayed to help the
@@ -149,12 +120,29 @@ Some implementation notes:
       exported entry.
     - **export_journal(journal)**: (optional) given a journal, returns a string
       of the formatted, exported entries of the journal. If not implemented,
-      *jrnl* will call **export_entry()** on each entry in turn and then
+      `jrnl` will call **export_entry()** on each entry in turn and then
       concatenate the results together.
+
+### Exporter Example
+Below is a basic JSON Exporter; note that a more extensive JSON exporter is
+included in `jrnl` and so this (if installed) would override the built in
+exporter.
+
+~~~ python
+{%
+  include-markdown "../tests/external_plugins_src/jrnl/contrib/exporter/custom_json.py"
+  comments=false
+%}
+~~~
+
+!!! warning
+    The above is very minimal, doesn't do any error checking, and doesn't
+    export all entry metadata.
+
 
 ### Special Exporters
 
-There are a few "special" exporters, in that they are called by *jrnl* in
+There are a few "special" exporters, in that they are called by `jrnl` in
 situations other than a traditional export. They are:
 
 - **short** -- called by `jrnl --short`. Displays each entry on a single line.
@@ -167,15 +155,17 @@ situations other than a traditional export. They are:
 
 - Editable installs (`pip install -e ...`) don't seem to play nice with
   the namespace layout. If your plugin isn't appearing, try a non-editable
-  install of both *jrnl* and your plugin.
-- If you run *jrnl* from the main project root directory (the one that contains
-  *jrnl*'s source code), namespace plugins won't be recognized. This is (I
-  suspect) because the Python interpreter will find your *jrnl* source directory
+  install of both `jrnl` and your plugin.
+- If you run `jrnl` from the main project root directory (the one that contains
+  `jrnl`'s source code), namespace plugins won't be recognized. This is (I
+  suspect) because the Python interpreter will find your `jrnl` source directory
   (which doesn't contain your namespace plugins) before it find your
   "site-packages" directory (i.e. installed packages, which will recognize
   namespace packages).
 - Don't name your plugin file "testing.py" or it won't be installed (at least
   automatically) by pip.
-- For examples, you can look to the *jrnl*'s internal importers and exporters.
-  As well, there are some basic external examples included in *jrnl*'s git repo
+- For examples, you can look to the `jrnl`'s internal importers and exporters.
+  As well, there are some basic external examples included in `jrnl`'s git repo
   at `tests/external_plugins_src` (including the example code above).
+- Custom importers and exporters can be given the same name as a built-in importer
+  or exporter to override it.
