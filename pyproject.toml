@@ -27,7 +27,7 @@ classifiers = [
 "Funding" = "https://opencollective.com/jrnl"
 
 [tool.poetry.dependencies]
-python = ">=3.7.0, <3.10"
+python = ">=3.7.0, <3.11"
 
 ansiwrap = "^0.8.4"
 asteval = "^0.9"
