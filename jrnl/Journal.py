@@ -220,7 +220,10 @@ class Journal:
 
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
-        excluded = lambda tags: len([tag for tag in tags if tag in excluded_tags]) > 0
+
+        def excluded(tags):
+            return 0 < len([tag for tag in tags if tag in excluded_tags])
+
         if contains:
             contains_lower = contains.casefold()
 

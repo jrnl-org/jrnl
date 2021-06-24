@@ -1,7 +1,9 @@
 import argparse
-import jrnl
-import pytest
 from unittest import mock
+
+import pytest
+
+import jrnl
 from jrnl.jrnl import _display_search_results
 
 

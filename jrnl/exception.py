@@ -22,25 +22,24 @@ class JrnlError(Exception):
 
     def _get_error_message(self, **kwargs):
         error_messages = {
-            "ConfigDirectoryIsFile": textwrap.dedent(
-                """
+            "ConfigDirectoryIsFile": """
                 The path to your jrnl configuration directory is a file, not a directory:
 
                 {config_directory_path}
 
                 Removing this file will allow jrnl to save its configuration.
-            """
-            ),
-            "LineWrapTooSmallForDateFormat": textwrap.dedent(
-                """
-                The provided linewrap value of {config_linewrap} is too small by {columns} columns
-                to display the timestamps in the configured time format for journal {journal}.
+                """,
+            "LineWrapTooSmallForDateFormat": """
+                The provided linewrap value of {config_linewrap} is too small by
+                {columns} columns to display the timestamps in the configured time
+                format for journal {journal}.
 
-                You can avoid this error by specifying a linewrap value that is larger by at least {columns} in the configuration file or by using --config-override at the command line 
-                """
-            ),
+                You can avoid this error by specifying a linewrap value that is larger
+                by at least {columns} in the configuration file or by using
+                --config-override at the command line
+                """,
         }
 
-        return error_messages[self.error_type].format(**kwargs)
-
-    pass
+        msg = error_messages[self.error_type].format(**kwargs)
+        msg = textwrap.dedent(msg)
+        return msg

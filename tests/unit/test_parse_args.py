@@ -283,10 +283,10 @@ class TestDeserialization:
         assert cfg["linewrap"] == 23
 
         cfg = make_yaml_valid_dict(["encrypt", "false"])
-        assert cfg["encrypt"] == False
+        assert cfg["encrypt"] is False
 
         cfg = make_yaml_valid_dict(["editor", "vi -c startinsert"])
         assert cfg["editor"] == "vi -c startinsert"
 
         cfg = make_yaml_valid_dict(["highlight", "true"])
-        assert cfg["highlight"] == True
+        assert cfg["highlight"] is True

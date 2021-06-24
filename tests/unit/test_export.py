@@ -1,7 +1,7 @@
+import pytest
+
 from jrnl.exception import JrnlError
 from jrnl.plugins.fancy_exporter import check_provided_linewrap_viability
-
-import pytest
 
 
 @pytest.fixture()

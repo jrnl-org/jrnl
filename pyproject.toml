@@ -48,12 +48,12 @@ behave = "^1.2"
 mkdocs = "^1.0"
 black = {version = "^21.5b2",allow-prereleases = true}
 toml = ">=0.10"
-pyflakes = ">=2.2.0"
 pytest = ">=6.2"
 pytest-bdd = "^4.0.1"
 yq = ">=2.11"
 ipdb = ">=0.13"
 pytest-clarity = "^0.3.0-alpha.0"
+pyproject-flake8 = "^0.0.1-alpha.2"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
@@ -83,6 +83,10 @@ filterwarnings = [
     "ignore:[WinError 32].*",
     "ignore:[WinError 5].*"
 ]
+
+[tool.flake8]
+# ignore formatting warnings and errors because we use Black to autoformat
+extend-ignore = "E101,E111,E114,E115,E116,E117,E12,E13,E2,E3,E401,E5,E70,W1,W2,W3,W5"
 
 [build-system]
 requires = ["poetry>=1.1"]

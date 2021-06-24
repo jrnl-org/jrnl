@@ -1,13 +1,13 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import os
 from contextlib import ExitStack
+import os
 from unittest.mock import patch
 
+from pytest_bdd import parsers
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
-from pytest_bdd import parsers
 
 from jrnl.cli import cli
 from jrnl.os_compat import split_args

@@ -1,22 +1,23 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from datetime import datetime
 import json
 import os
-from datetime import datetime
-from keyring import set_keyring
 import random
-import string
 import shutil
-from unittest.mock import patch
+import string
 from unittest.mock import MagicMock
+from unittest.mock import patch
 from xml.etree import ElementTree
+
+from keyring import set_keyring
+from pytest_bdd import given
+from pytest_bdd.parsers import parse
 
 from jrnl import __version__
 from jrnl.time import __get_pdt_calendar
 
-from pytest_bdd import given
-from pytest_bdd.parsers import parse
 from .fixtures import FailedKeyring
 from .fixtures import TestKeyring
 

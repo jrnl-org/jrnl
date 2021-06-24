@@ -4,17 +4,17 @@
 import json
 import os
 import re
-import yaml
 from xml.etree import ElementTree
 
 from pytest_bdd import then
 from pytest_bdd.parsers import parse
+import yaml
 
 from jrnl.config import scope_config
 
-from .helpers import parse_should_or_should_not
-from .helpers import does_directory_contain_files
 from .helpers import assert_equal_tags_ignoring_order
+from .helpers import does_directory_contain_files
+from .helpers import parse_should_or_should_not
 
 
 @then("we should get no error")
