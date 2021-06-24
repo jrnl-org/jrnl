@@ -4,7 +4,6 @@
 import os
 
 
-
 def does_directory_contain_files(file_list, directory_path):
     if not os.path.isdir(directory_path):
         return False

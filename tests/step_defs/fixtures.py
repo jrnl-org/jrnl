@@ -1,14 +1,14 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import os
 from collections import defaultdict
-from keyring import backend
-from keyring import set_keyring
-from keyring import errors
+import os
 from pathlib import Path
 import tempfile
 
+from keyring import backend
+from keyring import errors
+from keyring import set_keyring
 from pytest import fixture
 import toml
 
@@ -59,7 +59,7 @@ class NoKeyring(backend.KeyringBackend):
 
 
 class FailedKeyring(backend.KeyringBackend):
-    """ A keyring that cannot be retrieved.  """
+    """A keyring that cannot be retrieved."""
 
     priority = 2
 
@@ -192,11 +192,10 @@ def editor(editor_state):
         Path(tmpfile).touch()
         with open(tmpfile, editor_state["intent"]["method"]) as f:
             # Touch the file so jrnl knows it was edited
-            if editor_state["intent"]["input"] != None:
+            if editor_state["intent"]["input"] is not None:
                 f.write(editor_state["intent"]["input"])
 
             file_content = f.read()
             editor_state["tmpfile"]["content"] = file_content
 
     return _mock_editor
-
