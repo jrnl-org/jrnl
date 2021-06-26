@@ -1,6 +1,7 @@
 name: Testing
 
 on:
+  workflow_dispatch:
   push:
     branches: [ develop, release ]
     paths:
@@ -10,7 +11,6 @@ on:
     - 'poetry.lock'
     - 'pyproject.toml'
   pull_request:
-    branches: [ develop ]
     paths:
     - 'jrnl/**'
     - 'features/**'
