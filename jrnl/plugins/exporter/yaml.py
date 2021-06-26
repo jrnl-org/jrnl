@@ -12,7 +12,7 @@ from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
 from jrnl.plugins.base import BaseExporter
 
-from ... import __version__
+from jrnl.__version__ import __version__
 
 
 class Exporter(BaseExporter):

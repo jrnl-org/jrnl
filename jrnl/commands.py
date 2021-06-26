@@ -16,7 +16,7 @@ import sys
 
 
 def preconfig_diagnostic(_):
-    from jrnl import __version__
+    from jrnl.__version__ import __version__
 
     print(
         f"jrnl: {__version__}\n"
@@ -26,8 +26,7 @@ def preconfig_diagnostic(_):
 
 
 def preconfig_version(_):
-    from jrnl import __title__
-    from jrnl import __version__
+    from jrnl.__version__ import __version__
     from jrnl.plugins.collector import (
         IMPORT_FORMATS,
         EXPORT_FORMATS,
@@ -35,7 +34,7 @@ def preconfig_version(_):
         get_importer,
     )
 
-    version_str = f"""{__title__} version {__version__}
+    version_str = f"""jrnl version {__version__}
 
 Copyright (C) 2012-2021 jrnl contributors
 
