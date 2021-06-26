@@ -17,8 +17,7 @@ import tzlocal
 
 from . import Entry
 from . import Journal
-from . import __title__
-from . import __version__
+from jrnl.__version__ import __version__
 
 
 class DayOne(Journal.Journal):
@@ -135,9 +134,7 @@ class DayOne(Journal.Journal):
                         platform.system(), platform.release()
                     )
                 if not hasattr(entry, "creator_software_agent"):
-                    entry.creator_software_agent = "{}/{}".format(
-                        __title__, __version__
-                    )
+                    entry.creator_software_agent = "jrnl/{}".format(__version__)
 
                 fn = (
                     Path(self.config["journal"])

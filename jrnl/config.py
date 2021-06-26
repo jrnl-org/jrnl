@@ -6,7 +6,7 @@ import colorama
 import yaml
 import xdg.BaseDirectory
 
-from . import __version__
+from jrnl.__version__ import __version__
 from .exception import JrnlError
 from .color import ERROR_COLOR
 from .color import RESET_COLOR

@@ -8,7 +8,7 @@ import json
 from jrnl.plugins.base import BaseExporter
 from jrnl.plugins.util import get_tags_count
 
-from ... import __version__
+from jrnl.__version__ import __version__
 
 
 class Exporter(BaseExporter):
