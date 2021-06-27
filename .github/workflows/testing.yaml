@@ -27,7 +27,7 @@ jobs:
       matrix:
         python-version: [ 3.7, 3.8, 3.9 ]
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-        has_plugins: [true, false]
+        has_plugins: [ 'no plugins', 'plugins' ]
 
     steps:
     - uses: actions/checkout@v2
@@ -52,7 +52,7 @@ jobs:
       # this is temporary until we implement a 'given' step
       # to conditionally install plugins during bdd tests
     - name: Install plugins
-      if: ${{ matrix.has_plugins }}
+      if: ${{ matrix.has_plugins == 'plugins' }}
       run: poetry run pip install tests/external_plugins_src
 
     - name: Code formatting (Black)
