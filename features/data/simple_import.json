@@ -1,0 +1,15 @@
+{
+    "entries" :
+    [
+        {
+            "date" : "2013-06-09 15:39",
+            "title" : "My first entry.",
+            "body" : "Everything is alright"
+        },
+        {
+            "date" : "2013-06-10 15:40",
+            "title" : "Life is good.",
+            "body" : "But I'm better."
+        }
+    ]
+}

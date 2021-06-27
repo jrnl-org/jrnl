@@ -27,13 +27,14 @@ class Importer(BaseImporter):
                 data = json.loads(f)
         else:
             try:
-                data = sys.stdin.read()
+                f = sys.stdin.read()
             except KeyboardInterrupt:
                 print(
                     "[Entries NOT imported into journal.]",
                     file=sys.stderr,
                 )
                 sys.exit(0)
+            data = json.loads(f)
 
         for json_entry in data:
             raw = json_entry["title"] + "/n" + json_entry["body"]

@@ -5,7 +5,7 @@ Feature: Functionality of Importer and Exporter Plugins
         Given We use the config "basic_onefile.yaml"
         When We run "jrnl --version"
         Then the output should contain pyproject.toml version
-        And The output should contain "<plugin_name> : <version> from jrnl.<source>.<type>.<filename>" 
+        And the output should contain "<plugin_name> : <version> from jrnl.<source>.<type>.<filename>" 
         And the output should not contain ".contrib."
 
         Examples:
@@ -31,7 +31,8 @@ Feature: Functionality of Importer and Exporter Plugins
         Given We use the config "basic_onefile.yaml"
         When We run "jrnl --version"
         Then the output should contain pyproject.toml version
-        And The output should contain "<plugin_name> : <version> from jrnl.<source>.<type>.<filename>" 
+        And the output should contain "<plugin_name> : <version> from jrnl.<source>.<type>.<filename>"
+
         Examples:
             | plugin_name | version                  | source  | type     | filename    |
             | jrnl        | <pyproject.toml version> | plugins | importer | jrnl        |
@@ -65,9 +66,15 @@ Feature: Functionality of Importer and Exporter Plugins
             | json        | <pyproject.toml version> | plugins | exporter | json     |
             | txt         | <pyproject.toml version> | plugins | exporter | text     |
 
+    @skip_only_with_external_plugins
+    Scenario Outline: Custom JSON Import
+        Given we use the config "simple.yaml"
+        When we run "jrnl --import ./features/data/simple_import.json"
+        Then the journal should contain "My first entry."
+        And the journal should contain "Life is good."
 
     @skip_only_with_external_plugins
-    Scenario Outline: JSON format
+    Scenario Outline: Custom JSON Export
         Given we use the config "<config>.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --format json"
@@ -79,8 +86,8 @@ Feature: Functionality of Importer and Exporter Plugins
         And entry 3 should not have an array "tags"
 
         Examples: configs
-        | config          |
-        | basic_onefile   |
-        | basic_encrypted |
-        | basic_folder    |
-        | basic_dayone    |
+            | config          |
+            | basic_onefile   |
+            | basic_encrypted |
+            | basic_folder    |
+            | basic_dayone    |

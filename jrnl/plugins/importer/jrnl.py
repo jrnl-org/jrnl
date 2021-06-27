@@ -37,4 +37,3 @@ class Importer(BaseImporter):
             ),
             file=sys.stderr,
         )
-        journal.write()
