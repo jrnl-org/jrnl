@@ -9,7 +9,7 @@ from textwrap import TextWrapper
 from jrnl.plugins.base import BaseExporter
 from jrnl.plugins.util import check_provided_linewrap_viability
 
-from jrnl.__version__ import __version__
+from ...__version__ import __version__
 
 
 class Exporter(BaseExporter):
