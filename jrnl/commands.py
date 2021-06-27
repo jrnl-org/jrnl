@@ -17,16 +17,6 @@ import sys
 
 def preconfig_diagnostic(_):
     from jrnl import __version__
-
-    print(
-        f"jrnl: {__version__}\n"
-        f"Python: {sys.version}\n"
-        f"OS: {platform.system()} {platform.release()}"
-    )
-
-
-def preconfig_version(_):
-    from jrnl import __version__
     from jrnl.plugins.collector import (
         IMPORT_FORMATS,
         EXPORT_FORMATS,
@@ -34,14 +24,11 @@ def preconfig_version(_):
         get_importer,
     )
 
-    version_str = f"""jrnl version {__version__}
-
-Copyright (C) 2012-2021 jrnl contributors
-
-This is free software, and you are welcome to redistribute it under certain
-conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
-
-    print(version_str)
+    print(
+        f"jrnl: {__version__}\n"
+        f"Python: {sys.version}\n"
+        f"OS: {platform.system()} {platform.release()}"
+    )
     print()
     print("Active Plugins:")
     print("    Importers:")
@@ -58,6 +45,19 @@ conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
         print(f"        {exporter} : ", end="")
         print(f"{exporter_class.version} from ", end="")
         print(f"{exporter_class().class_path()}")
+
+
+def preconfig_version(_):
+    from jrnl import __version__
+
+    version_str = f"""jrnl version {__version__}
+
+Copyright (C) 2012-2021 jrnl contributors
+
+This is free software, and you are welcome to redistribute it under certain
+conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
+
+    print(version_str)
 
 
 def postconfig_list(config, **kwargs):
