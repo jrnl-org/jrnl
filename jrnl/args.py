@@ -337,6 +337,28 @@ def parse_args(args=[]):
         """,
     )
 
+    alternate_config = parser.add_argument_group(
+        "Specifies alternate config to be used",
+        textwrap.dedent("Applies alternate config for current session"),
+    )
+    alternate_config.add_argument(
+        "--config-file",
+        dest="config_file",
+        action="config_file",
+        type=str,
+        nargs=1,
+        default="",
+        help="""
+        Overrides default (created when first installed) config file for this command only.
+        
+        Examples: \n
+        \t - Use a work config file for this jrnl entry, call: \n
+            \t jrnl --config-file /home/user1/work_config.yaml
+        \t - Use a personal config file stored on a thumb drive: \n
+            \t jrnl --config-file /media/user1/my-thumb-drive/personal_config.yaml
+        """,
+    )
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]

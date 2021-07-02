@@ -38,7 +38,8 @@ def upgrade_config(config):
 
 def load_or_install_jrnl():
     """
-    If jrnl is already installed, loads and returns a config object.
+    If jrnl is already installed, loads and returns a default config object.
+    If alternate config is specified via --config-file flag, it will be used.
     Else, perform various prompts to install jrnl.
     """
     config_path = (
