@@ -66,11 +66,11 @@ jobs:
         poetry run black --version
         poetry run black --check --diff .
 
-    - name: Code Style (PyFlakes)
+    - name: Code Style (flake8)
       if: success() || failure()
       run: |
-        poetry run pyflakes --version
-        poetry run pyflakes jrnl features tests
+        poetry run pflake8 --version
+        poetry run pflake8 jrnl features tests
 
     - name: Test with pytest
       if: success() || failure()
