@@ -4,12 +4,9 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...HEAD)
 
-**Implemented enhancements:**
-
-- Multiple entries with same timestamp should be grouped together [\#1247](https://github.com/jrnl-org/jrnl/issues/1247)
-
 **Build:**
 
+- Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
 
 **Packaging:**
@@ -17,6 +14,7 @@
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 20.8b1 to 21.5b0 [\#1241](https://github.com/jrnl-org/jrnl/pull/1241) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.3 to 6.2.4 [\#1240](https://github.com/jrnl-org/jrnl/pull/1240) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.8.1](https://pypi.org/project/jrnl/v2.8.1/) (2021-04-24)
 
