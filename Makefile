@@ -24,13 +24,13 @@ lint: ## Check style with various tools
 unit: # unit tests
 	poetry run pytest tests/unit
 
-e2e: # end-to-end tests
-	poetry run pytest tests/step_defs --gherkin-terminal-reporter --tb=native --diff-type=unified
+bdd: # bdd tests
+	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native --diff-type=unified
 
-e2e-debug: # end-to-end tests
-	poetry run pytest tests/step_defs --gherkin-terminal-reporter --tb=native --diff-type=unified -x -vv
+bdd-debug: # bdd tests
+	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native --diff-type=unified -x -vv
 
-test: lint unit e2e ## Run unit tests and behave tests
+test: lint unit bdd ## Run unit tests and behave tests
 
 build:
 	poetry build

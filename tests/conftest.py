@@ -7,10 +7,10 @@ from jrnl.os_compat import on_windows
 
 
 pytest_plugins = [
-    "tests.step_defs.fixtures",
-    "tests.step_defs.given_steps",
-    "tests.step_defs.when_steps",
-    "tests.step_defs.then_steps",
+    "tests.lib.fixtures",
+    "tests.lib.given_steps",
+    "tests.lib.when_steps",
+    "tests.lib.then_steps",
 ]
 
 
