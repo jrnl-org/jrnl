@@ -46,8 +46,15 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-v2
 
     - name: Install dependencies
+      if: ${{ matrix.python-version != 3.10-dev }}
+      run: pip install poetry
+
+    - name: Install dependencies (Prerelease)
+      if: ${{ matrix.python-version == 3.10-dev }}
+      run: pip install poetry==1.2.0a1
+
+    - name: Configure poetry
       run: |
-        pip install poetry
         poetry config --local virtualenvs.in-project true
         poetry install --remove-untracked
 
