@@ -6,8 +6,10 @@
 
 **Build:**
 
+- Move test suite entirely to Pytest \(replace Behave\) [\#1192](https://github.com/jrnl-org/jrnl/issues/1192)
 - Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
+- Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
 
 **Packaging:**
 
