@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import re
 from string import punctuation
 from string import whitespace
