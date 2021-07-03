@@ -81,9 +81,6 @@ def we_run(
             stack.enter_context(mocks["datetime"])
             stack.enter_context(mocks["calendar_parse"])
 
-            # stack.enter_context(patch("datetime.datetime", new=mocks["datetime"]))
-            # stack.enter_context(patch("jrnl.time.__get_pdt_calendar", return_value=mocks["calendar_parse"]))
-
         stack.enter_context(
             patch("jrnl.install.get_config_path", return_value=config_path)
         )
