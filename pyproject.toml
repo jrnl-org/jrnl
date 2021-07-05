@@ -52,7 +52,7 @@ pytest = ">=6.2"
 pytest-bdd = "^4.0.1"
 yq = ">=2.11"
 ipdb = ">=0.13"
-pytest-clarity = "^0.3.0-alpha.0"
+pytest-clarity = "^1.0.1"
 pyproject-flake8 = "^0.0.1-alpha.2"
 
 [tool.poetry.scripts]
