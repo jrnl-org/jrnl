@@ -36,7 +36,7 @@ def upgrade_config(config):
         )
 
 
-def get_default_config():
+def find_default_config():
     config_path = (
         get_config_path()
         if os.path.exists(get_config_path())
@@ -45,7 +45,7 @@ def get_default_config():
     return config_path
 
 
-def get_alt_config(alt_config):
+def find_alt_config(alt_config):
     if os.path.exists(alt_config):
         return alt_config
     else:
@@ -62,7 +62,7 @@ def load_or_install_jrnl(alt_config):
     If alternate config is specified via --config-file flag, it will be used.
     Else, perform various prompts to install jrnl.
     """
-    config_path = get_alt_config(alt_config) if alt_config else get_default_config()
+    config_path = find_alt_config(alt_config) if alt_config else find_default_config()
 
     if os.path.exists(config_path):
         logging.debug("Reading configuration from file %s", config_path)
