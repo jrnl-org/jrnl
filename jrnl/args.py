@@ -341,12 +341,11 @@ def parse_args(args=[]):
         "Specifies alternate config to be used",
         textwrap.dedent("Applies alternate config for current session"),
     )
+
     alternate_config.add_argument(
         "--config-file",
-        dest="config_file",
-        action="config_file",
+        dest="config_file_path",
         type=str,
-        nargs=1,
         default="",
         help="""
         Overrides default (created when first installed) config file for this command only.
