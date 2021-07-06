@@ -358,6 +358,10 @@ def parse_args(args=[]):
         """,
     )
 
+    alternate_config.add_argument(
+        "--cf", dest="config_file_path", type=str, default="", help=argparse.SUPPRESS
+    )
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
