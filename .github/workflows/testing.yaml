@@ -57,6 +57,8 @@ jobs:
         poetry install --remove-untracked
         echo '::endgroup::'
 
+        echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
+
 
     - name: Install dependencies (Prerelease)
       if: ${{ matrix.python-version == '3.10-dev' }}
@@ -70,15 +72,16 @@ jobs:
         poetry install --remove-untracked --no-dev --extras testing
         echo '::endgroup::'
 
+        echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
 
     - name: Code formatting (Black)
-      if: ${{ matrix.python-version != '3.10-dev' }} && (success() || failure())
+      if: ${{ matrix.python-version != '3.10-dev' && env.DEPS_INSTALLED == 'true' }}
       run: |
         poetry run black --version
         poetry run black --check --diff .
 
     - name: Code Style (flake8)
-      if: ${{ matrix.python-version != '3.10-dev' }} && (success() || failure())
+      if: ${{ matrix.python-version != '3.10-dev' && env.DEPS_INSTALLED == 'true' }}
       run: |
         poetry run pflake8 --version
         poetry run pflake8 jrnl features tests
