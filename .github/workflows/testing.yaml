@@ -49,13 +49,12 @@ jobs:
       if: ${{ matrix.python-version != '3.10-dev' }}
       run: |
         echo '::group::poetry'
-        # see https://github.com/python-poetry/poetry/issues/3153
-        pip install poetry setuptools
+        pip install poetry
         poetry config --local virtualenvs.in-project true
         echo '::endgroup::'
 
         echo '::group::Other dependencies'
-        poetry install
+        poetry install --remove-untracked
         echo '::endgroup::'
 
         echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
