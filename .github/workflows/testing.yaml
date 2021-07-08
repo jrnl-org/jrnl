@@ -45,29 +45,40 @@ jobs:
         path: .venv
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-v2
 
-    - name: Install poetry
+    - name: Install dependencies
       if: ${{ matrix.python-version != '3.10-dev' }}
-      run: pip install poetry
+      run: |
+        echo '::group::poetry'
+        pip install poetry
+        poetry config --local virtualenvs.in-project true
+        echo '::endgroup::'
 
-    - name: Install poetry (Prerelease)
+        echo '::group::Other dependencies'
+        poetry install --remove-untracked
+        echo '::endgroup::'
+
+
+    - name: Install dependencies (Prerelease)
       if: ${{ matrix.python-version == '3.10-dev' }}
       run: |
+        echo '::group::poetry'
         pip install poetry==1.2.0a1
-        poetry remove --dev pytest-clarity
-
-    - name: Install dependencies
-      run: |
         poetry config --local virtualenvs.in-project true
-        poetry install --remove-untracked
+        echo '::endgroup::'
+
+        echo '::group::Other dependencies'
+        poetry install --remove-untracked --no-dev --extras testing
+        echo '::endgroup::'
+
 
     - name: Code formatting (Black)
-      if: success() || failure()
+      if: ${{ matrix.python-version != '3.10-dev' }} && (success() || failure())
       run: |
         poetry run black --version
         poetry run black --check --diff .
 
     - name: Code Style (flake8)
-      if: success() || failure()
+      if: ${{ matrix.python-version != '3.10-dev' }} && (success() || failure())
       run: |
         poetry run pflake8 --version
         poetry run pflake8 jrnl features tests
