@@ -15,7 +15,7 @@ import tzlocal
 
 from . import Entry
 from . import Journal
-from jrnl.__version__ import __version__
+from . import __version__
 
 
 class DayOne(Journal.Journal):

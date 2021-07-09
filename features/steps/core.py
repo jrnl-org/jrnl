@@ -18,7 +18,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 from jrnl import Journal
-from jrnl.__version__ import __version__
+from jrnl import __version__
 from jrnl import plugins
 from jrnl.args import parse_args
 from jrnl.behave_testing import _mock_getpass
