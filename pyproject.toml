@@ -27,7 +27,7 @@ classifiers = [
 "Funding" = "https://opencollective.com/jrnl"
 
 [tool.poetry.dependencies]
-python = ">=3.7.0, <3.10"
+python = ">=3.7.0, <3.11"
 
 ansiwrap = "^0.8.4"
 asteval = "^0.9"
@@ -43,17 +43,28 @@ pyyaml = ">=5.1"
 pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations
 tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
+# Minimal deps required for testing
+# I don't like repeating deps here, but
+# there's no other way to do this yet until poetry v1.2 releases
+# see: https://github.com/python-poetry/poetry/issues/1644
+behave     =  { version = "^1.2"    , optional = true }
+pytest     =  { version = ">=6.2"   , optional = true }
+pytest-bdd =  { version = ">=4.0.1" , optional = true }
+toml       =  { version = ">=0.10"  , optional = true }
+
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
-mkdocs = "^1.0"
-black = {version = "^21.5b2",allow-prereleases = true}
+mkdocs = ">=1.0"
+black = { version = ">=21.5b2", allow-prereleases = true }
 toml = ">=0.10"
 pytest = ">=6.2"
-pytest-bdd = "^4.0.1"
-yq = ">=2.11"
-ipdb = ">=0.13"
-pytest-clarity = "^0.3.0-alpha.0"
-pyproject-flake8 = "^0.0.1-alpha.2"
+pytest-bdd = ">=4.0.1"
+ipdb = "*"
+pytest-clarity = "*"
+pyproject-flake8 = "*"
+
+[tool.poetry.extras]
+testing = [ "behave", "pytest", "pytest-bdd", "toml" ]
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
