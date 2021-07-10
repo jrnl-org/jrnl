@@ -72,8 +72,10 @@ div.rst-content {
 }
 
 .wy-side-nav-search,
-.wy-menu-vertical li.current {
+.wy-menu-vertical li.current,
+.wy-menu-vertical li.toctree-l1.current > a {
   background-color: transparent;
+  border: none;
 }
 
 .wy-nav-top {
@@ -107,7 +109,8 @@ a.icon-home:before {
   line-height: 2em;
 }
 
-.wy-menu-vertical a:hover {
+.wy-menu-vertical a:hover,
+.wy-menu-vertical li.current a:hover {
   background-color: var(--black-shadow);
   color: var(--white);
 }
@@ -119,12 +122,12 @@ a.icon-home:before {
   position: relative;
 }
 
-.wy-menu-vertical li.current>a {
+.wy-menu-vertical li.current > a.current {
   background: var(--darkest-purple);
   border: none !important;
 }
 
-.wy-menu-vertical li.current>a:hover {
+.wy-menu-vertical li.current > a:hover {
   background: var(--darkest-purple);
   border: none;
 }
@@ -146,10 +149,12 @@ a.icon-home:before {
   border-bottom: 1em solid transparent;
   border-right: 1em solid var(--white);
 }
-.wy-menu-vertical li li.toctree-l2 {
-  font-weight: 800 !important;
+
+.wy-menu-vertical li.toctree-l2.current {
   font-size: 50px;
-  color: red !important;
+}
+
+.wy-menu-vertical li.toctree-l2.current > a{
 }
 
 .toctree-expand:before {
@@ -161,10 +166,14 @@ a.icon-home:before {
   display: none;
 }
 
+.wy-menu-vertical p.caption {
+  margin-top: 2em;
+}
+
 .wy-menu-vertical span {
   color: var(--white);
   font-size: 1.2em;
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .wy-menu-vertical li a {
@@ -207,8 +216,15 @@ form .search-query::placeholder {
 }
 
 .toctree-l2 a:first-child {
-  display: none;
+  display: block;
 }
+
+.wy-menu-vertical li.current ul {
+  background-color: var(--mid-purple);
+  border-bottom: 1px solid var(--mid-purple);
+  border-top: 1px solid var(--dark-purple);
+}
+
 
 /* ------------------------------------------------------------ */
 /* Logo: ;                                                      */
