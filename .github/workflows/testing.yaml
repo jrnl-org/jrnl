@@ -49,7 +49,7 @@ jobs:
       if: ${{ matrix.python-version != '3.10-dev' }}
       run: |
         echo '::group::poetry'
-        pip install poetry==1.2.0a1
+        pip install poetry
         poetry config --local virtualenvs.in-project true
         echo '::endgroup::'
 
