@@ -87,7 +87,7 @@ jrnl --config-override display_format fancy --config-override linewrap 20 \
 
 ### Using an alternate config
 
-You can specify an alternate configuration file fot the current instance of `jrnl` using `--config-file CONFIG_FILE_PATH` where
+You can specify an alternate configuration file for the current instance of `jrnl` using `--config-file CONFIG_FILE_PATH` where
 `CONFIG_FILE_PATH` is a path to an alternate `jrnl` configuration file. 
 
 #### Examples:
