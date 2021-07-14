@@ -1,12 +1,10 @@
 import pytest
 
-from jrnl.override import (
-    apply_overrides,
-    _recursively_apply,
-    _get_config_node,
-    _get_key_and_value_from_pair,
-    _convert_dots_to_list,
-)
+from jrnl.override import _convert_dots_to_list
+from jrnl.override import _get_config_node
+from jrnl.override import _get_key_and_value_from_pair
+from jrnl.override import _recursively_apply
+from jrnl.override import apply_overrides
 
 
 @pytest.fixture()
@@ -56,7 +54,7 @@ def test_recursively_apply():
 def test_get_config_node(minimal_config):
     assert len(minimal_config.keys()) == 4
     assert _get_config_node(minimal_config, "editor") == "vim"
-    assert _get_config_node(minimal_config, "display_format") == None
+    assert _get_config_node(minimal_config, "display_format") is None
 
 
 def test_get_kv_from_pair():

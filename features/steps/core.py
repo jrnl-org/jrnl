@@ -17,7 +17,7 @@ import keyring
 
 import toml
 import yaml
-from yaml.loader import FullLoader
+from yaml.loader import SafeLoader
 
 
 import jrnl.time
@@ -409,7 +409,7 @@ def run(context, command, text=""):
 
     if "config_path" in context and context.config_path is not None:
         with open(context.config_path) as f:
-            context.jrnl_config = yaml.load(f, Loader=yaml.FullLoader)
+            context.jrnl_config = yaml.load(f, Loader=yaml.SafeLoader)
     else:
         context.jrnl_config = None
 
@@ -418,7 +418,7 @@ def run(context, command, text=""):
         command = command.format(cache_dir=cache_dir)
     if "config_path" in context and context.config_path is not None:
         with open(context.config_path, "r") as f:
-            cfg = yaml.load(f, Loader=FullLoader)
+            cfg = yaml.load(f, Loader=SafeLoader)
         context.jrnl_config = cfg
 
     args = split_args(command)
@@ -675,7 +675,7 @@ def check_journal_entries(context, number, journal_name="default"):
 @when("the journal directory is listed")
 def list_journal_directory(context, journal="default"):
     with open(context.config_path) as config_file:
-        configuration = yaml.load(config_file, Loader=yaml.FullLoader)
+        configuration = yaml.load(config_file, Loader=yaml.SafeLoader)
     journal_path = configuration["journals"][journal]
     for root, dirnames, f in os.walk(journal_path):
         for file in f:
