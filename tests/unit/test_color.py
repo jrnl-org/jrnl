@@ -1,7 +1,8 @@
+from colorama import Fore
+from colorama import Style
 import pytest
 
 from jrnl.color import colorize
-from colorama import Fore, Style
 
 
 @pytest.fixture()

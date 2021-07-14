@@ -1,9 +1,8 @@
-#!/usr/bin/env python
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 
-from datetime import datetime
+import datetime
 import logging
 import os
 import re
@@ -135,7 +134,9 @@ class Journal:
         for match in date_blob_re.finditer(journal_txt):
             date_blob = match.groups()[0]
             try:
-                new_date = datetime.strptime(date_blob, self.config["timeformat"])
+                new_date = datetime.datetime.strptime(
+                    date_blob, self.config["timeformat"]
+                )
             except ValueError:
                 # Passing in a date that had brackets around it
                 new_date = time.parse(date_blob, bracketed=True)
@@ -219,7 +220,10 @@ class Journal:
 
         # If strict mode is on, all tags have to be present in entry
         tagged = self.search_tags.issubset if strict else self.search_tags.intersection
-        excluded = lambda tags: len([tag for tag in tags if tag in excluded_tags]) > 0
+
+        def excluded(tags):
+            return 0 < len([tag for tag in tags if tag in excluded_tags])
+
         if contains:
             contains_lower = contains.casefold()
 
@@ -348,7 +352,7 @@ class LegacyJournal(Journal):
         """Parses a journal that's stored in a string and returns a list of entries"""
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
-        date_length = len(datetime.today().strftime(self.config["timeformat"]))
+        date_length = len(datetime.datetime.today().strftime(self.config["timeformat"]))
 
         # Initialise our current entry
         entries = []
@@ -358,7 +362,7 @@ class LegacyJournal(Journal):
             line = line.rstrip()
             try:
                 # try to parse line as date => new entry begins
-                new_date = datetime.strptime(
+                new_date = datetime.datetime.strptime(
                     line[:date_length], self.config["timeformat"]
                 )
 
