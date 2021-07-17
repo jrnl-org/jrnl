@@ -19,6 +19,8 @@
 **Documentation:**
 
 - Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
+- Document keyring security concerns on Windows, Mac [\#1142](https://github.com/jrnl-org/jrnl/issues/1142)
+- Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
