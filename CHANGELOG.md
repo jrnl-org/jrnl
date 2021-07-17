@@ -16,6 +16,10 @@
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
 - Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
 
+**Documentation:**
+
+- Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
+
 **Packaging:**
 
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
