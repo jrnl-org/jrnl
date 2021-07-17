@@ -55,7 +55,6 @@ toml       =  { version = ">=0.10"  , optional = true }
 [tool.poetry.dev-dependencies]
 behave = "^1.2"
 mkdocs = ">=1.0"
-black = { version = ">=21.5b2", allow-prereleases = true }
 toml = ">=0.10"
 pytest = ">=6.2"
 pytest-bdd = ">=4.0.1"
