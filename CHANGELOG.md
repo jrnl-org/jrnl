@@ -22,6 +22,7 @@
 
 **Packaging:**
 
+- Bump python-dateutil from 2.8.1 to 2.8.2 [\#1302](https://github.com/jrnl-org/jrnl/pull/1302) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 20.8b1 to 21.5b0 [\#1241](https://github.com/jrnl-org/jrnl/pull/1241) ([dependabot[bot]](https://github.com/apps/dependabot))
