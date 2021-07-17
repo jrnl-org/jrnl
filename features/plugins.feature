@@ -67,9 +67,10 @@ Feature: Functionality of Importer and Exporter Plugins
             | txt         | <pyproject.toml version> | plugins | exporter | text     |
 
     @skip_only_with_external_plugins
-    Scenario Outline: Custom JSON Import
+    Scenario: Custom JSON Import
         Given we use the config "simple.yaml"
-        When we run "jrnl --import ./features/data/simple_import.json"
+        When we run "jrnl --import --file ./features/data/simple_import.json --format json"
+        Then we should get no error
         Then the journal should contain "My first entry."
         And the journal should contain "Life is good."
 
