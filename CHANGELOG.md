@@ -6,17 +6,29 @@
 
 **Implemented enhancements:**
 
-- Multiple entries with same timestamp should be grouped together [\#1247](https://github.com/jrnl-org/jrnl/issues/1247)
+- Python 3.10 support [\#1270](https://github.com/jrnl-org/jrnl/issues/1270)
 
 **Build:**
 
+- Move test suite entirely to Pytest \(replace Behave\) [\#1192](https://github.com/jrnl-org/jrnl/issues/1192)
+- Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
+- Add Python 3.10 support [\#1271](https://github.com/jrnl-org/jrnl/pull/1271) ([micahellison](https://github.com/micahellison))
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
+- Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
+
+**Documentation:**
+
+- Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
+- Document keyring security concerns on Windows, Mac [\#1142](https://github.com/jrnl-org/jrnl/issues/1142)
+- Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
+- Bump python-dateutil from 2.8.1 to 2.8.2 [\#1302](https://github.com/jrnl-org/jrnl/pull/1302) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 20.8b1 to 21.5b0 [\#1241](https://github.com/jrnl-org/jrnl/pull/1241) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.3 to 6.2.4 [\#1240](https://github.com/jrnl-org/jrnl/pull/1240) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.8.1](https://pypi.org/project/jrnl/v2.8.1/) (2021-04-24)
 

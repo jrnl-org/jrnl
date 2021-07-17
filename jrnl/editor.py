@@ -26,7 +26,7 @@ def get_text_from_editor(config, template=""):
 
     try:
         subprocess.call(split_args(config["editor"]) + [tmpfile])
-    except Exception as e:
+    except FileNotFoundError as e:
         error_msg = f"""
         {ERROR_COLOR}{str(e)}{RESET_COLOR}
 

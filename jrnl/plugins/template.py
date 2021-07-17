@@ -26,7 +26,7 @@ class Template:
     def from_file(cls, filename):
         with open(filename) as f:
             front_matter, body = f.read().strip("-\n").split("---", 2)
-            front_matter = yaml.load(front_matter, Loader=yaml.FullLoader)
+            front_matter = yaml.load(front_matter, Loader=yaml.SafeLoader)
             template = cls(body)
         template.__dict__.update(front_matter)
         return template

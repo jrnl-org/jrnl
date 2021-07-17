@@ -1,8 +1,9 @@
 from unittest import mock
+
 import pytest
 
-from jrnl.os_compat import on_windows
 from jrnl.os_compat import on_posix
+from jrnl.os_compat import on_windows
 from jrnl.os_compat import split_args
 
 
