@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.8.2-beta](https://pypi.org/project/jrnl/v2.8.2-beta/) (2021-07-17)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...v2.8.2-beta)
 
 **Implemented enhancements:**
 
@@ -11,8 +11,11 @@
 **Build:**
 
 - Move test suite entirely to Pytest \(replace Behave\) [\#1192](https://github.com/jrnl-org/jrnl/issues/1192)
+- Fix lock file from stable Poetry version [\#1298](https://github.com/jrnl-org/jrnl/pull/1298) ([wren](https://github.com/wren))
+- Change all YAML FullLoader calls to SafeLoader [\#1285](https://github.com/jrnl-org/jrnl/pull/1285) ([micahellison](https://github.com/micahellison))
 - Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
 - Add Python 3.10 support [\#1271](https://github.com/jrnl-org/jrnl/pull/1271) ([micahellison](https://github.com/micahellison))
+- Ensure that line endings in all py files are Linux style instead of Windows [\#1250](https://github.com/jrnl-org/jrnl/pull/1250) ([micahellison](https://github.com/micahellison))
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
 - Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
 
@@ -21,6 +24,7 @@
 - Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
 - Document keyring security concerns on Windows, Mac [\#1142](https://github.com/jrnl-org/jrnl/issues/1142)
 - Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
+- Add security.md [\#1299](https://github.com/jrnl-org/jrnl/pull/1299) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
