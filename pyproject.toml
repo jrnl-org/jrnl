@@ -62,6 +62,7 @@ pytest-bdd = ">=4.0.1"
 ipdb = "*"
 pytest-clarity = "*"
 pyproject-flake8 = "*"
+yq = "*"
 
 [tool.poetry.extras]
 testing = [ "behave", "pytest", "pytest-bdd", "toml" ]

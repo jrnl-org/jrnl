@@ -16,8 +16,15 @@
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
 - Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
 
+**Documentation:**
+
+- Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
+- Document keyring security concerns on Windows, Mac [\#1142](https://github.com/jrnl-org/jrnl/issues/1142)
+- Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
+
 **Packaging:**
 
+- Bump python-dateutil from 2.8.1 to 2.8.2 [\#1302](https://github.com/jrnl-org/jrnl/pull/1302) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 20.8b1 to 21.5b0 [\#1241](https://github.com/jrnl-org/jrnl/pull/1241) ([dependabot[bot]](https://github.com/apps/dependabot))
