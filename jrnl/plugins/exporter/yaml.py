@@ -6,12 +6,11 @@ import os
 import re
 import sys
 
+from jrnl import __version__
 from jrnl.color import ERROR_COLOR
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
 from jrnl.plugins.base import BaseExporter
-
-from jrnl.__version__ import __version__
 
 
 class Exporter(BaseExporter):

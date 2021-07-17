@@ -4,9 +4,9 @@
 import logging
 import sys
 
-from .jrnl import run
 from .args import parse_args
 from .exception import JrnlError
+from .jrnl import run
 
 
 def configure_logger(debug=False):

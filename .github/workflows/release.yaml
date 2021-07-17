@@ -80,7 +80,17 @@ jobs:
       if: ${{ github.event.inputs.include_repo_version == 'true' }}
       run: |
         poetry version "$JRNL_VERSION"
-        echo __version__ = \"$JRNL_VERSION\" > jrnl/__version__.py
+        {
+          echo "# This file is managed automatically by the GitHub release flow"
+          echo
+          echo "import sys"
+          echo
+          echo "__version__ = \"$JRNL_VERSION\""
+          echo
+          echo '# this makes the version available at `jrnl.__version__` without requiring a'
+          echo '# `__init__.py` file in the *jrnl* root directory!'
+          echo 'sys.modules["jrnl.__version__"] = __version__'
+        } > jrnl/__version__.py
 
     - name: Commit updated files
       if: ${{ github.event.inputs.include_repo_version == 'true' && github.repository == env.HOME_REPO }}
