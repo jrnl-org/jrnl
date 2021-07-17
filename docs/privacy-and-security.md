@@ -86,6 +86,18 @@ you have a journal, where that journal file is, and when you last edited it.
 With a sufficient power imbalance, someone may be able to force you to unencrypt
 it through non-technical means.
 
+## Saved Passwords
+
+When creating an encrypted journal, you'll be prompted as to whether or not you
+want to "store the password in your keychain." This keychain is accessed using
+the [Python keyring library](https://pypi.org/project/keyring/), which has different
+behavior depending on your operating system.
+
+In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
+and can be accessed by any other application running under your username. If this is
+a concern for you, you may not want to store your password.
+
+
 ## Notice any other risks?
 
 Please let the maintainers know by [filing an issue on GitHub](https://github.com/jrnl-org/jrnl/issues).
