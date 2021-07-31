@@ -67,10 +67,14 @@ class Journal:
         return new_journal
 
     def import_(self, other_journal_txt):
+        imported_entries = self._parse(other_journal_txt)
+        for entry in imported_entries: entry.modified = True
+
         self.entries = list(
-            frozenset(self.entries) | frozenset(self._parse(other_journal_txt))
+            frozenset(self.entries) | frozenset(imported_entries)
         )
         self.sort()
+
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
@@ -414,7 +418,7 @@ def open_journal(journal_name, config, legacy=False):
         else:
             from . import FolderJournal
 
-            return FolderJournal.Folder(**config).open()
+            return FolderJournal.Folder(journal_name, **config).open()
 
     if not config["encrypt"]:
         if legacy:
