@@ -1,24 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.8.2](https://pypi.org/project/jrnl/v2.8.2/) (2021-07-31)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...HEAD)
-
-**Packaging:**
-
-- Bump mkdocs from 1.2.1 to 1.2.2 [\#1307](https://github.com/jrnl-org/jrnl/pull/1307) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-## [v2.8.2-beta](https://pypi.org/project/jrnl/v2.8.2-beta/) (2021-07-17)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...v2.8.2-beta)
-
-**Implemented enhancements:**
-
-- Python 3.10 support [\#1270](https://github.com/jrnl-org/jrnl/issues/1270)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...v2.8.2)
 
 **Build:**
 
-- Move test suite entirely to Pytest \(replace Behave\) [\#1192](https://github.com/jrnl-org/jrnl/issues/1192)
+- Add CI tests for latest dev Python build [\#1273](https://github.com/jrnl-org/jrnl/issues/1273)
 - Fix lock file from stable Poetry version [\#1298](https://github.com/jrnl-org/jrnl/pull/1298) ([wren](https://github.com/wren))
 - Change all YAML FullLoader calls to SafeLoader [\#1285](https://github.com/jrnl-org/jrnl/pull/1285) ([micahellison](https://github.com/micahellison))
 - Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
@@ -29,13 +17,12 @@
 
 **Documentation:**
 
-- Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
-- Document keyring security concerns on Windows, Mac [\#1142](https://github.com/jrnl-org/jrnl/issues/1142)
 - Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
 - Add security.md [\#1299](https://github.com/jrnl-org/jrnl/pull/1299) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
+- Bump mkdocs from 1.2.1 to 1.2.2 [\#1307](https://github.com/jrnl-org/jrnl/pull/1307) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump python-dateutil from 2.8.1 to 2.8.2 [\#1302](https://github.com/jrnl-org/jrnl/pull/1302) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))
