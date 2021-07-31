@@ -331,7 +331,7 @@ def parse_args(args=[]):
 
         Examples: \n
         \t - Use a different editor for this jrnl entry, call: \n
-            \t jrnl --config-override editor: "nano" \n
+            \t jrnl --config-override editor "nano" \n
         \t - Override color selections\n
            \t jrnl --config-override colors.body blue --config-override colors.title green
         """,
