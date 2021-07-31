@@ -68,13 +68,11 @@ class Journal:
 
     def import_(self, other_journal_txt):
         imported_entries = self._parse(other_journal_txt)
-        for entry in imported_entries: entry.modified = True
+        for entry in imported_entries:
+            entry.modified = True
 
-        self.entries = list(
-            frozenset(self.entries) | frozenset(imported_entries)
-        )
+        self.entries = list(frozenset(self.entries) | frozenset(imported_entries))
         self.sort()
-
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
