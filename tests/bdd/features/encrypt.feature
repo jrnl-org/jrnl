@@ -40,3 +40,12 @@ Feature: Encrypting and decrypting journals
         Then we should be prompted for a password
         And the output should contain "2013-06-10 15:40 Life is good"
 
+    Scenario Outline: Attempt to encrypt a folder or DayOne journal should result in an error
+        Given we use the config "<config_file>"
+        When we run "jrnl --encrypt"
+        Then the error output should contain "can't be encrypted"
+
+        Examples: configs
+        | config_file       |
+        | empty_folder.yaml |
+        | dayone.yaml       |
