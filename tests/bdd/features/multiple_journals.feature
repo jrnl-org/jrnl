@@ -88,3 +88,9 @@ Feature: Multiple journals
             these three eyes
             n
         Then the output should contain "Encrypted journal 'new_encrypted' created"
+
+   Scenario: Read and write to journal with emoji name
+        Given we use the config "multiple.yaml"
+        When we run "jrnl ✨ Adding entry to sparkly journal"
+        When we run "jrnl ✨ -1"
+        Then the output should contain "Adding entry to sparkly journal"
