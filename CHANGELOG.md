@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...HEAD)
+
+**Packaging:**
+
+- Bump mkdocs from 1.2.1 to 1.2.2 [\#1307](https://github.com/jrnl-org/jrnl/pull/1307) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8.2-beta](https://pypi.org/project/jrnl/v2.8.2-beta/) (2021-07-17)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...v2.8.2-beta)
