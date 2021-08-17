@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2...HEAD)
+
+**Implemented enhancements:**
+
+- Output after composition can be more useful and user friendly [\#1253](https://github.com/jrnl-org/jrnl/issues/1253)
+
+**Build:**
+
+- Python 3.10 build action is failing on poetry dependency installation [\#1321](https://github.com/jrnl-org/jrnl/issues/1321)
+
 ## [v2.8.2](https://pypi.org/project/jrnl/v2.8.2/) (2021-07-31)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...v2.8.2)
