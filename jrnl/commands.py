@@ -69,7 +69,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     # Open the journal
     journal = open_journal(args.journal_name, config)
 
-    if hasattr(journal, "cannot_be_encrypted") and journal.cannot_be_encrypted:
+    if hasattr(journal, "can_be_encrypted") and not journal.can_be_encrypted:
         raise JrnlError(
             "CannotEncryptJournalType",
             journal_name=args.journal_name,
