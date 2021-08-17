@@ -9,6 +9,7 @@ on:
     - 'tests/**'
     - 'poetry.lock'
     - 'pyproject.toml'
+    - '.github/workflows/testing.yaml'
   pull_request:
     branches: [ develop ]
     paths:
@@ -17,6 +18,7 @@ on:
     - 'tests/**'
     - 'poetry.lock'
     - 'pyproject.toml'
+    - '.github/workflows/testing.yaml'
 
 jobs:
   test:
