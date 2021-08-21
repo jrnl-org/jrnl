@@ -49,3 +49,12 @@ Feature: Encrypting and decrypting journals
         | config_file       |
         | empty_folder.yaml |
         | dayone.yaml       |
+
+    Scenario Outline: Attempt to encrypt basic journal should not result in an error
+        Given we use the config "<config_file>"
+        When we run "jrnl --encrypt"
+        Then we should get no error
+
+        Examples: configs
+        | config_file       |
+        | simple.yaml       |
