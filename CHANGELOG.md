@@ -10,7 +10,9 @@
 
 **Build:**
 
+- Windows CI behaving unreliable due to mismatch between Powershell & bash retrieving environment variables [\#1323](https://github.com/jrnl-org/jrnl/issues/1323)
 - Python 3.10 build action is failing on poetry dependency installation [\#1321](https://github.com/jrnl-org/jrnl/issues/1321)
+- Set bash as default shell [\#1324](https://github.com/jrnl-org/jrnl/pull/1324) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
