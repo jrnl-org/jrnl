@@ -25,6 +25,7 @@ class Folder(Journal.Journal):
     def __init__(self, name="default", **kwargs):
         self.entries = []
         self._diff_entry_dates = []
+        self.can_be_encrypted = False
         super().__init__(name, **kwargs)
 
     def open(self):

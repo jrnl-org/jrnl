@@ -20,6 +20,10 @@ on:
     - 'pyproject.toml'
     - '.github/workflows/testing.yaml'
 
+defaults:
+  run:
+    shell: bash # needed to prevent Windows from using PowerShell
+
 jobs:
   test:
     if: >
