@@ -8,6 +8,10 @@
 
 - Output after composition can be more useful and user friendly [\#1253](https://github.com/jrnl-org/jrnl/issues/1253)
 
+**Fixed bugs:**
+
+- Uncaught exception when encrypting folder journal [\#1243](https://github.com/jrnl-org/jrnl/issues/1243)
+
 **Build:**
 
 - Windows CI behaving unreliable due to mismatch between Powershell & bash retrieving environment variables [\#1323](https://github.com/jrnl-org/jrnl/issues/1323)
