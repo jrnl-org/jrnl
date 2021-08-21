@@ -11,6 +11,9 @@
 **Fixed bugs:**
 
 - Uncaught exception when encrypting folder journal [\#1243](https://github.com/jrnl-org/jrnl/issues/1243)
+- Journals with emoji names can't be accessed on Windows [\#1162](https://github.com/jrnl-org/jrnl/issues/1162)
+- Fix failure to import into directory journal [\#1314](https://github.com/jrnl-org/jrnl/pull/1314) ([micahellison](https://github.com/micahellison))
+- Allow emoji in config file in Windows by always opening it as unicode [\#1313](https://github.com/jrnl-org/jrnl/pull/1313) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
