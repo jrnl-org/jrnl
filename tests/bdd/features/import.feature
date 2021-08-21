@@ -11,7 +11,7 @@ Feature: Importing data
         | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
-        # | basic_folder.yaml    | @todo
+        | basic_folder.yaml    |
         # | basic_dayone.yaml    | @todo
 
     Scenario Outline: --import allows new large entry from stdin
@@ -34,7 +34,7 @@ Feature: Importing data
         | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
-        # | basic_folder.yaml    | @todo
+        | basic_folder.yaml    |
         # | basic_dayone.yaml    | @todo
 
     Scenario Outline: --import allows multiple new entries from stdin
@@ -56,7 +56,7 @@ Feature: Importing data
         | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
-        # | basic_folder.yaml    | @todo
+        | basic_folder.yaml    |
         # | basic_dayone.yaml    | @todo
 
     Scenario: --import allows import new entries from file

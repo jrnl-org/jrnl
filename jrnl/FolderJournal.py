@@ -22,11 +22,11 @@ def get_files(journal_config):
 class Folder(Journal.Journal):
     """A Journal handling multiple files in a folder"""
 
-    def __init__(self, **kwargs):
+    def __init__(self, name="default", **kwargs):
         self.entries = []
         self._diff_entry_dates = []
         self.can_be_encrypted = False
-        super(Folder, self).__init__(**kwargs)
+        super().__init__(name, **kwargs)
 
     def open(self):
         filenames = []
@@ -44,10 +44,12 @@ class Folder(Journal.Journal):
         # Create a list of dates of modified entries. Start with diff_entry_dates
         modified_dates = self._diff_entry_dates
         seen_dates = set(self._diff_entry_dates)
+
         for e in self.entries:
             if e.modified:
-                if e.date not in seen_dates:
+                if e.date not in modified_dates:
                     modified_dates.append(e.date)
+                if e.date not in seen_dates:
                     seen_dates.add(e.date)
 
         # For every date that had a modified entry, write to a file
