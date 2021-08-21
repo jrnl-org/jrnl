@@ -32,6 +32,7 @@ class DayOne(Journal.Journal):
     def __init__(self, **kwargs):
         self.entries = []
         self._deleted_entries = []
+        self.can_be_encrypted = False
         super().__init__(**kwargs)
 
     def open(self):

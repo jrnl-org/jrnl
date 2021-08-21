@@ -28,13 +28,14 @@ Feature: Encrypting and decrypting journals
     # This should warn the user that the journal is already encrypted
 
 
-    Scenario: Encrypting a journal
+    Scenario Outline: Encrypting a journal
         Given we use the config "simple.yaml"
         When we run "jrnl --encrypt" and enter
             swordfish
             swordfish
             n
-        Then we should see the message "Journal encrypted"
+        Then we should get no error
+        And we should see the message "Journal encrypted"
         And the config for journal "default" should contain "encrypt: true"
         When we run "jrnl -n 1" and enter "swordfish"
         Then we should be prompted for a password
@@ -44,6 +45,17 @@ Feature: Encrypting and decrypting journals
         Given we use the config "<config_file>"
         When we run "jrnl here is a new entry"
         Then the error output should contain "is not encrypted"
+
+        Examples: configs
+        | config_file       |
+        | basic_folder.yaml |
+        | basic_dayone.yaml |
+
+
+    Scenario Outline: Attempt to encrypt a folder or DayOne journal should result in an error
+        Given we use the config "<config_file>"
+        When we run "jrnl --encrypt"
+        Then the error output should contain "can't be encrypted"
 
         Examples: configs
         | config_file       |
