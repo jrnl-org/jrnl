@@ -12,6 +12,10 @@
 
 - Python 3.10 build action is failing on poetry dependency installation [\#1321](https://github.com/jrnl-org/jrnl/issues/1321)
 
+**Packaging:**
+
+- Bump keyring from 23.0.1 to 23.1.0 [\#1318](https://github.com/jrnl-org/jrnl/pull/1318) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8.2](https://pypi.org/project/jrnl/v2.8.2/) (2021-07-31)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...v2.8.2)
