@@ -41,10 +41,11 @@ Feature: Encrypting and decrypting journals
         Then we should be prompted for a password
         And the output should contain "2013-06-10 15:40 Life is good"
 
+
     Scenario Outline: Running jrnl with encrypt: true on unencryptable journals
         Given we use the config "<config_file>"
-        When we run "jrnl here is a new entry"
-        Then the error output should contain "is not encrypted"
+        When we run "jrnl --config-override encrypt true here is a new entry"
+        Then the error output should contain "this type of journal can't be encrypted"
 
         Examples: configs
         | config_file       |

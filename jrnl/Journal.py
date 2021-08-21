@@ -405,6 +405,12 @@ def open_journal(journal_name, config, legacy=False):
     config["journal"] = os.path.expanduser(os.path.expandvars(config["journal"]))
 
     if os.path.isdir(config["journal"]):
+        if config["encrypt"]:
+            print(
+                "Warning: This journal's config has 'encrypt' set to true, but this type of journal can't be encrypted.",
+                file=sys.stderr,
+            )
+
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
             config["journal"]
         ):
