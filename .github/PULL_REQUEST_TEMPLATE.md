@@ -14,11 +14,9 @@ Here are some key points to include in your description:
 
 - [ ] I have read the [contributing doc](https://github.com/jrnl-org/jrnl/blob/develop/CONTRIBUTING.md).
 - [ ] I have included a link to the relevant issue number.
-- [ ] I have tested this code locally.
 - [ ] I have checked to ensure there aren't other open [pull requests](../pulls)
   for the same issue.
 - [ ] I have written new tests for these changes, as needed.
-- [ ] All tests pass.
 <!--
 NOTE: Your PR may not be reviewed if there are any failing tests. You can run
 tests locally with `make test` (see the contributing doc if you need help with
