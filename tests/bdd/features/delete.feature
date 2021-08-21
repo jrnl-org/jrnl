@@ -18,7 +18,7 @@ Feature: Delete entries from journal
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
-        | basic_dayone.yaml    |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Backing out of interactive delete does not change journal
@@ -67,7 +67,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with multiple tags deletes all entries matching any of the tags
@@ -83,7 +83,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with -and deletes boolean AND of tagged entries
@@ -99,7 +99,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with -not does not delete entries from given tag
@@ -115,7 +115,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with -from search operator only deletes entries since that date
@@ -131,7 +131,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with -to only deletes entries up to specified date
@@ -147,7 +147,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with -starred only deletes starred entries
@@ -163,7 +163,7 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Delete flag with -contains only entries containing expression
@@ -179,4 +179,4 @@ Feature: Delete entries from journal
         | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        # | basic_dayone.yaml  | @todo
