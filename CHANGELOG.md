@@ -26,6 +26,7 @@
 
 **Packaging:**
 
+- Bump cryptography from 3.4.7 to 3.4.8 [\#1329](https://github.com/jrnl-org/jrnl/pull/1329) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.0.1 to 23.1.0 [\#1318](https://github.com/jrnl-org/jrnl/pull/1318) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.8.2](https://pypi.org/project/jrnl/v2.8.2/) (2021-07-31)
