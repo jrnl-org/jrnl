@@ -1,12 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.8.3-beta](https://pypi.org/project/jrnl/v2.8.3-beta/) (2021-08-28)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2...HEAD)
-
-**Implemented enhancements:**
-
-- Output after composition can be more useful and user friendly [\#1253](https://github.com/jrnl-org/jrnl/issues/1253)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2...v2.8.3-beta)
 
 **Fixed bugs:**
 
