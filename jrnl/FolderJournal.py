@@ -83,8 +83,14 @@ class Folder(Journal.Journal):
                 # print("empty file: {}".format(filename))
                 os.remove(filename)
 
+    def delete_entries(self, entries_to_delete):
+        """Deletes specific entries from a journal."""
+        for entry in entries_to_delete:
+            self.entries.remove(entry)
+            self._diff_entry_dates.append(entry.date)
+
     def parse_editable_str(self, edited):
-        """Parses the output of self.editable_str and updates it's entries."""
+        """Parses the output of self.editable_str and updates its entries."""
         mod_entries = self._parse(edited)
         diff_entries = set(self.entries) - set(mod_entries)
         for e in diff_entries:
