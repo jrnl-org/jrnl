@@ -1,2 +1,103 @@
 # Configuration File Reference
 
+You can configure the way `jrnl` behaves in a configuration file.
+
+!!! note
+    Backup your journal and config file before editing. Changes to the config file
+    can have destructive effects on your journal!
+
+## Configuration file location
+By default, the configuration file is `~/.config/jrnl/jrnl.yaml`.
+If you have the `XDG_CONFIG_HOME` variable set, the configuration
+file will be saved as `$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
+
+!!! note
+    On Windows, the configuration file is typically found at
+    `%USERPROFILE%\.config\jrnl\jrnl.yaml`.
+
+
+## Format
+The configuration file is a [YAML](https://yaml.org/) file and can be edited with
+a plain text editor.
+
+## Configuration Keys
+
+### journals
+
+Describes each journal used by `jrnl`. Each indented key after this key is
+the name of a journal.
+
+If a journal key has a value, that value will be interpreted as the path
+to the journal. Otherwise, the journal needs the additional indented key
+`journal` to specify its path.
+
+All keys below can be specified for each journal at the same level as the
+`journal` key. If a key conflicts with a top-level key, the journal-specific
+key will be used instead.
+
+### editor
+If set, executes this command to launch an external editor for
+writing and editing your entries. The path to a temporary file
+is passed after it, and `jrnl` processes the file once
+the editor is closed.
+
+Some editors require special options to work properly. See
+[recipes](recipes.md) for details.
+
+### encrypt
+If `true`, encrypts your journal using AES. Do not change this
+value for journals that already have data in them.
+
+### tagsymbols
+Symbols to be interpreted as tags.
+
+!!! note
+    Although it seems intuitive to use the `#`
+    character for tags, there's a drawback: on most shells, this is
+    interpreted as a meta-character starting a comment. This means that if
+    you type
+
+    > `jrnl Implemented endless scrolling on the #frontend of our website.`
+
+    your bash will chop off everything after the `#` before passing it to
+      `jrnl`. To avoid this, wrap your input into quotation marks like
+      this:
+
+    > `jrnl "Implemented endless scrolling on the #frontend of our website."`
+
+  Or use the built-in prompt or an external editor to compose your
+  entries.
+
+### default_hour and default_minute
+If you supply a date, such as `last thursday`, but no specific time,
+the entry will be created at this time.
+
+### timeformat
+How to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference.
+
+Do not change this for an existing journal, since that might lead
+to data loss.
+
+If you would just like to change how `jrnl` displays dates,
+use display_format instead.
+
+### highlight
+If `true`, tags will be highlighted in cyan.
+
+### linewrap
+Controls the width of the output. Set to `false` if you don't want to
+wrap long lines.
+
+### colors
+A dictionary that controls the colors used to display journal entries.
+It has four subkeys, which are: `body`, `date`, `tags`, and `title`.
+
+Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`,
+`MAGENTA`, `CYAN`, `WHITE`, and `NONE`.
+
+`colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output).
+
+To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
+
+### display_format
+Specifies formatter to use. See [formats](formats.md).
