@@ -25,3 +25,6 @@ nav:
   - Formats: formats.md
   - Advanced Usage: advanced.md
   - Recipes: recipes.md
+  - Command Line Reference: reference-command-line.md
+  - Configuration File Reference: reference-config-file.md
+
