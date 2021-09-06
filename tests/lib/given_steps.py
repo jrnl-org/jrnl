@@ -93,7 +93,7 @@ def we_use_the_config(config_file, temp_dir, working_dir):
     # Copy all of the journals over
     journal_source = os.path.join(working_dir, "data", "journals")
     journal_dest = os.path.join(temp_dir.name, "features", "journals")
-    shutil.copytree(journal_source, journal_dest)
+    shutil.copytree(journal_source, journal_dest, dirs_exist_ok=True)
 
     # @todo get rid of this by using default config values
     # merge in version number
