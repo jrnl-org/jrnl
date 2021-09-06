@@ -1,14 +1,11 @@
 # Changelog
 
-## [v2.8.3-beta](https://pypi.org/project/jrnl/v2.8.3-beta/) (2021-08-28)
+## [v2.8.3](https://pypi.org/project/jrnl/v2.8.3/) (2021-09-06)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2...v2.8.3-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3-beta...v2.8.3)
 
 **Fixed bugs:**
 
-- Entries from directory based journals do not get deleted [\#1316](https://github.com/jrnl-org/jrnl/issues/1316)
-- Uncaught exception when encrypting folder journal [\#1243](https://github.com/jrnl-org/jrnl/issues/1243)
-- Journals with emoji names can't be accessed on Windows [\#1162](https://github.com/jrnl-org/jrnl/issues/1162)
 - Fix deletion of entries on folder journal through `--delete` flag [\#1328](https://github.com/jrnl-org/jrnl/pull/1328) ([micahellison](https://github.com/micahellison))
 - Warn when DayOne/directory journals have encrypt: true in config [\#1325](https://github.com/jrnl-org/jrnl/pull/1325) ([micahellison](https://github.com/micahellison))
 - Fix failure to import into directory journal [\#1314](https://github.com/jrnl-org/jrnl/pull/1314) ([micahellison](https://github.com/micahellison))
@@ -16,8 +13,6 @@
 
 **Build:**
 
-- Windows CI behaving unreliable due to mismatch between Powershell & bash retrieving environment variables [\#1323](https://github.com/jrnl-org/jrnl/issues/1323)
-- Python 3.10 build action is failing on poetry dependency installation [\#1321](https://github.com/jrnl-org/jrnl/issues/1321)
 - Set bash as default shell [\#1324](https://github.com/jrnl-org/jrnl/pull/1324) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
