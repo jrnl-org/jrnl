@@ -5,14 +5,12 @@
 
  - a single text file (encrypted or otherwise)
  - a folder structure organized by date containing unencrypted text files
- - the DayOne Classic format, which is a folder structure containing 
+ - the DayOne Classic format
 
 There is no need to specify what type of journal you'd like to use. Instead,
 `jrnl` will automatically detect the journal type based on whether you're
 referencing a file or a folder in your [config file](advanced.md),
 and if it's a folder, whether or not DayOne Classic content exists in it.
-
-
 
 ## Single File
 The single file format is the most flexible, as it can be [encrypted](encryption.md).
@@ -38,13 +36,26 @@ are creating a single file journal instead, and it will create a file at that pa
 Folder journals can't be encrypted.
 
 ## Day One Classic
-`jrnl` supports the original data format used by DayOne. It's very similar to the folder
+`jrnl` supports the original data format used by DayOne. It's similar to the folder
 journal format, except it's identified by either of these characteristics:
 
 * the folder has a `.dayone` extension
 * the folder has a subfolder named `entries`
 
-This is not to be confused with the DayOne 2.0 format, which is very different.
+This is not to be confused with the DayOne 2.0 format, [which is very different](https://help.dayoneapp.com/en/articles/1187337-day-one-classic-is-retired).
 
 !!! note
 DayOne Classic journals can't be encrypted.
+
+## Changing your journal type
+You can't simply modify a journal's configuration to change its type. Instead,
+define a new journal as the type you'd like, and use
+[piping](https://en.wikipedia.org/wiki/Redirection_(computing)#Piping)
+to export your old journal as `txt` to an import command on your new journal.
+
+For instance, if you have a `projects` journal you would like to import into
+a `new` journal, you would run the following after setting up the configuration
+for your `new` journal:
+```
+jrnl projects --format txt | jrnl new --import
+```
