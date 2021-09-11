@@ -7,19 +7,19 @@ from .fancy_exporter import FancyExporter
 from .jrnl_importer import JRNLImporter
 from .json_exporter import JSONExporter
 from .markdown_exporter import MarkdownExporter
+from .pelican_markdown_exporter import PelicanMarkdownExporter
 from .tag_exporter import TagExporter
 from .template_exporter import __all__ as template_exporters
 from .text_exporter import TextExporter
 from .xml_exporter import XMLExporter
-from .yaml_exporter import YAMLExporter
 
 __exporters = [
     JSONExporter,
     MarkdownExporter,
+    PelicanMarkdownExporter,
     TagExporter,
     TextExporter,
     XMLExporter,
-    YAMLExporter,
     FancyExporter,
 ] + template_exporters
 __importers = [JRNLImporter]

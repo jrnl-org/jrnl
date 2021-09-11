@@ -14,10 +14,14 @@ from jrnl.color import WARNING_COLOR
 from .text_exporter import TextExporter
 
 
-class YAMLExporter(TextExporter):
-    """This Exporter can convert entries and journals into Markdown formatted text with YAML front matter."""
+class PelicanMarkdownExporter(TextExporter):
+    """
+    This Exporter can convert entries and journals into Markdown formatted
+    text with YAML front matter, as may be used by Pelican (a static site
+    generator).
+    """
 
-    names = ["yaml"]
+    names = ["pelican-markdown"]
     extension = "md"
 
     @classmethod
@@ -25,8 +29,8 @@ class YAMLExporter(TextExporter):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
             print(
-                f"{ERROR_COLOR}ERROR{RESET_COLOR}: YAML export must be to individual files. Please \
-                specify a directory to export to.",
+                f"{ERROR_COLOR}ERROR{RESET_COLOR}: Pelican Markdown export must \
+                be to individual files. Please specify a directory to export to.",
                 file=sys.stderr,
             )
             return
