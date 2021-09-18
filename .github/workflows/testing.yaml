@@ -49,7 +49,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-v2-${{ secrets.CACHE_STRING }}
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-${{ secrets.CACHE_STRING }}
 
     - name: Install dependencies
       if: ${{ matrix.python-version != '3.10-dev' }}
