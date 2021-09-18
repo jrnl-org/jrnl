@@ -1,6 +1,6 @@
 # Configuration File Reference
 
-You can configure the way `jrnl` behaves in a configuration file.
+You can configure `jrnl` with a configuration file.
 
 !!! note
     Backup your journal and config file before editing. Changes to the config file
@@ -15,6 +15,8 @@ file will be saved as `$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
     On Windows, the configuration file is typically found at
     `%USERPROFILE%\.config\jrnl\jrnl.yaml`.
 
+You can also find your configuration file location by running:
+`jrnl --list`
 
 ## Format
 The configuration file is a [YAML](https://yaml.org/) file and can be edited with
@@ -69,11 +71,11 @@ Symbols to be interpreted as tags.
   entries.
 
 ### default_hour and default_minute
-If you supply a date, such as `last thursday`, but no specific time,
-the entry will be created at this time.
+Entries will be created at this time if you supply a date but no specific time (for example, `last thursday`).
 
 ### timeformat
-How to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference.
+Defines how to format the timestamps as they are stored in your journal.
+See the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference.
 
 Do not change this for an existing journal, since that might lead
 to data loss.
