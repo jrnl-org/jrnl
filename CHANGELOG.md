@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...HEAD)
 
+**Documentation:**
+
+- Fix readme splash and add changelog link to readme [\#1339](https://github.com/jrnl-org/jrnl/pull/1339) ([micahellison](https://github.com/micahellison))
+
 **Packaging:**
 
 - Bump pytest from 6.2.4 to 6.2.5 [\#1334](https://github.com/jrnl-org/jrnl/pull/1334) ([dependabot[bot]](https://github.com/apps/dependabot))
