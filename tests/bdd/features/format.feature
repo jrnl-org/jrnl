@@ -1,5 +1,33 @@
 Feature: Custom formats
 
+    Scenario Outline: Short printing via --format flag
+        Given We use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --format short -3"
+        Then we should get no error
+
+        Examples: configs
+        |   config_file          |
+        |   basic_onefile.yaml   |
+        |   basic_encrypted.yaml |
+        |   basic_folder.yaml    |
+        |   basic_dayone.yaml    |
+
+
+    Scenario Outline: Pretty Printing aka the Default
+        Given We use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --format pretty -3"
+        Then we should get no error
+
+        Examples: configs
+        |   config_file          |
+        |   basic_onefile.yaml   |
+        |   basic_encrypted.yaml |
+        |   basic_folder.yaml    |
+        |   basic_dayone.yaml    |
+
+
     Scenario Outline: JSON format
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
@@ -295,6 +323,22 @@ Feature: Custom formats
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
+
+
+    Scenario Outline: Export fancy with small linewrap
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --config-override linewrap 35 --format fancy -3"
+        Then we should get no error
+        And the output should be 35 columns wide
+
+        Examples: configs
+        |   config_file          |
+        |   basic_onefile.yaml   |
+        |   basic_encrypted.yaml |
+        |   basic_folder.yaml    |
+        |   basic_dayone.yaml    |
+
 
     @todo
     Scenario Outline: Exporting fancy
