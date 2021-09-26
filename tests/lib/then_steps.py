@@ -301,10 +301,19 @@ def count_elements(number, item, cli_run):
     assert len(xml_tree.findall(".//" + item)) == number
 
 
-@then(parse("the editor should have been called"))
-@then(parse("the editor should have been called with {num_args} arguments"))
-def count_editor_args(num_args, cli_run, editor_state):
-    assert cli_run["mocks"]["editor"].called
+@then(parse("the editor {should_or_should_not} have been called"))
+@then(
+    parse(
+        "the editor {should_or_should_not} have been called with {num_args} arguments"
+    )
+)
+def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
+    if we_should:
+        assert cli_run["mocks"]["editor"].called
+    else:
+        assert not cli_run["mocks"]["editor"].called
 
     if isinstance(num_args, int):
         assert len(editor_state["command"]) == int(num_args)

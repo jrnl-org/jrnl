@@ -5,6 +5,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And we use the password "test" if prompted
         When we run "jrnl --config-override editor ''"
         Then the stdin prompt should have been called
+        And the editor should not have been called
 
 
         Scenario: Postconfig commands with overrides
