@@ -56,18 +56,6 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And the config should have "editor" set to "nano"
 
 
-        Scenario Outline: Override configured editor
-        Given we use the config "basic_encrypted.yaml"
-        And we use the password "test" if prompted
-        When we run "jrnl --config-override editor '<editor>'"
-        Then the editor <editor> should have been called
-        Examples: Editor Commands
-        | editor            |
-        | nano              |
-        | vi -c startinsert |
-        | code -w           |
-
-
         Scenario: Override default journal
         Given we use the config "basic_dayone.yaml"
         And we use the password "test" if prompted
