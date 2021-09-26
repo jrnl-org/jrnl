@@ -84,6 +84,14 @@ def output_should_contain_version(cli_run, toml_version):
     assert toml_version in out, toml_version
 
 
+@then(parse("the output should be {width:d} columns wide"))
+def output_should_be_columns_wide(cli_run, width):
+    out = cli_run["stdout"]
+    out_lines = out.splitlines()
+    for line in out_lines:
+        assert len(line) <= width
+
+
 @then(parse('we should see the message "{text}"'))
 def should_see_the_message(text, cli_run):
     out = cli_run["stderr"]
@@ -317,6 +325,16 @@ def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
 
     if isinstance(num_args, int):
         assert len(editor_state["command"]) == int(num_args)
+
+
+@then(parse("the stdin prompt {should_or_should_not} have been called"))
+def stdin_prompt_called(cli_run, should_or_should_not):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
+    if we_should:
+        assert cli_run["mocks"]["stdin"].called
+    else:
+        assert not cli_run["mocks"]["stdin"].called
 
 
 @then(parse('the editor filename should end with "{suffix}"'))
