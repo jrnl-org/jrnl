@@ -8,7 +8,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
 
 
         Scenario: Postconfig commands with overrides
-        Given We use the config "basic_encrypted.yaml"
+        Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --decrypt --config-override highlight false --config-override editor nano"
         Then the config should have "highlight" set to "bool:false"

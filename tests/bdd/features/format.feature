@@ -1,7 +1,7 @@
 Feature: Custom formats
 
     Scenario Outline: Short printing via --format flag
-        Given We use the config "<config_file>"
+        Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl --format short -3"
         Then we should get no error
@@ -15,7 +15,7 @@ Feature: Custom formats
 
 
     Scenario Outline: Pretty Printing aka the Default
-        Given We use the config "<config_file>"
+        Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl --format pretty -3"
         Then we should get no error
