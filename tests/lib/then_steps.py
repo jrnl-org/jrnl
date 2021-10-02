@@ -117,7 +117,7 @@ def config_var(config_data, journal_name, should_or_should_not, some_yaml):
     if journal_name:
         actual = actual["journals"][journal_name]
 
-    expected = yaml.load(some_yaml, Loader=yaml.FullLoader)
+    expected = yaml.load(some_yaml, Loader=yaml.SafeLoader)
 
     actual_slice = actual
     if type(actual) is dict:
