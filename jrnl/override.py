@@ -1,7 +1,8 @@
 from .config import update_config, make_yaml_valid_dict
+from argparse import Namespace
 
 # import logging
-def apply_overrides(overrides: list, base_config: dict) -> dict:
+def apply_overrides(args: Namespace, base_config: dict) -> dict:
     """Unpack CLI provided overrides into the configuration tree.
 
     :param overrides: List of configuration key-value pairs collected from the CLI
@@ -11,6 +12,10 @@ def apply_overrides(overrides: list, base_config: dict) -> dict:
     :return: Configuration to be used during runtime with the overrides applied
     :rtype: dict
     """
+    overrides = vars(args).get("config_override", None)
+    if not overrides:
+        return base_config
+
     cfg_with_overrides = base_config.copy()
     for pairs in overrides:
 

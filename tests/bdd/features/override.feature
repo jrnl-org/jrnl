@@ -8,13 +8,11 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And the editor should not have been called
 
 
-        # @todo implement this step in pytest (doesn't currently support overrides)
-        @skip
         Scenario: Postconfig commands with overrides
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --decrypt --config-override highlight false --config-override editor nano"
-        Then the config should contain "highlight: false"
+        Then the config in memory should contain "highlight: false"
         Then the editor should not have been called
 
 
@@ -38,23 +36,24 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
             ┖─────────────────────┘
 
 
-        # @todo implement this step in pytest (doesn't currently support overrides)
-        @skip
         Scenario: Override color selections with runtime overrides
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
         When we run "jrnl -1 --config-override colors.body blue"
-        Then the config should have "colors.body" set to "blue"
+        Then the config in memory should contain "colors.body: blue"
 
 
-        # @todo implement this step in pytest (doesn't currently support overrides)
-        @skip
         Scenario: Apply multiple config overrides
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
         When we run "jrnl -1 --config-override colors.body green --config-override editor 'nano'"
-        Then the config should have "colors.body" set to "green"
-        And the config should have "editor" set to "nano"
+        Then the config in memory should contain
+            editor: nano
+            colors:
+                title: none
+                body: green
+                tags: none
+                date: none
 
 
         Scenario: Override default journal
