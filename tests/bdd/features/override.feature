@@ -8,12 +8,13 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And the editor should not have been called
 
 
+        # @todo implement this step in pytest (doesn't currently support overrides)
+        @skip
         Scenario: Postconfig commands with overrides
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --decrypt --config-override highlight false --config-override editor nano"
-        # @todo implement this step in pytest (doesn't currently support overrides)
-        # Then the config should contain "highlight: false"
+        Then the config should contain "highlight: false"
         Then the editor should not have been called
 
 
