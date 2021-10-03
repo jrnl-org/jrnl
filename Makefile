@@ -30,7 +30,7 @@ bdd: # bdd tests
 bdd-debug: # bdd tests
 	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native -x -vv
 
-test: lint unit bdd ## Run unit tests and behave tests
+test: lint unit bdd
 
 build:
 	poetry build

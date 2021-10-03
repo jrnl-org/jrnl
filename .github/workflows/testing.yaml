@@ -95,7 +95,3 @@ jobs:
     - name: Test with pytest
       if: ${{ env.DEPS_INSTALLED == 'true' }}
       run: poetry run pytest --junitxml=reports/pytest/results.xml
-
-    - name: Test with behave
-      if: ${{ env.DEPS_INSTALLED == 'true' }}
-      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave
