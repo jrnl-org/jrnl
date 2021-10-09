@@ -24,7 +24,7 @@ Please report bugs by [opening a new issue](https://github.com/jrnl-org/jrnl/iss
 
 If you find a typo or a mistake in the docs, please fix it right away and send a pull request. If you're unsure what to change but still see a problem, you can [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) with the "Documentation change" type.
 
-To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result if you run `make html` (or `poetry run mkdocs serve` if on Windows) inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
+To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `make html` (or `poetry run mkdocs serve` if on Windows) inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
 
 The `gh-pages` branch is automatically maintained and generated after your changes are merged. You should never have to edit that branch.
 
@@ -40,7 +40,7 @@ The nature of jrnl means we deal with extremely sensitive data, and can't risk d
 
 ### Prereleases
 
-[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use [pipx](https://pypi.org/project/pipx/) to fetch them and test them. See the [changelog](CHANGELOG.md) for information on what has changed with each release.
+[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use [pipx](https://pypi.org/project/pipx/) to fetch them and test them. See the [changelog](https://github.com/jrnl-org/jrnl/blob/develop/CHANGELOG.md) for information on what has changed with each release.
 
 ### Pull requests
 
@@ -58,17 +58,18 @@ See the develop section below for information on how to contribute new automated
 
 If you have a feature request or idea for jrnl, please [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) and describe the goal of the feature, and any relevant use cases. We'll discuss the issue with you, and decide if it's a good fit for the project.
 
-When discussing new features, please keep in mind our design goals. jrnl strives to do one thing well. To us, that means:
+When discussing new features, please keep in mind our design goals. jrnl strives to
+[do one thing well](https://en.wikipedia.org/wiki/Unix_philosophy). To us, that means:
 
-* be _slim_
-* have a simple interface
-* avoid duplicating functionality
+* being _nimble_
+* having a simple interface
+* avoiding duplicating functionality
 
 ## Developing
 
 ### Getting your environment set up
 
-You will need to install [poetry](https://poetry.eustace.io/) to develop jrnl. It will take care of all of the project's other dependencies.
+You will need to install [poetry](https://python-poetry.org/) to develop jrnl. It will take care of all of the project's other dependencies.
 
 ### Understanding the branches
 
@@ -88,17 +89,17 @@ A typical development workflow includes:
  * Installing dependencies: `poetry install`
  * Running tests: `make test`
  * Running the source in a virtual environment:
-   * `poetry shell`
-   * `jrnl` (with or without arguments as necessary)
+    * `poetry shell`
+    * `jrnl` (with or without arguments as necessary)
  * Linting the code to standardize its style: `make lint`
 
 ### Updating automated tests
 
 When resolving bugs or adding new functionality, please add tests to prevent that functionality from breaking in the future. If you notice any functionality that isn't covered in the tests, feel free to submit a test-only pull request as well.
 
-jrnl uses [pytest](https://docs.pytest.org/) for unit tests. It also uses pytest to run  behavior-driven development (BDD) tests via [pytest-bdd](https://pytest-bdd.readthedocs.io/en/stable/).
+For testing, jrnl uses [pytest](https://docs.pytest.org) for unit tests, and [pytest-bdd](https://pytest-bdd.readthedocs.io/) for integration testing. All tests are in the `tests` folder.
 
-BDD tests can be created by editing `.feature` files in `tests/bdd/features` with the same format as other tests. For more complicated functionality, you may need to implement steps in `tests/lib` which are then executed by your tests in the `.feature` files.
+Many tests can be created by only editing `*.feature` files with the same format as other tests. For more complicated functionality, you may need to implement steps in `tests/lib/` which are then executed by your tests in the `feature` files.
 
 ### Submitting pull requests
 
