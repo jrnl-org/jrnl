@@ -143,8 +143,13 @@ def user_input():
 
 
 @fixture
-def config_data(config_path):
+def config_on_disk(config_path):
     return load_config(config_path)
+
+
+@fixture
+def config_in_memory():
+    return dict()
 
 
 @fixture

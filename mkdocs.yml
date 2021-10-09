@@ -22,6 +22,7 @@ nav:
     - Quickstart: installation.md
     - Basic Usage: usage.md
     - Encryption: encryption.md
+    - Journal Types: journal-types.md
     - Privacy and Security: privacy-and-security.md
     - Formats: formats.md
     - Advanced Usage: advanced.md

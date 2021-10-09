@@ -17,8 +17,8 @@ Feature: Delete entries from journal
         | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
-        # | basic_folder.yaml    | @todo
-        # | basic_dayone.yaml    | @todo
+        | basic_folder.yaml    |
+        # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Backing out of interactive delete does not change journal
@@ -66,7 +66,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -82,7 +82,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -98,7 +98,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -114,7 +114,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -130,7 +130,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -146,7 +146,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -162,7 +162,7 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -178,5 +178,5 @@ Feature: Delete entries from journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        # | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo

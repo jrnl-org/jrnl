@@ -1,6 +1,7 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import functools
 import os
 
 
@@ -38,3 +39,13 @@ def assert_equal_tags_ignoring_order(
         [actual_tags, expected_tags],
         [expected_content, actual_content],
     ]
+
+
+# @see: https://stackoverflow.com/a/65782539/569146
+def get_nested_val(dictionary, path, *default):
+    try:
+        return functools.reduce(lambda x, y: x[y], path.split("."), dictionary)
+    except KeyError:
+        if default:
+            return default[0]
+        raise

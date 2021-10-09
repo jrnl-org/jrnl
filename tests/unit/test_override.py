@@ -6,6 +6,8 @@ from jrnl.override import _get_key_and_value_from_pair
 from jrnl.override import _recursively_apply
 from jrnl.override import apply_overrides
 
+from argparse import Namespace
+
 
 @pytest.fixture()
 def minimal_config():
@@ -18,31 +20,61 @@ def minimal_config():
     return cfg
 
 
+def expected_args(overrides):
+    default_args = {
+        "contains": None,
+        "debug": False,
+        "delete": False,
+        "edit": False,
+        "end_date": None,
+        "today_in_history": False,
+        "month": None,
+        "day": None,
+        "year": None,
+        "excluded": [],
+        "export": False,
+        "filename": None,
+        "limit": None,
+        "on_date": None,
+        "preconfig_cmd": None,
+        "postconfig_cmd": None,
+        "short": False,
+        "starred": False,
+        "start_date": None,
+        "strict": False,
+        "tags": False,
+        "text": [],
+        "config_override": [],
+    }
+    return Namespace(**{**default_args, **overrides})
+
+
 def test_apply_override(minimal_config):
-    overrides = [["editor", "nano"]]
-    apply_overrides(overrides, minimal_config)
+    overrides = {"config_override": [["editor", "nano"]]}
+    apply_overrides(expected_args(overrides), minimal_config)
     assert minimal_config["editor"] == "nano"
 
 
 def test_override_dot_notation(minimal_config):
-    overrides = [["colors.body", "blue"]]
-
-    cfg = apply_overrides(overrides=overrides, base_config=minimal_config)
-    assert cfg["colors"] == {"body": "blue", "date": "green"}
+    overrides = {"config_override": [["colors.body", "blue"]]}
+    apply_overrides(expected_args(overrides), minimal_config)
+    assert minimal_config["colors"] == {"body": "blue", "date": "green"}
 
 
 def test_multiple_overrides(minimal_config):
-    overrides = [
-        ["colors.title", "magenta"],
-        ["editor", "nano"],
-        ["journals.burner", "/tmp/journals/burner.jrnl"],
-    ]  # as returned by parse_args, saved in parser.config_override
+    overrides = {
+        "config_override": [
+            ["colors.title", "magenta"],
+            ["editor", "nano"],
+            ["journals.burner", "/tmp/journals/burner.jrnl"],
+        ]
+    }
 
-    cfg = apply_overrides(overrides, minimal_config)
-    assert cfg["editor"] == "nano"
-    assert cfg["colors"]["title"] == "magenta"
-    assert "burner" in cfg["journals"]
-    assert cfg["journals"]["burner"] == "/tmp/journals/burner.jrnl"
+    actual = apply_overrides(expected_args(overrides), minimal_config)
+    assert actual["editor"] == "nano"
+    assert actual["colors"]["title"] == "magenta"
+    assert "burner" in actual["journals"]
+    assert actual["journals"]["burner"] == "/tmp/journals/burner.jrnl"
 
 
 def test_recursively_apply():

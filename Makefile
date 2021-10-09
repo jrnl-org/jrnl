@@ -25,12 +25,12 @@ unit: # unit tests
 	poetry run pytest tests/unit
 
 bdd: # bdd tests
-	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native --diff-type=unified
+	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native
 
 bdd-debug: # bdd tests
-	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native --diff-type=unified -x -vv
+	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native -x -vv
 
-test: lint unit bdd ## Run unit tests and behave tests
+test: lint unit bdd
 
 build:
 	poetry build

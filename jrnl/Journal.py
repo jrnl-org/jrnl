@@ -67,9 +67,11 @@ class Journal:
         return new_journal
 
     def import_(self, other_journal_txt):
-        self.entries = list(
-            frozenset(self.entries) | frozenset(self._parse(other_journal_txt))
-        )
+        imported_entries = self._parse(other_journal_txt)
+        for entry in imported_entries:
+            entry.modified = True
+
+        self.entries = list(frozenset(self.entries) | frozenset(imported_entries))
         self.sort()
 
     def open(self, filename=None):
@@ -405,6 +407,12 @@ def open_journal(journal_name, config, legacy=False):
     config["journal"] = os.path.expanduser(os.path.expandvars(config["journal"]))
 
     if os.path.isdir(config["journal"]):
+        if config["encrypt"]:
+            print(
+                "Warning: This journal's config has 'encrypt' set to true, but this type of journal can't be encrypted.",
+                file=sys.stderr,
+            )
+
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
             config["journal"]
         ):
@@ -414,7 +422,7 @@ def open_journal(journal_name, config, legacy=False):
         else:
             from . import FolderJournal
 
-            return FolderJournal.Folder(**config).open()
+            return FolderJournal.Folder(journal_name, **config).open()
 
     if not config["encrypt"]:
         if legacy:
