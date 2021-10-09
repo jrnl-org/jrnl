@@ -12,6 +12,7 @@
 
 **Packaging:**
 
+- Bump pytz from 2021.1 to 2021.3 [\#1348](https://github.com/jrnl-org/jrnl/pull/1348) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 3.4.8 to 35.0.0 [\#1345](https://github.com/jrnl-org/jrnl/pull/1345) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.8b0 to 21.9b0 [\#1343](https://github.com/jrnl-org/jrnl/pull/1343) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.1.0 to 23.2.1 [\#1342](https://github.com/jrnl-org/jrnl/pull/1342) ([dependabot[bot]](https://github.com/apps/dependabot))
