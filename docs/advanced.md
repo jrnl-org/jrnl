@@ -93,13 +93,13 @@ You can specify an alternate configuration file for the current instance of `jrn
 #### Examples:
 
 ```
-#Use personalised configuration file for personal journal entries
+# Use personalised configuration file for personal journal entries
 jrnl --config-file ~/foo/jrnl/personal-config.yaml
 
-#Use alternate configuration file for work-related entries
-jrnl --config-file ~foo/jrnl/work-config.yaml
+# Use alternate configuration file for work-related entries
+jrnl --config-file ~/foo/jrnl/work-config.yaml
 
-#Use default configuration file (created on installation)
+# Use default configuration file (created on installation)
 jrnl
 ```
 
