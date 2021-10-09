@@ -55,7 +55,7 @@ jobs:
       if: ${{ matrix.python-version != '3.10-dev' }}
       run: |
         echo '::group::poetry'
-        pip install poetry
+        pip --disable-pip-version-check install poetry
         poetry config --local virtualenvs.in-project true
         echo '::endgroup::'
 
@@ -70,7 +70,7 @@ jobs:
       if: ${{ matrix.python-version == '3.10-dev' }}
       run: |
         echo '::group::poetry'
-        pip install poetry==1.2.0a2
+        pip --disable-pip-version-check install poetry==1.2.0a2
         poetry config --local virtualenvs.in-project true
         echo '::endgroup::'
 
@@ -90,12 +90,8 @@ jobs:
       if: ${{ matrix.python-version != '3.10-dev' && env.DEPS_INSTALLED == 'true' }}
       run: |
         poetry run pflake8 --version
-        poetry run pflake8 jrnl features tests
+        poetry run pflake8 jrnl tests
 
     - name: Test with pytest
       if: ${{ env.DEPS_INSTALLED == 'true' }}
       run: poetry run pytest --junitxml=reports/pytest/results.xml
-
-    - name: Test with behave
-      if: ${{ env.DEPS_INSTALLED == 'true' }}
-      run: poetry run behave --no-skipped --format progress2 --junit --junit-directory reports/behave

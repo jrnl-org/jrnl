@@ -40,9 +40,7 @@ def run(args):
         original_config = config.copy()
 
         # Apply config overrides
-        overrides = args.config_override
-        if overrides:
-            config = apply_overrides(overrides, config)
+        config = apply_overrides(args, config)
 
         args = get_journal_name(args, config)
         config = scope_config(config, args.journal_name)

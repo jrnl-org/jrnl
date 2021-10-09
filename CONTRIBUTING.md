@@ -96,9 +96,9 @@ A typical development workflow includes:
 
 When resolving bugs or adding new functionality, please add tests to prevent that functionality from breaking in the future. If you notice any functionality that isn't covered in the tests, feel free to submit a test-only pull request as well.
 
-For integration testing, jrnl uses [behave](https://behave.readthedocs.io/) tests, which are all in the `features` folder.
+For testing, jrnl uses [pytest](https://docs.pytest.org) for unit tests, and [pytest-bdd](https://pytest-bdd.readthedocs.io/) for integration testing. All tests are in the `tests` folder.
 
-Many tests can be created by only editing `feature` files with the same format as other tests. For more complicated functionality, you may need to implement steps in `features/steps` which are then executed by your tests in the `feature` files.
+Many tests can be created by only editing `*.feature` files with the same format as other tests. For more complicated functionality, you may need to implement steps in `tests/lib/` which are then executed by your tests in the `feature` files.
 
 Starting in 2020, jrnl is also using [pytest](https://docs.pytest.org/) for unit tests. These tests are in the `tests` folder.
 
