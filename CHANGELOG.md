@@ -2,28 +2,66 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...HEAD)
 
-**Implemented enhancements:**
+**Documentation:**
 
-- Python 3.10 support [\#1270](https://github.com/jrnl-org/jrnl/issues/1270)
+- Document folder journal and DayOne journal types [\#1326](https://github.com/jrnl-org/jrnl/issues/1326)
+- Fix readme splash and add changelog link to readme [\#1339](https://github.com/jrnl-org/jrnl/pull/1339) ([micahellison](https://github.com/micahellison))
+- Document journal types [\#1331](https://github.com/jrnl-org/jrnl/pull/1331) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Bump pytz from 2021.1 to 2021.3 [\#1348](https://github.com/jrnl-org/jrnl/pull/1348) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cryptography from 3.4.8 to 35.0.0 [\#1345](https://github.com/jrnl-org/jrnl/pull/1345) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.8b0 to 21.9b0 [\#1343](https://github.com/jrnl-org/jrnl/pull/1343) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.1.0 to 23.2.1 [\#1342](https://github.com/jrnl-org/jrnl/pull/1342) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.4 to 6.2.5 [\#1334](https://github.com/jrnl-org/jrnl/pull/1334) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.7b0 to 21.8b0 [\#1333](https://github.com/jrnl-org/jrnl/pull/1333) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.8.3](https://pypi.org/project/jrnl/v2.8.3/) (2021-09-06)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3-beta...v2.8.3)
+
+**Fixed bugs:**
+
+- Fix deletion of entries on folder journal through `--delete` flag [\#1328](https://github.com/jrnl-org/jrnl/pull/1328) ([micahellison](https://github.com/micahellison))
+- Warn when DayOne/directory journals have encrypt: true in config [\#1325](https://github.com/jrnl-org/jrnl/pull/1325) ([micahellison](https://github.com/micahellison))
+- Fix failure to import into directory journal [\#1314](https://github.com/jrnl-org/jrnl/pull/1314) ([micahellison](https://github.com/micahellison))
+- Allow emoji in config file in Windows by always opening it as unicode [\#1313](https://github.com/jrnl-org/jrnl/pull/1313) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
-- Move test suite entirely to Pytest \(replace Behave\) [\#1192](https://github.com/jrnl-org/jrnl/issues/1192)
+- Set bash as default shell [\#1324](https://github.com/jrnl-org/jrnl/pull/1324) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Bump cryptography from 3.4.7 to 3.4.8 [\#1329](https://github.com/jrnl-org/jrnl/pull/1329) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.0.1 to 23.1.0 [\#1318](https://github.com/jrnl-org/jrnl/pull/1318) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.8.2](https://pypi.org/project/jrnl/v2.8.2/) (2021-07-31)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...v2.8.2)
+
+**Build:**
+
+- Add CI tests for latest dev Python build [\#1273](https://github.com/jrnl-org/jrnl/issues/1273)
+- Fix lock file from stable Poetry version [\#1298](https://github.com/jrnl-org/jrnl/pull/1298) ([wren](https://github.com/wren))
+- Change all YAML FullLoader calls to SafeLoader [\#1285](https://github.com/jrnl-org/jrnl/pull/1285) ([micahellison](https://github.com/micahellison))
 - Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
 - Add Python 3.10 support [\#1271](https://github.com/jrnl-org/jrnl/pull/1271) ([micahellison](https://github.com/micahellison))
+- Ensure that line endings in all py files are Linux style instead of Windows [\#1250](https://github.com/jrnl-org/jrnl/pull/1250) ([micahellison](https://github.com/micahellison))
 - Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
 - Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
 
 **Documentation:**
 
-- Create security.md [\#1284](https://github.com/jrnl-org/jrnl/issues/1284)
-- Document keyring security concerns on Windows, Mac [\#1142](https://github.com/jrnl-org/jrnl/issues/1142)
 - Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
+- Add security.md [\#1299](https://github.com/jrnl-org/jrnl/pull/1299) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
+- Bump mkdocs from 1.2.1 to 1.2.2 [\#1307](https://github.com/jrnl-org/jrnl/pull/1307) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump python-dateutil from 2.8.1 to 2.8.2 [\#1302](https://github.com/jrnl-org/jrnl/pull/1302) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))

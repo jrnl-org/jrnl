@@ -20,6 +20,7 @@ DEFAULT_JOURNAL_NAME = "journal.txt"
 DEFAULT_JOURNAL_KEY = "default"
 
 YAML_SEPARATOR = ": "
+YAML_FILE_ENCODING = "utf-8"
 
 
 def make_yaml_valid_dict(input: list) -> dict:
@@ -48,9 +49,13 @@ def make_yaml_valid_dict(input: list) -> dict:
 
 def save_config(config):
     config["version"] = __version__
-    with open(get_config_path(), "w") as f:
+    with open(get_config_path(), "w", encoding=YAML_FILE_ENCODING) as f:
         yaml.safe_dump(
-            config, f, encoding="utf-8", allow_unicode=True, default_flow_style=False
+            config,
+            f,
+            encoding=YAML_FILE_ENCODING,
+            allow_unicode=True,
+            default_flow_style=False,
         )
 
 
@@ -139,7 +144,7 @@ def verify_config_colors(config):
 
 def load_config(config_path):
     """Tries to load a config file from YAML."""
-    with open(config_path) as f:
+    with open(config_path, encoding=YAML_FILE_ENCODING) as f:
         return yaml.load(f, Loader=yaml.SafeLoader)
 
 

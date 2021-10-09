@@ -38,6 +38,13 @@ class JrnlError(Exception):
                 by at least {columns} in the configuration file or by using
                 --config-override at the command line
                 """,
+            "CannotEncryptJournalType": """
+                The journal {journal_name} can't be encrypted because it is a
+                {journal_type} journal.
+
+                To encrypt it, create a new journal referencing a file, export
+                this journal to the new journal, then encrypt the new journal.
+                """,
         }
 
         msg = error_messages[self.error_type].format(**kwargs)
