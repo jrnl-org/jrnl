@@ -19,18 +19,20 @@ from .prompt import yesno
 from .upgrade import is_old_version
 
 
-def upgrade_config(config):
+def upgrade_config(config_data, alt_config_path=None):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
-    versions."""
+    versions.
+    Supply alt_config_path if using an alternate config through --config-file."""
     default_config = get_default_config()
-    missing_keys = set(default_config).difference(config)
+    missing_keys = set(default_config).difference(config_data)
     if missing_keys:
         for key in missing_keys:
-            config[key] = default_config[key]
-        save_config(config)
+            config_data[key] = default_config[key]
+        save_config(config_data, alt_config_path)
+        config_path = alt_config_path if alt_config_path else get_config_path()
         print(
-            f"[Configuration updated to newest version at {get_config_path()}]",
+            f"[Configuration updated to newest version at {config_path}]",
             file=sys.stderr,
         )
 
@@ -55,13 +57,15 @@ def find_alt_config(alt_config):
         sys.exit(1)
 
 
-def load_or_install_jrnl(alt_config):
+def load_or_install_jrnl(alt_config_path):
     """
     If jrnl is already installed, loads and returns a default config object.
     If alternate config is specified via --config-file flag, it will be used.
     Else, perform various prompts to install jrnl.
     """
-    config_path = find_alt_config(alt_config) if alt_config else find_default_config()
+    config_path = (
+        find_alt_config(alt_config_path) if alt_config_path else find_default_config()
+    )
 
     if os.path.exists(config_path):
         logging.debug("Reading configuration from file %s", config_path)
@@ -85,7 +89,7 @@ def load_or_install_jrnl(alt_config):
                 print("Exiting.", file=sys.stderr)
                 sys.exit(1)
 
-        upgrade_config(config)
+        upgrade_config(config, alt_config_path)
         verify_config_colors(config)
 
     else:
