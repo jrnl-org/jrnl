@@ -118,6 +118,8 @@ You can search the [jrnl GitHub issues](https://github.com/jrnl-org/jrnl/issues)
 * [bug](https://github.com/jrnl-org/jrnl/labels/bug)
 * [enhancement](https://github.com/jrnl-org/jrnl/labels/enhancement)
 
+You can also get a feel for the project's priorities by reviewing the [milestones](https://github.com/jrnl-org/jrnl/milestones).
+
 ### A note for new programmers and programmers new to python
 
 Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.
