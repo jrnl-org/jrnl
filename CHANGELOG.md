@@ -2,29 +2,168 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.6...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...HEAD)
+
+**Build:**
+
+- Add more steps to `pytest`, fully remove `behave` [\#1347](https://github.com/jrnl-org/jrnl/pull/1347) ([wren](https://github.com/wren))
+
+**Documentation:**
+
+- Document folder journal and DayOne journal types [\#1326](https://github.com/jrnl-org/jrnl/issues/1326)
+- Fix readme splash and add changelog link to readme [\#1339](https://github.com/jrnl-org/jrnl/pull/1339) ([micahellison](https://github.com/micahellison))
+- Document journal types [\#1331](https://github.com/jrnl-org/jrnl/pull/1331) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Bump pytz from 2021.1 to 2021.3 [\#1348](https://github.com/jrnl-org/jrnl/pull/1348) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cryptography from 3.4.8 to 35.0.0 [\#1345](https://github.com/jrnl-org/jrnl/pull/1345) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.8b0 to 21.9b0 [\#1343](https://github.com/jrnl-org/jrnl/pull/1343) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.1.0 to 23.2.1 [\#1342](https://github.com/jrnl-org/jrnl/pull/1342) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.4 to 6.2.5 [\#1334](https://github.com/jrnl-org/jrnl/pull/1334) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.7b0 to 21.8b0 [\#1333](https://github.com/jrnl-org/jrnl/pull/1333) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.8.3](https://pypi.org/project/jrnl/v2.8.3/) (2021-09-06)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3-beta...v2.8.3)
+
+**Fixed bugs:**
+
+- Fix deletion of entries on folder journal through `--delete` flag [\#1328](https://github.com/jrnl-org/jrnl/pull/1328) ([micahellison](https://github.com/micahellison))
+- Warn when DayOne/directory journals have encrypt: true in config [\#1325](https://github.com/jrnl-org/jrnl/pull/1325) ([micahellison](https://github.com/micahellison))
+- Fix failure to import into directory journal [\#1314](https://github.com/jrnl-org/jrnl/pull/1314) ([micahellison](https://github.com/micahellison))
+- Allow emoji in config file in Windows by always opening it as unicode [\#1313](https://github.com/jrnl-org/jrnl/pull/1313) ([micahellison](https://github.com/micahellison))
+
+**Build:**
+
+- Set bash as default shell [\#1324](https://github.com/jrnl-org/jrnl/pull/1324) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Bump cryptography from 3.4.7 to 3.4.8 [\#1329](https://github.com/jrnl-org/jrnl/pull/1329) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.0.1 to 23.1.0 [\#1318](https://github.com/jrnl-org/jrnl/pull/1318) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.8.2](https://pypi.org/project/jrnl/v2.8.2/) (2021-07-31)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.2-beta...v2.8.2)
+
+**Build:**
+
+- Add CI tests for latest dev Python build [\#1273](https://github.com/jrnl-org/jrnl/issues/1273)
+- Fix lock file from stable Poetry version [\#1298](https://github.com/jrnl-org/jrnl/pull/1298) ([wren](https://github.com/wren))
+- Change all YAML FullLoader calls to SafeLoader [\#1285](https://github.com/jrnl-org/jrnl/pull/1285) ([micahellison](https://github.com/micahellison))
+- Remove useless shebangs and executable permissions [\#1283](https://github.com/jrnl-org/jrnl/pull/1283) ([musicinmybrain](https://github.com/musicinmybrain))
+- Add Python 3.10 support [\#1271](https://github.com/jrnl-org/jrnl/pull/1271) ([micahellison](https://github.com/micahellison))
+- Ensure that line endings in all py files are Linux style instead of Windows [\#1250](https://github.com/jrnl-org/jrnl/pull/1250) ([micahellison](https://github.com/micahellison))
+- Remove `--version` from brew release workflow [\#1233](https://github.com/jrnl-org/jrnl/pull/1233) ([wren](https://github.com/wren))
+- Move test suite to Pytest \(replace Behave\) [\#1193](https://github.com/jrnl-org/jrnl/pull/1193) ([wren](https://github.com/wren))
+
+**Documentation:**
+
+- Add documentation about saved passwords in Windows [\#1301](https://github.com/jrnl-org/jrnl/pull/1301) ([micahellison](https://github.com/micahellison))
+- Add security.md [\#1299](https://github.com/jrnl-org/jrnl/pull/1299) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Bump mkdocs from 1.2.1 to 1.2.2 [\#1307](https://github.com/jrnl-org/jrnl/pull/1307) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump python-dateutil from 2.8.1 to 2.8.2 [\#1302](https://github.com/jrnl-org/jrnl/pull/1302) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.5b1 to 21.5b2 [\#1254](https://github.com/jrnl-org/jrnl/pull/1254) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.5b0 to 21.5b1 [\#1244](https://github.com/jrnl-org/jrnl/pull/1244) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 20.8b1 to 21.5b0 [\#1241](https://github.com/jrnl-org/jrnl/pull/1241) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.3 to 6.2.4 [\#1240](https://github.com/jrnl-org/jrnl/pull/1240) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.8.1](https://pypi.org/project/jrnl/v2.8.1/) (2021-04-24)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.1-beta...v2.8.1)
+
+**Fixed bugs:**
+
+- More graceful handling of low linewrap values  [\#1219](https://github.com/jrnl-org/jrnl/pull/1219) ([sriniv27](https://github.com/sriniv27))
+
+**Documentation:**
+
+- Update absolute URLs to preview images in metatags [\#1229](https://github.com/jrnl-org/jrnl/pull/1229) ([maebert](https://github.com/maebert))
+- Docs: Add emacs as external editor to recipes [\#1220](https://github.com/jrnl-org/jrnl/pull/1220) ([mandarvaze](https://github.com/mandarvaze))
+
+**Packaging:**
+
+- Bump pytest from 6.2.2 to 6.2.3 [\#1228](https://github.com/jrnl-org/jrnl/pull/1228) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cryptography from 3.4.6 to 3.4.7 [\#1223](https://github.com/jrnl-org/jrnl/pull/1223) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.0.0 to 23.0.1 [\#1222](https://github.com/jrnl-org/jrnl/pull/1222) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pyflakes from 2.3.0 to 2.3.1 [\#1221](https://github.com/jrnl-org/jrnl/pull/1221) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.8](https://pypi.org/project/jrnl/v2.8/) (2021-03-27)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8-beta...v2.8)
 
 **Implemented enhancements:**
 
-- Implement dependency tracker/updater [\#1120](https://github.com/jrnl-org/jrnl/issues/1120)
-- Automate Arch deployment [\#1112](https://github.com/jrnl-org/jrnl/issues/1112)
-- Change temporary file names for better text editor integration [\#1080](https://github.com/jrnl-org/jrnl/issues/1080)
-- Allow custom file extension for `jrnl --edit` command [\#1059](https://github.com/jrnl-org/jrnl/issues/1059)
+- Add `--config-override` feature [\#1169](https://github.com/jrnl-org/jrnl/pull/1169) ([sriniv27](https://github.com/sriniv27))
+
+**Fixed bugs:**
+
+- Fix bug that prevented --format pretty and --format short from working [\#1177](https://github.com/jrnl-org/jrnl/pull/1177) ([sriniv27](https://github.com/sriniv27))
+
+**Build:**
+
+- Fix broken brew release process [\#1211](https://github.com/jrnl-org/jrnl/pull/1211) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Bump pyflakes from 2.2.0 to 2.3.0 [\#1215](https://github.com/jrnl-org/jrnl/pull/1215) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 22.3.0 to 23.0.0 [\#1213](https://github.com/jrnl-org/jrnl/pull/1213) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 22.0.1 to 22.3.0 [\#1210](https://github.com/jrnl-org/jrnl/pull/1210) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump asteval from 0.9.22 to 0.9.23 [\#1209](https://github.com/jrnl-org/jrnl/pull/1209) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.7.1](https://pypi.org/project/jrnl/v2.7.1/) (2021-02-27)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7...v2.7.1)
+
+**Fixed bugs:**
+
+- Make journal selection behavior more consistent when there's a colon with no date [\#1164](https://github.com/jrnl-org/jrnl/pull/1164) ([wren](https://github.com/wren))
+
+**Documentation:**
+
+- Update documentation about journal-level config values [\#1196](https://github.com/jrnl-org/jrnl/issues/1196)
+- update per-journal config documentation [\#1199](https://github.com/jrnl-org/jrnl/pull/1199) ([sriniv27](https://github.com/sriniv27))
+
+**Packaging:**
+
+- Bump cryptography from 3.4.4 to 3.4.6 [\#1195](https://github.com/jrnl-org/jrnl/pull/1195) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump asteval from 0.9.21 to 0.9.22 [\#1189](https://github.com/jrnl-org/jrnl/pull/1189) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cryptography from 3.3.1 to 3.4.4 [\#1188](https://github.com/jrnl-org/jrnl/pull/1188) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump yq from 2.11.1 to 2.12.0 [\#1186](https://github.com/jrnl-org/jrnl/pull/1186) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytz from 2020.5 to 2021.1 [\#1174](https://github.com/jrnl-org/jrnl/pull/1174) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 21.8.0 to 22.0.1 [\#1168](https://github.com/jrnl-org/jrnl/pull/1168) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 6.2.1 to 6.2.2 [\#1167](https://github.com/jrnl-org/jrnl/pull/1167) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v2.7](https://pypi.org/project/jrnl/v2.7/) (2021-01-23)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.7-beta...v2.7)
+
+**Implemented enhancements:**
+
+- Add new date format \(`--format date`\) for heatmapping [\#1146](https://github.com/jrnl-org/jrnl/pull/1146) ([KarimPwnz](https://github.com/KarimPwnz))
+- Add new `-today-in-history`, `-month`, `-day`, and `-year` search filters [\#1145](https://github.com/jrnl-org/jrnl/pull/1145) ([KarimPwnz](https://github.com/KarimPwnz))
 - Allow custom extensions when editing \(for easier syntax highlighting\) [\#1139](https://github.com/jrnl-org/jrnl/pull/1139) ([KarimPwnz](https://github.com/KarimPwnz))
 
 **Fixed bugs:**
 
-- Error if password exists in keyring, but retrieval fails for any reason [\#1020](https://github.com/jrnl-org/jrnl/issues/1020)
+- Editor can't be launched on Windows when using full path to editor executable [\#1096](https://github.com/jrnl-org/jrnl/issues/1096)
+- Fix OS compatibility issues for editors with spaces, slashes, and quotes [\#1153](https://github.com/jrnl-org/jrnl/pull/1153) ([micahellison](https://github.com/micahellison))
+- Add delimiters in YAML format [\#1150](https://github.com/jrnl-org/jrnl/pull/1150) ([Seopril](https://github.com/Seopril))
 - Fix keyring error handling [\#1138](https://github.com/jrnl-org/jrnl/pull/1138) ([KarimPwnz](https://github.com/KarimPwnz))
 - Notify user when config directory can't be created because there is already a file with the same name [\#1134](https://github.com/jrnl-org/jrnl/pull/1134) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
+- Fix homebrew release, add options for release pipeline [\#1154](https://github.com/jrnl-org/jrnl/pull/1154) ([wren](https://github.com/wren))
 - Fix changelog generator [\#1127](https://github.com/jrnl-org/jrnl/pull/1127) ([wren](https://github.com/wren))
 
 **Documentation:**
 
-- Clarify installation docs [\#1097](https://github.com/jrnl-org/jrnl/issues/1097)
+- add instructions to add VSCode as an external editor for Windows [\#1155](https://github.com/jrnl-org/jrnl/issues/1155)
+- Clarify editor documentation for PATH variable and VS Code [\#1160](https://github.com/jrnl-org/jrnl/pull/1160) ([micahellison](https://github.com/micahellison))
 - Emphasize installing dependencies before testing [\#1148](https://github.com/jrnl-org/jrnl/pull/1148) ([gumatias](https://github.com/gumatias))
 - Clarify installation documentation \(\#1097\) [\#1137](https://github.com/jrnl-org/jrnl/pull/1137) ([Seopril](https://github.com/Seopril))
 - Fix broken search bar in docs site [\#1135](https://github.com/jrnl-org/jrnl/pull/1135) ([wren](https://github.com/wren))
@@ -34,6 +173,7 @@
 
 **Packaging:**
 
+- Bump pyyaml from 5.3.1 to 5.4.1 [\#1158](https://github.com/jrnl-org/jrnl/pull/1158) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 21.7.0 to 21.8.0 [\#1136](https://github.com/jrnl-org/jrnl/pull/1136) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytz from 2020.4 to 2020.5 [\#1130](https://github.com/jrnl-org/jrnl/pull/1130) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pytest from 6.2.0 to 6.2.1 [\#1129](https://github.com/jrnl-org/jrnl/pull/1129) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

@@ -18,12 +18,19 @@ format: ## Format files to match style
 
 lint: ## Check style with various tools
 	poetry check
-	poetry run pyflakes .
+	poetry run pflake8 jrnl tests
 	poetry run black --check --diff .
 
-test: lint ## Run unit tests and behave tests
-	poetry run pytest
-	poetry run behave --no-skipped --format progress2
+unit: # unit tests
+	poetry run pytest tests/unit
+
+bdd: # bdd tests
+	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native
+
+bdd-debug: # bdd tests
+	poetry run pytest tests/bdd --gherkin-terminal-reporter --tb=native -x -vv
+
+test: lint unit bdd
 
 build:
 	poetry build

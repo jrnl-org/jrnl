@@ -177,6 +177,30 @@ def parse_args(args=[]):
         "-on", dest="on_date", metavar="DATE", help="Show entries on this date"
     )
     reading.add_argument(
+        "-today-in-history",
+        dest="today_in_history",
+        action="store_true",
+        help="Show entries of today over the years",
+    )
+    reading.add_argument(
+        "-month",
+        dest="month",
+        metavar="DATE",
+        help="Show entries on this month of any year",
+    )
+    reading.add_argument(
+        "-day",
+        dest="day",
+        metavar="DATE",
+        help="Show entries on this day of any month",
+    )
+    reading.add_argument(
+        "-year",
+        dest="year",
+        metavar="DATE",
+        help="Show entries of a specific year",
+    )
+    reading.add_argument(
         "-from",
         dest="start_date",
         metavar="DATE",
@@ -288,6 +312,29 @@ def parse_args(args=[]):
         "-o",
         dest="filename",
         help=argparse.SUPPRESS,
+    )
+
+    config_overrides = parser.add_argument_group(
+        "Config file override",
+        textwrap.dedent("Apply a one-off override of the config file option"),
+    )
+    config_overrides.add_argument(
+        "--config-override",
+        dest="config_override",
+        action="append",
+        type=str,
+        nargs=2,
+        default=[],
+        metavar="CONFIG_KV_PAIR",
+        help="""
+        Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
+
+        Examples: \n
+        \t - Use a different editor for this jrnl entry, call: \n
+            \t jrnl --config-override editor "nano" \n
+        \t - Override color selections\n
+           \t jrnl --config-override colors.body blue --config-override colors.title green
+        """,
     )
 
     # Handle '-123' as a shortcut for '-n 123'

@@ -1,5 +1,6 @@
 <!-- Copyright (C) 2012-2021 jrnl contributors
      License: https://www.gnu.org/licenses/gpl-3.0.html -->
+
 # Advanced Usage
 
 ## Configuration File
@@ -19,29 +20,29 @@ and can be edited with a plain text editor.
     Backup your journal and config file before editing. Changes to the config file
     can have destructive effects on your journal!
 
-  - `journals`
+- `journals`
     paths to your journal files
-  - `editor`
+- `editor`
     if set, executes this command to launch an external editor for
     writing your entries, e.g. `vim`. Some editors require special
     options to work properly, see `FAQ <recipes>` for details.
-  - `encrypt`
+- `encrypt`
     if `true`, encrypts your journal using AES.
-  - `tagsymbols`
+- `tagsymbols`
     Symbols to be interpreted as tags. (See note below)
-  - `default_hour` and `default_minute`
+- `default_hour` and `default_minute`
     if you supply a date, such as `last thursday`, but no specific
     time, the entry will be created at this time
-  - `timeformat`
+- `timeformat`
     how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-  - `highlight`
+- `highlight`
     if `true`, tags will be highlighted in cyan.
-  - `linewrap`
+- `linewrap`
     controls the width of the output. Set to `false` if you don't want to wrap long lines.
-  - `colors`
+- `colors`
     dictionary that controls the colors used to display journal entries. It has four subkeys, which are: `body`, `date`, `tags`, and `title`. Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE`, and `NONE`. `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output). To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
-  - `display_format`
-    specifies formatter to use, formatters available are: 
+- `display_format`
+    specifies formatter to use, formatters available are:
     `boxed`, `fancy`, `json`, `markdown`, `md`, `tags`, `text`, `txt`, `xml`, or `yaml`.
 
 !!! note
@@ -60,6 +61,29 @@ and can be edited with a plain text editor.
 
   Or use the built-in prompt or an external editor to compose your
   entries.
+
+### Modifying Configurations from the Command line 
+
+You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot-notation and `CONFIG_VALUE` is the (valid) desired override value.
+
+You can specify multiple overrides as multiple calls to `--config-override`.
+!!! note
+    These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing. 
+
+#### Examples: 
+
+``` sh
+#Create an entry using the `stdin` prompt, for rapid logging
+jrnl --config-override editor ""
+
+#Populate a project's log
+jrnl --config-override journals.todo "$(git rev-parse --show-toplevel)/todo.txt" todo find my towel 
+
+#Pass multiple overrides 
+jrnl --config-override display_format fancy --config-override linewrap 20 \
+--config-override colors.title green
+
+```
 
 ## Multiple journal files
 
@@ -99,10 +123,30 @@ food: ~/my_recipes.txt
 ```
 
 Your `default` and your `food` journals won't be encrypted, however your
-`work` journal will! You can override all options that are present at
+`work` journal will!
+
+You can override all options that are present at
 the top level of `jrnl.yaml`, just make sure that at the very least
 you specify a `journal: ...` key that points to the journal file of
 that journal.
+
+Consider the following example configuration
+
+```yaml
+editor: vi -c startinsert 
+journals: 
+  default: ~/journal.txt 
+  work: 
+    journal: ~/work.txt 
+    encrypt: true 
+    display_format: json 
+    editor: code -rw 
+  food:
+    display_format: markdown 
+    journal: ~/recipes.txt 
+```
+
+The `work` journal is encrypted, prints to `json` by default, and is edited using an existing window of VSCode. Similarly, the `food` journal prints to markdown by default, but uses all the other defaults.
 
 !!! note
     Changing `encrypt` to a different value will not encrypt or decrypt your

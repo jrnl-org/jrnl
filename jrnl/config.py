@@ -19,12 +19,43 @@ XDG_RESOURCE = "jrnl"
 DEFAULT_JOURNAL_NAME = "journal.txt"
 DEFAULT_JOURNAL_KEY = "default"
 
+YAML_SEPARATOR = ": "
+YAML_FILE_ENCODING = "utf-8"
+
+
+def make_yaml_valid_dict(input: list) -> dict:
+
+    """
+
+    Convert a two-element list of configuration key-value pair into a flat dict.
+
+    The dict is created through the yaml loader, with the assumption that
+    "input[0]: input[1]" is valid yaml.
+
+    :param input: list of configuration keys in dot-notation and their respective values.
+    :type input: list
+    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :rtype: dict
+    """
+
+    assert len(input) == 2
+
+    # yaml compatible strings are of the form Key:Value
+    yamlstr = YAML_SEPARATOR.join(input)
+    runtime_modifications = yaml.load(yamlstr, Loader=yaml.SafeLoader)
+
+    return runtime_modifications
+
 
 def save_config(config):
     config["version"] = __version__
-    with open(get_config_path(), "w") as f:
+    with open(get_config_path(), "w", encoding=YAML_FILE_ENCODING) as f:
         yaml.safe_dump(
-            config, f, encoding="utf-8", allow_unicode=True, default_flow_style=False
+            config,
+            f,
+            encoding=YAML_FILE_ENCODING,
+            allow_unicode=True,
+            default_flow_style=False,
         )
 
 
@@ -113,8 +144,8 @@ def verify_config_colors(config):
 
 def load_config(config_path):
     """Tries to load a config file from YAML."""
-    with open(config_path) as f:
-        return yaml.load(f, Loader=yaml.FullLoader)
+    with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+        return yaml.load(f, Loader=yaml.SafeLoader)
 
 
 def is_config_json(config_path):
@@ -138,10 +169,18 @@ def update_config(config, new_config, scope, force_local=False):
 
 def get_journal_name(args, config):
     args.journal_name = DEFAULT_JOURNAL_KEY
-    if args.text and args.text[0] in config["journals"]:
-        args.journal_name = args.text[0]
-        args.text = args.text[1:]
-    elif DEFAULT_JOURNAL_KEY not in config["journals"]:
+
+    # The first arg might be a journal name
+    if args.text:
+        potential_journal_name = args.text[0]
+        if potential_journal_name[-1] == ":":
+            potential_journal_name = potential_journal_name[0:-1]
+
+        if potential_journal_name in config["journals"]:
+            args.journal_name = potential_journal_name
+            args.text = args.text[1:]
+
+    if args.journal_name not in config["journals"]:
         print("No default journal configured.", file=sys.stderr)
         print(list_journals(config), file=sys.stderr)
         sys.exit(1)

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # encoding: utf-8
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
@@ -23,10 +22,11 @@ def get_files(journal_config):
 class Folder(Journal.Journal):
     """A Journal handling multiple files in a folder"""
 
-    def __init__(self, **kwargs):
+    def __init__(self, name="default", **kwargs):
         self.entries = []
         self._diff_entry_dates = []
-        super(Folder, self).__init__(**kwargs)
+        self.can_be_encrypted = False
+        super().__init__(name, **kwargs)
 
     def open(self):
         filenames = []
@@ -44,10 +44,12 @@ class Folder(Journal.Journal):
         # Create a list of dates of modified entries. Start with diff_entry_dates
         modified_dates = self._diff_entry_dates
         seen_dates = set(self._diff_entry_dates)
+
         for e in self.entries:
             if e.modified:
-                if e.date not in seen_dates:
+                if e.date not in modified_dates:
                     modified_dates.append(e.date)
+                if e.date not in seen_dates:
                     seen_dates.add(e.date)
 
         # For every date that had a modified entry, write to a file
@@ -81,8 +83,14 @@ class Folder(Journal.Journal):
                 # print("empty file: {}".format(filename))
                 os.remove(filename)
 
+    def delete_entries(self, entries_to_delete):
+        """Deletes specific entries from a journal."""
+        for entry in entries_to_delete:
+            self.entries.remove(entry)
+            self._diff_entry_dates.append(entry.date)
+
     def parse_editable_str(self, edited):
-        """Parses the output of self.editable_str and updates it's entries."""
+        """Parses the output of self.editable_str and updates its entries."""
         mod_entries = self._parse(edited)
         diff_entries = set(self.entries) - set(mod_entries)
         for e in diff_entries:

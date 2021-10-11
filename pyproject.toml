@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jrnl"
-version = "v2.6"
+version = "v2.8.3"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "jrnl contributors <jrnl-sh@googlegroups.com>",
@@ -21,8 +21,13 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 
+[tool.poetry.urls]
+"Documentation" = "https://jrnl.sh"
+"Issue Tracker" = "https://github.com/jrnl-org/jrnl/issues"
+"Funding" = "https://opencollective.com/jrnl"
+
 [tool.poetry.dependencies]
-python = ">=3.7.0, <3.10"
+python = ">=3.7.0, <3.11"
 
 ansiwrap = "^0.8.4"
 asteval = "^0.9"
@@ -38,14 +43,27 @@ pyyaml = ">=5.1"
 pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations
 tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
+# Minimal deps required for testing
+# I don't like repeating deps here, but
+# there's no other way to do this yet until poetry v1.2 releases
+# see: https://github.com/python-poetry/poetry/issues/1644
+pytest     =  { version = ">=6.2",    optional = true }
+pytest-bdd =  { version = ">=4.0.1",  optional = true }
+toml       =  { version = ">=0.10",   optional = true }
+
 [tool.poetry.dev-dependencies]
-behave = "^1.2"
-mkdocs = "^1.0"
-black = {version = "^20.8b1",allow-prereleases = true}
+mkdocs = ">=1.0"
+black = { version = ">=21.5b2", allow-prereleases = true }
 toml = ">=0.10"
-pyflakes = ">=2.2.0"
 pytest = ">=6.2"
-yq = ">=2.11"
+pytest-bdd = ">=4.0.1"
+ipdb = "*"
+pytest-clarity = "*"
+pyproject-flake8 = "*"
+yq = "*"
+
+[tool.poetry.extras]
+testing = [ "pytest", "pytest-bdd", "toml" ]
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
@@ -56,6 +74,29 @@ force_single_line = true
 line_length = 88
 known_first_party = ["jrnl"]
 force_sort_within_sections = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+required_plugins = [
+  "pytest-bdd"
+]
+markers = [
+    "todo",
+]
+addopts = [
+  "--pdbcls=IPython.terminal.debugger:Pdb"
+]
+
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore:Flag style will be deprecated in.*",
+    "ignore:[WinError 32].*",
+    "ignore:[WinError 5].*"
+]
+
+[tool.flake8]
+# ignore formatting warnings and errors because we use Black to autoformat
+extend-ignore = "E101,E111,E114,E115,E116,E117,E12,E13,E2,E3,E401,E5,E70,W1,W2,W3,W5"
 
 [build-system]
 requires = ["poetry>=1.1"]

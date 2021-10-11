@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from datetime import datetime
+import datetime
 import fnmatch
 import os
 from pathlib import Path
@@ -34,6 +32,7 @@ class DayOne(Journal.Journal):
     def __init__(self, **kwargs):
         self.entries = []
         self._deleted_entries = []
+        self.can_be_encrypted = False
         super().__init__(**kwargs)
 
     def open(self):
@@ -80,35 +79,35 @@ class DayOne(Journal.Journal):
                         entry.creator_device_agent = dict_entry["Creator"][
                             "Device Agent"
                         ]
-                    except:
+                    except:  # noqa: E722
                         pass
                     try:
                         entry.creator_generation_date = dict_entry["Creator"][
                             "Generation Date"
                         ]
-                    except:
+                    except:  # noqa: E722
                         entry.creator_generation_date = date
                     try:
                         entry.creator_host_name = dict_entry["Creator"]["Host Name"]
-                    except:
+                    except:  # noqa: E722
                         pass
                     try:
                         entry.creator_os_agent = dict_entry["Creator"]["OS Agent"]
-                    except:
+                    except:  # noqa: E722
                         pass
                     try:
                         entry.creator_software_agent = dict_entry["Creator"][
                             "Software Agent"
                         ]
-                    except:
+                    except:  # noqa: E722
                         pass
                     try:
                         entry.location = dict_entry["Location"]
-                    except:
+                    except:  # noqa: E722
                         pass
                     try:
                         entry.weather = dict_entry["Weather"]
-                    except:
+                    except:  # noqa: E722
                         pass
                     self.entries.append(entry)
         self.sort()
@@ -118,7 +117,7 @@ class DayOne(Journal.Journal):
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
             if entry.modified:
-                utc_time = datetime.utcfromtimestamp(
+                utc_time = datetime.datetime.utcfromtimestamp(
                     time.mktime(entry.date.timetuple())
                 )
 

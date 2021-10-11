@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import re
 from string import punctuation
 from string import whitespace
@@ -7,7 +6,7 @@ import colorama
 
 from .os_compat import on_windows
 
-if on_windows:
+if on_windows():
     colorama.init()
 
 WARNING_COLOR = colorama.Fore.YELLOW

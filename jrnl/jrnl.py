@@ -15,6 +15,8 @@ from .config import get_config_path
 from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from .exception import UserAbort
+from . import time
+from .override import apply_overrides
 
 
 def run(args):
@@ -36,6 +38,10 @@ def run(args):
     try:
         config = install.load_or_install_jrnl()
         original_config = config.copy()
+
+        # Apply config overrides
+        config = apply_overrides(args, config)
+
         args = get_journal_name(args, config)
         config = scope_config(config, args.journal_name)
     except UserAbort as err:
@@ -77,6 +83,10 @@ def _is_write_mode(args, config, **kwargs):
             args.edit,
             args.export,
             args.end_date,
+            args.today_in_history,
+            args.month,
+            args.day,
+            args.year,
             args.limit,
             args.on_date,
             args.short,
@@ -202,12 +212,20 @@ def _get_editor_template(config, **kwargs):
 
 
 def _search_journal(args, journal, **kwargs):
-    """ Search the journal with the given args"""
+    """Search the journal with the given args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
 
+    if args.today_in_history:
+        now = time.parse("now")
+        args.day = now.day
+        args.month = now.month
+
     journal.filter(
         tags=args.text,
+        month=args.month,
+        day=args.day,
+        year=args.year,
         start_date=args.start_date,
         end_date=args.end_date,
         strict=args.strict,
@@ -303,8 +321,11 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 
 def _display_search_results(args, journal, **kwargs):
-    if args.short:
+    if args.short or args.export == "short":
         print(journal.pprint(short=True))
+
+    elif args.export == "pretty":
+        print(journal.pprint())
 
     elif args.tags:
         print(plugins.get_exporter("tags").export(journal))

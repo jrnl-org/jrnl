@@ -2,7 +2,7 @@
 name: Documentation Change
 about: Request or report any updates to our documentation (https://jrnl.sh)
 title: ''
-labels: ":new:, Documentation"
+labels: ":new:, documentation"
 assignees: ''
 
 ---

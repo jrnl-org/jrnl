@@ -13,6 +13,7 @@ avoid any possible overhead for these standalone commands.
 """
 import platform
 import sys
+from .exception import JrnlError
 
 
 def preconfig_diagnostic(_):
@@ -68,6 +69,13 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     # Open the journal
     journal = open_journal(args.journal_name, config)
 
+    if hasattr(journal, "can_be_encrypted") and not journal.can_be_encrypted:
+        raise JrnlError(
+            "CannotEncryptJournalType",
+            journal_name=args.journal_name,
+            journal_type=journal.__class__.__name__,
+        )
+
     journal.config["encrypt"] = True
 
     new_journal = EncryptedJournal.from_journal(journal)
@@ -87,7 +95,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
 
 
 def postconfig_decrypt(args, config, original_config, **kwargs):
-    """ Decrypts into new file. If filename is not set, we encrypt the journal file itself. """
+    """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
     from .Journal import PlainJournal
     from .Journal import open_journal
     from .config import update_config
