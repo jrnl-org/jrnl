@@ -13,7 +13,14 @@ avoid any possible overhead for these standalone commands.
 """
 from itertools import chain
 import platform
+import re
 import sys
+
+
+def remove_prefix(main_string, prefix):
+    # replace with built-in string function in Python 3.9+
+    pattern = rf"^{prefix}"
+    return re.sub(pattern, "", main_string)
 
 
 def preconfig_diagnostic(_):
@@ -21,6 +28,10 @@ def preconfig_diagnostic(_):
     from jrnl.plugins.collector import (
         IMPORT_FORMATS,
         EXPORT_FORMATS,
+        INTERNAL_EXPORTER_CLASS_PATH,
+        INTERNAL_IMPORTER_CLASS_PATH,
+        EXTERNAL_EXPORTER_CLASS_PATH,
+        EXTERNAL_IMPORTER_CLASS_PATH,
         get_exporter,
         get_importer,
     )
@@ -41,14 +52,40 @@ def preconfig_diagnostic(_):
     for importer in IMPORT_FORMATS:
         importer_class = get_importer(importer)
         print(f"        {importer:{plugin_name_length}} : ", end="")
-        print(f"{importer_class.version} from ", end="")
-        print(f"{importer_class().class_path()}")
+        if importer_class().class_path().startswith(INTERNAL_IMPORTER_CLASS_PATH):
+            version_str = remove_prefix(
+                importer_class().class_path(), INTERNAL_IMPORTER_CLASS_PATH
+            )
+            version_str = remove_prefix(version_str, ".")
+            print(f"{version_str} (internal)")
+        elif importer_class().class_path().startswith(EXTERNAL_IMPORTER_CLASS_PATH):
+            version_str = remove_prefix(
+                importer_class().class_path(), EXTERNAL_IMPORTER_CLASS_PATH
+            )
+            version_str = remove_prefix(version_str, ".")
+            print(f"{version_str} {importer_class.version}")
+        else:
+            print(f"{importer_class.version} from ", end="")
+            print(f"{importer_class().class_path()}")
     print("    Exporters:")
     for exporter in EXPORT_FORMATS:
         exporter_class = get_exporter(exporter)
         print(f"        {exporter:{plugin_name_length}} : ", end="")
-        print(f"{exporter_class.version} from ", end="")
-        print(f"{exporter_class().class_path()}")
+        if exporter_class().class_path().startswith(INTERNAL_EXPORTER_CLASS_PATH):
+            version_str = remove_prefix(
+                exporter_class().class_path(), INTERNAL_EXPORTER_CLASS_PATH
+            )
+            version_str = remove_prefix(version_str, ".")
+            print(f"{version_str} (internal)")
+        elif exporter_class().class_path().startswith(EXTERNAL_EXPORTER_CLASS_PATH):
+            version_str = remove_prefix(
+                exporter_class().class_path(), EXTERNAL_EXPORTER_CLASS_PATH
+            )
+            version_str = remove_prefix(version_str, ".")
+            print(f"{version_str} {exporter_class.version}")
+        else:
+            print(f"{exporter_class.version} from ", end="")
+            print(f"{exporter_class().class_path()}")
 
 
 def preconfig_version(_):
