@@ -118,6 +118,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
+    @skip_win  # @todo does not correctly export emoji on Windows
     Scenario Outline: Exporting using custom templates
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
@@ -437,7 +438,86 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
-    @skip_win
+    Scenario Outline: Export to Pelican Markdown
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we create a cache directory
+        When we run "jrnl --format pelican-markdown --file {cache_dir}"
+        Then the cache directory should contain the files
+            2020-08-29_entry-the-first.md
+            2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md
+            2020-09-24_the-third-entry-finally-after-weeks-without-writing.md
+
+        And the content of file "2020-08-29_entry-the-first.md" in the cache should be
+            title: Entry the first.
+            date: 2020-08-29 11:11
+            starred: False
+            tags: tagone, ipsum, tagtwo
+            
+            Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
+            quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus pellentesque
+            augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
+            consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
+            commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
+            venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
+
+            Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
+            ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
+            potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
+            molestie metus. Mauris porttitor dui ornare gravida porta. Quisque sed lectus
+            hendrerit, lacinia ante eget, vulputate ante. Aliquam vitae erat non felis
+            feugiat sagittis. Phasellus quis arcu fringilla, mattis ligula id, vestibulum
+            urna. Vivamus facilisis leo a mi tincidunt condimentum. Donec eu euismod enim.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu ligula eget
+            velit scelerisque fringilla. Phasellus pharetra justo et nulla fringilla, ac
+            porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
+            conubia nostra, per inceptos himenaeos.        
+            
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        # | basic_folder.yaml    |
+        # | basic_dayone.yaml    |
+
+    @skip_win  # @todo YAML exporter does not correctly export emoji on Windows
+    Scenario Outline: Add a blank line to YAML export if there isn't one already
+        # https://github.com/jrnl-org/jrnl/issues/768
+        # https://github.com/jrnl-org/jrnl/issues/881
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we create a cache directory
+        When we run "jrnl --export pelican-markdown -o {cache_dir}"
+        Then the cache should contain the files
+            2020-08-29_entry-the-first.md
+            2020-08-31_a-second-entry-in-what-i-hope-to-be-a-long-series.md
+            2020-09-24_the-third-entry-finally-after-weeks-without-writing.md
+        And the content of file "2020-09-24_the-third-entry-finally-after-weeks-without-writing.md" in the cache should be
+            title: The third entry finally after weeks without writing.
+            date: 2020-09-24 09:14
+            starred: False
+            tags: tagone, tagthree
+
+            I'm so excited about emojis. 💯 🎶 💩
+
+            Donec semper pellentesque iaculis. Nullam cursus et justo sit amet venenatis.
+            Vivamus tempus ex dictum metus vehicula gravida. Aliquam sed sem dolor. Nulla
+            eget ultrices purus. Quisque at nunc at quam pharetra consectetur vitae quis
+            dolor. Fusce ultricies purus eu est feugiat, quis scelerisque nibh malesuada.
+            Quisque egestas semper nibh in hendrerit. Nam finibus ex in mi mattis
+            vulputate. Sed mauris urna, consectetur in justo eu, volutpat accumsan justo.
+            Phasellus aliquam lacus placerat convallis vestibulum. Curabitur maximus at
+            ante eget fringilla. @tagthree and also @tagone        
+
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        # | basic_dayone.yaml    | @todo
+
+    @skip  # No YAML exporter
     Scenario Outline: Export to yaml
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
@@ -482,7 +562,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
         # | basic_dayone.yaml    |
 
-    @skip_win # @todo YAML exporter does not correctly export emoji on Windows
+    @skip  # No YAML exporter  # @todo YAML exporter does not correctly export emoji on Windows
     Scenario Outline: Add a blank line to YAML export if there isn't one already
         # https://github.com/jrnl-org/jrnl/issues/768
         # https://github.com/jrnl-org/jrnl/issues/881
