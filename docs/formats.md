@@ -266,13 +266,16 @@ supported by many programs and programming languages.
 </journal>
 ```
 
-### YAML
+### Pelican Markdown
 ``` sh
-jrnl --format yaml
+jrnl --format pelican-markdown -o <existing directory>
 ```
 
-This outputs your journal into YAML format. YAML is a commonly used data format and is
-supported by many programs and programming languages.
+This outputs your journal as Markdown files with YAML(-ish) front matter. This
+particular format can be used by Pelican, a static site generator, as
+"markdown" input.
+
+In versions 2.6 and prior, this exporter was referred to as the "YAML" exporter.
 
 **Example output**:
 ``` yaml
