@@ -129,9 +129,9 @@ class PelicanMarkdownExporter(TextExporter):
 
     @classmethod
     def export_journal(cls, journal):
-        """Returns an error, as YAML export requires a directory as a target."""
+        """Returns an error, as Pelican Markdown export requires a directory as a target."""
         print(
-            "{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(
+            "{}ERROR{}: Pelican Markdown export must be to individual files. Please specify a directory to export to.".format(
                 ERROR_COLOR, RESET_COLOR
             ),
             file=sys.stderr,
