@@ -11,6 +11,7 @@
 **Documentation:**
 
 - Document folder journal and DayOne journal types [\#1326](https://github.com/jrnl-org/jrnl/issues/1326)
+- Move and expand contributing.md content into docs site [\#1180](https://github.com/jrnl-org/jrnl/issues/1180)
 - Added Recipe for visualizing Markdown in the CLI [\#1354](https://github.com/jrnl-org/jrnl/pull/1354) ([viegasfh](https://github.com/viegasfh))
 - Fix recipe 'Launch a terminal for rapid logging' [\#1351](https://github.com/jrnl-org/jrnl/pull/1351) ([zapateo](https://github.com/zapateo))
 - Fix readme splash and add changelog link to readme [\#1339](https://github.com/jrnl-org/jrnl/pull/1339) ([micahellison](https://github.com/micahellison))
