@@ -182,9 +182,7 @@ for_window[title="floating *"] floating enable
 ```
 ### Visualize Formatted Markdown in the CLI
 
-Out of the box, `jrnl` can output journal entries in Markdown. However, in order to visualize it you often need to resort to an external Markdown visualizer on your Desktop. But what if you could render your Markdown straight from the CLI? [mdless](https://github.com/ttscoff/mdless) and piping is the answer.
-
-`mdless` is a `less` like tool that allows you to visualize your Markdown text with formatting and syntax highlighting from the CLI. You can use this in any shell that supports piping. In Linux/Unix any shell supports this, but on Windows you will have to use `PowerShell` or an alternative one that supports piping.
+Out of the box, `jrnl` can output journal entries in Markdown. To visualize it, you can pipe to [mdless](https://github.com/ttscoff/mdless), which is a [less](https://en.wikipedia.org/wiki/Less_(Unix))-like tool that allows you to visualize your Markdown text with formatting and syntax highlighting from the CLI. You can use this in any shell that supports piping.
 
 The simplest way to visualize your Markdown output with `mdless` is as follows:
 ```sh
@@ -193,7 +191,7 @@ jrnl --export md | mdless
 
 This will render your Markdown output in the whole screen.
 
-Fortunately `mdless` has an option that allows you to adjust the screen width by using the `-w` option as follows:
+Fortunately, `mdless` has an option that allows you to adjust the screen width by using the `-w` option as follows:
 
 ```sh
 jrnl --export md | mdless -w 70
