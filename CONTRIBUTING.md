@@ -2,4 +2,4 @@
      License: https://www.gnu.org/licenses/gpl-3.0.html -->
 # Contributing
 
-See the "Contributing" section of the [jrnl documentation site](https://jrnl.sh).
+See "[Contributing](docs/contributing.md)" in the `docs` directory.
