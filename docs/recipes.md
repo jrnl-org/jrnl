@@ -28,7 +28,7 @@ You can do things like
 jrnl @fixed -starred -n 10 -to "jan 2013" --short
 ```
 
-To get a short summary of the 10 most recent, favourited entries before
+To get a short summary of the 10 most recent, favourite entries before
 January 1, 2013 that are tagged with `@fixed`.
 
 ### Statistics
@@ -52,8 +52,8 @@ print exactly one line per entry).
 
 ### Importing older files
 
-If you want to import a file as an entry to jrnl, you can just do `jrnl < entry.ext`. But what if you want the modification date of the file to
-be the date of the entry in jrnl? Try this
+If you want to import a file as an entry to `jrnl`, you can just do `jrnl < entry.ext`. But what if you want the modification date of the file to
+be the date of the entry in `jrnl`? Try this
 
 ```sh
 echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
@@ -73,11 +73,11 @@ jrnlimport () {
 ### Using templates
 
 !!! note
-    Templates require an [external editor](./advanced.md) be configured. 
+    Templates require an [external editor](./advanced.md) be configured.
 
-A template is a code snippet that makes it easier to use repeated text 
+A template is a code snippet that makes it easier to use repeated text
 each time a new journal entry is started. There are two ways you can utilize
-templates in your entries.  
+templates in your entries.
 
 #### 1. Command line arguments
 
@@ -85,17 +85,17 @@ If you had a `template.txt` file with the following contents:
 
 ```sh
 My Personal Journal
-Title: 
+Title:
 
 Body:
 ```
 
-The `template.txt` file could be used to create a new entry with these 
-command line arguements:
+The `template.txt` file could be used to create a new entry with these
+command line arguments:
 
 ```sh
 jrnl < template.txt     # Imports template.txt as the most recent entry
-jrnl -1 --edit          # Opens the most recent entry in the editor 
+jrnl -1 --edit          # Opens the most recent entry in the editor
 ```
 
 #### 2. Include the template file in `jrnl.yaml`
@@ -113,8 +113,8 @@ template: "/path/to/template.txt"
 Changes can be saved as you continue writing the journal entry and will be
 logged as a new entry in the journal you specified in the original argument.
 
-!!! tip 
-    To read your journal entry or to verify the entry saved, you can use this 
+!!! tip
+    To read your journal entry or to verify the entry saved, you can use this
     command: `jrnl -n 1` (Check out [Formats](./formats.md) for more options).
 
 ```sh
@@ -137,9 +137,9 @@ log_question 'What did I achieve today?'
 log_question 'What did I make progress with?'
 ```
 
-Whenever your shell is reloaded, you will be prompted to answer each of the 
-questions in the example above. Each answer will be logged as a separate 
-journal entry at the `default_hour` and `default_minute` listed in your 
+Whenever your shell is reloaded, you will be prompted to answer each of the
+questions in the example above. Each answer will be logged as a separate
+journal entry at the `default_hour` and `default_minute` listed in your
 `jrnl.yaml` [config file](../advanced/#configuration-file).
 
 ### Display random entry
@@ -155,16 +155,16 @@ jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
 ```
 
 
-### Launch a terminal for rapid logging 
-You can use this to launch a terminal that is the `jrnl` stdin prompt so you can start typing away immediately. 
+### Launch a terminal for rapid logging
+You can use this to launch a terminal that is the `jrnl` stdin prompt so you can start typing away immediately.
 
 ```bash
 jrnl now --config-override editor:""
 ```
 
-Bind this to a keyboard shortcut. 
+Bind this to a keyboard shortcut.
 
-Map `Super+Alt+J` to launch the terminal with jrnl prompt
+Map `Super+Alt+J` to launch the terminal with `jrnl` prompt
 
 - **xbindkeys**
 In your `.xbindkeysrc`
@@ -180,11 +180,37 @@ Mod4+Mod1+j
 bindsym Mod4+Mod1+j exec --no-startup-id alacritty -t floating-jrnl -e jrnl --config-override editor:""
 for_window[title="floating *"] floating enable
 ```
+### Visualize Formatted Markdown in the CLI
+
+Out of the box, `jrnl` can output journal entries in Markdown. To visualize it, you can pipe to [mdless](https://github.com/ttscoff/mdless), which is a [less](https://en.wikipedia.org/wiki/Less_(Unix))-like tool that allows you to visualize your Markdown text with formatting and syntax highlighting from the CLI. You can use this in any shell that supports piping.
+
+The simplest way to visualize your Markdown output with `mdless` is as follows:
+```sh
+jrnl --export md | mdless
+```
+
+This will render your Markdown output in the whole screen.
+
+Fortunately, `mdless` has an option that allows you to adjust the screen width by using the `-w` option as follows:
+
+```sh
+jrnl --export md | mdless -w 70
+```
+
+If you want Markdown to be your default display format, you can define this in your config file as follows:
+
+```yaml
+display_format: md
+# or
+display_format: markdown
+```
+
+For more information on how `jrnl` outputs your entries in Markdown, please visit the [Formats](./formats.md) section.
 
 ## External editors
 
-Configure your preferred external editor by updating the `editor` option 
-in your `jrnl.yaml` file. (See [advanced usage](./advanced.md) for details). 
+Configure your preferred external editor by updating the `editor` option
+in your `jrnl.yaml` file. (See [advanced usage](./advanced.md) for details).
 
 !!! note
     To save and log any entry edits, save and close the file.
@@ -201,7 +227,7 @@ tools for Sublime Text and configure your `jrnl.yaml` like this:
 editor: "subl -w"
 ```
 
-Note the `-w` flag to make sure jrnl waits for Sublime Text to close the
+Note the `-w` flag to make sure `jrnl` waits for Sublime Text to close the
 file before writing into the journal.
 
 ### Visual Studio Code
@@ -252,20 +278,20 @@ grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
 ### Notepad++ on Windows
 
 To set [Notepad++](http://notepad-plus-plus.org/) as your editor, edit
-the jrnl config file (`jrnl.yaml`) like this:
+the `jrnl` config file (`jrnl.yaml`) like this:
 
 ```yaml
 editor: "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession"
 ```
 
-The double backslashes are needed so jrnl can read the file path
-correctly. The `-multiInst -nosession` options will cause jrnl to open
+The double backslashes are needed so `jrnl` can read the file path
+correctly. The `-multiInst -nosession` options will cause `jrnl` to open
 its own Notepad++ window.
 
 
 ### emacs
 
-To use `emacs` as your editor, edit the jrnl config file (`jrnl.yaml`) like this:
+To use `emacs` as your editor, edit the `jrnl` config file (`jrnl.yaml`) like this:
 
 ```yaml
 editor: emacsclient -a "" -c
