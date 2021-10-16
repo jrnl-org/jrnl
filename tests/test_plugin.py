@@ -9,7 +9,7 @@ from jrnl.plugins.exporter import json as json_exporter
 
 try:
     from jrnl.contrib.exporter import testing as testing_exporter
-except:
+except ImportError:
     testing_exporter = None
 
 

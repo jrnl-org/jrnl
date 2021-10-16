@@ -78,7 +78,7 @@ def parse_args(args=[]):
         action="store_const",
         const=preconfig_diagnostic,
         dest="preconfig_cmd",
-        help=argparse.SUPPRESS,
+        help="Print active plugins",
     )
     standalone.add_argument(
         "--list",

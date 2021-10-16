@@ -21,30 +21,36 @@ i.e. it is the collection of code that allows plugins to deal with themselves.
 import importlib
 import pkgutil
 
-import jrnl.contrib.exporter
-import jrnl.contrib.importer
-import jrnl.plugins.exporter
-import jrnl.plugins.importer
+INTERNAL_EXPORTER_CLASS_PATH = "jrnl.plugins.exporter"
+INTERNAL_IMPORTER_CLASS_PATH = "jrnl.plugins.importer"
+EXTERNAL_EXPORTER_CLASS_PATH = "jrnl.contrib.exporter"
+EXTERNAL_IMPORTER_CLASS_PATH = "jrnl.contrib.importer"
+
+__internal_exporter_class = importlib.import_module(INTERNAL_EXPORTER_CLASS_PATH)
+__internal_importer_class = importlib.import_module(INTERNAL_IMPORTER_CLASS_PATH)
+__external_exporter_class = importlib.import_module(EXTERNAL_EXPORTER_CLASS_PATH)
+__external_importer_class = importlib.import_module(EXTERNAL_IMPORTER_CLASS_PATH)
+
 
 __exporters_builtin = list(
     pkgutil.iter_modules(
-        jrnl.plugins.exporter.__path__, jrnl.plugins.exporter.__name__ + "."
+        __internal_exporter_class.__path__, __internal_exporter_class.__name__ + "."
     )
 )
 __exporters_contrib = list(
     pkgutil.iter_modules(
-        jrnl.contrib.exporter.__path__, jrnl.contrib.exporter.__name__ + "."
+        __external_exporter_class.__path__, __external_exporter_class.__name__ + "."
     )
 )
 
 __importers_builtin = list(
     pkgutil.iter_modules(
-        jrnl.plugins.importer.__path__, jrnl.plugins.importer.__name__ + "."
+        __internal_importer_class.__path__, __internal_importer_class.__name__ + "."
     )
 )
 __importers_contrib = list(
     pkgutil.iter_modules(
-        jrnl.contrib.importer.__path__, jrnl.contrib.importer.__name__ + "."
+        __external_importer_class.__path__, __external_importer_class.__name__ + "."
     )
 )
 
