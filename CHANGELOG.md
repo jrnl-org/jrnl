@@ -11,11 +11,14 @@
 **Documentation:**
 
 - Document folder journal and DayOne journal types [\#1326](https://github.com/jrnl-org/jrnl/issues/1326)
+- Added Recipe for visualizing Markdown in the CLI [\#1354](https://github.com/jrnl-org/jrnl/pull/1354) ([viegasfh](https://github.com/viegasfh))
+- Fix recipe 'Launch a terminal for rapid logging' [\#1351](https://github.com/jrnl-org/jrnl/pull/1351) ([zapateo](https://github.com/zapateo))
 - Fix readme splash and add changelog link to readme [\#1339](https://github.com/jrnl-org/jrnl/pull/1339) ([micahellison](https://github.com/micahellison))
 - Document journal types [\#1331](https://github.com/jrnl-org/jrnl/pull/1331) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
+- Bump mkdocs from 1.2.2 to 1.2.3 [\#1355](https://github.com/jrnl-org/jrnl/pull/1355) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytz from 2021.1 to 2021.3 [\#1348](https://github.com/jrnl-org/jrnl/pull/1348) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 3.4.8 to 35.0.0 [\#1345](https://github.com/jrnl-org/jrnl/pull/1345) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.8b0 to 21.9b0 [\#1343](https://github.com/jrnl-org/jrnl/pull/1343) ([dependabot[bot]](https://github.com/apps/dependabot))
