@@ -99,5 +99,6 @@ filterwarnings = [
 extend-ignore = "E101,E111,E114,E115,E116,E117,E12,E13,E2,E3,E401,E5,E70,W1,W2,W3,W5"
 
 [build-system]
-requires = ["poetry>=1.1"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
