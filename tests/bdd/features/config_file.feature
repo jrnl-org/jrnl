@@ -11,7 +11,7 @@ Feature: Multiple journals
         Given the config "multiple.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf multiple.yaml this goes to default"
-        When we run "jrnl -1"
+        And we run "jrnl -1"
         Then the output should not contain "this goes to default"
         When we run "jrnl --cf multiple.yaml -1"
         Then the output should contain "this goes to default"
