@@ -29,11 +29,11 @@ jobs:
     if: >
       ! contains(github.event.head_commit.message, '[ci skip]')
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.python-version == '3.10-dev' }}
+    continue-on-error: ${{ matrix.python-version == '3.11-dev' }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, 3.10-dev ]
+        python-version: [ 3.7, 3.8, 3.9, 3.10, 3.11-dev ]
         os: [ ubuntu-latest, macos-latest, windows-latest ]
 
     steps:
@@ -52,7 +52,6 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}-${{ secrets.CACHE_STRING }}
 
     - name: Install dependencies
-      if: ${{ matrix.python-version != '3.10-dev' }}
       run: |
         echo '::group::poetry'
         pip --disable-pip-version-check install poetry
@@ -65,29 +64,14 @@ jobs:
 
         echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
 
-
-    - name: Install dependencies (Prerelease)
-      if: ${{ matrix.python-version == '3.10-dev' }}
-      run: |
-        echo '::group::poetry'
-        pip --disable-pip-version-check install poetry==1.2.0a2
-        poetry config --local virtualenvs.in-project true
-        echo '::endgroup::'
-
-        echo '::group::Other dependencies'
-        poetry install --remove-untracked --no-dev --extras testing
-        echo '::endgroup::'
-
-        echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
-
     - name: Code formatting (Black)
-      if: ${{ matrix.python-version != '3.10-dev' && env.DEPS_INSTALLED == 'true' }}
+      if: ${{ env.DEPS_INSTALLED == 'true' }}
       run: |
         poetry run black --version
         poetry run black --check --diff .
 
     - name: Code Style (flake8)
-      if: ${{ matrix.python-version != '3.10-dev' && env.DEPS_INSTALLED == 'true' }}
+      if: ${{ env.DEPS_INSTALLED == 'true' }}
       run: |
         poetry run pflake8 --version
         poetry run pflake8 jrnl tests
