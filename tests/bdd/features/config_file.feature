@@ -1,6 +1,6 @@
 Feature: Multiple journals
 
-    Scenario: Loading an alternate config with two journals 
+    Scenario: Read a journal from an alternate config
         Given the config "basic_onefile.yaml" exists
         And we use the config "multiple.yaml"
         When we run "jrnl --cf basic_onefile.yaml -999"
@@ -25,7 +25,7 @@ Feature: Multiple journals
         When we run "jrnl work --cf multiple.yaml -1"
         Then the output should contain "a long day in the office"
 
-    Scenario: Tell user which journal was used using an alternate config
+    Scenario: Tell user which journal was used while using an alternate config
         Given the config "multiple.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf multiple.yaml work a long day in the office"
@@ -50,7 +50,7 @@ Feature: Multiple journals
         When we run "jrnl --cf multiple.yaml work -1"
         Then the output should contain "a long day in the office"
 
-   Scenario: Create new journals as required using an alternate config
+    Scenario: Create new journals as required using an alternate config
         Given the config "multiple.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl ideas -1"
@@ -60,13 +60,13 @@ Feature: Multiple journals
         When we run "jrnl ideas --cf multiple.yaml -1"
         Then the output should contain "sell my junk on ebay and make lots of money"
 
-   Scenario: Don't crash if no default journal is specified using an alternate config
+    Scenario: Don't crash if no default journal is specified using an alternate config
         Given the config "bug343.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf bug343.yaml a long day in the office"
         Then we should see the message "No default journal configured"
 
-   Scenario: Don't crash if no file exists for a configured encrypted journal using an alternate config
+    Scenario: Don't crash if no file exists for a configured encrypted journal using an alternate config
         Given the config "multiple.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl new_encrypted --cf multiple.yaml Adding first entry" and enter
