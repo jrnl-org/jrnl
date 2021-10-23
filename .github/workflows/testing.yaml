@@ -73,6 +73,7 @@ jobs:
     - name: Code Style (flake8)
       if: ${{ env.DEPS_INSTALLED == 'true' }}
       run: |
+        poetry run pflake8 --version
         poetry run pflake8 jrnl tests
 
     - name: Test with pytest
