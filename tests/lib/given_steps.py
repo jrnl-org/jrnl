@@ -108,6 +108,14 @@ def we_use_the_config(config_file, temp_dir, working_dir):
     return config_dest
 
 
+@given(parse('the config "{config_file}" exists'), target_fixture="config_path")
+@given('the config "<config_file>" exists', target_fixture="config_path")
+def config_exists(config_file, temp_dir, working_dir):
+    config_source = os.path.join(working_dir, "data", "configs", config_file)
+    config_dest = os.path.join(temp_dir.name, config_file)
+    shutil.copy2(config_source, config_dest)
+
+
 @given(parse('we use the password "{pw}" if prompted'), target_fixture="password")
 def use_password_forever(pw):
     return pw
