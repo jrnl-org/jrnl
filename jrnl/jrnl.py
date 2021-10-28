@@ -275,13 +275,18 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
 
 def _print_edited_summary(journal, old_stats, **kwargs):
     stats = {
+        "added": len(journal) - old_stats["count"],
         "deleted": old_stats["count"] - len(journal),
         "modified": len([e for e in journal.entries if e.modified]),
     }
 
     prompts = []
 
-    if stats["deleted"]:
+    if stats["added"] > 0:
+        prompts.append(f"{stats['added']} {_pluralize_entry(stats['added'])} added")
+        stats["modified"] -= stats["added"]
+
+    if stats["deleted"] > 0:
         prompts.append(
             f"{stats['deleted']} {_pluralize_entry(stats['deleted'])} deleted"
         )
