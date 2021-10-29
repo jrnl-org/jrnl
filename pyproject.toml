@@ -41,7 +41,7 @@ pyyaml = ">=5.1"
 
 # dayone-only deps
 pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations
-tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
+tzlocal = ">2.0,<5.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 # Minimal deps required for testing
 # I don't like repeating deps here, but
