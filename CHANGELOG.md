@@ -4,6 +4,11 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...HEAD)
 
+**Implemented enhancements:**
+
+- Specify an alternate config file in the command line [\#1170](https://github.com/jrnl-org/jrnl/issues/1170)
+- Add --config-file argument to use alternate config file at runtime [\#1290](https://github.com/jrnl-org/jrnl/pull/1290) ([samuelgregorovic](https://github.com/samuelgregorovic))
+
 **Fixed bugs:**
 
 - Support pytest-bdd 5 [\#1364](https://github.com/jrnl-org/jrnl/issues/1364)
