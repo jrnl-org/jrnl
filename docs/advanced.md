@@ -85,6 +85,25 @@ jrnl --config-override display_format fancy --config-override linewrap 20 \
 
 ```
 
+### Using an alternate config
+
+You can specify an alternate configuration file for the current instance of `jrnl` using `--config-file CONFIG_FILE_PATH` where
+`CONFIG_FILE_PATH` is a path to an alternate `jrnl` configuration file. 
+
+#### Examples:
+
+```
+# Use personalised configuration file for personal journal entries
+jrnl --config-file ~/foo/jrnl/personal-config.yaml
+
+# Use alternate configuration file for work-related entries
+jrnl --config-file ~/foo/jrnl/work-config.yaml
+
+# Use default configuration file (created on installation)
+jrnl
+```
+
+
 ## Multiple journal files
 
 You can configure `jrnl`to use with multiple journals (eg.

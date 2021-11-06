@@ -36,7 +36,7 @@ def run(args):
 
     # Load the config, and extract journal name
     try:
-        config = install.load_or_install_jrnl()
+        config = install.load_or_install_jrnl(args.config_file_path)
         original_config = config.copy()
 
         # Apply config overrides
