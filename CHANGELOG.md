@@ -15,6 +15,7 @@
 
 **Build:**
 
+- Use Python 3.10 stable in CI [\#1362](https://github.com/jrnl-org/jrnl/pull/1362) ([micahellison](https://github.com/micahellison))
 - Switch from poetry to poetry-core [\#1359](https://github.com/jrnl-org/jrnl/pull/1359) ([fabaff](https://github.com/fabaff))
 - Add more steps to `pytest`, fully remove `behave` [\#1347](https://github.com/jrnl-org/jrnl/pull/1347) ([wren](https://github.com/wren))
 
