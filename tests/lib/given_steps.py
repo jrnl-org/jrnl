@@ -11,7 +11,6 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 from xml.etree import ElementTree
 
-from keyring import set_keyring
 from pytest_bdd import given
 from pytest_bdd.parsers import parse
 
@@ -36,9 +35,8 @@ def we_enter_editor(editor_method, editor_input, editor_state):
     editor_state["intent"] = {"method": file_method, "input": editor_input}
 
 
-@given(parse('now is "<date_str>"'))
 @given(parse('now is "{date_str}"'))
-def now_is_str(date_str, mocks):
+def now_is_str(date_str, mock_factories):
     class DatetimeMagicMock(MagicMock):
         # needed because jrnl does some reflection on datetime
         def __instancecheck__(self, subclass):
@@ -63,8 +61,8 @@ def now_is_str(date_str, mocks):
         date_str_input, mocked_now()
     )
 
-    mocks["datetime"] = patch("datetime.datetime", new=datetime_mock)
-    mocks["calendar_parse"] = patch(
+    mock_factories["datetime"] = lambda: patch("datetime.datetime", new=datetime_mock)
+    mock_factories["calendar_parse"] = lambda: patch(
         "jrnl.time.__get_pdt_calendar", return_value=calendar_mock
     )
 
@@ -73,13 +71,12 @@ def now_is_str(date_str, mocks):
 @given(parse("we have a {keyring_type} keyring"), target_fixture="keyring")
 def we_have_type_of_keyring(keyring_type):
     if keyring_type == "failed":
-        set_keyring(FailedKeyring())
+        return FailedKeyring()
     else:
-        set_keyring(TestKeyring())
+        return TestKeyring()
 
 
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
-@given('we use the config "<config_file>"', target_fixture="config_path")
 def we_use_the_config(config_file, temp_dir, working_dir):
     # Move into temp dir as cwd
     os.chdir(temp_dir.name)
@@ -106,7 +103,6 @@ def we_use_the_config(config_file, temp_dir, working_dir):
 
 
 @given(parse('the config "{config_file}" exists'), target_fixture="config_path")
-@given('the config "<config_file>" exists', target_fixture="config_path")
 def config_exists(config_file, temp_dir, working_dir):
     config_source = os.path.join(working_dir, "data", "configs", config_file)
     config_dest = os.path.join(temp_dir.name, config_file)

@@ -3,14 +3,12 @@
 
 from contextlib import ExitStack
 import os
-from unittest.mock import patch
 
-from pytest_bdd import parsers
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
+from pytest_bdd.parsers import re
 
 from jrnl.cli import cli
-from jrnl.os_compat import split_args
 
 
 @when(parse('we change directory to "{directory_name}"'))
@@ -21,103 +19,35 @@ def when_we_change_directory(directory_name):
     os.chdir(directory_name)
 
 
-@when(parse('we run "jrnl {command}" and {input_method}\n{user_input}'))
-@when(
-    parsers.re(
-        'we run "jrnl (?P<command>[^"]+)" and (?P<input_method>enter|pipe) "(?P<user_input>[^"]+)"'
-    )
-)
-@when(parse('we run "jrnl" and {input_method} "{user_input}"'))
+command = '(?P<command>[^"]+)'
+input_method = '(?P<input_method>enter|pipe)'
+user_input = '(?P<user_input>[^"]+)'
+@when(re(f'we run "jrnl {command}" and {input_method}\n{user_input}'))
+@when(re(f'we run "jrnl" and {input_method}\n{user_input}'))
+@when(re(f'we run "jrnl {command}" and {input_method} "{user_input}"'))
+@when(re(f'we run "jrnl" and {input_method} "{user_input}"'))
 @when(parse('we run "jrnl {command}"'))
-@when('we run "jrnl <command>"')
 @when('we run "jrnl"')
-def we_run(
-    command,
-    config_path,
-    config_in_memory,
-    user_input,
-    cli_run,
-    capsys,
-    password,
-    cache_dir,
-    editor,
-    keyring,
-    input_method,
-    mocks,
-):
-    assert input_method in ["", "enter", "pipe"]
-    is_tty = input_method != "pipe"
+def we_run_jrnl(cli_run, capsys, keyring):
+    from keyring import set_keyring
 
-    if cache_dir["exists"]:
-        command = command.format(cache_dir=cache_dir["path"])
-
-    args = split_args(command)
-    status = 0
-
-    if user_input:
-        user_input = user_input.splitlines() if is_tty else [user_input]
-
-    if password:
-        password = password.splitlines()
-
-    if not password and user_input:
-        password = user_input
+    set_keyring(keyring)
 
     with ExitStack() as stack:
-        # Always mock
-        from jrnl.override import apply_overrides
-
-        def my_overrides(*args, **kwargs):
-            result = apply_overrides(*args, **kwargs)
-            config_in_memory["overrides"] = result
-            return result
-
-        stack.enter_context(
-            patch("jrnl.jrnl.apply_overrides", side_effect=my_overrides)
-        )
-
-        # Conditionally mock
-        stack.enter_context(patch("sys.argv", ["jrnl"] + args))
-
-        mock_stdin = stack.enter_context(
-            patch("sys.stdin.read", side_effect=user_input)
-        )
-        stack.enter_context(patch("sys.stdin.isatty", return_value=is_tty))
-        mock_input = stack.enter_context(
-            patch("builtins.input", side_effect=user_input)
-        )
-        mock_getpass = stack.enter_context(
-            patch("getpass.getpass", side_effect=password)
-        )
-
-        if "datetime" in mocks:
-            stack.enter_context(mocks["datetime"])
-            stack.enter_context(mocks["calendar_parse"])
-
-        stack.enter_context(
-            patch("jrnl.install.get_config_path", return_value=config_path)
-        )
-        stack.enter_context(
-            patch("jrnl.config.get_config_path", return_value=config_path)
-        )
-        mock_editor = stack.enter_context(patch("subprocess.call", side_effect=editor))
+        mocks = cli_run["mocks"]
+        factories = cli_run["mock_factories"]
+        for id in factories:
+            mocks[id] = stack.enter_context(factories[id]())
 
         try:
-            cli(args)
+            cli()
         except StopIteration:
             # This happens when input is expected, but don't have any input left
             pass
         except SystemExit as e:
-            status = e.code
+            cli_run["status"] = e.code
 
     captured = capsys.readouterr()
 
-    cli_run["status"] = status
     cli_run["stdout"] = captured.out
     cli_run["stderr"] = captured.err
-    cli_run["mocks"] = {
-        "stdin": mock_stdin,
-        "input": mock_input,
-        "getpass": mock_getpass,
-        "editor": mock_editor,
-    }

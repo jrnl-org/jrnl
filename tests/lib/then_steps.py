@@ -32,7 +32,6 @@ def output_should_match(regex, cli_run):
 
 @then(parse("the output should contain\n{expected_output}"))
 @then(parse('the output should contain "{expected_output}"'))
-@then('the output should contain "<expected_output>"')
 @then(parse("the {which_output_stream} output should contain\n{expected_output}"))
 @then(parse('the {which_output_stream} output should contain "{expected_output}"'))
 def output_should_contain(expected_output, which_output_stream, cli_run):
@@ -54,14 +53,12 @@ def output_should_contain(expected_output, which_output_stream, cli_run):
 
 @then(parse("the output should not contain\n{expected_output}"))
 @then(parse('the output should not contain "{expected_output}"'))
-@then('the output should not contain "<expected_output>"')
 def output_should_not_contain(expected_output, cli_run):
     assert expected_output not in cli_run["stdout"]
 
 
 @then(parse("the output should be\n{expected_output}"))
 @then(parse('the output should be "{expected_output}"'))
-@then('the output should be "<expected_output>"')
 def output_should_be(expected_output, cli_run):
     actual = cli_run["stdout"].strip()
     expected = expected_output.strip()
@@ -75,7 +72,6 @@ def output_should_be_empty(cli_run):
 
 
 @then(parse('the output should contain the date "{date}"'))
-@then('the output should contain the date "<date>"')
 def output_should_contain_date(date, cli_run):
     assert date and date in cli_run["stdout"]
 

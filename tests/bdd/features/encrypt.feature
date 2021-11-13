@@ -2,6 +2,7 @@ Feature: Encrypting and decrypting journals
 
     Scenario: Decrypting a journal
         Given we use the config "encrypted.yaml"
+        # And we use the password "bad doggie no biscuit" if prompted 
         When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
         Then we should see the message "Journal decrypted"
         And the config for journal "default" should contain "encrypt: false"

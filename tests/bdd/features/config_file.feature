@@ -83,10 +83,11 @@ Feature: Multiple journals
             these three eyes
             n
         Then we should see the message "Journal encrypted to features/journals/basic_onefile.journal"
-        And the config should contain "encrypt: false" # multiple.yaml remains unchanged
+        And the config should contain "encrypt: false"
+
 
     Scenario: Don't overwrite main config when decrypting a journal in an alternate config
         Given the config "editor_encrypted.yaml" exists
         And we use the config "basic_encrypted.yaml"
         When we run "jrnl --cf editor_encrypted.yaml --decrypt"
-        Then the config should contain "encrypt: true" # basic_encrypted remains unchanged
+        Then the config should contain "encrypt: true"

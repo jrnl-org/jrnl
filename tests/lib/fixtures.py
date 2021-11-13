@@ -8,17 +8,19 @@ import tempfile
 
 from keyring import backend
 from keyring import errors
-from keyring import set_keyring
 from pytest import fixture
+from unittest.mock import patch
+from .helpers import get_fixture
 import toml
 
 from jrnl.config import load_config
+from jrnl.os_compat import split_args
 
 
 # --- Keyring --- #
 @fixture
 def keyring():
-    set_keyring(NoKeyring())
+    return NoKeyring()
 
 
 @fixture
@@ -75,13 +77,90 @@ class FailedKeyring(backend.KeyringBackend):
 
 # ----- Misc ----- #
 @fixture
-def cli_run():
-    return {"status": 0, "stdout": None, "stderr": None}
+def cli_run(
+    mock_factories,
+    mock_args,
+    mock_is_tty,
+    mock_config_path,
+    mock_editor,
+    mock_user_input,
+    mock_overrides,
+    mock_password,
+):
+    # Check if we need more mocks
+    mock_factories.update(mock_args)
+    mock_factories.update(mock_is_tty)
+    mock_factories.update(mock_overrides)
+    mock_factories.update(mock_editor)
+    mock_factories.update(mock_config_path)
+    mock_factories.update(mock_user_input)
+    mock_factories.update(mock_password)
+
+    return {
+        "status": 0,
+        "stdout": None,
+        "stderr": None,
+        "mocks": {},
+        "mock_factories": mock_factories,
+    }
 
 
 @fixture
-def mocks():
-    return dict()
+def mock_factories():
+    return {}
+
+
+@fixture
+def mock_args(cache_dir, request):
+    def _mock_args():
+        command = get_fixture(request, "command", "")
+
+        if cache_dir["exists"]:
+            command = command.format(cache_dir=cache_dir["path"])
+
+        args = split_args(command)
+
+        return patch("sys.argv", ["jrnl"] + args)
+
+    return {"args": _mock_args}
+
+
+@fixture
+def mock_is_tty(is_tty):
+    return {"is_tty": lambda: patch("sys.stdin.isatty", return_value=is_tty)}
+
+
+@fixture
+def mock_overrides(config_in_memory):
+    from jrnl.override import apply_overrides
+
+    def my_overrides(*args, **kwargs):
+        result = apply_overrides(*args, **kwargs)
+        config_in_memory["overrides"] = result
+        return result
+
+    return {
+        "overrides": lambda: patch(
+            "jrnl.jrnl.apply_overrides", side_effect=my_overrides
+        )
+    }
+
+
+@fixture
+def mock_config_path(request):
+    config_path = get_fixture(request, "config_path")
+
+    if not config_path:
+        return {}
+
+    return {
+        "config_path_install": lambda: patch(
+            "jrnl.install.get_config_path", return_value=config_path
+        ),
+        "config_path_config": lambda: patch(
+            "jrnl.config.get_config_path", return_value=config_path
+        ),
+    }
 
 
 @fixture
@@ -95,12 +174,6 @@ def working_dir(request):
 
 
 @fixture
-def config_path(temp_dir):
-    os.chdir(temp_dir.name)
-    return temp_dir.name + "/jrnl.yaml"
-
-
-@fixture
 def toml_version(working_dir):
     pyproject = os.path.join(working_dir, "..", "pyproject.toml")
     pyproject_contents = toml.load(pyproject)
@@ -108,8 +181,20 @@ def toml_version(working_dir):
 
 
 @fixture
-def password():
-    return ""
+def mock_password(request):
+    password = get_fixture(request, "password")
+    user_input = get_fixture(request, "user_input")
+
+    if password:
+        password = password.splitlines()
+
+    elif user_input:
+        password = user_input.splitlines()
+
+    if not password:
+        return {}
+
+    return {"getpass": lambda: patch("getpass.getpass", side_effect=password)}
 
 
 @fixture
@@ -128,18 +213,27 @@ def str_value():
 
 
 @fixture
-def command():
-    return ""
-
-
-@fixture
 def should_not():
     return False
 
 
 @fixture
-def user_input():
-    return ""
+def mock_user_input(request, is_tty):
+    user_input = get_fixture(request, "user_input", "")
+    user_input = user_input.splitlines() if is_tty else [user_input]
+    if not user_input:
+        return {}
+
+    return {
+        "stdin": lambda: patch("sys.stdin.read", side_effect=user_input),
+        "input": lambda: patch("builtins.input", side_effect=user_input),
+    }
+
+
+@fixture
+def is_tty(input_method):
+    assert input_method in ["", "enter", "pipe"]
+    return input_method != "pipe"
 
 
 @fixture
@@ -187,7 +281,7 @@ def editor_state():
 
 
 @fixture
-def editor(editor_state):
+def mock_editor(editor_state):
     def _mock_editor(editor_command):
         tmpfile = editor_command[-1]
 
@@ -203,4 +297,4 @@ def editor(editor_state):
             file_content = f.read()
             editor_state["tmpfile"]["content"] = file_content
 
-    return _mock_editor
+    return {"editor": lambda: patch("subprocess.call", side_effect=_mock_editor)}
