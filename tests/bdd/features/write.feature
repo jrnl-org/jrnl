@@ -265,7 +265,7 @@ Feature: Writing new entries.
         #| basic_dayone.yaml    | @todo
 
 
-    Scenario Outline: Correctly count modification when running --edit on a single entry
+    Scenario Outline: Correctly count modification when running --edit to replace a single entry
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         And we write to the editor if opened
@@ -282,3 +282,18 @@ Feature: Writing new entries.
         #| basic_dayone.yaml    | @todo
 
 
+    Scenario Outline: Correctly count modification when running --edit on whole journal and adding to last entry
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            This is a small addendum to my latest entry.
+        When we run "jrnl --edit"
+        Then the output should contain
+            [1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
