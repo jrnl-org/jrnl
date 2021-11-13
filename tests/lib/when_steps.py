@@ -34,6 +34,7 @@ def when_we_change_directory(directory_name):
 def we_run(
     command,
     config_path,
+    config_in_memory,
     user_input,
     cli_run,
     capsys,
@@ -63,7 +64,19 @@ def we_run(
         password = user_input
 
     with ExitStack() as stack:
+        # Always mock
+        from jrnl.override import apply_overrides
 
+        def my_overrides(*args, **kwargs):
+            result = apply_overrides(*args, **kwargs)
+            config_in_memory["overrides"] = result
+            return result
+
+        stack.enter_context(
+            patch("jrnl.jrnl.apply_overrides", side_effect=my_overrides)
+        )
+
+        # Conditionally mock
         stack.enter_context(patch("sys.argv", ["jrnl"] + args))
 
         mock_stdin = stack.enter_context(

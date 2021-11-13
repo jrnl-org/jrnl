@@ -18,13 +18,18 @@ site_author: jrnl contributors
 site_description: Collect your thoughts and notes without leaving the command line.
 nav:
   - Overview: overview.md
-  - Quickstart: installation.md
-  - Basic Usage: usage.md
-  - Encryption: encryption.md
-  - Privacy and Security: privacy-and-security.md
-  - Formats: formats.md
-  - Advanced Usage: advanced.md
-  - Recipes: recipes.md
-  - Command Line Reference: reference-command-line.md
-  - Configuration File Reference: reference-config-file.md
+  - 'User Guide':
+    - Quickstart: installation.md
+    - Basic Usage: usage.md
+    - Encryption: encryption.md
+    - Journal Types: journal-types.md
+    - Privacy and Security: privacy-and-security.md
+    - Formats: formats.md
+    - Advanced Usage: advanced.md
+    - Recipes: recipes.md
+  - 'Reference':
+    - Command Line: reference-command-line.md
+    - Configuration File: reference-config-file.md
+  - 'Contributing':
+    - Contributing to jrnl: contributing.md
 

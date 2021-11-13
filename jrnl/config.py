@@ -47,9 +47,14 @@ def make_yaml_valid_dict(input: list) -> dict:
     return runtime_modifications
 
 
-def save_config(config):
+def save_config(config, alt_config_path=None):
+    """Supply alt_config_path if using an alternate config through --config-file."""
     config["version"] = __version__
-    with open(get_config_path(), "w", encoding=YAML_FILE_ENCODING) as f:
+    with open(
+        alt_config_path if alt_config_path else get_config_path(),
+        "w",
+        encoding=YAML_FILE_ENCODING,
+    ) as f:
         yaml.safe_dump(
             config,
             f,

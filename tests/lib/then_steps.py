@@ -15,6 +15,7 @@ from jrnl.config import scope_config
 from .helpers import assert_equal_tags_ignoring_order
 from .helpers import does_directory_contain_files
 from .helpers import parse_should_or_should_not
+from .helpers import get_nested_val
 
 
 @then("we should get no error")
@@ -73,6 +74,7 @@ def output_should_be_empty(cli_run):
     assert actual == ""
 
 
+@then(parse('the output should contain the date "{date}"'))
 @then('the output should contain the date "<date>"')
 def output_should_contain_date(date, cli_run):
     assert date and date in cli_run["stdout"]
@@ -82,6 +84,14 @@ def output_should_contain_date(date, cli_run):
 def output_should_contain_version(cli_run, toml_version):
     out = cli_run["stdout"]
     assert toml_version in out, toml_version
+
+
+@then(parse("the output should be {width:d} columns wide"))
+def output_should_be_columns_wide(cli_run, width):
+    out = cli_run["stdout"]
+    out_lines = out.splitlines()
+    for line in out_lines:
+        assert len(line) <= width
 
 
 @then(parse('we should see the message "{text}"'))
@@ -102,18 +112,53 @@ def should_see_the_message(text, cli_run):
 )
 @then(parse('the config {should_or_should_not} contain "{some_yaml}"'))
 @then(parse("the config {should_or_should_not} contain\n{some_yaml}"))
-def config_var(config_data, journal_name, should_or_should_not, some_yaml):
+def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_yaml):
     we_should = parse_should_or_should_not(should_or_should_not)
 
-    actual = config_data
+    actual = config_on_disk
     if journal_name:
         actual = actual["journals"][journal_name]
 
-    expected = yaml.load(some_yaml, Loader=yaml.FullLoader)
+    expected = yaml.load(some_yaml, Loader=yaml.SafeLoader)
 
     actual_slice = actual
     if type(actual) is dict:
+        # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: actual.get(key, None) for key in expected.keys()}
+
+    if we_should:
+        assert expected == actual_slice
+    else:
+        assert expected != actual_slice
+
+
+@then(
+    parse(
+        'the config in memory for journal "{journal_name}" {should_or_should_not} contain "{some_yaml}"'
+    )
+)
+@then(
+    parse(
+        'the config in memory for journal "{journal_name}" {should_or_should_not} contain\n{some_yaml}'
+    )
+)
+@then(parse('the config in memory {should_or_should_not} contain "{some_yaml}"'))
+@then(parse("the config in memory {should_or_should_not} contain\n{some_yaml}"))
+def config_var_in_memory(
+    config_in_memory, journal_name, should_or_should_not, some_yaml
+):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
+    actual = config_in_memory["overrides"]
+    if journal_name:
+        actual = actual["journals"][journal_name]
+
+    expected = yaml.load(some_yaml, Loader=yaml.SafeLoader)
+
+    actual_slice = actual
+    if type(actual) is dict:
+        # `expected` objects formatted in yaml only compare one level deep
+        actual_slice = {key: get_nested_val(actual, key) for key in expected.keys()}
 
     if we_should:
         assert expected == actual_slice
@@ -137,15 +182,15 @@ def assert_dir_contains_files(file_list, cache_dir):
 
 
 @then(parse("the journal directory should contain\n{file_list}"))
-def journal_directory_should_contain(config_data, file_list):
-    scoped_config = scope_config(config_data, "default")
+def journal_directory_should_contain(config_on_disk, file_list):
+    scoped_config = scope_config(config_on_disk, "default")
 
     assert does_directory_contain_files(file_list, scoped_config["journal"])
 
 
 @then(parse('journal "{journal_name}" should not exist'))
-def journal_directory_should_not_exist(config_data, journal_name):
-    scoped_config = scope_config(config_data, journal_name)
+def journal_directory_should_not_exist(config_on_disk, journal_name):
+    scoped_config = scope_config(config_on_disk, journal_name)
 
     assert not does_directory_contain_files(
         scoped_config["journal"], "."
@@ -153,8 +198,8 @@ def journal_directory_should_not_exist(config_data, journal_name):
 
 
 @then(parse("the journal {should_or_should_not} exist"))
-def journal_should_not_exist(config_data, should_or_should_not):
-    scoped_config = scope_config(config_data, "default")
+def journal_should_not_exist(config_on_disk, should_or_should_not):
+    scoped_config = scope_config(config_on_disk, "default")
     expected_path = scoped_config["journal"]
 
     contains_files = does_directory_contain_files(expected_path, ".")
@@ -301,13 +346,32 @@ def count_elements(number, item, cli_run):
     assert len(xml_tree.findall(".//" + item)) == number
 
 
-@then(parse("the editor should have been called"))
-@then(parse("the editor should have been called with {num_args} arguments"))
-def count_editor_args(num_args, cli_run, editor_state):
-    assert cli_run["mocks"]["editor"].called
+@then(parse("the editor {should_or_should_not} have been called"))
+@then(
+    parse(
+        "the editor {should_or_should_not} have been called with {num_args} arguments"
+    )
+)
+def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
+    if we_should:
+        assert cli_run["mocks"]["editor"].called
+    else:
+        assert not cli_run["mocks"]["editor"].called
 
     if isinstance(num_args, int):
         assert len(editor_state["command"]) == int(num_args)
+
+
+@then(parse("the stdin prompt {should_or_should_not} have been called"))
+def stdin_prompt_called(cli_run, should_or_should_not):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
+    if we_should:
+        assert cli_run["mocks"]["stdin"].called
+    else:
+        assert not cli_run["mocks"]["stdin"].called
 
 
 @then(parse('the editor filename should end with "{suffix}"'))

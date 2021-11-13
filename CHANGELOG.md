@@ -2,14 +2,47 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta...HEAD)
+
+**Build:**
+
+- Use full Python version for GitHub Actions cache key [\#1373](https://github.com/jrnl-org/jrnl/pull/1373) ([micahellison](https://github.com/micahellison))
+
+## [v2.8.4-beta](https://pypi.org/project/jrnl/v2.8.4-beta/) (2021-11-06)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...v2.8.4-beta)
+
+**Implemented enhancements:**
+
+- Specify an alternate config file in the command line [\#1170](https://github.com/jrnl-org/jrnl/issues/1170)
+- Add --config-file argument to use alternate config file at runtime [\#1290](https://github.com/jrnl-org/jrnl/pull/1290) ([samuelgregorovic](https://github.com/samuelgregorovic))
+
+**Fixed bugs:**
+
+- Support pytest-bdd 5 [\#1364](https://github.com/jrnl-org/jrnl/issues/1364)
+
+**Build:**
+
+- Use Python 3.10 stable in CI [\#1362](https://github.com/jrnl-org/jrnl/pull/1362) ([micahellison](https://github.com/micahellison))
+- Switch from poetry to poetry-core [\#1359](https://github.com/jrnl-org/jrnl/pull/1359) ([fabaff](https://github.com/fabaff))
+- Add more steps to `pytest`, fully remove `behave` [\#1347](https://github.com/jrnl-org/jrnl/pull/1347) ([wren](https://github.com/wren))
 
 **Documentation:**
 
+- Document folder journal and DayOne journal types [\#1326](https://github.com/jrnl-org/jrnl/issues/1326)
+- Move and expand contributing.md content into docs site [\#1180](https://github.com/jrnl-org/jrnl/issues/1180)
+- Added Recipe for visualizing Markdown in the CLI [\#1354](https://github.com/jrnl-org/jrnl/pull/1354) ([viegasfh](https://github.com/viegasfh))
+- Fix recipe 'Launch a terminal for rapid logging' [\#1351](https://github.com/jrnl-org/jrnl/pull/1351) ([zapateo](https://github.com/zapateo))
 - Fix readme splash and add changelog link to readme [\#1339](https://github.com/jrnl-org/jrnl/pull/1339) ([micahellison](https://github.com/micahellison))
+- Document journal types [\#1331](https://github.com/jrnl-org/jrnl/pull/1331) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
+- Bump black from 21.9b0 to 21.10b0 [\#1370](https://github.com/jrnl-org/jrnl/pull/1370) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest-bdd from 4.1.0 to 5.0.0 [\#1368](https://github.com/jrnl-org/jrnl/pull/1368) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mkdocs from 1.2.2 to 1.2.3 [\#1355](https://github.com/jrnl-org/jrnl/pull/1355) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytz from 2021.1 to 2021.3 [\#1348](https://github.com/jrnl-org/jrnl/pull/1348) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cryptography from 3.4.8 to 35.0.0 [\#1345](https://github.com/jrnl-org/jrnl/pull/1345) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.8b0 to 21.9b0 [\#1343](https://github.com/jrnl-org/jrnl/pull/1343) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.1.0 to 23.2.1 [\#1342](https://github.com/jrnl-org/jrnl/pull/1342) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytest from 6.2.4 to 6.2.5 [\#1334](https://github.com/jrnl-org/jrnl/pull/1334) ([dependabot[bot]](https://github.com/apps/dependabot))
