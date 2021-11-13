@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta...HEAD)
+
+**Build:**
+
+- Use full Python version for GitHub Actions cache key [\#1373](https://github.com/jrnl-org/jrnl/pull/1373) ([micahellison](https://github.com/micahellison))
+
 ## [v2.8.4-beta](https://pypi.org/project/jrnl/v2.8.4-beta/) (2021-11-06)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...v2.8.4-beta)
