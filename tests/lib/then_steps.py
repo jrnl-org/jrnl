@@ -74,6 +74,7 @@ def output_should_be_empty(cli_run):
     assert actual == ""
 
 
+@then(parse('the output should contain the date "{date}"'))
 @then('the output should contain the date "<date>"')
 def output_should_contain_date(date, cli_run):
     assert date and date in cli_run["stdout"]

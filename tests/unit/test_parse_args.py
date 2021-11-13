@@ -37,6 +37,7 @@ def expected_args(**kwargs):
         "tags": False,
         "text": [],
         "config_override": [],
+        "config_file_path": "",
     }
     return {**default_args, **kwargs}
 

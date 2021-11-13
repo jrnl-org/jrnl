@@ -1,11 +1,21 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v2.8.4-beta](https://pypi.org/project/jrnl/v2.8.4-beta/) (2021-11-06)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...v2.8.4-beta)
+
+**Implemented enhancements:**
+
+- Specify an alternate config file in the command line [\#1170](https://github.com/jrnl-org/jrnl/issues/1170)
+- Add --config-file argument to use alternate config file at runtime [\#1290](https://github.com/jrnl-org/jrnl/pull/1290) ([samuelgregorovic](https://github.com/samuelgregorovic))
+
+**Fixed bugs:**
+
+- Support pytest-bdd 5 [\#1364](https://github.com/jrnl-org/jrnl/issues/1364)
 
 **Build:**
 
+- Use Python 3.10 stable in CI [\#1362](https://github.com/jrnl-org/jrnl/pull/1362) ([micahellison](https://github.com/micahellison))
 - Switch from poetry to poetry-core [\#1359](https://github.com/jrnl-org/jrnl/pull/1359) ([fabaff](https://github.com/fabaff))
 - Add more steps to `pytest`, fully remove `behave` [\#1347](https://github.com/jrnl-org/jrnl/pull/1347) ([wren](https://github.com/wren))
 
@@ -20,6 +30,8 @@
 
 **Packaging:**
 
+- Bump black from 21.9b0 to 21.10b0 [\#1370](https://github.com/jrnl-org/jrnl/pull/1370) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest-bdd from 4.1.0 to 5.0.0 [\#1368](https://github.com/jrnl-org/jrnl/pull/1368) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump mkdocs from 1.2.2 to 1.2.3 [\#1355](https://github.com/jrnl-org/jrnl/pull/1355) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytz from 2021.1 to 2021.3 [\#1348](https://github.com/jrnl-org/jrnl/pull/1348) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 3.4.8 to 35.0.0 [\#1345](https://github.com/jrnl-org/jrnl/pull/1345) ([dependabot[bot]](https://github.com/apps/dependabot))
