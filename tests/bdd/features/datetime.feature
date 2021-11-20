@@ -175,14 +175,14 @@ Feature: Reading and writing to journal with custom date formats
 
     Scenario Outline: Dates should be displayed using the specified locale
         Given we use the config "basic_onefile.yaml"
-        When we run "jrnl --config-override locale <locale> --config-override timeformat '\%c' -1"
+        When we run "jrnl --config-override locale <locale> --config-override timeformat '%A %d %B %Y' -1 --short"
         Then the output should contain "<expected_date>"
         
         Examples: configs
-        | locale       | expected_date        |
-        | en_US.UTF-8  | 9/24/2020 9:14:00 AM |
-        | zh_CN.UTF-8  | 2020/9/24 9:14:00    |
-        | ru_RU.UTF-8  | 24.09.2020 9:14:00   |
-        | fr_FR.UTF-8  | 24/09/2020 09:14:00  |
-        | es_ES.UTF-8  | 24/09/2020 9:14:00   |
-        | de_DE.UTF-8  | 24.09.2020 09:14:00  |
+        | locale       | expected_date                |
+        | en_US.UTF-8  | Thursday 24 September 2020   |
+        | zh_CN.UTF-8  | 星期四 24 九月 2020           |
+        | ru_RU.UTF-8  | четверг 24 Сентябрь 2020     |
+        | fr_FR.UTF-8  | jeudi 24 septembre 2020      |
+        | es_ES.UTF-8  | jueves 24 septiembre 2020    |
+        | de_DE.UTF-8  | Donnerstag 24 September 2020 |
