@@ -182,7 +182,5 @@ Feature: Reading and writing to journal with custom date formats
         | locale       | expected_date                |
         | en_US.UTF-8  | Thursday 24 September 2020   |
         | zh_CN.UTF-8  | 星期四 24 九月 2020           |
-        | ru_RU.UTF-8  | четверг 24 Сентябрь 2020     |
-        | fr_FR.UTF-8  | jeudi 24 septembre 2020      |
         | es_ES.UTF-8  | jueves 24 septiembre 2020    |
         | de_DE.UTF-8  | Donnerstag 24 September 2020 |
