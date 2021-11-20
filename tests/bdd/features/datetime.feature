@@ -175,7 +175,7 @@ Feature: Reading and writing to journal with custom date formats
 
     Scenario Outline: Dates should be displayed using the specified locale
         Given we use the config "basic_onefile.yaml"
-        When we run "jrnl --config-override locale <locale> --config-override timeformat \%c -1"
+        When we run "jrnl --config-override locale <locale> --config-override timeformat '\%c' -1"
         Then the output should contain "<expected_date>"
         
         Examples: configs
