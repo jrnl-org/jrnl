@@ -179,10 +179,10 @@ Feature: Reading and writing to journal with custom date formats
         Then the output should contain "<expected_date>"
         
         Examples: configs
-        | locale | expected_date        |
-        | en_US  | 9/24/2020 9:14:00 AM |
-        | zh_CN  | 2020/9/24 9:14:00    |
-        | ru_RU  | 24.09.2020 9:14:00   |
-        | fr_FR  | 24/09/2020 09:14:00  |
-        | es_ES  | 24/09/2020 9:14:00   |
-        | de_DE  | 24.09.2020 09:14:00  |
+        | locale       | expected_date        |
+        | en_US.UTF-8  | 9/24/2020 9:14:00 AM |
+        | zh_CN.UTF-8  | 2020/9/24 9:14:00    |
+        | ru_RU.UTF-8  | 24.09.2020 9:14:00   |
+        | fr_FR.UTF-8  | 24/09/2020 09:14:00  |
+        | es_ES.UTF-8  | 24/09/2020 9:14:00   |
+        | de_DE.UTF-8  | 24.09.2020 09:14:00  |
