@@ -4,6 +4,11 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta...HEAD)
 
+**Fixed bugs:**
+
+- Wrong delete count when manually changing entries [\#1198](https://github.com/jrnl-org/jrnl/issues/1198)
+- Add added option to \_print\_edited\_summary [\#1366](https://github.com/jrnl-org/jrnl/pull/1366) ([piero-vic](https://github.com/piero-vic))
+
 **Build:**
 
 - Use full Python version for GitHub Actions cache key [\#1373](https://github.com/jrnl-org/jrnl/pull/1373) ([micahellison](https://github.com/micahellison))
