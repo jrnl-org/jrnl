@@ -211,3 +211,89 @@ Feature: Writing new entries.
         Then we should see the message "Entry added"
         When we run "jrnl -1"
         Then the output should be "2013-07-23 09:00 Testing folder journal."
+
+    Scenario Outline: Correctly count when adding a single entry via --edit
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            [2021-11-13] worked on jrnl tests
+        When we run "jrnl --edit"
+        Then the output should contain
+            [1 entry added]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count when adding multiple entries via --edit
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            [2021-11-11] worked on jrnl tests
+            [2021-11-12] worked on jrnl tests again
+            [2021-11-13] worked on jrnl tests a little bit more
+        When we run "jrnl --edit"
+        Then the output should contain
+            [3 entries added]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count when removing entries via --edit
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we write to the editor if opened
+            [2021-11-13] I am replacing my whole journal with this entry
+        When we run "jrnl --edit"
+        Then the output should contain
+            [2 entries deleted, 1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count modification when running --edit to replace a single entry
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we write to the editor if opened
+            [2021-11-13] I am replacing the last entry with this entry
+        When we run "jrnl --edit -1"
+        Then the output should contain
+            [1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count modification when running --edit on whole journal and adding to last entry
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            This is a small addendum to my latest entry.
+        When we run "jrnl --edit"
+        Then the output should contain
+            [1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
