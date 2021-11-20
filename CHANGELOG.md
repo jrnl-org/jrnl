@@ -13,6 +13,10 @@
 
 - Use full Python version for GitHub Actions cache key [\#1373](https://github.com/jrnl-org/jrnl/pull/1373) ([micahellison](https://github.com/micahellison))
 
+**Packaging:**
+
+- Bump black from 21.10b0 to 21.11b1 [\#1375](https://github.com/jrnl-org/jrnl/pull/1375) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8.4-beta](https://pypi.org/project/jrnl/v2.8.4-beta/) (2021-11-06)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.3...v2.8.4-beta)
