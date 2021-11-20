@@ -172,3 +172,17 @@ Feature: Reading and writing to journal with custom date formats
         Then we should get no error
         And the output should be
             2013-10-27 03:27 Some text.
+
+    Scenario Outline: Dates should be displayed using the specified locale
+        Given we use the config "basic_onefile.yaml"
+        When we run "jrnl --config-override locale <locale> --config-override timeformat \%c -1"
+        Then the output should contain "<expected_date>"
+        
+        Examples: configs
+        | locale | expected_date        |
+        | en_US  | 9/24/2020 9:14:00 AM |
+        | zh_CN  | 2020/9/24 9:14:00    |
+        | ru_RU  | 24.09.2020 9:14:00   |
+        | fr_FR  | 24/09/2020 09:14:00  |
+        | es_ES  | 24/09/2020 9:14:00   |
+        | de_DE  | 24.09.2020 09:14:00  |

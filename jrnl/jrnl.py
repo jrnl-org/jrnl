@@ -1,6 +1,7 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import locale
 import logging
 import sys
 
@@ -47,6 +48,9 @@ def run(args):
     except UserAbort as err:
         print(f"\n{err}", file=sys.stderr)
         sys.exit(1)
+
+    # From here on, dates and numbers will use the locale supplied by the user
+    _init_locale(config)
 
     # Run post-config command now that config is ready
     if callable(args.postconfig_cmd):
@@ -343,3 +347,12 @@ def _display_search_results(args, journal, **kwargs):
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
+
+
+def _init_locale(config):
+    """
+    Initializes the locale from the environment variables, or the config
+    if specified in the config.
+    """
+    user_locale = config["locale"] if "locale" in config else ""
+    locale.setlocale(locale.LC_ALL, user_locale)
