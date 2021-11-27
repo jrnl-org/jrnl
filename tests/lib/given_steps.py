@@ -19,6 +19,7 @@ from jrnl.time import __get_pdt_calendar
 
 from .fixtures import FailedKeyring
 from .fixtures import TestKeyring
+from .helpers import get_fixture
 
 
 @given(parse("we {editor_method} to the editor if opened\n{editor_input}"))
@@ -77,9 +78,15 @@ def we_have_type_of_keyring(keyring_type):
 
 
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
-def we_use_the_config(config_file, temp_dir, working_dir):
+@given(parse("we use no config"), target_fixture="config_path")
+def we_use_the_config(request, temp_dir, working_dir):
+    config_file = get_fixture(request, "config_file")
+
     # Move into temp dir as cwd
     os.chdir(temp_dir.name)
+
+    if not config_file:
+        return os.path.join(temp_dir.name, "non_existing_config.yaml")
 
     # Copy the config file over
     config_source = os.path.join(working_dir, "data", "configs", config_file)

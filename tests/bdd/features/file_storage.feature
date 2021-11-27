@@ -32,6 +32,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         Then the output should contain "This is a new entry in my journal"
 
     Scenario: Creating journal with relative path should update to absolute path
+        Given we use no config
         When we run "jrnl hello world" and enter
             test.txt
             n
