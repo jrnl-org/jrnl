@@ -3,9 +3,12 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         Scenario: Override configured editor with built-in input === editor:''
         Given we use the config "basic_encrypted.yaml"
         And we use the password "test" if prompted
-        When we run "jrnl --config-override editor ''"
+        When we run "jrnl --config-override editor ''" and enter
+          This is a journal entry
         Then the stdin prompt should have been called
         And the editor should not have been called
+        When we run "jrnl -1"
+        Then the output should contain "This is a journal entry"
 
 
         Scenario: Postconfig commands with overrides

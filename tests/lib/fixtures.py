@@ -224,11 +224,12 @@ def should_not():
 def mock_user_input(request, is_tty):
     def _generator(target):
         def _mock_user_input():
-            user_input = get_fixture(request, "user_input", "")
-            user_input = user_input.splitlines() if is_tty else [user_input]
+            user_input = get_fixture(request, "user_input", None)
 
-            if not user_input:
+            if user_input is None:
                 user_input = Exception("Unexpected call for user input")
+            else:
+                user_input = user_input.splitlines() if is_tty else [user_input]
 
             return patch(target, side_effect=user_input)
 
