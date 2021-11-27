@@ -30,25 +30,37 @@ def output_should_match(regex, cli_run):
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
 
 
-@then(parse("the output should contain\n{expected_output}"))
-@then(parse('the output should contain "{expected_output}"'))
-@then(parse("the {which_output_stream} output should contain\n{expected_output}"))
-@then(parse('the {which_output_stream} output should contain "{expected_output}"'))
-def output_should_contain(expected_output, which_output_stream, cli_run):
+@then(parse("the output {should_or_should_not} contain\n{expected_output}"))
+@then(parse('the output {should_or_should_not} contain "{expected_output}"'))
+@then(
+    parse(
+        "the {which_output_stream} output {should_or_should_not} contain\n{expected_output}"
+    )
+)
+@then(
+    parse(
+        'the {which_output_stream} output {should_or_should_not} contain "{expected_output}"'
+    )
+)
+def output_should_contain(
+    expected_output, which_output_stream, cli_run, should_or_should_not
+):
+    we_should = parse_should_or_should_not(should_or_should_not)
+
     assert expected_output
     if which_output_stream is None:
-        assert (expected_output in cli_run["stdout"]) or (
-            expected_output in cli_run["stderr"]
+        assert ((expected_output in cli_run["stdout"]) == we_should) or (
+            (expected_output in cli_run["stderr"]) == we_should
         )
 
     elif which_output_stream == "standard":
-        assert expected_output in cli_run["stdout"]
+        assert (expected_output in cli_run["stdout"]) == we_should
 
     elif which_output_stream == "error":
-        assert expected_output in cli_run["stderr"]
+        assert (expected_output in cli_run["stderr"]) == we_should
 
     else:
-        assert expected_output in cli_run[which_output_stream]
+        assert (expected_output in cli_run[which_output_stream]) == we_should
 
 
 @then(parse("the output should not contain\n{expected_output}"))
@@ -116,10 +128,7 @@ def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: actual.get(key, None) for key in expected.keys()}
 
-    if we_should:
-        assert expected == actual_slice
-    else:
-        assert expected != actual_slice
+    assert (expected == actual_slice) == we_should
 
 
 @then(
@@ -150,10 +159,7 @@ def config_var_in_memory(
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: get_nested_val(actual, key) for key in expected.keys()}
 
-    if we_should:
-        assert expected == actual_slice
-    else:
-        assert expected != actual_slice
+    assert (expected == actual_slice) == we_should
 
 
 @then("we should be prompted for a password")
@@ -345,10 +351,7 @@ def count_elements(number, item, cli_run):
 def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
     we_should = parse_should_or_should_not(should_or_should_not)
 
-    if we_should:
-        assert cli_run["mocks"]["editor"].called
-    else:
-        assert not cli_run["mocks"]["editor"].called
+    assert cli_run["mocks"]["editor"].called == we_should
 
     if isinstance(num_args, int):
         assert len(editor_state["command"]) == int(num_args)
@@ -358,10 +361,7 @@ def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
 def stdin_prompt_called(cli_run, should_or_should_not):
     we_should = parse_should_or_should_not(should_or_should_not)
 
-    if we_should:
-        assert cli_run["mocks"]["stdin"].called
-    else:
-        assert not cli_run["mocks"]["stdin"].called
+    assert cli_run["mocks"]["stdin"].called == we_should
 
 
 @then(parse('the editor filename should end with "{suffix}"'))

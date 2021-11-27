@@ -92,3 +92,4 @@ Feature: Multiple journals
         And we use the config "basic_encrypted.yaml"
         When we run "jrnl --cf editor_encrypted.yaml --decrypt"
         Then the config should contain "encrypt: true"
+        And the output should not contain "Wrong password"
