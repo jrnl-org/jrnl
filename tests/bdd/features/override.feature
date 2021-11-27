@@ -61,7 +61,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And we use the password "test" if prompted
         When we run "jrnl --config-override journals.default features/journals/simple.journal 20 Mar 2000: The rain in Spain comes from clouds"
         Then we should get no error
-        And we should see the message "Entry added"
+        And the output should contain "Entry added"
         When we run "jrnl -3 --config-override journals.default features/journals/simple.journal"
         Then the output should be
             2000-03-20 09:00 The rain in Spain comes from clouds
@@ -78,7 +78,7 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         And we use the password "test" if prompted
         When we run "jrnl --config-override journals.temp features/journals/simple.journal temp Sep 06 1969: @say Ni"
         Then we should get no error
-        And we should see the message "Entry added"
+        And the output should contain "Entry added"
         When we run "jrnl --config-override journals.temp features/journals/simple.journal temp -3"
         Then the output should be
             1969-09-06 09:00 @say Ni

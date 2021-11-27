@@ -90,12 +90,6 @@ def output_should_be_columns_wide(cli_run, width):
         assert len(line) <= width
 
 
-@then(parse('we should see the message "{text}"'))
-def should_see_the_message(text, cli_run):
-    out = cli_run["stderr"]
-    assert text in out, [text, out]
-
-
 @then(
     parse(
         'the config for journal "{journal_name}" {should_or_should_not} contain "{some_yaml}"'
