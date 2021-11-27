@@ -20,10 +20,11 @@ def when_we_change_directory(directory_name):
 
 
 command = '(?P<command>[^"]+)'
-input_method = '(?P<input_method>enter|pipe)'
+input_method = "(?P<input_method>enter|pipe)"
 user_input = '(?P<user_input>[^"]+)'
-@when(re(f'we run "jrnl {command}" and {input_method}\n{user_input}'))
-@when(re(f'we run "jrnl" and {input_method}\n{user_input}'))
+
+
+@when(parse('we run "jrnl {command}" and {input_method}\n{user_input}'))
 @when(re(f'we run "jrnl {command}" and {input_method} "{user_input}"'))
 @when(re(f'we run "jrnl" and {input_method} "{user_input}"'))
 @when(parse('we run "jrnl {command}"'))
@@ -36,6 +37,7 @@ def we_run_jrnl(cli_run, capsys, keyring):
     with ExitStack() as stack:
         mocks = cli_run["mocks"]
         factories = cli_run["mock_factories"]
+
         for id in factories:
             mocks[id] = stack.enter_context(factories[id]())
 

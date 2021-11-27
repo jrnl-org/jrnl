@@ -182,19 +182,22 @@ def toml_version(working_dir):
 
 @fixture
 def mock_password(request):
-    password = get_fixture(request, "password")
-    user_input = get_fixture(request, "user_input")
+    def _mock_password():
+        password = get_fixture(request, "password")
+        user_input = get_fixture(request, "user_input")
 
-    if password:
-        password = password.splitlines()
+        if password:
+            password = password.splitlines()
 
-    elif user_input:
-        password = user_input.splitlines()
+        elif user_input:
+            password = user_input.splitlines()
 
-    if not password:
-        return {}
+        if not password:
+            password = Exception("Unexpected call for password")
 
-    return {"getpass": lambda: patch("getpass.getpass", side_effect=password)}
+        return patch("getpass.getpass", side_effect=password)
+
+    return {"getpass": _mock_password}
 
 
 @fixture
@@ -219,14 +222,21 @@ def should_not():
 
 @fixture
 def mock_user_input(request, is_tty):
-    user_input = get_fixture(request, "user_input", "")
-    user_input = user_input.splitlines() if is_tty else [user_input]
-    if not user_input:
-        return {}
+    def _generator(target):
+        def _mock_user_input():
+            user_input = get_fixture(request, "user_input", "")
+            user_input = user_input.splitlines() if is_tty else [user_input]
+
+            if not user_input:
+                user_input = Exception("Unexpected call for user input")
+
+            return patch(target, side_effect=user_input)
+
+        return _mock_user_input
 
     return {
-        "stdin": lambda: patch("sys.stdin.read", side_effect=user_input),
-        "input": lambda: patch("builtins.input", side_effect=user_input),
+        "stdin": _generator("sys.stdin.read"),
+        "input": _generator("builtins.input"),
     }
 
 

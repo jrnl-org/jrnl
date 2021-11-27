@@ -88,6 +88,7 @@ Feature: Multiple journals
 
     Scenario: Don't overwrite main config when decrypting a journal in an alternate config
         Given the config "editor_encrypted.yaml" exists
+        And we use the password "bad doggie no biscuit" if prompted
         And we use the config "basic_encrypted.yaml"
         When we run "jrnl --cf editor_encrypted.yaml --decrypt"
         Then the config should contain "encrypt: true"
