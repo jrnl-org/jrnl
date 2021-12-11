@@ -19,16 +19,16 @@ on:
     - 'poetry.lock'
     - 'pyproject.toml'
     - '.github/workflows/testing.yaml'
-  schedule: 
+  schedule:
     - cron: '0 0 * * SAT'
-    branches: [ develop ]
-    paths:
-    - 'jrnl/**'
-    - 'features/**'
-    - 'tests/**'
-    - 'poetry.lock'
-    - 'pyproject.toml'
-    - '.github/workflows/testing.yaml'
+    - branches: [ develop ]
+    - paths:
+      - 'jrnl/**'
+      - 'features/**'
+      - 'tests/**'
+      - 'poetry.lock'
+      - 'pyproject.toml'
+      - '.github/workflows/testing.yaml'
 
 defaults:
   run:
