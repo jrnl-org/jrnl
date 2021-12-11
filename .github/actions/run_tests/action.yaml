@@ -4,7 +4,6 @@ runs:
   using: "composite"
   steps:
   - run: git config --global core.autocrlf false
-  - uses: actions/checkout@v2
 
   - name: Set up Python ${{ matrix.python-version }}
     uses: actions/setup-python@v2
