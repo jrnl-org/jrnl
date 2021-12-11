@@ -19,6 +19,7 @@ def when_we_change_directory(directory_name):
     os.chdir(directory_name)
 
 
+# These variables are used in the `@when(re(...))` section below
 command = '(?P<command>[^"]+)'
 input_method = "(?P<input_method>enter|pipe)"
 user_input = '(?P<user_input>[^"]+)'
