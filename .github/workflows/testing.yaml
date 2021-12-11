@@ -19,6 +19,8 @@ on:
     - 'poetry.lock'
     - 'pyproject.toml'
     - '.github/workflows/testing.yaml'
+  schedule: 
+    - cron: '0 0 * * SAT'
 
 defaults:
   run:
@@ -27,7 +29,8 @@ defaults:
 jobs:
   test:
     if: >
-      ! contains(github.event.head_commit.message, '[ci skip]')
+      ! contains(github.event.head_commit.message, '[ci skip]') >
+      && (matrix.python-version != '3.11-dev' || github.event_name == 'schedule')
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.python-version == '3.11-dev' }}
     strategy:
