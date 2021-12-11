@@ -20,7 +20,7 @@ on:
     - 'pyproject.toml'
     - '.github/workflows/testing.yaml'
   schedule: 
-    cron: '0 0 * * SAT'
+    - cron: '0 0 * * SAT'
     branches: [ develop ]
     paths:
     - 'jrnl/**'
