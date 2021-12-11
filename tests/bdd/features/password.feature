@@ -55,7 +55,7 @@ Feature: Using the installed keyring
             this password will not be saved in keyring
             this password will not be saved in keyring
             y
-        Then we should see the message "Failed to retrieve keyring"
+        Then the output should contain "Failed to retrieve keyring"
         And we should get no error
         And we should be prompted for a password
         And the config for journal "default" should contain "encrypt: true"
@@ -69,7 +69,7 @@ Feature: Using the installed keyring
         Then the error output should contain "Failed to retrieve keyring"
         And we should get no error
         And we should be prompted for a password
-        And we should see the message "Journal decrypted"
+        And the output should contain "Journal decrypted"
         And the config for journal "default" should contain "encrypt: false"
         When we run "jrnl --short"
         Then we should not be prompted for a password
@@ -96,7 +96,7 @@ Feature: Using the installed keyring
             swordfish
             sordfish
         Then we should be prompted for a password
-        And we should see the message "Passwords did not match"
+        And the output should contain "Passwords did not match"
         And the config for journal "default" should not contain "encrypt: true"
         When we run "jrnl --short"
         Then the output should be
@@ -113,8 +113,8 @@ Feature: Using the installed keyring
             swordfish
             n
         Then we should be prompted for a password
-        And we should see the message "Passwords did not match"
-        And we should see the message "Journal encrypted"
+        And the output should contain "Passwords did not match"
+        And the output should contain "Journal encrypted"
         And the config for journal "default" should contain "encrypt: true"
         When we run "jrnl -1" and enter "swordfish"
         Then we should be prompted for a password

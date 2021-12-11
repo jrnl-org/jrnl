@@ -49,3 +49,24 @@ def get_nested_val(dictionary, path, *default):
         if default:
             return default[0]
         raise
+
+
+# @see: https://stackoverflow.com/a/41599695/569146
+def spy_wrapper(wrapped_function):
+    from unittest import mock
+
+    mock = mock.MagicMock()
+
+    def wrapper(self, *args, **kwargs):
+        mock(*args, **kwargs)
+        return wrapped_function(self, *args, **kwargs)
+
+    wrapper.mock = mock
+    return wrapper
+
+
+def get_fixture(request, name, default=None):
+    result = default
+    if name in request.node.fixturenames:
+        result = request.getfixturevalue(name)
+    return result
