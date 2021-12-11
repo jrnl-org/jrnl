@@ -11,11 +11,15 @@
 
 **Build:**
 
+- Pytest BDD follow-up tasks [\#1287](https://github.com/jrnl-org/jrnl/issues/1287)
+- Improve handling of mocking logic in pytest [\#1382](https://github.com/jrnl-org/jrnl/pull/1382) ([wren](https://github.com/wren))
 - Use full Python version for GitHub Actions cache key [\#1373](https://github.com/jrnl-org/jrnl/pull/1373) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
 - Bump yq from 2.12.2 to 2.13.0 [\#1385](https://github.com/jrnl-org/jrnl/pull/1385) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump black from 21.11b1 to 21.12b0 [\#1384](https://github.com/jrnl-org/jrnl/pull/1384) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.3.0 to 23.4.0 [\#1383](https://github.com/jrnl-org/jrnl/pull/1383) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.2.1 to 23.3.0 [\#1381](https://github.com/jrnl-org/jrnl/pull/1381) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 35.0.0 to 36.0.0 [\#1379](https://github.com/jrnl-org/jrnl/pull/1379) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.10b0 to 21.11b1 [\#1375](https://github.com/jrnl-org/jrnl/pull/1375) ([dependabot[bot]](https://github.com/apps/dependabot))
