@@ -865,20 +865,20 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "yq"
-version = "2.12.2"
+version = "2.13.0"
 description = "Command-line YAML/XML processor - jq wrapper for YAML/XML documents"
 category = "dev"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
 
 [package.dependencies]
 argcomplete = ">=1.8.1"
-PyYAML = ">=3.11"
+PyYAML = ">=5.3.1"
 toml = ">=0.10.0"
 xmltodict = ">=0.11.0"
 
 [package.extras]
-test = ["coverage", "flake8", "wheel"]
+tests = ["coverage", "flake8", "wheel"]
 
 [[package]]
 name = "zipp"
@@ -997,6 +997,7 @@ commonmark = [
     {file = "commonmark-0.9.1.tar.gz", hash = "sha256:452f9dc859be7f06631ddcb328b6919c67984aca654e5fefb3914d54691aed60"},
 ]
 cryptography = [
+    {file = "cryptography-36.0.0-cp36-abi3-macosx_10_10_universal2.whl", hash = "sha256:9511416e85e449fe1de73f7f99b21b3aa04fba4c4d335d30c486ba3756e3a2a6"},
     {file = "cryptography-36.0.0-cp36-abi3-macosx_10_10_x86_64.whl", hash = "sha256:97199a13b772e74cdcdb03760c32109c808aff7cd49c29e9cf4b7754bb725d1d"},
     {file = "cryptography-36.0.0-cp36-abi3-macosx_11_0_arm64.whl", hash = "sha256:494106e9cd945c2cadfce5374fa44c94cfadf01d4566a3b13bb487d2e6c7959e"},
     {file = "cryptography-36.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:6fbbbb8aab4053fa018984bb0e95a16faeb051dd8cca15add2a27e267ba02b58"},
@@ -1449,8 +1450,8 @@ xmltodict = [
     {file = "xmltodict-0.12.0.tar.gz", hash = "sha256:50d8c638ed7ecb88d90561beedbf720c9b4e851a9fa6c47ebd64e99d166d8a21"},
 ]
 yq = [
-    {file = "yq-2.12.2-py2.py3-none-any.whl", hash = "sha256:9fdf4487a6dbf985ca1d357ec93f926d982813e8e896e8892bae95162b6defe3"},
-    {file = "yq-2.12.2.tar.gz", hash = "sha256:2f156d0724b61487ac8752ed4eaa702a5737b804d5afa46fa55866951cd106d2"},
+    {file = "yq-2.13.0-py2.py3-none-any.whl", hash = "sha256:3ae1f647c85f76d48005d75445917cbea2f4d734bae9c7409372340583c2a6c1"},
+    {file = "yq-2.13.0.tar.gz", hash = "sha256:fd131fdb1f56716ad8d44cd9eaaf7d3b22d39ba8861ea64a409cc3f4ae263db8"},
 ]
 zipp = [
     {file = "zipp-3.6.0-py3-none-any.whl", hash = "sha256:9fe5ea21568a0a70e50f273397638d39b03353731e6cbbb3fd8502a33fec40bc"},
