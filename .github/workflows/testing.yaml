@@ -30,7 +30,6 @@ jobs:
   test:
     if: >
       ! contains(github.event.head_commit.message, '[ci skip]')
-      && (matrix.python-version != '3.11-dev' || github.event_name == 'schedule')
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.python-version == '3.11-dev' }}
     strategy:
@@ -77,11 +76,15 @@ jobs:
         poetry run black --check --diff .
 
     - name: Code Style (flake8)
-      if: ${{ env.DEPS_INSTALLED == 'true' }}
+      if: >
+        ${{ (matrix.python-version != '3.11-dev' || github.event_name == 'schedule')
+          && env.DEPS_INSTALLED == 'true' }}
       run: |
         poetry run pflake8 --version
         poetry run pflake8 jrnl tests
 
     - name: Test with pytest
-      if: ${{ env.DEPS_INSTALLED == 'true' }}
+      if: >
+        ${{ (matrix.python-version != '3.11-dev' || github.event_name == 'schedule')
+          && env.DEPS_INSTALLED == 'true' }}
       run: poetry run pytest --junitxml=reports/pytest/results.xml
