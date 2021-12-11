@@ -35,4 +35,4 @@ jobs:
         python-version: [ 3.7, 3.8, 3.9, '3.10' ]
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     steps:
-      - uses: ./.github/actions/run_tests.yml
+      - uses: ./.github/actions/run_tests
