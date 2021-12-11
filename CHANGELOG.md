@@ -15,6 +15,7 @@
 
 **Packaging:**
 
+- Bump yq from 2.12.2 to 2.13.0 [\#1385](https://github.com/jrnl-org/jrnl/pull/1385) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.2.1 to 23.3.0 [\#1381](https://github.com/jrnl-org/jrnl/pull/1381) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 35.0.0 to 36.0.0 [\#1379](https://github.com/jrnl-org/jrnl/pull/1379) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 21.10b0 to 21.11b1 [\#1375](https://github.com/jrnl-org/jrnl/pull/1375) ([dependabot[bot]](https://github.com/apps/dependabot))
