@@ -19,3 +19,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/run_tests
+        with:
+          cache-string: ${{ secrets.CACHE_STRING }}
