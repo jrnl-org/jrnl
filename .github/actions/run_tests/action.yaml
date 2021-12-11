@@ -1,5 +1,9 @@
 name: run jrnl tests
 description: Runs all jrnl tests on multiple platforms
+inputs:
+  cache-string:
+    description: 'Cache string secret. Change to bust the cache'
+    required: true
 shell: bash
 runs:
   using: "composite"
@@ -20,7 +24,7 @@ runs:
     uses: actions/cache@v2
     with:
       path: .venv
-      key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ secrets.CACHE_STRING }}
+      key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ inputs.cache-string }}
 
   - name: Install dependencies
     run: |
