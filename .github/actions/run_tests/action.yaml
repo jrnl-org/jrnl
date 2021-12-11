@@ -1,5 +1,6 @@
 name: run jrnl tests
 description: Runs all jrnl tests on multiple platforms
+shell: bash
 runs:
   using: "composite"
   steps:
