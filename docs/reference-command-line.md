@@ -37,15 +37,14 @@ Import entries from another journal. If any entries have the exact same content
 and timestamp, they will be deduplicated.
 
 Optional parameters:
-```
+```sh
 --file FILENAME
 ```
 Specify a file to import. If not provided, `jrnl` will use STDIN as the data source.
 
+```sh
+--format TYPE
 ```
---format [jrnl]
-```
-
 Specify the format of the file that is being imported. Defaults to the same data
 storage method that jrnl uses. See [formats](formats.md) for more information.
 
@@ -95,7 +94,7 @@ each entry.
 Display selected entries in an alternate format. See [formats](formats.md).
 
 #### Optional parameters
-```
+```sh
 --file FILENAME
 ```
 Write output to file instead of STDOUT. In most shells, the
@@ -114,12 +113,17 @@ Only shows the date and titles of the searched entries.
 ### --config-override CONFIG_KV_PAIR CONFIG_KV_PAIR
 
 Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
+Read [advanced usage](./advanced.md) for examples.
 
 ### --config-file CONFIG_FILE_PATH
 
 Use the config file at CONFIG_FILE_PATH for this command invocation only.
+Read [advanced usage](./advanced.md) for examples.
 
 ## Other Arguments
 
 ### --debug
-Prints information useful for troubleshooting.
+Prints information useful for troubleshooting while `jrnl` executes.
+
+### --diagnostic
+Prints diagnostic information useful for [reporting issues](https://github.com/jrnl-org/jrnl/issues).
