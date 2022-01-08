@@ -79,11 +79,26 @@ div.rst-content {
   max-width: 54em;
 }
 
+
 .wy-side-nav-search,
 .wy-menu-vertical li.current,
-.wy-menu-vertical li.toctree-l1.current > a {
+.wy-menu-vertical li.toctree-l1.current > a,
+.wy-menu-vertical li.toctree-l2.current > a,
+.wy-menu-vertical li.toctree-l3.current > a {
   background-color: transparent;
   border: none;
+}
+
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a {
+  background: transparent;
+}
+
+.wy-menu-vertical li.toctree-l4,
+.wy-menu-vertical li.toctree-l5,
+.wy-menu-vertical li.toctree-l6,
+.wy-menu-vertical li.toctree-l7 {
+  display: none;
 }
 
 .wy-nav-top {
@@ -118,6 +133,7 @@ a.icon-home:before {
 }
 
 .wy-menu-vertical a:hover,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:hover,
 .wy-menu-vertical li.current a:hover {
   background-color: var(--black-shadow);
   color: var(--white);
@@ -130,14 +146,10 @@ a.icon-home:before {
   position: relative;
 }
 
-.wy-menu-vertical li.current > a.current {
+.wy-menu-vertical li.toctree-l1.current > a {
   background: var(--darkest-purple);
   border: none !important;
-}
-
-.wy-menu-vertical li.current > a:hover {
-  background: var(--darkest-purple);
-  border: none;
+  pointer-events: none;
 }
 
 .wy-menu-vertical li.on a,
@@ -146,7 +158,7 @@ a.icon-home:before {
 }
 
 .wy-menu-vertical li.on a,
-.wy-menu-vertical li.current>a:after {
+.wy-menu-vertical li > a.current:after {
   position: absolute;
   right: 0em;
   z-index: 999;
@@ -156,13 +168,6 @@ a.icon-home:before {
   border-top: 1em solid transparent;
   border-bottom: 1em solid transparent;
   border-right: 1em solid var(--white);
-}
-
-.wy-menu-vertical li.toctree-l2.current {
-  font-size: 50px;
-}
-
-.wy-menu-vertical li.toctree-l2.current > a{
 }
 
 .toctree-expand:before {
@@ -192,7 +197,6 @@ a.icon-home:before {
 
 .wy-nav-side {
   background-color: var(--mid-purple);
-  background-image: linear-gradient(211deg, var(--mid-purple) 0%, var(--dark-purple) 100%);
   font-weight: 300;
   height: 100%;
 }
@@ -223,14 +227,8 @@ form .search-query::placeholder {
   background: transparent;
 }
 
-.toctree-l2 a:first-child {
-  display: block;
-}
-
 .wy-menu-vertical li.current ul {
   background-color: var(--mid-purple);
-  border-bottom: 1px solid var(--mid-purple);
-  border-top: 1px solid var(--dark-purple);
 }
 
 
