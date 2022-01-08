@@ -1,12 +1,15 @@
 # Configuration File Reference
 
-You can configure `jrnl` with a configuration file.
+`jrnl` stores its information in a YAML configuration file.
 
 !!! note
     Backup your journal and config file before editing. Changes to the config file
     can have destructive effects on your journal!
 
 ## Config location
+You can find your configuration file location by running:
+`jrnl --list`
+
 By default, the configuration file is `~/.config/jrnl/jrnl.yaml`.
 If you have the `XDG_CONFIG_HOME` variable set, the configuration
 file will be saved as `$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
@@ -15,8 +18,6 @@ file will be saved as `$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
     On Windows, the configuration file is typically found at
     `%USERPROFILE%\.config\jrnl\jrnl.yaml`.
 
-You can also find your configuration file location by running:
-`jrnl --list`
 
 ## Config format
 The configuration file is a [YAML](https://yaml.org/) file and can be edited with
@@ -51,7 +52,7 @@ If `true`, encrypts your journal using AES. Do not change this
 value for journals that already have data in them.
 
 ### template
-The path to a file to use as a template for new entries. Only works when you
+The path to a text file to use as a template for new entries. Only works when you
 have the `editor` field configured.
 
 ### tagsymbols
