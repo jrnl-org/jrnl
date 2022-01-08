@@ -1,6 +1,9 @@
 <!-- Copyright (C) 2012-2021 jrnl contributors
      License: https://www.gnu.org/licenses/gpl-3.0.html -->
-# FAQ
+# Recipes
+
+This page contains tips and tricks for using `jrnl`, often in conjunction
+with other tools, including external editors.
 
 ## Recipes
 
@@ -101,8 +104,8 @@ jrnl -1 --edit          # Opens the most recent entry in the editor
 #### 2. Include the template file in `jrnl.yaml`
 
 A more efficient way to work with a template file is to declare the file
-in your config file by changing the `template` setting from `false` to the
-template file's path in double quotes:
+in your [config file](./reference-config-file.md) by changing the `template`
+setting from `false` to the template file's path in double quotes:
 
 ```sh
 ...
