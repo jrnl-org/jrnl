@@ -8,6 +8,11 @@
 
 - Specifying 'today' does not filter by year, also returns entries from same date in prior years [\#1391](https://github.com/jrnl-org/jrnl/issues/1391)
 
+**Documentation:**
+
+- Fix nested navigation styling on docs site [\#1349](https://github.com/jrnl-org/jrnl/issues/1349)
+- Fix styling on documentation sidebar [\#1395](https://github.com/jrnl-org/jrnl/pull/1395) ([wren](https://github.com/wren))
+
 **Packaging:**
 
 - Bump keyring from 23.4.0 to 23.5.0 [\#1392](https://github.com/jrnl-org/jrnl/pull/1392) ([dependabot[bot]](https://github.com/apps/dependabot))
