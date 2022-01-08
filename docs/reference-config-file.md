@@ -111,3 +111,7 @@ To disable colored output, set the value to `NONE`. If you set the value of any 
 
 ### display_format
 Specifies formatter to use by default. See [formats](formats.md).
+
+### version
+`jrnl` automatically updates this field to the version that it is running.
+There is no need to change this field manually.
