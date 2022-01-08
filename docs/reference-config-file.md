@@ -6,7 +6,7 @@ You can configure `jrnl` with a configuration file.
     Backup your journal and config file before editing. Changes to the config file
     can have destructive effects on your journal!
 
-## Configuration file location
+## Config location
 By default, the configuration file is `~/.config/jrnl/jrnl.yaml`.
 If you have the `XDG_CONFIG_HOME` variable set, the configuration
 file will be saved as `$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
@@ -18,11 +18,11 @@ file will be saved as `$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
 You can also find your configuration file location by running:
 `jrnl --list`
 
-## Format
+## Config format
 The configuration file is a [YAML](https://yaml.org/) file and can be edited with
 a text editor.
 
-## Configuration Keys
+## Config keys
 
 ### journals
 
@@ -49,6 +49,10 @@ Some editors require special options to work properly. See
 ### encrypt
 If `true`, encrypts your journal using AES. Do not change this
 value for journals that already have data in them.
+
+### template
+The path to a file to use as a template for new entries. Only works when you
+have the `editor` field configured.
 
 ### tagsymbols
 Symbols to be interpreted as tags.
@@ -105,4 +109,4 @@ Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`,
 To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
 
 ### display_format
-Specifies formatter to use. See [formats](formats.md).
+Specifies formatter to use by default. See [formats](formats.md).
