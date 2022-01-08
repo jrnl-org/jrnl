@@ -4,7 +4,6 @@ inputs:
   cache-string:
     description: 'Cache string secret. Change to bust the cache'
     required: true
-shell: bash
 runs:
   using: "composite"
   steps:
