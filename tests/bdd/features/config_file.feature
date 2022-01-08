@@ -29,7 +29,7 @@ Feature: Multiple journals
         Given the config "multiple.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf multiple.yaml work a long day in the office"
-        Then we should see the message "Entry added to work journal"
+        Then the output should contain "Entry added to work journal"
 
     Scenario: Write to specified journal with a timestamp using an alternate config
         Given the config "multiple.yaml" exists
@@ -64,7 +64,7 @@ Feature: Multiple journals
         Given the config "bug343.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf bug343.yaml a long day in the office"
-        Then we should see the message "No default journal configured"
+        Then the output should contain "No default journal configured"
 
     Scenario: Don't crash if no file exists for a configured encrypted journal using an alternate config
         Given the config "multiple.yaml" exists
@@ -73,7 +73,7 @@ Feature: Multiple journals
             these three eyes
             these three eyes
             n
-        Then we should see the message "Encrypted journal 'new_encrypted' created"
+        Then the output should contain "Encrypted journal 'new_encrypted' created"
 
     Scenario: Don't overwrite main config when encrypting a journal in an alternate config
         Given the config "basic_onefile.yaml" exists
@@ -82,11 +82,14 @@ Feature: Multiple journals
             these three eyes
             these three eyes
             n
-        Then we should see the message "Journal encrypted to features/journals/basic_onefile.journal"
-        And the config should contain "encrypt: false" # multiple.yaml remains unchanged
+        Then the output should contain "Journal encrypted to features/journals/basic_onefile.journal"
+        And the config should contain "encrypt: false"
+
 
     Scenario: Don't overwrite main config when decrypting a journal in an alternate config
         Given the config "editor_encrypted.yaml" exists
+        And we use the password "bad doggie no biscuit" if prompted
         And we use the config "basic_encrypted.yaml"
         When we run "jrnl --cf editor_encrypted.yaml --decrypt"
-        Then the config should contain "encrypt: true" # basic_encrypted remains unchanged
+        Then the config should contain "encrypt: true"
+        And the output should not contain "Wrong password"

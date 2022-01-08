@@ -4,7 +4,7 @@ Feature: Reading and writing to journal with custom date formats
         # https://github.com/jrnl-org/jrnl/issues/117
         Given we use the config "simple.yaml"
         When we run "jrnl 2013-11-30 15:42: Project Started."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -999"
         Then the output should contain "2013-11-30 15:42 Project Started."
 
@@ -13,7 +13,7 @@ Feature: Reading and writing to journal with custom date formats
         # https://github.com/jrnl-org/jrnl/issues/185
         Given we use the config "simple.yaml"
         When we run "jrnl 26/06/2099: Planet? Earth. Year? 2099."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -999"
         Then the output should contain "2099-06-26 09:00 Planet?"
 
@@ -34,7 +34,7 @@ Feature: Reading and writing to journal with custom date formats
     Scenario Outline: Writing an entry from command line with custom date
         Given we use the config "<config_file>"
         When we run "jrnl <command>"
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -n 1"
         Then the output should contain "<expected_output>"
 
@@ -87,7 +87,7 @@ Feature: Reading and writing to journal with custom date formats
         Given we use the config "simple.yaml"
         And now is "2019-03-12 01:30:32 PM"
         When we run "jrnl <command>"
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -1"
         Then the output should contain "<expected_output>"
         Then the output should contain the date "<date>"
@@ -109,7 +109,7 @@ Feature: Reading and writing to journal with custom date formats
         Given we use the config "simple.yaml"
         And now is "2019-03-12 01:30:32 PM"
         When we run "jrnl <command>"
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -1"
         Then the output should contain "<expected_output>"
         Then the output should contain the date "<date>"

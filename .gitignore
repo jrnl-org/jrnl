@@ -2,7 +2,6 @@
 
 # C extensions
 *.so
-.python-version
 
 # Packages
 *.egg
@@ -17,7 +16,10 @@ sdist
 develop-eggs
 .installed.cfg
 lib64
+
+# Versioning
 .python-version
+.tool-version
 
 # Installer logs
 pip-log.txt

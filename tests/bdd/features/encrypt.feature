@@ -2,8 +2,9 @@ Feature: Encrypting and decrypting journals
 
     Scenario: Decrypting a journal
         Given we use the config "encrypted.yaml"
+        # And we use the password "bad doggie no biscuit" if prompted 
         When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
-        Then we should see the message "Journal decrypted"
+        Then the output should contain "Journal decrypted"
         And the config for journal "default" should contain "encrypt: false"
         When we run "jrnl -99 --short"
         Then the output should be
@@ -35,7 +36,7 @@ Feature: Encrypting and decrypting journals
             swordfish
             n
         Then we should get no error
-        And we should see the message "Journal encrypted"
+        And the output should contain "Journal encrypted"
         And the config for journal "default" should contain "encrypt: true"
         When we run "jrnl -n 1" and enter "swordfish"
         Then we should be prompted for a password

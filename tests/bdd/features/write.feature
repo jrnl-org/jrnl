@@ -46,7 +46,7 @@ Feature: Writing new entries.
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -n 1"
         Then the output should contain "2013-07-23 09:00 A cold and stormy day."
 
@@ -61,7 +61,7 @@ Feature: Writing new entries.
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl this is a partial --edit"
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         Then the editor should have been called
         And the editor file content should be
             this is a partial
@@ -110,7 +110,7 @@ Feature: Writing new entries.
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 23 july 2013: A cold and stormy day. I ate crisps on the sofa."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -n 1"
         Then the output should not contain "Life is good"
 
@@ -125,7 +125,7 @@ Feature: Writing new entries.
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 04-24-2014: Created a new website - empty.com. Hope to get a lot of traffic."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -1"
         Then the output should be
             2014-04-24 09:00 Created a new website - empty.com.
@@ -142,7 +142,7 @@ Feature: Writing new entries.
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl 23 july 2013: 🌞 sunny day. Saw an 🐘"
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -n 1"
         Then the output should contain "🌞"
         And the output should contain "🐘"
@@ -199,7 +199,7 @@ Feature: Writing new entries.
     Scenario: Title with an embedded period on DayOne journal
         Given we use the config "dayone.yaml"
         When we run "jrnl 04-24-2014: Ran 6.2 miles today in 1:02:03. I am feeling sore because I forgot to stretch."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -1"
         Then the output should be
             2014-04-24 09:00 Ran 6.2 miles today in 1:02:03.
@@ -208,6 +208,92 @@ Feature: Writing new entries.
     Scenario: Opening an folder that's not a DayOne folder should treat as folder journal
         Given we use the config "empty_folder.yaml"
         When we run "jrnl 23 july 2013: Testing folder journal."
-        Then we should see the message "Entry added"
+        Then the output should contain "Entry added"
         When we run "jrnl -1"
         Then the output should be "2013-07-23 09:00 Testing folder journal."
+
+    Scenario Outline: Correctly count when adding a single entry via --edit
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            [2021-11-13] worked on jrnl tests
+        When we run "jrnl --edit"
+        Then the output should contain
+            [1 entry added]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count when adding multiple entries via --edit
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            [2021-11-11] worked on jrnl tests
+            [2021-11-12] worked on jrnl tests again
+            [2021-11-13] worked on jrnl tests a little bit more
+        When we run "jrnl --edit"
+        Then the output should contain
+            [3 entries added]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count when removing entries via --edit
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we write to the editor if opened
+            [2021-11-13] I am replacing my whole journal with this entry
+        When we run "jrnl --edit"
+        Then the output should contain
+            [2 entries deleted, 1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count modification when running --edit to replace a single entry
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we write to the editor if opened
+            [2021-11-13] I am replacing the last entry with this entry
+        When we run "jrnl --edit -1"
+        Then the output should contain
+            [1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
+
+
+    Scenario Outline: Correctly count modification when running --edit on whole journal and adding to last entry
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            This is a small addendum to my latest entry.
+        When we run "jrnl --edit"
+        Then the output should contain
+            [1 entry modified]
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        #| basic_dayone.yaml    | @todo
