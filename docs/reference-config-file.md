@@ -20,7 +20,7 @@ You can also find your configuration file location by running:
 
 ## Format
 The configuration file is a [YAML](https://yaml.org/) file and can be edited with
-a plain text editor.
+a text editor.
 
 ## Configuration Keys
 
@@ -82,6 +82,9 @@ to data loss.
 
 If you would just like to change how `jrnl` displays dates,
 use display_format instead.
+
+!!! note
+    `jrnl` doesn't support the `%z` or `%Z` time zone identifiers.
 
 ### highlight
 If `true`, tags will be highlighted in cyan.
