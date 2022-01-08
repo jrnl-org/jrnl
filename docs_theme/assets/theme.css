@@ -94,6 +94,13 @@ div.rst-content {
   background: transparent;
 }
 
+.wy-menu-vertical li.toctree-l4,
+.wy-menu-vertical li.toctree-l5,
+.wy-menu-vertical li.toctree-l6,
+.wy-menu-vertical li.toctree-l7 {
+  display: none;
+}
+
 .wy-nav-top {
   background-color: var(--mid-purple);
   background-image: linear-gradient(-211deg, var(--mid-purple) 0%, var(--dark-purple) 100%);
