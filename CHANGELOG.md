@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta1...HEAD)
+
+**Fixed bugs:**
+
+- Specifying 'today' does not filter by year, also returns entries from same date in prior years [\#1391](https://github.com/jrnl-org/jrnl/issues/1391)
+
 ## [v2.8.4-beta1](https://pypi.org/project/jrnl/v2.8.4-beta1/) (2021-12-11)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta...v2.8.4-beta1)
