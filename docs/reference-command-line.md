@@ -8,6 +8,7 @@ usage: jrnl [--debug] [--help] [--version] [--list] [--encrypt] [--decrypt]
             [-and] [-starred] [-n [NUMBER]] [-not [TAG]] [--edit] [--delete]
             [--format TYPE] [--tags] [--short]
             [--config-override CONFIG_KV_PAIR CONFIG_KV_PAIR]
+            [--config-file CONFIG_FILE_PATH]
             [[...]]
 ```
 
@@ -114,16 +115,9 @@ Only shows the date and titles of the searched entries.
 
 Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
 
-Examples:
+### --config-file CONFIG_FILE_PATH
 
-Use a different editor for this jrnl entry:
-```
-jrnl --config-override editor "nano"
-```
-Override color selections:
-```
-jrnl --config-override colors.body blue --config-override colors.title green
-```
+Use the config file at CONFIG_FILE_PATH for this command invocation only.
 
 ## Other Arguments
 
