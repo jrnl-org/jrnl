@@ -263,7 +263,7 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
-    Scenario: Exporting to XML
+    Scenario: Exporting to XML single
         Given we use the config "tags.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --export xml"
