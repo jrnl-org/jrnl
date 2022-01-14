@@ -89,21 +89,21 @@ Feature: Writing new entries.
         | basic_encrypted.yaml     |
         | basic_onefile.yaml       |
 
-    @skip
     Scenario Outline: Writing an empty entry from the command line with no editor should yield nothing
         Given we use the config "<config_file>"
-        And we use the password "bad doggie no biscuit" if prompted
-        When we run "jrnl" and enter nothing
-        Then the output should be empty
+        And we use the password "test" if prompted
+        When we run "jrnl --config-override editor ''" and enter ""
+        Then the stdin prompt should have been called
+        And the output should be empty
         And the error output should contain "Writing Entry; on a blank line"
         And the editor should not have been called
 
         Examples: configs
-        | config_file        |
-        | config_simple.yaml |
-        | empty_folder.yaml  |
-        | encrypted.yaml     |
-        # | dayone             | @todo
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+    # | basic_dayone.yaml    | @todo
 
     Scenario Outline: Writing an entry does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/87
