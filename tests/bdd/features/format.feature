@@ -144,12 +144,11 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
-    @skip_editor # .TODO return after editor steps implemented
     Scenario Outline: Increasing Headings on Markdown export
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
-        When we open the editor and append
-            [2020-10-14 13:23] Heading Test
+        Given we append to the editor if opened
+            [2021-10-14 13:23] Heading Test
 
             H1-1
             =
@@ -191,13 +190,15 @@ Feature: Custom formats
 
             More stuff
             more stuff again
+        When we run "jrnl --edit -1"
+        Then the editor should have been called
         When we run "jrnl -1 --export markdown"
         Then the output should be
-            # 2020
+            # 2021
 
             ## October
 
-            ### 2020-10-14 13:23 Heading Test
+            ### 2021-10-14 13:23 Heading Test
 
             #### H1-1
 

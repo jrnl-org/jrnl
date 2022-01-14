@@ -17,10 +17,6 @@ pytest_plugins = [
 def pytest_bdd_apply_tag(tag, function):
     if tag == "skip_win":
         marker = mark.skipif(on_windows(), reason="Skip test on Windows")
-    elif tag == "skip_editor":
-        marker = mark.skip(
-            reason="Skipping editor-related test. We should come back to this!"
-        )
     else:
         # Fall back to pytest-bdd's default behavior
         return None
