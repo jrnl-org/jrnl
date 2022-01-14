@@ -242,38 +242,6 @@ Feature: Custom formats
         | basic_folder.yaml    |
     # | basic_dayone.yaml    | @todo
 
-    @skip_editor # .TODO return after editor steps implemented
-    Scenario Outline: Add a blank line to Markdown export if there isn't one already
-        # https://github.com/jrnl-org/jrnl/issues/768
-        # https://github.com/jrnl-org/jrnl/issues/881
-        Given we use the config "<config_file>"
-        And we use the password "test" if prompted
-        When we open the editor and append
-            [2020-10-29 11:11] First entry.
-            [2020-10-29 11:11] Second entry.
-            [2020-10-29 11:13] Third entry.
-        When we run "jrnl -3 --format markdown"
-        Then the output should be
-            # 2020
-
-            ## October
-
-            ### 2020-10-29 11:11 First entry.
-
-
-            ### 2020-10-29 11:11 Second entry.
-
-
-            ### 2020-10-29 11:13 Third entry.
-
-
-        Examples: configs
-        | config_file          |
-        | basic_onefile.yaml   |
-        | basic_encrypted.yaml |
-        | basic_folder.yaml    |
-        # | basic_dayone.yaml    | @todo
-
     @skip
     Scenario Outline: Exporting to XML
         Given we use the config "<config_file>"
