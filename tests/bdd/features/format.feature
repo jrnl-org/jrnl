@@ -257,11 +257,11 @@ Feature: Custom formats
         And there should be 10 "tag" elements
 
         Examples: configs
-        | config_file     |
-        # | basic_onefile.yaml | @todo
-        # | basic_encrypted.yaml | @todo
-        # | basic_folder.yaml   | @todo
-        # | basic_dayone.yaml   | @todo
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
 
     Scenario: Exporting to XML
         Given we use the config "tags.yaml"
