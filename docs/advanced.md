@@ -75,7 +75,7 @@ The `work` journal is encrypted, prints to `json` by default, and is edited usin
 
 ### Modifying Configurations from the Command line 
 
-You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot-notation and `CONFIG_VALUE` is the (valid) desired override value.
+You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot notation and `CONFIG_VALUE` is the (valid) desired override value. The dot notation can be used to change config keys within other keys, such as `colors.title` for the `title` key within the `colors` key.
 
 You can specify multiple overrides as multiple calls to `--config-override`.
 !!! note
@@ -110,7 +110,7 @@ jrnl --config-file ~/foo/jrnl/personal-config.yaml
 # Use alternate configuration file for work-related entries
 jrnl --config-file ~/foo/jrnl/work-config.yaml
 
-# Use default configuration file (created on installation)
+# Use default configuration file (created on first run)
 jrnl
 ```
 

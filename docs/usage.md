@@ -55,14 +55,14 @@ If you don't specify a date and time (e.g., `jrnl finished writing letter to bro
 
 If you don't use a timestamp, `jrnl` will create an entry using the current
 time. If you use a date only (no time), `jrnl` will use the default time
-specified in your [configuration file](./reference-config-file.md).
+specified in your [configuration file](./reference-config-file.md#default_hour-and-default_minute).
 Behind the scenes, `jrnl` reorganizes entries in chronological order.
 
 ### Using Tags ###
 
 `jrnl` supports tags. The default tag symbol is `@` (largely because `#` is a
 reserved character). You can specify your own tag symbol in the
-[configuration file](./reference-config-file.md). To use tags, preface the
+[configuration file](./reference-config-file.md#tagsymbols). To use tags, preface the
 desired tag with the symbol:
 
 ```sh
@@ -158,7 +158,7 @@ jrnl -n 5 @pinkie -and @WorldDomination
 
 displays the last five entries containing _both_ `@pinkie` _and_
 `@worldDomination`. You can change which symbols you'd like to use for tagging
-in the [configuration file](./reference-config-file.md).
+in the [configuration file](./reference-config-file.md#tagsymbols).
 
 !!! note
     Entering `jrnl @pinkie @WorldDomination` will display entries in which both
@@ -184,7 +184,7 @@ jrnl -starred
 
 You can edit entries after writing them. This is particularly useful when your
 journal file is encrypted. To use this feature, you need to have an external
-editor configured in your [configuration file](./reference-config-file.md). You
+editor configured in your [configuration file](./reference-config-file.md#editor). You
 can also edit only the entries that match specific search criteria. For example,
 
 ```sh
@@ -250,4 +250,4 @@ jrnl --list
 ```
 
 The journals displayed correspond to those specified in the `jrnl`
-[configuration file](./reference-config-file.md).
+[configuration file](./reference-config-file.md#journals).

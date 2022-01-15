@@ -107,7 +107,7 @@ Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`,
 
 `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output).
 
-To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
+To disable colored output, set the value to `NONE`.
 
 ### display_format
 Specifies formatter to use by default. See [formats](formats.md).

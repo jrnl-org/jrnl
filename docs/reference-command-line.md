@@ -7,7 +7,7 @@ usage: jrnl [--debug] [--help] [--version] [--list] [--encrypt] [--decrypt]
             [-day DATE] [-year DATE] [-from DATE] [-to DATE] [-contains TEXT]
             [-and] [-starred] [-n [NUMBER]] [-not [TAG]] [--edit] [--delete]
             [--format TYPE] [--tags] [--short]
-            [--config-override CONFIG_KV_PAIR CONFIG_KV_PAIR]
+            [--config-override CONFIG_KEY CONFIG_VALUE]
             [--config-file CONFIG_FILE_PATH]
             [[...]]
 ```
@@ -110,10 +110,9 @@ Only shows the date and titles of the searched entries.
 
 ## Configuration arguments
 
-### --config-override CONFIG_KV_PAIR CONFIG_KV_PAIR
+### --config-override CONFIG_KEY CONFIG_VALUE
 
-Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only.
-Read [advanced usage](./advanced.md) for examples.
+Override configured key-value pair with CONFIG_KV_PAIR for this command invocation only. To access config keys that aren't at the top level, separate the keys with a dot, such as `colors.title` to access the `title` key within the `colors` key. Read [advanced usage](./advanced.md) for examples.
 
 ### --config-file CONFIG_FILE_PATH
 
