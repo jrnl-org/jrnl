@@ -33,7 +33,4 @@ nav:
     - Configuration File: reference-config-file.md
   - 'Contributing':
     - Contributing to jrnl: contributing.md
-plugins:
-  - redirects:
-      redirect_maps:
-        'recipes.md': 'tips-and-tricks.md'
+
