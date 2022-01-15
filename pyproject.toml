@@ -61,6 +61,7 @@ ipdb = "*"
 pytest-clarity = "*"
 pyproject-flake8 = "*"
 yq = "*"
+mkdocs-redirects = ">=1.0.3"
 
 [tool.poetry.extras]
 testing = [ "pytest", "pytest-bdd", "toml" ]

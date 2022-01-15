@@ -26,10 +26,14 @@ nav:
     - Privacy and Security: privacy-and-security.md
     - Formats: formats.md
     - Advanced Usage: advanced.md
-    - Recipes: recipes.md
+    - 'External Editors': external-editors.md
+    - 'Tips and Tricks': tips-and-tricks.md
   - 'Reference':
     - Command Line: reference-command-line.md
     - Configuration File: reference-config-file.md
   - 'Contributing':
     - Contributing to jrnl: contributing.md
-
+plugins:
+  - redirects:
+      redirect_maps:
+        'recipes.md': 'tips-and-tricks.md'

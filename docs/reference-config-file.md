@@ -45,7 +45,7 @@ is passed after it, and `jrnl` processes the file once
 the editor is closed.
 
 Some editors require special options to work properly. See
-[recipes](recipes.md) for details.
+[External Editors](external-editors.md) for details.
 
 ### encrypt
 If `true`, encrypts your journal using AES. Do not change this

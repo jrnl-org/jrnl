@@ -28,9 +28,9 @@ To edit the documentation, edit the `docs/*.md` files on the **develop** branch.
 
 The `gh-pages` branch is automatically maintained and generated after your changes are merged. You should never have to edit that branch.
 
-### Recipes and external editors
+### External editors and tips and tricks
 
-If you'd like to share a jrnl command line trick that you find useful, or advice on how to integrate a particular external editor, you may find it worthwhile to add it to the ["Recipes" section](recipes.md).
+If you'd like to share a jrnl command line trick that you find useful, you may find it worthwhile to add it to the ["Tips and Tricks" section](tips-and-tricks.md). For advice on how to integrate a particular external editor, you can add to the ["External Editors" section](external-editors.md).
 
 ## Testing
 
