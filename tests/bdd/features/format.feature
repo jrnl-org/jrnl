@@ -144,12 +144,11 @@ Feature: Custom formats
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
-    @skip_editor # .TODO return after editor steps implemented
     Scenario Outline: Increasing Headings on Markdown export
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
-        When we open the editor and append
-            [2020-10-14 13:23] Heading Test
+        Given we append to the editor if opened
+            [2021-10-14 13:23] Heading Test
 
             H1-1
             =
@@ -191,13 +190,15 @@ Feature: Custom formats
 
             More stuff
             more stuff again
+        When we run "jrnl --edit -1"
+        Then the editor should have been called
         When we run "jrnl -1 --export markdown"
         Then the output should be
-            # 2020
+            # 2021
 
             ## October
 
-            ### 2020-10-14 13:23 Heading Test
+            ### 2021-10-14 13:23 Heading Test
 
             #### H1-1
 
@@ -241,38 +242,6 @@ Feature: Custom formats
         | basic_folder.yaml    |
     # | basic_dayone.yaml    | @todo
 
-    @skip_editor # .TODO return after editor steps implemented
-    Scenario Outline: Add a blank line to Markdown export if there isn't one already
-        # https://github.com/jrnl-org/jrnl/issues/768
-        # https://github.com/jrnl-org/jrnl/issues/881
-        Given we use the config "<config_file>"
-        And we use the password "test" if prompted
-        When we open the editor and append
-            [2020-10-29 11:11] First entry.
-            [2020-10-29 11:11] Second entry.
-            [2020-10-29 11:13] Third entry.
-        When we run "jrnl -3 --format markdown"
-        Then the output should be
-            # 2020
-
-            ## October
-
-            ### 2020-10-29 11:11 First entry.
-
-
-            ### 2020-10-29 11:11 Second entry.
-
-
-            ### 2020-10-29 11:13 Third entry.
-
-
-        Examples: configs
-        | config_file          |
-        | basic_onefile.yaml   |
-        | basic_encrypted.yaml |
-        | basic_folder.yaml    |
-        # | basic_dayone.yaml    | @todo
-
     @skip
     Scenario Outline: Exporting to XML
         Given we use the config "<config_file>"
@@ -288,13 +257,13 @@ Feature: Custom formats
         And there should be 10 "tag" elements
 
         Examples: configs
-        | config_file     |
-        # | basic_onefile.yaml | @todo
-        # | basic_encrypted.yaml | @todo
-        # | basic_folder.yaml   | @todo
-        # | basic_dayone.yaml   | @todo
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
 
-    Scenario: Exporting to XML
+    Scenario: Exporting to XML single
         Given we use the config "tags.yaml"
         And we use the password "test" if prompted
         When we run "jrnl --export xml"

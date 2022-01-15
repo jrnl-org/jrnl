@@ -89,21 +89,22 @@ Feature: Writing new entries.
         | basic_encrypted.yaml     |
         | basic_onefile.yaml       |
 
-    @skip
+
     Scenario Outline: Writing an empty entry from the command line with no editor should yield nothing
         Given we use the config "<config_file>"
-        And we use the password "bad doggie no biscuit" if prompted
-        When we run "jrnl" and enter nothing
-        Then the output should be empty
+        And we use the password "test" if prompted
+        When we run "jrnl --config-override editor ''" and enter ""
+        Then the stdin prompt should have been called
+        And the output should be empty
         And the error output should contain "Writing Entry; on a blank line"
         And the editor should not have been called
 
         Examples: configs
-        | config_file        |
-        | config_simple.yaml |
-        | empty_folder.yaml  |
-        | encrypted.yaml     |
-        # | dayone             | @todo
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
 
     Scenario Outline: Writing an entry does not print the entire journal
         # https://github.com/jrnl-org/jrnl/issues/87
@@ -212,7 +213,7 @@ Feature: Writing new entries.
         When we run "jrnl -1"
         Then the output should be "2013-07-23 09:00 Testing folder journal."
 
-    Scenario Outline: Correctly count when adding a single entry via --edit
+    Scenario Outline: Count when adding a single entry via --edit
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         And we append to the editor if opened
@@ -282,7 +283,7 @@ Feature: Writing new entries.
         #| basic_dayone.yaml    | @todo
 
 
-    Scenario Outline: Correctly count modification when running --edit on whole journal and adding to last entry
+    Scenario Outline: Count modifications when editing whole journal and adding to last entry
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         And we append to the editor if opened
@@ -296,4 +297,4 @@ Feature: Writing new entries.
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
-        #| basic_dayone.yaml    | @todo
+        | basic_dayone.yaml    |
