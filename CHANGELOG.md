@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta1...HEAD)
 
+**Implemented enhancements:**
+
+- Support Python 3.11 [\#1371](https://github.com/jrnl-org/jrnl/issues/1371)
+
 **Fixed bugs:**
 
 - Specifying 'today' does not filter by year, also returns entries from same date in prior years [\#1391](https://github.com/jrnl-org/jrnl/issues/1391)
@@ -16,6 +20,7 @@
 **Packaging:**
 
 - Bump keyring from 23.4.0 to 23.5.0 [\#1392](https://github.com/jrnl-org/jrnl/pull/1392) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cryptography from 36.0.0 to 36.0.1 [\#1389](https://github.com/jrnl-org/jrnl/pull/1389) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.8.4-beta1](https://pypi.org/project/jrnl/v2.8.4-beta1/) (2021-12-11)
 
