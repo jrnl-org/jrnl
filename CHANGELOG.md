@@ -19,6 +19,7 @@
 
 **Packaging:**
 
+- Bump ipython from 7.28.0 to 7.31.1 [\#1401](https://github.com/jrnl-org/jrnl/pull/1401) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.4.0 to 23.5.0 [\#1392](https://github.com/jrnl-org/jrnl/pull/1392) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 36.0.0 to 36.0.1 [\#1389](https://github.com/jrnl-org/jrnl/pull/1389) ([dependabot[bot]](https://github.com/apps/dependabot))
 
