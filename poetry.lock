@@ -240,7 +240,7 @@ toml = {version = ">=0.10.2", markers = "python_version > \"3.6\""}
 
 [[package]]
 name = "ipython"
-version = "7.28.0"
+version = "7.31.1"
 description = "IPython: Productive Interactive Computing"
 category = "dev"
 optional = false
@@ -1036,8 +1036,8 @@ ipdb = [
     {file = "ipdb-0.13.9.tar.gz", hash = "sha256:951bd9a64731c444fd907a5ce268543020086a697f6be08f7cc2c9a752a278c5"},
 ]
 ipython = [
-    {file = "ipython-7.28.0-py3-none-any.whl", hash = "sha256:f16148f9163e1e526f1008d7c8d966d9c15600ca20d1a754287cf96d00ba6f1d"},
-    {file = "ipython-7.28.0.tar.gz", hash = "sha256:2097be5c814d1b974aea57673176a924c4c8c9583890e7a5f082f547b9975b11"},
+    {file = "ipython-7.31.1-py3-none-any.whl", hash = "sha256:55df3e0bd0f94e715abd968bedd89d4e8a7bce4bf498fb123fed4f5398fea874"},
+    {file = "ipython-7.31.1.tar.gz", hash = "sha256:b5548ec5329a4bcf054a5deed5099b0f9622eb9ea51aaa7104d215fece201d8c"},
 ]
 jedi = [
     {file = "jedi-0.18.0-py2.py3-none-any.whl", hash = "sha256:18456d83f65f400ab0c2d3319e48520420ef43b23a086fdc05dff34132f0fb93"},
