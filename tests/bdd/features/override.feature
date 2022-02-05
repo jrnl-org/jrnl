@@ -45,6 +45,11 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         When we run "jrnl -1 --config-override colors.body blue"
         Then the config in memory should contain "colors.body: blue"
 
+        Scenario: Override color selections with --co alias
+        Given we use the config "basic_encrypted.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl -1 --co colors.body blue"
+        Then the config in memory should contain "colors.body: blue"
 
         Scenario: Apply multiple config overrides
         Given we use the config "basic_encrypted.yaml"

@@ -336,6 +336,15 @@ def parse_args(args=[]):
            \t jrnl --config-override colors.body blue --config-override colors.title green
         """,
     )
+    config_overrides.add_argument(
+        "--co",
+        dest="config_override",
+        action="append",
+        type=str,
+        nargs=2,
+        default=[],
+        help=argparse.SUPPRESS,
+    )
 
     alternate_config = parser.add_argument_group(
         "Specifies alternate config to be used",
