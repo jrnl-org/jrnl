@@ -6,7 +6,9 @@
 
 **Implemented enhancements:**
 
+- Add --co alias for --config-override [\#1394](https://github.com/jrnl-org/jrnl/issues/1394)
 - Support Python 3.11 [\#1371](https://github.com/jrnl-org/jrnl/issues/1371)
+- Add hash as a default tag symbol for new jrnl config file [\#1398](https://github.com/jrnl-org/jrnl/pull/1398) ([micahellison](https://github.com/micahellison))
 
 **Fixed bugs:**
 
