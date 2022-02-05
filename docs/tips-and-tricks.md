@@ -1,10 +1,11 @@
 <!-- Copyright (C) 2012-2021 jrnl contributors
      License: https://www.gnu.org/licenses/gpl-3.0.html -->
-# FAQ
+# Tips and Tricks
 
-## Recipes
+This page contains tips and tricks for using `jrnl`, often in conjunction
+with other tools, including external editors.
 
-### Co-occurrence of tags
+## Co-occurrence of tags
 
 If I want to find out how often I mentioned my flatmates Alberto and
 Melo in the same entry, I run
@@ -20,7 +21,7 @@ tag `@alberto`, and then the `--tags` option will print out how often
 each tag occurred in this filtered journal. Finally, we pipe this to
 `grep` which will only display the line containing `@melo`.
 
-### Combining filters
+## Combining filters
 
 You can do things like
 
@@ -31,7 +32,7 @@ jrnl @fixed -starred -n 10 -to "jan 2013" --short
 To get a short summary of the 10 most recent, favourite entries before
 January 1, 2013 that are tagged with `@fixed`.
 
-### Statistics
+## Statistics
 
 How much did I write last year?
 
@@ -50,7 +51,7 @@ This will first get the total number of words in the journal and divide
 it by the number of entries (this works because `jrnl --short` will
 print exactly one line per entry).
 
-### Importing older files
+## Importing older files
 
 If you want to import a file as an entry to `jrnl`, you can just do `jrnl < entry.ext`. But what if you want the modification date of the file to
 be the date of the entry in `jrnl`? Try this
@@ -70,7 +71,7 @@ jrnlimport () {
 }
 ```
 
-### Using templates
+## Using templates
 
 !!! note
     Templates require an [external editor](./advanced.md) be configured.
@@ -79,7 +80,7 @@ A template is a code snippet that makes it easier to use repeated text
 each time a new journal entry is started. There are two ways you can utilize
 templates in your entries.
 
-#### 1. Command line arguments
+### 1. Command line arguments
 
 If you had a `template.txt` file with the following contents:
 
@@ -98,11 +99,11 @@ jrnl < template.txt     # Imports template.txt as the most recent entry
 jrnl -1 --edit          # Opens the most recent entry in the editor
 ```
 
-#### 2. Include the template file in `jrnl.yaml`
+### 2. Include the template file in `jrnl.yaml`
 
 A more efficient way to work with a template file is to declare the file
-in your config file by changing the `template` setting from `false` to the
-template file's path in double quotes:
+in your [config file](./reference-config-file.md) by changing the `template`
+setting from `false` to the template file's path in double quotes:
 
 ```sh
 ...
@@ -121,7 +122,7 @@ logged as a new entry in the journal you specified in the original argument.
 jrnl -n 1
 ```
 
-### Prompts on shell reload
+## Prompts on shell reload
 
 If you'd like to be prompted each time you refresh your shell, you can include
 this in your `.bash_profile`:
@@ -142,7 +143,7 @@ questions in the example above. Each answer will be logged as a separate
 journal entry at the `default_hour` and `default_minute` listed in your
 `jrnl.yaml` [config file](../advanced/#configuration-file).
 
-### Display random entry
+## Display random entry
 
 You can use this to select one title at random and then display the whole
 entry. The invocation of `cut` needs to match the format of the timestamp.
@@ -155,7 +156,7 @@ jrnl -on "$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)"
 ```
 
 
-### Launch a terminal for rapid logging
+## Launch a terminal for rapid logging
 You can use this to launch a terminal that is the `jrnl` stdin prompt so you can start typing away immediately.
 
 ```bash
@@ -180,7 +181,7 @@ Mod4+Mod1+j
 bindsym Mod4+Mod1+j exec --no-startup-id alacritty -t floating-jrnl -e jrnl --config-override editor ""
 for_window[title="floating *"] floating enable
 ```
-### Visualize Formatted Markdown in the CLI
+## Visualize Formatted Markdown in the CLI
 
 Out of the box, `jrnl` can output journal entries in Markdown. To visualize it, you can pipe to [mdless](https://github.com/ttscoff/mdless), which is a [less](https://en.wikipedia.org/wiki/Less_(Unix))-like tool that allows you to visualize your Markdown text with formatting and syntax highlighting from the CLI. You can use this in any shell that supports piping.
 
@@ -207,94 +208,3 @@ display_format: markdown
 
 For more information on how `jrnl` outputs your entries in Markdown, please visit the [Formats](./formats.md) section.
 
-## External editors
-
-Configure your preferred external editor by updating the `editor` option
-in your `jrnl.yaml` file. (See [advanced usage](./advanced.md) for details).
-
-!!! note
-    To save and log any entry edits, save and close the file.
-
-If your editor is not in your operating system's `PATH` environment variable,
-then you will have to enter in the full path of your editor.
-
-### Sublime Text
-
-To use [Sublime Text](https://www.sublimetext.com/), install the command line
-tools for Sublime Text and configure your `jrnl.yaml` like this:
-
-```yaml
-editor: "subl -w"
-```
-
-Note the `-w` flag to make sure `jrnl` waits for Sublime Text to close the
-file before writing into the journal.
-
-### Visual Studio Code
-
-[Visual Studio Code](https://code.visualstudio.com) also requires a flag
-that tells the process to wait until the file is closed before exiting:
-
-```yaml
-editor: "code --wait"
-```
-
-On Windows, `code` is not added to the path by default, so you'll need to
-enter the full path to your `code.exe` file, or add it to the `PATH` variable.
-
-### MacVim
-
-Also similar to Sublime Text, MacVim must be started with a flag that tells
-the the process to wait until the file is closed before passing control
-back to journal. In the case of MacVim, this is `-f`:
-
-```yaml
-editor: "mvim -f"
-```
-
-### iA Writer
-
-On OS X, you can use the fabulous [iA
-Writer](http://www.iawriter.com/mac) to write entries. Configure your
-`jrnl.yaml` like this:
-
-```yaml
-editor: "open -b pro.writer.mac -Wn"
-```
-
-What does this do? `open -b ...` opens a file using the application
-identified by the bundle identifier (a unique string for every app out
-there). `-Wn` tells the application to wait until it's closed before
-passing back control, and to use a new instance of the application.
-
-If the `pro.writer.mac` bundle identifier is not found on your system,
-you can find the right string to use by inspecting iA Writer's
-`Info.plist` file in your shell:
-
-```sh
-grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
-```
-
-### Notepad++ on Windows
-
-To set [Notepad++](http://notepad-plus-plus.org/) as your editor, edit
-the `jrnl` config file (`jrnl.yaml`) like this:
-
-```yaml
-editor: "C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession"
-```
-
-The double backslashes are needed so `jrnl` can read the file path
-correctly. The `-multiInst -nosession` options will cause `jrnl` to open
-its own Notepad++ window.
-
-
-### emacs
-
-To use `emacs` as your editor, edit the `jrnl` config file (`jrnl.yaml`) like this:
-
-```yaml
-editor: emacsclient -a "" -c
-```
-
-When you're done editing the message, save and `C-x #` to close the buffer and stop the emacsclient process.

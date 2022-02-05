@@ -5,109 +5,15 @@
 
 ## Configuration File
 
-You can configure the way jrnl behaves in a configuration file. By
-default, this is `~/.config/jrnl/jrnl.yaml`. If you have the `XDG_CONFIG_HOME`
-variable set, the configuration file will be saved as
-`$XDG_CONFIG_HOME/jrnl/jrnl.yaml`.
+`jrnl` has a wide variety of options that can be customized through the config file,
+including templates, formats, multiple journals, and more. See
+the [configuration file reference](./reference-config-file.md) for details
+or read on for some common use cases.
 
-!!! note
-    On Windows, the configuration file is typically found at `%USERPROFILE%\.config\jrnl\jrnl.yaml`.
-
-The configuration file is a YAML file with the following options
-and can be edited with a plain text editor.
-
-!!! note
-    Backup your journal and config file before editing. Changes to the config file
-    can have destructive effects on your journal!
-
-- `journals`
-    paths to your journal files
-- `editor`
-    if set, executes this command to launch an external editor for
-    writing your entries, e.g. `vim`. Some editors require special
-    options to work properly, see `FAQ <recipes>` for details.
-- `encrypt`
-    if `true`, encrypts your journal using AES.
-- `tagsymbols`
-    Symbols to be interpreted as tags. (See note below)
-- `default_hour` and `default_minute`
-    if you supply a date, such as `last thursday`, but no specific
-    time, the entry will be created at this time
-- `timeformat`
-    how to format the timestamps in your journal, see the [python docs](http://docs.python.org/library/time.html#time.strftime) for reference
-- `highlight`
-    if `true`, tags will be highlighted in cyan.
-- `linewrap`
-    controls the width of the output. Set to `false` if you don't want to wrap long lines.
-- `colors`
-    dictionary that controls the colors used to display journal entries. It has four subkeys, which are: `body`, `date`, `tags`, and `title`. Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE`, and `NONE`. `colorama.Fore` is used for colorization, and you can find the [docs here](https://github.com/tartley/colorama#colored-output). To disable colored output, set the value to `NONE`. If you set the value of any color subkey to an invalid color, no color will be used.
-- `display_format`
-    specifies formatter to use, formatters available are:
-    `boxed`, `fancy`, `json`, `markdown`, `md`, `tags`, `text`, `txt`, `xml`, or `yaml`.
-
-!!! note
-    Although it seems intuitive to use the `#`
-    character for tags, there's a drawback: on most shells, this is
-    interpreted as a meta-character starting a comment. This means that if
-    you type
-
-    > `jrnl Implemented endless scrolling on the #frontend of our website.`
-
-    your bash will chop off everything after the `#` before passing it to
-      `jrnl`. To avoid this, wrap your input into quotation marks like
-      this:
-
-    > `jrnl "Implemented endless scrolling on the #frontend of our website."`
-
-  Or use the built-in prompt or an external editor to compose your
-  entries.
-
-### Modifying Configurations from the Command line 
-
-You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot-notation and `CONFIG_VALUE` is the (valid) desired override value.
-
-You can specify multiple overrides as multiple calls to `--config-override`.
-!!! note
-    These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing. 
-
-#### Examples: 
-
-``` sh
-#Create an entry using the `stdin` prompt, for rapid logging
-jrnl --config-override editor ""
-
-#Populate a project's log
-jrnl --config-override journals.todo "$(git rev-parse --show-toplevel)/todo.txt" todo find my towel 
-
-#Pass multiple overrides 
-jrnl --config-override display_format fancy --config-override linewrap 20 \
---config-override colors.title green
-
-```
-
-### Using an alternate config
-
-You can specify an alternate configuration file for the current instance of `jrnl` using `--config-file CONFIG_FILE_PATH` where
-`CONFIG_FILE_PATH` is a path to an alternate `jrnl` configuration file. 
-
-#### Examples:
-
-```
-# Use personalised configuration file for personal journal entries
-jrnl --config-file ~/foo/jrnl/personal-config.yaml
-
-# Use alternate configuration file for work-related entries
-jrnl --config-file ~/foo/jrnl/work-config.yaml
-
-# Use default configuration file (created on installation)
-jrnl
-```
-
-
-## Multiple journal files
+### Multiple journal files
 
 You can configure `jrnl`to use with multiple journals (eg.
-`private` and `work`) by defining more journals in your `jrnl.yaml`,
+`private` and `work`) by defining more journals in your [config file](./reference-config-file.md),
 for example:
 
 ``` yaml
@@ -167,12 +73,46 @@ journals:
 
 The `work` journal is encrypted, prints to `json` by default, and is edited using an existing window of VSCode. Similarly, the `food` journal prints to markdown by default, but uses all the other defaults.
 
+### Modifying Configurations from the Command line 
+
+You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot notation and `CONFIG_VALUE` is the (valid) desired override value. The dot notation can be used to change config keys within other keys, such as `colors.title` for the `title` key within the `colors` key.
+
+You can specify multiple overrides as multiple calls to `--config-override`.
 !!! note
-    Changing `encrypt` to a different value will not encrypt or decrypt your
-    journal file, it merely says whether or not your journal
-    is encrypted. Hence manually changing
-    this option will most likely result in your journal file being
-    impossible to load.
+    These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing. 
+
+#### Examples: 
+
+``` sh
+#Create an entry using the `stdin` prompt, for rapid logging
+jrnl --config-override editor ""
+
+#Populate a project's log
+jrnl --config-override journals.todo "$(git rev-parse --show-toplevel)/todo.txt" todo find my towel 
+
+#Pass multiple overrides 
+jrnl --config-override display_format fancy --config-override linewrap 20 \
+--config-override colors.title green
+
+```
+
+### Using an alternate config
+
+You can specify an alternate configuration file for the current instance of `jrnl` using `--config-file CONFIG_FILE_PATH` where
+`CONFIG_FILE_PATH` is a path to an alternate `jrnl` configuration file. 
+
+#### Examples:
+
+```
+# Use personalised configuration file for personal journal entries
+jrnl --config-file ~/foo/jrnl/personal-config.yaml
+
+# Use alternate configuration file for work-related entries
+jrnl --config-file ~/foo/jrnl/work-config.yaml
+
+# Use default configuration file (created on first run)
+jrnl
+```
 
 ## Known Issues
 

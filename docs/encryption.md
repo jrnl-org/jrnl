@@ -35,6 +35,14 @@ replaces the encrypted journal file with a plain text file. You can also specify
 a filename, e.g., `jrnl --decrypt plain_text_copy.txt`, to leave the original
 encrypted file untouched and create a new plain text file next to it.
 
+!!! note
+    Changing `encrypt` in your [config file](./reference-config-file.md) to
+    a different value will not encrypt or decrypt your
+    journal file. It merely says whether or not your journal
+    is encrypted. Hence manually changing
+    this option will most likely result in your journal file being
+    impossible to load. This is why the above commands are necessary.
+
 ## Storing Passwords in Your Keychain
 
 Nobody can recover or reset your `jrnl` password. If you lose it,
