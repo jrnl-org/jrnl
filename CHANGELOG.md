@@ -12,14 +12,12 @@
 
 - Specifying 'today' does not filter by year, also returns entries from same date in prior years [\#1391](https://github.com/jrnl-org/jrnl/issues/1391)
 
-**Build:**
-
-- Improve handling of mocking logic in pytest [\#1382](https://github.com/jrnl-org/jrnl/pull/1382) ([wren](https://github.com/wren))
-
 **Documentation:**
 
 - Fix nested navigation styling on docs site [\#1349](https://github.com/jrnl-org/jrnl/issues/1349)
+- Separate out reference documentation for command line arguments and config file [\#1300](https://github.com/jrnl-org/jrnl/issues/1300)
 - Fix styling on documentation sidebar [\#1395](https://github.com/jrnl-org/jrnl/pull/1395) ([wren](https://github.com/wren))
+- Add reference documentation to docs site and separate out "Tips and Tricks" and "External Editors" from "Recipes" [\#1332](https://github.com/jrnl-org/jrnl/pull/1332) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
