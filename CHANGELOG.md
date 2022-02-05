@@ -12,6 +12,10 @@
 
 - Specifying 'today' does not filter by year, also returns entries from same date in prior years [\#1391](https://github.com/jrnl-org/jrnl/issues/1391)
 
+**Build:**
+
+- Improve handling of mocking logic in pytest [\#1382](https://github.com/jrnl-org/jrnl/pull/1382) ([wren](https://github.com/wren))
+
 **Documentation:**
 
 - Fix nested navigation styling on docs site [\#1349](https://github.com/jrnl-org/jrnl/issues/1349)
@@ -19,6 +23,7 @@
 
 **Packaging:**
 
+- Bump black from 21.12b0 to 22.1.0 [\#1404](https://github.com/jrnl-org/jrnl/pull/1404) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump ipython from 7.28.0 to 7.31.1 [\#1401](https://github.com/jrnl-org/jrnl/pull/1401) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump asteval from 0.9.25 to 0.9.26 [\#1400](https://github.com/jrnl-org/jrnl/pull/1400) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.4.0 to 23.5.0 [\#1392](https://github.com/jrnl-org/jrnl/pull/1392) ([dependabot[bot]](https://github.com/apps/dependabot))
