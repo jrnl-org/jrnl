@@ -89,7 +89,7 @@ def get_default_config():
         "default_hour": 9,
         "default_minute": 0,
         "timeformat": "%Y-%m-%d %H:%M",
-        "tagsymbols": "@",
+        "tagsymbols": "#@",
         "highlight": True,
         "linewrap": 79,
         "indent_character": "|",
