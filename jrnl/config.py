@@ -7,7 +7,8 @@ import yaml
 import xdg.BaseDirectory
 
 from . import __version__
-from .exception import JrnlError
+from .exception import JrnlException
+from .exception import JrnlExceptionMessage
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .output import list_journals
@@ -68,8 +69,8 @@ def get_config_path():
     try:
         config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
     except FileExistsError:
-        raise JrnlError(
-            "ConfigDirectoryIsFile",
+        raise JrnlException(
+            JrnlExceptionMessage.ConfigDirectoryIsFile,
             config_directory_path=os.path.join(
                 xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
             ),

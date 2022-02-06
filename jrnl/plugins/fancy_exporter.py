@@ -2,7 +2,8 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from jrnl.exception import JrnlError
+from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
 from textwrap import TextWrapper
 
 from .text_exporter import TextExporter
@@ -40,7 +41,7 @@ class FancyExporter(TextExporter):
         card = [
             cls.border_a + cls.border_b * (initial_linewrap) + cls.border_c + date_str
         ]
-        check_provided_linewrap_viability(linewrap, card, entry.journal)
+        check_provided_linewrap_viability(linewrap, card, entry.journal.name)
 
         w = TextWrapper(
             width=initial_linewrap,
@@ -84,8 +85,8 @@ class FancyExporter(TextExporter):
 def check_provided_linewrap_viability(linewrap, card, journal):
     if len(card[0]) > linewrap:
         width_violation = len(card[0]) - linewrap
-        raise JrnlError(
-            "LineWrapTooSmallForDateFormat",
+        raise JrnlException(
+            JrnlExceptionMessage.LineWrapTooSmallForDateFormat,
             config_linewrap=linewrap,
             columns=width_violation,
             journal=journal,

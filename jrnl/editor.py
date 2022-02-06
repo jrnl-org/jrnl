@@ -6,10 +6,13 @@ import tempfile
 import textwrap
 from pathlib import Path
 
-from .color import ERROR_COLOR
-from .color import RESET_COLOR
-from .os_compat import on_windows
-from .os_compat import split_args
+from jrnl.color import ERROR_COLOR
+from jrnl.color import RESET_COLOR
+from jrnl.os_compat import on_windows
+from jrnl.os_compat import split_args
+from jrnl.output import print_msg
+from jrnl.output import Message
+from jrnl.exception import JrnlException
 
 
 def get_text_from_editor(config, template=""):
@@ -48,15 +51,16 @@ def get_text_from_editor(config, template=""):
 
 def get_text_from_stdin():
     _how_to_quit = "Ctrl+z and then Enter" if on_windows() else "Ctrl+d"
-    print(
-        f"[Writing Entry; on a blank line, press {_how_to_quit} to finish writing]\n",
-        file=sys.stderr,
+    print_msg(
+        "Writing Entry",
+        f"To finish writing, press {_how_to_quit} on a blank line.",
+        msg=Message.NORMAL,
     )
     try:
         raw = sys.stdin.read()
     except KeyboardInterrupt:
         logging.error("Write mode: keyboard interrupt")
-        print("[Entry NOT saved to journal]", file=sys.stderr)
-        sys.exit(0)
+        print_msg("Entry NOT saved to journal", msg=Message.NORMAL)
+        raise JrnlException("KeyboardInterrupt")
 
     return raw

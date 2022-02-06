@@ -1,11 +1,13 @@
 import textwrap
 
-from jrnl.exception import JrnlError
+from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
 
 
 def test_config_directory_exception_message():
-    ex = JrnlError(
-        "ConfigDirectoryIsFile", config_directory_path="/config/directory/path"
+    ex = JrnlException(
+        JrnlExceptionMessage.ConfigDirectoryIsFile,
+        config_directory_path="/config/directory/path",
     )
 
     assert ex.message == textwrap.dedent(
