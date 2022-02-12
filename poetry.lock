@@ -806,7 +806,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "typing-extensions"
-version = "4.0.1"
+version = "4.1.0"
 description = "Backported and Experimental Type Hints for Python 3.6+"
 category = "main"
 optional = false
@@ -1336,8 +1336,8 @@ typed-ast = [
     {file = "typed_ast-1.5.2.tar.gz", hash = "sha256:525a2d4088e70a9f75b08b3f87a51acc9cde640e19cc523c7e41aa355564ae27"},
 ]
 typing-extensions = [
-    {file = "typing_extensions-4.0.1-py3-none-any.whl", hash = "sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b"},
-    {file = "typing_extensions-4.0.1.tar.gz", hash = "sha256:4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e"},
+    {file = "typing_extensions-4.1.0-py3-none-any.whl", hash = "sha256:c13180fbaa7cd97065a4915ceba012bdb31dc34743e63ddee16360161d358414"},
+    {file = "typing_extensions-4.1.0.tar.gz", hash = "sha256:ba97c5143e5bb067b57793c726dd857b1671d4b02ced273ca0538e71ff009095"},
 ]
 tzlocal = [
     {file = "tzlocal-2.1-py2.py3-none-any.whl", hash = "sha256:e2cb6c6b5b604af38597403e9852872d7f534962ae2954c7f35efcb1ccacf4a4"},
