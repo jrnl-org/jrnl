@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4...HEAD)
+
+**Packaging:**
+
+- Bump pytest from 6.2.5 to 7.0.0 [\#1407](https://github.com/jrnl-org/jrnl/pull/1407) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8.4](https://pypi.org/project/jrnl/v2.8.4/) (2022-02-12)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4-beta2...v2.8.4)
