@@ -36,7 +36,7 @@ class YAMLExporter(TextExporter):
 
         tagsymbols = entry.journal.config["tagsymbols"]
         # see also Entry.Entry.rag_regex
-        multi_tag_regex = re.compile(fr"(?u)^\s*([{tagsymbols}][-+*#/\w]+\s*)+$")
+        multi_tag_regex = re.compile(rf"(?u)^\s*([{tagsymbols}][-+*#/\w]+\s*)+$")
 
         """Increase heading levels in body text"""
         newbody = ""
