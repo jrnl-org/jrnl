@@ -51,5 +51,9 @@ def cli(manual_args=None):
             traceback.print_tb(sys.exc_info()[2])
             return 1
 
-        print_msg(f"{type(e).__name__}\n", str(e), msg=Message.ERROR)
+        file_issue = (
+            "\n\nThis is probably a bug. Please file an issue at:"
+            + "\nhttps://github.com/jrnl-org/jrnl/issues/new/choose"
+        )
+        print_msg(f"{type(e).__name__}\n", f"{e}{file_issue}", msg=Message.ERROR)
         return 1
