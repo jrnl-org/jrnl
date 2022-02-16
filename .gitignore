@@ -21,10 +21,10 @@ var/
 .tool-version
 
 # Installer logs
-pip-log.txt
 .DS_Store
 .travis-solo
 Icon
+pip-log.txt
 
 # Documentation
 _build
@@ -36,10 +36,10 @@ objects.inv
 searchindex.js
 
 # virtaulenv
+.venv*/
 env/
 env*/
 venv*/
-.venv*/
 
 # Editor and IDE specific files
 #  Since contributors may want to user a variety of development tools it is 
