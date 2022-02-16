@@ -49,10 +49,10 @@ venv*/
 #  https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 #  (Configuring ignored files for all repositories on your computer)
 #  Examples of such files are:
-# MS Visual Studio (PyTools):
+# MS Visual Studio (PyTools)
 #   obj
 #   *.suo
-# PyCharm:
+# PyCharm
 #   .idea/
-# VS Code:
+# VS Code
 #   .vscode/settings.json
