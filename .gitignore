@@ -1,64 +1,58 @@
+# Byte-compiled DLL and Shared Library files
 *.py[cod]
-
-# C extensions
 *.so
 
 # Packages
 *.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
+*.egg-info/
 .installed.cfg
-lib64
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib64/
+parts/
+sdist/
+var/
 
 # Versioning
 .python-version
 .tool-version
 
 # Installer logs
-pip-log.txt
 .DS_Store
 .travis-solo
 Icon
+pip-log.txt
 
 # Documentation
 _build
 _sources
 _static
+coverage.xml
+exp/
 objects.inv
 searchindex.js
 
-# MS Visual Studio (PyTools)
-obj
-*.pyproj
-*.sln
-*.suo
-
 # virtaulenv
+.venv*/
 env/
 env*/
 venv*/
-.venv*/
 
-# PyCharm Project files
-.idea/
-
-# export testing directories
-exp/
-
-_extras/
-*.sublime-*
-site/
-
-.vscode/settings.json
-coverage.xml
-.vscode/launch.json
-.coverage
-.vscode/tasks.json
-todo.txt
+# Editor and IDE specific files
+#  Since contributors may want to user a variety of development tools it is 
+#  recommended that editor specific file types be ignored globally by each
+#  contributor via a global gitignore. Instructions for setting up a global
+#  ignore file can be found here:
+#  https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+#  (Configuring ignored files for all repositories on your computer)
+#  Examples of such files are:
+# MS Visual Studio (PyTools)
+#   obj
+#   *.suo
+# PyCharm
+#   .idea/
+# VS Code
+#   .vscode/settings.json
