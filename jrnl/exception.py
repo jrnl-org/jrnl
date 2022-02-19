@@ -44,6 +44,13 @@ class JrnlExceptionMessage(Enum):
 
     KeyboardInterrupt = "Aborted by user"
 
+    EditorMisconfigured = """
+        No such file or directory: '{editor_key}'
+
+        Please check the 'editor' key in your config file for errors:
+            editor: '{editor_key}'
+        """
+
     SomeTest = """
         Some error or something
 
