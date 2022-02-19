@@ -13,6 +13,7 @@ from jrnl.os_compat import split_args
 from jrnl.output import print_msg
 from jrnl.output import Message
 from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
 
 
 def get_text_from_editor(config, template=""):
@@ -60,7 +61,7 @@ def get_text_from_stdin():
         raw = sys.stdin.read()
     except KeyboardInterrupt:
         logging.error("Write mode: keyboard interrupt")
-        print_msg("Entry NOT saved to journal", msg=Message.NORMAL)
-        raise JrnlException("KeyboardInterrupt")
+        print_msg("\nEntry NOT saved to journal", msg=Message.NORMAL)
+        raise JrnlException(JrnlExceptionMessage.KeyboardInterrupt)
 
     return raw
