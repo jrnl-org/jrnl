@@ -1,6 +1,6 @@
 Feature: Writing new entries.
 
-    Scenario Outline: Multiline entry with punctuation should keep title punctuation 
+    Scenario Outline: Multiline entry with punctuation should keep title punctuation
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl This is. the title\\n This is the second line"
