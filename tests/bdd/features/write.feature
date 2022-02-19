@@ -96,7 +96,7 @@ Feature: Writing new entries.
         When we run "jrnl --config-override editor ''" and enter ""
         Then the stdin prompt should have been called
         And the output should be empty
-        And the error output should contain "Writing Entry; on a blank line"
+        And the error output should contain "To finish writing, press"
         And the editor should not have been called
 
         Examples: configs
