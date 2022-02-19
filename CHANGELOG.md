@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4...HEAD)
 
+**Build:**
+
+- Drop support for Python 3.7 and 3.8 [\#1412](https://github.com/jrnl-org/jrnl/pull/1412) ([micahellison](https://github.com/micahellison))
+
 **Packaging:**
 
+- Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
 - Bump pytest from 6.2.5 to 7.0.0 [\#1407](https://github.com/jrnl-org/jrnl/pull/1407) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.8.4](https://pypi.org/project/jrnl/v2.8.4/) (2022-02-12)
