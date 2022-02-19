@@ -39,21 +39,17 @@ def list_journals(configuration):
     return result
 
 
-MessageProps = namedtuple("MessageProps", ["value", "color", "pipe"])
+MessageProps = namedtuple("MessageProps", ["value", "color"])
 
 
 class Message(Enum):
-    NORMAL = MessageProps(0, "cyan", sys.stderr)
-    WARNING = MessageProps(1, "yellow", sys.stderr)
-    ERROR = MessageProps(2, "red", sys.stderr)
+    NORMAL = MessageProps(0, "cyan")
+    WARNING = MessageProps(1, "yellow")
+    ERROR = MessageProps(2, "red")
 
     @property
     def color(self):
         return self.value.color
-
-    @property
-    def pipe(self):
-        return self.value.pipe
 
 
 def print_msg(title: str, body: str = "", msg: Message = Message.NORMAL):
@@ -64,4 +60,4 @@ def print_msg(title: str, body: str = "", msg: Message = Message.NORMAL):
     if body:
         result += f"\n{body}"
 
-    print(result, file=msg.pipe)
+    print(result, file=sys.stderr)
