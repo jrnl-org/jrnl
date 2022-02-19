@@ -1,6 +1,5 @@
 default_hour: 9
 default_minute: 0
-editor: ""
 encrypt: false
 highlight: true
 editor: "vim"
