@@ -14,7 +14,6 @@ from .config import get_default_journal_path
 from .config import load_config
 from .config import save_config
 from .config import verify_config_colors
-from .exception import UserAbort
 from .prompt import yesno
 from .upgrade import is_old_version
 
@@ -72,32 +71,16 @@ def load_or_install_jrnl(alt_config_path):
         config = load_config(config_path)
 
         if is_old_version(config_path):
-            from . import upgrade
+            from jrnl import upgrade
 
-            try:
-                upgrade.upgrade_jrnl(config_path)
-            except upgrade.UpgradeValidationException:
-                print("Aborting upgrade.", file=sys.stderr)
-                print(
-                    "Please tell us about this problem at the following URL:",
-                    file=sys.stderr,
-                )
-                print(
-                    "https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException",
-                    file=sys.stderr,
-                )
-                print("Exiting.", file=sys.stderr)
-                sys.exit(1)
+            upgrade.upgrade_jrnl(config_path)
 
         upgrade_config(config, alt_config_path)
         verify_config_colors(config)
 
     else:
         logging.debug("Configuration file not found, installing jrnl...")
-        try:
-            config = install()
-        except KeyboardInterrupt:
-            raise UserAbort("Installation aborted")
+        config = install()
 
     logging.debug('Using configuration "%s"', config)
     return config

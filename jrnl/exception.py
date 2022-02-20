@@ -9,12 +9,6 @@ class UserAbort(Exception):
     pass
 
 
-class UpgradeValidationException(Exception):
-    """Raised when the contents of an upgraded journal do not match the old journal"""
-
-    pass
-
-
 class JrnlExceptionMessage(Enum):
     ConfigDirectoryIsFile = """
         The path to your jrnl configuration directory is a file, not a directory:
@@ -51,12 +45,24 @@ class JrnlExceptionMessage(Enum):
             editor: '{editor_key}'
         """
 
+    JournalFailedUpgrade = """
+        The following journal{s} failed to upgrade:
+        {failed_journals}
+
+        Please tell us about this problem at the following URL:
+        https://github.com/jrnl-org/jrnl/issues/new?title=JournalFailedUpgrade
+        """
+
+    UpgradeAborted = """
+        jrnl was NOT upgraded
+        """
+
     SomeTest = """
         Some error or something
 
         This is a thing to test with this message or whatever and maybe it just
         keeps going forever because it's super long for no apparent reason
-    """
+        """
 
 
 class JrnlException(Exception):

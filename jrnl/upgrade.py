@@ -10,9 +10,12 @@ from .EncryptedJournal import EncryptedJournal
 from .config import is_config_json
 from .config import load_config
 from .config import scope_config
-from .exception import UpgradeValidationException
-from .exception import UserAbort
 from .prompt import yesno
+
+from jrnl.output import print_msg
+from jrnl.output import Message
+from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
 
 
 def backup(filename, binary=False):
@@ -27,13 +30,9 @@ def backup(filename, binary=False):
             backup.write(contents)
     except FileNotFoundError:
         print(f"\nError: {filename} does not exist.")
-        try:
-            cont = yesno(f"\nCreate {filename}?", default=False)
-            if not cont:
-                raise KeyboardInterrupt
-
-        except KeyboardInterrupt:
-            raise UserAbort("jrnl NOT upgraded, exiting.")
+        cont = yesno(f"\nCreate {filename}?", default=False)
+        if not cont:
+            raise JrnlException(JrnlExceptionMessage.UpgradeAborted)
 
 
 def check_exists(path):
@@ -121,12 +120,9 @@ older versions of jrnl anymore.
                 file=sys.stderr,
             )
 
-    try:
-        cont = yesno("\nContinue upgrading jrnl?", default=False)
-        if not cont:
-            raise KeyboardInterrupt
-    except KeyboardInterrupt:
-        raise UserAbort("jrnl NOT upgraded, exiting.")
+    cont = yesno("\nContinue upgrading jrnl?", default=False)
+    if not cont:
+        raise JrnlException(JrnlExceptionMessage.UpgradeAborted)
 
     for journal_name, path in encrypted_journals.items():
         print(
@@ -154,15 +150,13 @@ older versions of jrnl anymore.
     failed_journals = [j for j in all_journals if not j.validate_parsing()]
 
     if len(failed_journals) > 0:
-        print(
-            "\nThe following journal{} failed to upgrade:\n{}".format(
-                "s" if len(failed_journals) > 1 else "",
-                "\n".join(j.name for j in failed_journals),
-            ),
-            file=sys.stderr,
-        )
+        print_msg("Aborting upgrade.", msg=Message.NORMAL)
 
-        raise UpgradeValidationException
+        raise JrnlException(
+            JrnlExceptionMessage.JournalFailedUpgrade,
+            s="s" if len(failed_journals) > 1 else "",
+            failed_journals="\n".join(j.name for j in failed_journals),
+        )
 
     # write all journals - or - don't
     for j in all_journals:
