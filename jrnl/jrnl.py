@@ -18,6 +18,9 @@ from .exception import UserAbort
 from . import time
 from .override import apply_overrides
 
+from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
+
 
 def run(args):
     """
@@ -310,11 +313,7 @@ def _pluralize_entry(num):
 
 def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
-        print(
-            "[No entries deleted, because the search returned no results.]",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+        raise JrnlException(JrnlExceptionMessage.NothingToDelete)
 
     entries_to_delete = journal.prompt_delete_entries()
 

@@ -53,6 +53,10 @@ class JrnlExceptionMessage(Enum):
         https://github.com/jrnl-org/jrnl/issues/new?title=JournalFailedUpgrade
         """
 
+    NothingToDelete = """
+        No entries to delete, because the search returned no results.
+    """
+
     UpgradeAborted = """
         jrnl was NOT upgraded
         """
