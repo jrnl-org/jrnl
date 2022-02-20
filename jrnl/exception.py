@@ -76,6 +76,10 @@ class JrnlExceptionMessage(Enum):
             {config_file}
         """
 
+    PasswordMaxTriesExceeded = """
+        Too many attempts with wrong password.
+        """
+
     SomeTest = """
         Some error or something
 

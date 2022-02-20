@@ -21,6 +21,9 @@ from .Journal import Journal
 from .Journal import LegacyJournal
 from .prompt import create_password
 
+from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
+
 
 def make_key(password):
     password = password.encode("utf-8")
@@ -53,11 +56,11 @@ def decrypt_content(
         password = getpass.getpass()
         result = decrypt_func(password)
         attempt += 1
-    if result is not None:
-        return result
-    else:
-        print("Extremely wrong password.", file=sys.stderr)
-        sys.exit(1)
+
+    if result is None:
+        raise JrnlException(JrnlExceptionMessage.PasswordMaxTriesExceeded)
+
+    return result
 
 
 class EncryptedJournal(Journal):
@@ -121,15 +124,11 @@ class EncryptedJournal(Journal):
     @classmethod
     def from_journal(cls, other: Journal):
         new_journal = super().from_journal(other)
-        try:
-            new_journal.password = (
-                other.password
-                if hasattr(other, "password")
-                else create_password(other.name)
-            )
-        except KeyboardInterrupt:
-            print("[Interrupted while creating new journal]", file=sys.stderr)
-            sys.exit(1)
+        new_journal.password = (
+            other.password
+            if hasattr(other, "password")
+            else create_password(other.name)
+        )
 
         return new_journal
 
