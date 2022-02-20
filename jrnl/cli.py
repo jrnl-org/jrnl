@@ -34,26 +34,38 @@ def cli(manual_args=None):
         configure_logger(args.debug)
         logging.debug("Parsed args: %s", args)
 
-        return run(args)
+        status_code = run(args)
 
     except JrnlException as e:
+        status_code = 1
         print_msg(e.title, e.message, msg=Message.ERROR)
-        return 1
 
     except KeyboardInterrupt:
+        status_code = 1
         print_msg("\nKeyboardInterrupt", "\nAborted by user", msg=Message.ERROR)
-        return 1
 
     except Exception as e:
         # uncaught exception
-        if args.debug:
+        status_code = 1
+        debug = False
+        try:
+            if args.debug:  # type: ignore
+                debug = True
+        except NameError:
+            # This should only happen when the exception
+            # happened before the args were parsed
+            if "--debug" in sys.argv:
+                debug = True
+
+        if debug:
             print("\n")
             traceback.print_tb(sys.exc_info()[2])
-            return 1
 
         file_issue = (
             "\n\nThis is probably a bug. Please file an issue at:"
             + "\nhttps://github.com/jrnl-org/jrnl/issues/new/choose"
         )
         print_msg(f"{type(e).__name__}\n", f"{e}{file_issue}", msg=Message.ERROR)
-        return 1
+
+    # This should be the only exit point
+    return status_code
