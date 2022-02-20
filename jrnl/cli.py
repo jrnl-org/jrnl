@@ -41,7 +41,7 @@ def cli(manual_args=None):
         return 1
 
     except KeyboardInterrupt:
-        print_msg("KeyboardInterrupt", "Aborted by user", msg=Message.ERROR)
+        print_msg("\nKeyboardInterrupt", "\nAborted by user", msg=Message.ERROR)
         return 1
 
     except Exception as e:
