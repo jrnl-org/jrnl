@@ -5,10 +5,6 @@ import textwrap
 from enum import Enum
 
 
-class UserAbort(Exception):
-    pass
-
-
 class JrnlExceptionMessage(Enum):
     ConfigDirectoryIsFile = """
         The path to your jrnl configuration directory is a file, not a directory:

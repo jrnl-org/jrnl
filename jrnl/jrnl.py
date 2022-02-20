@@ -14,7 +14,6 @@ from .config import scope_config
 from .config import get_config_path
 from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
-from .exception import UserAbort
 from . import time
 from .override import apply_overrides
 
@@ -38,18 +37,14 @@ def run(args):
         return args.preconfig_cmd(args)
 
     # Load the config, and extract journal name
-    try:
-        config = install.load_or_install_jrnl(args.config_file_path)
-        original_config = config.copy()
+    config = install.load_or_install_jrnl(args.config_file_path)
+    original_config = config.copy()
 
-        # Apply config overrides
-        config = apply_overrides(args, config)
+    # Apply config overrides
+    config = apply_overrides(args, config)
 
-        args = get_journal_name(args, config)
-        config = scope_config(config, args.journal_name)
-    except UserAbort as err:
-        print(f"\n{err}", file=sys.stderr)
-        sys.exit(1)
+    args = get_journal_name(args, config)
+    config = scope_config(config, args.journal_name)
 
     # Run post-config command now that config is ready
     if callable(args.postconfig_cmd):
