@@ -17,6 +17,9 @@ from .config import verify_config_colors
 from .prompt import yesno
 from .upgrade import is_old_version
 
+from jrnl.exception import JrnlException
+from jrnl.exception import JrnlExceptionMessage
+
 
 def upgrade_config(config_data, alt_config_path=None):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
@@ -46,14 +49,12 @@ def find_default_config():
 
 
 def find_alt_config(alt_config):
-    if os.path.exists(alt_config):
-        return alt_config
-    else:
-        print(
-            "Alternate configuration file not found at path specified.", file=sys.stderr
+    if not os.path.exists(alt_config):
+        raise JrnlException(
+            JrnlExceptionMessage.AltConfigNotFound, config_file=alt_config
         )
-        print("Exiting.", file=sys.stderr)
-        sys.exit(1)
+
+    return alt_config
 
 
 def load_or_install_jrnl(alt_config_path):

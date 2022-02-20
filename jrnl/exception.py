@@ -71,6 +71,11 @@ class JrnlExceptionMessage(Enum):
             https://jrnl.sh/en/stable/external-editors/
         """
 
+    AltConfigNotFound = """
+        Alternate configuration file not found at the given path:
+            {config_file}
+        """
+
     SomeTest = """
         Some error or something
 
