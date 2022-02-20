@@ -136,7 +136,7 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw:
         logging.error("Write mode: couldn't get raw text")
-        sys.exit()
+        raise JrnlException(JrnlExceptionMessage.NoTextReceived)
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw

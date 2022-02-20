@@ -78,7 +78,7 @@ Feature: Writing new entries.
         And we write nothing to the editor if opened
         And we use the password "test" if prompted
         When we run "jrnl --edit"
-        Then the error output should contain "[Nothing saved to file]"
+        Then the error output should contain "Nothing saved to file"
         And the editor should have been called
 
         Examples: configs

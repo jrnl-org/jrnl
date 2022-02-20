@@ -51,7 +51,11 @@ class JrnlExceptionMessage(Enum):
 
     NothingToDelete = """
         No entries to delete, because the search returned no results.
-    """
+        """
+
+    NoTextReceived = """
+        Nothing saved to file.
+        """
 
     UpgradeAborted = """
         jrnl was NOT upgraded

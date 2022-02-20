@@ -37,7 +37,7 @@ def get_text_from_editor(config, template=""):
     os.remove(tmpfile)
 
     if not raw:
-        print("[Nothing saved to file]", file=sys.stderr)
+        raise JrnlException(JrnlExceptionMessage.NoTextReceived)
 
     return raw
 
