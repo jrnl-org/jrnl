@@ -61,6 +61,16 @@ class JrnlExceptionMessage(Enum):
         jrnl was NOT upgraded
         """
 
+    EditorNotConfigured = """
+        There is no editor configured.
+
+        To use the --edit option, please specify an editor your config file:
+            {config_file}
+
+        For examples of how to configure an external editor, see:
+            https://jrnl.sh/en/stable/external-editors/
+        """
+
     SomeTest = """
         Some error or something
 
