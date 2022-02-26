@@ -51,12 +51,16 @@ def make_yaml_valid_dict(input: list) -> dict:
 def save_config(config, alt_config_path=None):
     """Supply alt_config_path if using an alternate config through --config-file."""
     config["version"] = __version__
+
+    yaml = YAML(typ="safe")
+    yaml.default_flow_style = False # prevents collapsing of tree structure
+
     with open(
         alt_config_path if alt_config_path else get_config_path(),
         "w",
         encoding=YAML_FILE_ENCODING,
     ) as f:
-        YAML(typ="safe").dump(config, f)
+        yaml.dump(config, f)
 
 
 def get_config_path():
