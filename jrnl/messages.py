@@ -21,6 +21,8 @@ class MsgType(Enum):
 
 
 class MsgText(Enum):
+    def __str__(self) -> str:
+        return self.value
 
     # --- Exceptions ---#
     UncaughtException = """

@@ -58,9 +58,9 @@ def get_text_from_stdin():
             MsgText.WritingEntryStart,
             MsgType.TITLE,
             {
-                "how_to_quit": MsgText.HowToQuitWindows.value
+                "how_to_quit": MsgText.HowToQuitWindows
                 if on_windows()
-                else MsgText.HowToQuitLinux.value
+                else MsgText.HowToQuitLinux
             },
         )
     )
