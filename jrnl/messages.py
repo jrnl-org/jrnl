@@ -26,7 +26,7 @@ class MsgText(Enum):
 
     # --- Exceptions ---#
     UncaughtException = """
-        ERROR OF SOME SORT
+        ERROR
         {exception}
 
         This is probably a bug. Please file an issue at:
@@ -60,13 +60,6 @@ class MsgText(Enum):
         """
 
     KeyboardInterruptMsg = "Aborted by user"
-
-    SomeTest = """
-        Some error or something
-
-        This is a thing to test with this message or whatever and maybe it just
-        keeps going forever because it's super long for no apparent reason
-        """
 
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
