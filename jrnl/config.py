@@ -7,8 +7,11 @@ import yaml
 import xdg.BaseDirectory
 
 from . import __version__
-from .exception import JrnlException
-from .exception import JrnlExceptionMessage
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
+
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .output import list_journals
@@ -70,11 +73,17 @@ def get_config_path():
         config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
     except FileExistsError:
         raise JrnlException(
-            JrnlExceptionMessage.ConfigDirectoryIsFile,
-            config_directory_path=os.path.join(
-                xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
+            Message(
+                MsgText.ConfigDirectoryIsFile,
+                MsgType.ERROR,
+                {
+                    "config_directory_path": os.path.join(
+                        xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
+                    )
+                },
             ),
         )
+
     return os.path.join(
         config_directory_path or os.path.expanduser("~"), DEFAULT_CONFIG_NAME
     )
