@@ -83,6 +83,7 @@ Feature: Reading and writing to journal with custom date formats
         Then the output should not contain "Life is good"
         And the output should not contain "But I'm better."
 
+
     Scenario Outline: Create entry using day of the week as entry date one.
         Given we use the config "simple.yaml"
         And now is "2019-03-12 01:30:32 PM"
