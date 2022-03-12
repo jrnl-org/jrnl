@@ -4,12 +4,12 @@
 from enum import Enum
 import logging
 import sys
-from collections import namedtuple
 import textwrap
 
 from jrnl.color import colorize
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
+from jrnl.messages import Message
 
 
 def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
@@ -39,25 +39,14 @@ def list_journals(configuration):
     return result
 
 
-MessageProps = namedtuple("MessageProps", ["value", "color"])
+def print_msg(msg: Message):
+    msg_text = textwrap.dedent(msg.text.value.format(**msg.params)).strip().split("\n")
 
+    longest_string = len(max(msg_text, key=len))
+    msg_text = [f"[ {line:<{longest_string}} ]" for line in msg_text]
 
-class Message(Enum):
-    NORMAL = MessageProps(0, "cyan")
-    WARNING = MessageProps(1, "yellow")
-    ERROR = MessageProps(2, "red")
+    # colorize can't be called until after the lines are padded,
+    # because python gets confused by the ansi color codes
+    msg_text[0] = f"[{colorize(msg_text[0][1:-1], msg.type.color)}]"
 
-    @property
-    def color(self):
-        return self.value.color
-
-
-def print_msg(title: str, body: str = "", msg: Message = Message.NORMAL):
-
-    # @todo Add some polish around colorization of multi-line messages
-    result = colorize(title, msg.color)
-
-    if body:
-        result += f"\n{body}"
-
-    print(result, file=sys.stderr)
+    print("\n".join(msg_text), file=sys.stderr)

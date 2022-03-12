@@ -3,7 +3,9 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from jrnl.exception import JrnlException
-from jrnl.exception import JrnlExceptionMessage
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
 from textwrap import TextWrapper
 
 from .text_exporter import TextExporter
@@ -86,8 +88,13 @@ def check_provided_linewrap_viability(linewrap, card, journal):
     if len(card[0]) > linewrap:
         width_violation = len(card[0]) - linewrap
         raise JrnlException(
-            JrnlExceptionMessage.LineWrapTooSmallForDateFormat,
-            config_linewrap=linewrap,
-            columns=width_violation,
-            journal=journal,
+            Message(
+                MsgText.LineWrapTooSmallForDateFormat,
+                MsgType.NORMAL,
+                {
+                    "config_linewrap": linewrap,
+                    "columns": width_violation,
+                    "journal": journal,
+                },
+            )
         )

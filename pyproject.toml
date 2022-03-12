@@ -37,7 +37,7 @@ keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration
 parsedatetime = ">=2.6"
 python-dateutil = "^2.8" # https://github.com/dateutil/dateutil/blob/master/RELEASING
 pyxdg = ">=0.27.0"
-pyyaml = ">=5.1"
+"ruamel.yaml" = "^0.17.21"
 
 # dayone-only deps
 pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations

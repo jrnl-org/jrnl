@@ -1,7 +1,6 @@
 import pytest
 
 from jrnl.exception import JrnlException
-from jrnl.exception import JrnlExceptionMessage
 from jrnl.plugins.fancy_exporter import check_provided_linewrap_viability
 
 
@@ -24,8 +23,5 @@ class TestFancy:
 
         total_linewrap = 12
 
-        with pytest.raises(JrnlException) as e:
+        with pytest.raises(JrnlException):
             check_provided_linewrap_viability(total_linewrap, [content], journal)
-        assert (
-            e.value.exception_msg == JrnlExceptionMessage.LineWrapTooSmallForDateFormat
-        )

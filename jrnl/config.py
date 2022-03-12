@@ -3,12 +3,15 @@ import os
 import sys
 
 import colorama
-import yaml
+from ruamel.yaml import YAML
 import xdg.BaseDirectory
 
 from . import __version__
-from .exception import JrnlException
-from .exception import JrnlExceptionMessage
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
+
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .output import list_journals
@@ -43,7 +46,8 @@ def make_yaml_valid_dict(input: list) -> dict:
 
     # yaml compatible strings are of the form Key:Value
     yamlstr = YAML_SEPARATOR.join(input)
-    runtime_modifications = yaml.load(yamlstr, Loader=yaml.SafeLoader)
+
+    runtime_modifications = YAML(typ="safe").load(yamlstr)
 
     return runtime_modifications
 
@@ -51,18 +55,16 @@ def make_yaml_valid_dict(input: list) -> dict:
 def save_config(config, alt_config_path=None):
     """Supply alt_config_path if using an alternate config through --config-file."""
     config["version"] = __version__
+
+    yaml = YAML(typ="safe")
+    yaml.default_flow_style = False  # prevents collapsing of tree structure
+
     with open(
         alt_config_path if alt_config_path else get_config_path(),
         "w",
         encoding=YAML_FILE_ENCODING,
     ) as f:
-        yaml.safe_dump(
-            config,
-            f,
-            encoding=YAML_FILE_ENCODING,
-            allow_unicode=True,
-            default_flow_style=False,
-        )
+        yaml.dump(config, f)
 
 
 def get_config_path():
@@ -70,11 +72,17 @@ def get_config_path():
         config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
     except FileExistsError:
         raise JrnlException(
-            JrnlExceptionMessage.ConfigDirectoryIsFile,
-            config_directory_path=os.path.join(
-                xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
+            Message(
+                MsgText.ConfigDirectoryIsFile,
+                MsgType.ERROR,
+                {
+                    "config_directory_path": os.path.join(
+                        xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
+                    )
+                },
             ),
         )
+
     return os.path.join(
         config_directory_path or os.path.expanduser("~"), DEFAULT_CONFIG_NAME
     )
@@ -151,7 +159,9 @@ def verify_config_colors(config):
 def load_config(config_path):
     """Tries to load a config file from YAML."""
     with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-        return yaml.load(f, Loader=yaml.SafeLoader)
+        yaml = YAML(typ="safe")
+        yaml.allow_duplicate_keys = True
+        return yaml.load(f)
 
 
 def is_config_json(config_path):
