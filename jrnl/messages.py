@@ -67,6 +67,8 @@ class MsgText(Enum):
         {template}
         """
 
+    NoDefaultJournal = "No default journal configured\n{journals}"
+
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
 

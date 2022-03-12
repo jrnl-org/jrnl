@@ -197,9 +197,9 @@ def get_journal_name(args, config):
             args.text = args.text[1:]
 
     if args.journal_name not in config["journals"]:
-        print("No default journal configured.", file=sys.stderr)
-        print(list_journals(config), file=sys.stderr)
-        sys.exit(1)
+        raise JrnlException(
+            Message(MsgText.NoDefaultJournal, MsgType.ERROR, { "journals": list_journals(config)}),
+        )
 
     logging.debug("Using journal name: %s", args.journal_name)
     return args
