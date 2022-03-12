@@ -23,7 +23,6 @@ from jrnl.messages import MsgText
 from jrnl.messages import MsgType
 
 
-
 def upgrade_config(config_data, alt_config_path=None):
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
@@ -54,7 +53,9 @@ def find_default_config():
 def find_alt_config(alt_config):
     if not os.path.exists(alt_config):
         raise JrnlException(
-            Message(MsgText.AltConfigNotFound, MsgType.ERROR, { "config_file": alt_config })
+            Message(
+                MsgText.AltConfigNotFound, MsgType.ERROR, {"config_file": alt_config}
+            )
         )
 
     return alt_config

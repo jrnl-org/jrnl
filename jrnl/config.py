@@ -198,7 +198,11 @@ def get_journal_name(args, config):
 
     if args.journal_name not in config["journals"]:
         raise JrnlException(
-            Message(MsgText.NoDefaultJournal, MsgType.ERROR, { "journals": list_journals(config)}),
+            Message(
+                MsgText.NoDefaultJournal,
+                MsgType.ERROR,
+                {"journals": list_journals(config)},
+            ),
         )
 
     logging.debug("Using journal name: %s", args.journal_name)

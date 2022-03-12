@@ -31,7 +31,11 @@ def get_text_from_editor(config, template=""):
         subprocess.call(split_args(config["editor"]) + [tmpfile])
     except FileNotFoundError:
         raise JrnlException(
-            Message(MsgText.EditorMisconfigured, MsgType.ERROR, { "editor_key": config["editor"] })
+            Message(
+                MsgText.EditorMisconfigured,
+                MsgType.ERROR,
+                {"editor_key": config["editor"]},
+            )
         )
 
     with open(tmpfile, "r", encoding="utf-8") as f:

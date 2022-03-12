@@ -27,7 +27,6 @@ from jrnl.messages import MsgText
 from jrnl.messages import MsgType
 
 
-
 def make_key(password):
     password = password.encode("utf-8")
     kdf = PBKDF2HMAC(

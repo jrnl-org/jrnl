@@ -20,7 +20,6 @@ from jrnl.messages import MsgText
 from jrnl.messages import MsgType
 
 
-
 def backup(filename, binary=False):
     print(f"  Created a backup at {filename}.backup", file=sys.stderr)
     filename = os.path.expanduser(os.path.expandvars(filename))

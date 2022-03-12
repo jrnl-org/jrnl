@@ -136,7 +136,9 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw:
         logging.error("Write mode: couldn't get raw text")
-        raise JrnlException(Message(MsgText.JrnlExceptionMessage.NoTextReceived, MsgType.ERROR))
+        raise JrnlException(
+            Message(MsgText.JrnlExceptionMessage.NoTextReceived, MsgType.ERROR)
+        )
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
@@ -200,7 +202,13 @@ def _get_editor_template(config, **kwargs):
         logging.debug("Write mode: template loaded: %s", template)
     except OSError:
         logging.error("Write mode: template not loaded")
-        raise JrnlException(Message(MsgText.CantReadTemplate, MsgType.ERROR, { "template": config["template"] }))
+        raise JrnlException(
+            Message(
+                MsgText.CantReadTemplate,
+                MsgType.ERROR,
+                {"template": config["template"]},
+            )
+        )
 
     return template
 
@@ -238,7 +246,11 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
     """
     if not config["editor"]:
         raise JrnlException(
-            Message(MsgText.EditorNotConfigured, MsgType.ERROR, {"config_file": get_config_path()})
+            Message(
+                MsgText.EditorNotConfigured,
+                MsgType.ERROR,
+                {"config_file": get_config_path()},
+            )
         )
 
     # separate entries we are not editing
