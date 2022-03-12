@@ -309,7 +309,7 @@ def _pluralize_entry(num):
 
 def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
-        raise JrnlException(JrnlExceptionMessage.NothingToDelete)
+        raise JrnlException(Message(MsgText.NothingToDelete, MsgType.ERROR))
 
     entries_to_delete = journal.prompt_delete_entries()
 
