@@ -1,6 +1,6 @@
 Feature: Writing new entries.
 
-    Scenario Outline: Multiline entry with punctuation should keep title punctuation 
+    Scenario Outline: Multiline entry with punctuation should keep title punctuation
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
         When we run "jrnl This is. the title\\n This is the second line"
@@ -96,7 +96,7 @@ Feature: Writing new entries.
         When we run "jrnl --config-override editor ''" and enter ""
         Then the stdin prompt should have been called
         And the output should be empty
-        And the error output should contain "Writing Entry; on a blank line"
+        And the error output should contain "To finish writing, press"
         And the editor should not have been called
 
         Examples: configs
