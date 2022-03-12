@@ -72,6 +72,56 @@ class MsgText(Enum):
     HowToQuitWindows = "Ctrl+z and then Enter"
     HowToQuitLinux = "Ctrl+d"
 
+    EditorMisconfigured = """
+        No such file or directory: '{editor_key}'
+
+        Please check the 'editor' key in your config file for errors:
+            editor: '{editor_key}'
+        """
+
+    EditorNotConfigured = """
+        There is no editor configured
+
+        To use the --edit option, please specify an editor your config file:
+            {config_file}
+
+        For examples of how to configure an external editor, see:
+            https://jrnl.sh/en/stable/external-editors/
+        """
+
+    NoTextReceived = """
+        Nothing saved to file
+        """
+
+    # --- Upgrade --- #
+    JournalFailedUpgrade = """
+        The following journal{s} failed to upgrade:
+        {failed_journals}
+
+        Please tell us about this problem at the following URL:
+        https://github.com/jrnl-org/jrnl/issues/new?title=JournalFailedUpgrade
+        """
+
+    UpgradeAborted = """
+        jrnl was NOT upgraded
+        """
+
+    # -- Config --- #
+    AltConfigNotFound = """
+        Alternate configuration file not found at the given path:
+            {config_file}
+        """
+
+    # --- Password --- #
+    PasswordMaxTriesExceeded = """
+        Too many attempts with wrong password
+        """
+
+    # --- Search --- #
+    NothingToDelete = """
+        No entries to delete, because the search returned no results
+        """
+
 
 class Message(NamedTuple):
     text: MsgText

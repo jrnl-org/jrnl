@@ -16,7 +16,9 @@ from . import time
 from .override import apply_overrides
 
 from jrnl.exception import JrnlException
-from jrnl.exception import JrnlExceptionMessage
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
 
 
 def run(args):
@@ -134,7 +136,7 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw:
         logging.error("Write mode: couldn't get raw text")
-        raise JrnlException(JrnlExceptionMessage.NoTextReceived)
+        raise JrnlException(Message(MsgText.JrnlExceptionMessage.NoTextReceived, MsgType.ERROR))
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
@@ -240,7 +242,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
     """
     if not config["editor"]:
         raise JrnlException(
-            JrnlExceptionMessage.EditorNotConfigured, config_file=get_config_path()
+            Message(MsgText.EditorNotConfigured, MsgType.ERROR, {"config_file": get_config_path()})
         )
 
     # separate entries we are not editing

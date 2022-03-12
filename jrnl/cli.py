@@ -38,7 +38,7 @@ def cli(manual_args=None):
 
     except JrnlException as e:
         status_code = 1
-        print_msg(e.title, e.message, msg=Message.ERROR)
+        e.print()
 
     except KeyboardInterrupt:
         status_code = 1

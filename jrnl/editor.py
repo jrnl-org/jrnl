@@ -5,8 +5,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-from jrnl.color import ERROR_COLOR
-from jrnl.color import RESET_COLOR
 from jrnl.os_compat import on_windows
 from jrnl.os_compat import split_args
 from jrnl.output import print_msg
@@ -33,7 +31,7 @@ def get_text_from_editor(config, template=""):
         subprocess.call(split_args(config["editor"]) + [tmpfile])
     except FileNotFoundError:
         raise JrnlException(
-            JrnlExceptionMessage.EditorMisconfigured, editor_key=config["editor"]
+            Message(MsgText.EditorMisconfigured, MsgType.ERROR, { "editor_key": config["editor"] })
         )
 
     with open(tmpfile, "r", encoding="utf-8") as f:
@@ -41,7 +39,7 @@ def get_text_from_editor(config, template=""):
     os.remove(tmpfile)
 
     if not raw:
-        raise JrnlException(JrnlExceptionMessage.NoTextReceived)
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgType.ERROR))
 
     return raw
 

@@ -18,7 +18,10 @@ from .prompt import yesno
 from .upgrade import is_old_version
 
 from jrnl.exception import JrnlException
-from jrnl.exception import JrnlExceptionMessage
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
+
 
 
 def upgrade_config(config_data, alt_config_path=None):
@@ -51,7 +54,7 @@ def find_default_config():
 def find_alt_config(alt_config):
     if not os.path.exists(alt_config):
         raise JrnlException(
-            JrnlExceptionMessage.AltConfigNotFound, config_file=alt_config
+            Message(MsgText.AltConfigNotFound, MsgType.ERROR, { "config_file": alt_config })
         )
 
     return alt_config

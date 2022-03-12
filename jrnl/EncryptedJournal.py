@@ -22,7 +22,10 @@ from .Journal import LegacyJournal
 from .prompt import create_password
 
 from jrnl.exception import JrnlException
-from jrnl.exception import JrnlExceptionMessage
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
+
 
 
 def make_key(password):
@@ -58,7 +61,7 @@ def decrypt_content(
         attempt += 1
 
     if result is None:
-        raise JrnlException(JrnlExceptionMessage.PasswordMaxTriesExceeded)
+        raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgType.ERROR))
 
     return result
 
