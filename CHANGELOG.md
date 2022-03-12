@@ -14,6 +14,7 @@
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
 - Bump yq from 2.13.0 to 2.14.0 [\#1418](https://github.com/jrnl-org/jrnl/pull/1418) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Replace PyYAML with ruamel.yaml [\#1416](https://github.com/jrnl-org/jrnl/pull/1416) ([micahellison](https://github.com/micahellison))
 - Bump pytest from 6.2.5 to 7.0.0 [\#1407](https://github.com/jrnl-org/jrnl/pull/1407) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v2.8.4](https://pypi.org/project/jrnl/v2.8.4/) (2022-02-12)
