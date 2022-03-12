@@ -7,9 +7,12 @@ import traceback
 
 from .jrnl import run
 from .args import parse_args
-from .exception import JrnlException
 from jrnl.output import print_msg
-from jrnl.output import Message
+
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
 
 
 def configure_logger(debug=False):
@@ -61,11 +64,13 @@ def cli(manual_args=None):
             print("\n")
             traceback.print_tb(sys.exc_info()[2])
 
-        file_issue = (
-            "\n\nThis is probably a bug. Please file an issue at:"
-            + "\nhttps://github.com/jrnl-org/jrnl/issues/new/choose"
+        print_msg(
+            Message(
+                MsgText.UncaughtException,
+                MsgType.ERROR,
+                {"name": type(e).__name__, "exception": e},
+            )
         )
-        print_msg(f"{type(e).__name__}\n", f"{e}{file_issue}", msg=Message.ERROR)
 
     # This should be the only exit point
     return status_code

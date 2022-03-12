@@ -26,7 +26,7 @@ class MsgText(Enum):
 
     # --- Exceptions ---#
     UncaughtException = """
-        ERROR
+        {name}
         {exception}
 
         This is probably a bug. Please file an issue at:
