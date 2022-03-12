@@ -200,11 +200,7 @@ def _get_editor_template(config, **kwargs):
         logging.debug("Write mode: template loaded: %s", template)
     except OSError:
         logging.error("Write mode: template not loaded")
-        print(
-            f"[Could not read template at '{config['template']}']",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+        raise JrnlException(Message(MsgText.CantReadTemplate, MsgType.ERROR, { "template": config["template"] }))
 
     return template
 

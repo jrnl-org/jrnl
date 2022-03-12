@@ -61,6 +61,12 @@ class MsgText(Enum):
 
     KeyboardInterruptMsg = "Aborted by user"
 
+    CantReadTemplate = """
+        Unreadable template
+        Could not read template file at:
+        {template}
+        """
+
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
 
