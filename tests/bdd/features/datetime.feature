@@ -172,3 +172,28 @@ Feature: Reading and writing to journal with custom date formats
         Then we should get no error
         And the output should be
             2013-10-27 03:27 Some text.
+
+
+    @skip #1422
+    Scenario Outline: Using times near daylight savings windows works as expected
+        Given we use the config "dayone.yaml"
+        And now is "<date>"
+        When we run "jrnl yesterday: This thing happened yesterday"
+        Then the output should contain "Entry added"
+        When we run "jrnl today at 11:59pm: Adding an entry right now."
+        Then the output should contain "Entry added"
+        When we run "jrnl tomorrow: A future entry."
+        Then the output should contain "Entry added"
+        When we run "jrnl -from yesterday -to today"
+        Then the output should contain "This thing happened yesterday"
+        And the output should contain "Adding an entry right now."
+        And the output should not contain "A future entry."
+
+        Examples: configs
+        | date                   |
+        | 2022-02-10 01:00:00 PM |
+        | 2021-03-13 01:00:00 PM |
+        | 2021-11-06 01:00:00 PM |
+        | 2022-03-12 01:00:00 PM |
+        | 2022-11-05 01:00:00 PM |
+
