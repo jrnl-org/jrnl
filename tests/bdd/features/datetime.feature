@@ -176,7 +176,7 @@ Feature: Reading and writing to journal with custom date formats
 
 
     @skip #1422
-    Scenario Outline: Using times near daylight savings windows works as expected
+    Scenario Outline: Using "tomorrow" near daylight savings works in Dayone journals
         Given we use the config "dayone.yaml"
         And now is "<date>"
         When we run "jrnl yesterday: This thing happened yesterday"
