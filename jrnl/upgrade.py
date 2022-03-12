@@ -124,7 +124,7 @@ older versions of jrnl anymore.
 
     cont = yesno("\nContinue upgrading jrnl?", default=False)
     if not cont:
-        raise JrnlException(JrnlExceptionMessage.UpgradeAborted)
+        raise JrnlException(Message(MsgText.UpgradeAborted), MsgType.WARNING)
 
     for journal_name, path in encrypted_journals.items():
         print(
@@ -155,9 +155,14 @@ older versions of jrnl anymore.
         print_msg("Aborting upgrade.", msg=Message.NORMAL)
 
         raise JrnlException(
-            JrnlExceptionMessage.JournalFailedUpgrade,
-            s="s" if len(failed_journals) > 1 else "",
-            failed_journals="\n".join(j.name for j in failed_journals),
+            Message(
+                MsgText.JournalFailedUpgrade,
+                MsgType.ERROR,
+                {
+                    "s": "s" if len(failed_journals) > 1 else "",
+                    "failed_journals": "\n".join(j.name for j in failed_journals),
+                },
+            )
         )
 
     # write all journals - or - don't
