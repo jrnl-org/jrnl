@@ -190,7 +190,7 @@ Feature: Reading and writing to journal with custom date formats
         And the output should contain "Adding an entry right now."
         And the output should not contain "A future entry."
 
-        Examples: configs
+        Examples: Dates
         | date                   |
         | 2022-02-10 01:00:00 PM |
         | 2021-03-13 01:00:00 PM |
