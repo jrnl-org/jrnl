@@ -3,7 +3,7 @@
 
 import re
 
-import yaml
+from ruamel.yaml import YAML
 
 VAR_RE = r"[_a-zA-Z][a-zA-Z0-9_]*"
 EXPRESSION_RE = r"[\[\]():.a-zA-Z0-9_]*"
@@ -26,7 +26,7 @@ class Template:
     def from_file(cls, filename):
         with open(filename) as f:
             front_matter, body = f.read().strip("-\n").split("---", 2)
-            front_matter = yaml.load(front_matter, Loader=yaml.SafeLoader)
+            front_matter = YAML(typ="safe").load(front_matter)
             template = cls(body)
         template.__dict__.update(front_matter)
         return template

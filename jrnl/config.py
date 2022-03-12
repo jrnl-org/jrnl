@@ -3,7 +3,7 @@ import os
 import sys
 
 import colorama
-import yaml
+from ruamel.yaml import YAML
 import xdg.BaseDirectory
 
 from . import __version__
@@ -46,7 +46,8 @@ def make_yaml_valid_dict(input: list) -> dict:
 
     # yaml compatible strings are of the form Key:Value
     yamlstr = YAML_SEPARATOR.join(input)
-    runtime_modifications = yaml.load(yamlstr, Loader=yaml.SafeLoader)
+
+    runtime_modifications = YAML(typ="safe").load(yamlstr)
 
     return runtime_modifications
 
@@ -54,18 +55,16 @@ def make_yaml_valid_dict(input: list) -> dict:
 def save_config(config, alt_config_path=None):
     """Supply alt_config_path if using an alternate config through --config-file."""
     config["version"] = __version__
+
+    yaml = YAML(typ="safe")
+    yaml.default_flow_style = False  # prevents collapsing of tree structure
+
     with open(
         alt_config_path if alt_config_path else get_config_path(),
         "w",
         encoding=YAML_FILE_ENCODING,
     ) as f:
-        yaml.safe_dump(
-            config,
-            f,
-            encoding=YAML_FILE_ENCODING,
-            allow_unicode=True,
-            default_flow_style=False,
-        )
+        yaml.dump(config, f)
 
 
 def get_config_path():
@@ -160,7 +159,9 @@ def verify_config_colors(config):
 def load_config(config_path):
     """Tries to load a config file from YAML."""
     with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-        return yaml.load(f, Loader=yaml.SafeLoader)
+        yaml = YAML(typ="safe")
+        yaml.allow_duplicate_keys = True
+        return yaml.load(f)
 
 
 def is_config_json(config_path):

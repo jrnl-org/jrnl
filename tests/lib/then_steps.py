@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 
 from pytest_bdd import then
 from pytest_bdd.parsers import parse
-import yaml
+from ruamel.yaml import YAML
 
 from jrnl.config import scope_config
 
@@ -121,7 +121,7 @@ def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_
     if journal_name:
         actual = actual["journals"][journal_name]
 
-    expected = yaml.load(some_yaml, Loader=yaml.SafeLoader)
+    expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
     if type(actual) is dict:
@@ -152,7 +152,7 @@ def config_var_in_memory(
     if journal_name:
         actual = actual["journals"][journal_name]
 
-    expected = yaml.load(some_yaml, Loader=yaml.SafeLoader)
+    expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
     if type(actual) is dict:
