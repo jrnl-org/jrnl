@@ -57,7 +57,7 @@ def save_config(config, alt_config_path=None):
     config["version"] = __version__
 
     yaml = YAML(typ="safe")
-    yaml.default_flow_style = False # prevents collapsing of tree structure
+    yaml.default_flow_style = False  # prevents collapsing of tree structure
 
     with open(
         alt_config_path if alt_config_path else get_config_path(),
