@@ -4,6 +4,11 @@
 
 import sys
 
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
+
 
 class JRNLImporter:
     """This plugin imports entries from other jrnl files."""
@@ -22,8 +27,11 @@ class JRNLImporter:
             try:
                 other_journal_txt = sys.stdin.read()
             except KeyboardInterrupt:
-                print("[Entries NOT imported into journal.]", file=sys.stderr)
-                sys.exit(0)
+                raise JrnlException(
+                    Message(MsgText.KeyboardInterruptMsg, MsgType.ERROR),
+                    Message(MsgText.ImportAborted, MsgType.WARNING),
+                )
+
         journal.import_(other_journal_txt)
         new_cnt = len(journal.entries)
         print(

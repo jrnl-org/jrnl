@@ -110,9 +110,9 @@ class MsgText(Enum):
         https://github.com/jrnl-org/jrnl/issues/new?title=JournalFailedUpgrade
         """
 
-    UpgradeAborted = """
-        jrnl was NOT upgraded
-        """
+    UpgradeAborted = "jrnl was NOT upgraded"
+
+    ImportAborted = "Entries were NOT imported"
 
     # -- Config --- #
     AltConfigNotFound = """
