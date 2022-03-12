@@ -36,6 +36,7 @@ Feature: Searching in a journal
 
     Scenario Outline: Displaying entries using -from and -to day should display correct entries
         Given we use the config "<config_file>"
+        And now is "2022-03-10 02:32:00 PM"
         When we run "jrnl yesterday: This thing happened yesterday"
         Then the output should contain "Entry added"
         When we run "jrnl today at 11:59pm: Adding an entry right now."

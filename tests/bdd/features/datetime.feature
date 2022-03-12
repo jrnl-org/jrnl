@@ -83,6 +83,7 @@ Feature: Reading and writing to journal with custom date formats
         Then the output should not contain "Life is good"
         And the output should not contain "But I'm better."
 
+
     Scenario Outline: Create entry using day of the week as entry date one.
         Given we use the config "simple.yaml"
         And now is "2019-03-12 01:30:32 PM"
@@ -172,3 +173,28 @@ Feature: Reading and writing to journal with custom date formats
         Then we should get no error
         And the output should be
             2013-10-27 03:27 Some text.
+
+
+    @skip #1422
+    Scenario Outline: Using "tomorrow" near daylight savings works in Dayone journals
+        Given we use the config "dayone.yaml"
+        And now is "<date>"
+        When we run "jrnl yesterday: This thing happened yesterday"
+        Then the output should contain "Entry added"
+        When we run "jrnl today at 11:59pm: Adding an entry right now."
+        Then the output should contain "Entry added"
+        When we run "jrnl tomorrow: A future entry."
+        Then the output should contain "Entry added"
+        When we run "jrnl -from yesterday -to today"
+        Then the output should contain "This thing happened yesterday"
+        And the output should contain "Adding an entry right now."
+        And the output should not contain "A future entry."
+
+        Examples: Dates
+        | date                   |
+        | 2022-02-10 01:00:00 PM |
+        | 2021-03-13 01:00:00 PM |
+        | 2021-11-06 01:00:00 PM |
+        | 2022-03-12 01:00:00 PM |
+        | 2022-11-05 01:00:00 PM |
+
