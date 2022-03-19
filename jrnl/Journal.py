@@ -431,13 +431,6 @@ def open_journal(journal_name, config, legacy=False):
 
     from . import EncryptedJournal
 
-    try:
-        if legacy:
-            return EncryptedJournal.LegacyEncryptedJournal(
-                journal_name, **config
-            ).open()
-        return EncryptedJournal.EncryptedJournal(journal_name, **config).open()
-    except KeyboardInterrupt:
-        # Since encrypted journals prompt for a password, it's easy for a user to ctrl+c out
-        print("[Interrupted while opening journal]", file=sys.stderr)
-        sys.exit(1)
+    if legacy:
+        return EncryptedJournal.LegacyEncryptedJournal(journal_name, **config).open()
+    return EncryptedJournal.EncryptedJournal(journal_name, **config).open()

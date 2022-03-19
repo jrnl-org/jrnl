@@ -41,6 +41,7 @@ Feature: Delete entries from journal
     Scenario Outline: Delete flag with nonsense input deletes nothing (issue #932)
         Given we use the config "<config_file>"
         When we run "jrnl --delete asdfasdf"
+        Then the output should contain "No entries to delete"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.

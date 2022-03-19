@@ -1,7 +1,6 @@
 import pytest
 
 from jrnl.exception import JrnlException
-
 from jrnl.plugins.fancy_exporter import check_provided_linewrap_viability
 
 

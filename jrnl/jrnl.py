@@ -7,16 +7,18 @@ import sys
 from . import install
 from . import plugins
 from .Journal import open_journal
-from .color import ERROR_COLOR
-from .color import RESET_COLOR
 from .config import get_journal_name
 from .config import scope_config
 from .config import get_config_path
 from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
-from .exception import UserAbort
 from . import time
 from .override import apply_overrides
+
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
 
 
 def run(args):
@@ -35,18 +37,14 @@ def run(args):
         return args.preconfig_cmd(args)
 
     # Load the config, and extract journal name
-    try:
-        config = install.load_or_install_jrnl(args.config_file_path)
-        original_config = config.copy()
+    config = install.load_or_install_jrnl(args.config_file_path)
+    original_config = config.copy()
 
-        # Apply config overrides
-        config = apply_overrides(args, config)
+    # Apply config overrides
+    config = apply_overrides(args, config)
 
-        args = get_journal_name(args, config)
-        config = scope_config(config, args.journal_name)
-    except UserAbort as err:
-        print(f"\n{err}", file=sys.stderr)
-        sys.exit(1)
+    args = get_journal_name(args, config)
+    config = scope_config(config, args.journal_name)
 
     # Run post-config command now that config is ready
     if callable(args.postconfig_cmd):
@@ -138,7 +136,9 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw:
         logging.error("Write mode: couldn't get raw text")
-        sys.exit()
+        raise JrnlException(
+            Message(MsgText.JrnlExceptionMessage.NoTextReceived, MsgType.ERROR)
+        )
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
@@ -202,11 +202,13 @@ def _get_editor_template(config, **kwargs):
         logging.debug("Write mode: template loaded: %s", template)
     except OSError:
         logging.error("Write mode: template not loaded")
-        print(
-            f"[Could not read template at '{config['template']}']",
-            file=sys.stderr,
+        raise JrnlException(
+            Message(
+                MsgText.CantReadTemplate,
+                MsgType.ERROR,
+                {"template": config["template"]},
+            )
         )
-        sys.exit(1)
 
     return template
 
@@ -243,16 +245,13 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
     3. Write modifications to journal
     """
     if not config["editor"]:
-        print(
-            f"""
-            [{ERROR_COLOR}ERROR{RESET_COLOR}: There is no editor configured.]
-
-            Please specify an editor in config file ({get_config_path()})
-            to use the --edit option.
-            """,
-            file=sys.stderr,
+        raise JrnlException(
+            Message(
+                MsgText.EditorNotConfigured,
+                MsgType.ERROR,
+                {"config_file": get_config_path()},
+            )
         )
-        sys.exit(1)
 
     # separate entries we are not editing
     other_entries = [e for e in old_entries if e not in journal.entries]
@@ -310,11 +309,7 @@ def _pluralize_entry(num):
 
 def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
-        print(
-            "[No entries deleted, because the search returned no results.]",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+        raise JrnlException(Message(MsgText.NothingToDelete, MsgType.ERROR))
 
     entries_to_delete = journal.prompt_delete_entries()
 

@@ -5,9 +5,10 @@ import logging
 import sys
 import traceback
 
-from jrnl.jrnl import run
-from jrnl.args import parse_args
+from .jrnl import run
+from .args import parse_args
 from jrnl.output import print_msg
+
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
@@ -36,25 +37,40 @@ def cli(manual_args=None):
         configure_logger(args.debug)
         logging.debug("Parsed args: %s", args)
 
-        return run(args)
+        status_code = run(args)
 
     except JrnlException as e:
+        status_code = 1
         e.print()
-        return 1
 
     except KeyboardInterrupt:
-        print_msg(Message(MsgText.KeyboardInterruptMsg, MsgType.WARNING))
-        return 1
+        status_code = 1
+        print_msg("\nKeyboardInterrupt", "\nAborted by user", msg=Message.ERROR)
 
     except Exception as e:
+        # uncaught exception
+        status_code = 1
+        debug = False
         try:
-            is_debug = args.debug  # type: ignore
+            if args.debug:  # type: ignore
+                debug = True
         except NameError:
-            # error happened before args were parsed
-            is_debug = "--debug" in sys.argv[1:]
+            # This should only happen when the exception
+            # happened before the args were parsed
+            if "--debug" in sys.argv:
+                debug = True
 
-        if is_debug:
+        if debug:
+            print("\n")
             traceback.print_tb(sys.exc_info()[2])
 
-        print_msg(Message(MsgText.UncaughtException, MsgType.ERROR, {"exception": e}))
-        return 1
+        print_msg(
+            Message(
+                MsgText.UncaughtException,
+                MsgType.ERROR,
+                {"name": type(e).__name__, "exception": e},
+            )
+        )
+
+    # This should be the only exit point
+    return status_code

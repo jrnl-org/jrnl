@@ -14,9 +14,13 @@ from .config import get_default_journal_path
 from .config import load_config
 from .config import save_config
 from .config import verify_config_colors
-from .exception import UserAbort
 from .prompt import yesno
 from .upgrade import is_old_version
+
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
 
 
 def upgrade_config(config_data, alt_config_path=None):
@@ -47,14 +51,14 @@ def find_default_config():
 
 
 def find_alt_config(alt_config):
-    if os.path.exists(alt_config):
-        return alt_config
-    else:
-        print(
-            "Alternate configuration file not found at path specified.", file=sys.stderr
+    if not os.path.exists(alt_config):
+        raise JrnlException(
+            Message(
+                MsgText.AltConfigNotFound, MsgType.ERROR, {"config_file": alt_config}
+            )
         )
-        print("Exiting.", file=sys.stderr)
-        sys.exit(1)
+
+    return alt_config
 
 
 def load_or_install_jrnl(alt_config_path):
@@ -72,32 +76,16 @@ def load_or_install_jrnl(alt_config_path):
         config = load_config(config_path)
 
         if is_old_version(config_path):
-            from . import upgrade
+            from jrnl import upgrade
 
-            try:
-                upgrade.upgrade_jrnl(config_path)
-            except upgrade.UpgradeValidationException:
-                print("Aborting upgrade.", file=sys.stderr)
-                print(
-                    "Please tell us about this problem at the following URL:",
-                    file=sys.stderr,
-                )
-                print(
-                    "https://github.com/jrnl-org/jrnl/issues/new?title=UpgradeValidationException",
-                    file=sys.stderr,
-                )
-                print("Exiting.", file=sys.stderr)
-                sys.exit(1)
+            upgrade.upgrade_jrnl(config_path)
 
         upgrade_config(config, alt_config_path)
         verify_config_colors(config)
 
     else:
         logging.debug("Configuration file not found, installing jrnl...")
-        try:
-            config = install()
-        except KeyboardInterrupt:
-            raise UserAbort("Installation aborted")
+        config = install()
 
     logging.debug('Using configuration "%s"', config)
     return config

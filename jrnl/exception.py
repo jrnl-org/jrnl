@@ -4,16 +4,6 @@ from jrnl.messages import Message
 from jrnl.output import print_msg
 
 
-class UserAbort(Exception):
-    pass
-
-
-class UpgradeValidationException(Exception):
-    """Raised when the contents of an upgraded journal do not match the old journal"""
-
-    pass
-
-
 class JrnlException(Exception):
     """Common exceptions raised by jrnl."""
 

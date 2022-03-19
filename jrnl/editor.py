@@ -3,11 +3,8 @@ import os
 import subprocess
 import sys
 import tempfile
-import textwrap
 from pathlib import Path
 
-from jrnl.color import ERROR_COLOR
-from jrnl.color import RESET_COLOR
 from jrnl.os_compat import on_windows
 from jrnl.os_compat import split_args
 from jrnl.output import print_msg
@@ -32,22 +29,21 @@ def get_text_from_editor(config, template=""):
 
     try:
         subprocess.call(split_args(config["editor"]) + [tmpfile])
-    except FileNotFoundError as e:
-        error_msg = f"""
-        {ERROR_COLOR}{str(e)}{RESET_COLOR}
-
-        Please check the 'editor' key in your config file for errors:
-            {repr(config['editor'])}
-        """
-        print(textwrap.dedent(error_msg).strip(), file=sys.stderr)
-        exit(1)
+    except FileNotFoundError:
+        raise JrnlException(
+            Message(
+                MsgText.EditorMisconfigured,
+                MsgType.ERROR,
+                {"editor_key": config["editor"]},
+            )
+        )
 
     with open(tmpfile, "r", encoding="utf-8") as f:
         raw = f.read()
     os.remove(tmpfile)
 
     if not raw:
-        print("[Nothing saved to file]", file=sys.stderr)
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgType.ERROR))
 
     return raw
 
