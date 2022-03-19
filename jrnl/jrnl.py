@@ -14,6 +14,7 @@ from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from . import time
 from .override import apply_overrides
+from jrnl.output import print_msg
 
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
@@ -144,7 +145,7 @@ def write_mode(args, config, journal, **kwargs):
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
     )
     journal.new_entry(raw)
-    print(f"[Entry added to {args.journal_name} journal]", file=sys.stderr)
+    print_msg( Message(MsgText.JournalEntryAdded, MsgType.NORMAL, {"journal_name": args.journal_name}))
     journal.write()
     logging.debug("Write mode: completed journal.write()", args.journal_name, raw)
 

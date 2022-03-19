@@ -71,6 +71,7 @@ class MsgText(Enum):
 
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
+    JournalEntryAdded = "Entry added to {journal_name} journal"
 
     # --- Editor ---#
     WritingEntryStart = """
