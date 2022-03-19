@@ -29,14 +29,6 @@ python-versions = ">=3.6"
 test = ["coverage", "flake8", "pexpect", "wheel"]
 
 [[package]]
-name = "asteval"
-version = "0.9.26"
-description = "Safe, minimalistic evaluator of python expression using ast module"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "asttokens"
 version = "2.0.5"
 description = "Annotate AST trees with source code positions"
@@ -941,7 +933,7 @@ testing = ["pytest", "pytest-bdd", "toml"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9.0, <3.12"
-content-hash = "8393124bac95ba61eb1a3590f5ed97d938d7b3637ea1dc19e0baacfc1ccab093"
+content-hash = "8a4b09a72f705e5265d6d1bebc61926df2ff1e0237ac1369bef6dbebb44f4d9c"
 
 [metadata.files]
 ansiwrap = [
@@ -955,9 +947,6 @@ appnope = [
 argcomplete = [
     {file = "argcomplete-2.0.0-py2.py3-none-any.whl", hash = "sha256:cffa11ea77999bb0dd27bb25ff6dc142a6796142f68d45b1a26b11f58724561e"},
     {file = "argcomplete-2.0.0.tar.gz", hash = "sha256:6372ad78c89d662035101418ae253668445b391755cfe94ea52f1b9d22425b20"},
-]
-asteval = [
-    {file = "asteval-0.9.26.tar.gz", hash = "sha256:36125613ec21ed3e33e370ca8960a1f1e8a2324d78a8016bfa5ad76f1e16ef05"},
 ]
 asttokens = [
     {file = "asttokens-2.0.5-py2.py3-none-any.whl", hash = "sha256:0844691e88552595a6f4a4281a9f7f79b8dd45ca4ccea82e5e05b4bbdb76705c"},

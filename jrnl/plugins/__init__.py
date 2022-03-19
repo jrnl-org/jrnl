@@ -8,7 +8,6 @@ from .json_exporter import JSONExporter
 from .markdown_exporter import MarkdownExporter
 from .tag_exporter import TagExporter
 from .dates_exporter import DatesExporter
-from .template_exporter import __all__ as template_exporters
 from .text_exporter import TextExporter
 from .xml_exporter import XMLExporter
 from .yaml_exporter import YAMLExporter
@@ -22,7 +21,7 @@ __exporters = [
     XMLExporter,
     YAMLExporter,
     FancyExporter,
-] + template_exporters
+]
 __importers = [JRNLImporter]
 
 __exporter_types = {name: plugin for plugin in __exporters for name in plugin.names}
