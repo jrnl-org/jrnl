@@ -136,7 +136,9 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw or raw.isspace():
         logging.error("Write mode: couldn't get raw text or entry was empty")
-        raise JrnlException(Message(MsgText.NoTextReceived, MsgType.ERROR))
+        raise JrnlException(
+            Message(MsgText.NoTextReceived, MsgType.ERROR)
+        )
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
