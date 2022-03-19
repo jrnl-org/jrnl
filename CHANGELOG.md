@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4...HEAD)
 
+**Fixed bugs:**
+
+- Mac Installation Problem: Warning: Transient problem: HTTP error [\#1425](https://github.com/jrnl-org/jrnl/issues/1425)
+
 **Build:**
 
 - Clean up .gitignore [\#1286](https://github.com/jrnl-org/jrnl/issues/1286)
@@ -13,6 +17,7 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump cryptography from 36.0.1 to 36.0.2 [\#1427](https://github.com/jrnl-org/jrnl/pull/1427) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump yq from 2.13.0 to 2.14.0 [\#1418](https://github.com/jrnl-org/jrnl/pull/1418) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Replace PyYAML with ruamel.yaml [\#1416](https://github.com/jrnl-org/jrnl/pull/1416) ([micahellison](https://github.com/micahellison))
 - Bump pytest from 6.2.5 to 7.0.0 [\#1407](https://github.com/jrnl-org/jrnl/pull/1407) ([dependabot[bot]](https://github.com/apps/dependabot))
