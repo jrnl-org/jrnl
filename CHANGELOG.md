@@ -9,6 +9,10 @@
 - Reformat additional messages and finish centralizing exception handling [\#1424](https://github.com/jrnl-org/jrnl/pull/1424) ([wren](https://github.com/wren))
 - Reformat messages and add new centralized exception handling [\#1417](https://github.com/jrnl-org/jrnl/pull/1417) ([wren](https://github.com/wren))
 
+**Deprecated:**
+
+- Remove "sample" format and its asteval dependency [\#1435](https://github.com/jrnl-org/jrnl/issues/1435)
+
 **Build:**
 
 - Clean up .gitignore [\#1286](https://github.com/jrnl-org/jrnl/issues/1286)
