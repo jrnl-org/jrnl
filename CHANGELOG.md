@@ -23,6 +23,9 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump black from 22.1.0 to 22.3.0 [\#1442](https://github.com/jrnl-org/jrnl/pull/1442) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mkdocs from 1.2.3 to 1.3.0 [\#1441](https://github.com/jrnl-org/jrnl/pull/1441) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pyproject-flake8 from 0.0.1a2 to 0.0.1a3 [\#1440](https://github.com/jrnl-org/jrnl/pull/1440) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytz from 2021.3 to 2022.1 [\#1438](https://github.com/jrnl-org/jrnl/pull/1438) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytest from 7.0.1 to 7.1.1 [\#1430](https://github.com/jrnl-org/jrnl/pull/1430) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 36.0.1 to 36.0.2 [\#1427](https://github.com/jrnl-org/jrnl/pull/1427) ([dependabot[bot]](https://github.com/apps/dependabot))
