@@ -11,7 +11,7 @@ class _MsgColor(NamedTuple):
 
 class MsgType(Enum):
     TITLE = _MsgColor("cyan")
-    NORMAL = _MsgColor("white")
+    NORMAL = _MsgColor("blue")
     WARNING = _MsgColor("yellow")
     ERROR = _MsgColor("red")
 
@@ -34,6 +34,7 @@ class MsgText(Enum):
         """
 
     ConfigDirectoryIsFile = """
+        Problem with config file!
         The path to your jrnl configuration directory is a file, not a directory:
 
         {config_directory_path}
@@ -72,6 +73,14 @@ class MsgText(Enum):
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
     JournalEntryAdded = "Entry added to {journal_name} journal"
+
+    JournalCountAddedSingular = "{num} entry added"
+    JournalCountModifiedSingular = "{num} entry modified"
+    JournalCountDeletedSingular = "{num} entry deleted"
+
+    JournalCountAddedPlural = "{num} entries added"
+    JournalCountModifiedPlural = "{num} entries modified"
+    JournalCountDeletedPlural = "{num} entries deleted"
 
     # --- Editor ---#
     WritingEntryStart = """

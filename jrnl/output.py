@@ -4,11 +4,23 @@
 import logging
 import sys
 import textwrap
+from typing import Tuple
+
+from rich import print
+import rich
+from rich.panel import Panel
+from rich.padding import Padding
+from rich.text import Text
+from rich.measure import Measurement
+from rich.console import Group
+from rich import box
 
 from jrnl.color import colorize
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
 from jrnl.messages import Message
+from jrnl.messages import MsgType
+from jrnl.messages import MsgText
 
 
 def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
@@ -38,14 +50,49 @@ def list_journals(configuration):
     return result
 
 
-def print_msg(msg: Message):
-    msg_text = textwrap.dedent(msg.text.value.format(**msg.params)).strip().split("\n")
+def print_msg(msg: Message) -> None:
+    print_msgs([msg])
 
-    longest_string = len(max(msg_text, key=len))
-    msg_text = [f"[ {line:<{longest_string}} ]" for line in msg_text]
 
-    # colorize can't be called until after the lines are padded,
-    # because python gets confused by the ansi color codes
-    msg_text[0] = f"[{colorize(msg_text[0][1:-1], msg.type.color)}]"
+def print_msgs(msgs: list[Message], delimiter: str = "\n") -> None:
+    # Same as print_msg, but for a list
+    text = Text("")
 
-    print("\n".join(msg_text), file=sys.stderr)
+    kwargs = {
+        "expand": False,
+        "border_style": None,
+        "padding": (0,2),
+        "title_align": "left",
+        "box": box.HEAVY
+    }
+
+    for msg in msgs:
+        kwargs["border_style"] = msg.type.color
+        if msg.type == MsgType.ERROR:
+            kwargs["title"] = "Error"
+
+        if is_keyboard_int(msg):
+            print()
+
+        m = format_msg(msg)
+        m.append(delimiter)
+        text.append(m)
+
+    text.rstrip()
+    print(Panel(text, **kwargs))
+
+
+def is_keyboard_int(msg: Message) -> bool:
+    return msg.text == MsgText.KeyboardInterruptMsg
+
+def format_msg(msg: Message) -> Text:
+    text = (
+        textwrap.dedent(msg.text.value.format(**msg.params))
+        .strip()
+        # .splitlines(keepends=True)
+    )
+    result = Text(text)
+    # result = Text(text[0])
+    # result.stylize(msg.type.color)
+    # result.append("".join(text[1:]))
+    return result

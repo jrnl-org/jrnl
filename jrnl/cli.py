@@ -45,7 +45,13 @@ def cli(manual_args=None):
 
     except KeyboardInterrupt:
         status_code = 1
-        print_msg("\nKeyboardInterrupt", "\nAborted by user", msg=Message.ERROR)
+
+        print_msg(
+            Message(
+                MsgText.KeyboardInterruptMsg,
+                MsgType.ERROR,
+            )
+        )
 
     except Exception as e:
         # uncaught exception

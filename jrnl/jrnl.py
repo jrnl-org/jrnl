@@ -15,6 +15,7 @@ from .editor import get_text_from_stdin
 from . import time
 from .override import apply_overrides
 from jrnl.output import print_msg
+from jrnl.output import print_msgs
 
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
@@ -145,7 +146,13 @@ def write_mode(args, config, journal, **kwargs):
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
     )
     journal.new_entry(raw)
-    print_msg( Message(MsgText.JournalEntryAdded, MsgType.NORMAL, {"journal_name": args.journal_name}))
+    print_msg(
+        Message(
+            MsgText.JournalEntryAdded,
+            MsgType.NORMAL,
+            {"journal_name": args.journal_name},
+        )
+    )
     journal.write()
     logging.debug("Write mode: completed journal.write()", args.journal_name, raw)
 
@@ -279,33 +286,38 @@ def _print_edited_summary(journal, old_stats, **kwargs):
         "deleted": old_stats["count"] - len(journal),
         "modified": len([e for e in journal.entries if e.modified]),
     }
-
-    prompts = []
+    stats["modified"] -= stats["added"]
+    msgs = []
 
     if stats["added"] > 0:
-        prompts.append(f"{stats['added']} {_pluralize_entry(stats['added'])} added")
-        stats["modified"] -= stats["added"]
+        my_msg = (
+            MsgText.JournalCountAddedSingular
+            if stats["added"] == 1
+            else MsgText.JournalCountAddedPlural
+        )
+        msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["added"]}))
 
     if stats["deleted"] > 0:
-        prompts.append(
-            f"{stats['deleted']} {_pluralize_entry(stats['deleted'])} deleted"
+        my_msg = (
+            MsgText.JournalCountDeletedSingular
+            if stats["added"] == 1
+            else MsgText.JournalCountDeletedPlural
         )
+        msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["deleted"]}))
 
-    if stats["modified"]:
-        prompts.append(
-            f"{stats['modified']} {_pluralize_entry(stats['modified'])} modified"
+    if stats["modified"] > 0:
+        my_msg = (
+            MsgText.JournalCountModifiedSingular
+            if stats["added"] == 1
+            else MsgText.JournalCountModifiedPlural
         )
+        msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["modified"]}))
 
-    if prompts:
-        print(f"[{', '.join(prompts).capitalize()}]", file=sys.stderr)
+    print_msgs(msgs)
 
 
 def _get_predit_stats(journal):
     return {"count": len(journal)}
-
-
-def _pluralize_entry(num):
-    return "entry" if num == 1 else "entries"
 
 
 def _delete_search_results(journal, old_entries, **kwargs):
