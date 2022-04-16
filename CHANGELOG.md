@@ -23,6 +23,7 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump pyproject-flake8 from 0.0.1a3 to 0.0.1a4 [\#1447](https://github.com/jrnl-org/jrnl/pull/1447) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 22.1.0 to 22.3.0 [\#1442](https://github.com/jrnl-org/jrnl/pull/1442) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump mkdocs from 1.2.3 to 1.3.0 [\#1441](https://github.com/jrnl-org/jrnl/pull/1441) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pyproject-flake8 from 0.0.1a2 to 0.0.1a3 [\#1440](https://github.com/jrnl-org/jrnl/pull/1440) ([dependabot[bot]](https://github.com/apps/dependabot))
