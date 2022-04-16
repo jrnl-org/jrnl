@@ -140,6 +140,11 @@ class MsgText(Enum):
         No entries to delete, because the search returned no results
         """
 
+    # --- Formats --- #
+    HeadingsPastH6 = """
+        Headings increased past H6 on export - {date} {title}
+        """
+
 
 class Message(NamedTuple):
     text: MsgText
