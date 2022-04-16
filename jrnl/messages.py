@@ -60,6 +60,11 @@ class MsgText(Enum):
         this journal to the new journal, then encrypt the new journal.
         """
 
+    ConfigEncryptedForUnencryptableJournalType = """
+        The config for journal "{journal_name}" has 'encrypt' set to true, but this type
+        of journal can't be encrypted. Please fix your config file.
+        """
+
     KeyboardInterruptMsg = "Aborted by user"
 
     CantReadTemplate = """

@@ -12,6 +12,11 @@ from . import Entry
 from . import time
 from .prompt import yesno
 
+from jrnl.output import print_msg
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
+
 
 class Tag:
     def __init__(self, name, count=0):
@@ -408,9 +413,14 @@ def open_journal(journal_name, config, legacy=False):
 
     if os.path.isdir(config["journal"]):
         if config["encrypt"]:
-            print(
-                "Warning: This journal's config has 'encrypt' set to true, but this type of journal can't be encrypted.",
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.ConfigEncryptedForUnencryptableJournalType,
+                    MsgType.WARNING,
+                    {
+                        "journal_name": journal_name,
+                    },
+                )
             )
 
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
