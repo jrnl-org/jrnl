@@ -4,18 +4,12 @@
 import logging
 import sys
 import textwrap
-from typing import Tuple
 
 from rich import print
-import rich
 from rich.panel import Panel
-from rich.padding import Padding
 from rich.text import Text
-from rich.measure import Measurement
-from rich.console import Group
 from rich import box
 
-from jrnl.color import colorize
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
 from jrnl.messages import Message
@@ -61,9 +55,9 @@ def print_msgs(msgs: list[Message], delimiter: str = "\n") -> None:
     kwargs = {
         "expand": False,
         "border_style": None,
-        "padding": (0,2),
+        "padding": (0, 2),
         "title_align": "left",
-        "box": box.HEAVY
+        "box": box.HEAVY,
     }
 
     for msg in msgs:
@@ -85,10 +79,10 @@ def print_msgs(msgs: list[Message], delimiter: str = "\n") -> None:
 def is_keyboard_int(msg: Message) -> bool:
     return msg.text == MsgText.KeyboardInterruptMsg
 
+
 def format_msg(msg: Message) -> Text:
     text = (
-        textwrap.dedent(msg.text.value.format(**msg.params))
-        .strip()
+        textwrap.dedent(msg.text.value.format(**msg.params)).strip()
         # .splitlines(keepends=True)
     )
     result = Text(text)

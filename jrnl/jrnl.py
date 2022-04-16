@@ -300,7 +300,7 @@ def _print_edited_summary(journal, old_stats, **kwargs):
     if stats["deleted"] > 0:
         my_msg = (
             MsgText.JournalCountDeletedSingular
-            if stats["added"] == 1
+            if stats["deleted"] == 1
             else MsgText.JournalCountDeletedPlural
         )
         msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["deleted"]}))
@@ -308,7 +308,7 @@ def _print_edited_summary(journal, old_stats, **kwargs):
     if stats["modified"] > 0:
         my_msg = (
             MsgText.JournalCountModifiedSingular
-            if stats["added"] == 1
+            if stats["modified"] == 1
             else MsgText.JournalCountModifiedPlural
         )
         msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["modified"]}))
