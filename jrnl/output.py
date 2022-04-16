@@ -9,6 +9,7 @@ from rich import print
 from rich.panel import Panel
 from rich.text import Text
 from rich import box
+from rich.console import Console
 
 from jrnl.color import RESET_COLOR
 from jrnl.color import WARNING_COLOR
@@ -73,7 +74,8 @@ def print_msgs(msgs: list[Message], delimiter: str = "\n") -> None:
         text.append(m)
 
     text.rstrip()
-    print(Panel(text, **kwargs))
+
+    Console(stderr=True).print(Panel(text, **kwargs))
 
 
 def is_keyboard_int(msg: Message) -> bool:
