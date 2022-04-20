@@ -35,6 +35,9 @@ class TextExporter:
                 return f"[Journal exported to {path}]"
         except IOError as e:
             return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"
+        except RuntimeError as e:
+            os.remove(path)
+            return e
 
     @classmethod
     def make_filename(cls, entry):
@@ -54,6 +57,9 @@ class TextExporter:
                 return "[{2}ERROR{3}: {0} {1}]".format(
                     e.filename, e.strerror, ERROR_COLOR, RESET_COLOR
                 )
+            except RuntimeError as e:
+                os.remove(full_path)
+                return e
         return "[Journal exported to {}]".format(path)
 
     def _slugify(string):
