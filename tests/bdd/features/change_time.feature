@@ -15,7 +15,7 @@ Feature: Change entry times in journal
         | config_file          |
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
-        | basic_folder.yaml    | @todo
+        | basic_folder.yaml    |
         # | basic_dayone.yaml    | @todo
 
 
@@ -47,7 +47,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -63,7 +63,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -79,7 +79,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -95,7 +95,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -111,7 +111,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -127,7 +127,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -143,7 +143,7 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
@@ -159,5 +159,5 @@ Feature: Change entry times in journal
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
-        | basic_folder.yaml  | @todo
+        | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
