@@ -17,6 +17,7 @@ def expected_args(**kwargs):
         "contains": None,
         "debug": False,
         "delete": False,
+        "change_time": None,
         "edit": False,
         "end_date": None,
         "today_in_history": False,
@@ -56,6 +57,13 @@ def test_debug_alone():
 
 def test_delete_alone():
     assert cli_as_dict("--delete") == expected_args(delete=True)
+
+
+def test_change_time_alone():
+    assert cli_as_dict("--change-time") == expected_args(change_time="now")
+    assert cli_as_dict("--change-time yesterday") == expected_args(
+        change_time="yesterday"
+    )
 
 
 def test_diagnostic_alone():

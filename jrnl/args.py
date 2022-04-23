@@ -268,6 +268,14 @@ def parse_args(args=[]):
         help="Interactively deletes selected entries",
     )
     exporting.add_argument(
+        "--change-time",
+        dest="change_time",
+        nargs="?",
+        metavar="DATE",
+        const="now",
+        help="Change timestamp for seleted entries (default: now)",
+    )
+    exporting.add_argument(
         "--format",
         metavar="TYPE",
         dest="export",

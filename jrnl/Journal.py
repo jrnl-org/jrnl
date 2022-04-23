@@ -279,6 +279,14 @@ class Journal:
 
         return to_delete
 
+    def change_date_entries(self, date):
+        """Changes entry dates to given date."""
+
+        date = time.parse(date)
+
+        for entry in self.entries:
+            entry.date = date
+
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""

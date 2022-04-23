@@ -79,6 +79,7 @@ def _is_write_mode(args, config, **kwargs):
             args.contains,
             args.delete,
             args.edit,
+            args.change_time,
             args.export,
             args.end_date,
             args.today_in_history,
@@ -152,7 +153,9 @@ def write_mode(args, config, journal, **kwargs):
 def search_mode(args, journal, **kwargs):
     """
     Search for entries in a journal, then either:
-    1. Send them to configured editor for user manipulation
+    1. Send them to configured editor for user manipulation (and also
+       change their timestamps if requested)
+    2. Change their timestamps
     2. Delete them (with confirmation for each entry)
     3. Display them (with formatting options)
     """
@@ -169,6 +172,16 @@ def search_mode(args, journal, **kwargs):
     # Where do the search results go?
     if args.edit:
         _edit_search_results(**kwargs)
+        # If we want to both edit and change time in one action
+        if args.change_time:
+            # Re-filter the journal enties (_edit_search_results puts
+            # the filtered entries back)
+            kwargs["old_entries"] = journal.entries
+            _search_journal(**kwargs)
+            _change_time_search_results(**kwargs)
+
+    elif args.change_time:
+        _change_time_search_results(**kwargs)
 
     elif args.delete:
         _delete_search_results(**kwargs)
@@ -238,6 +251,11 @@ def _search_journal(args, journal, **kwargs):
     journal.limit(args.limit)
 
 
+def _other_entries(journal, entries):
+    """Find entries that are not in journal"""
+    return [e for e in entries if e not in journal.entries]
+
+
 def _edit_search_results(config, journal, old_entries, **kwargs):
     """
     1. Send the given journal entries to the user-configured editor
@@ -254,7 +272,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
         )
 
     # separate entries we are not editing
-    other_entries = [e for e in old_entries if e not in journal.entries]
+    other_entries = _other_entries(journal, old_entries)
 
     # Get stats now for summary later
     old_stats = _get_predit_stats(journal)
@@ -318,6 +336,18 @@ def _delete_search_results(journal, old_entries, **kwargs):
         journal.delete_entries(entries_to_delete)
 
         journal.write()
+
+
+def _change_time_search_results(args, journal, old_entries, **kwargs):
+    # separate entries we are not editing
+    other_entries = _other_entries(journal, old_entries)
+
+    date = time.parse(args.change_time)
+    journal.change_date_entries(date)
+
+    journal.entries += other_entries
+    journal.sort()
+    journal.write()
 
 
 def _display_search_results(args, journal, **kwargs):
