@@ -425,6 +425,20 @@ Feature: Custom formats
         | basic_folder.yaml    |
         # | basic_dayone.yaml    |
 
+    Scenario Outline: Exporting YAML to nonexistent directory leads to user-friendly error with no traceback
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --export yaml --file nonexistent_dir"
+        Then the output should contain "YAML export must be to individual files"
+        And the output should not contain "Traceback"
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        # | basic_dayone.yaml    | @todo
+
     @skip_win # @todo YAML exporter does not correctly export emoji on Windows
     Scenario Outline: Add a blank line to YAML export if there isn't one already
         # https://github.com/jrnl-org/jrnl/issues/768
