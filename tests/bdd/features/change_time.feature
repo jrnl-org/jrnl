@@ -22,6 +22,7 @@ Feature: Change entry times in journal
     Scenario Outline: Change time flag with nonsense input changes nothing
         Given we use the config "<config_file>"
         When we run "jrnl --change-time now asdfasdf"
+        Then the output should contain "No entries to modify"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
