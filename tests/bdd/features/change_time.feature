@@ -162,3 +162,21 @@ Feature: Change entry times in journal
         | basic_onefile.yaml |
         | basic_folder.yaml  |
         # | basic_dayone.yaml  | @todo
+
+
+    Scenario Outline: Change time flag with no enties specified changes nothing
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --change-time"
+        Then the output should contain "No entries to modify"
+        When we run "jrnl -99 --short"
+        Then the output should be
+            2020-08-29 11:11 Entry the first.
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            2020-09-24 09:14 The third entry finally after weeks without writing.
+
+        Examples: Configs
+        | config_file        |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
