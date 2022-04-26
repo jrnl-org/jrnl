@@ -98,7 +98,7 @@ class MsgText(Enum):
         """
 
     NoTextReceived = """
-        Nothing saved to file
+        Entry not saved
         """
 
     # --- Upgrade --- #
