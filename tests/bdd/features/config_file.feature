@@ -85,7 +85,6 @@ Feature: Multiple journals
         Then the output should contain "Journal encrypted to features/journals/basic_onefile.journal"
         And the config should contain "encrypt: false"
 
-
     Scenario: Don't overwrite main config when decrypting a journal in an alternate config
         Given the config "editor_encrypted.yaml" exists
         And we use the password "bad doggie no biscuit" if prompted
@@ -93,3 +92,8 @@ Feature: Multiple journals
         When we run "jrnl --cf editor_encrypted.yaml --decrypt"
         Then the config should contain "encrypt: true"
         And the output should not contain "Wrong password"
+
+    Scenario: Use default config when configuration file is empty or corrupt
+        Given the config "empty_file.yaml" exists
+        When we run "jrnl --cf empty_file.yaml"
+        Then the output should contain "empty, now using default config"

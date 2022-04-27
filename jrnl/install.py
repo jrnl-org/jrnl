@@ -75,6 +75,12 @@ def load_or_install_jrnl(alt_config_path):
         logging.debug("Reading configuration from file %s", config_path)
         config = load_config(config_path)
 
+        if config is None:
+            print(
+                f"Configuration file {config_path} is empty, now using default config"
+            )
+            config = get_default_config()
+
         if is_old_version(config_path):
             from jrnl import upgrade
 
