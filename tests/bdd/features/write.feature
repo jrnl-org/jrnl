@@ -73,12 +73,12 @@ Feature: Writing new entries.
         | basic_dayone.yaml    |
         | basic_folder.yaml    |
 
-    Scenario Outline: Writing an empty entry from the editor should yield "Entry not saved" message
+    Scenario Outline: Writing an empty entry from the editor should yield "No entry to save" message
         Given we use the config "<config_file>"
         And we write nothing to the editor if opened
         And we use the password "test" if prompted
         When we run "jrnl --edit"
-        Then the error output should contain "Entry not saved"
+        Then the error output should contain "No entry to save, because no text was received"
         And the editor should have been called
 
         Examples: configs
@@ -89,13 +89,13 @@ Feature: Writing new entries.
         | basic_encrypted.yaml     |
         | basic_onefile.yaml       |
 
-    Scenario Outline: Writing an empty entry from the command line should yield "Entry not saved" message
+    Scenario Outline: Writing an empty entry from the command line should yield "No entry to save" message
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl" and enter "\x04"
-        Then the error output should contain "Entry not saved"
+        Then the error output should contain "No entry to save, because no text was received"
         When we run "jrnl" and enter " \t \n \x04"
-        Then the error output should contain "Entry not saved"
+        Then the error output should contain "No entry to save, because no text was received"
 
         Examples: configs
         | config_file          |
