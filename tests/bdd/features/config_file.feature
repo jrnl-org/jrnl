@@ -93,7 +93,13 @@ Feature: Multiple journals
         Then the config should contain "encrypt: true"
         And the output should not contain "Wrong password"
 
-    Scenario: Use default config when configuration file is empty or corrupt
+    Scenario: Show an error message when the config file is empty
+        Given we use the config "empty_file.yaml"
+        When we run "jrnl -1"
+        Then the error output should contain "Unable to parse config file"
+
+    Scenario: Show an error message when using --config-file with empty file
         Given the config "empty_file.yaml" exists
+        And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf empty_file.yaml"
-        Then the output should contain "empty, now using default config"
+        Then the error output should contain "Unable to parse config file"
