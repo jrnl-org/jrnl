@@ -75,6 +75,8 @@ class MsgText(Enum):
 
     NoDefaultJournal = "No default journal configured\n{journals}"
 
+    FileDoesNotExist = "{filename} does not exist"
+
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
     JournalEntryAdded = "Entry added to {journal_name} journal"
@@ -90,6 +92,7 @@ class MsgText(Enum):
     JournalCreated = "Journal '{journal_name}' created at {filename}"
     DirectoryCreated = "Directory {directory_name} created"
     JournalEncrypted = "Journal will be encrypted."
+    BackupCreated = "Created a backup at {filename}"
 
     # --- Editor ---#
     WritingEntryStart = """

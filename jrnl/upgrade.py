@@ -20,7 +20,6 @@ from jrnl.messages import MsgType
 
 
 def backup(filename, binary=False):
-    print(f"  Created a backup at {filename}.backup", file=sys.stderr)
     filename = os.path.expanduser(os.path.expandvars(filename))
 
     try:
@@ -29,8 +28,17 @@ def backup(filename, binary=False):
 
         with open(filename + ".backup", "wb" if binary else "w") as backup:
             backup.write(contents)
+
+        print_msg(
+            Message(
+                MsgText.BackupCreated, MsgType.NORMAL, {"filename": f"filename.backup"}
+            )
+        )
+
     except FileNotFoundError:
-        print(f"\nError: {filename} does not exist.")
+        print_msg(
+            Message(MsgText.FileDoesNotExist, MsgType.WARNING, {"filename": filename})
+        )
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
             raise JrnlException(Message(MsgText.UpgradeAborted, MsgType.WARNING))
