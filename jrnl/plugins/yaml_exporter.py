@@ -12,6 +12,7 @@ from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
 from jrnl.messages import MsgType
+from jrnl.output import print_msg
 
 
 class YAMLExporter(TextExporter):
@@ -79,11 +80,12 @@ class YAMLExporter(TextExporter):
             spacebody = spacebody + "\t" + line
 
         if warn_on_heading_level is True:
-            print(
-                "{}WARNING{}: Headings increased past H6 on export - {} {}".format(
-                    WARNING_COLOR, RESET_COLOR, date_str, entry.title
-                ),
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.HeadingsPastH6,
+                    MsgType.WARNING,
+                    {"date": date_str, "title": entry.title},
+                )
             )
 
         dayone_attributes = ""
