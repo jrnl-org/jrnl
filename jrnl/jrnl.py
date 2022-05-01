@@ -329,7 +329,7 @@ def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
         raise JrnlException(Message(MsgText.NothingToDelete, MsgType.ERROR))
 
-    entries_to_delete = journal.prompt_delete_entries()
+    entries_to_delete = journal.prompt_action_entries("Delete entry")
 
     if entries_to_delete:
         journal.entries = old_entries
@@ -338,19 +338,28 @@ def _delete_search_results(journal, old_entries, **kwargs):
         journal.write()
 
 
-def _change_time_search_results(args, journal, old_entries, **kwargs):
+def _change_time_search_results(args, journal, old_entries, no_prompt=False, **kwargs):
     if not journal.entries:
         raise JrnlException(Message(MsgText.NothingToModify, MsgType.WARNING))
 
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
 
-    date = time.parse(args.change_time)
-    journal.change_date_entries(date)
+    if no_prompt:
+        entries_to_change = journal.entries
+    else:
+        entries_to_change = journal.prompt_action_entries("Change time")
 
-    journal.entries += other_entries
-    journal.sort()
-    journal.write()
+    if entries_to_change:
+        other_entries += [e for e in journal.entries if e not in entries_to_change]
+        journal.entries = entries_to_change
+
+        date = time.parse(args.change_time)
+        journal.change_date_entries(date)
+
+        journal.entries += other_entries
+        journal.sort()
+        journal.write()
 
 
 def _display_search_results(args, journal, **kwargs):

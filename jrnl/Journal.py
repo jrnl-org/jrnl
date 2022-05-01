@@ -261,31 +261,29 @@ class Journal:
         for entry in entries_to_delete:
             self.entries.remove(entry)
 
-    def prompt_delete_entries(self):
-        """Prompts for deletion of each of the entries in a journal.
-        Returns the entries the user wishes to delete."""
-
-        to_delete = []
-
-        def ask_delete(entry):
-            return yesno(
-                f"Delete entry '{entry.pprint(short=True)}'?",
-                default=False,
-            )
-
-        for entry in self.entries:
-            if ask_delete(entry):
-                to_delete.append(entry)
-
-        return to_delete
-
     def change_date_entries(self, date):
         """Changes entry dates to given date."""
-
         date = time.parse(date)
 
         for entry in self.entries:
             entry.date = date
+
+    def prompt_action_entries(self, message):
+        """Prompts for action for each entry in a journal, using given message.
+        Returns the entries the user wishes to apply the action on."""
+        to_act = []
+
+        def ask_action(entry):
+            return yesno(
+                f"{message} '{entry.pprint(short=True)}'?",
+                default=False,
+            )
+
+        for entry in self.entries:
+            if ask_action(entry):
+                to_act.append(entry)
+
+        return to_act
 
     def new_entry(self, raw, date=None, sort=True):
         """Constructs a new entry from some raw text input.
