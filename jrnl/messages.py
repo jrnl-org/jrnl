@@ -167,6 +167,9 @@ class MsgText(Enum):
         {count} imported to {journal_name} journal
         """
 
+    # --- Color --- #
+    InvalidColor = "{key} set to invalid color: {color}"
+
 
 class Message(NamedTuple):
     text: MsgText
