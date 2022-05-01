@@ -134,11 +134,9 @@ def write_mode(args, config, journal, **kwargs):
     else:
         raw = _write_in_editor(config)
 
-    if not raw:
-        logging.error("Write mode: couldn't get raw text")
-        raise JrnlException(
-            Message(MsgText.JrnlExceptionMessage.NoTextReceived, MsgType.ERROR)
-        )
+    if not raw or raw.isspace():
+        logging.error("Write mode: couldn't get raw text or entry was empty")
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgType.ERROR))
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw

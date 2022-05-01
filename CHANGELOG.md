@@ -9,6 +9,10 @@
 - Reformat additional messages and finish centralizing exception handling [\#1424](https://github.com/jrnl-org/jrnl/pull/1424) ([wren](https://github.com/wren))
 - Reformat messages and add new centralized exception handling [\#1417](https://github.com/jrnl-org/jrnl/pull/1417) ([wren](https://github.com/wren))
 
+**Fixed bugs:**
+
+- "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
+
 **Deprecated:**
 
 - Remove "sample" format and its asteval dependency [\#1435](https://github.com/jrnl-org/jrnl/issues/1435)
@@ -23,6 +27,8 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump cryptography from 36.0.2 to 37.0.1 [\#1462](https://github.com/jrnl-org/jrnl/pull/1462) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pytest from 7.1.1 to 7.1.2 [\#1458](https://github.com/jrnl-org/jrnl/pull/1458) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pyproject-flake8 from 0.0.1a3 to 0.0.1a4 [\#1447](https://github.com/jrnl-org/jrnl/pull/1447) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump black from 22.1.0 to 22.3.0 [\#1442](https://github.com/jrnl-org/jrnl/pull/1442) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump mkdocs from 1.2.3 to 1.3.0 [\#1441](https://github.com/jrnl-org/jrnl/pull/1441) ([dependabot[bot]](https://github.com/apps/dependabot))
