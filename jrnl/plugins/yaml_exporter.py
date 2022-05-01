@@ -6,11 +6,12 @@ import os
 import re
 import sys
 
-from jrnl.color import ERROR_COLOR
-from jrnl.color import RESET_COLOR
-from jrnl.color import WARNING_COLOR
-
 from .text_exporter import TextExporter
+
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgType
 
 
 class YAMLExporter(TextExporter):
@@ -129,8 +130,4 @@ class YAMLExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
-        raise RuntimeError(
-            "{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(
-                ERROR_COLOR, RESET_COLOR
-            )
-        )
+        raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgType.ERROR))

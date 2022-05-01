@@ -150,6 +150,10 @@ class MsgText(Enum):
         Headings increased past H6 on export - {date} {title}
         """
 
+    YamlMustBeDirectory = """
+        YAML export must be to a directory, not a single file
+        """
+
     # --- Import --- #
     ImportSummary = """
         {count} imported to {journal_name} journal
