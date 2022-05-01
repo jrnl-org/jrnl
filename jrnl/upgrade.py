@@ -71,7 +71,6 @@ def upgrade_jrnl(config_path):
         if os.path.exists(os.path.expanduser(path)):
             path = os.path.expanduser(path)
         else:
-            print(f"\nError: {path} does not exist.")
             print_msg(Message(MsgText.DoesNotExist, MsgType.ERROR, {"name": path}))
             continue
 
