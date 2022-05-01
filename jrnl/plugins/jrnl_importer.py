@@ -8,6 +8,7 @@ from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
 from jrnl.messages import MsgType
+from jrnl.output import print_msg
 
 
 class JRNLImporter:
@@ -34,8 +35,11 @@ class JRNLImporter:
 
         journal.import_(other_journal_txt)
         new_cnt = len(journal.entries)
-        print(
-            "[{} imported to {} journal]".format(new_cnt - old_cnt, journal.name),
-            file=sys.stderr,
-        )
         journal.write()
+        print_msg(
+            Message(
+                MsgText.ImportSummary,
+                MsgType.NORMAL,
+                {"count": new_cnt - old_cnt, "journal_name": journal.name},
+            )
+        )

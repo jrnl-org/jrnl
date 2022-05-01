@@ -150,6 +150,11 @@ class MsgText(Enum):
         Headings increased past H6 on export - {date} {title}
         """
 
+    # --- Import --- #
+    ImportSummary = """
+        {count} imported to {journal_name} journal
+        """
+
 
 class Message(NamedTuple):
     text: MsgText
