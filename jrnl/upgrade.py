@@ -92,7 +92,6 @@ def upgrade_jrnl(config_path):
         header=Message(
             MsgText.JournalsToUpgrade,
             params={
-                "journal_type": "encrypted",
                 "version": __version__,
             },
         ),
@@ -104,7 +103,6 @@ def upgrade_jrnl(config_path):
         header=Message(
             MsgText.JournalsToUpgrade,
             params={
-                "journal_type": "plain text",
                 "version": __version__,
             },
         ),
@@ -126,7 +124,6 @@ def upgrade_jrnl(config_path):
             Message(
                 MsgText.UpgradingJournal,
                 params={
-                    "journal_type": "encrypted",
                     "journal_name": journal_name,
                     "path": path,
                 },
@@ -144,7 +141,6 @@ def upgrade_jrnl(config_path):
             Message(
                 MsgText.UpgradingJournal,
                 params={
-                    "journal_type": "plain text",
                     "journal_name": journal_name,
                     "path": path,
                 },

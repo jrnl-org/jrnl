@@ -161,7 +161,7 @@ class MsgText(Enum):
     ImportAborted = "Entries were NOT imported"
 
     JournalsToUpgrade = """
-        The following {journal_type} journals will be upgraded to jrnl {version}:
+        The following journals will be upgraded to jrnl {version}:
 
         """
 
@@ -171,7 +171,7 @@ class MsgText(Enum):
         """
 
     UpgradingJournal = """
-        Upgrading {journal_type} '{journal_name}' journal stored in {path}...
+        Upgrading '{journal_name}' journal stored in {path}...
         """
 
     UpgradingConfig = "Upgrading config..."
@@ -208,6 +208,8 @@ class MsgText(Enum):
     YamlMustBeDirectory = """
         YAML export must be to a directory, not a single file
         """
+
+    JournalExportedTo = "Journal exported to {path}"
 
     # --- Import --- #
     ImportSummary = """
