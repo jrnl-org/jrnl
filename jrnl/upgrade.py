@@ -13,7 +13,6 @@ from .config import scope_config
 from .prompt import yesno
 
 from jrnl.output import print_msg
-
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
@@ -34,7 +33,7 @@ def backup(filename, binary=False):
         print(f"\nError: {filename} does not exist.")
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
-            raise JrnlException(Message(MsgText.UpgradeAborted), MsgType.WARNING)
+            raise JrnlException(Message(MsgText.UpgradeAborted, MsgType.WARNING))
 
 
 def check_exists(path):
