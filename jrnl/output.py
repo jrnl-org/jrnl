@@ -19,13 +19,13 @@ from jrnl.messages import MsgText
 
 
 def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
-    warning_msg = f"""
-    The command {old_cmd} is deprecated and will be removed from jrnl soon.
-    Please use {new_cmd} instead.
-    """
-    warning_msg = textwrap.dedent(warning_msg)
-    logging.warning(warning_msg)
-    print(f"{WARNING_COLOR}{warning_msg}{RESET_COLOR}", file=sys.stderr)
+    print_msg(
+        Message(
+            MsgText.DeprecatedCommand,
+            MsgType.WARNING,
+            {"old_cmd": old_cmd, "new_cmd": new_cmd},
+        )
+    )
 
     if callback is not None:
         callback(**kwargs)

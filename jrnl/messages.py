@@ -227,6 +227,12 @@ class MsgText(Enum):
 
     KeyringRetrievalFailure = "Failed to retrieve keyring"
 
+    # --- Deprecation --- #
+    DeprecatedCommand = """
+        The command {old_cmd} is deprecated and will be removed from jrnl soon.
+        Please use {new_cmd} instead.
+        """
+
 
 class Message(NamedTuple):
     text: MsgText
