@@ -9,10 +9,6 @@ from .os_compat import on_windows
 if on_windows():
     colorama.init()
 
-WARNING_COLOR = colorama.Fore.YELLOW
-ERROR_COLOR = colorama.Fore.RED
-RESET_COLOR = colorama.Fore.RESET
-
 
 def colorize(string, color, bold=False):
     """Returns the string colored with colorama.Fore.color. If the color set by

@@ -11,8 +11,6 @@ from rich.text import Text
 from rich import box
 from rich.console import Console
 
-from jrnl.color import RESET_COLOR
-from jrnl.color import WARNING_COLOR
 from jrnl.messages import Message
 from jrnl.messages import MsgType
 from jrnl.messages import MsgText
