@@ -89,6 +89,7 @@ class MsgText(Enum):
 
     JournalCreated = "Journal '{journal_name}' created at {filename}"
     DirectoryCreated = "Directory {directory_name} created"
+    JournalEncrypted = "Journal will be encrypted."
 
     # --- Editor ---#
     WritingEntryStart = """
@@ -136,6 +137,10 @@ class MsgText(Enum):
     AltConfigNotFound = """
         Alternate configuration file not found at the given path:
             {config_file}
+        """
+
+    ConfigUpdated = """
+        Configuration updated to newest version at {config_path}
         """
 
     # --- Password --- #

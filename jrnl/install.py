@@ -17,6 +17,7 @@ from .config import verify_config_colors
 from .prompt import yesno
 from .upgrade import is_old_version
 
+from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
@@ -35,9 +36,8 @@ def upgrade_config(config_data, alt_config_path=None):
             config_data[key] = default_config[key]
         save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
-        print(
-            f"[Configuration updated to newest version at {config_path}]",
-            file=sys.stderr,
+        print_msg(
+            Message(MsgText.ConfigUpdated, MsgType.NORMAL, {"config_path": config_path})
         )
 
 
@@ -121,7 +121,7 @@ def install():
     )
     if encrypt:
         default_config["encrypt"] = True
-        print("Journal will be encrypted.", file=sys.stderr)
+        print_msg(Message(MsgText.JournalEncrypted, MsgType.NORMAL))
 
     save_config(default_config)
     return default_config
