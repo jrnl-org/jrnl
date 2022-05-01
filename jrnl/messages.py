@@ -24,6 +24,25 @@ class MsgText(Enum):
     def __str__(self) -> str:
         return self.value
 
+    # -- Welcome --- #
+
+    WelcomeToJrnl = """
+        Welcome to jrnl {version}!
+
+        It looks like you've been using an older version of jrnl until now. That's
+        okay - jrnl will now upgrade your configuration and journal files. Afterwards
+        you can enjoy all of the great new features that come with jrnl 2:
+
+        - Support for storing your journal in multiple files
+        - Faster reading and writing for large journals
+        - New encryption back-end that makes installing jrnl much easier
+        - Tons of bug fixes
+
+        Please note that jrnl 1.x is NOT forward compatible with this version of jrnl.
+        If you choose to proceed, you will not be able to use your journals with
+        older versions of jrnl anymore.
+        """
+
     # --- Exceptions ---#
     UncaughtException = """
         {name}
