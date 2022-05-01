@@ -25,10 +25,7 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            raise RuntimeError(
-                f"{ERROR_COLOR}ERROR{RESET_COLOR}: YAML export must be to individual files. Please \
-                specify a directory to export to."
-            )
+            raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgType.ERROR))
 
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
