@@ -21,6 +21,7 @@ class MsgDecoration(Enum):
         "args": {}
     }
     BRACKET = {
+        # @todo this should be a more robust function
         "callback": lambda x, **kwargs: f"[ {x} ]",
         "args": {}
     }
