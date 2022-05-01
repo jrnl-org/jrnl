@@ -177,11 +177,11 @@ def upgrade_jrnl(config_path):
     for j in all_journals:
         j.write()
 
-    print("\nUpgrading config...", file=sys.stderr)
+    print_msg(Message(MsgText.UpgradingConfig, MsgType.NORMAL))
 
     backup(config_path)
 
-    print("\nWe're all done here and you can start enjoying jrnl 2.", file=sys.stderr)
+    print_msg(Message(MsgText.AllDoneUpgrade, MsgType.NORMAL))
 
 
 def is_old_version(config_path):

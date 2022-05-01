@@ -25,7 +25,6 @@ class MsgText(Enum):
         return self.value
 
     # -- Welcome --- #
-
     WelcomeToJrnl = """
         Welcome to jrnl {version}!
 
@@ -42,6 +41,8 @@ class MsgText(Enum):
         If you choose to proceed, you will not be able to use your journals with
         older versions of jrnl anymore.
         """
+
+    AllDoneUpgrade = "We're all done here and you can start enjoying jrnl 2"
 
     # --- Exceptions ---#
     UncaughtException = """
@@ -170,6 +171,8 @@ class MsgText(Enum):
     UpgradingJournal = """
         Upgrading {journal_type} '{journal_name}' journal stored in {path}...
         """
+
+    UpgradingConfig = "Upgrading config..."
 
     PaddedJournalName = "{journal_name:{pad}} -> {path}"
 
