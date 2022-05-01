@@ -37,7 +37,7 @@ def backup(filename, binary=False):
 
     except FileNotFoundError:
         print_msg(
-            Message(MsgText.FileDoesNotExist, MsgType.WARNING, {"filename": filename})
+            Message(MsgText.DoesNotExist, MsgType.WARNING, {"name": filename})
         )
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
@@ -73,6 +73,7 @@ def upgrade_jrnl(config_path):
             path = os.path.expanduser(path)
         else:
             print(f"\nError: {path} does not exist.")
+            print_msg(Message(MsgText.DoesNotExist, MsgType.ERROR, {"name": path}))
             continue
 
         if encrypt:

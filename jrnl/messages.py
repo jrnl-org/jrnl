@@ -94,7 +94,7 @@ class MsgText(Enum):
 
     NoDefaultJournal = "No default journal configured\n{journals}"
 
-    FileDoesNotExist = "{filename} does not exist"
+    DoesNotExist = "{name} does not exist"
 
     # --- Journal status ---#
     JournalNotSaved = "Entry NOT saved to journal"
