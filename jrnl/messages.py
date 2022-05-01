@@ -87,6 +87,9 @@ class MsgText(Enum):
     JournalCountModifiedPlural = "{num} entries modified"
     JournalCountDeletedPlural = "{num} entries deleted"
 
+    JournalCreated = "Journal '{journal_name}' created at {filename}"
+    DirectoryCreated = "Directory {directory_name} created"
+
     # --- Editor ---#
     WritingEntryStart = """
         Writing Entry

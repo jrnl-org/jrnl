@@ -87,9 +87,24 @@ class Journal:
         if not os.path.exists(filename):
             if not os.path.isdir(dirname):
                 os.makedirs(dirname)
-                print(f"[Directory {dirname} created]", file=sys.stderr)
+                print_msg(
+                    Message(
+                        MsgText.DirectoryCreated,
+                        MsgType.NORMAL,
+                        {"directory_name": dirname},
+                    )
+                )
             self.create_file(filename)
-            print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
+            print_msg(
+                Message(
+                    MsgText.JournalCreated,
+                    MsgType.NORMAL,
+                    {
+                        "journal_name": self.name,
+                        "filename": filename,
+                    },
+                )
+            )
 
         text = self._load(filename)
         self.entries = self._parse(text)
