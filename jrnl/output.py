@@ -19,7 +19,6 @@ from jrnl.messages import MsgText
 
 
 def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
-
     warning_msg = f"""
     The command {old_cmd} is deprecated and will be removed from jrnl soon.
     Please use {new_cmd} instead.
@@ -83,12 +82,5 @@ def is_keyboard_int(msg: Message) -> bool:
 
 
 def format_msg(msg: Message) -> Text:
-    text = (
-        textwrap.dedent(msg.text.value.format(**msg.params)).strip()
-        # .splitlines(keepends=True)
-    )
-    result = Text(text)
-    # result = Text(text[0])
-    # result.stylize(msg.type.color)
-    # result.append("".join(text[1:]))
-    return result
+    text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
+    return Text(text)

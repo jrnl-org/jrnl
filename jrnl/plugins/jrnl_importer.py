@@ -40,6 +40,9 @@ class JRNLImporter:
             Message(
                 MsgText.ImportSummary,
                 MsgType.NORMAL,
-                {"count": new_cnt - old_cnt, "journal_name": journal.name},
+                {
+                    "count": new_cnt - old_cnt,
+                    "journal_name": journal.name,
+                },
             )
         )
