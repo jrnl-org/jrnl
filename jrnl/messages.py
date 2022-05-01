@@ -157,6 +157,17 @@ class MsgText(Enum):
 
     ImportAborted = "Entries were NOT imported"
 
+    JournalsToUpgrade = """
+        The following {journal_type} journals will be upgraded to jrnl {version}:
+
+        """
+
+    JournalsToIgnore = """
+        The following journals will not be touched:
+
+        """
+    PaddedJournalName = "{journal_name:{pad}} -> {path}"
+
     # -- Config --- #
     AltConfigNotFound = """
         Alternate configuration file not found at the given path:

@@ -13,6 +13,7 @@ from .config import scope_config
 from .prompt import yesno
 
 from jrnl.output import print_msg
+from jrnl.output import print_msgs
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
@@ -36,9 +37,7 @@ def backup(filename, binary=False):
         )
 
     except FileNotFoundError:
-        print_msg(
-            Message(MsgText.DoesNotExist, MsgType.WARNING, {"name": filename})
-        )
+        print_msg(Message(MsgText.DoesNotExist, MsgType.WARNING, {"name": filename}))
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
             raise JrnlException(Message(MsgText.UpgradeAborted, MsgType.WARNING))
@@ -83,36 +82,41 @@ def upgrade_jrnl(config_path):
         else:
             plain_journals[journal_name] = path
 
-    longest_journal_name = max([len(journal) for journal in config["journals"]])
-    if encrypted_journals:
-        print(
-            f"\nFollowing encrypted journals will be upgraded to jrnl {__version__}:",
-            file=sys.stderr,
-        )
-        for journal, path in encrypted_journals.items():
-            print(
-                "    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name),
-                file=sys.stderr,
-            )
+    kwargs = {
+        # longest journal name
+        "pad": max([len(journal) for journal in config["journals"]]),
+        "version": __version__,
+    }
 
-    if plain_journals:
-        print(
-            f"\nFollowing plain text journals will upgraded to jrnl {__version__}:",
-            file=sys.stderr,
-        )
-        for journal, path in plain_journals.items():
-            print(
-                "    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name),
-                file=sys.stderr,
-            )
+    _print_journal_summary(
+        journals=encrypted_journals,
+        header=Message(
+            MsgText.JournalsToUpgrade,
+            params={
+                "journal_type": "encrypted",
+                "version": __version__,
+            },
+        ),
+        **kwargs,
+    )
 
-    if other_journals:
-        print("\nFollowing journals will be not be touched:", file=sys.stderr)
-        for journal, path in other_journals.items():
-            print(
-                "    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name),
-                file=sys.stderr,
-            )
+    _print_journal_summary(
+        journals=plain_journals,
+        header=Message(
+            MsgText.JournalsToUpgrade,
+            params={
+                "journal_type": "plain text",
+                "version": __version__,
+            },
+        ),
+        **kwargs,
+    )
+
+    _print_journal_summary(
+        journals=other_journals,
+        header=Message(MsgText.JournalsToIgnore),
+        **kwargs,
+    )
 
     cont = yesno("\nContinue upgrading jrnl?", default=False)
     if not cont:
@@ -169,3 +173,22 @@ def upgrade_jrnl(config_path):
 
 def is_old_version(config_path):
     return is_config_json(config_path)
+
+
+def _print_journal_summary(journals: dict, header: Message, pad: int) -> None:
+    if not journals:
+        return
+
+    msgs = [header]
+    for journal, path in journals.items():
+        msgs.append(
+            Message(
+                MsgText.PaddedJournalName,
+                params={
+                    "journal_name": journal,
+                    "path": path,
+                    "pad": pad,
+                },
+            )
+        )
+    print_msgs(msgs)
