@@ -131,6 +131,8 @@ class MsgText(Enum):
 
     UpgradeAborted = "jrnl was NOT upgraded"
 
+    AbortingUpgrade = "Aborting upgrade..."
+
     ImportAborted = "Entries were NOT imported"
 
     # -- Config --- #

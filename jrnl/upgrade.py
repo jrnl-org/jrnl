@@ -152,9 +152,8 @@ older versions of jrnl anymore.
     failed_journals = [j for j in all_journals if not j.validate_parsing()]
 
     if len(failed_journals) > 0:
-        print_msg("Aborting upgrade.", msg=Message.NORMAL)
-
         raise JrnlException(
+            Message(MsgText.AbortingUpgrade, MsgType.WARNING),
             Message(
                 MsgText.JournalFailedUpgrade,
                 MsgType.ERROR,
@@ -162,7 +161,7 @@ older versions of jrnl anymore.
                     "s": "s" if len(failed_journals) > 1 else "",
                     "failed_journals": "\n".join(j.name for j in failed_journals),
                 },
-            )
+            ),
         )
 
     # write all journals - or - don't
