@@ -21,7 +21,7 @@ from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def upgrade_config(config_data, alt_config_path=None):
@@ -37,7 +37,9 @@ def upgrade_config(config_data, alt_config_path=None):
         save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
         print_msg(
-            Message(MsgText.ConfigUpdated, MsgType.NORMAL, {"config_path": config_path})
+            Message(
+                MsgText.ConfigUpdated, MsgStyle.NORMAL, {"config_path": config_path}
+            )
         )
 
 
@@ -54,7 +56,7 @@ def find_alt_config(alt_config):
     if not os.path.exists(alt_config):
         raise JrnlException(
             Message(
-                MsgText.AltConfigNotFound, MsgType.ERROR, {"config_file": alt_config}
+                MsgText.AltConfigNotFound, MsgStyle.ERROR, {"config_file": alt_config}
             )
         )
 
@@ -121,7 +123,7 @@ def install():
     )
     if encrypt:
         default_config["encrypt"] = True
-        print_msg(Message(MsgText.JournalEncrypted, MsgType.NORMAL))
+        print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
 
     save_config(default_config)
     return default_config

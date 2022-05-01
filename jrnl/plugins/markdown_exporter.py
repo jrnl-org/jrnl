@@ -10,7 +10,7 @@ from .text_exporter import TextExporter
 from jrnl.output import print_msg
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 class MarkdownExporter(TextExporter):
@@ -67,7 +67,7 @@ class MarkdownExporter(TextExporter):
             print_msg(
                 Message(
                     MsgText.HeadingsPastH6,
-                    MsgType.WARNING,
+                    MsgStyle.WARNING,
                     {"date": date_str, "title": entry.title},
                 )
             )

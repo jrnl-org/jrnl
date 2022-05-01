@@ -6,13 +6,11 @@ import sys
 import textwrap
 
 from rich import print
-from rich.panel import Panel
 from rich.text import Text
-from rich import box
 from rich.console import Console
 
 from jrnl.messages import Message
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 
 
@@ -20,7 +18,7 @@ def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
     print_msg(
         Message(
             MsgText.DeprecatedCommand,
-            MsgType.WARNING,
+            MsgStyle.WARNING,
             {"old_cmd": old_cmd, "new_cmd": new_cmd},
         )
     )
@@ -43,25 +41,21 @@ def list_journals(configuration):
 
 
 def print_msg(msg: Message) -> None:
-    print_msgs([msg])
+    print_msgs([msg], style=msg.style)
 
 
-def print_msgs(msgs: list[Message], delimiter: str = "\n") -> None:
+def print_msgs(
+    msgs: list[Message], delimiter: str = "\n", style: MsgStyle = MsgStyle.NORMAL
+) -> None:
     # Same as print_msg, but for a list
     text = Text("")
-
-    kwargs = {
-        "expand": False,
-        "border_style": None,
-        "padding": (0, 2),
-        "title_align": "left",
-        "box": box.HEAVY,
-    }
+    callback = style.decoration.callback
+    args = style.decoration.args
 
     for msg in msgs:
-        kwargs["border_style"] = msg.type.color
-        if msg.type == MsgType.ERROR:
-            kwargs["title"] = "Error"
+        args["border_style"] = msg.style.color
+        if msg.style == MsgStyle.ERROR:
+            args["title"] = "Error"
 
         if is_keyboard_int(msg):
             print()
@@ -72,7 +66,8 @@ def print_msgs(msgs: list[Message], delimiter: str = "\n") -> None:
 
     text.rstrip()
 
-    Console(stderr=True).print(Panel(text, **kwargs))
+    # import ipdb; ipdb.sset_trace()
+    Console(stderr=True).print(callback(text, **args))
 
 
 def is_keyboard_int(msg: Message) -> bool:

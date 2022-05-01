@@ -18,7 +18,7 @@ from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def preconfig_diagnostic(_):
@@ -78,7 +78,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
         raise JrnlException(
             Message(
                 MsgText.CannotEncryptJournalType,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {
                     "journal_name": args.journal_name,
                     "journal_type": journal.__class__.__name__,
@@ -94,7 +94,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     print_msg(
         Message(
             MsgText.JournalEncryptedTo,
-            MsgType.NORMAL,
+            MsgStyle.NORMAL,
             {"path": args.filename or new_journal.config["journal"]},
         )
     )
@@ -122,7 +122,7 @@ def postconfig_decrypt(args, config, original_config, **kwargs):
     print_msg(
         Message(
             MsgText.JournalDecryptedTo,
-            MsgType.NORMAL,
+            MsgStyle.NORMAL,
             {"path": args.filename or new_journal.config["journal"]},
         )
     )

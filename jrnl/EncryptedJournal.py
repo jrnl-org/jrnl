@@ -24,7 +24,7 @@ from .prompt import create_password
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def make_key(password):
@@ -54,13 +54,13 @@ def decrypt_content(
         set_keychain(keychain, None)
     attempt = 1
     while result is None and attempt < max_attempts:
-        print_msg(Message(MsgText.WrongPasswordTryAgain, MsgType.WARNING))
+        print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
         password = getpass.getpass()
         result = decrypt_func(password)
         attempt += 1
 
     if result is None:
-        raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgStyle.ERROR))
 
     return result
 
@@ -82,7 +82,7 @@ class EncryptedJournal(Journal):
                 print_msg(
                     Message(
                         MsgText.DirectoryCreated,
-                        MsgType.NORMAL,
+                        MsgStyle.NORMAL,
                         {"directory_name": dirname},
                     )
                 )
@@ -92,7 +92,7 @@ class EncryptedJournal(Journal):
             print_msg(
                 Message(
                     MsgText.JournalCreated,
-                    MsgType.NORMAL,
+                    MsgStyle.NORMAL,
                     {"journal_name": self.name, "path": filename},
                 )
             )
@@ -188,7 +188,7 @@ def get_keychain(journal_name):
         return keyring.get_password("jrnl", journal_name)
     except keyring.errors.KeyringError as e:
         if not isinstance(e, keyring.errors.NoKeyringError):
-            print_msg(Message(MsgText.KeyringRetrievalFailure, MsgType.ERROR))
+            print_msg(Message(MsgText.KeyringRetrievalFailure, MsgStyle.ERROR))
         return ""
 
 
@@ -205,7 +205,7 @@ def set_keychain(journal_name, password):
             keyring.set_password("jrnl", journal_name, password)
         except keyring.errors.KeyringError as e:
             if isinstance(e, keyring.errors.NoKeyringError):
-                msg = Message(MsgText.KeyringBackendNotFound, MsgType.WARNING)
+                msg = Message(MsgText.KeyringBackendNotFound, MsgStyle.WARNING)
             else:
-                msg = Message(MsgText.KeyringRetrievalFailure, MsgType.ERROR)
+                msg = Message(MsgText.KeyringRetrievalFailure, MsgStyle.ERROR)
             print_msg(msg)

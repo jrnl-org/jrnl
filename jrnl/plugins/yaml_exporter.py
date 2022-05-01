@@ -11,7 +11,7 @@ from .text_exporter import TextExporter
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 from jrnl.output import print_msg
 
 
@@ -25,7 +25,7 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgType.ERROR))
+            raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))
 
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
@@ -80,7 +80,7 @@ class YAMLExporter(TextExporter):
             print_msg(
                 Message(
                     MsgText.HeadingsPastH6,
-                    MsgType.WARNING,
+                    MsgStyle.WARNING,
                     {"date": date_str, "title": entry.title},
                 )
             )
@@ -129,4 +129,4 @@ class YAMLExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
-        raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))

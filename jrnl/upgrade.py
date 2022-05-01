@@ -17,7 +17,7 @@ from jrnl.output import print_msgs
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def backup(filename, binary=False):
@@ -32,15 +32,15 @@ def backup(filename, binary=False):
 
         print_msg(
             Message(
-                MsgText.BackupCreated, MsgType.NORMAL, {"filename": f"filename.backup"}
+                MsgText.BackupCreated, MsgStyle.NORMAL, {"filename": f"filename.backup"}
             )
         )
 
     except FileNotFoundError:
-        print_msg(Message(MsgText.DoesNotExist, MsgType.WARNING, {"name": filename}))
+        print_msg(Message(MsgText.DoesNotExist, MsgStyle.WARNING, {"name": filename}))
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
-            raise JrnlException(Message(MsgText.UpgradeAborted, MsgType.WARNING))
+            raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
 
 def check_exists(path):
@@ -53,7 +53,7 @@ def check_exists(path):
 def upgrade_jrnl(config_path):
     config = load_config(config_path)
 
-    print_msg(Message(MsgText.WelcomeToJrnl, MsgType.NORMAL, {"version": __version__}))
+    print_msg(Message(MsgText.WelcomeToJrnl, MsgStyle.NORMAL, {"version": __version__}))
 
     encrypted_journals = {}
     plain_journals = {}
@@ -71,7 +71,7 @@ def upgrade_jrnl(config_path):
         if os.path.exists(os.path.expanduser(path)):
             path = os.path.expanduser(path)
         else:
-            print_msg(Message(MsgText.DoesNotExist, MsgType.ERROR, {"name": path}))
+            print_msg(Message(MsgText.DoesNotExist, MsgStyle.ERROR, {"name": path}))
             continue
 
         if encrypt:
@@ -117,7 +117,7 @@ def upgrade_jrnl(config_path):
 
     cont = yesno("\nContinue upgrading jrnl?", default=False)
     if not cont:
-        raise JrnlException(Message(MsgText.UpgradeAborted), MsgType.WARNING)
+        raise JrnlException(Message(MsgText.UpgradeAborted), MsgStyle.WARNING)
 
     for journal_name, path in encrypted_journals.items():
         print_msg(
@@ -158,10 +158,10 @@ def upgrade_jrnl(config_path):
 
     if len(failed_journals) > 0:
         raise JrnlException(
-            Message(MsgText.AbortingUpgrade, MsgType.WARNING),
+            Message(MsgText.AbortingUpgrade, MsgStyle.WARNING),
             Message(
                 MsgText.JournalFailedUpgrade,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {
                     "s": "s" if len(failed_journals) > 1 else "",
                     "failed_journals": "\n".join(j.name for j in failed_journals),
@@ -173,11 +173,11 @@ def upgrade_jrnl(config_path):
     for j in all_journals:
         j.write()
 
-    print_msg(Message(MsgText.UpgradingConfig, MsgType.NORMAL))
+    print_msg(Message(MsgText.UpgradingConfig, MsgStyle.NORMAL))
 
     backup(config_path)
 
-    print_msg(Message(MsgText.AllDoneUpgrade, MsgType.NORMAL))
+    print_msg(Message(MsgText.AllDoneUpgrade, MsgStyle.NORMAL))
 
 
 def is_old_version(config_path):

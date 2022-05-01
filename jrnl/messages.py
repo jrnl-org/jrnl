@@ -1,23 +1,81 @@
 from enum import Enum
 from typing import NamedTuple
 from typing import Mapping
+from typing import Callable
+from rich.panel import Panel
+from rich import box
 
 
 class _MsgColor(NamedTuple):
-    # This is a colorama color, and colorama doesn't support enums or type hints
-    # see: https://github.com/tartley/colorama/issues/91
+    """
+    String representing a standard color to display
+    see: https://rich.readthedocs.io/en/stable/appendix/colors.html
+    """
+
     color: str
 
 
-class MsgType(Enum):
-    TITLE = _MsgColor("cyan")
-    NORMAL = _MsgColor("blue")
-    WARNING = _MsgColor("yellow")
-    ERROR = _MsgColor("red")
+class MsgDecoration(Enum):
+    NONE = {
+        "callback": lambda x, **kwargs: x,
+        "args": {}
+    }
+    BRACKET = {
+        "callback": lambda x, **kwargs: f"[ {x} ]",
+        "args": {}
+    }
+    BOX = {
+        "callback": Panel,
+        "args": {
+            "expand": False,
+            "padding": (0, 2),
+            "title_align": "left",
+            "box": box.HEAVY,
+        },
+    }
+
+    @property
+    def callback(self) -> Callable:
+        return self.value["callback"]
+
+    @property
+    def args(self) -> dict:
+        return self.value["args"]
+
+
+class MsgStyle(Enum):
+    BARE = {
+        "decoration": MsgDecoration.NONE,
+        "color": _MsgColor("white"),
+    }
+    PLAIN = {
+        "decoration": MsgDecoration.BRACKET,
+        "color": _MsgColor("white"),
+    }
+    TITLE = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("cyan"),
+    }
+    NORMAL = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("white"),
+    }
+    WARNING = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("yellow"),
+    }
+    ERROR = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("red"),
+    }
+
+    @property
+    def decoration(self) -> MsgDecoration:
+        return self.value["decoration"]
 
     @property
     def color(self) -> _MsgColor:
-        return self.value.color
+        return self.value["color"].color
 
 
 class MsgText(Enum):
@@ -193,7 +251,11 @@ class MsgText(Enum):
         Too many attempts with wrong password
         """
 
-    WrongPasswordTryAgain = "Wrong password, try again."
+    PasswordCanNotBeEmpty = """
+        Password can't be empty!
+        """
+
+    WrongPasswordTryAgain = "Wrong password, try again"
 
     # --- Search --- #
     NothingToDelete = """
@@ -238,5 +300,5 @@ class MsgText(Enum):
 
 class Message(NamedTuple):
     text: MsgText
-    type: MsgType = MsgType.NORMAL
+    style: MsgStyle = MsgStyle.NORMAL
     params: Mapping = {}

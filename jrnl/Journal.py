@@ -15,7 +15,7 @@ from .prompt import yesno
 from jrnl.output import print_msg
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 class Tag:
@@ -90,7 +90,7 @@ class Journal:
                 print_msg(
                     Message(
                         MsgText.DirectoryCreated,
-                        MsgType.NORMAL,
+                        MsgStyle.NORMAL,
                         {"directory_name": dirname},
                     )
                 )
@@ -98,7 +98,7 @@ class Journal:
             print_msg(
                 Message(
                     MsgText.JournalCreated,
-                    MsgType.NORMAL,
+                    MsgStyle.NORMAL,
                     {
                         "journal_name": self.name,
                         "filename": filename,
@@ -431,7 +431,7 @@ def open_journal(journal_name, config, legacy=False):
             print_msg(
                 Message(
                     MsgText.ConfigEncryptedForUnencryptableJournalType,
-                    MsgType.WARNING,
+                    MsgStyle.WARNING,
                     {
                         "journal_name": journal_name,
                     },

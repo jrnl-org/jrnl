@@ -4,6 +4,11 @@
 import getpass
 import sys
 
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgStyle
+from jrnl.output import print_msg
+
 
 def create_password(
     journal_name: str, prompt: str = "Enter password for new journal: "
@@ -11,7 +16,7 @@ def create_password(
     while True:
         pw = getpass.getpass(prompt)
         if not pw:
-            print("Password can't be an empty string!", file=sys.stderr)
+            print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.PLAIN))
             continue
         elif pw == getpass.getpass("Enter password again: "):
             break

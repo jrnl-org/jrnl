@@ -9,7 +9,7 @@ import unicodedata
 from jrnl.output import print_msg
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 class TextExporter:
@@ -36,7 +36,7 @@ class TextExporter:
             print_msg(
                 Message(
                     MsgText.JournalExportedTo,
-                    MsgType.NORMAL,
+                    MsgStyle.NORMAL,
                     {
                         "path": path,
                     },
@@ -60,7 +60,7 @@ class TextExporter:
         print_msg(
             Message(
                 MsgText.JournalExportedTo,
-                MsgType.NORMAL,
+                MsgStyle.NORMAL,
                 {"path": path},
             )
         )

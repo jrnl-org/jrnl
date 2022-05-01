@@ -5,7 +5,7 @@
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 from textwrap import TextWrapper
 
 from .text_exporter import TextExporter
@@ -90,7 +90,7 @@ def check_provided_linewrap_viability(linewrap, card, journal):
         raise JrnlException(
             Message(
                 MsgText.LineWrapTooSmallForDateFormat,
-                MsgType.NORMAL,
+                MsgStyle.NORMAL,
                 {
                     "config_linewrap": linewrap,
                     "columns": width_violation,

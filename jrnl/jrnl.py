@@ -20,7 +20,7 @@ from jrnl.output import print_msgs
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def run(args):
@@ -138,9 +138,7 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw or raw.isspace():
         logging.error("Write mode: couldn't get raw text or entry was empty")
-        raise JrnlException(
-            Message(MsgText.NoTextReceived, MsgType.ERROR)
-        )
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.ERROR))
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
@@ -149,7 +147,7 @@ def write_mode(args, config, journal, **kwargs):
     print_msg(
         Message(
             MsgText.JournalEntryAdded,
-            MsgType.NORMAL,
+            MsgStyle.NORMAL,
             {"journal_name": args.journal_name},
         )
     )
@@ -213,7 +211,7 @@ def _get_editor_template(config, **kwargs):
         raise JrnlException(
             Message(
                 MsgText.CantReadTemplate,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"template": config["template"]},
             )
         )
@@ -256,7 +254,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
         raise JrnlException(
             Message(
                 MsgText.EditorNotConfigured,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"config_file": get_config_path()},
             )
         )
@@ -295,7 +293,7 @@ def _print_edited_summary(journal, old_stats, **kwargs):
             if stats["added"] == 1
             else MsgText.JournalCountAddedPlural
         )
-        msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["added"]}))
+        msgs.append(Message(my_msg, MsgStyle.NORMAL, {"num": stats["added"]}))
 
     if stats["deleted"] > 0:
         my_msg = (
@@ -303,7 +301,7 @@ def _print_edited_summary(journal, old_stats, **kwargs):
             if stats["deleted"] == 1
             else MsgText.JournalCountDeletedPlural
         )
-        msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["deleted"]}))
+        msgs.append(Message(my_msg, MsgStyle.NORMAL, {"num": stats["deleted"]}))
 
     if stats["modified"] > 0:
         my_msg = (
@@ -311,7 +309,7 @@ def _print_edited_summary(journal, old_stats, **kwargs):
             if stats["modified"] == 1
             else MsgText.JournalCountModifiedPlural
         )
-        msgs.append(Message(my_msg, MsgType.NORMAL, {"num": stats["modified"]}))
+        msgs.append(Message(my_msg, MsgStyle.NORMAL, {"num": stats["modified"]}))
 
     print_msgs(msgs)
 
@@ -322,7 +320,7 @@ def _get_predit_stats(journal):
 
 def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
-        raise JrnlException(Message(MsgText.NothingToDelete, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.NothingToDelete, MsgStyle.ERROR))
 
     entries_to_delete = journal.prompt_delete_entries()
 

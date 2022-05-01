@@ -11,7 +11,7 @@ from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 # Constants
@@ -72,7 +72,7 @@ def get_config_path():
         raise JrnlException(
             Message(
                 MsgText.ConfigDirectoryIsFile,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {
                     "config_directory_path": os.path.join(
                         xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
@@ -147,7 +147,7 @@ def verify_config_colors(config):
             print_msg(
                 Message(
                     MsgText.InvalidColor,
-                    MsgType.NORMAL,
+                    MsgStyle.NORMAL,
                     {
                         "key": key,
                         "color": color,
@@ -202,7 +202,7 @@ def get_journal_name(args, config):
         raise JrnlException(
             Message(
                 MsgText.NoDefaultJournal,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"journals": list_journals(config)},
             ),
         )

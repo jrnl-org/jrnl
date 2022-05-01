@@ -12,7 +12,7 @@ from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def configure_logger(debug=False):
@@ -49,7 +49,7 @@ def cli(manual_args=None):
         print_msg(
             Message(
                 MsgText.KeyboardInterruptMsg,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
             )
         )
 
@@ -73,7 +73,7 @@ def cli(manual_args=None):
         print_msg(
             Message(
                 MsgText.UncaughtException,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"name": type(e).__name__, "exception": e},
             )
         )
