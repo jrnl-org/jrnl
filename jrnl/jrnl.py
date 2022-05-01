@@ -171,15 +171,23 @@ def search_mode(args, journal, **kwargs):
 
     # Where do the search results go?
     if args.edit:
-        _edit_search_results(**kwargs)
         # If we want to both edit and change time in one action
         if args.change_time:
-            # Re-filter the journal enties (_edit_search_results puts
-            # the filtered entries back)
-            kwargs["old_entries"] = journal.entries
-            _search_journal(**kwargs)
+            # Generate a new list instead of assigning so it won't be
+            # modified by _change_time_search_results
+            selected_entries = [e for e in journal.entries]
+
             no_change_time_prompt = len(journal.entries) == 1
             _change_time_search_results(no_prompt=no_change_time_prompt, **kwargs)
+
+            # Re-filter the journal enties (_change_time_search_results
+            # puts the filtered entries back); use selected_entries
+            # instead of running _search_journal again, because times
+            # have changed since the original search
+            kwargs["old_entries"] = journal.entries
+            journal.entries = selected_entries
+
+        _edit_search_results(**kwargs)
 
     elif args.change_time:
         _change_time_search_results(**kwargs)
