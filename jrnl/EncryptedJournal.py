@@ -54,7 +54,7 @@ def decrypt_content(
         set_keychain(keychain, None)
     attempt = 1
     while result is None and attempt < max_attempts:
-        print("Wrong password, try again.", file=sys.stderr)
+        print_msg(Message(MsgText.WrongPasswordTryAgain, MsgType.WARNING))
         password = getpass.getpass()
         result = decrypt_func(password)
         attempt += 1
@@ -79,13 +79,22 @@ class EncryptedJournal(Journal):
         if not os.path.exists(filename):
             if not os.path.isdir(dirname):
                 os.makedirs(dirname)
-                print(f"[Directory {dirname} created]", file=sys.stderr)
+                print_msg(
+                    Message(
+                        MsgText.DirectoryCreated,
+                        MsgType.NORMAL,
+                        {"directory_name": dirname},
+                    )
+                )
             self.create_file(filename)
             self.password = create_password(self.name)
 
-            print(
-                f"Encrypted journal '{self.name}' created at {filename}",
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.JournalCreated,
+                    MsgType.NORMAL,
+                    {"journal_name": self.name, "path": filename},
+                )
             )
 
         text = self._load(filename)
@@ -179,7 +188,7 @@ def get_keychain(journal_name):
         return keyring.get_password("jrnl", journal_name)
     except keyring.errors.KeyringError as e:
         if not isinstance(e, keyring.errors.NoKeyringError):
-            print("Failed to retrieve keyring", file=sys.stderr)
+            print_msg(Message(MsgText.KeyringRetrievalFailure, MsgType.ERROR))
         return ""
 
 
@@ -196,9 +205,7 @@ def set_keychain(journal_name, password):
             keyring.set_password("jrnl", journal_name, password)
         except keyring.errors.KeyringError as e:
             if isinstance(e, keyring.errors.NoKeyringError):
-                print(
-                    "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/",
-                    file=sys.stderr,
-                )
+                msg = Message(MsgText.KeyringBackendNotFound, MsgType.WARNING)
             else:
-                print("Failed to retrieve keyring", file=sys.stderr)
+                msg = Message(MsgText.KeyringRetrievalFailure, MsgType.ERROR)
+            print_msg(msg)

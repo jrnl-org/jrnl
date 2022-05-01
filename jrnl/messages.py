@@ -111,7 +111,9 @@ class MsgText(Enum):
 
     JournalCreated = "Journal '{journal_name}' created at {filename}"
     DirectoryCreated = "Directory {directory_name} created"
-    JournalEncrypted = "Journal will be encrypted."
+    JournalEncrypted = "Journal will be encrypted"
+    JournalEncryptedTo = "Journal encrypted to {path}"
+    JournalDecryptedTo = "Journal decrypted to {path}"
     BackupCreated = "Created a backup at {filename}"
 
     # --- Editor ---#
@@ -191,6 +193,8 @@ class MsgText(Enum):
         Too many attempts with wrong password
         """
 
+    WrongPasswordTryAgain = "Wrong password, try again."
+
     # --- Search --- #
     NothingToDelete = """
         No entries to delete, because the search returned no results
@@ -212,6 +216,16 @@ class MsgText(Enum):
 
     # --- Color --- #
     InvalidColor = "{key} set to invalid color: {color}"
+
+    # --- Keyring --- #
+    KeyringBackendNotFound = """
+        Keyring backend not found.
+
+        Please install one of the supported backends by visiting:
+          https://pypi.org/project/keyring/
+        """
+
+    KeyringRetrievalFailure = "Failed to retrieve keyring"
 
 
 class Message(NamedTuple):

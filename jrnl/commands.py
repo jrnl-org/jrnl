@@ -13,6 +13,8 @@ avoid any possible overhead for these standalone commands.
 """
 import platform
 import sys
+
+from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
@@ -89,9 +91,12 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     new_journal = EncryptedJournal.from_journal(journal)
     new_journal.write(args.filename)
 
-    print(
-        f"Journal encrypted to {args.filename or new_journal.config['journal']}.",
-        file=sys.stderr,
+    print_msg(
+        Message(
+            MsgText.JournalEncryptedTo,
+            MsgType.NORMAL,
+            {"path": args.filename or new_journal.config["journal"]},
+        )
     )
 
     # Update the config, if we encrypted in place
@@ -114,9 +119,12 @@ def postconfig_decrypt(args, config, original_config, **kwargs):
 
     new_journal = PlainJournal.from_journal(journal)
     new_journal.write(args.filename)
-    print(
-        f"Journal decrypted to {args.filename or new_journal.config['journal']}.",
-        file=sys.stderr,
+    print_msg(
+        Message(
+            MsgText.JournalDecryptedTo,
+            MsgType.NORMAL,
+            {"path": args.filename or new_journal.config["journal"]},
+        )
     )
 
     # Update the config, if we decrypted in place
