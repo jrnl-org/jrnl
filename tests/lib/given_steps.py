@@ -101,7 +101,11 @@ def we_use_the_config(request, temp_dir, working_dir):
 
     # @todo get rid of this by using default config values
     # merge in version number
-    if config_file.endswith("yaml") and os.path.exists(config_dest):
+    if (
+        config_file.endswith("yaml")
+        and os.path.exists(config_dest)
+        and os.path.getsize(config_dest) > 0
+    ):
         # Add jrnl version to file for 2.x journals
         with open(config_dest, "a") as cf:
             cf.write("version: {}".format(__version__))
