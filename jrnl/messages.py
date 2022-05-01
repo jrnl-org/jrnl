@@ -166,6 +166,11 @@ class MsgText(Enum):
         The following journals will not be touched:
 
         """
+
+    UpgradingJournal = """
+        Upgrading {journal_type} '{journal_name}' journal stored in {path}...
+        """
+
     PaddedJournalName = "{journal_name:{pad}} -> {path}"
 
     # -- Config --- #

@@ -122,10 +122,17 @@ def upgrade_jrnl(config_path):
         raise JrnlException(Message(MsgText.UpgradeAborted), MsgType.WARNING)
 
     for journal_name, path in encrypted_journals.items():
-        print(
-            f"\nUpgrading encrypted '{journal_name}' journal stored in {path}...",
-            file=sys.stderr,
+        print_msg(
+            Message(
+                MsgText.UpgradingJournal,
+                params={
+                    "journal_type": "encrypted",
+                    "journal_name": journal_name,
+                    "path": path,
+                },
+            )
         )
+
         backup(path, binary=True)
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
@@ -133,10 +140,17 @@ def upgrade_jrnl(config_path):
         all_journals.append(EncryptedJournal.from_journal(old_journal))
 
     for journal_name, path in plain_journals.items():
-        print(
-            f"\nUpgrading plain text '{journal_name}' journal stored in {path}...",
-            file=sys.stderr,
+        print_msg(
+            Message(
+                MsgText.UpgradingJournal,
+                params={
+                    "journal_type": "plain text",
+                    "journal_name": journal_name,
+                    "path": path,
+                },
+            )
         )
+
         backup(path)
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
