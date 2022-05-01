@@ -178,7 +178,8 @@ def search_mode(args, journal, **kwargs):
             # the filtered entries back)
             kwargs["old_entries"] = journal.entries
             _search_journal(**kwargs)
-            _change_time_search_results(**kwargs)
+            no_change_time_prompt = len(journal.entries) == 1
+            _change_time_search_results(no_prompt=no_change_time_prompt, **kwargs)
 
     elif args.change_time:
         _change_time_search_results(**kwargs)
