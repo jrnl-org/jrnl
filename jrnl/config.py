@@ -15,6 +15,7 @@ from jrnl.messages import MsgType
 from .color import ERROR_COLOR
 from .color import RESET_COLOR
 from .output import list_journals
+from .path import home_dir
 
 # Constants
 DEFAULT_CONFIG_NAME = "jrnl.yaml"
@@ -83,9 +84,7 @@ def get_config_path():
             ),
         )
 
-    return os.path.join(
-        config_directory_path or os.path.expanduser("~"), DEFAULT_CONFIG_NAME
-    )
+    return os.path.join(config_directory_path or home_dir(), DEFAULT_CONFIG_NAME)
 
 
 def get_default_config():
@@ -112,9 +111,7 @@ def get_default_config():
 
 
 def get_default_journal_path():
-    journal_data_path = xdg.BaseDirectory.save_data_path(
-        XDG_RESOURCE
-    ) or os.path.expanduser("~")
+    journal_data_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or home_dir()
     return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
 
 
