@@ -53,12 +53,7 @@ def print_msgs(
     args = style.decoration.args
 
     for msg in msgs:
-        args["border_style"] = msg.style.color
-        if msg.style == MsgStyle.ERROR:
-            args["title"] = "Error"
-
-        if is_keyboard_int(msg):
-            print()
+        args  = _add_extra_style_args_if_needed(args, msg=msg)
 
         m = format_msg(msg)
         m.append(delimiter)
@@ -70,10 +65,24 @@ def print_msgs(
     Console(stderr=True).print(callback(text, **args))
 
 
+def _add_extra_style_args_if_needed(args, msg):
+    args["border_style"] = msg.style.color
+    if msg.style == MsgStyle.ERROR:
+        args["title"] = "Error"
+    return args
+
+
 def is_keyboard_int(msg: Message) -> bool:
     return msg.text == MsgText.KeyboardInterruptMsg
 
 
 def format_msg(msg: Message) -> Text:
-    text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
+    text = ""
+
+    if is_keyboard_int(msg):
+        # extra line break for keyboard interrupts
+        text = "\n"
+
+    text += textwrap.dedent(msg.text.value.format(**msg.params)).strip()
     return Text(text)
+
