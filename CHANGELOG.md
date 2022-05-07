@@ -12,7 +12,9 @@
 **Fixed bugs:**
 
 - "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
+- Directory YAML export shows stack trace when it doesn't need to [\#1227](https://github.com/jrnl-org/jrnl/issues/1227)
 - Display "No entry to save, because no text was received" after empty entry on cmdline [\#1459](https://github.com/jrnl-org/jrnl/pull/1459) ([apainintheneck](https://github.com/apainintheneck))
+- Yaml export errors now don't show stack trace [\#1449](https://github.com/jrnl-org/jrnl/pull/1449) ([apainintheneck](https://github.com/apainintheneck))
 
 **Deprecated:**
 
