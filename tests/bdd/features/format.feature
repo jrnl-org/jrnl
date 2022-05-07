@@ -437,7 +437,7 @@ Feature: Custom formats
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
-        # | basic_dayone.yaml    | @todo
+        | basic_dayone.yaml    |
 
     @skip_win # @todo YAML exporter does not correctly export emoji on Windows
     Scenario Outline: Add a blank line to YAML export if there isn't one already
