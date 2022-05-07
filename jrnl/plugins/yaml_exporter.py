@@ -23,12 +23,10 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            print(
+            raise RuntimeError(
                 f"{ERROR_COLOR}ERROR{RESET_COLOR}: YAML export must be to individual files. Please \
-                specify a directory to export to.",
-                file=sys.stderr,
+                specify a directory to export to."
             )
-            return
 
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
@@ -131,10 +129,8 @@ class YAMLExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
-        print(
+        raise RuntimeError(
             "{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(
                 ERROR_COLOR, RESET_COLOR
-            ),
-            file=sys.stderr,
+            )
         )
-        return
