@@ -88,6 +88,12 @@ def test_end_date_alone():
     assert expected == cli_as_dict("-to 2020-01-01")
 
 
+def test_not_empty():
+    with pytest.raises(SystemExit) as wrapped_e:
+        cli_as_dict("-not")
+    assert wrapped_e.value.code == 2
+
+
 def test_not_alone():
     assert cli_as_dict("-not test") == expected_args(excluded=["test"])
 
