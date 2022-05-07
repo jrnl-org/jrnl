@@ -12,6 +12,7 @@
 **Fixed bugs:**
 
 - "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
+- Display "No entry to save, because no text was received" after empty entry on cmdline [\#1459](https://github.com/jrnl-org/jrnl/pull/1459) ([apainintheneck](https://github.com/apainintheneck))
 
 **Deprecated:**
 
@@ -27,6 +28,7 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump cryptography from 37.0.1 to 37.0.2 [\#1467](https://github.com/jrnl-org/jrnl/pull/1467) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 36.0.2 to 37.0.1 [\#1462](https://github.com/jrnl-org/jrnl/pull/1462) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytest from 7.1.1 to 7.1.2 [\#1458](https://github.com/jrnl-org/jrnl/pull/1458) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pyproject-flake8 from 0.0.1a3 to 0.0.1a4 [\#1447](https://github.com/jrnl-org/jrnl/pull/1447) ([dependabot[bot]](https://github.com/apps/dependabot))
