@@ -215,3 +215,26 @@ Feature: Change entry times in journal
         | basic_onefile.yaml |
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
+
+
+    Scenario Outline: --change-time with --edit modifies selected entries
+        Given we use the config "<config_file>"
+        And we write nothing to the editor if opened
+        And we use the password "test" if prompted
+        When we run "jrnl --change-time '2022-04-23 10:30' --edit" and enter
+            Y
+            N
+            Y
+        Then the error output should contain "Nothing saved to file"
+        And the editor should have been called
+        When we run "jrnl -99 --short"
+        Then the output should be
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            2022-04-23 10:30 Entry the first.
+            2022-04-23 10:30 The third entry finally after weeks without writing.
+
+        Examples: Configs
+        | config_file        |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        # | basic_dayone.yaml    | @todo
