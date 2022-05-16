@@ -248,15 +248,13 @@ class MsgText(Enum):
         """
 
     # --- Password --- #
-    PasswordMaxTriesExceeded = """
-        Too many attempts with wrong password
-        """
-
-    PasswordCanNotBeEmpty = """
-        Password can't be empty!
-        """
-
+    PasswordFirstEntry = "Enter new password: "
+    PasswordConfirmEntry = "Enter password again: "
+    PasswordMaxTriesExceeded = "Too many attempts with wrong password"
+    PasswordCanNotBeEmpty = "Password can't be empty!"
+    PasswordDidNotMatch = "Passwords did not match, please try again"
     WrongPasswordTryAgain = "Wrong password, try again"
+    PasswordStoreInKeychain = "Do you want to store the password in your keychain?"
 
     # --- Search --- #
     NothingToDelete = """

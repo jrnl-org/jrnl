@@ -10,27 +10,25 @@ from jrnl.messages import MsgStyle
 from jrnl.output import print_msg
 
 
-def create_password(
-    journal_name: str, prompt: str = "Enter password for new journal: "
-) -> str:
+def create_password(journal_name: str) -> str:
     while True:
-        pw = getpass.getpass(prompt)
+        pw = getpass.getpass(str(MsgText.PasswordFirstEntry))
         if not pw:
             print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.PLAIN))
             continue
-        elif pw == getpass.getpass("Enter password again: "):
+        elif pw == getpass.getpass(str(MsgText.PasswordConfirmEntry)):
             break
 
-        print("Passwords did not match, please try again", file=sys.stderr)
+        print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
-    if yesno("Do you want to store the password in your keychain?", default=True):
+    if yesno(str(MsgText.PasswordStoreInKeychain), default=True):
         from .EncryptedJournal import set_keychain
 
         set_keychain(journal_name, pw)
     return pw
 
 
-def yesno(prompt, default=True):
+def yesno(prompt: str, default: bool = True):
     prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'} "
     response = input(prompt)
     return {"y": True, "n": False}.get(response.lower().strip(), default)
