@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import getpass
-import sys
 
 from jrnl.messages import Message
 from jrnl.messages import MsgText

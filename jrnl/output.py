@@ -2,10 +2,8 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import logging
-import sys
 import textwrap
 
-from rich import print
 from rich.text import Text
 from rich.console import Console
 
@@ -45,7 +43,9 @@ def print_msg(msg: Message) -> None:
 
 
 def print_msgs(
-    msgs: list[Message], delimiter: str = "\n", style: MsgStyle = MsgStyle.NORMAL
+    msgs: list[Message],
+    delimiter: str = "\n",
+    style: MsgStyle = MsgStyle.NORMAL,
 ) -> None:
     # Same as print_msg, but for a list
     text = Text("")
@@ -93,4 +93,3 @@ def is_keyboard_int(msg: Message) -> bool:
 def format_msg(msg: Message) -> Text:
     text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
     return Text(text)
-

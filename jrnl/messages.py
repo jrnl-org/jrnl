@@ -17,13 +17,13 @@ class _MsgColor(NamedTuple):
 
 class MsgDecoration(Enum):
     NONE = {
-        "callback": lambda x, **kwargs: x,
-        "args": {}
+        "callback": lambda x, **_: x,
+        "args": {},
     }
     BRACKET = {
         # @todo this should be a more robust function
-        "callback": lambda x, **kwargs: f"[ {x} ]",
-        "args": {}
+        "callback": lambda x, **_: f"[ {x} ]",
+        "args": {},
     }
     BOX = {
         "callback": Panel,
