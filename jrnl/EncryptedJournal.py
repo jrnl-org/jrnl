@@ -25,6 +25,7 @@ from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.output import print_msg
 
 
 def make_key(password):
