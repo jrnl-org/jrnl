@@ -77,8 +77,7 @@ def print_msgs(
 
 def _add_extra_style_args_if_needed(args, msg):
     args["border_style"] = msg.style.color
-    if msg.style == MsgStyle.ERROR:
-        args["title"] = "Error"
+    args["title"] = "Error" if msg.style == MsgStyle.ERROR else None
     return args
 
 
