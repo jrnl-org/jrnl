@@ -49,20 +49,30 @@ def print_msgs(
 ) -> None:
     # Same as print_msg, but for a list
     text = Text("")
-    callback = style.decoration.callback
+    decoration_callback = style.decoration.callback
     args = style.decoration.args
+    prepend_newline = False
 
     for msg in msgs:
-        args  = _add_extra_style_args_if_needed(args, msg=msg)
+        args = _add_extra_style_args_if_needed(args, msg=msg)
+
+        if _needs_prepended_newline(msg):
+            prepend_newline = True
 
         m = format_msg(msg)
         m.append(delimiter)
+
         text.append(m)
 
     text.rstrip()
 
-    # import ipdb; ipdb.sset_trace()
-    Console(stderr=True).print(callback(text, **args))
+    # Always print messages to stderr
+    console = Console(stderr=True)
+
+    console.print(
+        decoration_callback(text, **args),
+        new_line_start=prepend_newline,
+    )
 
 
 def _add_extra_style_args_if_needed(args, msg):
@@ -72,17 +82,15 @@ def _add_extra_style_args_if_needed(args, msg):
     return args
 
 
+def _needs_prepended_newline(msg: Message) -> bool:
+    return is_keyboard_int(msg)
+
+
 def is_keyboard_int(msg: Message) -> bool:
     return msg.text == MsgText.KeyboardInterruptMsg
 
 
 def format_msg(msg: Message) -> Text:
-    text = ""
-
-    if is_keyboard_int(msg):
-        # extra line break for keyboard interrupts
-        text = "\n"
-
-    text += textwrap.dedent(msg.text.value.format(**msg.params)).strip()
+    text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
     return Text(text)
 
