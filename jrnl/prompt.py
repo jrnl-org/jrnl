@@ -1,8 +1,5 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-
-import getpass
-
 from jrnl.messages import Message
 from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
@@ -11,20 +8,26 @@ from jrnl.output import print_msgs
 
 
 def create_password(journal_name: str) -> str:
+    kwargs = {
+        "get_input": True,
+        "screen_input": True,
+    }
     while True:
-        pw = getpass.getpass(str(MsgText.PasswordFirstEntry))
+        pw = print_msg(Message(MsgText.PasswordFirstEntry, MsgStyle.PROMPT), **kwargs)
+
         if not pw:
-            print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.PLAIN))
+            print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.WARNING))
             continue
-        elif pw == getpass.getpass(str(MsgText.PasswordConfirmEntry)):
+
+        elif pw == print_msg(Message(MsgText.PasswordConfirmEntry, MsgStyle.PROMPT), **kwargs):
             break
 
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
         from .EncryptedJournal import set_keychain
-
         set_keychain(journal_name, pw)
+
     return pw
 
 

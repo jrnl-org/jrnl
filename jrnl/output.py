@@ -39,9 +39,10 @@ def list_journals(configuration):
     return result
 
 
-def print_msg(msg: Message) -> Union[None, str]:
+def print_msg(msg: Message, **kwargs) -> Union[None, str]:
     """Helper function to print a single message"""
-    return print_msgs([msg], style=msg.style)
+    kwargs["style"] = msg.style
+    return print_msgs([msg], **kwargs)
 
 
 def print_msgs(
@@ -49,6 +50,7 @@ def print_msgs(
     delimiter: str = "\n",
     style: MsgStyle = MsgStyle.NORMAL,
     get_input: bool = False,
+    screen_input: bool = False,
 ) -> Union[None, str]:
     # Same as print_msg, but for a list
     text = Text("", end="")
@@ -72,7 +74,7 @@ def print_msgs(
     # Always print messages to stderr
     console = Console(stderr=True)
     if get_input:
-        return str(console.input(prompt=decorated_text))
+        return str(console.input(prompt=decorated_text, password=screen_input))
     console.print(decorated_text, new_line_start=style.prepend_newline)
 
 
