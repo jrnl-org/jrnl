@@ -4,6 +4,7 @@
 import logging
 import textwrap
 
+from typing import Union
 from rich.text import Text
 from rich.console import Console
 
@@ -38,20 +39,22 @@ def list_journals(configuration):
     return result
 
 
-def print_msg(msg: Message) -> None:
-    print_msgs([msg], style=msg.style)
+def print_msg(msg: Message, is_prompt: bool = False) -> Union[None, str]:
+    return print_msgs([msg], style=msg.style, is_prompt=is_prompt)
 
 
 def print_msgs(
     msgs: list[Message],
     delimiter: str = "\n",
     style: MsgStyle = MsgStyle.NORMAL,
-) -> None:
+    is_prompt: bool = False,
+) -> Union[None, str]:
     # Same as print_msg, but for a list
     text = Text("")
     decoration_callback = style.decoration.callback
     args = style.decoration.args
     prepend_newline = False
+    append_space = False
 
     for msg in msgs:
         args = _add_extra_style_args_if_needed(args, msg=msg)
@@ -59,20 +62,27 @@ def print_msgs(
         if _needs_prepended_newline(msg):
             prepend_newline = True
 
-        m = format_msg(msg)
+        if _needs_appended_space(msg):
+            append_space = True
+
+        m = format_msg_text(msg)
         m.append(delimiter)
 
         text.append(m)
 
     text.rstrip()
 
+    if append_space:
+        text.append(" ")
+
     # Always print messages to stderr
     console = Console(stderr=True)
+    decorated_text = decoration_callback(text, **args)
 
-    console.print(
-        decoration_callback(text, **args),
-        new_line_start=prepend_newline,
-    )
+    if is_prompt:
+        return str(console.input(prompt=decorated_text))
+    else:
+        console.print(decorated_text, new_line_start=prepend_newline)
 
 
 def _add_extra_style_args_if_needed(args, msg):
@@ -85,10 +95,18 @@ def _needs_prepended_newline(msg: Message) -> bool:
     return is_keyboard_int(msg)
 
 
+def _needs_appended_space(msg: Message) -> bool:
+    return is_prompt(msg)
+
+
+def is_prompt(msg: Message) -> bool:
+    return msg.style == MsgStyle.PROMPT
+
+
 def is_keyboard_int(msg: Message) -> bool:
     return msg.text == MsgText.KeyboardInterruptMsg
 
 
-def format_msg(msg: Message) -> Text:
+def format_msg_text(msg: Message) -> Text:
     text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
     return Text(text)

@@ -115,7 +115,7 @@ def upgrade_jrnl(config_path):
         **kwargs,
     )
 
-    cont = yesno("\nContinue upgrading jrnl?", default=False)
+    cont = yesno(Message(MsgText.ContinueUpgrade), default=False)
     if not cont:
         raise JrnlException(Message(MsgText.UpgradeAborted), MsgStyle.WARNING)
 

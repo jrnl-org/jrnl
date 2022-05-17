@@ -53,6 +53,10 @@ class MsgStyle(Enum):
         "decoration": MsgDecoration.BRACKET,
         "color": _MsgColor("white"),
     }
+    PROMPT = {
+        "decoration": MsgDecoration.NONE,
+        "color": _MsgColor("white"),
+    }
     TITLE = {
         "decoration": MsgDecoration.BOX,
         "color": _MsgColor("cyan"),
@@ -102,6 +106,19 @@ class MsgText(Enum):
         """
 
     AllDoneUpgrade = "We're all done here and you can start enjoying jrnl 2"
+
+    # --- Prompts --- #
+    DeleteEntryQuestion = "Delete entry '{entry_title}'?"
+    EncryptJournalQuestion = """
+        Do you want to encrypt your journal? (You can always change this later)
+        """
+    YesOrNoPromptDefaultYes = "[Y/n]"
+    YesOrNoPromptDefaultNo = "[y/N]"
+
+    # these should be lowercase, if possible in language
+    # "lowercase" means whatever `.lower()` returns
+    OneCharacterYes = "y"
+    OneCharacterNo = "n"
 
     # --- Exceptions ---#
     UncaughtException = """

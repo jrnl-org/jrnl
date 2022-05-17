@@ -289,7 +289,10 @@ class Journal:
 
         def ask_delete(entry):
             return yesno(
-                f"Delete entry '{entry.pprint(short=True)}'?",
+                Message(
+                    MsgText.DeleteEntryQuestion,
+                    params={"entry_title": entry.pprint(short=True)},
+                ),
                 default=False,
             )
 

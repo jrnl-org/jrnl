@@ -7,6 +7,7 @@ from jrnl.messages import Message
 from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
 from jrnl.output import print_msg
+from jrnl.output import print_msgs
 
 
 def create_password(journal_name: str) -> str:
@@ -20,14 +21,32 @@ def create_password(journal_name: str) -> str:
 
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
-    if yesno(str(MsgText.PasswordStoreInKeychain), default=True):
+    if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
         from .EncryptedJournal import set_keychain
 
         set_keychain(journal_name, pw)
     return pw
 
 
-def yesno(prompt: str, default: bool = True):
-    prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'} "
-    response = input(prompt)
-    return {"y": True, "n": False}.get(response.lower().strip(), default)
+def yesno(prompt: Message, default: bool = True) -> bool:
+    response = print_msgs(
+        [
+            prompt,
+            Message(
+                MsgText.YesOrNoPromptDefaultYes
+                if default
+                else MsgText.YesOrNoPromptDefaultNo
+            ),
+        ],
+        style=MsgStyle.PROMPT,
+        delimiter=" ",
+        is_prompt=True,
+    )
+
+    answers = {
+        str(MsgText.OneCharacterYes): True,
+        str(MsgText.OneCharacterNo): False,
+    }
+
+    # Does using `lower()` work in all languages?
+    return answers.get(str(response).lower().strip(), default)

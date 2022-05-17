@@ -124,10 +124,7 @@ def install():
         pass
 
     # Encrypt it?
-    encrypt = yesno(
-        "Do you want to encrypt your journal? You can always change this later",
-        default=False,
-    )
+    encrypt = yesno(Message(MsgText.EncryptJournalQuestion), default=False)
     if encrypt:
         default_config["encrypt"] = True
         print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
