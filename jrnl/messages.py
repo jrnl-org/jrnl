@@ -114,6 +114,7 @@ class MsgText(Enum):
         """
     YesOrNoPromptDefaultYes = "[Y/n]"
     YesOrNoPromptDefaultNo = "[y/N]"
+    ContinueUpgrade = "Continue upgrading jrnl?"
 
     # these should be lowercase, if possible in language
     # "lowercase" means whatever `.lower()` returns

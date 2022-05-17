@@ -68,8 +68,9 @@ def cli(manual_args=None):
 
         if debug:
             from rich.console import Console
+
             traceback.print_tb(sys.exc_info()[2])
-            Console(stderr=True).print_exception()
+            Console(stderr=True).print_exception(extra_lines=1)
 
         print_msg(
             Message(
