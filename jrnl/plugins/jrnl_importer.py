@@ -29,7 +29,7 @@ class JRNLImporter:
                 other_journal_txt = sys.stdin.read()
             except KeyboardInterrupt:
                 raise JrnlException(
-                    Message(MsgText.KeyboardInterruptMsg, MsgStyle.ERROR),
+                    Message(MsgText.KeyboardInterruptMsg, MsgStyle.ERROR_ON_NEW_LINE),
                     Message(MsgText.ImportAborted, MsgStyle.WARNING),
                 )
 

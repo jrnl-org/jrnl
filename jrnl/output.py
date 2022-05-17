@@ -39,72 +39,47 @@ def list_journals(configuration):
     return result
 
 
-def print_msg(msg: Message, is_prompt: bool = False) -> Union[None, str]:
-    return print_msgs([msg], style=msg.style, is_prompt=is_prompt)
+def print_msg(msg: Message) -> Union[None, str]:
+    """Helper function to print a single message"""
+    return print_msgs([msg], style=msg.style)
 
 
 def print_msgs(
     msgs: list[Message],
     delimiter: str = "\n",
     style: MsgStyle = MsgStyle.NORMAL,
-    is_prompt: bool = False,
+    get_input: bool = False,
 ) -> Union[None, str]:
     # Same as print_msg, but for a list
-    text = Text("")
-    decoration_callback = style.decoration.callback
-    args = style.decoration.args
-    prepend_newline = False
-    append_space = False
+    text = Text("", end="")
+    kwargs = style.decoration.args
 
-    for msg in msgs:
-        args = _add_extra_style_args_if_needed(args, msg=msg)
-
-        if _needs_prepended_newline(msg):
-            prepend_newline = True
-
-        if _needs_appended_space(msg):
-            append_space = True
+    for i, msg in enumerate(msgs):
+        kwargs = _add_extra_style_args_if_needed(kwargs, msg=msg)
 
         m = format_msg_text(msg)
-        m.append(delimiter)
+
+        if i != len(msgs) - 1:
+            m.append(delimiter)
 
         text.append(m)
 
-    text.rstrip()
-
-    if append_space:
+    if style.append_space:
         text.append(" ")
+
+    decorated_text = style.decoration.callback(text, **kwargs)
 
     # Always print messages to stderr
     console = Console(stderr=True)
-    decorated_text = decoration_callback(text, **args)
-
-    if is_prompt:
+    if get_input:
         return str(console.input(prompt=decorated_text))
-    else:
-        console.print(decorated_text, new_line_start=prepend_newline)
+    console.print(decorated_text, new_line_start=style.prepend_newline)
 
 
 def _add_extra_style_args_if_needed(args, msg):
     args["border_style"] = msg.style.color
-    args["title"] = "Error" if msg.style == MsgStyle.ERROR else None
+    args["title"] = msg.style.box_title
     return args
-
-
-def _needs_prepended_newline(msg: Message) -> bool:
-    return is_keyboard_int(msg)
-
-
-def _needs_appended_space(msg: Message) -> bool:
-    return is_prompt(msg)
-
-
-def is_prompt(msg: Message) -> bool:
-    return msg.style == MsgStyle.PROMPT
-
-
-def is_keyboard_int(msg: Message) -> bool:
-    return msg.text == MsgText.KeyboardInterruptMsg
 
 
 def format_msg_text(msg: Message) -> Text:

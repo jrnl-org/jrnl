@@ -40,7 +40,7 @@ def yesno(prompt: Message, default: bool = True) -> bool:
         ],
         style=MsgStyle.PROMPT,
         delimiter=" ",
-        is_prompt=True,
+        get_input=True,
     )
 
     answers = {

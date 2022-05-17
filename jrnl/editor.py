@@ -66,7 +66,7 @@ def get_text_from_stdin():
     except KeyboardInterrupt:
         logging.error("Write mode: keyboard interrupt")
         raise JrnlException(
-            Message(MsgText.KeyboardInterruptMsg, MsgStyle.ERROR),
+            Message(MsgText.KeyboardInterruptMsg, MsgStyle.ERROR_ON_NEW_LINE),
             Message(MsgText.JournalNotSaved, MsgStyle.WARNING),
         )
 

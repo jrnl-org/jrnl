@@ -49,7 +49,7 @@ def cli(manual_args=None):
         print_msg(
             Message(
                 MsgText.KeyboardInterruptMsg,
-                MsgStyle.ERROR,
+                MsgStyle.ERROR_ON_NEW_LINE,
             )
         )
 

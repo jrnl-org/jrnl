@@ -44,45 +44,6 @@ class MsgDecoration(Enum):
         return self.value["args"]
 
 
-class MsgStyle(Enum):
-    BARE = {
-        "decoration": MsgDecoration.NONE,
-        "color": _MsgColor("white"),
-    }
-    PLAIN = {
-        "decoration": MsgDecoration.BRACKET,
-        "color": _MsgColor("white"),
-    }
-    PROMPT = {
-        "decoration": MsgDecoration.NONE,
-        "color": _MsgColor("white"),
-    }
-    TITLE = {
-        "decoration": MsgDecoration.BOX,
-        "color": _MsgColor("cyan"),
-    }
-    NORMAL = {
-        "decoration": MsgDecoration.BOX,
-        "color": _MsgColor("white"),
-    }
-    WARNING = {
-        "decoration": MsgDecoration.BOX,
-        "color": _MsgColor("yellow"),
-    }
-    ERROR = {
-        "decoration": MsgDecoration.BOX,
-        "color": _MsgColor("red"),
-    }
-
-    @property
-    def decoration(self) -> MsgDecoration:
-        return self.value["decoration"]
-
-    @property
-    def color(self) -> _MsgColor:
-        return self.value["color"].color
-
-
 class MsgText(Enum):
     def __str__(self) -> str:
         return self.value
@@ -122,6 +83,7 @@ class MsgText(Enum):
     OneCharacterNo = "n"
 
     # --- Exceptions ---#
+    Error = "Error"
     UncaughtException = """
         {name}
         {exception}
@@ -318,6 +280,65 @@ class MsgText(Enum):
         The command {old_cmd} is deprecated and will be removed from jrnl soon.
         Please use {new_cmd} instead.
         """
+
+
+class MsgStyle(Enum):
+    BARE = {
+        "decoration": MsgDecoration.NONE,
+        "color": _MsgColor("white"),
+    }
+    PLAIN = {
+        "decoration": MsgDecoration.BRACKET,
+        "color": _MsgColor("white"),
+    }
+    PROMPT = {
+        "decoration": MsgDecoration.NONE,
+        "color": _MsgColor("white"),
+        "append_space": True,
+    }
+    TITLE = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("cyan"),
+    }
+    NORMAL = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("white"),
+    }
+    WARNING = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("yellow"),
+    }
+    ERROR = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("red"),
+        "box_title": str(MsgText.Error),
+    }
+    ERROR_ON_NEW_LINE = {
+        "decoration": MsgDecoration.BOX,
+        "color": _MsgColor("red"),
+        "prepend_newline": True,
+        "box_title": str(MsgText.Error),
+    }
+
+    @property
+    def decoration(self) -> MsgDecoration:
+        return self.value["decoration"]
+
+    @property
+    def color(self) -> _MsgColor:
+        return self.value["color"].color
+
+    @property
+    def prepend_newline(self) -> bool:
+        return self.value.get("prepend_newline", False)
+
+    @property
+    def append_space(self) -> bool:
+        return self.value.get("append_space", False)
+
+    @property
+    def box_title(self) -> MsgText:
+        return self.value.get("box_title", None)
 
 
 class Message(NamedTuple):
