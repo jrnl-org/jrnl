@@ -19,13 +19,16 @@ def create_password(journal_name: str) -> str:
             print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.WARNING))
             continue
 
-        elif pw == print_msg(Message(MsgText.PasswordConfirmEntry, MsgStyle.PROMPT), **kwargs):
+        elif pw == print_msg(
+            Message(MsgText.PasswordConfirmEntry, MsgStyle.PROMPT), **kwargs
+        ):
             break
 
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
         from .EncryptedJournal import set_keychain
+
         set_keychain(journal_name, pw)
 
     return pw

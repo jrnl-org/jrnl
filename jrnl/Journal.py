@@ -6,7 +6,6 @@ import datetime
 import logging
 import os
 import re
-import sys
 
 from . import Entry
 from . import time

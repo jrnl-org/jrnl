@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import os
-import sys
 
 from . import Journal
 from . import __version__
@@ -32,7 +31,7 @@ def backup(filename, binary=False):
 
         print_msg(
             Message(
-                MsgText.BackupCreated, MsgStyle.NORMAL, {"filename": f"filename.backup"}
+                MsgText.BackupCreated, MsgStyle.NORMAL, {"filename": "filename.backup"}
             )
         )
 

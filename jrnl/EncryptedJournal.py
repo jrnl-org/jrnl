@@ -3,7 +3,6 @@ import getpass
 import hashlib
 import logging
 import os
-import sys
 from typing import Callable
 from typing import Optional
 
