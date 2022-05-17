@@ -78,8 +78,15 @@ def load_or_install_jrnl(alt_config_path):
         config = load_config(config_path)
 
         if config is None:
-            print("Unable to parse config file", file=sys.stderr)
-            sys.exit()
+            raise JrnlException(
+                Message(
+                    MsgText.CantParseConfigFile,
+                    MsgStyle.ERROR,
+                    {
+                        "config_path": config_path,
+                    },
+                )
+            )
 
         if is_old_version(config_path):
             from jrnl import upgrade

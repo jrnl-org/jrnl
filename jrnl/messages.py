@@ -121,6 +121,11 @@ class MsgText(Enum):
         Removing this file will allow jrnl to save its configuration.
         """
 
+    CantParseConfigFile = """
+        Unable to parse config file at:
+        {config_path}
+        """
+
     LineWrapTooSmallForDateFormat = """
         The provided linewrap value of {config_linewrap} is too small by
         {columns} columns to display the timestamps in the configured time
