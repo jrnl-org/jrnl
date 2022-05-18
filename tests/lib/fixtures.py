@@ -195,6 +195,8 @@ def mock_password(request):
         if not password:
             password = Exception("Unexpected call for password")
 
+        # @todo replace with with rich.console.Console().input(password=True)
+        # since getpass is no longer used
         return patch("getpass.getpass", side_effect=password)
 
     return {"getpass": _mock_password}
