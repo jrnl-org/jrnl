@@ -16,8 +16,10 @@
 
 - Empty config file leads to confusing error message [\#1420](https://github.com/jrnl-org/jrnl/issues/1420)
 - "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
+- jrnl --encrypt doesn't prompt me for password change [\#1358](https://github.com/jrnl-org/jrnl/issues/1358)
 - '-not -contains x' raises an AttributeError exception [\#1350](https://github.com/jrnl-org/jrnl/issues/1350)
 - Directory YAML export shows stack trace when it doesn't need to [\#1227](https://github.com/jrnl-org/jrnl/issues/1227)
+- Prompt for password change when using 'jrnl --encrypt' on already encrypted journal [\#1477](https://github.com/jrnl-org/jrnl/pull/1477) ([jonakeys](https://github.com/jonakeys))
 - Always expand all paths \(journals, templates, etc\) [\#1468](https://github.com/jrnl-org/jrnl/pull/1468) ([apainintheneck](https://github.com/apainintheneck))
 - The `-not` option with no arguments now outputs error instead of stack trace [\#1466](https://github.com/jrnl-org/jrnl/pull/1466) ([apainintheneck](https://github.com/apainintheneck))
 - Give a proper message when trying to use an empty config file [\#1461](https://github.com/jrnl-org/jrnl/pull/1461) ([jonakeys](https://github.com/jonakeys))
@@ -34,6 +36,10 @@
 - Clean up .gitignore [\#1286](https://github.com/jrnl-org/jrnl/issues/1286)
 - Pin jinja2 in docs requirements to keep readthedocs builds from failing [\#1439](https://github.com/jrnl-org/jrnl/pull/1439) ([micahellison](https://github.com/micahellison))
 - Tidy up git ignore [\#1414](https://github.com/jrnl-org/jrnl/pull/1414) ([nelnog](https://github.com/nelnog))
+
+**Documentation:**
+
+- Document --change-time in web-based docs' command line reference [\#1471](https://github.com/jrnl-org/jrnl/pull/1471) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
