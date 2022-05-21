@@ -243,10 +243,10 @@ def parse_args(args=[]):
     reading.add_argument(
         "-not",
         dest="excluded",
-        nargs="?",
+        nargs=1,
         default=[],
         metavar="TAG",
-        action="append",
+        action="extend",
         help="Exclude entries with this tag",
     )
 
