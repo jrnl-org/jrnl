@@ -130,6 +130,10 @@ class MsgText(Enum):
         No entries to delete, because the search returned no results
         """
 
+    NothingToModify = """
+        No entries to modify, because the search returned no results
+        """
+
 
 class Message(NamedTuple):
     text: MsgText

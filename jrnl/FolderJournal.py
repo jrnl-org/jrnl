@@ -8,6 +8,7 @@ import fnmatch
 import os
 
 from . import Journal
+from . import time
 
 
 def get_files(journal_config):
@@ -88,6 +89,17 @@ class Folder(Journal.Journal):
         for entry in entries_to_delete:
             self.entries.remove(entry)
             self._diff_entry_dates.append(entry.date)
+
+    def change_date_entries(self, date):
+        """Changes entry dates to given date."""
+
+        date = time.parse(date)
+
+        self._diff_entry_dates.append(date)
+
+        for entry in self.entries:
+            self._diff_entry_dates.append(entry.date)
+            entry.date = date
 
     def parse_editable_str(self, edited):
         """Parses the output of self.editable_str and updates its entries."""
