@@ -7,6 +7,7 @@
 **Implemented enhancements:**
 
 - Add --change-time command to change the timestamp of an entry [\#1429](https://github.com/jrnl-org/jrnl/issues/1429)
+- Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
 - Implement --change-time flag [\#1452](https://github.com/jrnl-org/jrnl/pull/1452) ([richardjs](https://github.com/richardjs))
 - Reformat additional messages and finish centralizing exception handling [\#1424](https://github.com/jrnl-org/jrnl/pull/1424) ([wren](https://github.com/wren))
 - Reformat messages and add new centralized exception handling [\#1417](https://github.com/jrnl-org/jrnl/pull/1417) ([wren](https://github.com/wren))
