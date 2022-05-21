@@ -17,6 +17,7 @@ from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
 from jrnl.messages import MsgType
+from jrnl.prompt import create_password
 
 
 def preconfig_diagnostic(_):
@@ -84,9 +85,14 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
             )
         )
 
-    journal.config["encrypt"] = True
-
     new_journal = EncryptedJournal.from_journal(journal)
+
+    # If journal is encrypted, create new password
+    if journal.config["encrypt"] is True:
+        print(f"Journal {journal.name} is already encrypted. Create a new password.")
+        new_journal.password = create_password(new_journal.name)
+
+    journal.config["encrypt"] = True
     new_journal.write(args.filename)
 
     print(
