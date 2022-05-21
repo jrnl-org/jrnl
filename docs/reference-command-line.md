@@ -90,6 +90,11 @@ the temporary file you were editing and makes the changes to your journal.
 Interactively deletes selected entries. You'll be asked to confirm deletion of
 each entry.
 
+### --change-time DATE
+Interactively changes the time of the selected entries to the date specified,
+or to right now if no date is specified. You'll be asked to confirm each entry,
+unless you are using this with `--edit` on a single entry.
+
 ### --format TYPE
 Display selected entries in an alternate format. See [formats](formats.md).
 
