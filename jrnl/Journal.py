@@ -11,6 +11,7 @@ import sys
 from . import Entry
 from . import time
 from .prompt import yesno
+from .path import expand_path
 
 
 class Tag:
@@ -410,7 +411,7 @@ def open_journal(journal_name, config, legacy=False):
     backwards compatibility with jrnl 1.x
     """
     config = config.copy()
-    config["journal"] = os.path.expanduser(os.path.expandvars(config["journal"]))
+    config["journal"] = expand_path(config["journal"])
 
     if os.path.isdir(config["journal"]):
         if config["encrypt"]:

@@ -7,6 +7,9 @@ import logging
 import os
 import sys
 
+from .path import home_dir
+from .path import absolute_path
+from .path import expand_path
 from .config import DEFAULT_JOURNAL_KEY
 from .config import get_config_path
 from .config import get_default_config
@@ -45,7 +48,7 @@ def find_default_config():
     config_path = (
         get_config_path()
         if os.path.exists(get_config_path())
-        else os.path.join(os.path.expanduser("~"), ".jrnl_config")
+        else os.path.join(home_dir(), ".jrnl_config")
     )
     return config_path
 
@@ -101,11 +104,9 @@ def install():
     # Where to create the journal?
     default_journal_path = get_default_journal_path()
     path_query = f"Path to your journal file (leave blank for {default_journal_path}): "
-    journal_path = os.path.abspath(input(path_query).strip() or default_journal_path)
+    journal_path = absolute_path(input(path_query).strip() or default_journal_path)
     default_config = get_default_config()
-    default_config["journals"][DEFAULT_JOURNAL_KEY] = os.path.expanduser(
-        os.path.expandvars(journal_path)
-    )
+    default_config["journals"][DEFAULT_JOURNAL_KEY] = journal_path
 
     # If the folder doesn't exist, create it
     path = os.path.split(default_config["journals"][DEFAULT_JOURNAL_KEY])[0]
@@ -138,7 +139,7 @@ def _initialize_autocomplete():
 
 
 def _autocomplete_path(text, state):
-    expansions = glob.glob(os.path.expanduser(os.path.expandvars(text)) + "*")
+    expansions = glob.glob(expand_path(text) + "*")
     expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
     expansions.append(None)
     return expansions[state]

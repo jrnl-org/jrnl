@@ -14,6 +14,7 @@ from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from . import time
 from .override import apply_overrides
+from .path import expand_path
 
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
@@ -217,8 +218,10 @@ def _get_editor_template(config, **kwargs):
         logging.debug("Write mode: no template configured")
         return ""
 
+    template_path = expand_path(config["template"])
+
     try:
-        template = open(config["template"]).read()
+        template = open(template_path).read()
         logging.debug("Write mode: template loaded: %s", template)
     except OSError:
         logging.error("Write mode: template not loaded")
@@ -226,7 +229,7 @@ def _get_editor_template(config, **kwargs):
             Message(
                 MsgText.CantReadTemplate,
                 MsgType.ERROR,
-                {"template": config["template"]},
+                {"template": template_path},
             )
         )
 
