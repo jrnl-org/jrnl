@@ -5,9 +5,10 @@ import getpass
 import sys
 
 
-def create_password(
-    journal_name: str, prompt: str = "Enter password for new journal: "
-) -> str:
+def create_password(journal_name: str) -> str:
+
+    prompt = f"Enter password for journal '{journal_name}': "
+
     while True:
         pw = getpass.getpass(prompt)
         if not pw:
