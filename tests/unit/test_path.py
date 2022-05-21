@@ -1,5 +1,9 @@
 import pytest
-from os import path
+import random
+import string
+
+from os import getenv
+from unittest.mock import patch
 
 from jrnl.path import home_dir
 from jrnl.path import expand_path
@@ -15,37 +19,85 @@ def home_dir_str(monkeypatch):
 
 
 @pytest.fixture
-def expand_path_test_data(monkeypatch, home_dir_str):
-    monkeypatch.setenv("VAR", "var")
-    return [
-        ["~", home_dir_str],
-        [path.join("~", "${VAR}", "$VAR"), path.join(home_dir_str, "var", "var")],
-    ]
-
-
-@pytest.fixture
-def absolute_path_test_data(monkeypatch, expand_path_test_data):
-    cwd = "currentdir"
-    monkeypatch.setattr("jrnl.path.os.getcwd", lambda: cwd)
-    test_data = [
-        [".", cwd],
-        [path.join(".", "dir"), path.join(cwd, "dir")],
-        [".dot_file", path.join(cwd, ".dot_file")],
-    ]
-    for inpath, outpath in expand_path_test_data:
-        test_data.append([inpath, path.join(cwd, outpath)])
-    return test_data
+def random_test_var(monkeypatch):
+    name = f"JRNL_TEST_{''.join(random.sample(string.ascii_uppercase, 10))}"
+    val = "".join(random.sample(string.ascii_lowercase, 25))
+    monkeypatch.setenv(name, val)
+    return (name, val)
 
 
 def test_home_dir(home_dir_str):
     assert home_dir() == home_dir_str
 
 
-def test_expand_path(expand_path_test_data):
-    for inpath, outpath in expand_path_test_data:
-        assert expand_path(inpath) == outpath
+@pytest.mark.on_posix
+@pytest.mark.parametrize(
+    "path",
+    ["~"],
+)
+def test_expand_path_actually_expands_mac_linux(path):
+    # makes sure that path isn't being returns as-is
+    assert expand_path(path) != path
 
 
-def test_absolute_path(absolute_path_test_data):
-    for inpath, outpath in absolute_path_test_data:
-        assert absolute_path(inpath) == outpath
+@pytest.mark.on_win
+@pytest.mark.parametrize(
+    "path",
+    ["~", "%USERPROFILE%"],
+)
+def test_expand_path_actually_expands_windows(path):
+    # makes sure that path isn't being returns as-is
+    assert expand_path(path) != path
+
+
+@pytest.mark.on_posix
+@pytest.mark.parametrize(
+    "paths",
+    [
+        ["~", "HOME"],
+    ],
+)
+def test_expand_path_expands_into_correct_value_mac_linux(paths):
+    input_path, expected_path = paths[0], paths[1]
+    assert expand_path(input_path) == getenv(expected_path)
+
+
+@pytest.mark.on_win
+@pytest.mark.parametrize(
+    "paths",
+    [
+        ["~", "USERPROFILE"],
+        ["%USERPROFILE%", "USERPROFILE"],
+    ],
+)
+def test_expand_path_expands_into_correct_value_windows(paths):
+    input_path, expected_path = paths[0], paths[1]
+    assert expand_path(input_path) == getenv(expected_path)
+
+
+@pytest.mark.on_posix
+@pytest.mark.parametrize("_", range(25))
+def test_expand_path_expands_into_random_env_value_mac_linux(_, random_test_var):
+    var_name, var_value = random_test_var[0], random_test_var[1]
+    assert expand_path(var_name) == var_name
+    assert expand_path(f"${var_name}") == var_value  # mac & linux
+    assert expand_path(f"${var_name}") == getenv(var_name)
+
+
+@pytest.mark.on_win
+@pytest.mark.parametrize("_", range(25))
+def test_expand_path_expands_into_random_env_value_windows(_, random_test_var):
+    var_name, var_value = random_test_var[0], random_test_var[1]
+    assert expand_path(var_name) == var_name
+    assert expand_path(f"%{var_name}%") == var_value  # windows
+    assert expand_path(f"%{var_name}%") == getenv(var_name)
+
+
+@patch("jrnl.path.expand_path")
+@patch("os.path.abspath")
+def test_absolute_path(mock_abspath, mock_expand_path):
+    test_val = "test_value"
+
+    assert absolute_path(test_val) == mock_abspath.return_value
+    mock_expand_path.assert_called_with(test_val)
+    mock_abspath.assert_called_with(mock_expand_path.return_value)

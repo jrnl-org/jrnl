@@ -81,6 +81,10 @@ required_plugins = [
 ]
 markers = [
     "todo",
+    "skip_win",
+    "skip_posix",
+    "on_win",
+    "on_posix",
 ]
 addopts = [
   "--pdbcls=IPython.terminal.debugger:Pdb"
