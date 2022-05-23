@@ -30,6 +30,14 @@ Feature: Journals iteracting with the file system in a way that users can see
         Then the journal should exist
         When we run "jrnl -99 --short"
         Then the output should contain "This is a new entry in my journal"
+    
+    Scenario: If the directory for a Folder journal ending in a slash ('/' or '\') doesn't exist, then it should be created
+        Given we use the config "missing_directory.yaml"
+        Then the journal "endslash" directory should not exist
+        When we run "jrnl endslash This is a new entry in my journal"
+        Then the journal "endslash" directory should exist
+        When we run "jrnl endslash -1"
+        Then the output should contain "This is a new entry in my journal"
 
     Scenario: Creating journal with relative path should update to absolute path
         Given we use no config
