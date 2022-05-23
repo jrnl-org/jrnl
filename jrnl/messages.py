@@ -134,6 +134,9 @@ class MsgText(Enum):
         No entries to modify, because the search returned no results
         """
 
+    # --- Usage --- #
+    InvalidArgumentUsage = "Invalid usage of {arg}: {msg}"
+
 
 class Message(NamedTuple):
     text: MsgText

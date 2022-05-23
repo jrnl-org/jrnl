@@ -292,3 +292,11 @@ Feature: Searching in a journal
             2013-06-17 20:38 This entry has a location.
 
             2013-07-17 11:38 This entry is starred!
+    
+    Scenario: Using -not without other search parameters should not open editor
+        Given we use the config "editor.yaml"
+        And we write nothing to the editor if opened
+        And we use the password "test" if prompted
+        When we run "jrnl -not @tag"
+        Then the error output should contain "Invalid usage of -not"
+        And the editor should not have been called

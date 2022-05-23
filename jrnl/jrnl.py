@@ -109,6 +109,19 @@ def _is_write_mode(args, config, **kwargs):
     ):
         write_mode = False
 
+    # If -not is set but we are not searching, throw an error
+    if write_mode and args.excluded:
+        raise JrnlException(
+            Message(
+                MsgText.InvalidArgumentUsage,
+                MsgType.NORMAL,
+                {
+                    "arg": "-not",
+                    "msg": "expected another search parameter like -on, -contains, etc.",
+                },
+            )
+        )
+
     return write_mode
 
 
