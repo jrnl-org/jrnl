@@ -436,6 +436,7 @@ def open_journal(journal_name, config, legacy=False):
             return LegacyJournal(journal_name, **config).open()
         if config["journal"].endswith("/") or config["journal"].endswith("\\"):
             from . import FolderJournal
+
             return FolderJournal.Folder(journal_name, **config).open()
         return PlainJournal(journal_name, **config).open()
 
