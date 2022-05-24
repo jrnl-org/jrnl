@@ -23,6 +23,8 @@ def when_we_change_directory(directory_name):
 command = '(?P<command>[^"]*)'
 input_method = "(?P<input_method>enter|pipe|type)"
 all_input = '("(?P<all_input>[^"]*)")'
+# Note: A line with only a raw newline r'\n' is treated as
+# an empty line of input internally for testing purposes.
 
 
 @when(parse('we run "jrnl {command}" and {input_method}\n{all_input}'))

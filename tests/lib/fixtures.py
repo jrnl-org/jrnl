@@ -88,6 +88,7 @@ def cli_run(
     mock_editor,
     mock_user_input,
     mock_overrides,
+    mock_default_journal_path,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -96,6 +97,7 @@ def cli_run(
     mock_factories.update(mock_editor)
     mock_factories.update(mock_config_path)
     mock_factories.update(mock_user_input)
+    mock_factories.update(mock_default_journal_path)
 
     return {
         "status": 0,
@@ -165,6 +167,19 @@ def mock_config_path(request):
 
 
 @fixture
+def mock_default_journal_path(temp_dir):
+    journal_path = os.path.join(temp_dir.name, "journal.txt")
+    return {
+        "default_journal_path_install": lambda: patch(
+            "jrnl.install.get_default_journal_path", return_value=journal_path
+        ),
+        "default_journal_path_config": lambda: patch(
+            "jrnl.config.get_default_journal_path", return_value=journal_path
+        ),
+    }
+
+
+@fixture
 def temp_dir():
     return tempfile.TemporaryDirectory()
 
@@ -216,7 +231,9 @@ def mock_user_input(request, password_input, stdin_input):
                 return password_input
 
             if isinstance(user_input, Iterable):
-                return next(user_input)
+                Input_line = next(user_input)
+                # A raw newline is used to indicate deliberate empty input
+                return "" if Input_line == r"\n" else Input_line
 
             # exceptions
             return user_input if not kwargs["password"] else password_input
