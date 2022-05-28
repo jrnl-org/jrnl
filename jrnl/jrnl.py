@@ -146,7 +146,7 @@ def write_mode(args, config, journal, **kwargs):
     journal.new_entry(raw)
     print(f"[Entry added to {args.journal_name} journal]", file=sys.stderr)
     journal.write()
-    logging.debug("Write mode: completed journal.write()", args.journal_name, raw)
+    logging.debug("Write mode: completed journal.write()")
 
 
 def search_mode(args, journal, **kwargs):
