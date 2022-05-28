@@ -10,6 +10,7 @@ from keyring import backend
 from keyring import errors
 from pytest import fixture
 from unittest.mock import patch
+from unittest.mock import Mock
 from .helpers import get_fixture
 import toml
 
@@ -183,6 +184,8 @@ def toml_version(working_dir):
 @fixture
 def mock_password(request):
     def _mock_password():
+        from rich.console import Console
+
         password = get_fixture(request, "password")
         user_input = get_fixture(request, "user_input")
 
@@ -195,11 +198,13 @@ def mock_password(request):
         if not password:
             password = Exception("Unexpected call for password")
 
-        # @todo replace with with rich.console.Console().input(password=True)
-        # since getpass is no longer used
-        return patch("getpass.getpass", side_effect=password)
+        mock_console = Mock(wraps=Console(stderr=True))
+        mock_console.input = Mock()
+        mock_console.input.side_effect = password
 
-    return {"getpass": _mock_password}
+        return patch("jrnl.output._get_console", return_value=mock_console)
+
+    return {"rich_console_input": _mock_password}
 
 
 @fixture
