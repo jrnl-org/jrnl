@@ -69,6 +69,9 @@ class MsgText(Enum):
     AllDoneUpgrade = "We're all done here and you can start enjoying jrnl 2"
 
     # --- Prompts --- #
+    InstallJournalPathQuestion = """
+        Path to your journal file (leave blank for {default_journal_path}):
+        """
     DeleteEntryQuestion = "Delete entry '{entry_title}'?"
     EncryptJournalQuestion = """
         Do you want to encrypt your journal? (You can always change this later)
