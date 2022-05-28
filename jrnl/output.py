@@ -70,10 +70,15 @@ def print_msgs(
     decorated_text = style.decoration.callback(text, **kwargs)
 
     # Always print messages to stderr
-    console = Console(stderr=True)
+    console = _get_console(stderr=True)
+
     if get_input:
         return str(console.input(prompt=decorated_text, password=hide_input))
     console.print(decorated_text, new_line_start=style.prepend_newline)
+
+
+def _get_console(stderr: bool = True) -> Console:
+    return Console(stderr=stderr)
 
 
 def _add_extra_style_args_if_needed(args, msg):
