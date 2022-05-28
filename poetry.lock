@@ -320,7 +320,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "keyring"
-version = "23.5.0"
+version = "23.5.1"
 description = "Store and access your passwords safely."
 category = "main"
 optional = false
@@ -333,8 +333,8 @@ pywin32-ctypes = {version = "<0.1.0 || >0.1.0,<0.1.1 || >0.1.1", markers = "sys_
 SecretStorage = {version = ">=3.2", markers = "sys_platform == \"linux\""}
 
 [package.extras]
-docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)", "jaraco.tidelift (>=1.4)"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "pytest-black (>=0.3.7)", "pytest-mypy"]
+docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "jaraco.tidelift (>=1.4)"]
+testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
 
 [[package]]
 name = "mako"
@@ -412,8 +412,8 @@ python-versions = ">=3.6"
 [package.dependencies]
 click = ">=3.3"
 ghp-import = ">=1.0"
-importlib-metadata = ">=4.3"
-Jinja2 = ">=2.10.2"
+importlib-metadata = ">=3.10"
+Jinja2 = ">=2.10.1"
 Markdown = ">=3.2.1"
 mergedeep = ">=1.3.4"
 packaging = ">=20.5"
@@ -1124,8 +1124,8 @@ jinja2 = [
     {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
 ]
 keyring = [
-    {file = "keyring-23.5.0-py3-none-any.whl", hash = "sha256:b0d28928ac3ec8e42ef4cc227822647a19f1d544f21f96457965dc01cf555261"},
-    {file = "keyring-23.5.0.tar.gz", hash = "sha256:9012508e141a80bd1c0b6778d5c610dd9f8c464d75ac6774248500503f972fb9"},
+    {file = "keyring-23.5.1-py3-none-any.whl", hash = "sha256:9ef58314bcc823f426b49ec787539a2d73571b37de4cd498f839803b01acff1e"},
+    {file = "keyring-23.5.1.tar.gz", hash = "sha256:dee502cdf18a98211bef428eea11456a33c00718b2f08524fd5727c7f424bffd"},
 ]
 mako = [
     {file = "Mako-1.2.0-py3-none-any.whl", hash = "sha256:23aab11fdbbb0f1051b93793a58323ff937e98e34aece1c4219675122e57e4ba"},
