@@ -61,7 +61,9 @@ def output_should_contain(
         assert (expected_output in cli_run["stderr"]) == we_should, output_str
 
     else:
-        assert (expected_output in cli_run[which_output_stream]) == we_should, output_str
+        assert (
+            expected_output in cli_run[which_output_stream]
+        ) == we_should, output_str
 
 
 @then(parse("the output should not contain\n{expected_output}"))

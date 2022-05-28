@@ -86,7 +86,7 @@ def cli_run(
     mock_editor,
     mock_user_input,
     mock_overrides,
-    mock_password,
+    mock_piped_input,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -95,7 +95,7 @@ def cli_run(
     mock_factories.update(mock_editor)
     mock_factories.update(mock_config_path)
     mock_factories.update(mock_user_input)
-    mock_factories.update(mock_password)
+    mock_factories.update(mock_piped_input)
 
     return {
         "status": 0,
@@ -182,32 +182,6 @@ def toml_version(working_dir):
 
 
 @fixture
-def mock_password(request):
-    def _mock_password():
-        from rich.console import Console
-
-        password = get_fixture(request, "password")
-        user_input = get_fixture(request, "user_input")
-
-        if password:
-            password = password.splitlines()
-
-        elif user_input:
-            password = user_input.splitlines()
-
-        if not password:
-            password = Exception("Unexpected call for password")
-
-        mock_console = Mock(wraps=Console(stderr=True))
-        mock_console.input = Mock()
-        mock_console.input.side_effect = password
-
-        return patch("jrnl.output._get_console", return_value=mock_console)
-
-    return {"rich_console_input": _mock_password}
-
-
-@fixture
 def input_method():
     return ""
 
@@ -228,23 +202,43 @@ def should_not():
 
 
 @fixture
-def mock_user_input(request, is_tty):
-    def _generator(target):
-        def _mock_user_input():
-            user_input = get_fixture(request, "user_input", None)
+def mock_piped_input(request, is_tty):
+    def _mock_piped_input():
+        piped_input = get_fixture(request, "all_input", None)
 
-            if user_input is None:
-                user_input = Exception("Unexpected call for user input")
-            else:
-                user_input = user_input.splitlines() if is_tty else [user_input]
+        if piped_input is None:
+            piped_input = Exception("Unexpected call for piped input")
+        else:
+            piped_input = piped_input.splitlines()
 
-            return patch(target, side_effect=user_input)
+        if is_tty:
+            piped_input = []
 
-        return _mock_user_input
+        return patch("sys.stdin.read", side_effect=piped_input)
+
+    return {"piped_input": _mock_piped_input}
+
+
+@fixture
+def mock_user_input(request):
+    def _mock_user_input():
+        from rich.console import Console
+
+        user_input = get_fixture(request, "all_input", None)
+
+        if user_input is None:
+            user_input = Exception("Unexpected call for user input")
+        else:
+            user_input = user_input.splitlines()
+
+        mock_console = Mock(wraps=Console(stderr=True))
+        mock_console.input = Mock()
+        mock_console.input.side_effect = user_input
+
+        return patch("jrnl.output._get_console", return_value=mock_console)
 
     return {
-        "stdin": _generator("sys.stdin.read"),
-        "input": _generator("builtins.input"),
+        "user_input": _mock_user_input
     }
 
 
