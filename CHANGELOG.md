@@ -44,6 +44,7 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump keyring from 23.5.0 to 23.5.1 [\#1487](https://github.com/jrnl-org/jrnl/pull/1487) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 37.0.1 to 37.0.2 [\#1467](https://github.com/jrnl-org/jrnl/pull/1467) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 36.0.2 to 37.0.1 [\#1462](https://github.com/jrnl-org/jrnl/pull/1462) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytest from 7.1.1 to 7.1.2 [\#1458](https://github.com/jrnl-org/jrnl/pull/1458) ([dependabot[bot]](https://github.com/apps/dependabot))
