@@ -233,6 +233,7 @@ class MsgText(Enum):
         """
 
     # --- Password --- #
+    Password = "Password:"
     PasswordFirstEntry = "Enter new password: "
     PasswordConfirmEntry = "Enter password again: "
     PasswordMaxTriesExceeded = "Too many attempts with wrong password"

@@ -1,5 +1,4 @@
 import base64
-import getpass
 import hashlib
 import logging
 import os
@@ -46,8 +45,12 @@ def decrypt_content(
     keychain: str = None,
     max_attempts: int = 3,
 ) -> str:
+    get_pw = lambda: print_msg(
+        Message(MsgText.Password, MsgStyle.PROMPT), get_input=True, hide_input=True
+    )
+
     pwd_from_keychain = keychain and get_keychain(keychain)
-    password = pwd_from_keychain or getpass.getpass()
+    password = pwd_from_keychain or get_pw()
     result = decrypt_func(password)
     # Password is bad:
     if result is None and pwd_from_keychain:
@@ -55,7 +58,7 @@ def decrypt_content(
     attempt = 1
     while result is None and attempt < max_attempts:
         print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
-        password = getpass.getpass()
+        password = get_pw()
         result = decrypt_func(password)
         attempt += 1
 
