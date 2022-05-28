@@ -47,20 +47,21 @@ def output_should_contain(
 ):
     we_should = parse_should_or_should_not(should_or_should_not)
 
+    output_str = f"\nEXPECTED:\n{expected_output}\n\nACTUAL STDOUT:\n{cli_run['stdout']}\n\nACTUAL STDERR:\n{cli_run['stderr']}"
     assert expected_output
     if which_output_stream is None:
         assert ((expected_output in cli_run["stdout"]) == we_should) or (
             (expected_output in cli_run["stderr"]) == we_should
-        )
+        ), output_str
 
     elif which_output_stream == "standard":
-        assert (expected_output in cli_run["stdout"]) == we_should
+        assert (expected_output in cli_run["stdout"]) == we_should, output_str
 
     elif which_output_stream == "error":
-        assert (expected_output in cli_run["stderr"]) == we_should
+        assert (expected_output in cli_run["stderr"]) == we_should, output_str
 
     else:
-        assert (expected_output in cli_run[which_output_stream]) == we_should
+        assert (expected_output in cli_run[which_output_stream]) == we_should, output_str
 
 
 @then(parse("the output should not contain\n{expected_output}"))
