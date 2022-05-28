@@ -20,7 +20,7 @@ def test_print_msg_calls_print_msgs_with_kwargs(print_msgs):
     kwargs = {
         "delimter": "test delimiter 🤡",
         "get_input": True,
-        "screen_input": True,
+        "hide_input": True,
         "some_rando_arg": "💩",
     }
     print_msg(test_msg, **kwargs)

@@ -48,7 +48,7 @@ def print_msgs(
     delimiter: str = "\n",
     style: MsgStyle = MsgStyle.NORMAL,
     get_input: bool = False,
-    screen_input: bool = False,
+    hide_input: bool = False,
 ) -> Union[None, str]:
     # Same as print_msg, but for a list
     text = Text("", end="")
@@ -72,7 +72,7 @@ def print_msgs(
     # Always print messages to stderr
     console = Console(stderr=True)
     if get_input:
-        return str(console.input(prompt=decorated_text, password=screen_input))
+        return str(console.input(prompt=decorated_text, password=hide_input))
     console.print(decorated_text, new_line_start=style.prepend_newline)
 
 

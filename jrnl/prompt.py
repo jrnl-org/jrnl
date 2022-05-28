@@ -10,7 +10,7 @@ from jrnl.output import print_msgs
 def create_password(journal_name: str) -> str:
     kwargs = {
         "get_input": True,
-        "screen_input": True,
+        "hide_input": True,
     }
     while True:
         pw = print_msg(Message(MsgText.PasswordFirstEntry, MsgStyle.PROMPT), **kwargs)
