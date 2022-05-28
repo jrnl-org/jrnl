@@ -434,7 +434,7 @@ def open_journal(journal_name, config, legacy=False):
     if not config["encrypt"]:
         if legacy:
             return LegacyJournal(journal_name, **config).open()
-        if config["journal"].endswith("/") or config["journal"].endswith("\\"):
+        if config["journal"].endswith(os.sep):
             from . import FolderJournal
 
             return FolderJournal.Folder(journal_name, **config).open()

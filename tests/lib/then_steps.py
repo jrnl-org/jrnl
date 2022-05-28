@@ -214,16 +214,10 @@ def journal_should_not_exist(config_on_disk, should_or_should_not):
 def directory_should_not_exist(config_on_disk, should_or_should_not, journal_name):
     scoped_config = scope_config(config_on_disk, journal_name)
     expected_path = scoped_config["journal"]
-
+    we_should = parse_should_or_should_not(should_or_should_not)
     dir_exists = os.path.isdir(expected_path)
-    if should_or_should_not == "should":
-        assert dir_exists
-    elif should_or_should_not == "should not":
-        assert not dir_exists
-    else:
-        raise Exception(
-            "should_or_should_not valid values are 'should' or 'should not'"
-        )
+
+    assert dir_exists == we_should
 
 
 @then(parse('the content of file "{file_path}" in the cache should be\n{file_content}'))

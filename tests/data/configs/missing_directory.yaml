@@ -6,6 +6,7 @@ highlight: true
 journals:
   default: features/journals/missing_directory/simple.journal
   endslash: features/journals/missing_folder/
+  endbackslash: features\journals\missing_folder\
 linewrap: 80
 tagsymbols: "@"
 template: false
