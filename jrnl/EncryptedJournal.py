@@ -96,7 +96,7 @@ class EncryptedJournal(Journal):
                 Message(
                     MsgText.JournalCreated,
                     MsgStyle.NORMAL,
-                    {"journal_name": self.name, "path": filename},
+                    {"journal_name": self.name, "filename": filename},
                 )
             )
 
