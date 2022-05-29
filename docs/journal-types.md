@@ -31,7 +31,7 @@ be located in: `~/folderjournal/2021/05/05.txt`
 Creating a new folder journal can be done in two ways:
 
 * Create a folder with the name of the journal before running `jrnl`. Otherwise, when you run `jrnl` for the first time, it will assume that you are creating a single file journal instead, and it will create a file at that path.
-* Create a new journal in your [config_file](advanced.md) and end the path with a ``/`` (on a POSIX system like Linux or MacOSX) or a ``\`` (on a Windows system).
+* Create a new journal in your [config_file](advanced.md) and end the path with a ``/`` (on a POSIX system like Linux or MacOSX) or a ``\`` (on a Windows system). The folder will be created automatically if it doesn't exist.
 
 !!! note
 Folder journals can't be encrypted.
