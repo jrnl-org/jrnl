@@ -374,20 +374,20 @@ def _change_time_search_results(args, journal, old_entries, no_prompt=False, **k
 
 
 def _display_search_results(args, journal, **kwargs):
-    if args.short or args.export == "short":
+    # Get export format from config file if not provided at the command line
+    args.export = args.export or kwargs["config"].get("display_format")
+
+    if args.tags:
+        print(plugins.get_exporter("tags").export(journal))
+
+    elif args.short or args.export == "short":
         print(journal.pprint(short=True))
 
     elif args.export == "pretty":
         print(journal.pprint())
 
-    elif args.tags:
-        print(plugins.get_exporter("tags").export(journal))
-
     elif args.export:
         exporter = plugins.get_exporter(args.export)
-        print(exporter.export(journal, args.filename))
-    elif kwargs["config"].get("display_format"):
-        exporter = plugins.get_exporter(kwargs["config"]["display_format"])
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
