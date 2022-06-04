@@ -3,24 +3,46 @@ from unittest import mock
 
 import pytest
 
+import random
+import string
 import jrnl
 from jrnl.jrnl import _display_search_results
+from jrnl.args import parse_args
+
+@pytest.fixture
+def random_string():
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=25))
 
 
-# fmt: off
-# see: https://github.com/psf/black/issues/664
-@pytest.mark.parametrize("export_format", [ "pretty", "short","markdown"])
-#fmt: on
-@mock.patch.object(argparse, "Namespace", return_value={"export": "markdown", "filename": "irrele.vant"})
-def test_export_format(mock_args, export_format):
+@pytest.mark.parametrize("export_format", ["pretty", "short"])
+@mock.patch("builtins.print")
+@mock.patch("jrnl.Journal.Journal.pprint")
+def test_display_search_results_pretty_short(mock_pprint, mock_print, export_format):
+    mock_args = parse_args(["--format", export_format])
+    test_journal = mock.Mock(wraps=jrnl.Journal.Journal)
 
-    test_journal = jrnl.Journal.Journal
-    mock_args.export = export_format
-    mock_args.tags = None
-    #fmt: off
-    # see: https://github.com/psf/black/issues/664
-    with mock.patch("builtins.print") as mock_spy_print, \
-    mock.patch('jrnl.Journal.Journal.pprint') as mock_pprint:
-        _display_search_results(mock_args, test_journal)
-    mock_spy_print.assert_called_once_with(mock_pprint())
-    #fmt: on
+    _display_search_results(mock_args, test_journal)
+
+    mock_print.assert_called_once_with(mock_pprint.return_value)
+
+
+@pytest.mark.parametrize(
+    "export_format", ["markdown", "json", "xml", "yaml", "fancy", "dates"]
+)
+@mock.patch("jrnl.plugins.get_exporter")
+@mock.patch("builtins.print")
+def test_display_search_results_builtin_plugins(
+    mock_print, mock_exporter, export_format, random_string
+):
+    test_filename = random_string
+    mock_args = parse_args(["--format", export_format, "--file", test_filename])
+
+    test_journal = mock.Mock(wraps=jrnl.Journal.Journal)
+    mock_export = mock.Mock()
+    mock_exporter.return_value.export = mock_export
+
+    _display_search_results(mock_args, test_journal)
+
+    mock_exporter.assert_called_once_with(export_format)
+    mock_export.assert_called_once_with(test_journal, test_filename)
+    mock_print.assert_called_once_with(mock_export.return_value)
