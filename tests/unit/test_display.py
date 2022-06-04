@@ -16,6 +16,7 @@ def test_export_format(mock_args, export_format):
 
     test_journal = jrnl.Journal.Journal
     mock_args.export = export_format
+    mock_args.tags = None
     #fmt: off
     # see: https://github.com/psf/black/issues/664
     with mock.patch("builtins.print") as mock_spy_print, \
