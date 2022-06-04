@@ -9,9 +9,10 @@ import jrnl
 from jrnl.jrnl import _display_search_results
 from jrnl.args import parse_args
 
+
 @pytest.fixture
 def random_string():
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=25))
+    return "".join(random.choices(string.ascii_uppercase + string.digits, k=25))
 
 
 @pytest.mark.parametrize("export_format", ["pretty", "short"])
