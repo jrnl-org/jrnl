@@ -81,6 +81,7 @@ def _is_write_mode(args, config, **kwargs):
             args.delete,
             args.edit,
             args.change_time,
+            args.excluded,
             args.export,
             args.end_date,
             args.today_in_history,
