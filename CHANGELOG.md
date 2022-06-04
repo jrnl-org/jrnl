@@ -6,7 +6,6 @@
 
 **Implemented enhancements:**
 
-- Remove default\_hour and default\_minute from config? [\#1455](https://github.com/jrnl-org/jrnl/issues/1455)
 - Add --change-time command to change the timestamp of an entry [\#1429](https://github.com/jrnl-org/jrnl/issues/1429)
 - Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
 - Implement --change-time flag [\#1452](https://github.com/jrnl-org/jrnl/pull/1452) ([richardjs](https://github.com/richardjs))
@@ -15,11 +14,13 @@
 
 **Fixed bugs:**
 
+- Using -not argument by itself leads to new entry creation [\#1472](https://github.com/jrnl-org/jrnl/issues/1472)
 - Empty config file leads to confusing error message [\#1420](https://github.com/jrnl-org/jrnl/issues/1420)
 - "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
 - jrnl --encrypt doesn't prompt me for password change [\#1358](https://github.com/jrnl-org/jrnl/issues/1358)
 - '-not -contains x' raises an AttributeError exception [\#1350](https://github.com/jrnl-org/jrnl/issues/1350)
 - Directory YAML export shows stack trace when it doesn't need to [\#1227](https://github.com/jrnl-org/jrnl/issues/1227)
+- `-not` search parameter no longer opens editor [\#1490](https://github.com/jrnl-org/jrnl/pull/1490) ([apainintheneck](https://github.com/apainintheneck))
 - Fix TypeError when using debug flag [\#1484](https://github.com/jrnl-org/jrnl/pull/1484) ([jonakeys](https://github.com/jonakeys))
 - Prompt for password change when using 'jrnl --encrypt' on already encrypted journal [\#1477](https://github.com/jrnl-org/jrnl/pull/1477) ([jonakeys](https://github.com/jonakeys))
 - Always expand all paths \(journals, templates, etc\) [\#1468](https://github.com/jrnl-org/jrnl/pull/1468) ([apainintheneck](https://github.com/apainintheneck))
