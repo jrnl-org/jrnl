@@ -45,9 +45,10 @@ def decrypt_content(
     keychain: str = None,
     max_attempts: int = 3,
 ) -> str:
-    get_pw = lambda: print_msg(
-        Message(MsgText.Password, MsgStyle.PROMPT), get_input=True, hide_input=True
-    )
+    def get_pw():
+        return print_msg(
+            Message(MsgText.Password, MsgStyle.PROMPT), get_input=True, hide_input=True
+        )
 
     pwd_from_keychain = keychain and get_keychain(keychain)
     password = pwd_from_keychain or get_pw()
