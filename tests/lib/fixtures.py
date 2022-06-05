@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import tempfile
 
+from collections.abc import Iterable
 from keyring import backend
 from keyring import errors
 from pytest import fixture
@@ -13,6 +14,7 @@ from unittest.mock import patch
 from unittest.mock import Mock
 from .helpers import get_fixture
 import toml
+from rich.console import Console
 
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
@@ -86,7 +88,6 @@ def cli_run(
     mock_editor,
     mock_user_input,
     mock_overrides,
-    mock_piped_input,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -95,7 +96,6 @@ def cli_run(
     mock_factories.update(mock_editor)
     mock_factories.update(mock_config_path)
     mock_factories.update(mock_user_input)
-    mock_factories.update(mock_piped_input)
 
     return {
         "status": 0,
@@ -203,53 +203,72 @@ def should_not():
 
 # @todo is this named properly? does it need to be merged with user_input? does
 # it only mock piped input? or also user input?
+# @fixture
+# def mock_stdin_input(request, is_tty):
+#     def _mock_stdin_input():
+#         stdin_input = get_fixture(request, "all_input", None)
+
+#         if stdin_input is None:
+#             stdin_input = Exception("Unexpected call for piped input")
+#         else:
+#             stdin_input = [stdin_input]
+
+#         if is_tty:
+#             stdin_input = []
+
+#         return patch("sys.stdin.read", side_effect=stdin_input)
+
+#     return {"stdin_input": _mock_stdin_input}
+
+
 @fixture
-def mock_piped_input(request, is_tty):
-    def _mock_piped_input():
-        piped_input = get_fixture(request, "all_input", None)
-
-        if piped_input is None:
-            piped_input = Exception("Unexpected call for piped input")
-        else:
-            piped_input = [piped_input]
-
-        if is_tty:
-            piped_input = []
-
-        return patch("sys.stdin.read", side_effect=piped_input)
-
-    return {"piped_input": _mock_piped_input}
-
-
-@fixture
-def mock_user_input(request):
+def mock_user_input(request, password_input, stdin_input):
     def _mock_user_input():
-        from rich.console import Console
-
+        # user_input needs to be here because we don't know it until cli_run starts
         user_input = get_fixture(request, "all_input", None)
-        password_input = get_fixture(request, "password", None)
-
         if user_input is None:
             user_input = Exception("Unexpected call for user input")
         else:
             user_input = iter(user_input.splitlines())
 
-        if password_input is None:
-            password_input = Exception("Unexpected call for password input")
-
         def mock_console_input(**kwargs):
-            if kwargs["password"]:
+            # import ipdb; ipdb.sset_trace()
+            if kwargs["password"] and not isinstance(password_input, Exception):
                 return password_input
-            else:
+
+            if isinstance(user_input, Iterable):
                 return next(user_input)
 
+            # exceptions
+            return user_input if not kwargs["password"] else password_input
+
         mock_console = Mock(wraps=Console(stderr=True))
-        mock_console.input = Mock()
-        mock_console.input = mock_console_input
+        mock_console.input = Mock(side_effect=mock_console_input)
 
         return patch("jrnl.output._get_console", return_value=mock_console)
 
-    return {"user_input": _mock_user_input}
+    return {
+        "user_input": _mock_user_input,
+        "stdin_input": lambda: patch("sys.stdin.read", side_effect=stdin_input),
+    }
+
+
+@fixture
+def password_input(request):
+    password_input = get_fixture(request, "password", None)
+    if password_input is None:
+        password_input = Exception("Unexpected call for password input")
+    return password_input
+
+
+@fixture
+def stdin_input(request, is_tty):
+    stdin_input = get_fixture(request, "all_input", None)
+    if stdin_input is None or is_tty:
+        stdin_input = Exception("Unexpected call for stdin input")
+    else:
+        stdin_input = [stdin_input]
+    return stdin_input
 
 
 @fixture
