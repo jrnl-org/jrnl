@@ -288,7 +288,7 @@ class Journal:
         for entry in self.entries:
             entry.date = date
 
-    def prompt_action_entries(self, message):
+    def prompt_action_entries(self, msg: MsgText):
         """Prompts for action for each entry in a journal, using given message.
         Returns the entries the user wishes to apply the action on."""
         to_act = []
@@ -296,7 +296,7 @@ class Journal:
         def ask_action(entry):
             return yesno(
                 Message(
-                    MsgText.DeleteEntryQuestion,
+                    msg,
                     params={"entry_title": entry.pprint(short=True)},
                 ),
                 default=False,

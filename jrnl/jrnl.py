@@ -353,7 +353,7 @@ def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
         raise JrnlException(Message(MsgText.NothingToDelete, MsgStyle.ERROR))
 
-    entries_to_delete = journal.prompt_action_entries("Delete entry")
+    entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
     if entries_to_delete:
         journal.entries = old_entries
@@ -372,7 +372,9 @@ def _change_time_search_results(args, journal, old_entries, no_prompt=False, **k
     if no_prompt:
         entries_to_change = journal.entries
     else:
-        entries_to_change = journal.prompt_action_entries("Change time")
+        entries_to_change = journal.prompt_action_entries(
+            MsgText.ChangeTimeEntryQuestion
+        )
 
     if entries_to_change:
         other_entries += [e for e in journal.entries if e not in entries_to_change]

@@ -73,6 +73,7 @@ class MsgText(Enum):
         Path to your journal file (leave blank for {default_journal_path}):
         """
     DeleteEntryQuestion = "Delete entry '{entry_title}'?"
+    ChangeTimeEntryQuestion = "Change time for '{entry_title}'?"
     EncryptJournalQuestion = """
         Do you want to encrypt your journal? (You can always change this later)
         """
