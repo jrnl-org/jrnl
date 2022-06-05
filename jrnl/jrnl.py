@@ -16,6 +16,7 @@ from . import time
 from .override import apply_overrides
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
+from .path import expand_path
 
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
@@ -81,6 +82,8 @@ def _is_write_mode(args, config, **kwargs):
             args.contains,
             args.delete,
             args.edit,
+            args.change_time,
+            args.excluded,
             args.export,
             args.end_date,
             args.today_in_history,
@@ -152,13 +155,15 @@ def write_mode(args, config, journal, **kwargs):
         )
     )
     journal.write()
-    logging.debug("Write mode: completed journal.write()", args.journal_name, raw)
+    logging.debug("Write mode: completed journal.write()")
 
 
 def search_mode(args, journal, **kwargs):
     """
     Search for entries in a journal, then either:
-    1. Send them to configured editor for user manipulation
+    1. Send them to configured editor for user manipulation (and also
+       change their timestamps if requested)
+    2. Change their timestamps
     2. Delete them (with confirmation for each entry)
     3. Display them (with formatting options)
     """
@@ -174,7 +179,26 @@ def search_mode(args, journal, **kwargs):
 
     # Where do the search results go?
     if args.edit:
+        # If we want to both edit and change time in one action
+        if args.change_time:
+            # Generate a new list instead of assigning so it won't be
+            # modified by _change_time_search_results
+            selected_entries = [e for e in journal.entries]
+
+            no_change_time_prompt = len(journal.entries) == 1
+            _change_time_search_results(no_prompt=no_change_time_prompt, **kwargs)
+
+            # Re-filter the journal enties (_change_time_search_results
+            # puts the filtered entries back); use selected_entries
+            # instead of running _search_journal again, because times
+            # have changed since the original search
+            kwargs["old_entries"] = journal.entries
+            journal.entries = selected_entries
+
         _edit_search_results(**kwargs)
+
+    elif args.change_time:
+        _change_time_search_results(**kwargs)
 
     elif args.delete:
         _delete_search_results(**kwargs)
@@ -203,8 +227,10 @@ def _get_editor_template(config, **kwargs):
         logging.debug("Write mode: no template configured")
         return ""
 
+    template_path = expand_path(config["template"])
+
     try:
-        template = open(config["template"]).read()
+        template = open(template_path).read()
         logging.debug("Write mode: template loaded: %s", template)
     except OSError:
         logging.error("Write mode: template not loaded")
@@ -212,7 +238,7 @@ def _get_editor_template(config, **kwargs):
             Message(
                 MsgText.CantReadTemplate,
                 MsgStyle.ERROR,
-                {"template": config["template"]},
+                {"template": template_path},
             )
         )
 
@@ -244,6 +270,11 @@ def _search_journal(args, journal, **kwargs):
     journal.limit(args.limit)
 
 
+def _other_entries(journal, entries):
+    """Find entries that are not in journal"""
+    return [e for e in entries if e not in journal.entries]
+
+
 def _edit_search_results(config, journal, old_entries, **kwargs):
     """
     1. Send the given journal entries to the user-configured editor
@@ -260,7 +291,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
         )
 
     # separate entries we are not editing
-    other_entries = [e for e in old_entries if e not in journal.entries]
+    other_entries = _other_entries(journal, old_entries)
 
     # Get stats now for summary later
     old_stats = _get_predit_stats(journal)
@@ -322,7 +353,7 @@ def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
         raise JrnlException(Message(MsgText.NothingToDelete, MsgStyle.ERROR))
 
-    entries_to_delete = journal.prompt_delete_entries()
+    entries_to_delete = journal.prompt_action_entries("Delete entry")
 
     if entries_to_delete:
         journal.entries = old_entries
@@ -331,23 +362,45 @@ def _delete_search_results(journal, old_entries, **kwargs):
         journal.write()
 
 
+def _change_time_search_results(args, journal, old_entries, no_prompt=False, **kwargs):
+    if not journal.entries:
+        raise JrnlException(Message(MsgText.NothingToModify, MsgType.WARNING))
+
+    # separate entries we are not editing
+    other_entries = _other_entries(journal, old_entries)
+
+    if no_prompt:
+        entries_to_change = journal.entries
+    else:
+        entries_to_change = journal.prompt_action_entries("Change time")
+
+    if entries_to_change:
+        other_entries += [e for e in journal.entries if e not in entries_to_change]
+        journal.entries = entries_to_change
+
+        date = time.parse(args.change_time)
+        journal.change_date_entries(date)
+
+        journal.entries += other_entries
+        journal.sort()
+        journal.write()
+
+
 def _display_search_results(args, journal, **kwargs):
-    if args.short or args.export == "short":
+    # Get export format from config file if not provided at the command line
+    args.export = args.export or kwargs["config"].get("display_format")
+
+    if args.tags:
+        print(plugins.get_exporter("tags").export(journal))
+
+    elif args.short or args.export == "short":
         print(journal.pprint(short=True))
 
     elif args.export == "pretty":
         print(journal.pprint())
 
-    elif args.tags:
-        print(plugins.get_exporter("tags").export(journal))
-
     elif args.export:
         exporter = plugins.get_exporter(args.export)
         print(exporter.export(journal, args.filename))
-
-    elif kwargs["config"].get("display_format"):
-        exporter = plugins.get_exporter(kwargs["config"]["display_format"])
-        print(exporter.export(journal, args.filename))
-
     else:
         print(journal.pprint())

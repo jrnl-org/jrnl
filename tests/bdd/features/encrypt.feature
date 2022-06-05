@@ -24,10 +24,11 @@ Feature: Encrypting and decrypting journals
             2013-06-10 15:40 Life is good.
 
 
-    @todo
     Scenario: Trying to encrypt an already encrypted journal
-    # This should warn the user that the journal is already encrypted
-
+        Given we use the config "encrypted.yaml"
+        When we run "jrnl --encrypt" and enter "bad doggie no biscuit"
+        Then the output should contain "already encrypted. Create a new password."
+        Then we should be prompted for a password
 
     Scenario Outline: Encrypting a journal
         Given we use the config "simple.yaml"

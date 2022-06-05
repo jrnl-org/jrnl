@@ -560,3 +560,19 @@ Feature: Custom formats
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
+
+
+    Scenario Outline: display_format short and pretty do not crash if specified as config values
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --config-override display_format short -1"
+        Then we should get no error
+        When we run "jrnl --config-override display_format pretty -1"
+        Then we should get no error            
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |

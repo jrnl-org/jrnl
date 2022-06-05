@@ -13,7 +13,14 @@ def create_password(journal_name: str) -> str:
         "hide_input": True,
     }
     while True:
-        pw = print_msg(Message(MsgText.PasswordFirstEntry, MsgStyle.PROMPT), **kwargs)
+        pw = print_msg(
+            Message(
+                MsgText.PasswordFirstEntry,
+                MsgStyle.PROMPT,
+                params={"journal_name": journal_name},
+            ),
+            **kwargs
+        )
 
         if not pw:
             print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.WARNING))

@@ -237,7 +237,7 @@ class MsgText(Enum):
 
     # --- Password --- #
     Password = "Password:"
-    PasswordFirstEntry = "Enter new password: "
+    PasswordFirstEntry = "Enter password for journal '{journal_name}': "
     PasswordConfirmEntry = "Enter password again: "
     PasswordMaxTriesExceeded = "Too many attempts with wrong password"
     PasswordCanNotBeEmpty = "Password can't be empty!"
@@ -248,6 +248,10 @@ class MsgText(Enum):
     # --- Search --- #
     NothingToDelete = """
         No entries to delete, because the search returned no results
+        """
+
+    NothingToModify = """
+        No entries to modify, because the search returned no results
         """
 
     # --- Formats --- #

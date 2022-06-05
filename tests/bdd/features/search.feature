@@ -183,6 +183,19 @@ Feature: Searching in a journal
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
 
+    Scenario Outline:  Using -not should exclude all entries with that tag
+        # https://github.com/jrnl-org/jrnl/issues/1472
+        Given we use the config "<config_file>"
+        When we run "jrnl -not @tagtwo"
+        Then the output should not contain "@tagtwo"
+        And the editor should not have been called
+
+        Examples: configs
+        | config_file   |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
     Scenario: DayOne tag searching should work with tags containing a mixture of upper and lower case.
         # https://github.com/jrnl-org/jrnl/issues/354
         Given we use the config "dayone.yaml"

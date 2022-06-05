@@ -10,6 +10,7 @@ from .config import is_config_json
 from .config import load_config
 from .config import scope_config
 from .prompt import yesno
+from .path import expand_path
 
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
@@ -20,7 +21,7 @@ from jrnl.messages import MsgStyle
 
 
 def backup(filename, binary=False):
-    filename = os.path.expanduser(os.path.expandvars(filename))
+    filename = expand_path(filename)
 
     try:
         with open(filename, "rb" if binary else "r") as original:
@@ -61,13 +62,13 @@ def upgrade_jrnl(config_path):
 
     for journal_name, journal_conf in config["journals"].items():
         if isinstance(journal_conf, dict):
-            path = journal_conf.get("journal")
+            path = expand_path(journal_conf.get("journal"))
             encrypt = journal_conf.get("encrypt")
         else:
             encrypt = config.get("encrypt")
-            path = journal_conf
+            path = expand_path(journal_conf)
 
-        if os.path.exists(os.path.expanduser(path)):
+        if os.path.exists(path):
             path = os.path.expanduser(path)
         else:
             print_msg(Message(MsgText.DoesNotExist, MsgStyle.ERROR, {"name": path}))

@@ -6,15 +6,27 @@
 
 **Implemented enhancements:**
 
+- Add --change-time command to change the timestamp of an entry [\#1429](https://github.com/jrnl-org/jrnl/issues/1429)
+- Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
+- Implement --change-time flag [\#1452](https://github.com/jrnl-org/jrnl/pull/1452) ([richardjs](https://github.com/richardjs))
 - Reformat additional messages and finish centralizing exception handling [\#1424](https://github.com/jrnl-org/jrnl/pull/1424) ([wren](https://github.com/wren))
 - Reformat messages and add new centralized exception handling [\#1417](https://github.com/jrnl-org/jrnl/pull/1417) ([wren](https://github.com/wren))
 
 **Fixed bugs:**
 
+- Using -not argument by itself leads to new entry creation [\#1472](https://github.com/jrnl-org/jrnl/issues/1472)
 - Empty config file leads to confusing error message [\#1420](https://github.com/jrnl-org/jrnl/issues/1420)
 - "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
+- jrnl --encrypt doesn't prompt me for password change [\#1358](https://github.com/jrnl-org/jrnl/issues/1358)
 - '-not -contains x' raises an AttributeError exception [\#1350](https://github.com/jrnl-org/jrnl/issues/1350)
-- Directory YAML export shows stack trace when it doesn't need to [\#1227](https://github.com/jrnl-org/jrnl/issues/1227)
+- Exception when providing folder name of folder that does not exist as journal path [\#1293](https://github.com/jrnl-org/jrnl/issues/1293)
+- display\_format: pretty and display\_format: short lead to crash [\#1263](https://github.com/jrnl-org/jrnl/issues/1263)
+- Fixed error related to display\_format in config file for some values [\#1495](https://github.com/jrnl-org/jrnl/pull/1495) ([apainintheneck](https://github.com/apainintheneck))
+- Create folder if config ends with \(back\)slash [\#1492](https://github.com/jrnl-org/jrnl/pull/1492) ([jonakeys](https://github.com/jonakeys))
+- `-not` search parameter no longer opens editor [\#1490](https://github.com/jrnl-org/jrnl/pull/1490) ([apainintheneck](https://github.com/apainintheneck))
+- Fix TypeError when using debug flag [\#1484](https://github.com/jrnl-org/jrnl/pull/1484) ([jonakeys](https://github.com/jonakeys))
+- Prompt for password change when using 'jrnl --encrypt' on already encrypted journal [\#1477](https://github.com/jrnl-org/jrnl/pull/1477) ([jonakeys](https://github.com/jonakeys))
+- Always expand all paths \(journals, templates, etc\) [\#1468](https://github.com/jrnl-org/jrnl/pull/1468) ([apainintheneck](https://github.com/apainintheneck))
 - The `-not` option with no arguments now outputs error instead of stack trace [\#1466](https://github.com/jrnl-org/jrnl/pull/1466) ([apainintheneck](https://github.com/apainintheneck))
 - Give a proper message when trying to use an empty config file [\#1461](https://github.com/jrnl-org/jrnl/pull/1461) ([jonakeys](https://github.com/jonakeys))
 - Display "No entry to save, because no text was received" after empty entry on cmdline [\#1459](https://github.com/jrnl-org/jrnl/pull/1459) ([apainintheneck](https://github.com/apainintheneck))
@@ -23,17 +35,22 @@
 **Deprecated:**
 
 - Remove "sample" format and its asteval dependency [\#1435](https://github.com/jrnl-org/jrnl/issues/1435)
+- Drop support for Python 3.7 and 3.8 [\#1412](https://github.com/jrnl-org/jrnl/pull/1412) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
 - Clean up .gitignore [\#1286](https://github.com/jrnl-org/jrnl/issues/1286)
 - Pin jinja2 in docs requirements to keep readthedocs builds from failing [\#1439](https://github.com/jrnl-org/jrnl/pull/1439) ([micahellison](https://github.com/micahellison))
 - Tidy up git ignore [\#1414](https://github.com/jrnl-org/jrnl/pull/1414) ([nelnog](https://github.com/nelnog))
-- Drop support for Python 3.7 and 3.8 [\#1412](https://github.com/jrnl-org/jrnl/pull/1412) ([micahellison](https://github.com/micahellison))
+
+**Documentation:**
+
+- Document --change-time in web-based docs' command line reference [\#1471](https://github.com/jrnl-org/jrnl/pull/1471) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump keyring from 23.5.0 to 23.5.1 [\#1487](https://github.com/jrnl-org/jrnl/pull/1487) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 37.0.1 to 37.0.2 [\#1467](https://github.com/jrnl-org/jrnl/pull/1467) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 36.0.2 to 37.0.1 [\#1462](https://github.com/jrnl-org/jrnl/pull/1462) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pytest from 7.1.1 to 7.1.2 [\#1458](https://github.com/jrnl-org/jrnl/pull/1458) ([dependabot[bot]](https://github.com/apps/dependabot))
