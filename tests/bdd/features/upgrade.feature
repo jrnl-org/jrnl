@@ -49,6 +49,6 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
         When we run "jrnl --list" and enter
             Y
             bad doggie no biscuit
-        Then the output should contain "Error: features/journals/missing.journal does not exist."
+        Then the output should contain "features/journals/missing.journal does not exist."
         And the output should contain "We're all done"
         And we should get no error

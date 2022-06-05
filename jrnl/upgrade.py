@@ -83,7 +83,6 @@ def upgrade_jrnl(config_path):
     kwargs = {
         # longest journal name
         "pad": max([len(journal) for journal in config["journals"]]),
-        "version": __version__,
     }
 
     _print_journal_summary(

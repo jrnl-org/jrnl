@@ -110,7 +110,13 @@ def install():
     # Where to create the journal?
     default_journal_path = get_default_journal_path()
     user_given_path = print_msg(
-        Message(MsgText.InstallJournalPathQuestion, MsgStyle.PROMPT),
+        Message(
+            MsgText.InstallJournalPathQuestion,
+            MsgStyle.PROMPT,
+            params={
+                "default_journal_path": default_journal_path,
+            },
+        ),
         get_input=True,
     )
     journal_path = os.path.abspath(user_given_path or default_journal_path)

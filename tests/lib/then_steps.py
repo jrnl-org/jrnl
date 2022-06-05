@@ -167,12 +167,12 @@ def config_var_in_memory(
 
 @then("we should be prompted for a password")
 def password_was_called(cli_run):
-    assert cli_run["mocks"]["rich_console_input"].called
+    assert cli_run["mocks"]["user_input"].called
 
 
 @then("we should not be prompted for a password")
 def password_was_not_called(cli_run):
-    assert not cli_run["mocks"]["rich_console_input"].called
+    assert not cli_run["mocks"]["user_input"].called
 
 
 @then(parse("the cache directory should contain the files\n{file_list}"))
@@ -364,7 +364,7 @@ def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
 def stdin_prompt_called(cli_run, should_or_should_not):
     we_should = parse_should_or_should_not(should_or_should_not)
 
-    assert cli_run["mocks"]["stdin"].called == we_should
+    assert cli_run["mocks"]["piped_input"].called == we_should
 
 
 @then(parse('the editor filename should end with "{suffix}"'))

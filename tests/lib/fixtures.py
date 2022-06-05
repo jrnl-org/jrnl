@@ -201,6 +201,8 @@ def should_not():
     return False
 
 
+# @todo is this named properly? does it need to be merged with user_input? does
+# it only mock piped input? or also user input?
 @fixture
 def mock_piped_input(request, is_tty):
     def _mock_piped_input():
@@ -209,7 +211,7 @@ def mock_piped_input(request, is_tty):
         if piped_input is None:
             piped_input = Exception("Unexpected call for piped input")
         else:
-            piped_input = piped_input.splitlines()
+            piped_input = [piped_input]
 
         if is_tty:
             piped_input = []
@@ -225,21 +227,29 @@ def mock_user_input(request):
         from rich.console import Console
 
         user_input = get_fixture(request, "all_input", None)
+        password_input = get_fixture(request, "password", None)
 
         if user_input is None:
             user_input = Exception("Unexpected call for user input")
         else:
-            user_input = user_input.splitlines()
+            user_input = iter(user_input.splitlines())
+
+        if password_input is None:
+            password_input = Exception("Unexpected call for password input")
+
+        def mock_console_input(**kwargs):
+            if kwargs["password"]:
+                return password_input
+            else:
+                return next(user_input)
 
         mock_console = Mock(wraps=Console(stderr=True))
         mock_console.input = Mock()
-        mock_console.input.side_effect = user_input
+        mock_console.input = mock_console_input
 
         return patch("jrnl.output._get_console", return_value=mock_console)
 
-    return {
-        "user_input": _mock_user_input
-    }
+    return {"user_input": _mock_user_input}
 
 
 @fixture
