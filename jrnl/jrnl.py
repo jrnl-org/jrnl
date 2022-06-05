@@ -364,7 +364,7 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 def _change_time_search_results(args, journal, old_entries, no_prompt=False, **kwargs):
     if not journal.entries:
-        raise JrnlException(Message(MsgText.NothingToModify, MsgType.WARNING))
+        raise JrnlException(Message(MsgText.NothingToModify, MsgStyle.WARNING))
 
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
