@@ -718,7 +718,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyxdg"
-version = "0.27"
+version = "0.28"
 description = "PyXDG contains implementations of freedesktop.org standards in python."
 category = "main"
 optional = false
@@ -1304,8 +1304,8 @@ pywin32-ctypes = [
     {file = "pywin32_ctypes-0.2.0-py2.py3-none-any.whl", hash = "sha256:9dc2d991b3479cc2df15930958b674a48a227d5361d413827a4cfd0b5876fc98"},
 ]
 pyxdg = [
-    {file = "pyxdg-0.27-py2.py3-none-any.whl", hash = "sha256:2d6701ab7c74bbab8caa6a95e0a0a129b1643cf6c298bf7c569adec06d0709a0"},
-    {file = "pyxdg-0.27.tar.gz", hash = "sha256:80bd93aae5ed82435f20462ea0208fb198d8eec262e831ee06ce9ddb6b91c5a5"},
+    {file = "pyxdg-0.28-py2.py3-none-any.whl", hash = "sha256:bdaf595999a0178ecea4052b7f4195569c1ff4d344567bccdc12dfdf02d545ab"},
+    {file = "pyxdg-0.28.tar.gz", hash = "sha256:3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4"},
 ]
 pyyaml = [
     {file = "PyYAML-6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d4db7c7aef085872ef65a8fd7d6d09a14ae91f691dec3e87ee5ee0539d516f53"},
