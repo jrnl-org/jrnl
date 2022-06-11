@@ -19,6 +19,6 @@ Here are some key points to include in your description:
 - [ ] I have written new tests for these changes, as needed.
 <!--
 NOTE: Your PR may not be reviewed if there are any failing tests. You can run
-tests locally with `make test` (see the contributing doc if you need help with
-`make`), or use our automated tests after you submit your PR.
+tests locally with `poe test` (see the contributing doc if you need help with
+`poe`), or use our automated tests after you submit your PR.
 -->

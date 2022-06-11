@@ -58,6 +58,7 @@ toml = ">=0.10"
 pytest = ">=6.2"
 pytest-bdd = ">=4.0.1"
 ipdb = "*"
+poethepoet = "*"
 pytest-clarity = "*"
 pyproject-flake8 = "*"
 yq = "*"
@@ -67,6 +68,26 @@ testing = [ "pytest", "pytest-bdd", "toml" ]
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
+
+[tool.poe.tasks]
+bdd = "pytest tests/bdd --gherkin-terminal-reporter --tb=native"
+bdd-debug = "poe bdd -x -vv"
+format = "black ."
+docs = "mkdocs serve"
+unit = "pytest tests/unit"
+
+# Groups of tasks
+lint = [
+  {cmd = "poetry check"},
+  {cmd = "pflake8 jrnl tests"},
+  {cmd = "black --check --diff ."},
+]
+
+test = [
+  "lint",
+  "unit",
+  "bdd",
+]
 
 [tool.isort]
 multi_line_output = 7
