@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 import re
 from string import punctuation
 from string import whitespace

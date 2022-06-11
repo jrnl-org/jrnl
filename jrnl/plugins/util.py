@@ -1,7 +1,5 @@
-# encoding: utf-8
-# Copyright (C) 2012-2021 jrnl contributors
+# Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-
 
 def get_tags_count(journal):
     """Returns a set of tuples (count, tag) for all tags present in the journal."""

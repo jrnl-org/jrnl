@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 Feature: Journals iteracting with the file system in a way that users can see
 
     Scenario: Adding entries to a Folder journal should generate date files
