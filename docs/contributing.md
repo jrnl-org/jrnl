@@ -82,16 +82,20 @@ In general, pull requests should be made on the `develop` branch.
 
 ### Common development commands
 
-You can find an inventory of commands in the `pyproject.toml`. Users can run the commands by typing `poe` followed by the name of the command (`poe` can be installed on its own, or as part of `poetry install`).
+You can find an inventory of commands in the `pyproject.toml`. Users can run the commands by typing `poe` followed by the name of the command ([`poe`](https://github.com/nat-n/poethepoet) can be installed on its own, or as part of `poetry install`).
 
 A typical development workflow includes:
 
- * Installing dependencies: `poetry install`
- * Running the source in a virtual environment:
+ * Installing dependencies:
+    * `poetry install`
+ * Activate virtual environment:
     * `poetry shell`
+ * Running the source in a virtual environment:
     * `jrnl` (with or without arguments as necessary)
- * Running tests: `poe test`
- * Linting the code to standardize its style: `poe lint`
+ * Running tests:
+     * `poe test`
+ * Formatting the code to standardize its style:
+     * `poe format`
 
 ### Updating automated tests
 
