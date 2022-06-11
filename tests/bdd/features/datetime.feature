@@ -69,7 +69,7 @@ Feature: Reading and writing to journal with custom date formats
 
     Scenario: Writing an entry at the prompt with custom date
         Given we use the config "little_endian_dates.yaml"
-        When we run "jrnl" and pipe "2013-05-10: I saw Elvis. He's alive."
+        When we run "jrnl" and type "2013-05-10: I saw Elvis. He's alive."
         Then we should get no error
         When we run "jrnl -999"
         Then the output should contain "10.05.2013 09:00 I saw Elvis."

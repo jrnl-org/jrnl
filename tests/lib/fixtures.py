@@ -273,8 +273,8 @@ def stdin_input(request, is_tty):
 
 @fixture
 def is_tty(input_method):
-    assert input_method in ["", "enter", "pipe"]
-    return input_method != "pipe"
+    assert input_method in ["", "enter", "pipe", "type"]
+    return input_method not in ["pipe", "type"]
 
 
 @fixture

@@ -172,7 +172,7 @@ Feature: Writing new entries.
     Scenario Outline: Writing an entry at the prompt (no editor) should store the entry
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
-        When we run "jrnl" and pipe "25 jul 2013: I saw Elvis. He's alive."
+        When we run "jrnl" and type "25 jul 2013: I saw Elvis. He's alive."
         Then we should get no error
         When we run "jrnl -on '2013-07-25'"
         Then the output should contain "2013-07-25 09:00 I saw Elvis."

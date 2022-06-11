@@ -21,7 +21,7 @@ def when_we_change_directory(directory_name):
 
 # These variables are used in the `@when(re(...))` section below
 command = '(?P<command>[^"]*)'
-input_method = "(?P<input_method>enter|pipe)"
+input_method = "(?P<input_method>enter|pipe|type)"
 all_input = '("(?P<all_input>[^"]*)")'
 
 
