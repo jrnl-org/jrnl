@@ -12,7 +12,7 @@ from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def get_text_from_editor(config, template=""):
@@ -33,7 +33,7 @@ def get_text_from_editor(config, template=""):
         raise JrnlException(
             Message(
                 MsgText.EditorMisconfigured,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"editor_key": config["editor"]},
             )
         )
@@ -43,7 +43,7 @@ def get_text_from_editor(config, template=""):
     os.remove(tmpfile)
 
     if not raw:
-        raise JrnlException(Message(MsgText.NoTextReceived, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.ERROR))
 
     return raw
 
@@ -52,7 +52,7 @@ def get_text_from_stdin():
     print_msg(
         Message(
             MsgText.WritingEntryStart,
-            MsgType.TITLE,
+            MsgStyle.TITLE,
             {
                 "how_to_quit": MsgText.HowToQuitWindows
                 if on_windows()
@@ -66,8 +66,8 @@ def get_text_from_stdin():
     except KeyboardInterrupt:
         logging.error("Write mode: keyboard interrupt")
         raise JrnlException(
-            Message(MsgText.KeyboardInterruptMsg, MsgType.ERROR),
-            Message(MsgText.JournalNotSaved, MsgType.WARNING),
+            Message(MsgText.KeyboardInterruptMsg, MsgStyle.ERROR_ON_NEW_LINE),
+            Message(MsgText.JournalNotSaved, MsgStyle.WARNING),
         )
 
     return raw

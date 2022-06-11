@@ -120,9 +120,9 @@ def config_exists(config_file, temp_dir, working_dir):
     shutil.copy2(config_source, config_dest)
 
 
-@given(parse('we use the password "{pw}" if prompted'), target_fixture="password")
-def use_password_forever(pw):
-    return pw
+@given(parse('we use the password "{password}" if prompted'))
+def use_password_forever(password):
+    return password
 
 
 @given("we create a cache directory", target_fixture="cache_dir")

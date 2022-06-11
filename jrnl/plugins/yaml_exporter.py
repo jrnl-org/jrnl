@@ -4,13 +4,14 @@
 
 import os
 import re
-import sys
-
-from jrnl.color import ERROR_COLOR
-from jrnl.color import RESET_COLOR
-from jrnl.color import WARNING_COLOR
 
 from .text_exporter import TextExporter
+
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgStyle
+from jrnl.output import print_msg
 
 
 class YAMLExporter(TextExporter):
@@ -23,10 +24,7 @@ class YAMLExporter(TextExporter):
     def export_entry(cls, entry, to_multifile=True):
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
-            raise RuntimeError(
-                f"{ERROR_COLOR}ERROR{RESET_COLOR}: YAML export must be to individual files. Please \
-                specify a directory to export to."
-            )
+            raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))
 
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
@@ -78,11 +76,12 @@ class YAMLExporter(TextExporter):
             spacebody = spacebody + "\t" + line
 
         if warn_on_heading_level is True:
-            print(
-                "{}WARNING{}: Headings increased past H6 on export - {} {}".format(
-                    WARNING_COLOR, RESET_COLOR, date_str, entry.title
-                ),
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.HeadingsPastH6,
+                    MsgStyle.WARNING,
+                    {"date": date_str, "title": entry.title},
+                )
             )
 
         dayone_attributes = ""
@@ -129,8 +128,4 @@ class YAMLExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal):
         """Returns an error, as YAML export requires a directory as a target."""
-        raise RuntimeError(
-            "{}ERROR{}: YAML export must be to individual files. Please specify a directory to export to.".format(
-                ERROR_COLOR, RESET_COLOR
-            )
-        )
+        raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))

@@ -12,7 +12,7 @@ from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def configure_logger(debug=False):
@@ -45,7 +45,13 @@ def cli(manual_args=None):
 
     except KeyboardInterrupt:
         status_code = 1
-        print_msg("\nKeyboardInterrupt", "\nAborted by user", msg=Message.ERROR)
+
+        print_msg(
+            Message(
+                MsgText.KeyboardInterruptMsg,
+                MsgStyle.ERROR_ON_NEW_LINE,
+            )
+        )
 
     except Exception as e:
         # uncaught exception
@@ -61,13 +67,15 @@ def cli(manual_args=None):
                 debug = True
 
         if debug:
-            print("\n")
+            from rich.console import Console
+
             traceback.print_tb(sys.exc_info()[2])
+            Console(stderr=True).print_exception(extra_lines=1)
 
         print_msg(
             Message(
                 MsgText.UncaughtException,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"name": type(e).__name__, "exception": e},
             )
         )

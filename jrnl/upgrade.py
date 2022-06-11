@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import os
-import sys
 
 from . import Journal
 from . import __version__
@@ -14,15 +13,14 @@ from .prompt import yesno
 from .path import expand_path
 
 from jrnl.output import print_msg
-
+from jrnl.output import print_msgs
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def backup(filename, binary=False):
-    print(f"  Created a backup at {filename}.backup", file=sys.stderr)
     filename = expand_path(filename)
 
     try:
@@ -31,11 +29,18 @@ def backup(filename, binary=False):
 
         with open(filename + ".backup", "wb" if binary else "w") as backup:
             backup.write(contents)
+
+        print_msg(
+            Message(
+                MsgText.BackupCreated, MsgStyle.NORMAL, {"filename": "filename.backup"}
+            )
+        )
+
     except FileNotFoundError:
-        print(f"\nError: {filename} does not exist.")
+        print_msg(Message(MsgText.DoesNotExist, MsgStyle.WARNING, {"name": filename}))
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
-            raise JrnlException(Message(MsgText.UpgradeAborted), MsgType.WARNING)
+            raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
 
 def check_exists(path):
@@ -48,23 +53,7 @@ def check_exists(path):
 def upgrade_jrnl(config_path):
     config = load_config(config_path)
 
-    print(
-        f"""Welcome to jrnl {__version__}.
-
-It looks like you've been using an older version of jrnl until now. That's
-okay - jrnl will now upgrade your configuration and journal files. Afterwards
-you can enjoy all of the great new features that come with jrnl 2:
-
-- Support for storing your journal in multiple files
-- Faster reading and writing for large journals
-- New encryption back-end that makes installing jrnl much easier
-- Tons of bug fixes
-
-Please note that jrnl 1.x is NOT forward compatible with this version of jrnl.
-If you choose to proceed, you will not be able to use your journals with
-older versions of jrnl anymore.
-"""
-    )
+    print_msg(Message(MsgText.WelcomeToJrnl, MsgStyle.NORMAL, {"version": __version__}))
 
     encrypted_journals = {}
     plain_journals = {}
@@ -79,8 +68,10 @@ older versions of jrnl anymore.
             encrypt = config.get("encrypt")
             path = expand_path(journal_conf)
 
-        if not os.path.exists(path):
-            print(f"\nError: {path} does not exist.")
+        if os.path.exists(path):
+            path = os.path.expanduser(path)
+        else:
+            print_msg(Message(MsgText.DoesNotExist, MsgStyle.ERROR, {"name": path}))
             continue
 
         if encrypt:
@@ -90,46 +81,54 @@ older versions of jrnl anymore.
         else:
             plain_journals[journal_name] = path
 
-    longest_journal_name = max([len(journal) for journal in config["journals"]])
-    if encrypted_journals:
-        print(
-            f"\nFollowing encrypted journals will be upgraded to jrnl {__version__}:",
-            file=sys.stderr,
-        )
-        for journal, path in encrypted_journals.items():
-            print(
-                "    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name),
-                file=sys.stderr,
-            )
+    kwargs = {
+        # longest journal name
+        "pad": max([len(journal) for journal in config["journals"]]),
+    }
 
-    if plain_journals:
-        print(
-            f"\nFollowing plain text journals will upgraded to jrnl {__version__}:",
-            file=sys.stderr,
-        )
-        for journal, path in plain_journals.items():
-            print(
-                "    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name),
-                file=sys.stderr,
-            )
+    _print_journal_summary(
+        journals=encrypted_journals,
+        header=Message(
+            MsgText.JournalsToUpgrade,
+            params={
+                "version": __version__,
+            },
+        ),
+        **kwargs,
+    )
 
-    if other_journals:
-        print("\nFollowing journals will be not be touched:", file=sys.stderr)
-        for journal, path in other_journals.items():
-            print(
-                "    {:{pad}} -> {}".format(journal, path, pad=longest_journal_name),
-                file=sys.stderr,
-            )
+    _print_journal_summary(
+        journals=plain_journals,
+        header=Message(
+            MsgText.JournalsToUpgrade,
+            params={
+                "version": __version__,
+            },
+        ),
+        **kwargs,
+    )
 
-    cont = yesno("\nContinue upgrading jrnl?", default=False)
+    _print_journal_summary(
+        journals=other_journals,
+        header=Message(MsgText.JournalsToIgnore),
+        **kwargs,
+    )
+
+    cont = yesno(Message(MsgText.ContinueUpgrade), default=False)
     if not cont:
-        raise JrnlException(Message(MsgText.UpgradeAborted), MsgType.WARNING)
+        raise JrnlException(Message(MsgText.UpgradeAborted), MsgStyle.WARNING)
 
     for journal_name, path in encrypted_journals.items():
-        print(
-            f"\nUpgrading encrypted '{journal_name}' journal stored in {path}...",
-            file=sys.stderr,
+        print_msg(
+            Message(
+                MsgText.UpgradingJournal,
+                params={
+                    "journal_name": journal_name,
+                    "path": path,
+                },
+            )
         )
+
         backup(path, binary=True)
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
@@ -137,10 +136,16 @@ older versions of jrnl anymore.
         all_journals.append(EncryptedJournal.from_journal(old_journal))
 
     for journal_name, path in plain_journals.items():
-        print(
-            f"\nUpgrading plain text '{journal_name}' journal stored in {path}...",
-            file=sys.stderr,
+        print_msg(
+            Message(
+                MsgText.UpgradingJournal,
+                params={
+                    "journal_name": journal_name,
+                    "path": path,
+                },
+            )
         )
+
         backup(path)
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
@@ -151,29 +156,47 @@ older versions of jrnl anymore.
     failed_journals = [j for j in all_journals if not j.validate_parsing()]
 
     if len(failed_journals) > 0:
-        print_msg("Aborting upgrade.", msg=Message.NORMAL)
-
         raise JrnlException(
+            Message(MsgText.AbortingUpgrade, MsgStyle.WARNING),
             Message(
                 MsgText.JournalFailedUpgrade,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {
                     "s": "s" if len(failed_journals) > 1 else "",
                     "failed_journals": "\n".join(j.name for j in failed_journals),
                 },
-            )
+            ),
         )
 
     # write all journals - or - don't
     for j in all_journals:
         j.write()
 
-    print("\nUpgrading config...", file=sys.stderr)
+    print_msg(Message(MsgText.UpgradingConfig, MsgStyle.NORMAL))
 
     backup(config_path)
 
-    print("\nWe're all done here and you can start enjoying jrnl 2.", file=sys.stderr)
+    print_msg(Message(MsgText.AllDoneUpgrade, MsgStyle.NORMAL))
 
 
 def is_old_version(config_path):
     return is_config_json(config_path)
+
+
+def _print_journal_summary(journals: dict, header: Message, pad: int) -> None:
+    if not journals:
+        return
+
+    msgs = [header]
+    for journal, path in journals.items():
+        msgs.append(
+            Message(
+                MsgText.PaddedJournalName,
+                params={
+                    "journal_name": journal,
+                    "path": path,
+                    "pad": pad,
+                },
+            )
+        )
+    print_msgs(msgs)

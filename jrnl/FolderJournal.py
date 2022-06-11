@@ -81,7 +81,6 @@ class Folder(Journal.Journal):
         filenames = get_files(self.config["journal"])
         for filename in filenames:
             if os.stat(filename).st_size <= 0:
-                # print("empty file: {}".format(filename))
                 os.remove(filename)
 
     def delete_entries(self, entries_to_delete):

@@ -13,10 +13,12 @@ avoid any possible overhead for these standalone commands.
 """
 import platform
 import sys
+
+from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 from jrnl.prompt import create_password
 
 
@@ -77,7 +79,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
         raise JrnlException(
             Message(
                 MsgText.CannotEncryptJournalType,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {
                     "journal_name": args.journal_name,
                     "journal_type": journal.__class__.__name__,
@@ -95,9 +97,12 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     journal.config["encrypt"] = True
     new_journal.write(args.filename)
 
-    print(
-        f"Journal encrypted to {args.filename or new_journal.config['journal']}.",
-        file=sys.stderr,
+    print_msg(
+        Message(
+            MsgText.JournalEncryptedTo,
+            MsgStyle.NORMAL,
+            {"path": args.filename or new_journal.config["journal"]},
+        )
     )
 
     # Update the config, if we encrypted in place
@@ -120,9 +125,12 @@ def postconfig_decrypt(args, config, original_config, **kwargs):
 
     new_journal = PlainJournal.from_journal(journal)
     new_journal.write(args.filename)
-    print(
-        f"Journal decrypted to {args.filename or new_journal.config['journal']}.",
-        file=sys.stderr,
+    print_msg(
+        Message(
+            MsgText.JournalDecryptedTo,
+            MsgStyle.NORMAL,
+            {"path": args.filename or new_journal.config["journal"]},
+        )
     )
 
     # Update the config, if we decrypted in place

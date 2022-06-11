@@ -87,7 +87,7 @@ Feature: Multiple journals
             these three eyes
             these three eyes
             n
-        Then the output should contain "Encrypted journal 'new_encrypted' created"
+        Then the output should contain "Journal 'new_encrypted' created at"
 
    Scenario: Read and write to journal with emoji name
         Given we use the config "multiple.yaml"

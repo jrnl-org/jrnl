@@ -1,9 +1,7 @@
 import base64
-import getpass
 import hashlib
 import logging
 import os
-import sys
 from typing import Callable
 from typing import Optional
 
@@ -24,7 +22,8 @@ from .prompt import create_password
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
+from jrnl.output import print_msg
 
 
 def make_key(password):
@@ -46,21 +45,26 @@ def decrypt_content(
     keychain: str = None,
     max_attempts: int = 3,
 ) -> str:
+    def get_pw():
+        return print_msg(
+            Message(MsgText.Password, MsgStyle.PROMPT), get_input=True, hide_input=True
+        )
+
     pwd_from_keychain = keychain and get_keychain(keychain)
-    password = pwd_from_keychain or getpass.getpass()
+    password = pwd_from_keychain or get_pw()
     result = decrypt_func(password)
     # Password is bad:
     if result is None and pwd_from_keychain:
         set_keychain(keychain, None)
     attempt = 1
     while result is None and attempt < max_attempts:
-        print("Wrong password, try again.", file=sys.stderr)
-        password = getpass.getpass()
+        print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
+        password = get_pw()
         result = decrypt_func(password)
         attempt += 1
 
     if result is None:
-        raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgStyle.ERROR))
 
     return result
 
@@ -79,13 +83,22 @@ class EncryptedJournal(Journal):
         if not os.path.exists(filename):
             if not os.path.isdir(dirname):
                 os.makedirs(dirname)
-                print(f"[Directory {dirname} created]", file=sys.stderr)
+                print_msg(
+                    Message(
+                        MsgText.DirectoryCreated,
+                        MsgStyle.NORMAL,
+                        {"directory_name": dirname},
+                    )
+                )
             self.create_file(filename)
             self.password = create_password(self.name)
 
-            print(
-                f"Encrypted journal '{self.name}' created at {filename}",
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.JournalCreated,
+                    MsgStyle.NORMAL,
+                    {"journal_name": self.name, "filename": filename},
+                )
             )
 
         text = self._load(filename)
@@ -179,7 +192,7 @@ def get_keychain(journal_name):
         return keyring.get_password("jrnl", journal_name)
     except keyring.errors.KeyringError as e:
         if not isinstance(e, keyring.errors.NoKeyringError):
-            print("Failed to retrieve keyring", file=sys.stderr)
+            print_msg(Message(MsgText.KeyringRetrievalFailure, MsgStyle.ERROR))
         return ""
 
 
@@ -196,9 +209,7 @@ def set_keychain(journal_name, password):
             keyring.set_password("jrnl", journal_name, password)
         except keyring.errors.KeyringError as e:
             if isinstance(e, keyring.errors.NoKeyringError):
-                print(
-                    "Keyring backend not found. Please install one of the supported backends by visiting: https://pypi.org/project/keyring/",
-                    file=sys.stderr,
-                )
+                msg = Message(MsgText.KeyringBackendNotFound, MsgStyle.WARNING)
             else:
-                print("Failed to retrieve keyring", file=sys.stderr)
+                msg = Message(MsgText.KeyringRetrievalFailure, MsgStyle.ERROR)
+            print_msg(msg)

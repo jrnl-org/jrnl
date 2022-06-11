@@ -6,8 +6,10 @@ import os
 import re
 import unicodedata
 
-from jrnl.color import ERROR_COLOR
-from jrnl.color import RESET_COLOR
+from jrnl.output import print_msg
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgStyle
 
 
 class TextExporter:
@@ -29,14 +31,18 @@ class TextExporter:
     @classmethod
     def write_file(cls, journal, path):
         """Exports a journal into a single file."""
-        try:
-            with open(path, "w", encoding="utf-8") as f:
-                f.write(cls.export_journal(journal))
-                return f"[Journal exported to {path}]"
-        except IOError as e:
-            return f"[{ERROR_COLOR}ERROR{RESET_COLOR}: {e.filename} {e.strerror}]"
-        except RuntimeError as e:
-            return e
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(cls.export_journal(journal))
+            print_msg(
+                Message(
+                    MsgText.JournalExportedTo,
+                    MsgStyle.NORMAL,
+                    {
+                        "path": path,
+                    },
+                )
+            )
+            return ""
 
     @classmethod
     def make_filename(cls, entry):
@@ -48,17 +54,17 @@ class TextExporter:
     def write_files(cls, journal, path):
         """Exports a journal into individual files for each entry."""
         for entry in journal.entries:
-            try:
-                full_path = os.path.join(path, cls.make_filename(entry))
-                with open(full_path, "w", encoding="utf-8") as f:
-                    f.write(cls.export_entry(entry))
-            except IOError as e:
-                return "[{2}ERROR{3}: {0} {1}]".format(
-                    e.filename, e.strerror, ERROR_COLOR, RESET_COLOR
-                )
-            except RuntimeError as e:
-                return e
-        return "[Journal exported to {}]".format(path)
+            full_path = os.path.join(path, cls.make_filename(entry))
+            with open(full_path, "w", encoding="utf-8") as f:
+                f.write(cls.export_entry(entry))
+        print_msg(
+            Message(
+                MsgText.JournalExportedTo,
+                MsgStyle.NORMAL,
+                {"path": path},
+            )
+        )
+        return ""
 
     def _slugify(string):
         """Slugifies a string.

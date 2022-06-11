@@ -14,12 +14,14 @@ from .editor import get_text_from_editor
 from .editor import get_text_from_stdin
 from . import time
 from .override import apply_overrides
+from jrnl.output import print_msg
+from jrnl.output import print_msgs
 from .path import expand_path
 
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def run(args):
@@ -139,13 +141,19 @@ def write_mode(args, config, journal, **kwargs):
 
     if not raw or raw.isspace():
         logging.error("Write mode: couldn't get raw text or entry was empty")
-        raise JrnlException(Message(MsgText.NoTextReceived, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.ERROR))
 
     logging.debug(
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
     )
     journal.new_entry(raw)
-    print(f"[Entry added to {args.journal_name} journal]", file=sys.stderr)
+    print_msg(
+        Message(
+            MsgText.JournalEntryAdded,
+            MsgStyle.NORMAL,
+            {"journal_name": args.journal_name},
+        )
+    )
     journal.write()
     logging.debug("Write mode: completed journal.write()")
 
@@ -229,7 +237,7 @@ def _get_editor_template(config, **kwargs):
         raise JrnlException(
             Message(
                 MsgText.CantReadTemplate,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"template": template_path},
             )
         )
@@ -277,7 +285,7 @@ def _edit_search_results(config, journal, old_entries, **kwargs):
         raise JrnlException(
             Message(
                 MsgText.EditorNotConfigured,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"config_file": get_config_path()},
             )
         )
@@ -307,40 +315,45 @@ def _print_edited_summary(journal, old_stats, **kwargs):
         "deleted": old_stats["count"] - len(journal),
         "modified": len([e for e in journal.entries if e.modified]),
     }
-
-    prompts = []
+    stats["modified"] -= stats["added"]
+    msgs = []
 
     if stats["added"] > 0:
-        prompts.append(f"{stats['added']} {_pluralize_entry(stats['added'])} added")
-        stats["modified"] -= stats["added"]
+        my_msg = (
+            MsgText.JournalCountAddedSingular
+            if stats["added"] == 1
+            else MsgText.JournalCountAddedPlural
+        )
+        msgs.append(Message(my_msg, MsgStyle.NORMAL, {"num": stats["added"]}))
 
     if stats["deleted"] > 0:
-        prompts.append(
-            f"{stats['deleted']} {_pluralize_entry(stats['deleted'])} deleted"
+        my_msg = (
+            MsgText.JournalCountDeletedSingular
+            if stats["deleted"] == 1
+            else MsgText.JournalCountDeletedPlural
         )
+        msgs.append(Message(my_msg, MsgStyle.NORMAL, {"num": stats["deleted"]}))
 
-    if stats["modified"]:
-        prompts.append(
-            f"{stats['modified']} {_pluralize_entry(stats['modified'])} modified"
+    if stats["modified"] > 0:
+        my_msg = (
+            MsgText.JournalCountModifiedSingular
+            if stats["modified"] == 1
+            else MsgText.JournalCountModifiedPlural
         )
+        msgs.append(Message(my_msg, MsgStyle.NORMAL, {"num": stats["modified"]}))
 
-    if prompts:
-        print(f"[{', '.join(prompts).capitalize()}]", file=sys.stderr)
+    print_msgs(msgs)
 
 
 def _get_predit_stats(journal):
     return {"count": len(journal)}
 
 
-def _pluralize_entry(num):
-    return "entry" if num == 1 else "entries"
-
-
 def _delete_search_results(journal, old_entries, **kwargs):
     if not journal.entries:
-        raise JrnlException(Message(MsgText.NothingToDelete, MsgType.ERROR))
+        raise JrnlException(Message(MsgText.NothingToDelete, MsgStyle.ERROR))
 
-    entries_to_delete = journal.prompt_action_entries("Delete entry")
+    entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
     if entries_to_delete:
         journal.entries = old_entries
@@ -351,7 +364,7 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 def _change_time_search_results(args, journal, old_entries, no_prompt=False, **kwargs):
     if not journal.entries:
-        raise JrnlException(Message(MsgText.NothingToModify, MsgType.WARNING))
+        raise JrnlException(Message(MsgText.NothingToModify, MsgStyle.WARNING))
 
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
@@ -359,7 +372,9 @@ def _change_time_search_results(args, journal, old_entries, no_prompt=False, **k
     if no_prompt:
         entries_to_change = journal.entries
     else:
-        entries_to_change = journal.prompt_action_entries("Change time")
+        entries_to_change = journal.prompt_action_entries(
+            MsgText.ChangeTimeEntryQuestion
+        )
 
     if entries_to_change:
         other_entries += [e for e in journal.entries if e not in entries_to_change]

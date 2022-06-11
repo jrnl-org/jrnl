@@ -6,12 +6,15 @@ import os
 from pathlib import Path
 import tempfile
 
+from collections.abc import Iterable
 from keyring import backend
 from keyring import errors
 from pytest import fixture
 from unittest.mock import patch
+from unittest.mock import Mock
 from .helpers import get_fixture
 import toml
+from rich.console import Console
 
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
@@ -85,7 +88,6 @@ def cli_run(
     mock_editor,
     mock_user_input,
     mock_overrides,
-    mock_password,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -94,7 +96,6 @@ def cli_run(
     mock_factories.update(mock_editor)
     mock_factories.update(mock_config_path)
     mock_factories.update(mock_user_input)
-    mock_factories.update(mock_password)
 
     return {
         "status": 0,
@@ -181,26 +182,6 @@ def toml_version(working_dir):
 
 
 @fixture
-def mock_password(request):
-    def _mock_password():
-        password = get_fixture(request, "password")
-        user_input = get_fixture(request, "user_input")
-
-        if password:
-            password = password.splitlines()
-
-        elif user_input:
-            password = user_input.splitlines()
-
-        if not password:
-            password = Exception("Unexpected call for password")
-
-        return patch("getpass.getpass", side_effect=password)
-
-    return {"getpass": _mock_password}
-
-
-@fixture
 def input_method():
     return ""
 
@@ -221,30 +202,58 @@ def should_not():
 
 
 @fixture
-def mock_user_input(request, is_tty):
-    def _generator(target):
-        def _mock_user_input():
-            user_input = get_fixture(request, "user_input", None)
+def mock_user_input(request, password_input, stdin_input):
+    def _mock_user_input():
+        # user_input needs to be here because we don't know it until cli_run starts
+        user_input = get_fixture(request, "all_input", None)
+        if user_input is None:
+            user_input = Exception("Unexpected call for user input")
+        else:
+            user_input = iter(user_input.splitlines())
 
-            if user_input is None:
-                user_input = Exception("Unexpected call for user input")
-            else:
-                user_input = user_input.splitlines() if is_tty else [user_input]
+        def mock_console_input(**kwargs):
+            if kwargs["password"] and not isinstance(password_input, Exception):
+                return password_input
 
-            return patch(target, side_effect=user_input)
+            if isinstance(user_input, Iterable):
+                return next(user_input)
 
-        return _mock_user_input
+            # exceptions
+            return user_input if not kwargs["password"] else password_input
+
+        mock_console = Mock(wraps=Console(stderr=True))
+        mock_console.input = Mock(side_effect=mock_console_input)
+
+        return patch("jrnl.output._get_console", return_value=mock_console)
 
     return {
-        "stdin": _generator("sys.stdin.read"),
-        "input": _generator("builtins.input"),
+        "user_input": _mock_user_input,
+        "stdin_input": lambda: patch("sys.stdin.read", side_effect=stdin_input),
     }
 
 
 @fixture
+def password_input(request):
+    password_input = get_fixture(request, "password", None)
+    if password_input is None:
+        password_input = Exception("Unexpected call for password input")
+    return password_input
+
+
+@fixture
+def stdin_input(request, is_tty):
+    stdin_input = get_fixture(request, "all_input", None)
+    if stdin_input is None or is_tty:
+        stdin_input = Exception("Unexpected call for stdin input")
+    else:
+        stdin_input = [stdin_input]
+    return stdin_input
+
+
+@fixture
 def is_tty(input_method):
-    assert input_method in ["", "enter", "pipe"]
-    return input_method != "pipe"
+    assert input_method in ["", "enter", "pipe", "type"]
+    return input_method not in ["pipe", "type"]
 
 
 @fixture

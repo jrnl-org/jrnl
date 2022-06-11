@@ -4,12 +4,13 @@
 
 import os
 import re
-import sys
-
-from jrnl.color import RESET_COLOR
-from jrnl.color import WARNING_COLOR
 
 from .text_exporter import TextExporter
+
+from jrnl.output import print_msg
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgStyle
 
 
 class MarkdownExporter(TextExporter):
@@ -63,10 +64,12 @@ class MarkdownExporter(TextExporter):
             newbody = newbody + os.linesep
 
         if warn_on_heading_level is True:
-            print(
-                f"{WARNING_COLOR}WARNING{RESET_COLOR}: "
-                f"Headings increased past H6 on export - {date_str} {entry.title}",
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.HeadingsPastH6,
+                    MsgStyle.WARNING,
+                    {"date": date_str, "title": entry.title},
+                )
             )
 
         return f"{heading} {date_str} {entry.title}\n{newbody} "

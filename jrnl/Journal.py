@@ -6,12 +6,16 @@ import datetime
 import logging
 import os
 import re
-import sys
 
 from . import Entry
 from . import time
 from .prompt import yesno
 from .path import expand_path
+
+from jrnl.output import print_msg
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgStyle
 
 
 class Tag:
@@ -83,9 +87,24 @@ class Journal:
         if not os.path.exists(filename):
             if not os.path.isdir(dirname):
                 os.makedirs(dirname)
-                print(f"[Directory {dirname} created]", file=sys.stderr)
+                print_msg(
+                    Message(
+                        MsgText.DirectoryCreated,
+                        MsgStyle.NORMAL,
+                        {"directory_name": dirname},
+                    )
+                )
             self.create_file(filename)
-            print(f"[Journal '{self.name}' created at {filename}]", file=sys.stderr)
+            print_msg(
+                Message(
+                    MsgText.JournalCreated,
+                    MsgStyle.NORMAL,
+                    {
+                        "journal_name": self.name,
+                        "filename": filename,
+                    },
+                )
+            )
 
         text = self._load(filename)
         self.entries = self._parse(text)
@@ -269,14 +288,17 @@ class Journal:
         for entry in self.entries:
             entry.date = date
 
-    def prompt_action_entries(self, message):
+    def prompt_action_entries(self, msg: MsgText):
         """Prompts for action for each entry in a journal, using given message.
         Returns the entries the user wishes to apply the action on."""
         to_act = []
 
         def ask_action(entry):
             return yesno(
-                f"{message} '{entry.pprint(short=True)}'?",
+                Message(
+                    msg,
+                    params={"entry_title": entry.pprint(short=True)},
+                ),
                 default=False,
             )
 
@@ -415,9 +437,14 @@ def open_journal(journal_name, config, legacy=False):
 
     if os.path.isdir(config["journal"]):
         if config["encrypt"]:
-            print(
-                "Warning: This journal's config has 'encrypt' set to true, but this type of journal can't be encrypted.",
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.ConfigEncryptedForUnencryptableJournalType,
+                    MsgStyle.WARNING,
+                    {
+                        "journal_name": journal_name,
+                    },
+                )
             )
 
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(

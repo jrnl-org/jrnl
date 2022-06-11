@@ -73,7 +73,7 @@ Feature: Multiple journals
             these three eyes
             these three eyes
             n
-        Then the output should contain "Encrypted journal 'new_encrypted' created"
+        Then the output should contain "Journal 'new_encrypted' created at "
 
     Scenario: Don't overwrite main config when encrypting a journal in an alternate config
         Given the config "basic_onefile.yaml" exists

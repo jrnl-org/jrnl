@@ -172,7 +172,7 @@ Feature: Writing new entries.
     Scenario Outline: Writing an entry at the prompt (no editor) should store the entry
         Given we use the config "<config_file>"
         And we use the password "bad doggie no biscuit" if prompted
-        When we run "jrnl" and enter "25 jul 2013: I saw Elvis. He's alive."
+        When we run "jrnl" and type "25 jul 2013: I saw Elvis. He's alive."
         Then we should get no error
         When we run "jrnl -on '2013-07-25'"
         Then the output should contain "2013-07-25 09:00 I saw Elvis."
@@ -233,8 +233,7 @@ Feature: Writing new entries.
         And we append to the editor if opened
             [2021-11-13] worked on jrnl tests
         When we run "jrnl --edit"
-        Then the output should contain
-            [1 entry added]
+        Then the output should contain "1 entry added"
 
         Examples: configs
         | config_file          |
@@ -252,8 +251,7 @@ Feature: Writing new entries.
             [2021-11-12] worked on jrnl tests again
             [2021-11-13] worked on jrnl tests a little bit more
         When we run "jrnl --edit"
-        Then the output should contain
-            [3 entries added]
+        Then the error output should contain "3 entries added"
 
         Examples: configs
         | config_file          |
@@ -269,8 +267,8 @@ Feature: Writing new entries.
         And we write to the editor if opened
             [2021-11-13] I am replacing my whole journal with this entry
         When we run "jrnl --edit"
-        Then the output should contain
-            [2 entries deleted, 1 entry modified]
+        Then the output should contain "2 entries deleted"
+        Then the output should contain "3 entries modified"
 
         Examples: configs
         | config_file          |
@@ -287,7 +285,7 @@ Feature: Writing new entries.
             [2021-11-13] I am replacing the last entry with this entry
         When we run "jrnl --edit -1"
         Then the output should contain
-            [1 entry modified]
+            1 entry modified
 
         Examples: configs
         | config_file          |
@@ -304,7 +302,7 @@ Feature: Writing new entries.
             This is a small addendum to my latest entry.
         When we run "jrnl --edit"
         Then the output should contain
-            [1 entry modified]
+            1 entry modified
 
         Examples: configs
         | config_file          |

@@ -2,8 +2,8 @@ Feature: Encrypting and decrypting journals
 
     Scenario: Decrypting a journal
         Given we use the config "encrypted.yaml"
-        # And we use the password "bad doggie no biscuit" if prompted 
-        When we run "jrnl --decrypt" and enter "bad doggie no biscuit"
+        And we use the password "bad doggie no biscuit" if prompted
+        When we run "jrnl --decrypt"
         Then the output should contain "Journal decrypted"
         And the config for journal "default" should contain "encrypt: false"
         When we run "jrnl -99 --short"
@@ -47,7 +47,7 @@ Feature: Encrypting and decrypting journals
     Scenario Outline: Running jrnl with encrypt: true on unencryptable journals
         Given we use the config "<config_file>"
         When we run "jrnl --config-override encrypt true here is a new entry"
-        Then the error output should contain "this type of journal can't be encrypted"
+        Then the error output should contain "journal can't be encrypted"
 
         Examples: configs
         | config_file       |

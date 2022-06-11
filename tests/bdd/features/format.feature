@@ -429,7 +429,7 @@ Feature: Custom formats
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl --export yaml --file nonexistent_dir"
-        Then the output should contain "YAML export must be to individual files"
+        Then the output should contain "YAML export must be to a directory"
         And the output should not contain "Traceback"
 
         Examples: configs

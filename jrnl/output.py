@@ -1,25 +1,24 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-
-import logging
-import sys
 import textwrap
 
-from jrnl.color import colorize
-from jrnl.color import RESET_COLOR
-from jrnl.color import WARNING_COLOR
+from typing import Union
+from rich.text import Text
+from rich.console import Console
+
 from jrnl.messages import Message
+from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 
 
 def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
-
-    warning_msg = f"""
-    The command {old_cmd} is deprecated and will be removed from jrnl soon.
-    Please use {new_cmd} instead.
-    """
-    warning_msg = textwrap.dedent(warning_msg)
-    logging.warning(warning_msg)
-    print(f"{WARNING_COLOR}{warning_msg}{RESET_COLOR}", file=sys.stderr)
+    print_msg(
+        Message(
+            MsgText.DeprecatedCommand,
+            MsgStyle.WARNING,
+            {"old_cmd": old_cmd, "new_cmd": new_cmd},
+        )
+    )
 
     if callback is not None:
         callback(**kwargs)
@@ -38,14 +37,56 @@ def list_journals(configuration):
     return result
 
 
-def print_msg(msg: Message):
-    msg_text = textwrap.dedent(msg.text.value.format(**msg.params)).strip().split("\n")
+def print_msg(msg: Message, **kwargs) -> Union[None, str]:
+    """Helper function to print a single message"""
+    kwargs["style"] = msg.style
+    return print_msgs([msg], **kwargs)
 
-    longest_string = len(max(msg_text, key=len))
-    msg_text = [f"[ {line:<{longest_string}} ]" for line in msg_text]
 
-    # colorize can't be called until after the lines are padded,
-    # because python gets confused by the ansi color codes
-    msg_text[0] = f"[{colorize(msg_text[0][1:-1], msg.type.color)}]"
+def print_msgs(
+    msgs: list[Message],
+    delimiter: str = "\n",
+    style: MsgStyle = MsgStyle.NORMAL,
+    get_input: bool = False,
+    hide_input: bool = False,
+) -> Union[None, str]:
+    # Same as print_msg, but for a list
+    text = Text("", end="")
+    kwargs = style.decoration.args
 
-    print("\n".join(msg_text), file=sys.stderr)
+    for i, msg in enumerate(msgs):
+        kwargs = _add_extra_style_args_if_needed(kwargs, msg=msg)
+
+        m = format_msg_text(msg)
+
+        if i != len(msgs) - 1:
+            m.append(delimiter)
+
+        text.append(m)
+
+    if style.append_space:
+        text.append(" ")
+
+    decorated_text = style.decoration.callback(text, **kwargs)
+
+    # Always print messages to stderr
+    console = _get_console(stderr=True)
+
+    if get_input:
+        return str(console.input(prompt=decorated_text, password=hide_input))
+    console.print(decorated_text, new_line_start=style.prepend_newline)
+
+
+def _get_console(stderr: bool = True) -> Console:
+    return Console(stderr=stderr)
+
+
+def _add_extra_style_args_if_needed(args, msg):
+    args["border_style"] = msg.style.color
+    args["title"] = msg.style.box_title
+    return args
+
+
+def format_msg_text(msg: Message) -> Text:
+    text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
+    return Text(text)

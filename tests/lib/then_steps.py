@@ -47,20 +47,23 @@ def output_should_contain(
 ):
     we_should = parse_should_or_should_not(should_or_should_not)
 
+    output_str = f"\nEXPECTED:\n{expected_output}\n\nACTUAL STDOUT:\n{cli_run['stdout']}\n\nACTUAL STDERR:\n{cli_run['stderr']}"
     assert expected_output
     if which_output_stream is None:
         assert ((expected_output in cli_run["stdout"]) == we_should) or (
             (expected_output in cli_run["stderr"]) == we_should
-        )
+        ), output_str
 
     elif which_output_stream == "standard":
-        assert (expected_output in cli_run["stdout"]) == we_should
+        assert (expected_output in cli_run["stdout"]) == we_should, output_str
 
     elif which_output_stream == "error":
-        assert (expected_output in cli_run["stderr"]) == we_should
+        assert (expected_output in cli_run["stderr"]) == we_should, output_str
 
     else:
-        assert (expected_output in cli_run[which_output_stream]) == we_should
+        assert (
+            expected_output in cli_run[which_output_stream]
+        ) == we_should, output_str
 
 
 @then(parse("the output should not contain\n{expected_output}"))
@@ -164,12 +167,12 @@ def config_var_in_memory(
 
 @then("we should be prompted for a password")
 def password_was_called(cli_run):
-    assert cli_run["mocks"]["getpass"].called
+    assert cli_run["mocks"]["user_input"].called
 
 
 @then("we should not be prompted for a password")
 def password_was_not_called(cli_run):
-    assert not cli_run["mocks"]["getpass"].called
+    assert not cli_run["mocks"]["user_input"].called
 
 
 @then(parse("the cache directory should contain the files\n{file_list}"))
@@ -371,7 +374,7 @@ def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
 def stdin_prompt_called(cli_run, should_or_should_not):
     we_should = parse_should_or_should_not(should_or_should_not)
 
-    assert cli_run["mocks"]["stdin"].called == we_should
+    assert cli_run["mocks"]["stdin_input"].called == we_should
 
 
 @then(parse('the editor filename should end with "{suffix}"'))

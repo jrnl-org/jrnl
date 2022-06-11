@@ -20,10 +20,11 @@ from .config import verify_config_colors
 from .prompt import yesno
 from .upgrade import is_old_version
 
+from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
 
 def upgrade_config(config_data, alt_config_path=None):
@@ -38,9 +39,10 @@ def upgrade_config(config_data, alt_config_path=None):
             config_data[key] = default_config[key]
         save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
-        print(
-            f"[Configuration updated to newest version at {config_path}]",
-            file=sys.stderr,
+        print_msg(
+            Message(
+                MsgText.ConfigUpdated, MsgStyle.NORMAL, {"config_path": config_path}
+            )
         )
 
 
@@ -57,7 +59,7 @@ def find_alt_config(alt_config):
     if not os.path.exists(alt_config):
         raise JrnlException(
             Message(
-                MsgText.AltConfigNotFound, MsgType.ERROR, {"config_file": alt_config}
+                MsgText.AltConfigNotFound, MsgStyle.ERROR, {"config_file": alt_config}
             )
         )
 
@@ -79,8 +81,15 @@ def load_or_install_jrnl(alt_config_path):
         config = load_config(config_path)
 
         if config is None:
-            print("Unable to parse config file", file=sys.stderr)
-            sys.exit()
+            raise JrnlException(
+                Message(
+                    MsgText.CantParseConfigFile,
+                    MsgStyle.ERROR,
+                    {
+                        "config_path": config_path,
+                    },
+                )
+            )
 
         if is_old_version(config_path):
             from jrnl import upgrade
@@ -103,8 +112,17 @@ def install():
 
     # Where to create the journal?
     default_journal_path = get_default_journal_path()
-    path_query = f"Path to your journal file (leave blank for {default_journal_path}): "
-    journal_path = absolute_path(input(path_query).strip() or default_journal_path)
+    user_given_path = print_msg(
+        Message(
+            MsgText.InstallJournalPathQuestion,
+            MsgStyle.PROMPT,
+            params={
+                "default_journal_path": default_journal_path,
+            },
+        ),
+        get_input=True,
+    )
+    journal_path = absolute_path(user_given_path or default_journal_path)
     default_config = get_default_config()
     default_config["journals"][DEFAULT_JOURNAL_KEY] = journal_path
 
@@ -116,13 +134,10 @@ def install():
         pass
 
     # Encrypt it?
-    encrypt = yesno(
-        "Do you want to encrypt your journal? You can always change this later",
-        default=False,
-    )
+    encrypt = yesno(Message(MsgText.EncryptJournalQuestion), default=False)
     if encrypt:
         default_config["encrypt"] = True
-        print("Journal will be encrypted.", file=sys.stderr)
+        print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
 
     save_config(default_config)
     return default_config

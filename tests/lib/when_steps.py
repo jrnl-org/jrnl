@@ -21,12 +21,12 @@ def when_we_change_directory(directory_name):
 
 # These variables are used in the `@when(re(...))` section below
 command = '(?P<command>[^"]*)'
-input_method = "(?P<input_method>enter|pipe)"
-user_input = '("(?P<user_input>[^"]*)")'
+input_method = "(?P<input_method>enter|pipe|type)"
+all_input = '("(?P<all_input>[^"]*)")'
 
 
-@when(parse('we run "jrnl {command}" and {input_method}\n{user_input}'))
-@when(re(f'we run "jrnl ?{command}" and {input_method} {user_input}'))
+@when(parse('we run "jrnl {command}" and {input_method}\n{all_input}'))
+@when(re(f'we run "jrnl ?{command}" and {input_method} {all_input}'))
 @when(parse('we run "jrnl {command}"'))
 @when('we run "jrnl"')
 def we_run_jrnl(cli_run, capsys, keyring):

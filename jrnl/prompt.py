@@ -1,32 +1,65 @@
 # Copyright (C) 2012-2021 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-
-import getpass
-import sys
+from jrnl.messages import Message
+from jrnl.messages import MsgText
+from jrnl.messages import MsgStyle
+from jrnl.output import print_msg
+from jrnl.output import print_msgs
 
 
 def create_password(journal_name: str) -> str:
-
-    prompt = f"Enter password for journal '{journal_name}': "
-
+    kwargs = {
+        "get_input": True,
+        "hide_input": True,
+    }
     while True:
-        pw = getpass.getpass(prompt)
+        pw = print_msg(
+            Message(
+                MsgText.PasswordFirstEntry,
+                MsgStyle.PROMPT,
+                params={"journal_name": journal_name},
+            ),
+            **kwargs
+        )
+
         if not pw:
-            print("Password can't be an empty string!", file=sys.stderr)
+            print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.WARNING))
             continue
-        elif pw == getpass.getpass("Enter password again: "):
+
+        elif pw == print_msg(
+            Message(MsgText.PasswordConfirmEntry, MsgStyle.PROMPT), **kwargs
+        ):
             break
 
-        print("Passwords did not match, please try again", file=sys.stderr)
+        print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
-    if yesno("Do you want to store the password in your keychain?", default=True):
+    if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
         from .EncryptedJournal import set_keychain
 
         set_keychain(journal_name, pw)
+
     return pw
 
 
-def yesno(prompt, default=True):
-    prompt = f"{prompt.strip()} {'[Y/n]' if default else '[y/N]'} "
-    response = input(prompt)
-    return {"y": True, "n": False}.get(response.lower().strip(), default)
+def yesno(prompt: Message, default: bool = True) -> bool:
+    response = print_msgs(
+        [
+            prompt,
+            Message(
+                MsgText.YesOrNoPromptDefaultYes
+                if default
+                else MsgText.YesOrNoPromptDefaultNo
+            ),
+        ],
+        style=MsgStyle.PROMPT,
+        delimiter=" ",
+        get_input=True,
+    )
+
+    answers = {
+        str(MsgText.OneCharacterYes): True,
+        str(MsgText.OneCharacterNo): False,
+    }
+
+    # Does using `lower()` work in all languages?
+    return answers.get(str(response).lower().strip(), default)

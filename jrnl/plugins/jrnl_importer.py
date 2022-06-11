@@ -7,7 +7,8 @@ import sys
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
+from jrnl.output import print_msg
 
 
 class JRNLImporter:
@@ -28,14 +29,20 @@ class JRNLImporter:
                 other_journal_txt = sys.stdin.read()
             except KeyboardInterrupt:
                 raise JrnlException(
-                    Message(MsgText.KeyboardInterruptMsg, MsgType.ERROR),
-                    Message(MsgText.ImportAborted, MsgType.WARNING),
+                    Message(MsgText.KeyboardInterruptMsg, MsgStyle.ERROR_ON_NEW_LINE),
+                    Message(MsgText.ImportAborted, MsgStyle.WARNING),
                 )
 
         journal.import_(other_journal_txt)
         new_cnt = len(journal.entries)
-        print(
-            "[{} imported to {} journal]".format(new_cnt - old_cnt, journal.name),
-            file=sys.stderr,
-        )
         journal.write()
+        print_msg(
+            Message(
+                MsgText.ImportSummary,
+                MsgStyle.NORMAL,
+                {
+                    "count": new_cnt - old_cnt,
+                    "journal_name": journal.name,
+                },
+            )
+        )

@@ -1,20 +1,18 @@
 import logging
 import os
-import sys
 
 import colorama
 from ruamel.yaml import YAML
 import xdg.BaseDirectory
 
 from . import __version__
+from jrnl.output import list_journals
+from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgText
-from jrnl.messages import MsgType
+from jrnl.messages import MsgStyle
 
-from .color import ERROR_COLOR
-from .color import RESET_COLOR
-from .output import list_journals
 from .path import home_dir
 
 # Constants
@@ -75,7 +73,7 @@ def get_config_path():
         raise JrnlException(
             Message(
                 MsgText.ConfigDirectoryIsFile,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {
                     "config_directory_path": os.path.join(
                         xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
@@ -143,11 +141,15 @@ def verify_config_colors(config):
         if upper_color == "NONE":
             continue
         if not getattr(colorama.Fore, upper_color, None):
-            print(
-                "[{2}ERROR{3}: {0} set to invalid color: {1}]".format(
-                    key, color, ERROR_COLOR, RESET_COLOR
-                ),
-                file=sys.stderr,
+            print_msg(
+                Message(
+                    MsgText.InvalidColor,
+                    MsgStyle.NORMAL,
+                    {
+                        "key": key,
+                        "color": color,
+                    },
+                )
             )
             all_valid_colors = False
     return all_valid_colors
@@ -197,7 +199,7 @@ def get_journal_name(args, config):
         raise JrnlException(
             Message(
                 MsgText.NoDefaultJournal,
-                MsgType.ERROR,
+                MsgStyle.ERROR,
                 {"journals": list_journals(config)},
             ),
         )
