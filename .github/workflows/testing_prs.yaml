@@ -9,7 +9,7 @@ on:
     - 'tests/**'
     - 'poetry.lock'
     - 'pyproject.toml'
-    - '.github/workflows/testing.yaml'
+    - '.github/workflows/testing_prs.yaml'
   pull_request:
     branches: [ develop ]
     paths:
@@ -18,7 +18,7 @@ on:
     - 'tests/**'
     - 'poetry.lock'
     - 'pyproject.toml'
-    - '.github/workflows/testing.yaml'
+    - '.github/workflows/testing_prs.yaml'
 
 defaults:
   run:
@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ 3.9, '3.10' ]
+        python-version: [ 3.9, '3.10', 3.11-dev ]
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     steps:
       - run: git config --global core.autocrlf false
