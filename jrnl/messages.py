@@ -20,11 +20,6 @@ class MsgDecoration(Enum):
         "callback": lambda x, **_: x,
         "args": {},
     }
-    BRACKET = {
-        # @todo this should be a more robust function
-        "callback": lambda x, **_: f"[ {x} ]",
-        "args": {},
-    }
     BOX = {
         "callback": Panel,
         "args": {
@@ -292,14 +287,6 @@ class MsgText(Enum):
 
 
 class MsgStyle(Enum):
-    BARE = {
-        "decoration": MsgDecoration.NONE,
-        "color": _MsgColor("white"),
-    }
-    PLAIN = {
-        "decoration": MsgDecoration.BRACKET,
-        "color": _MsgColor("white"),
-    }
     PROMPT = {
         "decoration": MsgDecoration.NONE,
         "color": _MsgColor("white"),
