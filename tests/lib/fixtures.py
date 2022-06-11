@@ -201,26 +201,6 @@ def should_not():
     return False
 
 
-# @todo is this named properly? does it need to be merged with user_input? does
-# it only mock piped input? or also user input?
-# @fixture
-# def mock_stdin_input(request, is_tty):
-#     def _mock_stdin_input():
-#         stdin_input = get_fixture(request, "all_input", None)
-
-#         if stdin_input is None:
-#             stdin_input = Exception("Unexpected call for piped input")
-#         else:
-#             stdin_input = [stdin_input]
-
-#         if is_tty:
-#             stdin_input = []
-
-#         return patch("sys.stdin.read", side_effect=stdin_input)
-
-#     return {"stdin_input": _mock_stdin_input}
-
-
 @fixture
 def mock_user_input(request, password_input, stdin_input):
     def _mock_user_input():
@@ -232,7 +212,6 @@ def mock_user_input(request, password_input, stdin_input):
             user_input = iter(user_input.splitlines())
 
         def mock_console_input(**kwargs):
-            # import ipdb; ipdb.sset_trace()
             if kwargs["password"] and not isinstance(password_input, Exception):
                 return password_input
 
