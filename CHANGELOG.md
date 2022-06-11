@@ -14,6 +14,7 @@
 
 **Fixed bugs:**
 
+- --debug leads to logging error after composing new entry [\#1496](https://github.com/jrnl-org/jrnl/issues/1496)
 - Using -not argument by itself leads to new entry creation [\#1472](https://github.com/jrnl-org/jrnl/issues/1472)
 - Empty config file leads to confusing error message [\#1420](https://github.com/jrnl-org/jrnl/issues/1420)
 - "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
@@ -50,6 +51,7 @@
 **Packaging:**
 
 - Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump keyring from 23.5.1 to 23.6.0 [\#1499](https://github.com/jrnl-org/jrnl/pull/1499) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.5.0 to 23.5.1 [\#1487](https://github.com/jrnl-org/jrnl/pull/1487) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 37.0.1 to 37.0.2 [\#1467](https://github.com/jrnl-org/jrnl/pull/1467) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump cryptography from 36.0.2 to 37.0.1 [\#1462](https://github.com/jrnl-org/jrnl/pull/1462) ([dependabot[bot]](https://github.com/apps/dependabot))
