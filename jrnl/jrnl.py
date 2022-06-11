@@ -406,4 +406,3 @@ def _display_search_results(args, journal, **kwargs):
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
-
