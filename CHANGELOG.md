@@ -8,6 +8,7 @@
 
 - Add --change-time command to change the timestamp of an entry [\#1429](https://github.com/jrnl-org/jrnl/issues/1429)
 - Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
+- Rework how all output and messaging works in jrnl [\#1475](https://github.com/jrnl-org/jrnl/pull/1475) ([wren](https://github.com/wren))
 - Implement --change-time flag [\#1452](https://github.com/jrnl-org/jrnl/pull/1452) ([richardjs](https://github.com/richardjs))
 - Reformat additional messages and finish centralizing exception handling [\#1424](https://github.com/jrnl-org/jrnl/pull/1424) ([wren](https://github.com/wren))
 - Reformat messages and add new centralized exception handling [\#1417](https://github.com/jrnl-org/jrnl/pull/1417) ([wren](https://github.com/wren))
@@ -41,6 +42,7 @@
 **Build:**
 
 - Clean up .gitignore [\#1286](https://github.com/jrnl-org/jrnl/issues/1286)
+- Add Python 3.11 to PR tests [\#1500](https://github.com/jrnl-org/jrnl/pull/1500) ([micahellison](https://github.com/micahellison))
 - Pin jinja2 in docs requirements to keep readthedocs builds from failing [\#1439](https://github.com/jrnl-org/jrnl/pull/1439) ([micahellison](https://github.com/micahellison))
 - Tidy up git ignore [\#1414](https://github.com/jrnl-org/jrnl/pull/1414) ([nelnog](https://github.com/nelnog))
 
