@@ -39,11 +39,14 @@ jobs:
     - name: Setup Node.js environment
       uses: actions/setup-node@main
 
+    - name: Capture full Python version in env
+      run: echo "PYTHON_FULL_VERSION=$(python --version)" >> $GITHUB_ENV
+
     - name: poetry cache
       uses: actions/cache@v2
       with:
         path: .venv
-        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ matrix.python-version }}
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ secrets.CACHE_STRING }}
 
     - name: npm cache
       uses: actions/cache@v2
