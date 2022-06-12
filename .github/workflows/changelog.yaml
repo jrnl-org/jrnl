@@ -141,8 +141,8 @@ jobs:
       - name: Commit
         if: env.SOMETHING_CHANGED == 'true'
         run: |
-          git config user.email "jrnl.bot@gmail.com"
-          git config user.name "Jrnl Bot"
+          git config --global user.name "${{ secrets.JRNL_BOT_NAME }}"
+          git config --global user.email "${{ secrets.JRNL_BOT_EMAIL }}"
           git add "$FILENAME"
           git commit -m "Update changelog [ci skip]"
           git push origin $BRANCH
