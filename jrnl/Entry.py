@@ -7,6 +7,9 @@ import re
 
 import ansiwrap
 
+import os
+import logging
+
 from .color import colorize
 from .color import highlight_tags_with_background_color
 
@@ -105,6 +108,18 @@ class Entry:
         )
 
         if not short and self.journal.config["linewrap"]:
+            columns = self.journal.config["linewrap"]
+
+            if columns == "auto":
+                try:
+                    columns = os.get_terminal_size()[0]
+                except:  # noqa: E722
+                    logging.debug(
+                        "Can't determine terminal size automatically 'linewrap': '%s'",
+                        self.journal.config["linewrap"],
+                    )
+                    columns = 79
+
             # Color date / title and bold title
             title = ansiwrap.fill(
                 date_str
@@ -115,7 +130,7 @@ class Entry:
                     self.journal.config["colors"]["title"],
                     is_title=True,
                 ),
-                self.journal.config["linewrap"],
+                columns,
             )
             body = highlight_tags_with_background_color(
                 self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
@@ -124,7 +139,7 @@ class Entry:
                 colorize(
                     ansiwrap.fill(
                         line,
-                        self.journal.config["linewrap"],
+                        columns,
                         initial_indent=indent,
                         subsequent_indent=indent,
                         drop_whitespace=True,

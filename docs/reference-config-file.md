@@ -96,7 +96,8 @@ If `true`, tags will be highlighted in cyan.
 
 ### linewrap
 Controls the width of the output. Set to `false` if you don't want to
-wrap long lines.
+wrap long lines. Set to `auto` to let `jrnl` automatically determine
+the terminal width.
 
 ### colors
 A dictionary that controls the colors used to display journal entries.
