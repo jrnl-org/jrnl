@@ -146,6 +146,8 @@ class MsgText(Enum):
             https://jrnl.sh/en/stable/external-editors/
         """
 
+    NoEditsReceived = "No edits to save, because nothing was changed"
+
     NoTextReceived = """
         No entry to save, because no text was received
         """
