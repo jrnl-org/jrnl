@@ -164,7 +164,9 @@ def load_config(config_path):
     if duplicate_keys:
         print_msg(
             Message(
-                MsgText.ConfigDoubleKeys, MsgStyle.WARNING, {"duplicate_keys": duplicate_keys}
+                MsgText.ConfigDoubleKeys,
+                MsgStyle.WARNING,
+                {"duplicate_keys": duplicate_keys},
             )
         )
 
