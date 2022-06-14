@@ -15,6 +15,8 @@ from jrnl.messages import MsgStyle
 
 from .path import home_dir
 
+from collections import Counter
+
 # Constants
 DEFAULT_CONFIG_NAME = "jrnl.yaml"
 XDG_RESOURCE = "jrnl"
@@ -157,6 +159,15 @@ def verify_config_colors(config):
 
 def load_config(config_path):
     """Tries to load a config file from YAML."""
+    # If duplicate keys at same level in config file, print warning
+    duplicate_keys = config_duplicate_keys(config_path)
+    if duplicate_keys:
+        print_msg(
+            Message(
+                MsgText.ConfigDoubleKeys, MsgStyle.WARNING, {"duplicate_keys": duplicate_keys}
+            )
+        )
+
     with open(config_path, encoding=YAML_FILE_ENCODING) as f:
         yaml = YAML(typ="safe")
         yaml.allow_duplicate_keys = True
@@ -206,3 +217,49 @@ def get_journal_name(args, config):
 
     logging.debug("Using journal name: %s", args.journal_name)
     return args
+
+
+def config_duplicate_keys(config_path):
+    if is_config_json(config_path):
+        return None
+
+    duplicate_keys = []
+
+    with open(config_path) as f:
+        keys = []
+        current_serie = []
+        temp_store = []
+        leading_spaces = 0
+
+        for line in f:
+            line_lead = len(line) - len(line.lstrip(" "))
+
+            if line_lead > leading_spaces:
+                temp_store.append(current_serie)
+                current_serie = []
+
+            elif line_lead < leading_spaces:
+                while (leading_spaces - line_lead) > 2:
+                    keys.append(current_serie)
+                    current_serie = temp_store.pop()
+                    leading_spaces -= 2
+
+                keys.append(current_serie)
+                current_serie = temp_store.pop()
+
+            if line.strip().split(":")[0]:
+                current_serie.append(line.strip().split(":")[0])
+            leading_spaces = line_lead
+
+        keys.append(current_serie)
+
+        for serie in keys:
+            count = Counter(serie)
+            for i in count.keys():
+                if count[i] > 1:
+                    duplicate_keys.append(i)
+
+    if len(duplicate_keys) > 0:
+        return duplicate_keys
+
+    return None

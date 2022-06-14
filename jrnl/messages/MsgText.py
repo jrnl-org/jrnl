@@ -193,6 +193,12 @@ class MsgText(Enum):
         Configuration updated to newest version at {config_path}
         """
 
+    ConfigDoubleKeys = """
+        Warning: One or more keys appear multiple times at the same level
+        in your configuration file:
+            {duplicate_keys}
+    """
+
     # --- Password --- #
     Password = "Password:"
     PasswordFirstEntry = "Enter password for journal '{journal_name}': "

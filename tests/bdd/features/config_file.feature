@@ -103,3 +103,8 @@ Feature: Multiple journals
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf empty_file.yaml"
         Then the error output should contain "Unable to parse config file"
+
+    Scenario: Show a warning message when the config file contains double keys at the same level
+        Given we use the config "double_keys.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "One or more keys appear multiple times at the same level"
