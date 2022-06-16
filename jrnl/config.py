@@ -249,8 +249,7 @@ def config_duplicate_keys(config_path):
                 keys.append(current_serie)
                 current_serie = temp_store.pop()
 
-            if line.strip().split(":")[0]:
-                current_serie.append(line.strip().split(":")[0])
+            current_serie.append(line.strip().split(":")[0])
             leading_spaces = line_lead
 
         keys.append(current_serie)
