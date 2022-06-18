@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 """
 Functions in this file are standalone commands. All standalone commands are split into
 two categories depending on whether they require the config to be loaded to be able to
@@ -38,7 +41,7 @@ def preconfig_version(_):
 
     version_str = f"""{__title__} version {__version__}
 
-Copyright (C) 2012-2021 jrnl contributors
+Copyright (C) 2012-2022 jrnl contributors
 
 This is free software, and you are welcome to redistribute it under certain
 conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""

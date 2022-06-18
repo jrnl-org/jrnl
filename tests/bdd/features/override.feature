@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 Feature: Implementing Runtime Overrides for Select Configuration Keys
 
         Scenario: Override configured editor with built-in input === editor:''
