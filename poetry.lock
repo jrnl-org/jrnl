@@ -768,7 +768,7 @@ pyyaml = "*"
 
 [[package]]
 name = "rich"
-version = "12.4.0"
+version = "12.4.4"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
@@ -956,7 +956,7 @@ testing = ["pytest", "pytest-bdd", "toml"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9.0, <3.12"
-content-hash = "7c8a664dc14ce88642bb27318d23b158c044022b791361c98997a3f518c7cd8b"
+content-hash = "856e4b1b114adf545c2f3180084e4d612ebdc5526da6693f872970344264e82c"
 
 [metadata.files]
 ansiwrap = [
@@ -1378,8 +1378,8 @@ pyyaml-env-tag = [
     {file = "pyyaml_env_tag-0.1.tar.gz", hash = "sha256:70092675bda14fdec33b31ba77e7543de9ddc88f2e5b99160396572d11525bdb"},
 ]
 rich = [
-    {file = "rich-12.4.0-py3-none-any.whl", hash = "sha256:fdf6f447f231289dd446d31e5ee856fb0cc7dccd852a80f3e9d5aeecccabaedc"},
-    {file = "rich-12.4.0.tar.gz", hash = "sha256:7aebf67874dc5cc2c89e2cb6ac322c95bd92510df2af0296c8bf494335ef704f"},
+    {file = "rich-12.4.4-py3-none-any.whl", hash = "sha256:d2bbd99c320a2532ac71ff6a3164867884357da3e3301f0240090c5d2fdac7ec"},
+    {file = "rich-12.4.4.tar.gz", hash = "sha256:4c586de507202505346f3e32d1363eb9ed6932f0c2f63184dea88983ff4971e2"},
 ]
 "ruamel.yaml" = [
     {file = "ruamel.yaml-0.17.21-py3-none-any.whl", hash = "sha256:742b35d3d665023981bd6d16b3d24248ce5df75fdb4e2924e93a05c1f8b61ca7"},
