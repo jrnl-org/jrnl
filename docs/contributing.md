@@ -27,7 +27,7 @@ Please report bugs by [opening a new issue](https://github.com/jrnl-org/jrnl/iss
 
 If you find a typo or a mistake in the docs, please fix it right away and send a pull request. If you're unsure what to change but still see a problem, you can [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) with the "Documentation change" type.
 
-To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `make html` (or `poetry run mkdocs serve` if on Windows) inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
+To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `poe docs` inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
 
 The `gh-pages` branch is automatically maintained and generated after your changes are merged. You should never have to edit that branch.
 
@@ -85,16 +85,20 @@ In general, pull requests should be made on the `develop` branch.
 
 ### Common development commands
 
-You can find an inventory of commands in the `makefile`. \*nix users can run the commands by typing `make` followed by the name of the command; however, Windows users will need to type out the commands directly, or install a third-party make tool such as [GNU Make for Windows](http://gnuwin32.sourceforge.net/packages/make.htm).
+You can find an inventory of commands in the `pyproject.toml`. Users can run the commands by typing `poe` followed by the name of the command ([Poe the Poet](https://github.com/nat-n/poethepoet) can be installed on its own, or as part of `poetry install`).
 
 A typical development workflow includes:
 
- * Installing dependencies: `poetry install`
- * Running tests: `make test`
- * Running the source in a virtual environment:
+ * Installing dependencies:
+    * `poetry install`
+ * Activate virtual environment:
     * `poetry shell`
+ * Running the source in a virtual environment:
     * `jrnl` (with or without arguments as necessary)
- * Linting the code to standardize its style: `make lint`
+ * Running tests:
+     * `poe test`
+ * Formatting the code to standardize its style:
+     * `poe format`
 
 ### Updating automated tests
 
