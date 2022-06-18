@@ -39,23 +39,12 @@ runs:
       echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
     shell: bash
 
-  - name: Code formatting (Black)
+  - name: Linting
     if: ${{ env.DEPS_INSTALLED == 'true' }}
-    run: |
-      poetry run black --version
-      poetry run black --check --diff .
+    run: poetry run poe ci-lint
     shell: bash
 
-  - name: Code Style (flake8)
-    if: >
-      ${{ env.DEPS_INSTALLED == 'true' }}
-    run: |
-      poetry run pflake8 --version
-      poetry run pflake8 jrnl tests
-    shell: bash
-
-  - name: Test with pytest
-    if: >
-      ${{ env.DEPS_INSTALLED == 'true' }}
-    run: poetry run pytest --junitxml=reports/pytest/results.xml
+  - name: Testing
+    if: ${{ env.DEPS_INSTALLED == 'true' }}
+    run: poetry run poe ci-test
     shell: bash

@@ -66,7 +66,7 @@ jobs:
         echo "node_modules/.bin" >> $GITHUB_PATH
 
     - name: Start docs server
-      run: poetry run mkdocs serve &
+      run: poetry run poe docs &
 
     - name: Generate sitemap
       env:
