@@ -10,6 +10,10 @@
 
 **Build:**
 
+- Use tox [\#1361](https://github.com/jrnl-org/jrnl/issues/1361)
+- Stop hardcoding bot info in changelog pipeline [\#1506](https://github.com/jrnl-org/jrnl/pull/1506) ([wren](https://github.com/wren))
+- Fix Poetry caching for accessibility tests [\#1505](https://github.com/jrnl-org/jrnl/pull/1505) ([wren](https://github.com/wren))
+- Implement Tox for testing [\#1504](https://github.com/jrnl-org/jrnl/pull/1504) ([wren](https://github.com/wren))
 - Replace `make` with python alternative \(`poe`\) [\#1503](https://github.com/jrnl-org/jrnl/pull/1503) ([wren](https://github.com/wren))
 - Update copyright year [\#1502](https://github.com/jrnl-org/jrnl/pull/1502) ([wren](https://github.com/wren))
 
