@@ -1,5 +1,8 @@
-<!-- Copyright (C) 2012-2021 jrnl contributors
-     License: https://www.gnu.org/licenses/gpl-3.0.html -->
+<!--
+Copyright (C) 2012-2022 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
 # Contributing to jrnl
 
 We welcome contributions to jrnl, whether it's through reporting bugs, improving the documentation, testing releases, engaging in discussion on features and bugs, or writing code.

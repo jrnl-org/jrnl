@@ -1,5 +1,6 @@
-# Copyright (C) 2012-2021 jrnl contributors
+# Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
+
 from jrnl.messages import Message
 from jrnl.output import print_msg
 
