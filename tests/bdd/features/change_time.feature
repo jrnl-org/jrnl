@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 Feature: Change entry times in journal
     Scenario Outline: Change time flag changes single entry timestamp
         Given we use the config "<config_file>"
