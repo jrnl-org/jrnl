@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta...HEAD)
+
+**Fixed bugs:**
+
+- Adding new entry with date only works with format m.d.Y [\#1509](https://github.com/jrnl-org/jrnl/issues/1509)
+
+**Build:**
+
+- Update copyright year [\#1502](https://github.com/jrnl-org/jrnl/pull/1502) ([wren](https://github.com/wren))
+
 ## [v3.0-beta](https://pypi.org/project/jrnl/v3.0-beta/) (2022-06-11)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4...v3.0-beta)
