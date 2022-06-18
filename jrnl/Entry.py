@@ -113,7 +113,7 @@ class Entry:
             if columns == "auto":
                 try:
                     columns = os.get_terminal_size()[0]
-                except:  # noqa: E722
+                except OSError:
                     logging.debug(
                         "Can't determine terminal size automatically 'linewrap': '%s'",
                         self.journal.config["linewrap"],
