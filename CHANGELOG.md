@@ -10,6 +10,7 @@
 
 **Build:**
 
+- Replace `make` with python alternative \(`poe`\) [\#1503](https://github.com/jrnl-org/jrnl/pull/1503) ([wren](https://github.com/wren))
 - Update copyright year [\#1502](https://github.com/jrnl-org/jrnl/pull/1502) ([wren](https://github.com/wren))
 
 ## [v3.0-beta](https://pypi.org/project/jrnl/v3.0-beta/) (2022-06-11)
