@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 Feature: Delete entries from journal
     Scenario Outline: Delete flag allows deletion of single entry
         Given we use the config "<config_file>"

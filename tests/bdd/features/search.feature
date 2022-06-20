@@ -1,3 +1,6 @@
+# Copyright (C) 2012-2022 jrnl contributors
+# License: https://www.gnu.org/licenses/gpl-3.0.html
+
 Feature: Searching in a journal
 
     Scenario Outline: Displaying entries using -on today should display entries created today

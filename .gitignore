@@ -14,6 +14,7 @@ eggs/
 lib64/
 parts/
 sdist/
+.tox/
 var/
 
 # Versioning
