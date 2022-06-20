@@ -198,9 +198,10 @@ class MsgText(Enum):
 
     ConfigDoubleKeys = """
         Warning: One or more keys appear multiple times at the same level
-        in your configuration file:
-            {duplicate_keys}
-    """
+        in your configuration file.
+
+        {error_message}
+        """
 
     # --- Password --- #
     Password = "Password:"

@@ -6,6 +6,7 @@ import os
 
 import colorama
 from ruamel.yaml import YAML
+from ruamel.yaml import constructor
 import xdg.BaseDirectory
 
 from . import __version__
@@ -162,21 +163,25 @@ def verify_config_colors(config):
 
 def load_config(config_path):
     """Tries to load a config file from YAML."""
-    # If duplicate keys at same level in config file, print warning
-    duplicate_keys = config_duplicate_keys(config_path)
-    if duplicate_keys:
+    try:
+        with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+            yaml = YAML(typ="safe")
+            yaml.allow_duplicate_keys = False
+            return yaml.load(f)
+    except constructor.DuplicateKeyError as e:
         print_msg(
             Message(
                 MsgText.ConfigDoubleKeys,
                 MsgStyle.WARNING,
-                {"duplicate_keys": duplicate_keys},
+                {
+                    "error_message": e,
+                },
             )
         )
-
-    with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-        yaml = YAML(typ="safe")
-        yaml.allow_duplicate_keys = True
-        return yaml.load(f)
+        with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+            yaml = YAML(typ="safe")
+            yaml.allow_duplicate_keys = True
+            return yaml.load(f)
 
 
 def is_config_json(config_path):
