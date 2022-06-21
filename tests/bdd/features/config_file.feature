@@ -106,3 +106,8 @@ Feature: Multiple journals
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf empty_file.yaml"
         Then the error output should contain "Unable to parse config file"
+
+    Scenario: Use a config file with linewrap set to 'auto'
+        Given we use the config "linewrap_auto.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "Life is good."
