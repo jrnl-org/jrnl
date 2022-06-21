@@ -111,7 +111,7 @@ class Entry:
 
             if columns == "auto":
                 try:
-                    columns = os.get_terminal_size()[0]
+                    columns = os.get_terminal_size().columns
                 except OSError:
                     logging.debug(
                         "Can't determine terminal size automatically 'linewrap': '%s'",
