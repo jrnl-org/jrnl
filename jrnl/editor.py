@@ -46,7 +46,7 @@ def get_text_from_editor(config, template=""):
     os.remove(tmpfile)
 
     if not raw:
-        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.ERROR))
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
 
     return raw
 

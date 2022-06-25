@@ -7,15 +7,24 @@
 **Fixed bugs:**
 
 - Adding new entry with date only works with format m.d.Y [\#1509](https://github.com/jrnl-org/jrnl/issues/1509)
+- Blank box displays when not making any changes in --edit [\#1501](https://github.com/jrnl-org/jrnl/issues/1501)
+- Display message when no edits take place [\#1510](https://github.com/jrnl-org/jrnl/pull/1510) ([apainintheneck](https://github.com/apainintheneck))
 
 **Build:**
 
 - Use tox [\#1361](https://github.com/jrnl-org/jrnl/issues/1361)
+- Reduce difference between local and CI environments [\#1518](https://github.com/jrnl-org/jrnl/pull/1518) ([wren](https://github.com/wren))
+- Add bdd tests for jrnl installation [\#1513](https://github.com/jrnl-org/jrnl/pull/1513) ([apainintheneck](https://github.com/apainintheneck))
 - Stop hardcoding bot info in changelog pipeline [\#1506](https://github.com/jrnl-org/jrnl/pull/1506) ([wren](https://github.com/wren))
 - Fix Poetry caching for accessibility tests [\#1505](https://github.com/jrnl-org/jrnl/pull/1505) ([wren](https://github.com/wren))
 - Implement Tox for testing [\#1504](https://github.com/jrnl-org/jrnl/pull/1504) ([wren](https://github.com/wren))
 - Replace `make` with python alternative \(`poe`\) [\#1503](https://github.com/jrnl-org/jrnl/pull/1503) ([wren](https://github.com/wren))
 - Update copyright year [\#1502](https://github.com/jrnl-org/jrnl/pull/1502) ([wren](https://github.com/wren))
+
+**Packaging:**
+
+- Bump cryptography from 37.0.2 to 37.0.3 [\#1516](https://github.com/jrnl-org/jrnl/pull/1516) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump poethepoet from 0.13.1 to 0.14.0 [\#1514](https://github.com/jrnl-org/jrnl/pull/1514) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v3.0-beta](https://pypi.org/project/jrnl/v3.0-beta/) (2022-06-11)
 

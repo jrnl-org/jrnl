@@ -3,13 +3,13 @@ name = "jrnl"
 version = "v3.0-beta"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
-    "jrnl contributors <jrnl-sh@googlegroups.com>",
+    "jrnl contributors <maintainers@jrnl.sh>",
     "Manuel Ebert <manuel@1450.me>",
     "Jonathan Wren <jonathan@nowandwren.com>",
     "Micah Ellison <micahellison@gmail.com>"
 ]
 maintainers = [
-    "Jonathan Wren and Micah Ellison <jrnl-sh@googlegroups.com>",
+    "Jonathan Wren and Micah Ellison <maintainers@jrnl.sh>",
 ]
 license = "GPL-3.0-only"
 readme = "README.md"
