@@ -39,12 +39,7 @@ runs:
       echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
     shell: bash
 
-  - name: Linting
-    if: ${{ env.DEPS_INSTALLED == 'true' }}
-    run: poetry run poe lint
-    shell: bash
-
-  - name: Testing
+  - name: Linting & Testing
     if: ${{ env.DEPS_INSTALLED == 'true' }}
     run: poetry run poe test
     shell: bash
