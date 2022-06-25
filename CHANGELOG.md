@@ -13,6 +13,8 @@
 **Build:**
 
 - Use tox [\#1361](https://github.com/jrnl-org/jrnl/issues/1361)
+- Reduce difference between local and CI environments [\#1518](https://github.com/jrnl-org/jrnl/pull/1518) ([wren](https://github.com/wren))
+- Add bdd tests for jrnl installation [\#1513](https://github.com/jrnl-org/jrnl/pull/1513) ([apainintheneck](https://github.com/apainintheneck))
 - Stop hardcoding bot info in changelog pipeline [\#1506](https://github.com/jrnl-org/jrnl/pull/1506) ([wren](https://github.com/wren))
 - Fix Poetry caching for accessibility tests [\#1505](https://github.com/jrnl-org/jrnl/pull/1505) ([wren](https://github.com/wren))
 - Implement Tox for testing [\#1504](https://github.com/jrnl-org/jrnl/pull/1504) ([wren](https://github.com/wren))
