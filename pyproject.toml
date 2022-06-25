@@ -44,40 +44,45 @@ pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations
 tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
-mkdocs = ">=1.0,<1.3"
 black = { version = ">=21.5b2", allow-prereleases = true }
-toml = ">=0.10"
+ipdb = "*"
+mkdocs = ">=1.0,<1.3"
+poethepoet = "*"
+pyproject-flake8 = "*"
 pytest = ">=6.2"
 pytest-bdd = ">=4.0.1"
-ipdb = "*"
-poethepoet = "*"
 pytest-clarity = "*"
-pyproject-flake8 = "*"
-yq = "*"
+toml = ">=0.10"
 tox = "*"
-
-[tool.poetry.extras]
-testing = [ "pytest", "pytest-bdd", "toml" ]
+yq = "*"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
 
 [tool.poe.tasks]
-format = "black ."
-format-check = "black --check --diff ."
-format-version = "black --version"
+format-run = [
+  {cmd = "black ."},
+]
+format-check = [
+  {cmd = "black --version"},
+  {cmd = "black --check --diff ."},
+]
+style-check = [
+  {cmd = "pflake8 --version"},
+  {cmd = "pflake8 jrnl tests"},
+]
+# docs-check = ?
+docs-run = [
+  {cmd = "mkdocs serve"},
+]
+test-run =[
+  {cmd = "tox -q -e py --"},
+]
 
-style-check = "pflake8 jrnl tests"
-style-version = "pflake8 --version"
-
-docs = "mkdocs serve"
-
-test-unit = "tox -q -e unit --"
-test-bdd = "tox -q -e bdd --"
-test-all = "tox -e py --"
-
-installer-check = "poetry check"
-installer-version = "poetry --version"
+installer-check = [
+  {cmd = "poetry --version"},
+  {cmd = "poetry check"},
+]
 
 # Groups of tasks
 lint = [
@@ -88,21 +93,7 @@ lint = [
 
 test = [
   "lint",
-  "test-unit",
-  "test-bdd",
-]
-
-ci-lint = [
-  "installer-version",
-  "installer-check",
-  "style-version",
-  "style-check",
-  "format-version",
-  "format-check",
-]
-
-ci-test = [
-  "test-all",
+  "test-run",
 ]
 
 [tool.isort]
@@ -125,7 +116,9 @@ markers = [
     "on_posix",
 ]
 addopts = [
-  "--pdbcls=IPython.terminal.debugger:Pdb"
+  "--pdbcls=IPython.terminal.debugger:Pdb",
+  "--gherkin-terminal-reporter",
+  "--tb=native",
 ]
 
 filterwarnings = [
@@ -147,7 +140,7 @@ build-backend = "poetry.core.masonry.api"
 # see: https://tox.wiki/en/latest/example/basic.html
 legacy_tox_ini = """
 [tox]
-envlist = py-{unit,bdd}
+envlist = py
 isolated_build = True
 
 [testenv]
@@ -155,13 +148,7 @@ deps =
   pytest >= 6.2
   pytest-bdd >=4.0.1
   toml >=0.10
-commands = pytest --junitxml=reports/pytest/results.xml {posargs}
+
+commands = pytest {posargs}
 passenv = HOME
-
-[testenv:unit]
-commands = pytest tests/unit {posargs}
-
-[testenv:bdd]
-commands = pytest tests/bdd --gherkin-terminal-reporter --tb=native {posargs}
 """
-
