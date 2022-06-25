@@ -1,15 +1,15 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from .dates_exporter import DatesExporter
-from .fancy_exporter import FancyExporter
-from .jrnl_importer import JRNLImporter
-from .json_exporter import JSONExporter
-from .markdown_exporter import MarkdownExporter
-from .tag_exporter import TagExporter
-from .text_exporter import TextExporter
-from .xml_exporter import XMLExporter
-from .yaml_exporter import YAMLExporter
+from jrnl.plugins.dates_exporter import DatesExporter
+from jrnl.plugins.fancy_exporter import FancyExporter
+from jrnl.plugins.jrnl_importer import JRNLImporter
+from jrnl.plugins.json_exporter import JSONExporter
+from jrnl.plugins.markdown_exporter import MarkdownExporter
+from jrnl.plugins.tag_exporter import TagExporter
+from jrnl.plugins.text_exporter import TextExporter
+from jrnl.plugins.xml_exporter import XMLExporter
+from jrnl.plugins.yaml_exporter import YAMLExporter
 
 __exporters = [
     JSONExporter,

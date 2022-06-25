@@ -8,7 +8,7 @@ from typing import NamedTuple
 from rich import box
 from rich.panel import Panel
 
-from .MsgText import MsgText
+from jrnl.messages.MsgText import MsgText
 
 
 class MsgStyle(Enum):

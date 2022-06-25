@@ -448,11 +448,11 @@ def open_journal(journal_name, config, legacy=False):
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
             config["journal"]
         ):
-            from . import DayOneJournal
+            from jrnl import DayOneJournal
 
             return DayOneJournal.DayOne(**config).open()
         else:
-            from . import FolderJournal
+            from jrnl import FolderJournal
 
             return FolderJournal.Folder(journal_name, **config).open()
 
@@ -460,12 +460,12 @@ def open_journal(journal_name, config, legacy=False):
         if legacy:
             return LegacyJournal(journal_name, **config).open()
         if config["journal"].endswith(os.sep):
-            from . import FolderJournal
+            from jrnl import FolderJournal
 
             return FolderJournal.Folder(journal_name, **config).open()
         return PlainJournal(journal_name, **config).open()
 
-    from . import EncryptedJournal
+    from jrnl import EncryptedJournal
 
     if legacy:
         return EncryptedJournal.LegacyEncryptedJournal(journal_name, **config).open()

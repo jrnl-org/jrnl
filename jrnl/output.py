@@ -26,7 +26,7 @@ def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
 
 
 def list_journals(configuration):
-    from . import config
+    from jrnl import config
 
     """List the journals specified in the configuration file"""
     result = f"Journals defined in config ({config.get_config_path()})\n"

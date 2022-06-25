@@ -4,8 +4,8 @@
 from typing import Mapping
 from typing import NamedTuple
 
-from .MsgStyle import MsgStyle
-from .MsgText import MsgText
+from jrnl.messages.MsgStyle import MsgStyle
+from jrnl.messages.MsgText import MsgText
 
 
 class Message(NamedTuple):

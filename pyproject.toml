@@ -111,7 +111,7 @@ test = [
 [tool.isort]
 profile = "black"
 force_single_line = true
-known_first_party = ["jrnl"]
+known_first_party = ["jrnl", "tests"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"

@@ -11,11 +11,10 @@ from pytest_bdd.parsers import parse
 from ruamel.yaml import YAML
 
 from jrnl.config import scope_config
-
-from .helpers import assert_equal_tags_ignoring_order
-from .helpers import does_directory_contain_files
-from .helpers import get_nested_val
-from .helpers import parse_should_or_should_not
+from tests.lib.helpers import assert_equal_tags_ignoring_order
+from tests.lib.helpers import does_directory_contain_files
+from tests.lib.helpers import get_nested_val
+from tests.lib.helpers import parse_should_or_should_not
 
 
 @then("we should get no error")
