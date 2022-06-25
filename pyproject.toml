@@ -53,6 +53,7 @@ pyproject-flake8 = "*"
 pytest = ">=6.2"
 pytest-bdd = ">=4.0.1"
 pytest-clarity = "*"
+pytest-xdist = ">=2.5.0"
 toml = ">=0.10"
 tox = "*"
 yq = "*"
@@ -129,6 +130,7 @@ addopts = [
   "--pdbcls=IPython.terminal.debugger:Pdb",
   "--gherkin-terminal-reporter",
   "--tb=native",
+  "-n=auto",
 ]
 
 filterwarnings = [
@@ -157,6 +159,7 @@ isolated_build = True
 deps =
   pytest >= 6.2
   pytest-bdd >=4.0.1
+  pytest-xdist >=2.5.0
   toml >=0.10
 
 commands = pytest {posargs}
