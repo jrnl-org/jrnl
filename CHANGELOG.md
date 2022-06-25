@@ -1,12 +1,11 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.0-beta2](https://pypi.org/project/jrnl/v3.0-beta2/) (2022-06-25)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta...v3.0-beta2)
 
 **Fixed bugs:**
 
-- Adding new entry with date only works with format m.d.Y [\#1509](https://github.com/jrnl-org/jrnl/issues/1509)
 - Blank box displays when not making any changes in --edit [\#1501](https://github.com/jrnl-org/jrnl/issues/1501)
 - Display message when no edits take place [\#1510](https://github.com/jrnl-org/jrnl/pull/1510) ([apainintheneck](https://github.com/apainintheneck))
 
