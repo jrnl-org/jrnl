@@ -14,8 +14,8 @@ from jrnl.config import scope_config
 
 from .helpers import assert_equal_tags_ignoring_order
 from .helpers import does_directory_contain_files
-from .helpers import parse_should_or_should_not
 from .helpers import get_nested_val
+from .helpers import parse_should_or_should_not
 
 
 @then("we should get no error")

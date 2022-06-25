@@ -6,15 +6,14 @@ import logging
 import os
 import re
 
-from . import Entry
-from . import time
-from .prompt import yesno
-from .path import expand_path
-
-from jrnl.output import print_msg
+from jrnl import Entry
+from jrnl import time
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
+from jrnl.path import expand_path
+from jrnl.prompt import yesno
 
 
 class Tag:

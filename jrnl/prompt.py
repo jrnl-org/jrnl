@@ -2,8 +2,8 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
 

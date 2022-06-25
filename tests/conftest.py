@@ -4,9 +4,8 @@
 from pytest import mark
 from pytest import skip
 
-from jrnl.os_compat import on_windows
 from jrnl.os_compat import on_posix
-
+from jrnl.os_compat import on_windows
 
 pytest_plugins = [
     "tests.lib.fixtures",

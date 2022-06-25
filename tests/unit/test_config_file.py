@@ -1,11 +1,12 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import pytest
 import os
 
-from jrnl.install import find_alt_config
+import pytest
+
 from jrnl.exception import JrnlException
+from jrnl.install import find_alt_config
 
 
 def test_find_alt_config(request):

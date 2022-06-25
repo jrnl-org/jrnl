@@ -1,11 +1,12 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from textwrap import TextWrapper
+
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
-from textwrap import TextWrapper
+from jrnl.messages import MsgText
 
 from .text_exporter import TextExporter
 

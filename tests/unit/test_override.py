@@ -1,6 +1,8 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from argparse import Namespace
+
 import pytest
 
 from jrnl.override import _convert_dots_to_list
@@ -8,8 +10,6 @@ from jrnl.override import _get_config_node
 from jrnl.override import _get_key_and_value_from_pair
 from jrnl.override import _recursively_apply
 from jrnl.override import apply_overrides
-
-from argparse import Namespace
 
 
 @pytest.fixture()

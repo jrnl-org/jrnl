@@ -2,10 +2,11 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from enum import Enum
-from typing import NamedTuple
 from typing import Callable
-from rich.panel import Panel
+from typing import NamedTuple
+
 from rich import box
+from rich.panel import Panel
 
 from .MsgText import MsgText
 

@@ -2,10 +2,10 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import textwrap
-
 from typing import Union
-from rich.text import Text
+
 from rich.console import Console
+from rich.text import Text
 
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle

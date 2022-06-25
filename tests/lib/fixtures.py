@@ -1,23 +1,23 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from collections import defaultdict
 import os
-from pathlib import Path
 import tempfile
-
+from collections import defaultdict
 from collections.abc import Iterable
+from pathlib import Path
+from unittest.mock import Mock
+from unittest.mock import patch
+
+import toml
 from keyring import backend
 from keyring import errors
 from pytest import fixture
-from unittest.mock import patch
-from unittest.mock import Mock
-from .helpers import get_fixture
-import toml
 from rich.console import Console
 
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
+from tests.lib.helpers import get_fixture
 
 
 # --- Keyring --- #

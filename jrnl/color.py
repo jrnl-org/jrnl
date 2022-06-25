@@ -7,7 +7,7 @@ from string import whitespace
 
 import colorama
 
-from .os_compat import on_windows
+from jrnl.os_compat import on_windows
 
 if on_windows():
     colorama.init()

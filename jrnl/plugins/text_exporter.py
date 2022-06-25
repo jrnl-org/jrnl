@@ -5,10 +5,10 @@ import os
 import re
 import unicodedata
 
-from jrnl.output import print_msg
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
 
 
 class TextExporter:

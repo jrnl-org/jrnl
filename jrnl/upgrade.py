@@ -3,21 +3,20 @@
 
 import os
 
-from . import Journal
-from . import __version__
-from .EncryptedJournal import EncryptedJournal
-from .config import is_config_json
-from .config import load_config
-from .config import scope_config
-from .prompt import yesno
-from .path import expand_path
-
-from jrnl.output import print_msg
-from jrnl.output import print_msgs
+from jrnl import Journal
+from jrnl import __version__
+from jrnl.config import is_config_json
+from jrnl.config import load_config
+from jrnl.config import scope_config
+from jrnl.EncryptedJournal import EncryptedJournal
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
+from jrnl.output import print_msgs
+from jrnl.path import expand_path
+from jrnl.prompt import yesno
 
 
 def backup(filename, binary=False):
