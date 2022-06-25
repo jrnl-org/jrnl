@@ -231,9 +231,9 @@ def mock_user_input(request, password_input, stdin_input):
                 return password_input
 
             if isinstance(user_input, Iterable):
-                Input_line = next(user_input)
+                input_line = next(user_input)
                 # A raw newline is used to indicate deliberate empty input
-                return "" if Input_line == r"\n" else Input_line
+                return "" if input_line == r"\n" else input_line
 
             # exceptions
             return user_input if not kwargs["password"] else password_input
