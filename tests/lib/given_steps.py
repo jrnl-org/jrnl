@@ -147,3 +147,10 @@ def parse_output_as_language(cli_run, language_name):
         assert False, f"Language name {language_name} not recognized"
 
     return {"lang": language_name, "obj": parsed_output}
+
+
+@given(parse('the home directory is called "{home_dir}"'))
+def home_directory(temp_dir, home_dir, monkeypatch):
+    home_path = os.path.join(temp_dir.name, home_dir)
+    monkeypatch.setenv("USERPROFILE", home_path)  # for windows
+    monkeypatch.setenv("HOME", home_path)  # for *nix
