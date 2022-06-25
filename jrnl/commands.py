@@ -73,7 +73,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     from jrnl.config import update_config
     from jrnl.EncryptedJournal import EncryptedJournal
     from jrnl.install import save_config
-    from jrnl.Journal import jrnlopen_journal
+    from jrnl.Journal import open_journal
 
     # Open the journal
     journal = open_journal(args.journal_name, config)
