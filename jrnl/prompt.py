@@ -2,8 +2,8 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
 
@@ -35,7 +35,7 @@ def create_password(journal_name: str) -> str:
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
-        from .EncryptedJournal import set_keychain
+        from jrnl.EncryptedJournal import set_keychain
 
         set_keychain(journal_name, pw)
 

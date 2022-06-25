@@ -4,24 +4,23 @@
 import logging
 import sys
 
-from . import install
-from . import plugins
-from .Journal import open_journal
-from .config import get_journal_name
-from .config import scope_config
-from .config import get_config_path
-from .editor import get_text_from_editor
-from .editor import get_text_from_stdin
-from . import time
-from .override import apply_overrides
+from jrnl import install
+from jrnl import plugins
+from jrnl import time
+from jrnl.config import get_config_path
+from jrnl.config import get_journal_name
+from jrnl.config import scope_config
+from jrnl.editor import get_text_from_editor
+from jrnl.editor import get_text_from_stdin
+from jrnl.exception import JrnlException
+from jrnl.Journal import open_journal
+from jrnl.messages import Message
+from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
-from .path import expand_path
-
-from jrnl.exception import JrnlException
-from jrnl.messages import Message
-from jrnl.messages import MsgText
-from jrnl.messages import MsgStyle
+from jrnl.override import apply_overrides
+from jrnl.path import expand_path
 
 
 def run(args):

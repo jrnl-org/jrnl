@@ -3,7 +3,7 @@
 
 import sys
 
-from .cli import cli
+from jrnl.cli import cli
 
 if __name__ == "__main__":
     sys.exit(cli())

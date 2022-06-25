@@ -5,14 +5,13 @@ import logging
 import sys
 import traceback
 
-from .jrnl import run
-from .args import parse_args
-from jrnl.output import print_msg
-
+from jrnl.args import parse_args
 from jrnl.exception import JrnlException
+from jrnl.jrnl import run
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
 
 
 def configure_logger(debug=False):

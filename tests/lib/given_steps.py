@@ -1,12 +1,12 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from datetime import datetime
 import json
 import os
 import random
 import shutil
 import string
+from datetime import datetime
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from xml.etree import ElementTree
@@ -16,10 +16,9 @@ from pytest_bdd.parsers import parse
 
 from jrnl import __version__
 from jrnl.time import __get_pdt_calendar
-
-from .fixtures import FailedKeyring
-from .fixtures import TestKeyring
-from .helpers import get_fixture
+from tests.lib.fixtures import FailedKeyring
+from tests.lib.fixtures import TestKeyring
+from tests.lib.helpers import get_fixture
 
 
 @given(parse("we {editor_method} to the editor if opened\n{editor_input}"))

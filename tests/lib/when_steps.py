@@ -1,8 +1,8 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from contextlib import ExitStack
 import os
+from contextlib import ExitStack
 
 from pytest_bdd import when
 from pytest_bdd.parsers import parse

@@ -46,6 +46,7 @@ tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGE
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
 ipdb = "*"
+isort = ">=5.10"
 mkdocs = ">=1.0,<1.3"
 poethepoet = "*"
 pyproject-flake8 = "*"
@@ -72,6 +73,13 @@ style-check = [
   {cmd = "pflake8 --version"},
   {cmd = "pflake8 jrnl tests"},
 ]
+sort-run = [
+  {cmd = "isort ."},
+]
+sort-check = [
+  {cmd = "isort --version"},
+  {cmd = "isort --check ."},
+]
 # docs-check = ?
 docs-run = [
   {cmd = "mkdocs serve"},
@@ -86,23 +94,25 @@ installer-check = [
 ]
 
 # Groups of tasks
+format = [
+  "format-run",
+  "sort-run",
+]
 lint = [
   "installer-check",
   "style-check",
+  "sort-check",
   "format-check",
 ]
-
 test = [
   "lint",
   "test-run",
 ]
 
 [tool.isort]
-multi_line_output = 7
+profile = "black"
 force_single_line = true
-line_length = 88
-known_first_party = ["jrnl"]
-force_sort_within_sections = true
+known_first_party = ["jrnl", "tests"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"

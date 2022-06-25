@@ -5,8 +5,8 @@ import codecs
 import fnmatch
 import os
 
-from . import Journal
-from . import time
+from jrnl import Journal
+from jrnl import time
 
 
 def get_files(journal_config):
