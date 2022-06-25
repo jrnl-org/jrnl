@@ -41,10 +41,10 @@ runs:
 
   - name: Linting
     if: ${{ env.DEPS_INSTALLED == 'true' }}
-    run: poetry run poe ci-lint
+    run: poetry run poe lint
     shell: bash
 
   - name: Testing
     if: ${{ env.DEPS_INSTALLED == 'true' }}
-    run: poetry run poe ci-test
+    run: poetry run poe test
     shell: bash
