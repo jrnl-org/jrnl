@@ -173,8 +173,9 @@ def search_mode(args, journal, **kwargs):
         "old_entries": journal.entries,
     }
 
-    # Filters the journal entries in place
-    _search_journal(**kwargs)
+    if _has_search_args(args):
+        _filter_journal_entries(**kwargs)
+        _print_entries_found_count(len(journal), args)
 
     # Where do the search results go?
     if args.edit:
@@ -195,6 +196,10 @@ def search_mode(args, journal, **kwargs):
             journal.entries = selected_entries
 
         _edit_search_results(**kwargs)
+
+    elif not journal:
+        # Bail out if there are no entries and we're not editing
+        return
 
     elif args.change_time:
         _change_time_search_results(**kwargs)
@@ -244,8 +249,28 @@ def _get_editor_template(config, **kwargs):
     return template
 
 
-def _search_journal(args, journal, **kwargs):
-    """Search the journal with the given args"""
+def _has_search_args(args):
+    return any(
+        (
+            args.on_date,
+            args.today_in_history,
+            args.text,
+            args.month,
+            args.day,
+            args.year,
+            args.start_date,
+            args.end_date,
+            args.strict,
+            args.starred,
+            args.excluded,
+            args.contains,
+            args.limit,
+        )
+    )
+
+
+def _filter_journal_entries(args, journal, **kwargs):
+    """Filter journal entries in-place based upon search args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
 
@@ -267,6 +292,27 @@ def _search_journal(args, journal, **kwargs):
         contains=args.contains,
     )
     journal.limit(args.limit)
+
+
+def _print_entries_found_count(count, args):
+    if count == 0:
+        if args.edit or args.change_time:
+            print_msg(Message(MsgText.NothingToModify, MsgStyle.WARNING))
+        elif args.delete:
+            print_msg(Message(MsgText.NothingToDelete, MsgStyle.WARNING))
+        else:
+            print_msg(Message(MsgText.NoEntriesFound, MsgStyle.NORMAL))
+    elif args.limit:
+        # Don't show count if the user expects a limited number of results
+        return
+    elif args.edit or not (args.change_time or args.delete):
+        # Don't show count if we are ONLY changing the time or deleting entries
+        my_msg = (
+            MsgText.EntryFoundCountSingular
+            if count == 1
+            else MsgText.EntryFoundCountPlural
+        )
+        print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
 
 
 def _other_entries(journal, entries):
@@ -352,9 +398,6 @@ def _get_predit_stats(journal):
 
 
 def _delete_search_results(journal, old_entries, **kwargs):
-    if not journal.entries:
-        raise JrnlException(Message(MsgText.NothingToDelete, MsgStyle.ERROR))
-
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
     if entries_to_delete:
@@ -365,9 +408,6 @@ def _delete_search_results(journal, old_entries, **kwargs):
 
 
 def _change_time_search_results(args, journal, old_entries, no_prompt=False, **kwargs):
-    if not journal.entries:
-        raise JrnlException(Message(MsgText.NothingToModify, MsgStyle.WARNING))
-
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
 

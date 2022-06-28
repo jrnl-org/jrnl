@@ -224,6 +224,10 @@ class MsgText(Enum):
         No entries to modify, because the search returned no results
         """
 
+    NoEntriesFound = "no entries found"
+    EntryFoundCountSingular = "{num} entry found"
+    EntryFoundCountPlural = "{num} entries found"
+
     # --- Formats --- #
     HeadingsPastH6 = """
         Headings increased past H6 on export - {date} {title}
