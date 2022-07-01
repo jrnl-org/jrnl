@@ -54,21 +54,23 @@ class TextExporter:
     def write_files(cls, journal, path):
         """Exports a journal into individual files for each entry."""
         for entry in journal.entries:
-            full_path = os.path.join(path, cls.make_filename(entry))
-            try:
-                with open(full_path, "w", encoding="utf-8") as f:
-                    f.write(cls.export_entry(entry))
-            except OSError as oserr:
-                if oserr.errno != errno.ENAMETOOLONG:
-                    raise
-                else:
-                    print("Oops OSError!")
-                    # ONLY AVAILABLE ON UNIX, SO FIX
-                    max_file_length = os.statvfs(path).f_namemax - len(cls.extension) - 12
-                    entry.title = str(entry.title)[:max_file_length]
-                    full_path = os.path.join(path, cls.make_filename(entry))
+            entry_is_written = False
+            while not entry_is_written:
+                full_path = os.path.join(path, cls.make_filename(entry))
+                try:
                     with open(full_path, "w", encoding="utf-8") as f:
                         f.write(cls.export_entry(entry))
+                        entry_is_written = True
+                except OSError as oserr:
+                    if oserr.errno == errno.ENAMETOOLONG:
+                        title_length = len(str(entry.title))
+                        if title_length > 1:
+                            shorter_file_length = title_length // 2
+                            entry.title = str(entry.title)[:shorter_file_length]
+                        else:
+                            raise
+                    else:
+                        raise
         print_msg(
             Message(
                 MsgText.JournalExportedTo,
