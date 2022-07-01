@@ -12,6 +12,7 @@ highlight: true
 indent_character: '|'
 journals:
   default: features/journals/simple.journal
+  longtitle: features/journals/long_title.journal
 linewrap: 80
 tagsymbols: '@'
 template: false
