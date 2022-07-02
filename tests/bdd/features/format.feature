@@ -584,12 +584,12 @@ Feature: Custom formats
         Given we use the config "format_md.yaml"
         And we create a cache directory
         When we run "jrnl longtitle --format markdown --file {cache_dir}"
-        Then the output should contain "Journal exported to"
+        Then the cache directory should contain 2 files
         And we should get no error
     
     Scenario: Export entries in text format with a title longer than max file name length.
         Given we use the config "format_text.yaml"
         And we create a cache directory
         When we run "jrnl longtitle --format text --file {cache_dir}"
-        Then the output should contain "Journal exported to"
+        Then the cache directory should contain 2 files
         And we should get no error

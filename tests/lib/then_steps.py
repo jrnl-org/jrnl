@@ -13,6 +13,7 @@ from ruamel.yaml import YAML
 from jrnl.config import scope_config
 from tests.lib.helpers import assert_equal_tags_ignoring_order
 from tests.lib.helpers import does_directory_contain_files
+from tests.lib.helpers import does_directory_contain_n_files
 from tests.lib.helpers import get_nested_val
 from tests.lib.helpers import parse_should_or_should_not
 
@@ -199,6 +200,11 @@ def password_was_not_called(cli_run):
 @then(parse("the cache directory should contain the files\n{file_list}"))
 def assert_dir_contains_files(file_list, cache_dir):
     assert does_directory_contain_files(file_list, cache_dir["path"])
+
+
+@then(parse("the cache directory should contain {number} files"))
+def assert_dir_contains_n_files(cache_dir, number):
+    assert does_directory_contain_n_files(cache_dir["path"], number)
 
 
 @then(parse("the journal directory should contain\n{file_list}"))

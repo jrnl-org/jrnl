@@ -17,6 +17,18 @@ def does_directory_contain_files(file_list, directory_path):
     return True
 
 
+def does_directory_contain_n_files(directory_path, number):
+    count = 0
+    if not os.path.isdir(directory_path):
+        return False
+
+    for path in os.scandir(directory_path):
+        if path.is_file():
+            count += 1
+
+    return int(number) == count
+
+
 def parse_should_or_should_not(should_or_should_not):
     if should_or_should_not == "should":
         return True
