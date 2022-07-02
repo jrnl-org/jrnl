@@ -63,7 +63,9 @@ class TextExporter:
                         entry_is_written = True
                 except OSError as oserr:
                     title_length = len(str(entry.title))
-                    if oserr.errno == errno.ENAMETOOLONG and title_length > 1:
+                    if (
+                        oserr.errno == errno.ENAMETOOLONG or oserr.errno == errno.ENOENT
+                    ) and title_length > 1:
                         shorter_file_length = title_length // 2
                         entry.title = str(entry.title)[:shorter_file_length]
                     else:
