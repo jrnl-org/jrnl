@@ -584,16 +584,12 @@ Feature: Custom formats
         Given we use the config "format_md.yaml"
         And we create a cache directory
         When we run "jrnl longtitle --format markdown --file {cache_dir}"
-        Then the cache directory should contain the files
-            2022-07-01_lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-sed-do-eiusmod-tempor-incididunt-ut-labore-et-dolore-magna-aliqua-laoreet-id-donec-ultrices-ti.md
-            2022-07-02_magna-fermentum-iaculis-eu-non-diam-phasellus-non-pulvinar-neque-laoreet-suspendisse-interdum-consectetur-libero-id-scelerisque-felis-i.md
+        Then the output should contain "Journal exported to"
         And we should get no error
     
     Scenario: Export entries in text format with a title longer than max file name length.
         Given we use the config "format_text.yaml"
         And we create a cache directory
         When we run "jrnl longtitle --format text --file {cache_dir}"
-        Then the cache directory should contain the files
-            2022-07-01_lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-sed-do-eiusmod-tempor-incididunt-ut-labore-et-dolore-magna-aliqua-laoreet-id-donec-ultrices-ti.txt
-            2022-07-02_magna-fermentum-iaculis-eu-non-diam-phasellus-non-pulvinar-neque-laoreet-suspendisse-interdum-consectetur-libero-id-scelerisque-felis-i.txt
+        Then the output should contain "Journal exported to"
         And we should get no error
