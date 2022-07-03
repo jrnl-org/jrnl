@@ -10,10 +10,10 @@ import re
 import socket
 import time
 import uuid
+import zoneinfo
 from pathlib import Path
 from xml.parsers.expat import ExpatError
 
-import pytz
 import tzlocal
 
 from jrnl import Entry
@@ -39,10 +39,6 @@ class DayOne(Journal.Journal):
         super().__init__(**kwargs)
 
     def open(self):
-        filenames = [
-            os.path.join(self.config["journal"], "entries", f)
-            for f in os.listdir(os.path.join(self.config["journal"], "entries"))
-        ]
         filenames = []
         for root, dirnames, f in os.walk(self.config["journal"]):
             for filename in fnmatch.filter(f, "*.doentry"):
@@ -56,14 +52,14 @@ class DayOne(Journal.Journal):
                     pass
                 else:
                     try:
-                        timezone = pytz.timezone(dict_entry["Time Zone"])
-                    except (KeyError, pytz.exceptions.UnknownTimeZoneError):
-                        timezone = tzlocal.get_localzone()
+                        timezone = zoneinfo.ZoneInfo(dict_entry["Time Zone"])
+                    except KeyError:
+                        timezone = tzlocal.get_localzone().unwrap_shim()
                     date = dict_entry["Creation Date"]
                     # convert the date to UTC rather than keep messing with
                     # timezones
-                    if timezone.zone != "UTC":
-                        date = date + timezone.utcoffset(date, is_dst=False)
+                    if timezone.key != "UTC":
+                        date = date.replace(fold=1) + timezone.utcoffset(date)
 
                     entry = Entry.Entry(
                         self,
