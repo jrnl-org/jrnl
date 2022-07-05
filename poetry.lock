@@ -1038,7 +1038,7 @@ python-versions = ">=3.4"
 
 [[package]]
 name = "yq"
-version = "2.14.0"
+version = "3.0.1"
 description = "Command-line YAML/XML processor - jq wrapper for YAML/XML documents"
 category = "dev"
 optional = false
@@ -1628,8 +1628,8 @@ xmltodict = [
     {file = "xmltodict-0.13.0.tar.gz", hash = "sha256:341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"},
 ]
 yq = [
-    {file = "yq-2.14.0-py3-none-any.whl", hash = "sha256:b6321b29cb39c4e92a4a6f16d47d99a024650211e45e09a02d1906ec45fbaede"},
-    {file = "yq-2.14.0.tar.gz", hash = "sha256:f4bf2b299d1e5c7ebd74cfb25d1f5d9b6401063bac07a2d09a156144c1d644e1"},
+    {file = "yq-3.0.1-py3-none-any.whl", hash = "sha256:c1eb65b8662bb4cdeb2372f4ceb6144d09871599a3c28ddc608cf17d31ee7294"},
+    {file = "yq-3.0.1.tar.gz", hash = "sha256:a5e61078facd7ee4222f4346b5b50c4e9cea5e9d3330f074b5ea2c203bf639b1"},
 ]
 zipp = [
     {file = "zipp-3.8.0-py3-none-any.whl", hash = "sha256:c4f6e5bbf48e74f7a38e7cc5b0480ff42b0ae5178957d564d18932525d5cf099"},
