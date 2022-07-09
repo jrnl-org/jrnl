@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta2...HEAD)
+
+**Build:**
+
+- Pin `pytest-bdd` to \<6.0 to temporarily avoid breaking changes [\#1536](https://github.com/jrnl-org/jrnl/pull/1536) ([wren](https://github.com/wren))
+
 ## [v3.0-beta2](https://pypi.org/project/jrnl/v3.0-beta2/) (2022-06-25)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta...v3.0-beta2)
