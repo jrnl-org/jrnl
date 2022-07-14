@@ -54,7 +54,8 @@ class DayOne(Journal.Journal):
                     try:
                         timezone = zoneinfo.ZoneInfo(dict_entry["Time Zone"])
                     except KeyError:
-                        timezone = tzlocal.get_localzone().unwrap_shim()
+                        timezone_name = str(tzlocal.get_localzone())
+                        timezone = zoneinfo.ZoneInfo(timezone_name)
                     date = dict_entry["Creation Date"]
                     # convert the date to UTC rather than keep messing with
                     # timezones
