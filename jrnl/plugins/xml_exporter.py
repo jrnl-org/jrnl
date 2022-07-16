@@ -3,8 +3,8 @@
 
 from xml.dom import minidom
 
-from .json_exporter import JSONExporter
-from .util import get_tags_count
+from jrnl.plugins.json_exporter import JSONExporter
+from jrnl.plugins.util import get_tags_count
 
 
 class XMLExporter(JSONExporter):

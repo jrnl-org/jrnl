@@ -11,11 +11,10 @@ from pytest_bdd.parsers import parse
 from ruamel.yaml import YAML
 
 from jrnl.config import scope_config
-
-from .helpers import assert_equal_tags_ignoring_order
-from .helpers import does_directory_contain_files
-from .helpers import parse_should_or_should_not
-from .helpers import get_nested_val
+from tests.lib.helpers import assert_equal_tags_ignoring_order
+from tests.lib.helpers import does_directory_contain_files
+from tests.lib.helpers import get_nested_val
+from tests.lib.helpers import parse_should_or_should_not
 
 
 @then("we should get no error")
@@ -97,12 +96,34 @@ def output_should_contain_version(cli_run, toml_version):
     assert toml_version in out, toml_version
 
 
+@then("the version in the config file should be up-to-date")
+def config_file_version(config_on_disk, toml_version):
+    config_version = config_on_disk["version"]
+    assert config_version == toml_version
+
+
 @then(parse("the output should be {width:d} columns wide"))
 def output_should_be_columns_wide(cli_run, width):
     out = cli_run["stdout"]
     out_lines = out.splitlines()
     for line in out_lines:
         assert len(line) <= width
+
+
+@then(
+    parse(
+        'the default journal "{journal_file}" should be in the "{journal_dir}" directory'
+    )
+)
+def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir):
+    default_journal_path = config_on_disk["journals"]["default"]
+    expected_journal_path = (
+        os.path.join(temp_dir.name, journal_file)
+        if journal_dir == "."
+        else os.path.join(temp_dir.name, journal_dir, journal_file)
+    )
+    # Use os.path.samefile here because both paths might not be fully expanded.
+    assert os.path.samefile(default_journal_path, expected_journal_path)
 
 
 @then(

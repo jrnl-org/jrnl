@@ -6,8 +6,8 @@ import re
 
 import ansiwrap
 
-from .color import colorize
-from .color import highlight_tags_with_background_color
+from jrnl.color import colorize
+from jrnl.color import highlight_tags_with_background_color
 
 
 class Entry:

@@ -1,23 +1,23 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from collections import defaultdict
 import os
-from pathlib import Path
 import tempfile
-
+from collections import defaultdict
 from collections.abc import Iterable
+from pathlib import Path
+from unittest.mock import Mock
+from unittest.mock import patch
+
+import toml
 from keyring import backend
 from keyring import errors
 from pytest import fixture
-from unittest.mock import patch
-from unittest.mock import Mock
-from .helpers import get_fixture
-import toml
 from rich.console import Console
 
 from jrnl.config import load_config
 from jrnl.os_compat import split_args
+from tests.lib.helpers import get_fixture
 
 
 # --- Keyring --- #
@@ -88,6 +88,7 @@ def cli_run(
     mock_editor,
     mock_user_input,
     mock_overrides,
+    mock_default_journal_path,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -96,6 +97,7 @@ def cli_run(
     mock_factories.update(mock_editor)
     mock_factories.update(mock_config_path)
     mock_factories.update(mock_user_input)
+    mock_factories.update(mock_default_journal_path)
 
     return {
         "status": 0,
@@ -165,6 +167,19 @@ def mock_config_path(request):
 
 
 @fixture
+def mock_default_journal_path(temp_dir):
+    journal_path = os.path.join(temp_dir.name, "journal.txt")
+    return {
+        "default_journal_path_install": lambda: patch(
+            "jrnl.install.get_default_journal_path", return_value=journal_path
+        ),
+        "default_journal_path_config": lambda: patch(
+            "jrnl.config.get_default_journal_path", return_value=journal_path
+        ),
+    }
+
+
+@fixture
 def temp_dir():
     return tempfile.TemporaryDirectory()
 
@@ -216,7 +231,9 @@ def mock_user_input(request, password_input, stdin_input):
                 return password_input
 
             if isinstance(user_input, Iterable):
-                return next(user_input)
+                input_line = next(user_input)
+                # A raw newline is used to indicate deliberate empty input
+                return "" if input_line == r"\n" else input_line
 
             # exceptions
             return user_input if not kwargs["password"] else password_input

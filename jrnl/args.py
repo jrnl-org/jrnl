@@ -5,16 +5,16 @@ import argparse
 import re
 import textwrap
 
-from .commands import postconfig_decrypt
-from .commands import postconfig_encrypt
-from .commands import postconfig_import
-from .commands import postconfig_list
-from .commands import preconfig_diagnostic
-from .commands import preconfig_version
-from .output import deprecated_cmd
-from .plugins import EXPORT_FORMATS
-from .plugins import IMPORT_FORMATS
-from .plugins import util
+from jrnl.commands import postconfig_decrypt
+from jrnl.commands import postconfig_encrypt
+from jrnl.commands import postconfig_import
+from jrnl.commands import postconfig_list
+from jrnl.commands import preconfig_diagnostic
+from jrnl.commands import preconfig_version
+from jrnl.output import deprecated_cmd
+from jrnl.plugins import EXPORT_FORMATS
+from jrnl.plugins import IMPORT_FORMATS
+from jrnl.plugins import util
 
 
 class WrappingFormatter(argparse.RawTextHelpFormatter):

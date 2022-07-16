@@ -18,15 +18,14 @@ from cryptography.hazmat.primitives.ciphers import algorithms
 from cryptography.hazmat.primitives.ciphers import modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-from .Journal import Journal
-from .Journal import LegacyJournal
-from .prompt import create_password
-
 from jrnl.exception import JrnlException
+from jrnl.Journal import Journal
+from jrnl.Journal import LegacyJournal
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.output import print_msg
+from jrnl.prompt import create_password
 
 
 def make_key(password):

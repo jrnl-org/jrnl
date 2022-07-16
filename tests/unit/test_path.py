@@ -1,16 +1,16 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import pytest
 import random
 import string
-
 from os import getenv
 from unittest.mock import patch
 
-from jrnl.path import home_dir
-from jrnl.path import expand_path
+import pytest
+
 from jrnl.path import absolute_path
+from jrnl.path import expand_path
+from jrnl.path import home_dir
 
 
 @pytest.fixture

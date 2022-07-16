@@ -6,24 +6,23 @@ import logging
 import os
 import sys
 
-from .path import home_dir
-from .path import absolute_path
-from .path import expand_path
-from .config import DEFAULT_JOURNAL_KEY
-from .config import get_config_path
-from .config import get_default_config
-from .config import get_default_journal_path
-from .config import load_config
-from .config import save_config
-from .config import verify_config_colors
-from .prompt import yesno
-from .upgrade import is_old_version
-
-from jrnl.output import print_msg
+from jrnl.config import DEFAULT_JOURNAL_KEY
+from jrnl.config import get_config_path
+from jrnl.config import get_default_config
+from jrnl.config import get_default_journal_path
+from jrnl.config import load_config
+from jrnl.config import save_config
+from jrnl.config import verify_config_colors
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
+from jrnl.path import absolute_path
+from jrnl.path import expand_path
+from jrnl.path import home_dir
+from jrnl.prompt import yesno
+from jrnl.upgrade import is_old_version
 
 
 def upgrade_config(config_data, alt_config_path=None):
