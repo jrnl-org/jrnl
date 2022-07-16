@@ -89,5 +89,9 @@ def _add_extra_style_args_if_needed(args, msg):
 
 
 def format_msg_text(msg: Message) -> Text:
-    text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
+    text = textwrap.dedent(msg.text.value)
+    text = text.format(**msg.params)
+    # dedent again in case inserted text needs it
+    text = textwrap.dedent(text)
+    text = text.strip()
     return Text(text)
