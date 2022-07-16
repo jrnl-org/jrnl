@@ -7,6 +7,7 @@ import os
 import colorama
 import xdg.BaseDirectory
 from ruamel.yaml import YAML
+from ruamel.yaml import constructor
 
 from jrnl import __version__
 from jrnl.exception import JrnlException
@@ -159,10 +160,25 @@ def verify_config_colors(config):
 
 def load_config(config_path):
     """Tries to load a config file from YAML."""
-    with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-        yaml = YAML(typ="safe")
-        yaml.allow_duplicate_keys = True
-        return yaml.load(f)
+    try:
+        with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+            yaml = YAML(typ="safe")
+            yaml.allow_duplicate_keys = False
+            return yaml.load(f)
+    except constructor.DuplicateKeyError as e:
+        print_msg(
+            Message(
+                MsgText.ConfigDoubleKeys,
+                MsgStyle.WARNING,
+                {
+                    "error_message": e,
+                },
+            )
+        )
+        with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+            yaml = YAML(typ="safe")
+            yaml.allow_duplicate_keys = True
+            return yaml.load(f)
 
 
 def is_config_json(config_path):
