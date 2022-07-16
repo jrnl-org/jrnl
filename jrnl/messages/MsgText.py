@@ -197,9 +197,9 @@ class MsgText(Enum):
         """
 
     ConfigDoubleKeys = """
-        Warning: One or more keys appear multiple times at the same level
-        in your configuration file.
+        There is at least one duplicate key in your configuration file.
 
+        Details:
         {error_message}
         """
 
