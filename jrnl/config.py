@@ -5,10 +5,9 @@ import logging
 import os
 
 import colorama
-from ruamel.yaml import YAML
-from ruamel.yaml import constructor
 import xdg.BaseDirectory
 from ruamel.yaml import YAML
+from ruamel.yaml import constructor
 
 from jrnl import __version__
 from jrnl.exception import JrnlException
@@ -18,7 +17,6 @@ from jrnl.messages import MsgText
 from jrnl.output import list_journals
 from jrnl.output import print_msg
 from jrnl.path import home_dir
-
 
 # Constants
 DEFAULT_CONFIG_NAME = "jrnl.yaml"
