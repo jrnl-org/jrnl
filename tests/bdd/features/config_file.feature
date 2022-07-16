@@ -111,15 +111,15 @@ Feature: Multiple journals
         Given the config "duplicate_keys.yaml" exists
         And we use the config "duplicate_keys.yaml"
         When we run "jrnl -1"
-        Then the output should contain "One or more keys appear multiple times at the same level"
+        Then the output should contain "There is at least one duplicate key in your configuration file"
     
     Scenario: Show a warning message when using --config-file with duplicate keys
         Given the config "duplicate_keys.yaml" exists
         And we use the config "multiple.yaml"
         When we run "jrnl --cf duplicate_keys.yaml -1"
-        Then the output should contain "One or more keys appear multiple times at the same level"
+        Then the output should contain "There is at least one duplicate key in your configuration file"
 
     Scenario: Don't show a duplicate keys warning message when using --config-override on an existing value
         Given we use the config "multiple.yaml"
         When we run "jrnl --config-override highlight false"
-        Then the output should not contain "One or more keys appear multiple times at the same level"
+        Then the output should not contain "There is at least one duplicate key in your configuration file"
