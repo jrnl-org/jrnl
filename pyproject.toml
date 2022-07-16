@@ -128,7 +128,6 @@ markers = [
 ]
 addopts = [
   "--pdbcls=IPython.terminal.debugger:Pdb",
-  "--gherkin-terminal-reporter",
   "--tb=native",
   "-n=auto",
 ]
