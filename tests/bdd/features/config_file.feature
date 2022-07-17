@@ -111,6 +111,12 @@ Feature: Multiple journals
         Given we use the config "linewrap_auto.yaml"
         When we run "jrnl -1"
         Then the output should contain "Life is good."
+
+    Scenario: Use a config file with linewrap set to 'auto' and use format 'fancy'
+        Given we use the config "linewrap_auto.yaml"
+        When we run "jrnl -1 --format fancy"
+        Then the output should contain "Life is good."
+
     Scenario: Show a warning message when the config file contains duplicate keys at the same level
         Given the config "duplicate_keys.yaml" exists
         And we use the config "duplicate_keys.yaml"
