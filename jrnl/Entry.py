@@ -2,12 +2,11 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import datetime
+import logging
+import os
 import re
 
 import ansiwrap
-
-import os
-import logging
 
 from .color import colorize
 from .color import highlight_tags_with_background_color
