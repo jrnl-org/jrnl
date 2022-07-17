@@ -1,15 +1,15 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import random
+import string
 from unittest import mock
 
 import pytest
 
-import random
-import string
 import jrnl
-from jrnl.jrnl import _display_search_results
 from jrnl.args import parse_args
+from jrnl.jrnl import _display_search_results
 
 
 @pytest.fixture

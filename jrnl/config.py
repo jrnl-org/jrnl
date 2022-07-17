@@ -5,18 +5,18 @@ import logging
 import os
 
 import colorama
-from ruamel.yaml import YAML
 import xdg.BaseDirectory
+from ruamel.yaml import YAML
+from ruamel.yaml import constructor
 
-from . import __version__
-from jrnl.output import list_journals
-from jrnl.output import print_msg
+from jrnl import __version__
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
-
-from .path import home_dir
+from jrnl.messages import MsgText
+from jrnl.output import list_journals
+from jrnl.output import print_msg
+from jrnl.path import home_dir
 
 # Constants
 DEFAULT_CONFIG_NAME = "jrnl.yaml"
@@ -160,10 +160,25 @@ def verify_config_colors(config):
 
 def load_config(config_path):
     """Tries to load a config file from YAML."""
-    with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-        yaml = YAML(typ="safe")
-        yaml.allow_duplicate_keys = True
-        return yaml.load(f)
+    try:
+        with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+            yaml = YAML(typ="safe")
+            yaml.allow_duplicate_keys = False
+            return yaml.load(f)
+    except constructor.DuplicateKeyError as e:
+        print_msg(
+            Message(
+                MsgText.ConfigDoubleKeys,
+                MsgStyle.WARNING,
+                {
+                    "error_message": e,
+                },
+            )
+        )
+        with open(config_path, encoding=YAML_FILE_ENCODING) as f:
+            yaml = YAML(typ="safe")
+            yaml.allow_duplicate_keys = True
+            return yaml.load(f)
 
 
 def is_config_json(config_path):

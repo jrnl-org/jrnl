@@ -8,14 +8,13 @@ import sys
 import tempfile
 from pathlib import Path
 
+from jrnl.exception import JrnlException
+from jrnl.messages import Message
+from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.os_compat import on_windows
 from jrnl.os_compat import split_args
 from jrnl.output import print_msg
-
-from jrnl.exception import JrnlException
-from jrnl.messages import Message
-from jrnl.messages import MsgText
-from jrnl.messages import MsgStyle
 
 
 def get_text_from_editor(config, template=""):
@@ -46,7 +45,7 @@ def get_text_from_editor(config, template=""):
     os.remove(tmpfile)
 
     if not raw:
-        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.ERROR))
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
 
     return raw
 

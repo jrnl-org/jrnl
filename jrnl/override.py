@@ -1,8 +1,11 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from .config import update_config, make_yaml_valid_dict
 from argparse import Namespace
+
+from jrnl.config import make_yaml_valid_dict
+from jrnl.config import update_config
+
 
 # import logging
 def apply_overrides(args: Namespace, base_config: dict) -> dict:

@@ -4,12 +4,11 @@
 import os
 import re
 
-from .text_exporter import TextExporter
-
-from jrnl.output import print_msg
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
+from jrnl.plugins.text_exporter import TextExporter
 
 
 class MarkdownExporter(TextExporter):

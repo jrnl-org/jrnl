@@ -2,10 +2,10 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import textwrap
-
 from typing import Union
-from rich.text import Text
+
 from rich.console import Console
+from rich.text import Text
 
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -26,7 +26,7 @@ def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
 
 
 def list_journals(configuration):
-    from . import config
+    from jrnl import config
 
     """List the journals specified in the configuration file"""
     result = f"Journals defined in config ({config.get_config_path()})\n"
@@ -89,5 +89,9 @@ def _add_extra_style_args_if_needed(args, msg):
 
 
 def format_msg_text(msg: Message) -> Text:
-    text = textwrap.dedent(msg.text.value.format(**msg.params)).strip()
+    text = textwrap.dedent(msg.text.value)
+    text = text.format(**msg.params)
+    # dedent again in case inserted text needs it
+    text = textwrap.dedent(text)
+    text = text.strip()
     return Text(text)

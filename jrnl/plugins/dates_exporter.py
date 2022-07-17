@@ -3,7 +3,7 @@
 
 from collections import Counter
 
-from .text_exporter import TextExporter
+from jrnl.plugins.text_exporter import TextExporter
 
 
 class DatesExporter(TextExporter):

@@ -1,8 +1,8 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from contextlib import ExitStack
 import os
+from contextlib import ExitStack
 
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
@@ -23,6 +23,8 @@ def when_we_change_directory(directory_name):
 command = '(?P<command>[^"]*)'
 input_method = "(?P<input_method>enter|pipe|type)"
 all_input = '("(?P<all_input>[^"]*)")'
+# Note: A line with only a raw newline r'\n' is treated as
+# an empty line of input internally for testing purposes.
 
 
 @when(parse('we run "jrnl {command}" and {input_method}\n{all_input}'))

@@ -3,8 +3,8 @@
 
 import json
 
-from .text_exporter import TextExporter
-from .util import get_tags_count
+from jrnl.plugins.text_exporter import TextExporter
+from jrnl.plugins.util import get_tags_count
 
 
 class JSONExporter(TextExporter):

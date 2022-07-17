@@ -4,22 +4,22 @@
 import datetime
 import fnmatch
 import os
-from pathlib import Path
 import platform
 import plistlib
 import re
 import socket
 import time
 import uuid
+from pathlib import Path
 from xml.parsers.expat import ExpatError
 
 import pytz
 import tzlocal
 
-from . import Entry
-from . import Journal
-from . import __title__
-from . import __version__
+from jrnl import Entry
+from jrnl import Journal
+from jrnl import __title__
+from jrnl import __version__
 
 
 class DayOne(Journal.Journal):

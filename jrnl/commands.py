@@ -17,11 +17,11 @@ avoid any possible overhead for these standalone commands.
 import platform
 import sys
 
-from jrnl.output import print_msg
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
-from jrnl.messages import MsgText
 from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
+from jrnl.output import print_msg
 from jrnl.prompt import create_password
 
 
@@ -50,14 +50,14 @@ conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
 
 
 def postconfig_list(config, **kwargs):
-    from .output import list_journals
+    from jrnl.output import list_journals
 
     print(list_journals(config))
 
 
 def postconfig_import(args, config, **kwargs):
-    from .Journal import open_journal
-    from .plugins import get_importer
+    from jrnl.Journal import open_journal
+    from jrnl.plugins import get_importer
 
     # Requires opening the journal
     journal = open_journal(args.journal_name, config)
@@ -70,10 +70,10 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     """
     Encrypt a journal in place, or optionally to a new file
     """
-    from .EncryptedJournal import EncryptedJournal
-    from .Journal import open_journal
-    from .config import update_config
-    from .install import save_config
+    from jrnl.config import update_config
+    from jrnl.EncryptedJournal import EncryptedJournal
+    from jrnl.install import save_config
+    from jrnl.Journal import open_journal
 
     # Open the journal
     journal = open_journal(args.journal_name, config)
@@ -118,10 +118,10 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
 
 def postconfig_decrypt(args, config, original_config, **kwargs):
     """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
-    from .Journal import PlainJournal
-    from .Journal import open_journal
-    from .config import update_config
-    from .install import save_config
+    from jrnl.config import update_config
+    from jrnl.install import save_config
+    from jrnl.Journal import PlainJournal
+    from jrnl.Journal import open_journal
 
     journal = open_journal(args.journal_name, config)
     journal.config["encrypt"] = False

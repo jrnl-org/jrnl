@@ -2,12 +2,13 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from enum import Enum
-from typing import NamedTuple
 from typing import Callable
-from rich.panel import Panel
-from rich import box
+from typing import NamedTuple
 
-from .MsgText import MsgText
+from rich import box
+from rich.panel import Panel
+
+from jrnl.messages.MsgText import MsgText
 
 
 class MsgStyle(Enum):

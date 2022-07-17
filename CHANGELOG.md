@@ -2,28 +2,18 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta...HEAD)
-
-**Fixed bugs:**
-
-- Adding new entry with date only works with format m.d.Y [\#1509](https://github.com/jrnl-org/jrnl/issues/1509)
-
-**Build:**
-
-- Use tox [\#1361](https://github.com/jrnl-org/jrnl/issues/1361)
-- Stop hardcoding bot info in changelog pipeline [\#1506](https://github.com/jrnl-org/jrnl/pull/1506) ([wren](https://github.com/wren))
-- Fix Poetry caching for accessibility tests [\#1505](https://github.com/jrnl-org/jrnl/pull/1505) ([wren](https://github.com/wren))
-- Implement Tox for testing [\#1504](https://github.com/jrnl-org/jrnl/pull/1504) ([wren](https://github.com/wren))
-- Replace `make` with python alternative \(`poe`\) [\#1503](https://github.com/jrnl-org/jrnl/pull/1503) ([wren](https://github.com/wren))
-- Update copyright year [\#1502](https://github.com/jrnl-org/jrnl/pull/1502) ([wren](https://github.com/wren))
-
-## [v3.0-beta](https://pypi.org/project/jrnl/v3.0-beta/) (2022-06-11)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v2.8.4...v3.0-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0...HEAD)
 
 **Implemented enhancements:**
 
-- Add --change-time command to change the timestamp of an entry [\#1429](https://github.com/jrnl-org/jrnl/issues/1429)
+- Warn user when there are duplicate keys in the config file [\#1415](https://github.com/jrnl-org/jrnl/issues/1415)
+
+## [v3.0](https://pypi.org/project/jrnl/v3.0/) (2022-07-09)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta2...v3.0)
+
+**Implemented enhancements:**
+
 - Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
 - Rework how all output and messaging works in jrnl [\#1475](https://github.com/jrnl-org/jrnl/pull/1475) ([wren](https://github.com/wren))
 - Implement --change-time flag [\#1452](https://github.com/jrnl-org/jrnl/pull/1452) ([richardjs](https://github.com/richardjs))
@@ -32,14 +22,7 @@
 
 **Fixed bugs:**
 
-- --debug leads to logging error after composing new entry [\#1496](https://github.com/jrnl-org/jrnl/issues/1496)
-- Using -not argument by itself leads to new entry creation [\#1472](https://github.com/jrnl-org/jrnl/issues/1472)
-- Empty config file leads to confusing error message [\#1420](https://github.com/jrnl-org/jrnl/issues/1420)
-- "Entry not saved" text doesn't appear in default stdin editor [\#1419](https://github.com/jrnl-org/jrnl/issues/1419)
-- jrnl --encrypt doesn't prompt me for password change [\#1358](https://github.com/jrnl-org/jrnl/issues/1358)
-- '-not -contains x' raises an AttributeError exception [\#1350](https://github.com/jrnl-org/jrnl/issues/1350)
-- Exception when providing folder name of folder that does not exist as journal path [\#1293](https://github.com/jrnl-org/jrnl/issues/1293)
-- display\_format: pretty and display\_format: short lead to crash [\#1263](https://github.com/jrnl-org/jrnl/issues/1263)
+- Display message when no edits take place [\#1510](https://github.com/jrnl-org/jrnl/pull/1510) ([apainintheneck](https://github.com/apainintheneck))
 - Fixed error related to display\_format in config file for some values [\#1495](https://github.com/jrnl-org/jrnl/pull/1495) ([apainintheneck](https://github.com/apainintheneck))
 - Create folder if config ends with \(back\)slash [\#1492](https://github.com/jrnl-org/jrnl/pull/1492) ([jonakeys](https://github.com/jonakeys))
 - `-not` search parameter no longer opens editor [\#1490](https://github.com/jrnl-org/jrnl/pull/1490) ([apainintheneck](https://github.com/apainintheneck))
@@ -53,12 +36,18 @@
 
 **Deprecated:**
 
-- Remove "sample" format and its asteval dependency [\#1435](https://github.com/jrnl-org/jrnl/issues/1435)
 - Drop support for Python 3.7 and 3.8 [\#1412](https://github.com/jrnl-org/jrnl/pull/1412) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
-- Clean up .gitignore [\#1286](https://github.com/jrnl-org/jrnl/issues/1286)
+- Pin `pytest-bdd` to \<6.0 to temporarily avoid breaking changes [\#1536](https://github.com/jrnl-org/jrnl/pull/1536) ([wren](https://github.com/wren))
+- Reduce difference between local and CI environments [\#1518](https://github.com/jrnl-org/jrnl/pull/1518) ([wren](https://github.com/wren))
+- Add bdd tests for jrnl installation [\#1513](https://github.com/jrnl-org/jrnl/pull/1513) ([apainintheneck](https://github.com/apainintheneck))
+- Stop hardcoding bot info in changelog pipeline [\#1506](https://github.com/jrnl-org/jrnl/pull/1506) ([wren](https://github.com/wren))
+- Fix Poetry caching for accessibility tests [\#1505](https://github.com/jrnl-org/jrnl/pull/1505) ([wren](https://github.com/wren))
+- Implement Tox for testing [\#1504](https://github.com/jrnl-org/jrnl/pull/1504) ([wren](https://github.com/wren))
+- Replace `make` with python alternative \(`poe`\) [\#1503](https://github.com/jrnl-org/jrnl/pull/1503) ([wren](https://github.com/wren))
+- Update copyright year [\#1502](https://github.com/jrnl-org/jrnl/pull/1502) ([wren](https://github.com/wren))
 - Add Python 3.11 to PR tests [\#1500](https://github.com/jrnl-org/jrnl/pull/1500) ([micahellison](https://github.com/micahellison))
 - Pin jinja2 in docs requirements to keep readthedocs builds from failing [\#1439](https://github.com/jrnl-org/jrnl/pull/1439) ([micahellison](https://github.com/micahellison))
 - Tidy up git ignore [\#1414](https://github.com/jrnl-org/jrnl/pull/1414) ([nelnog](https://github.com/nelnog))
@@ -69,7 +58,8 @@
 
 **Packaging:**
 
-- Sync jrnl's Python version support more closely to Python release cycle [\#1406](https://github.com/jrnl-org/jrnl/issues/1406)
+- Bump cryptography from 37.0.2 to 37.0.3 [\#1516](https://github.com/jrnl-org/jrnl/pull/1516) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump poethepoet from 0.13.1 to 0.14.0 [\#1514](https://github.com/jrnl-org/jrnl/pull/1514) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.5.1 to 23.6.0 [\#1499](https://github.com/jrnl-org/jrnl/pull/1499) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pyxdg from 0.27 to 0.28 [\#1497](https://github.com/jrnl-org/jrnl/pull/1497) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.5.0 to 23.5.1 [\#1487](https://github.com/jrnl-org/jrnl/pull/1487) ([dependabot[bot]](https://github.com/apps/dependabot))
