@@ -8,6 +8,7 @@
 
 - Create an environment variable when jrnl is called [\#1537](https://github.com/jrnl-org/jrnl/issues/1537)
 - Warn user when there are duplicate keys in the config file [\#1415](https://github.com/jrnl-org/jrnl/issues/1415)
+- Support tzlocal v4 [\#1338](https://github.com/jrnl-org/jrnl/issues/1338)
 - Add linewrap option 'auto' [\#1507](https://github.com/jrnl-org/jrnl/pull/1507) ([jonakeys](https://github.com/jonakeys))
 
 **Fixed bugs:**
