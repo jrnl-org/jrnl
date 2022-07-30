@@ -18,6 +18,7 @@
 **Packaging:**
 
 - Bump yq from 3.0.2 to 3.1.0 [\#1546](https://github.com/jrnl-org/jrnl/pull/1546) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump poethepoet from 0.15.0 to 0.16.0 [\#1542](https://github.com/jrnl-org/jrnl/pull/1542) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.6.0 to 23.7.0 [\#1539](https://github.com/jrnl-org/jrnl/pull/1539) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump rich from 12.4.4 to 12.5.1 [\#1538](https://github.com/jrnl-org/jrnl/pull/1538) ([dependabot[bot]](https://github.com/apps/dependabot))
 
