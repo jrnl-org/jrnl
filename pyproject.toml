@@ -40,8 +40,7 @@ pyxdg = ">=0.27.0"
 rich = "^12.2.0"
 
 # dayone-only deps
-pytz = ">=2020"          # https://pythonhosted.org/pytz/#issues-limitations
-tzlocal = ">2.0, <3.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
+tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
