@@ -198,6 +198,13 @@ class MsgText(Enum):
         Configuration updated to newest version at {config_path}
         """
 
+    ConfigDoubleKeys = """
+        There is at least one duplicate key in your configuration file.
+
+        Details:
+        {error_message}
+        """
+
     # --- Password --- #
     Password = "Password:"
     PasswordFirstEntry = "Enter password for journal '{journal_name}': "

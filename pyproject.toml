@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jrnl"
-version = "v3.0-beta2"
+version = "v3.0"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "jrnl contributors <maintainers@jrnl.sh>",
@@ -51,7 +51,7 @@ mkdocs = ">=1.0,<1.3"
 poethepoet = "*"
 pyproject-flake8 = "*"
 pytest = ">=6.2"
-pytest-bdd = ">=4.0.1"
+pytest-bdd = ">=4.0.1,<6.0"
 pytest-clarity = "*"
 pytest-xdist = ">=2.5.0"
 toml = ">=0.10"
@@ -128,7 +128,6 @@ markers = [
 ]
 addopts = [
   "--pdbcls=IPython.terminal.debugger:Pdb",
-  "--gherkin-terminal-reporter",
   "--tb=native",
   "-n=auto",
 ]
@@ -158,7 +157,7 @@ isolated_build = True
 [testenv]
 deps =
   pytest >= 6.2
-  pytest-bdd >=4.0.1
+  pytest-bdd >=4.0.1,<6.0
   pytest-xdist >=2.5.0
   toml >=0.10
 

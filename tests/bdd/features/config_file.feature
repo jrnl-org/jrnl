@@ -106,3 +106,20 @@ Feature: Multiple journals
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf empty_file.yaml"
         Then the error output should contain "Unable to parse config file"
+
+    Scenario: Show a warning message when the config file contains duplicate keys at the same level
+        Given the config "duplicate_keys.yaml" exists
+        And we use the config "duplicate_keys.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "There is at least one duplicate key in your configuration file"
+    
+    Scenario: Show a warning message when using --config-file with duplicate keys
+        Given the config "duplicate_keys.yaml" exists
+        And we use the config "multiple.yaml"
+        When we run "jrnl --cf duplicate_keys.yaml -1"
+        Then the output should contain "There is at least one duplicate key in your configuration file"
+
+    Scenario: Don't show a duplicate keys warning message when using --config-override on an existing value
+        Given we use the config "multiple.yaml"
+        When we run "jrnl --config-override highlight false"
+        Then the output should not contain "There is at least one duplicate key in your configuration file"
