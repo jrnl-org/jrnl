@@ -2,12 +2,14 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import datetime
+import logging
+import os
 import re
 
 import ansiwrap
 
-from jrnl.color import colorize
-from jrnl.color import highlight_tags_with_background_color
+from .color import colorize
+from .color import highlight_tags_with_background_color
 
 
 class Entry:
@@ -104,6 +106,18 @@ class Entry:
         )
 
         if not short and self.journal.config["linewrap"]:
+            columns = self.journal.config["linewrap"]
+
+            if columns == "auto":
+                try:
+                    columns = os.get_terminal_size().columns
+                except OSError:
+                    logging.debug(
+                        "Can't determine terminal size automatically 'linewrap': '%s'",
+                        self.journal.config["linewrap"],
+                    )
+                    columns = 79
+
             # Color date / title and bold title
             title = ansiwrap.fill(
                 date_str
@@ -114,7 +128,7 @@ class Entry:
                     self.journal.config["colors"]["title"],
                     is_title=True,
                 ),
-                self.journal.config["linewrap"],
+                columns,
             )
             body = highlight_tags_with_background_color(
                 self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
@@ -123,7 +137,7 @@ class Entry:
                 colorize(
                     ansiwrap.fill(
                         line,
-                        self.journal.config["linewrap"],
+                        columns,
                         initial_indent=indent,
                         subsequent_indent=indent,
                         drop_whitespace=True,
