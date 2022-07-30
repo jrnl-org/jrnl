@@ -1,7 +1,6 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-import fnmatch
 import functools
 import os
 
@@ -23,7 +22,12 @@ def does_directory_contain_n_files(directory_path, number):
     if not os.path.isdir(directory_path):
         return False
 
-    count = len(fnmatch.filter(os.listdir(directory_path), "*.*"))
+    files = [
+        f
+        for f in os.listdir(directory_path)
+        if os.path.isfile(os.path.join(directory_path, f))
+    ]
+    count = len(files)
 
     return int(number) == count
 
