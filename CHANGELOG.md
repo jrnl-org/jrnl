@@ -19,6 +19,7 @@
 
 - Bump yq from 3.0.2 to 3.1.0 [\#1546](https://github.com/jrnl-org/jrnl/pull/1546) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.6.0 to 23.7.0 [\#1539](https://github.com/jrnl-org/jrnl/pull/1539) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rich from 12.4.4 to 12.5.1 [\#1538](https://github.com/jrnl-org/jrnl/pull/1538) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v3.0](https://pypi.org/project/jrnl/v3.0/) (2022-07-09)
 
