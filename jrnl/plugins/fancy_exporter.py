@@ -1,6 +1,8 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import logging
+import os
 from textwrap import TextWrapper
 
 from jrnl.exception import JrnlException
@@ -36,7 +38,22 @@ class FancyExporter(TextExporter):
     def export_entry(cls, entry):
         """Returns a fancy unicode representation of a single entry."""
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
-        linewrap = entry.journal.config["linewrap"] or 78
+
+        if entry.journal.config["linewrap"]:
+            linewrap = entry.journal.config["linewrap"]
+
+            if linewrap == "auto":
+                try:
+                    linewrap = os.get_terminal_size().columns
+                except OSError:
+                    logging.debug(
+                        "Can't determine terminal size automatically 'linewrap': '%s'",
+                        entry.journal.config["linewrap"],
+                    )
+                    linewrap = 79
+        else:
+            linewrap = 79
+
         initial_linewrap = max((1, linewrap - len(date_str) - 2))
         body_linewrap = linewrap - 2
         card = [
@@ -50,7 +67,7 @@ class FancyExporter(TextExporter):
             subsequent_indent=cls.border_g + " ",
         )
 
-        title_lines = w.wrap(entry.title)
+        title_lines = w.wrap(entry.title) or [""]
         card.append(
             title_lines[0].ljust(initial_linewrap + 1)
             + cls.border_d
