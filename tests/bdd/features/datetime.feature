@@ -175,7 +175,7 @@ Feature: Reading and writing to journal with custom date formats
         When we run "jrnl -1"
         Then we should get no error
         And the output should be
-            2013-10-27 03:27 Some text.
+            2013-10-27 04:27 Some text.
 
 
     @skip #1422
