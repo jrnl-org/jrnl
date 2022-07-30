@@ -1,14 +1,14 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.1-beta](https://pypi.org/project/jrnl/v3.1-beta/) (2022-07-30)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0...v3.1-beta)
 
 **Implemented enhancements:**
 
-- Create an environment variable when jrnl is called [\#1537](https://github.com/jrnl-org/jrnl/issues/1537)
 - Warn user when there are duplicate keys in the config file [\#1415](https://github.com/jrnl-org/jrnl/issues/1415)
 - Support tzlocal v4 [\#1338](https://github.com/jrnl-org/jrnl/issues/1338)
+- Update tzlocal to v4.x and remove pytz dependency [\#1528](https://github.com/jrnl-org/jrnl/pull/1528) ([outa](https://github.com/outa))
 - Add linewrap option 'auto' [\#1507](https://github.com/jrnl-org/jrnl/pull/1507) ([jonakeys](https://github.com/jonakeys))
 
 **Fixed bugs:**
