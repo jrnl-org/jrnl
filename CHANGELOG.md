@@ -8,9 +8,16 @@
 
 - Create an environment variable when jrnl is called [\#1537](https://github.com/jrnl-org/jrnl/issues/1537)
 - Warn user when there are duplicate keys in the config file [\#1415](https://github.com/jrnl-org/jrnl/issues/1415)
+- Add linewrap option 'auto' [\#1507](https://github.com/jrnl-org/jrnl/pull/1507) ([jonakeys](https://github.com/jonakeys))
+
+**Fixed bugs:**
+
+- Update formatting function to better account for indentation [\#1541](https://github.com/jrnl-org/jrnl/pull/1541) ([wren](https://github.com/wren))
+- Fixed index out of range error in fancy exporter [\#1522](https://github.com/jrnl-org/jrnl/pull/1522) ([apainintheneck](https://github.com/apainintheneck))
 
 **Packaging:**
 
+- Bump yq from 3.0.2 to 3.1.0 [\#1546](https://github.com/jrnl-org/jrnl/pull/1546) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.6.0 to 23.7.0 [\#1539](https://github.com/jrnl-org/jrnl/pull/1539) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v3.0](https://pypi.org/project/jrnl/v3.0/) (2022-07-09)
