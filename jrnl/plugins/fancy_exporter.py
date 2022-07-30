@@ -50,7 +50,7 @@ class FancyExporter(TextExporter):
             subsequent_indent=cls.border_g + " ",
         )
 
-        title_lines = w.wrap(entry.title)
+        title_lines = w.wrap(entry.title) or [""]
         card.append(
             title_lines[0].ljust(initial_linewrap + 1)
             + cls.border_d
