@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0...HEAD)
+
+**Implemented enhancements:**
+
+- Create an environment variable when jrnl is called [\#1537](https://github.com/jrnl-org/jrnl/issues/1537)
+- Warn user when there are duplicate keys in the config file [\#1415](https://github.com/jrnl-org/jrnl/issues/1415)
+
+**Packaging:**
+
+- Bump keyring from 23.6.0 to 23.7.0 [\#1539](https://github.com/jrnl-org/jrnl/pull/1539) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.0](https://pypi.org/project/jrnl/v3.0/) (2022-07-09)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta2...v3.0)
