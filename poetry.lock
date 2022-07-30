@@ -593,7 +593,7 @@ dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "poethepoet"
-version = "0.15.0"
+version = "0.16.0"
 description = "A task runner that works well with poetry."
 category = "dev"
 optional = false
@@ -1405,8 +1405,8 @@ pluggy = [
     {file = "pluggy-1.0.0.tar.gz", hash = "sha256:4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159"},
 ]
 poethepoet = [
-    {file = "poethepoet-0.15.0-py3-none-any.whl", hash = "sha256:8ca49d8a9928a3ce1753315d6df0866888557eccb0fe37a8c88fea47454cfe12"},
-    {file = "poethepoet-0.15.0.tar.gz", hash = "sha256:5843260c9074b6c42bf2e51f21107efe37e230cf75da3dd3f4b43904f365b26c"},
+    {file = "poethepoet-0.16.0-py3-none-any.whl", hash = "sha256:87482ea8bba4e5db4abbd8e6360baee73b2ce0f3d5f5e99e81cdfa39d72d118f"},
+    {file = "poethepoet-0.16.0.tar.gz", hash = "sha256:6455aec39f198be92dbf210a4416e1635119e967204c092b431c8b10024db1d1"},
 ]
 pprintpp = [
     {file = "pprintpp-0.4.0-py2.py3-none-any.whl", hash = "sha256:b6b4dcdd0c0c0d75e4d7b2f21a9e933e5b2ce62b26e1a54537f9651ae5a5c01d"},
