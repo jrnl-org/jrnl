@@ -38,6 +38,7 @@ def preconfig_diagnostic(_):
 
 def preconfig_version(_):
     import textwrap
+
     from jrnl import __title__
     from jrnl import __version__
 
