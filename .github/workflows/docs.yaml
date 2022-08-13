@@ -62,7 +62,7 @@ jobs:
         pip install poetry
         poetry config --local virtualenvs.in-project true
         poetry install --no-root --remove-untracked
-        npm install pa11y-ci
+        npm install
         echo "node_modules/.bin" >> $GITHUB_PATH
 
     - name: Start docs server
