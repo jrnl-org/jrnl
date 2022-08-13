@@ -1,6 +1,7 @@
 # Copyright (C) 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import errno
 import os
 import re
 import unicodedata
@@ -53,9 +54,24 @@ class TextExporter:
     def write_files(cls, journal, path):
         """Exports a journal into individual files for each entry."""
         for entry in journal.entries:
-            full_path = os.path.join(path, cls.make_filename(entry))
-            with open(full_path, "w", encoding="utf-8") as f:
-                f.write(cls.export_entry(entry))
+            entry_is_written = False
+            while not entry_is_written:
+                full_path = os.path.join(path, cls.make_filename(entry))
+                try:
+                    with open(full_path, "w", encoding="utf-8") as f:
+                        f.write(cls.export_entry(entry))
+                        entry_is_written = True
+                except OSError as oserr:
+                    title_length = len(str(entry.title))
+                    if (
+                        oserr.errno == errno.ENAMETOOLONG
+                        or oserr.errno == errno.ENOENT
+                        or oserr.errno == errno.EINVAL
+                    ) and title_length > 1:
+                        shorter_file_length = title_length // 2
+                        entry.title = str(entry.title)[:shorter_file_length]
+                    else:
+                        raise
         print_msg(
             Message(
                 MsgText.JournalExportedTo,
