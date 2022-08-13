@@ -53,6 +53,7 @@ pytest = ">=6.2"
 pytest-bdd = ">=4.0.1,<6.0"
 pytest-clarity = "*"
 pytest-xdist = ">=2.5.0"
+requests = "*"
 toml = ">=0.10"
 tox = "*"
 yq = "*"
@@ -68,7 +69,13 @@ files = ["sitemap.xml", "list.json"]
 for f in files:
   pathlib.Path(f).unlink(missing_ok=True)
 """
-script-generate-sitemap.shell = 'curl -s "127.0.0.1:8000/sitemap.xml" > sitemap.xml'
+script-generate-sitemap.interpreter = "python"
+script-generate-sitemap.shell = '''
+import requests
+sitemap = requests.get("http://127.0.0.1:8000/sitemap.xml")
+with open('sitemap.xml', 'wb+') as f:
+    f.write(sitemap.content)
+'''
 script-generate-page-list-from-sitemap.shell = '''
   select='{urls: ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/search.html?q=jrnl", .urlset.url[].loc]}'
   poetry run xq "$select" sitemap.xml > list.json
