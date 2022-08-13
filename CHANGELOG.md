@@ -11,6 +11,8 @@
 **Packaging:**
 
 - Bump pyproject-flake8 from 0.0.1a4 to 0.0.1a5 [\#1552](https://github.com/jrnl-org/jrnl/pull/1552) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.7.0 to 23.8.2 [\#1551](https://github.com/jrnl-org/jrnl/pull/1551) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump keyring from 23.6.0 to 23.7.0 [\#1539](https://github.com/jrnl-org/jrnl/pull/1539) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v3.1-beta](https://pypi.org/project/jrnl/v3.1-beta/) (2022-07-30)
 
