@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta...HEAD)
+
+**Packaging:**
+
+- Bump pyproject-flake8 from 0.0.1a4 to 0.0.1a5 [\#1552](https://github.com/jrnl-org/jrnl/pull/1552) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.1-beta](https://pypi.org/project/jrnl/v3.1-beta/) (2022-07-30)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0...v3.1-beta)
