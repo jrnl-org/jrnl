@@ -61,7 +61,13 @@ yq = "*"
 jrnl = 'jrnl.cli:cli'
 
 [tool.poe.tasks]
-script-clean-docs.shell = "rm -fv sitemap.xml list.json"
+script-clean-docs.interpreter = "python"
+script-clean-docs.shell = """
+import pathlib
+files = ["sitemap.xml", "list.json"]
+for f in files:
+  pathlib.Path(f).unlink(missing_ok=True)
+"""
 script-generate-sitemap.shell = 'curl -s "127.0.0.1:8000/sitemap.xml" > sitemap.xml'
 script-generate-page-list-from-sitemap.shell = '''
   select='{urls: ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/search.html?q=jrnl", .urlset.url[].loc]}'
