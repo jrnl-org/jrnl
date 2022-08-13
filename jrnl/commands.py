@@ -36,17 +36,22 @@ def preconfig_diagnostic(_):
 
 
 def preconfig_version(_):
+    import textwrap
     from jrnl import __title__
     from jrnl import __version__
 
-    version_str = f"""{__title__} version {__version__}
+    output = f"""
+    {__title__} {__version__}
 
-Copyright © 2012-2022 jrnl contributors
+    Copyright © 2012-2022 jrnl contributors
 
-This is free software, and you are welcome to redistribute it under certain
-conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html"""
+    This is free software, and you are welcome to redistribute it under certain
+    conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html
+    """
 
-    print(version_str)
+    output = textwrap.dedent(output).strip()
+
+    print(output)
 
 
 def postconfig_list(config, **kwargs):
