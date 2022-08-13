@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta...HEAD)
 
+**Fixed bugs:**
+
+- Export to file\(s\) when first line/title of an entry is very long [\#1527](https://github.com/jrnl-org/jrnl/pull/1527) ([jonakeys](https://github.com/jonakeys))
+
 **Packaging:**
 
 - Bump pyproject-flake8 from 0.0.1a4 to 0.0.1a5 [\#1552](https://github.com/jrnl-org/jrnl/pull/1552) ([dependabot[bot]](https://github.com/apps/dependabot))
