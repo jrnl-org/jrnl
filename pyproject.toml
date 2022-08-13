@@ -61,6 +61,14 @@ yq = "*"
 jrnl = 'jrnl.cli:cli'
 
 [tool.poe.tasks]
+script-clean-docs.shell = "rm -fv sitemap.xml list.json"
+script-generate-sitemap.shell = 'curl -s "127.0.0.1:8000/sitemap.xml" > sitemap.xml'
+script-generate-page-list-from-sitemap.shell = '''
+  select='{urls: ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/search.html?q=jrnl", .urlset.url[].loc]}'
+  poetry run xq "$select" sitemap.xml > list.json
+'''
+script-run-pa11y.cmd = "pa11y-ci -c list.json"
+
 format-run = [
   {cmd = "black ."},
 ]
@@ -79,7 +87,28 @@ sort-check = [
   {cmd = "isort --version"},
   {cmd = "isort --check ."},
 ]
-# docs-check = ?
+docs-check = [
+  "script-clean-docs",
+  "script-generate-sitemap",
+  "script-generate-page-list-from-sitemap",
+  "script-run-pa11y",
+  "script-clean-docs",
+]
+docs-check-ci = [
+  "script-generate-sitemap",
+  {shell = '''
+  echo "::group::sitemap.xml"
+  cat sitemap.xml
+  echo '::endgroup::'
+  '''},
+  "script-generate-page-list-from-sitemap",
+  {shell = '''
+  echo "::group::list.json"
+  cat list.json
+  echo '::endgroup::'
+  '''},
+  "script-run-pa11y",
+]
 docs-run = [
   {cmd = "mkdocs serve"},
 ]
