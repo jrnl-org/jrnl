@@ -18,17 +18,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "argcomplete"
-version = "2.0.0"
-description = "Bash tab completion for argparse"
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-
-[package.extras]
-test = ["coverage", "flake8", "pexpect", "wheel"]
-
-[[package]]
 name = "asttokens"
 version = "2.0.5"
 description = "Annotate AST trees with source code positions"
@@ -1105,26 +1094,9 @@ python-versions = "*"
 name = "xmltodict"
 version = "0.13.0"
 description = "Makes working with XML feel like you are working with JSON"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.4"
-
-[[package]]
-name = "yq"
-version = "3.1.0"
-description = "Command-line YAML/XML processor - jq wrapper for YAML/XML documents"
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-argcomplete = ">=1.8.1"
-PyYAML = ">=5.3.1"
-toml = ">=0.10.0"
-xmltodict = ">=0.11.0"
-
-[package.extras]
-tests = ["coverage", "flake8", "wheel"]
 
 [[package]]
 name = "zipp"
@@ -1141,7 +1113,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9.0, <3.12"
-content-hash = "cc98f33b8f31002a794267e3b6afb57ac30c20db7bf55f9d02dc22d9442cad55"
+content-hash = "256d370a30f2452fa169b9bad5eea686360556c7aba9a80b9ada70345d69f404"
 
 [metadata.files]
 ansiwrap = [
@@ -1151,10 +1123,6 @@ ansiwrap = [
 appnope = [
     {file = "appnope-0.1.3-py2.py3-none-any.whl", hash = "sha256:265a455292d0bd8a72453494fa24df5a11eb18373a60c7c0430889f22548605e"},
     {file = "appnope-0.1.3.tar.gz", hash = "sha256:02bd91c4de869fbb1e1c50aafc4098827a7a54ab2f39d9dcba6c9547ed920e24"},
-]
-argcomplete = [
-    {file = "argcomplete-2.0.0-py2.py3-none-any.whl", hash = "sha256:cffa11ea77999bb0dd27bb25ff6dc142a6796142f68d45b1a26b11f58724561e"},
-    {file = "argcomplete-2.0.0.tar.gz", hash = "sha256:6372ad78c89d662035101418ae253668445b391755cfe94ea52f1b9d22425b20"},
 ]
 asttokens = [
     {file = "asttokens-2.0.5-py2.py3-none-any.whl", hash = "sha256:0844691e88552595a6f4a4281a9f7f79b8dd45ca4ccea82e5e05b4bbdb76705c"},
@@ -1563,5 +1531,4 @@ xmltodict = [
     {file = "xmltodict-0.13.0-py2.py3-none-any.whl", hash = "sha256:aa89e8fd76320154a40d19a0df04a4695fb9dc5ba977cbb68ab3e4eb225e7852"},
     {file = "xmltodict-0.13.0.tar.gz", hash = "sha256:341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"},
 ]
-yq = []
 zipp = []

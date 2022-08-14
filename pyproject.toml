@@ -56,7 +56,7 @@ pytest-xdist = ">=2.5.0"
 requests = "*"
 toml = ">=0.10"
 tox = "*"
-yq = "*"
+xmltodict = "*"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
