@@ -69,4 +69,4 @@ jobs:
       run: poetry run poe docs-run &
 
     - name: Accessibility testing (Pa11y)
-      run: poetry run poe docs-check-ci
+      run: poetry run poe docs-check

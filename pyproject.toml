@@ -62,26 +62,6 @@ xmltodict = "*"
 jrnl = 'jrnl.cli:cli'
 
 [tool.poe.tasks]
-script-clean-docs.interpreter = "python"
-script-clean-docs.shell = """
-import pathlib
-files = ["sitemap.xml", "list.json"]
-for f in files:
-  pathlib.Path(f).unlink(missing_ok=True)
-"""
-script-generate-sitemap.interpreter = "python"
-script-generate-sitemap.shell = '''
-import requests
-sitemap = requests.get("http://127.0.0.1:8000/sitemap.xml")
-with open('sitemap.xml', 'wb+') as f:
-    f.write(sitemap.content)
-'''
-script-generate-page-list-from-sitemap.shell = '''
-  select='{urls: ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/search.html?q=jrnl", .urlset.url[].loc]}'
-  poetry run xq "$select" sitemap.xml > list.json
-'''
-script-run-pa11y.cmd = "pa11y-ci -c list.json"
-
 format-run = [
   {cmd = "black ."},
 ]
@@ -100,31 +80,22 @@ sort-check = [
   {cmd = "isort --version"},
   {cmd = "isort --check ."},
 ]
+
+docs-clean = {script = "tasks:delete_files(['sitemap.xml', 'config.json'])"}
+
 docs-check = [
-  "script-clean-docs",
-  "script-generate-sitemap",
-  "script-generate-page-list-from-sitemap",
-  "script-run-pa11y",
-  "script-clean-docs",
-]
-docs-check-ci = [
-  "script-generate-sitemap",
-  {shell = '''
-  echo "::group::sitemap.xml"
-  cat sitemap.xml
-  echo '::endgroup::'
-  '''},
-  "script-generate-page-list-from-sitemap",
-  {shell = '''
-  echo "::group::list.json"
-  cat list.json
-  echo '::endgroup::'
-  '''},
-  "script-run-pa11y",
+  "docs-clean",
+  {script = "tasks:generate_sitemap"},
+  {script = "tasks:output_file('sitemap.xml')"},
+  {script = "tasks:generate_pa11y_config_from_sitemap"},
+  {script = "tasks:output_file('config.json')"},
+  {cmd = "pa11y-ci -c config.json"},
+  "docs-clean",
 ]
 docs-run = [
   {cmd = "mkdocs serve"},
 ]
+
 test-run =[
   {cmd = "tox -q -e py --"},
 ]
