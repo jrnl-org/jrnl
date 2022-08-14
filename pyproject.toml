@@ -71,7 +71,7 @@ format-check = [
 ]
 style-check = [
   {cmd = "pflake8 --version"},
-  {cmd = "pflake8 jrnl tests"},
+  {cmd = "pflake8 jrnl tests tasks.py"},
 ]
 sort-run = [
   {cmd = "isort ."},
