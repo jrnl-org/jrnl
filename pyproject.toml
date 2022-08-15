@@ -96,7 +96,7 @@ docs-run = [
   {cmd = "mkdocs serve"},
 ]
 
-test-run =[
+test-run = [
   {cmd = "tox -q -e py --"},
 ]
 
