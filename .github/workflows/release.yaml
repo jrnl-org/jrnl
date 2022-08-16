@@ -7,17 +7,21 @@ on:
     inputs:
       version:
         description: 'Version (e.g. v2.5, v2.5.1-beta, v2.6-beta2)'
+        type: string
         required: true
       include_repo_version:
         description: 'Update version in repo? (true/false)'
-        require: true
+        type: boolean
+        required: true
         default: true
       include_pypi:
         description: 'Publish to PyPI? (true/false)'
+        type: boolean
         required: true
         default: true
       include_brew:
         description: 'Publish to Homebrew? (true/false)'
+        type: boolean
         required: true
         default: true
 
