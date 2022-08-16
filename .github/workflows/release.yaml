@@ -106,7 +106,7 @@ jobs:
     - name: Get PyPI version
       id: pypi-version-getter
       run: |
-        pypi_version="$(ls dist/jrnl-*.tar.gz | sed -r 's!dist/jrnl-(.*)\.tar\.gz!\1!')"
+        pypi_version="$(find dist/jrnl-*.tar.gz | sed -r 's!dist/jrnl-(.*)\.tar\.gz!\1!')"
         echo "::set-output name=pypi_version::$pypi_version"
 
   release_homebrew:
