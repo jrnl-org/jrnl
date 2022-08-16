@@ -83,7 +83,7 @@ jobs:
       if: ${{ github.event.inputs.include_repo_version == 'true' }}
       run: |
         poetry version "$JRNL_VERSION"
-        echo __version__ = \"$JRNL_VERSION\" > jrnl/__version__.py
+        echo "__version__ = \"$JRNL_VERSION\"" > jrnl/__version__.py
 
     - name: Commit updated files
       if: ${{ github.event.inputs.include_repo_version == 'true' && github.repository == env.HOME_REPO }}
