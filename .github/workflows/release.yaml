@@ -59,7 +59,7 @@ jobs:
       run: |
         JRNL_VERSION="${{ github.event.inputs.version }}"
         echo "::debug::version: $JRNL_VERSION"
-        echo "JRNL_VERSION=$JRNL_VERSION" >> $GITHUB_ENV
+        echo "JRNL_VERSION=$JRNL_VERSION" >> "$GITHUB_ENV"
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -127,8 +127,8 @@ jobs:
         echo "::debug::jrnl version: $JRNL_VERSION"
         echo "::debug::pypi version: $PYPI_VERSION"
 
-        echo "JRNL_VERSION=$JRNL_VERSION" >> $GITHUB_ENV
-        echo "PYPI_VERSION=$PYPI_VERSION" >> $GITHUB_ENV
+        echo "JRNL_VERSION=$JRNL_VERSION" >> "$GITHUB_ENV"
+        echo "PYPI_VERSION=$PYPI_VERSION" >> "$GITHUB_ENV"
 
     - name: Set env variables
       env:
@@ -141,7 +141,7 @@ jobs:
             echo "FORMULA_REPO=${REPO_OWNER}/homebrew-prerelease"
             echo "BOT_REPO=jrnl-bot/homebrew-prerelease"
             echo "FORMULA_NAME=jrnl-beta"
-          } >> $GITHUB_ENV
+          } >> "$GITHUB_ENV"
         else
           echo '::debug::Full release (not a prerelease)'
           if [[ "${{ github.repository }}" == "${HOME_REPO}" ]]; then
@@ -152,14 +152,14 @@ jobs:
             echo "FORMULA_REPO=${REPO_OWNER}/homebrew-core"
             echo "BOT_REPO=jrnl-bot/homebrew-core"
             echo "FORMULA_NAME=jrnl"
-          } >> $GITHUB_ENV
+          } >> "$GITHUB_ENV"
         fi
 
     - name: Tap formula
       run: |
-        brew tap ${FORMULA_REPO}
+        brew tap "${FORMULA_REPO}"
         echo '::debug::Set tap directory'
-        echo "BREW_TAP_DIRECTORY=$(brew --repo ${FORMULA_REPO})" >> $GITHUB_ENV
+        echo "BREW_TAP_DIRECTORY=$(brew --repo "${FORMULA_REPO}")" >> "$GITHUB_ENV"
     - name: Install dependencies
       run: brew install pipgrip
 
