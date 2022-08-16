@@ -52,12 +52,12 @@ jobs:
             if [[ ! ${GITHUB_REF##*/} =~ $prerelease_regex ]]; then
               echo '::debug::Actual release (not a prerelease)'
               TAG_REGEX="$prerelease_regex"
-              echo "FULL_RELEASE=true" >> $GITHUB_ENV
+              echo "FULL_RELEASE=true" >> "$GITHUB_ENV"
             fi
           fi
           echo "::debug::TAG_REGEX: $TAG_REGEX"
 
-          if [[ "$(git rev-parse "origin/$BRANCH")" != $GITHUB_SHA ]]; then
+          if [[ "$(git rev-parse "origin/$BRANCH")" != "$GITHUB_SHA" ]]; then
             # Normal build on a branch (no tag)
             echo "::debug::BRANCH: $BRANCH $(git rev-parse origin/$BRANCH)"
             echo "::debug::GITHUB_SHA: $GITHUB_SHA"
@@ -72,10 +72,12 @@ jobs:
           echo "::debug::FILENAME: CHANGELOG.md"
           echo "::debug::SINCE_TAG: $SINCE_TAG"
 
-          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          echo "TAG_REGEX=$TAG_REGEX" >> $GITHUB_ENV
-          echo "FILENAME=CHANGELOG.md" >> $GITHUB_ENV
-          echo "SINCE_TAG=$SINCE_TAG" >> $GITHUB_ENV
+          {
+          echo "BRANCH=$BRANCH"
+          echo "TAG_REGEX=$TAG_REGEX"
+          echo "FILENAME=CHANGELOG.md"
+          echo "SINCE_TAG=$SINCE_TAG"
+          } >> "$GITHUB_ENV"
 
       - name: Prep changelog file (clear out old lines)
         run: |
@@ -139,7 +141,7 @@ jobs:
           SOMETHING_CHANGED=false
           git diff --exit-code || SOMETHING_CHANGED=true
           echo "::debug::SOMETHING_CHANGED: $SOMETHING_CHANGED"
-          echo "SOMETHING_CHANGED=$SOMETHING_CHANGED" >> $GITHUB_ENV
+          echo "SOMETHING_CHANGED=$SOMETHING_CHANGED" >> "$GITHUB_ENV"
 
       - name: Commit
         if: env.SOMETHING_CHANGED == 'true'
@@ -148,13 +150,13 @@ jobs:
           git config --global user.email "${{ secrets.JRNL_BOT_EMAIL }}"
           git add "$FILENAME"
           git commit -m "Update changelog [ci skip]"
-          git push origin $BRANCH
+          git push origin "$BRANCH"
 
       - name: Merge to Release branch
         if: env.FULL_RELEASE == 'true'
         run: |
           git fetch --unshallow origin
           git checkout release
-          git merge --ff-only $BRANCH
+          git merge --ff-only "$BRANCH"
           git push origin release
 
