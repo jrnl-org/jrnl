@@ -39,9 +39,9 @@ def parse_args(args=[]):
         description="Collect your thoughts and notes without leaving the command line",
         epilog=textwrap.dedent(
             """
-        Thank you to all of our contributors! Come see the whole list of code and
-        financial contributors at https://github.com/jrnl-org/jrnl. And special
-        thanks to Bad Lip Reading for the Yoda joke in the Writing section above."""
+        We gratefully thank all contributors!
+        Come see the whole list of code and financial contributors at https://github.com/jrnl-org/jrnl
+        And special thanks to Bad Lip Reading for the Yoda joke in the Writing section above :)"""
         ),
     )
 
