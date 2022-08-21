@@ -6,7 +6,7 @@
 
 **Build:**
 
-- Fix docs pipeline, make docs tests easier to run locally and on different OSes [\#1554](https://github.com/jrnl-org/jrnl/pull/1554) ([wren](https://github.com/wren))
+- Add actionlint to testing pipelines [\#1555](https://github.com/jrnl-org/jrnl/pull/1555) ([wren](https://github.com/wren))
 
 ## [v3.1-beta2](https://pypi.org/project/jrnl/v3.1-beta2/) (2022-08-13)
 
