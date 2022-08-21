@@ -81,14 +81,15 @@ sort-check = [
   {cmd = "isort --check ."},
 ]
 
-docs-check = [
-  {script = "tasks:delete_files(['sitemap.xml', 'config.json'])"},
-  {script = "tasks:generate_sitemap"},
-  {script = "tasks:output_file('sitemap.xml')"},
-  {script = "tasks:generate_pa11y_config_from_sitemap"},
-  {script = "tasks:output_file('config.json')"},
-  {script = "tasks:run_shell('npx pa11y-ci -c config.json')"},
-  {script = "tasks:delete_files(['sitemap.xml', 'config.json'])"},
+docs-check.default_item_type = "script"
+docs-check.sequence = [
+  "tasks:delete_files(['sitemap.xml', 'config.json'])",
+  "tasks:generate_sitemap",
+  "tasks:output_file('sitemap.xml')",
+  "tasks:generate_pa11y_config_from_sitemap",
+  "tasks:output_file('config.json')",
+  "tasks:run_shell('npx pa11y-ci -c config.json')",
+  "tasks:delete_files(['sitemap.xml', 'config.json'])",
 ]
 docs-run = [
   {cmd = "mkdocs serve"},
