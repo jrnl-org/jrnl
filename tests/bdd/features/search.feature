@@ -6,7 +6,7 @@ Feature: Searching in a journal
     Scenario Outline: Displaying entries using -on today should display entries created today
         Given we use the config "<config_file>"
         When we run "jrnl today: Adding an entry right now."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl -on today"
         Then the output should contain "Adding an entry right now."
         But the output should not contain "Everything is alright"
@@ -21,11 +21,11 @@ Feature: Searching in a journal
     Scenario Outline: Displaying entries using -from day should display correct entries
         Given we use the config "<config_file>"
         When we run "jrnl yesterday: This thing happened yesterday"
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl today at 11:59pm: Adding an entry right now."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl tomorrow: A future entry."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl -from today"
         Then the output should contain "Adding an entry right now."
         And the output should contain "A future entry."
@@ -41,11 +41,11 @@ Feature: Searching in a journal
         Given we use the config "<config_file>"
         And now is "2022-03-10 02:32:00 PM"
         When we run "jrnl yesterday: This thing happened yesterday"
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl today at 11:59pm: Adding an entry right now."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl tomorrow: A future entry."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl -from yesterday -to today"
         Then the output should contain "This thing happened yesterday"
         And the output should contain "Adding an entry right now."
@@ -122,9 +122,9 @@ Feature: Searching in a journal
     Scenario: Out of order entries to a Folder journal should be listed in date order
         Given we use the config "empty_folder.yaml"
         When we run "jrnl 3/7/2014 4:37pm: Second entry of journal."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl 23 July 2013: Testing folder journal."
-        Then the output should contain "Entry added"
+        Then we should get no error
         When we run "jrnl -2"
         Then the output should be
             2013-07-23 09:00 Testing folder journal.
