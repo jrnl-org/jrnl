@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta2...HEAD)
+
+**Build:**
+
+- Fix docs pipeline, make docs tests easier to run locally and on different OSes [\#1554](https://github.com/jrnl-org/jrnl/pull/1554) ([wren](https://github.com/wren))
+
 ## [v3.1-beta2](https://pypi.org/project/jrnl/v3.1-beta2/) (2022-08-13)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta...v3.1-beta2)
