@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2022 jrnl contributors
+# Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 Feature: Functionality of jrnl outside of actually handling journals
@@ -7,7 +7,7 @@ Feature: Functionality of jrnl outside of actually handling journals
         Given we use the config "simple.yaml"
         When we run "jrnl --version"
         Then we should get no error
-        Then the output should match "^jrnl version v\d+\.\d+(\.\d+)?(-(alpha|beta)\d*)?"
+        Then the output should match "^jrnl v\d+\.\d+(\.\d+)?(-(alpha|beta)\d*)?"
 
     Scenario: Running the diagnostic command
         Given we use the config "simple.yaml"
