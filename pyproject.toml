@@ -87,7 +87,7 @@ docs-check = [
   {script = "tasks:output_file('sitemap.xml')"},
   {script = "tasks:generate_pa11y_config_from_sitemap"},
   {script = "tasks:output_file('config.json')"},
-  {cmd = "pa11y-ci -c config.json"},
+  {cmd = "npx pa11y-ci -c config.json"},
   {script = "tasks:delete_files(['sitemap.xml', 'config.json'])"},
 ]
 docs-run = [
