@@ -4,6 +4,7 @@
 import json
 import os
 import pathlib
+import subprocess
 
 import requests
 import xmltodict
@@ -16,6 +17,11 @@ CONFIG_FILENAME = "config.json"
 def delete_files(files):
     for file in files:
         pathlib.Path(file).unlink(missing_ok=True)
+
+
+def run_shell(command):
+    # Required to run NPM commands in Windows and *nix
+    subprocess.call(command, shell=True)
 
 
 def generate_sitemap():
