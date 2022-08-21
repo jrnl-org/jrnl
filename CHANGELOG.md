@@ -11,6 +11,7 @@
 
 **Documentation:**
 
+- Reformat contributor appreciation on `--help` screen [\#1556](https://github.com/jrnl-org/jrnl/pull/1556) ([xeruf](https://github.com/xeruf))
 - Clean up copyright notices and version screen [\#1553](https://github.com/jrnl-org/jrnl/pull/1553) ([wren](https://github.com/wren))
 
 ## [v3.1-beta2](https://pypi.org/project/jrnl/v3.1-beta2/) (2022-08-13)
