@@ -27,7 +27,7 @@ Please report bugs by [opening a new issue](https://github.com/jrnl-org/jrnl/iss
 
 If you find a typo or a mistake in the docs, please fix it right away and send a pull request. If you're unsure what to change but still see a problem, you can [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) with the "Documentation change" type.
 
-To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `poe docs` inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
+To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `poe docs-run` inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
 
 The `gh-pages` branch is automatically maintained and generated after your changes are merged. You should never have to edit that branch.
 

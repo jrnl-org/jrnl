@@ -62,26 +62,11 @@ jobs:
         pip install poetry
         poetry config --local virtualenvs.in-project true
         poetry install --no-root --remove-untracked
-        npm install pa11y-ci
+        npm install
         echo "node_modules/.bin" >> "$GITHUB_PATH"
 
     - name: Start docs server
-      run: poetry run poe docs &
-
-    - name: Generate sitemap
-      env:
-        site_url: http://127.0.0.1:8000
-      run: |
-        filename='sitemap.xml'
-        select="{urls: [\"${site_url}/\", \"${site_url}/search.html?q=jrnl\", .urlset.url[].loc]}"
-
-        curl -s "${site_url}/${filename}" > $filename
-
-        echo "::group::${filename}"
-        cat $filename
-        echo '::endgroup::'
-
-        poetry run xq "$select" $filename > list.json
+      run: poetry run poe docs-run &
 
     - name: Accessibility testing (Pa11y)
-      run: pa11y-ci -c list.json
+      run: poetry run poe docs-check
