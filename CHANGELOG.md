@@ -1,8 +1,19 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.1](https://pypi.org/project/jrnl/v3.1/) (2022-08-21)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta2...v3.1)
+
+**Implemented enhancements:**
+
+- Update tzlocal to v4.x and remove pytz dependency [\#1528](https://github.com/jrnl-org/jrnl/pull/1528) ([outa](https://github.com/outa))
+- Add linewrap option 'auto' [\#1507](https://github.com/jrnl-org/jrnl/pull/1507) ([jonakeys](https://github.com/jonakeys))
+
+**Fixed bugs:**
+
+- Update formatting function to better account for indentation [\#1541](https://github.com/jrnl-org/jrnl/pull/1541) ([wren](https://github.com/wren))
+- Export to file\(s\) when first line/title of an entry is very long [\#1527](https://github.com/jrnl-org/jrnl/pull/1527) ([jonakeys](https://github.com/jonakeys))
+- Fixed index out of range error in fancy exporter [\#1522](https://github.com/jrnl-org/jrnl/pull/1522) ([apainintheneck](https://github.com/apainintheneck))
 
 **Build:**
 
@@ -14,37 +25,10 @@
 - Reformat contributor appreciation on `--help` screen [\#1556](https://github.com/jrnl-org/jrnl/pull/1556) ([xeruf](https://github.com/xeruf))
 - Clean up copyright notices and version screen [\#1553](https://github.com/jrnl-org/jrnl/pull/1553) ([wren](https://github.com/wren))
 
-## [v3.1-beta2](https://pypi.org/project/jrnl/v3.1-beta2/) (2022-08-13)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta...v3.1-beta2)
-
-**Fixed bugs:**
-
-- Export to file\(s\) when first line/title of an entry is very long [\#1527](https://github.com/jrnl-org/jrnl/pull/1527) ([jonakeys](https://github.com/jonakeys))
-
 **Packaging:**
 
 - Bump pyproject-flake8 from 0.0.1a4 to 0.0.1a5 [\#1552](https://github.com/jrnl-org/jrnl/pull/1552) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.7.0 to 23.8.2 [\#1551](https://github.com/jrnl-org/jrnl/pull/1551) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-## [v3.1-beta](https://pypi.org/project/jrnl/v3.1-beta/) (2022-07-30)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0...v3.1-beta)
-
-**Implemented enhancements:**
-
-- Warn user when there are duplicate keys in the config file [\#1415](https://github.com/jrnl-org/jrnl/issues/1415)
-- Support tzlocal v4 [\#1338](https://github.com/jrnl-org/jrnl/issues/1338)
-- Update tzlocal to v4.x and remove pytz dependency [\#1528](https://github.com/jrnl-org/jrnl/pull/1528) ([outa](https://github.com/outa))
-- Add linewrap option 'auto' [\#1507](https://github.com/jrnl-org/jrnl/pull/1507) ([jonakeys](https://github.com/jonakeys))
-
-**Fixed bugs:**
-
-- Update formatting function to better account for indentation [\#1541](https://github.com/jrnl-org/jrnl/pull/1541) ([wren](https://github.com/wren))
-- Fixed index out of range error in fancy exporter [\#1522](https://github.com/jrnl-org/jrnl/pull/1522) ([apainintheneck](https://github.com/apainintheneck))
-
-**Packaging:**
-
 - Bump yq from 3.0.2 to 3.1.0 [\#1546](https://github.com/jrnl-org/jrnl/pull/1546) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump poethepoet from 0.15.0 to 0.16.0 [\#1542](https://github.com/jrnl-org/jrnl/pull/1542) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump keyring from 23.6.0 to 23.7.0 [\#1539](https://github.com/jrnl-org/jrnl/pull/1539) ([dependabot[bot]](https://github.com/apps/dependabot))
