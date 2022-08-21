@@ -53,9 +53,10 @@ pytest = ">=6.2"
 pytest-bdd = ">=4.0.1,<6.0"
 pytest-clarity = "*"
 pytest-xdist = ">=2.5.0"
+requests = "*"
 toml = ">=0.10"
 tox = "*"
-yq = "*"
+xmltodict = "*"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.cli:cli'
@@ -70,7 +71,7 @@ format-check = [
 ]
 style-check = [
   {cmd = "pflake8 --version"},
-  {cmd = "pflake8 jrnl tests"},
+  {cmd = "pflake8 jrnl tests tasks.py"},
 ]
 sort-run = [
   {cmd = "isort ."},
@@ -79,11 +80,22 @@ sort-check = [
   {cmd = "isort --version"},
   {cmd = "isort --check ."},
 ]
-# docs-check = ?
+
+docs-check.default_item_type = "script"
+docs-check.sequence = [
+  "tasks:delete_files(['sitemap.xml', 'config.json'])",
+  "tasks:generate_sitemap",
+  "tasks:output_file('sitemap.xml')",
+  "tasks:generate_pa11y_config_from_sitemap",
+  "tasks:output_file('config.json')",
+  "tasks:run_shell('npx pa11y-ci -c config.json')",
+  "tasks:delete_files(['sitemap.xml', 'config.json'])",
+]
 docs-run = [
   {cmd = "mkdocs serve"},
 ]
-test-run =[
+
+test-run = [
   {cmd = "tox -q -e py --"},
 ]
 
