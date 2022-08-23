@@ -69,8 +69,7 @@ def postconfig_import(args, config, **kwargs):
     # Requires opening the journal
     journal = open_journal(args.journal_name, config)
 
-    format = args.export if args.export else "jrnl"
-    get_importer(format).import_(journal, args.filename)
+    get_importer(args.import_format).import_(journal, args.filename)
 
 
 def postconfig_encrypt(args, config, original_config, **kwargs):

@@ -121,18 +121,19 @@ def parse_args(args=[]):
     )
     standalone.add_argument(
         "--import",
-        action="store_const",
         metavar="TYPE",
-        const=postconfig_import,
-        dest="postconfig_cmd",
+        dest="import_format",
+        nargs="?",
+        choices=IMPORT_FORMATS,
+        default="jrnl",
         help=f"""
         Import entries from another journal.
+
+        TYPE is the format to import [{util.oxford_list(IMPORT_FORMATS)}] (default: jrnl)
 
         Optional parameters:
 
         --file FILENAME (default: uses stdin)
-
-        --format [{util.oxford_list(IMPORT_FORMATS)}] (default: jrnl)
         """,
     )
     standalone.add_argument(
