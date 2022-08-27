@@ -1,0 +1,41 @@
+name: Documentation Change
+description: Request or report any updates to our documentation (https://jrnl.sh)
+title: Documentation Change
+labels: [ ":new:", "documentation" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Documentation Change
+        Hello, and thank you for reporting an issue!
+
+        Please fill out the points below, as it will make our process much easier.
+
+  - type: textarea
+    id: affected-pages
+    attributes:
+      label: Affected Page(s)
+      description: >
+        Please tell us which page, or pages, from the documentation site
+        (https://jrnl.sh) are affected in this issue
+      placeholder: "example: https://jrnl.sh/en/stable/overview"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-could-be-better
+    attributes:
+      label: What Could Be Better?
+      description: >
+        Please write a short description of what you hope can be clarified or
+        further explained.
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-info
+    attributes:
+      label: Other Information
+      description: Is there anything else we should know that might be helpful?
+    validations:
+      required: false
