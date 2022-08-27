@@ -4,6 +4,11 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1...HEAD)
 
+**Implemented enhancements:**
+
+- Report number of entries found in a search [\#1454](https://github.com/jrnl-org/jrnl/issues/1454)
+- Add message showing the number of search results [\#1524](https://github.com/jrnl-org/jrnl/pull/1524) ([apainintheneck](https://github.com/apainintheneck))
+
 **Build:**
 
 - Quick fix follow up for actionlint [\#1565](https://github.com/jrnl-org/jrnl/pull/1565) ([wren](https://github.com/wren))
