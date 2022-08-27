@@ -313,3 +313,24 @@ Feature: Writing new entries.
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
+
+    Scenario Outline: No "Entry added" message should appear when writing to the default journal
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl This is a new entry"
+        Then the output should not contain "Entry added"
+        And we should get no error
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
+
+    Scenario: An "Entry added" message should appear when writing to a non-default journal
+        Given we use the config "multiple.yaml"
+        And we use the password "test" if prompted
+        When we run "jrnl work This is a new entry"
+        Then the output should contain "Entry added to work journal"
+        And we should get no error
