@@ -1,0 +1,74 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "Bug Report"
+labels: [ ":new:", "bug" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Bug Report
+        Hello, and thank you for reporting an issue!
+
+        Please fill out the points below, as it will make our process much easier.
+
+  - type: textarea
+    id: diagnostic
+    attributes:
+      label: Diagnostic output
+      description: Run `jrnl --diagnostic` and paste the output below
+      placeholder: Paste output here
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current Behavior
+      description: Please put a short description of what is currently happening.
+      placeholder: Tell us what is happening
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Please write a short description of what you would expect to happen
+      placeholder: Tell us what should be happening
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: Repro Steps
+      description: |
+        Provide the steps to reproduce the problem.
+
+        Please be as precise as possible, since more info will let us help you faster.
+      placeholder: Repro steps
+    validations:
+      required: true
+
+  - type: textarea
+    id: debug-output
+    attributes:
+      label: Debug output
+      description: |
+        Please provide the output of your command with the `--debug` flag on.
+      placeholder: "example: `jrnl --debug lorem ipsum`"
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-info
+    attributes:
+      label: Other Information
+      description: >
+        Is there anything else we should know?
+
+        (e.g. more detailed explanation, stacktraces, related
+        issues, suggestions how to fix, links for us to have context, eg.
+        stackoverflow, gitter, etc)
+    validations:
+      required: false

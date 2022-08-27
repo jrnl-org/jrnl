@@ -1,0 +1,54 @@
+name: Support Request
+description: Get help with jrnl
+title: Support Request
+labels: [ ":new:", "support" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Support Request
+        Hello, and thank you for reporting an issue!
+
+        Please fill out the points below, as it will make our process much easier.
+
+  - type: textarea
+    id: diagnostic
+    attributes:
+      label: Diagnostic output
+      description: Run `jrnl --diagnostic` and paste the output below
+      placeholder: Paste output here
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: What are you trying to do?
+      description: Please put a short description of what is happening.
+      placeholder: Tell us what is happening
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried?
+      description: >
+        Have you tried anything to fix the problem? This can help give us more
+        information to help you with.
+      placeholder: Tell us what should be happening
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-info
+    attributes:
+      label: Other Information
+      description: >
+        Is there anything else we should know?
+
+        (e.g. more detailed explanation, stacktraces, related
+        issues, suggestions how to fix, links for us to have context, eg.
+        stackoverflow, gitter, etc)
+    validations:
+      required: false
