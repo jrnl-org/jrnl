@@ -7,6 +7,7 @@ import sys
 from jrnl import install
 from jrnl import plugins
 from jrnl import time
+from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_journal_name
 from jrnl.config import scope_config
@@ -146,13 +147,14 @@ def write_mode(args, config, journal, **kwargs):
         'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
     )
     journal.new_entry(raw)
-    print_msg(
-        Message(
-            MsgText.JournalEntryAdded,
-            MsgStyle.NORMAL,
-            {"journal_name": args.journal_name},
+    if args.journal_name != DEFAULT_JOURNAL_KEY:
+        print_msg(
+            Message(
+                MsgText.JournalEntryAdded,
+                MsgStyle.NORMAL,
+                {"journal_name": args.journal_name},
+            )
         )
-    )
     journal.write()
     logging.debug("Write mode: completed journal.write()")
 

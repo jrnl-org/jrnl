@@ -6,7 +6,7 @@ Feature: Journals iteracting with the file system in a way that users can see
     Scenario: Adding entries to a Folder journal should generate date files
         Given we use the config "empty_folder.yaml"
         When we run "jrnl 23 July 2013: Testing folder journal."
-        Then the output should contain "Entry added"
+        Then we should get no error
         And the journal directory should contain
             2013/07/23.txt
 
@@ -14,7 +14,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         Given we use the config "empty_folder.yaml"
         When we run "jrnl 23 July 2013: Testing folder journal."
         And we run "jrnl 3/7/2014: Second entry of journal."
-        Then the output should contain "Entry added"
+        Then we should get no error
         And the journal directory should contain
             2013/07/23.txt
 
