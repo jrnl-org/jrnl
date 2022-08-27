@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2-beta...HEAD)
+
+**Documentation:**
+
+- Remove note in contributing docs about gh-pages branch that we no longer use [\#1566](https://github.com/jrnl-org/jrnl/pull/1566) ([micahellison](https://github.com/micahellison))
+
 ## [v3.2-beta](https://pypi.org/project/jrnl/v3.2-beta/) (2022-08-27)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1...v3.2-beta)
