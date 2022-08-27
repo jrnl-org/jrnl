@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1...HEAD)
+
+**Build:**
+
+- Quick fix follow up for actionlint [\#1565](https://github.com/jrnl-org/jrnl/pull/1565) ([wren](https://github.com/wren))
+
 ## [v3.1](https://pypi.org/project/jrnl/v3.1/) (2022-08-21)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1-beta2...v3.1)
