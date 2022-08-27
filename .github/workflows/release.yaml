@@ -10,17 +10,17 @@ on:
         type: string
         required: true
       include_repo_version:
-        description: 'Update version in repo? (true/false)'
+        description: 'Update version in repo?'
         type: boolean
         required: true
         default: true
       include_pypi:
-        description: 'Publish to PyPI? (true/false)'
+        description: 'Publish to PyPI?'
         type: boolean
         required: true
         default: true
       include_brew:
-        description: 'Publish to Homebrew? (true/false)'
+        description: 'Publish to Homebrew?'
         type: boolean
         required: true
         default: true
