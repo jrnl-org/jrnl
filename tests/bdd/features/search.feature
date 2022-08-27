@@ -27,7 +27,8 @@ Feature: Searching in a journal
         When we run "jrnl tomorrow: A future entry."
         Then the output should contain "Entry added"
         When we run "jrnl -from today"
-        Then the output should contain "Adding an entry right now."
+        Then the output should contain "2 entries found" 
+        And the output should contain "Adding an entry right now."
         And the output should contain "A future entry."
         And the output should not contain "This thing happened yesterday"
 
@@ -47,7 +48,8 @@ Feature: Searching in a journal
         When we run "jrnl tomorrow: A future entry."
         Then the output should contain "Entry added"
         When we run "jrnl -from yesterday -to today"
-        Then the output should contain "This thing happened yesterday"
+        Then the output should contain "2 entries found"
+        And the output should contain "This thing happened yesterday"
         And the output should contain "Adding an entry right now."
         And the output should not contain "A future entry."
 
@@ -61,11 +63,25 @@ Feature: Searching in a journal
         Given we use the config "<config_file>"
         When we run "jrnl -contains first --short"
         Then we should get no error
+        And the output should contain "1 entry found"
         And the output should be
             2020-08-29 11:11 Entry the first.
 
         Examples: configs
         | config_file   |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
+    Scenario Outline: Searching for an unknown string
+        Given we use the config "<config_file>"
+        When we run "jrnl -contains slkdfsdkfjsd"
+        Then we should get no error
+        And the output should contain "no entries found"
+        And the output should not contain "slkdfsdkfjsd"
+
+        Examples: configs
+        | config_file        |
         | basic_onefile.yaml |
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
@@ -86,6 +102,7 @@ Feature: Searching in a journal
         Given we use the config "<config_file>"
         When we run "jrnl -and @tagone @tagtwo -contains maybe"
         Then we should get no error
+        And the output should contain "1 entry found"
         And the output should contain "maybe"
 
         Examples: configs
@@ -98,6 +115,7 @@ Feature: Searching in a journal
         Given we use the config "<config_file>"
         When we run "jrnl -not @tagone -contains lonesome"
         Then we should get no error
+        And the output should contain "1 entry found"
         And the output should contain "lonesome"
 
         Examples: configs
@@ -287,7 +305,8 @@ Feature: Searching in a journal
         And now is "2020-08-31 02:32:00 PM"
         When we run "jrnl 2019-08-31 01:01: Hi, from last year."
         And we run "jrnl -today-in-history --short"
-        Then the output should be
+        Then the output should contain "2 entries found"
+        And the output should be
             2019-08-31 01:01 Hi, from last year.
             2020-08-31 14:32 A second entry in what I hope to be a long series.
 
@@ -302,6 +321,7 @@ Feature: Searching in a journal
         Given we use the config "dayone.yaml"
         When we run "jrnl -from 'feb 2013'"
         Then we should get no error
+        And the output should contain "3 entries found"
         And the output should be
             2013-05-17 11:39 This entry has tags!
 
