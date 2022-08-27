@@ -6,7 +6,9 @@
 
 **Implemented enhancements:**
 
+- Supress output if action is successful [\#1543](https://github.com/jrnl-org/jrnl/issues/1543)
 - Report number of entries found in a search [\#1454](https://github.com/jrnl-org/jrnl/issues/1454)
+- Suppress "Entry added" message if using default journal [\#1561](https://github.com/jrnl-org/jrnl/pull/1561) ([micahellison](https://github.com/micahellison))
 - Add message showing the number of search results [\#1524](https://github.com/jrnl-org/jrnl/pull/1524) ([apainintheneck](https://github.com/apainintheneck))
 
 **Build:**
