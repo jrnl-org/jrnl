@@ -29,8 +29,6 @@ If you find a typo or a mistake in the docs, please fix it right away and send a
 
 To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `poe docs-run` inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
 
-The `gh-pages` branch is automatically maintained and generated after your changes are merged. You should never have to edit that branch.
-
 ### External editors and tips and tricks
 
 If you'd like to share a jrnl command line trick that you find useful, you may find it worthwhile to add it to the ["Tips and Tricks" section](tips-and-tricks.md). For advice on how to integrate a particular external editor, you can add to the ["External Editors" section](external-editors.md).
