@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2-beta...HEAD)
 
+**Implemented enhancements:**
+
+- Update issue & PR templates to use forms [\#1559](https://github.com/jrnl-org/jrnl/issues/1559)
+
 **Documentation:**
 
 - Remove note in contributing docs about gh-pages branch that we no longer use [\#1566](https://github.com/jrnl-org/jrnl/pull/1566) ([micahellison](https://github.com/micahellison))
