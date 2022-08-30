@@ -127,6 +127,8 @@ def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir
     assert os.path.samefile(default_journal_path, expected_journal_path)
 
 
+@then(parse('the config {should_or_should_not} contain "{some_yaml}"'))
+@then(parse("the config {should_or_should_not} contain\n{some_yaml}"))
 @then(
     parse(
         'the config for journal "{journal_name}" {should_or_should_not} contain "{some_yaml}"'
@@ -137,8 +139,6 @@ def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir
         'the config for journal "{journal_name}" {should_or_should_not} contain\n{some_yaml}'
     )
 )
-@then(parse('the config {should_or_should_not} contain "{some_yaml}"'))
-@then(parse("the config {should_or_should_not} contain\n{some_yaml}"))
 def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_yaml):
     we_should = parse_should_or_should_not(should_or_should_not)
 

@@ -7,6 +7,7 @@ from contextlib import ExitStack
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
 from pytest_bdd.parsers import re
+from pytest_bdd.steps import inject_fixture
 
 from jrnl.cli import cli
 
@@ -29,7 +30,21 @@ all_input = '("(?P<all_input>[^"]*)")'
 
 @when(parse('we run "jrnl {command}" and {input_method}\n{all_input}'))
 @when(re(f'we run "jrnl ?{command}" and {input_method} {all_input}'))
+def we_run_jrnl_with_all_args(
+    request, command, input_method, all_input, cli_run, capsys, keyring
+):
+    inject_fixture(request, "command", command)
+    inject_fixture(request, "input_method", input_method)
+    inject_fixture(request, "all_input", all_input)
+    return we_run_jrnl(cli_run, capsys, keyring)
+
+
 @when(parse('we run "jrnl {command}"'))
+def we_run_jrnl_with_cmd(request, command, cli_run, capsys, keyring):
+    inject_fixture(request, "command", command)
+    return we_run_jrnl(cli_run, capsys, keyring)
+
+
 @when('we run "jrnl"')
 def we_run_jrnl(cli_run, capsys, keyring):
     from keyring import set_keyring

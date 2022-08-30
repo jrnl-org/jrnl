@@ -13,6 +13,7 @@ from xml.etree import ElementTree
 
 from pytest_bdd import given
 from pytest_bdd.parsers import parse
+from pytest_bdd.steps import inject_fixture
 
 from jrnl import __version__
 from jrnl.time import __get_pdt_calendar
@@ -77,8 +78,13 @@ def we_have_type_of_keyring(keyring_type):
 
 
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
+def we_use_the_config(request, config_file, temp_dir, working_dir):
+    inject_fixture(request, "config_file", config_file)
+    return we_use_no_config(request, temp_dir, working_dir)
+
+
 @given(parse("we use no config"), target_fixture="config_path")
-def we_use_the_config(request, temp_dir, working_dir):
+def we_use_no_config(request, temp_dir, working_dir):
     config_file = get_fixture(request, "config_file")
 
     # Move into temp dir as cwd
@@ -113,13 +119,15 @@ def we_use_the_config(request, temp_dir, working_dir):
 
 
 @given(parse('the config "{config_file}" exists'), target_fixture="config_path")
-def config_exists(config_file, temp_dir, working_dir):
+def config_exists(request, config_file, temp_dir, working_dir):
     config_source = os.path.join(working_dir, "data", "configs", config_file)
     config_dest = os.path.join(temp_dir.name, config_file)
     shutil.copy2(config_source, config_dest)
+    inject_fixture(request, "config_file", config_file)
+    return config_dest
 
 
-@given(parse('we use the password "{password}" if prompted'))
+@given(parse('we use the password "{password}" if prompted'), target_fixture="password")
 def use_password_forever(password):
     return password
 
