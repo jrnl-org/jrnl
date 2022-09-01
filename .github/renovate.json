@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
-  ]
+  ],
+  "schedule": [ "at any time" ],
+  "prConcurrentLimit": 10,
+  "reviewers": [
+    "wren",
+    "micahellison"
+  ],
+  "labels": [ "packaging" ]
 }
