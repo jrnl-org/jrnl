@@ -5,6 +5,7 @@
   ],
   "schedule": [ "at any time" ],
   "prConcurrentLimit": 10,
+  "prhourlylimit": 10,
   "reviewers": [
     "wren",
     "micahellison"
