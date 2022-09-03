@@ -18,6 +18,10 @@
 
 - Add hint for how to get vi to go to end-of-file [\#1563](https://github.com/jrnl-org/jrnl/pull/1563) ([pjz](https://github.com/pjz))
 
+**Packaging:**
+
+- Update actions/setup-python action to v4 [\#1583](https://github.com/jrnl-org/jrnl/pull/1583) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v3.2](https://pypi.org/project/jrnl/v3.2/) (2022-09-03)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2-beta...v3.2)
