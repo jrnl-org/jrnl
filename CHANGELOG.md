@@ -20,6 +20,8 @@
 
 **Documentation:**
 
+- Update dependency jinja2 to v3.1.2 [\#1579](https://github.com/jrnl-org/jrnl/pull/1579) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency typed.js to v2.0.12 [\#1578](https://github.com/jrnl-org/jrnl/pull/1578) ([renovate[bot]](https://github.com/apps/renovate))
 - Add hint for how to get vi to go to end-of-file [\#1563](https://github.com/jrnl-org/jrnl/pull/1563) ([pjz](https://github.com/pjz))
 
 **Packaging:**
