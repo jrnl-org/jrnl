@@ -14,12 +14,17 @@
 - Update to use renamed flag for `brew bump-formula-pr` [\#1587](https://github.com/jrnl-org/jrnl/pull/1587) ([wren](https://github.com/wren))
 - Update peter-evans/create-pull-request action to v4 [\#1585](https://github.com/jrnl-org/jrnl/pull/1585) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/setup-python action to v4 [\#1583](https://github.com/jrnl-org/jrnl/pull/1583) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v3 [\#1582](https://github.com/jrnl-org/jrnl/pull/1582) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/cache action to v3 [\#1581](https://github.com/jrnl-org/jrnl/pull/1581) ([renovate[bot]](https://github.com/apps/renovate))
 - Replace Dependabot with Renovate [\#1575](https://github.com/jrnl-org/jrnl/pull/1575) ([renovate[bot]](https://github.com/apps/renovate))
 
 **Documentation:**
 
 - Add hint for how to get vi to go to end-of-file [\#1563](https://github.com/jrnl-org/jrnl/pull/1563) ([pjz](https://github.com/pjz))
+
+**Packaging:**
+
+- Pin dependencies [\#1577](https://github.com/jrnl-org/jrnl/pull/1577) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v3.2](https://pypi.org/project/jrnl/v3.2/) (2022-09-03)
 
