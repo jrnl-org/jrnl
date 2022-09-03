@@ -71,7 +71,7 @@ jobs:
         python-version: 3.9
 
     - name: Checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         token: ${{ secrets.JRNL_BOT_TOKEN }}
 
