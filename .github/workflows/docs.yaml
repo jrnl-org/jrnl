@@ -12,6 +12,8 @@ on:
     - 'mkdocs.yml'
     - 'readthedocs.yml'
     - '.github/workflows/docs.yaml'
+    - 'tasks.py'
+    - 'pyproject.toml'
   pull_request:
     branches: [ develop ]
     paths:
@@ -20,6 +22,8 @@ on:
     - 'mkdocs.yml'
     - 'readthedocs.yml'
     - '.github/workflows/docs.yaml'
+    - 'tasks.py'
+    - 'pyproject.toml'
 
 jobs:
   accessibility:
