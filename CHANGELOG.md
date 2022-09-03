@@ -1,31 +1,22 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.2](https://pypi.org/project/jrnl/v3.2/) (2022-09-03)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2-beta...v3.2)
 
 **Implemented enhancements:**
 
 - Update issue & PR templates to use forms [\#1559](https://github.com/jrnl-org/jrnl/issues/1559)
-
-**Documentation:**
-
-- Remove note in contributing docs about gh-pages branch that we no longer use [\#1566](https://github.com/jrnl-org/jrnl/pull/1566) ([micahellison](https://github.com/micahellison))
-
-## [v3.2-beta](https://pypi.org/project/jrnl/v3.2-beta/) (2022-08-27)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.1...v3.2-beta)
-
-**Implemented enhancements:**
-
-- Supress output if action is successful [\#1543](https://github.com/jrnl-org/jrnl/issues/1543)
-- Report number of entries found in a search [\#1454](https://github.com/jrnl-org/jrnl/issues/1454)
 - Suppress "Entry added" message if using default journal [\#1561](https://github.com/jrnl-org/jrnl/pull/1561) ([micahellison](https://github.com/micahellison))
 - Add message showing the number of search results [\#1524](https://github.com/jrnl-org/jrnl/pull/1524) ([apainintheneck](https://github.com/apainintheneck))
 
 **Build:**
 
 - Quick fix follow up for actionlint [\#1565](https://github.com/jrnl-org/jrnl/pull/1565) ([wren](https://github.com/wren))
+
+**Documentation:**
+
+- Remove note in contributing docs about gh-pages branch that we no longer use [\#1566](https://github.com/jrnl-org/jrnl/pull/1566) ([micahellison](https://github.com/micahellison))
 
 ## [v3.1](https://pypi.org/project/jrnl/v3.1/) (2022-08-21)
 
