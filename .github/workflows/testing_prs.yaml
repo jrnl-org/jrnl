@@ -13,6 +13,7 @@ on:
     - 'poetry.lock'
     - 'pyproject.toml'
     - '.github/workflows/testing_prs.yaml'
+    - 'tasks.py'
   pull_request:
     branches: [ develop ]
     paths:
@@ -22,6 +23,7 @@ on:
     - 'poetry.lock'
     - 'pyproject.toml'
     - '.github/workflows/testing_prs.yaml'
+    - 'tasks.py'
 
 defaults:
   run:
