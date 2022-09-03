@@ -211,3 +211,12 @@ display_format: markdown
 
 For more information on how `jrnl` outputs your entries in Markdown, please visit the [Formats](./formats.md) section.
 
+
+## Jump to end of buffer (with vi)
+
+To cause vi to jump to the end of the last line of the entry you edit, in your config file set:
+
+```yaml
+editor: vi + -c "call cursor('.',strwidth(getline('.')))"
+```
+
