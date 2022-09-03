@@ -21,7 +21,7 @@ def delete_files(files):
 
 def run_shell(command):
     # Required to run NPM commands in Windows and *nix
-    subprocess.run(command.split(" "), check=True)
+    subprocess.run(command, check=True, shell=True)
 
 
 def generate_sitemap():
