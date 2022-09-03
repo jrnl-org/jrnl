@@ -196,7 +196,7 @@ jobs:
           --url $(jq ".releases[\"${PYPI_VERSION}\"][1].url" -r api_response.json)
           --sha256 $(jq ".releases[\"${PYPI_VERSION}\"][1].digests.sha256" -r api_response.json)
           --no-audit
-          --write
+          --write-only
           --force
 
     - name: Create Pull Request
