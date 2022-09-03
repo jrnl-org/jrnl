@@ -11,6 +11,7 @@
 **Build:**
 
 - Replace Dependabot [\#1560](https://github.com/jrnl-org/jrnl/issues/1560)
+- Fix Docs Accessibility Testing [\#1588](https://github.com/jrnl-org/jrnl/pull/1588) ([wren](https://github.com/wren))
 - Update to use renamed flag for `brew bump-formula-pr` [\#1587](https://github.com/jrnl-org/jrnl/pull/1587) ([wren](https://github.com/wren))
 - Update peter-evans/create-pull-request action to v4 [\#1585](https://github.com/jrnl-org/jrnl/pull/1585) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/setup-python action to v4 [\#1583](https://github.com/jrnl-org/jrnl/pull/1583) ([renovate[bot]](https://github.com/apps/renovate))
