@@ -1,2 +1,2 @@
-mkdocs>=1.0,<1.3
+mkdocs==1.2.4
 jinja2==3.0.3 # https://github.com/readthedocs/readthedocs.org/issues/9037
