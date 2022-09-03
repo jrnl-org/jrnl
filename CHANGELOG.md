@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...HEAD)
+
+**Implemented enhancements:**
+
+- Add dependency security checks in CI [\#1488](https://github.com/jrnl-org/jrnl/issues/1488)
+
+**Build:**
+
+- Replace Dependabot [\#1560](https://github.com/jrnl-org/jrnl/issues/1560)
+- Replace Dependabot with Renovate [\#1575](https://github.com/jrnl-org/jrnl/pull/1575) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v3.2](https://pypi.org/project/jrnl/v3.2/) (2022-09-03)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2-beta...v3.2)
