@@ -11,7 +11,12 @@
 **Build:**
 
 - Replace Dependabot [\#1560](https://github.com/jrnl-org/jrnl/issues/1560)
+- Update to use renamed flag for `brew bump-formula-pr` [\#1587](https://github.com/jrnl-org/jrnl/pull/1587) ([wren](https://github.com/wren))
 - Replace Dependabot with Renovate [\#1575](https://github.com/jrnl-org/jrnl/pull/1575) ([renovate[bot]](https://github.com/apps/renovate))
+
+**Documentation:**
+
+- Add hint for how to get vi to go to end-of-file [\#1563](https://github.com/jrnl-org/jrnl/pull/1563) ([pjz](https://github.com/pjz))
 
 ## [v3.2](https://pypi.org/project/jrnl/v3.2/) (2022-09-03)
 
