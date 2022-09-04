@@ -271,13 +271,14 @@ supported by many programs and programming languages.
 
 ### YAML
 ``` sh
-jrnl --format yaml
+jrnl --format yaml --file 'my_directory/'
 ```
 
 This outputs your journal into YAML format. YAML is a commonly used data format and is
-supported by many programs and programming languages.
+supported by many programs and programming languages. [Exporting to directories](#exporting-to-directories) is the
+only supported YAML export option and each entry will be written to a separate file.
 
-**Example output**:
+**Example file**:
 ``` yaml
 title: This is the second sample entry
 date: 2020-07-01 20:00
@@ -335,14 +336,14 @@ jrnl --format json > myjournal.json
 If the `--file` argument is a directory, jrnl will export each entry into an individual file:
 
 ``` sh
-jrnl --format json --file my_entries/
+jrnl --format yaml --file my_entries/
 ```
 
 The contents of `my_entries/` will then look like this:
 
 ``` output
 my_entries/
-|- 2013_06_03_a-beautiful-day.json
-|- 2013_06_07_dinner-with-gabriel.json
+|- 2013_06_03_a-beautiful-day.yaml
+|- 2013_06_07_dinner-with-gabriel.yaml
 |- ...
 ```
