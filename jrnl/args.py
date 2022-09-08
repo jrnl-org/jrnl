@@ -85,7 +85,13 @@ def parse_args(args=[]):
         action="store_const",
         const=postconfig_list,
         dest="postconfig_cmd",
-        help="List all configured journals",
+        help="""
+        List all configured journals.
+
+        Optional parameters:
+
+        --format [json or yaml]
+        """,
     )
     standalone.add_argument(
         "--ls",

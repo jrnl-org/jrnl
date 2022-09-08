@@ -56,10 +56,10 @@ def preconfig_version(_):
     print(output)
 
 
-def postconfig_list(config, **kwargs):
+def postconfig_list(args, config, **kwargs):
     from jrnl.output import list_journals
 
-    print(list_journals(config))
+    print(list_journals(config, args.export))
 
 
 def postconfig_import(args, config, **kwargs):
