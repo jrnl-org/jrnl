@@ -117,7 +117,7 @@ def output_should_be_columns_wide(cli_run, width):
     )
 )
 def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir):
-    default_journal_path = config_on_disk["journals"]["default"]
+    default_journal_path = config_on_disk["journals"]["default"]["journal"]
     expected_journal_path = (
         os.path.join(temp_dir.name, journal_file)
         if journal_dir == "."

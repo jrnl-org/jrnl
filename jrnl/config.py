@@ -91,7 +91,7 @@ def get_config_path():
 def get_default_config():
     return {
         "version": __version__,
-        "journals": {"default": get_default_journal_path()},
+        "journals": {"default": {"journal": get_default_journal_path()}},
         "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
         "encrypt": False,
         "template": False,
