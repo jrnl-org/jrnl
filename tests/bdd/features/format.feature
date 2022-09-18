@@ -600,16 +600,15 @@ Feature: Custom formats
 
     Scenario: Export journal list to multiple formats.
         Given we use the config "basic_onefile.yaml"
-        And the home directory is called "home"
         When we run "jrnl --list"
         Then the output should match
-            Journals defined in config \(/[\w/]+/basic_onefile\.yaml\)
+            Journals defined in config \(.+basic_onefile\.yaml\)
              \* default -> features/journals/basic_onefile\.journal
         When we run "jrnl --list --format json"
         Then the output should match
-            {"config_path": "/[\w/]+/basic_onefile\.yaml", "journals": {"default": "features/journals/basic_onefile\.journal"}}
+            {"config_path": ".+basic_onefile\.yaml", "journals": {"default": "features/journals/basic_onefile\.journal"}}
         When we run "jrnl --list --format yaml"
         Then the output should match
-            config_path: /[\w/]+/basic_onefile\.yaml
+            config_path: .+basic_onefile\.yaml
             journals:
               default: features/journals/basic_onefile\.journal
