@@ -597,3 +597,19 @@ Feature: Custom formats
         When we run "jrnl --format text --file {cache_dir}"
         Then the cache directory should contain 5 files
         And we should get no error
+
+    Scenario: Export journal list to multiple formats.
+        Given we use the config "basic_onefile.yaml"
+        And the home directory is called "home"
+        When we run "jrnl --list"
+        Then the output should match
+            Journals defined in config \(/[\w/]+/basic_onefile\.yaml\)
+             \* default -> features/journals/basic_onefile\.journal
+        When we run "jrnl --list --format json"
+        Then the output should match
+            {"config_path": "/[\w/]+/basic_onefile\.yaml", "journals": {"default": "features/journals/basic_onefile\.journal"}}
+        When we run "jrnl --list --format yaml"
+        Then the output should match
+            config_path: /[\w/]+/basic_onefile\.yaml
+            journals:
+              default: features/journals/basic_onefile\.journal
