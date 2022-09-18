@@ -25,30 +25,48 @@ def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
         callback(**kwargs)
 
 
+def journal_list_to_json(journal_list):
+    import json
+
+    return json.dumps(journal_list)
+
+
+def journal_list_to_yaml(journal_list):
+    from io import StringIO
+
+    from ruamel.yaml import YAML
+
+    output = StringIO()
+    YAML().dump(journal_list, output)
+    return output.getvalue()
+
+
+def journal_list_to_stdout(journal_list):
+    result = f"Journals defined in config ({journal_list['config_path']})\n"
+    ml = min(max(len(k) for k in journal_list["journals"]), 20)
+    for journal, cfg in journal_list["journals"].items():
+        result += " * {:{}} -> {}\n".format(
+            journal, ml, cfg["journal"] if isinstance(cfg, dict) else cfg
+        )
+    return result
+
+
 def list_journals(configuration, format=None):
     from jrnl import config
 
     """List the journals specified in the configuration file"""
+
+    journal_list = {
+        "config_path": config.get_config_path(),
+        "journals": configuration["journals"],
+    }
+
     if format == "json":
-        import json
-
-        return json.dumps(configuration["journals"])
+        return journal_list_to_json(journal_list)
     elif format == "yaml":
-        from io import StringIO
-
-        from ruamel.yaml import YAML
-
-        output = StringIO()
-        YAML().dump(configuration["journals"], output)
-        return output.getvalue()
+        return journal_list_to_yaml(journal_list)
     else:
-        result = f"Journals defined in config ({config.get_config_path()})\n"
-        ml = min(max(len(k) for k in configuration["journals"]), 20)
-        for journal, cfg in configuration["journals"].items():
-            result += " * {:{}} -> {}\n".format(
-                journal, ml, cfg["journal"] if isinstance(cfg, dict) else cfg
-            )
-        return result
+        return journal_list_to_stdout(journal_list)
 
 
 def print_msg(msg: Message, **kwargs) -> Union[None, str]:
