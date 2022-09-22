@@ -10,7 +10,7 @@ from ruamel.yaml import YAML
 from jrnl.exception import JrnlException
 from jrnl.Journal import PlainJournal
 from jrnl.plugins.fancy_exporter import check_provided_linewrap_viability
-from jrnl.plugins.text_exporter import TextExporter
+from jrnl.plugins.yaml_exporter import YAMLExporter
 
 
 @pytest.fixture()
@@ -49,5 +49,5 @@ class TestYaml:
         with TemporaryDirectory() as tmpdir:
             p = Path(tmpdir / "non_existing_folder")
             with pytest.raises(JrnlException):
-                TextExporter.write_file(simple_journal, p)
+                YAMLExporter.write_file(simple_journal, p)
             assert not p.exists()
