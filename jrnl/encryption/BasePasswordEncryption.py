@@ -24,8 +24,10 @@ class BasePasswordEncryption(BaseEncryption):
         self._password = None
         self._encoding = "utf-8"
 
-        # Check keyring first to be ready for decryption
-        self._password = get_keyring_password(self._config["journal"])
+        # Check keyring first for password.
+        # That way we'll have it.
+        if keyring_pw := get_keyring_password(self._journal_name):
+            self.password = keyring_pw
 
     @property
     def password(self):
@@ -37,7 +39,7 @@ class BasePasswordEncryption(BaseEncryption):
 
     def encrypt(self, text):
         if self.password is None:
-            self.password = create_password(self._config["journal"])
+            self.password = create_password(self._journal_name)
         return self._encrypt(text)
 
     def decrypt(self, text):

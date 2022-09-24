@@ -5,7 +5,8 @@ from abc import abstractmethod
 
 
 class BaseEncryption(ABC):
-    def __init__(self, config):
+    def __init__(self, journal_name, config):
+        self._journal_name = journal_name
         self._config = config
 
     @abstractmethod

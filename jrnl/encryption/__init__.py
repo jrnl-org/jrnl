@@ -1,18 +1,22 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-from jrnl.encryption.NoEncryption import NoEncryption
+from importlib import import_module
+
+ENCRYPTION_METHODS = {
+    # config: classname (as string)
+    "default": "NoEncryption",
+    False: "NoEncryption",
+    True: "Jrnlv2Encryption",
+    "jrnlv1": "Jrnlv1Encryption",
+    "jrnlv2": "Jrnlv2Encryption",
+}
 
 
 def determine_encryption_method(config):
-    encryption_method = NoEncryption
-    if config is True or config == "jrnlv2":
-        # Default encryption method
-        from jrnl.encryption.Jrnlv2Encryption import Jrnlv2Encryption
+    key = config
+    if isinstance(config, str):
+        key = config.lower()
 
-        encryption_method = Jrnlv2Encryption
-    elif config == "jrnlv1":
-        from jrnl.encryption.Jrnlv1Encryption import Jrnlv1Encryption
+    my_class = ENCRYPTION_METHODS.get(key, "default")
 
-        encryption_method = Jrnlv1Encryption
-
-    return encryption_method
+    return getattr(import_module(f"jrnl.encryption.{my_class}"), my_class)

@@ -17,7 +17,7 @@ def get_keyring_password(journal_name: str = "default") -> str | None:
         return None
 
 
-def set_keyring_password(password, journal_name: str = "default"):
+def set_keyring_password(password: str, journal_name: str = "default"):
     try:
         return keyring.set_password("jrnl", journal_name, password)
     except keyring.errors.KeyringError as e:

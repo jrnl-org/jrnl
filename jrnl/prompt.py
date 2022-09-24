@@ -37,7 +37,7 @@ def create_password(journal_name: str) -> str:
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
         from jrnl.keyring import set_keyring_password
 
-        set_keyring_password(journal_name, pw)
+        set_keyring_password(pw, journal_name)
 
     return pw
 
