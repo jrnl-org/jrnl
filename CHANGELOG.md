@@ -7,6 +7,8 @@
 **Implemented enhancements:**
 
 - Add dependency security checks in CI [\#1488](https://github.com/jrnl-org/jrnl/issues/1488)
+- Add machine-readable format for --list [\#1445](https://github.com/jrnl-org/jrnl/issues/1445)
+- Add machine readable --list output [\#1592](https://github.com/jrnl-org/jrnl/pull/1592) ([apainintheneck](https://github.com/apainintheneck))
 
 **Build:**
 
