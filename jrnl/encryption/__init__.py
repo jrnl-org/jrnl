@@ -3,9 +3,9 @@
 from jrnl.encryption.NoEncryption import NoEncryption
 
 
-def determine_encryption_type(config):
+def determine_encryption_method(config):
     encryption_method = NoEncryption
-    if config is True:
+    if config is True or config == "jrnlv2":
         # Default encryption method
         from jrnl.encryption.Jrnlv2Encryption import Jrnlv2Encryption
 

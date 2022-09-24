@@ -5,12 +5,11 @@ import datetime
 import logging
 import os
 import re
-from types import ModuleType
 
+from jrnl import EncryptedJournal
 from jrnl import Entry
 from jrnl import time
-from jrnl.encryption import BaseEncryption
-from jrnl.encryption import determine_encryption_type
+from jrnl.encryption import determine_encryption_method
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -82,7 +81,7 @@ class Journal:
         self.sort()
 
     def _get_encryption_method(self):
-        self._encryption_method = determine_encryption_type(self.config["encrypt"])(
+        self._encryption_method = determine_encryption_method(self.config["encrypt"])(
             self.config
         )
 

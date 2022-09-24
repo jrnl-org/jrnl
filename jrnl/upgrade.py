@@ -4,6 +4,7 @@
 import os
 
 from jrnl import Journal
+from jrnl import PlainJournal
 from jrnl import __version__
 from jrnl.config import is_config_json
 from jrnl.config import load_config
