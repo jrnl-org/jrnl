@@ -35,9 +35,9 @@ def create_password(journal_name: str) -> str:
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
-        from jrnl.EncryptedJournal import set_keychain
+        from jrnl.keyring import set_keyring_password
 
-        set_keychain(journal_name, pw)
+        set_keyring_password(journal_name, pw)
 
     return pw
 
