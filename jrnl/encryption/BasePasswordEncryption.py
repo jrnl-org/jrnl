@@ -25,11 +25,7 @@ class BasePasswordEncryption(BaseEncryption):
         self._encoding = "utf-8"
 
         # Check keyring first to be ready for decryption
-        get_keyring_password(self._config["journal"])
-
-        # Prompt for password if keyring didn't work
-        if self.password is None:
-            self._prompt_password()
+        self._password = get_keyring_password(self._config["journal"])
 
     @property
     def password(self):
@@ -45,6 +41,8 @@ class BasePasswordEncryption(BaseEncryption):
         return self._encrypt(text)
 
     def decrypt(self, text):
+        if self.password is None:
+            self._prompt_password()
         while (result := self._decrypt(text)) is None:
             self._prompt_password()
 
