@@ -1,13 +1,9 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 from jrnl.encryption.BaseEncryption import BaseEncryption
-from jrnl.exception import JrnlException
 from jrnl.keyring import get_keyring_password
-from jrnl.messages import Message
-from jrnl.messages import MsgStyle
-from jrnl.messages import MsgText
-from jrnl.output import print_msg
 from jrnl.prompt import create_password
+from jrnl.prompt import prompt_password
 
 
 class BasePasswordEncryption(BaseEncryption):
@@ -51,17 +47,6 @@ class BasePasswordEncryption(BaseEncryption):
         return result
 
     def _prompt_password(self):
-        if self._attempts >= self._max_attempts:
-            raise JrnlException(
-                Message(MsgText.PasswordMaxTriesExceeded, MsgStyle.ERROR)
-            )
-
-        if self._attempts > 0:
-            print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
-
-        self._attempts += 1
-        self.password = print_msg(
-            Message(MsgText.Password, MsgStyle.PROMPT),
-            get_input=True,
-            hide_input=True,
+        self._attempts, self.password = prompt_password(
+            self._attempts, self._max_attempts
         )
