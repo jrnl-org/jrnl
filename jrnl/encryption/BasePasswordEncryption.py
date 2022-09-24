@@ -28,7 +28,10 @@ class BasePasswordEncryption(BaseEncryption):
         if self._password is None:
             self._prompt_password()
 
-    def decrypt(self, text: str) -> str:
+    def encrypt(self, text: str) -> bytes:
+        return self._encrypt(text)
+
+    def decrypt(self, text: bytes) -> str:
         encoded_text = text.encode(self._encoding)
         while (result := self._decrypt(encoded_text)) is None:
             self._prompt_password()

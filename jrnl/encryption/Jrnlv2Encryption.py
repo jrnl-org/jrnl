@@ -36,7 +36,7 @@ class Jrnlv2Encryption(BasePasswordEncryption):
         key = kdf.derive(password)
         self._key = base64.urlsafe_b64encode(key)
 
-    def encrypt(self, text: str) -> bytes:
+    def _encrypt(self, text: str) -> bytes:
         return Fernet(self._key).encrypt(text.encode(self._encoding))
 
     def _decrypt(self, text: bytes) -> str | None:

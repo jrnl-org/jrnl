@@ -9,17 +9,27 @@ class BaseEncryption(ABC):
         self._config = config
 
     @abstractmethod
-    def encrypt(self, text: str) -> str:
+    def encrypt(self, text: str) -> bytes:
         pass
 
     @abstractmethod
-    def decrypt(self, text: str) -> str | None:
+    def decrypt(self, text: bytes) -> str | None:
         pass
 
     @abstractmethod
-    def _decrypt(self, text: str) -> str:
+    def _encrypt(self, text: bytes) -> str:
         """
-        This is needed because self.decrypt needs
-        to get a password on decryption failures
+        This is needed because self.decrypt might need
+        to perform actions (e.g. prompt for password)
+        before actually encrypting.
+        """
+        pass
+
+    @abstractmethod
+    def _decrypt(self, text: bytes) -> str:
+        """
+        This is needed because self.decrypt might need
+        to perform actions (e.g. prompt for password)
+        before actually decrypting.
         """
         pass
