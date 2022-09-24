@@ -5,9 +5,12 @@ import datetime
 import logging
 import os
 import re
+from types import ModuleType
 
 from jrnl import Entry
 from jrnl import time
+from jrnl.encryption import BaseEncryption
+from jrnl.encryption import determine_encryption_type
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -46,6 +49,7 @@ class Journal:
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
         self.entries = []
+        self._encryption_method = None
 
     def __len__(self):
         """Returns the number of entries"""
@@ -77,6 +81,23 @@ class Journal:
         self.entries = list(frozenset(self.entries) | frozenset(imported_entries))
         self.sort()
 
+    def _get_encryption_method(self):
+        self._encryption_method = determine_encryption_type(self.config["encrypt"])(
+            self.config
+        )
+
+    def _decrypt(self, text):
+        if not self._encryption_method:
+            self._get_encryption_method()
+
+        return self._encryption_method.decrypt(text)
+
+    def _encrypt(self, text):
+        if not self._encryption_method:
+            self._get_encryption_method()
+
+        return self._encryption_method.encrypt(text)
+
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
@@ -105,6 +126,7 @@ class Journal:
             )
 
         text = self._load(filename)
+        text = self._decrypt(text)
         self.entries = self._parse(text)
         self.sort()
         logging.debug("opened %s with %d entries", self.__class__.__name__, len(self))
@@ -114,6 +136,7 @@ class Journal:
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config["journal"]
         text = self._to_text()
+        text = self._encrypt(text)
         self._store(filename, text)
 
     def validate_parsing(self):
@@ -344,7 +367,7 @@ class Journal:
 
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
-        manually and later be parsed with eslf.parse_editable_str."""
+        manually and later be parsed with self.parse_editable_str."""
         return "\n".join([str(e) for e in self.entries])
 
     def parse_editable_str(self, edited):
@@ -465,8 +488,6 @@ def open_journal(journal_name, config, legacy=False):
             return FolderJournal.Folder(journal_name, **config).open()
         return PlainJournal(journal_name, **config).open()
 
-    from jrnl import EncryptedJournal
-
     if legacy:
         return EncryptedJournal.LegacyEncryptedJournal(journal_name, **config).open()
-    return EncryptedJournal.EncryptedJournal(journal_name, **config).open()
+    return PlainJournal(journal_name, **config).open()

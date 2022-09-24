@@ -78,8 +78,8 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
     Encrypt a journal in place, or optionally to a new file
     """
     from jrnl.config import update_config
-    from jrnl.EncryptedJournal import EncryptedJournal
     from jrnl.install import save_config
+    from jrnl.Journal import PlainJournal
     from jrnl.Journal import open_journal
 
     # Open the journal
@@ -97,7 +97,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
             )
         )
 
-    new_journal = EncryptedJournal.from_journal(journal)
+    new_journal = PlainJournal.from_journal(journal)
 
     # If journal is encrypted, create new password
     if journal.config["encrypt"] is True:
