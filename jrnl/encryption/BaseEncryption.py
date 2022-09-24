@@ -9,15 +9,15 @@ class BaseEncryption(ABC):
         self._config = config
 
     @abstractmethod
-    def encrypt(self, text: str) -> bytes:
+    def encrypt(self, text: str) -> str:
         pass
 
     @abstractmethod
-    def decrypt(self, text: bytes) -> str | None:
+    def decrypt(self, text: str) -> str | None:
         pass
 
     @abstractmethod
-    def _encrypt(self, text: bytes) -> str:
+    def _encrypt(self, text: str) -> str:
         """
         This is needed because self.decrypt might need
         to perform actions (e.g. prompt for password)
@@ -26,7 +26,7 @@ class BaseEncryption(ABC):
         pass
 
     @abstractmethod
-    def _decrypt(self, text: bytes) -> str:
+    def _decrypt(self, text: str) -> str:
         """
         This is needed because self.decrypt might need
         to perform actions (e.g. prompt for password)

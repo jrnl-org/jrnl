@@ -4,7 +4,6 @@
 import os
 
 from jrnl import Journal
-from jrnl import PlainJournal
 from jrnl import __version__
 from jrnl.config import is_config_json
 from jrnl.config import load_config
@@ -132,7 +131,7 @@ def upgrade_jrnl(config_path):
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
         )
-        all_journals.append(PlainJournal.from_journal(old_journal))
+        all_journals.append(Journal.PlainJournal.from_journal(old_journal))
 
     for journal_name, path in plain_journals.items():
         print_msg(

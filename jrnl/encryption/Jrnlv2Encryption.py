@@ -13,19 +13,25 @@ from .BasePasswordEncryption import BasePasswordEncryption
 
 class Jrnlv2Encryption(BasePasswordEncryption):
     _salt: bytes
-    _encoding: str
     _key: bytes
 
     def __init__(self, *args, **kwargs) -> None:
+        # Salt is hard-coded
+        self._salt: bytes = b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8"
+
         super().__init__(*args, **kwargs)
 
-        # Salt is hard-coded
-        self._salt = b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8"
-        self._encoding = "utf-8"
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        self._password = value
         self._make_key()
 
     def _make_key(self) -> None:
-        password = self._password.encode(self._encoding)
+        password = self.password.encode(self._encoding)
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
@@ -36,11 +42,19 @@ class Jrnlv2Encryption(BasePasswordEncryption):
         key = kdf.derive(password)
         self._key = base64.urlsafe_b64encode(key)
 
-    def _encrypt(self, text: str) -> bytes:
-        return Fernet(self._key).encrypt(text.encode(self._encoding))
+    def _encrypt(self, text: str) -> str:
+        return (
+            Fernet(self._key)
+            .encrypt(text.encode(self._encoding))
+            .decode(self._encoding)
+        )
 
-    def _decrypt(self, text: bytes) -> str | None:
+    def _decrypt(self, text: str) -> str | None:
         try:
-            return Fernet(self._key).decrypt((text)).decode(self._encoding)
+            return (
+                Fernet(self._key)
+                .decrypt(text.encode(self._encoding))
+                .decode(self._encoding)
+            )
         except (InvalidToken, IndexError):
             return None

@@ -6,7 +6,6 @@ import logging
 import os
 import re
 
-from jrnl import EncryptedJournal
 from jrnl import Entry
 from jrnl import time
 from jrnl.encryption import determine_encryption_method
@@ -48,7 +47,7 @@ class Journal:
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
         self.entries = []
-        self._encryption_method = None
+        self.encryption_method = None
 
     def __len__(self):
         """Returns the number of entries"""
@@ -81,21 +80,20 @@ class Journal:
         self.sort()
 
     def _get_encryption_method(self):
-        self._encryption_method = determine_encryption_method(self.config["encrypt"])(
-            self.config
-        )
+        encryption_method = determine_encryption_method(self.config["encrypt"])
+        self.encryption_method = encryption_method(self.config)
 
     def _decrypt(self, text):
-        if not self._encryption_method:
+        if self.encryption_method is None:
             self._get_encryption_method()
 
-        return self._encryption_method.decrypt(text)
+        return self.encryption_method.decrypt(text)
 
     def _encrypt(self, text):
-        if not self._encryption_method:
+        if self.encryption_method is None:
             self._get_encryption_method()
 
-        return self._encryption_method.encrypt(text)
+        return self.encryption_method.encrypt(text)
 
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
@@ -488,5 +486,6 @@ def open_journal(journal_name, config, legacy=False):
         return PlainJournal(journal_name, **config).open()
 
     if legacy:
-        return EncryptedJournal.LegacyEncryptedJournal(journal_name, **config).open()
+        config["encrypt"] = "jrnlv1"
+        return LegacyJournal(journal_name, **config).open()
     return PlainJournal(journal_name, **config).open()
