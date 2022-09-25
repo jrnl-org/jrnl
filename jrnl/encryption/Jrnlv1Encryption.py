@@ -20,7 +20,8 @@ class Jrnlv1Encryption(BasePasswordEncryption):
 
     def _decrypt(self, text: bytes) -> str | None:
         iv, cipher = text[:16], text[16:]
-        decryption_key = hashlib.sha256(self._password.encode("utf-8")).digest()
+        password = self._password or ""
+        decryption_key = hashlib.sha256(password.encode(self._encoding)).digest()
         decryptor = Cipher(
             algorithms.AES(decryption_key), modes.CBC(iv), default_backend()
         ).decryptor()
@@ -29,10 +30,10 @@ class Jrnlv1Encryption(BasePasswordEncryption):
             # self._password = password
             if plain_padded[-1] in (" ", 32):
                 # Ancient versions of jrnl. Do not judge me.
-                return plain_padded.decode("utf-8").rstrip(" ")
+                return plain_padded.decode(self._encoding).rstrip(" ")
             else:
                 unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
                 plain = unpadder.update(plain_padded) + unpadder.finalize()
-                return plain.decode("utf-8")
+                return plain.decode(self._encoding)
         except ValueError:
             return None

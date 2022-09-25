@@ -1,6 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import logging
 import os
 
 from jrnl import Journal
@@ -131,7 +132,10 @@ def upgrade_jrnl(config_path):
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
         )
-        all_journals.append(Journal.PlainJournal.from_journal(old_journal))
+
+        logging.debug(f"Clearing encryption method for '{journal_name}' journal")
+        old_journal.encryption_method = None
+        all_journals.append(old_journal)
 
     for journal_name, path in plain_journals.items():
         print_msg(

@@ -8,17 +8,14 @@ from jrnl.prompt import prompt_password
 
 class BasePasswordEncryption(BaseEncryption):
     _attempts: int
-    _journal_name: str
     _max_attempts: int
     _password: str | None
-    _encoding: str
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._attempts = 0
         self._max_attempts = 3
         self._password = None
-        self._encoding = "utf-8"
 
         # Check keyring first for password.
         # That way we'll have it.
@@ -38,7 +35,7 @@ class BasePasswordEncryption(BaseEncryption):
             self.password = create_password(self._journal_name)
         return self._encrypt(text)
 
-    def decrypt(self, text):
+    def decrypt(self, text: bytes) -> str:
         if self.password is None:
             self._prompt_password()
         while (result := self._decrypt(text)) is None:

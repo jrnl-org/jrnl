@@ -380,7 +380,7 @@ class Journal:
 
 class PlainJournal(Journal):
     def _load(self, filename):
-        with open(filename, "r", encoding="utf-8") as f:
+        with open(filename, "r") as f:
             return f.read()
 
     def _store(self, filename, text):
@@ -394,7 +394,7 @@ class LegacyJournal(Journal):
     by square brackets. You'll not be able to save these journals anymore."""
 
     def _load(self, filename):
-        with open(filename, "r", encoding="utf-8") as f:
+        with open(filename, "rb") as f:
             return f.read()
 
     def _parse(self, journal_txt):

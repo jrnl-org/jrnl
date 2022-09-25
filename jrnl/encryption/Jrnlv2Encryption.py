@@ -49,12 +49,8 @@ class Jrnlv2Encryption(BasePasswordEncryption):
             .decode(self._encoding)
         )
 
-    def _decrypt(self, text: str) -> str | None:
+    def _decrypt(self, text: bytes) -> str | None:
         try:
-            return (
-                Fernet(self._key)
-                .decrypt(text.encode(self._encoding))
-                .decode(self._encoding)
-            )
+            return Fernet(self._key).decrypt(text).decode(self._encoding)
         except (InvalidToken, IndexError):
             return None
