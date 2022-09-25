@@ -134,8 +134,15 @@ def upgrade_jrnl(config_path):
         )
 
         logging.debug(f"Clearing encryption method for '{journal_name}' journal")
-        old_journal.encryption_method = None
-        all_journals.append(old_journal)
+
+        # Update the encryption method
+        new_journal = Journal.PlainJournal.from_journal(old_journal)
+        new_journal.config["encrypt"] = "jrnlv2"
+        new_journal._get_encryption_method()
+        # Copy over password (jrnlv1 only supported password-based encryption)
+        new_journal.encryption_method.password = old_journal.encryption_method.password
+
+        all_journals.append(new_journal)
 
     for journal_name, path in plain_journals.items():
         print_msg(

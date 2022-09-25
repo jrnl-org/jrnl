@@ -10,5 +10,8 @@ class NoEncryption(BaseEncryption):
     def _encrypt(self, text: str) -> str:
         return text
 
-    def _decrypt(self, text: str) -> str:
-        return text
+    def _decrypt(self, text: bytes | str) -> str:
+        result = text
+        if isinstance(result, bytes):
+            result = result.decode(self._encoding)
+        return result
