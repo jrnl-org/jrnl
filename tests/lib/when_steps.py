@@ -44,7 +44,7 @@ def we_run_jrnl(cli_run, capsys, keyring):
             mocks[id] = stack.enter_context(factories[id]())
 
         try:
-            cli()
+            cli_run["status"] = cli() or 0
         except StopIteration:
             # This happens when input is expected, but don't have any input left
             pass
