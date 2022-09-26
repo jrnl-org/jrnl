@@ -12,12 +12,10 @@ from .BasePasswordEncryption import BasePasswordEncryption
 
 
 class Jrnlv2Encryption(BasePasswordEncryption):
-    _salt: bytes
-    _key: bytes
-
     def __init__(self, *args, **kwargs) -> None:
         # Salt is hard-coded
         self._salt: bytes = b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8"
+        self._key: bytes = b""
 
         super().__init__(*args, **kwargs)
 
@@ -49,8 +47,12 @@ class Jrnlv2Encryption(BasePasswordEncryption):
             .decode(self._encoding)
         )
 
-    def _decrypt(self, text: bytes) -> str | None:
+    def _decrypt(self, text: str) -> str | None:
         try:
-            return Fernet(self._key).decrypt(text).decode(self._encoding)
+            return (
+                Fernet(self._key)
+                .decrypt(text.encode(self._encoding))
+                .decode(self._encoding)
+            )
         except (InvalidToken, IndexError):
             return None

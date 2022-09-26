@@ -39,7 +39,7 @@ class BaseEncryption(ABC):
         pass
 
     @abstractmethod
-    def _decrypt(self, text: bytes) -> str | None:
+    def _decrypt(self, text: bytes | str) -> str | None:
         """
         This is needed because self.decrypt might need
         to perform actions (e.g. prompt for password)

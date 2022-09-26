@@ -79,7 +79,7 @@ class Journal:
         self.entries = list(frozenset(self.entries) | frozenset(imported_entries))
         self.sort()
 
-    def _get_encryption_method(self):
+    def _get_encryption_method(self) -> None:
         encryption_method = determine_encryption_method(self.config["encrypt"])
         self.encryption_method = encryption_method(self.name, self.config)
 
@@ -380,7 +380,7 @@ class Journal:
 
 class PlainJournal(Journal):
     def _load(self, filename):
-        with open(filename, "r") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
     def _store(self, filename, text):
