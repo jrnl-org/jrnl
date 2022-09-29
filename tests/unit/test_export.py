@@ -1,14 +1,14 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from pathlib import Path
-from tempfile import TemporaryDirectory
+from unittest import mock
 
 import pytest
-from ruamel.yaml import YAML
 
 from jrnl.exception import JrnlException
-from jrnl.Journal import PlainJournal
+from jrnl.messages import Message
+from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.plugins.fancy_exporter import check_provided_linewrap_viability
 from jrnl.plugins.yaml_exporter import YAMLExporter
 
@@ -16,14 +16,6 @@ from jrnl.plugins.yaml_exporter import YAMLExporter
 @pytest.fixture()
 def datestr():
     yield "2020-10-20 16:59"
-
-
-@pytest.fixture()
-def simple_journal():
-    with open("tests/data/configs/simple.yaml") as f:
-        yaml = YAML(typ="safe")
-        config = yaml.load(f)
-    return PlainJournal("simple_journal", **config).open()
 
 
 def build_card_header(datestr):
@@ -45,9 +37,12 @@ class TestFancy:
 
 
 class TestYaml:
-    def test_export_to_nonexisting_folder(self, simple_journal):
-        with TemporaryDirectory() as tmpdir:
-            p = Path(tmpdir / "non_existing_folder")
-            with pytest.raises(JrnlException):
-                YAMLExporter.write_file(simple_journal, p)
-            assert not p.exists()
+    @mock.patch("jrnl.plugins.yaml_exporter.YAMLExporter.export_journal")
+    @mock.patch("builtins.open")
+    def test_export_to_nonexisting_folder(self, mock_open, mock_export_journal):
+        mock_export_journal.side_effect = JrnlException(
+            Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR)
+        )
+        with pytest.raises(JrnlException):
+            YAMLExporter.write_file("journal", "non-existing-path")
+        mock_open.assert_not_called()
