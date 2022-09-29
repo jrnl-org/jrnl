@@ -23,6 +23,7 @@ def should_get_no_error(cli_run):
     assert cli_run["status"] == 0, cli_run["status"]
 
 
+@then(parse("the output should match\n{regex}"))
 @then(parse('the output should match "{regex}"'))
 def output_should_match(regex, cli_run):
     out = cli_run["stdout"]
