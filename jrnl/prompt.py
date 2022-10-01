@@ -51,11 +51,15 @@ def prompt_password(attempts: int, max_attempts: int) -> tuple[int, str]:
         print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
 
     attempts += 1
-    return attempts, print_msg(
-        Message(MsgText.Password, MsgStyle.PROMPT),
-        get_input=True,
-        hide_input=True,
-    ) or ""
+    return (
+        attempts,
+        print_msg(
+            Message(MsgText.Password, MsgStyle.PROMPT),
+            get_input=True,
+            hide_input=True,
+        )
+        or "",
+    )
 
 
 def yesno(prompt: Message, default: bool = True) -> bool:
