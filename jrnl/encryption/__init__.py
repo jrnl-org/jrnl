@@ -7,6 +7,9 @@ from .BaseEncryption import BaseEncryption
 
 
 class EncryptionMethods(str, Enum):
+    def __str__(self) -> str:
+        return self.value
+
     NONE = "NoEncryption"
     JRNLV1 = "Jrnlv1Encryption"
     JRNLV2 = "Jrnlv2Encryption"
