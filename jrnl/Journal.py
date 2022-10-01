@@ -153,11 +153,12 @@ class Journal:
         return "\n".join([str(e) for e in self.entries])
 
     def _load(self, filename):
-        raise NotImplementedError
+        with open(filename, "rb") as f:
+            return f.read()
 
-    @classmethod
-    def _store(filename, text):
-        raise NotImplementedError
+    def _store(self, filename, text):
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(text)
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
@@ -379,23 +380,13 @@ class Journal:
 
 
 class PlainJournal(Journal):
-    def _load(self, filename):
-        with open(filename, "r", encoding="utf-8") as f:
-            return f.read()
-
-    def _store(self, filename, text):
-        with open(filename, "w", encoding="utf-8") as f:
-            f.write(text)
+    pass
 
 
 class LegacyJournal(Journal):
     """Legacy class to support opening journals formatted with the jrnl 1.x
     standard. Main difference here is that in 1.x, timestamps were not cuddled
     by square brackets. You'll not be able to save these journals anymore."""
-
-    def _load(self, filename):
-        with open(filename, "rb") as f:
-            return f.read()
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""

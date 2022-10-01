@@ -30,12 +30,12 @@ class BasePasswordEncryption(BaseEncryption):
     def password(self, value):
         self._password = value
 
-    def encrypt(self, text):
+    def encrypt(self, text: str) -> str:
         if not self.password:
             self.password = create_password(self._journal_name)
         return self._encrypt(text)
 
-    def decrypt(self, text: str) -> str:
+    def decrypt(self, text: bytes) -> str:
         if not self.password:
             self._prompt_password()
         while (result := self._decrypt(text)) is None:

@@ -21,7 +21,7 @@ class BaseEncryption(ABC):
     def encrypt(self, text: str) -> str:
         return self._encrypt(text)
 
-    def decrypt(self, text: str) -> str:
+    def decrypt(self, text: bytes) -> str:
         if (result := self._decrypt(text)) is None:
             raise JrnlException(
                 Message(MsgText.DecryptionFailedGeneric, MsgStyle.ERROR)
@@ -39,7 +39,7 @@ class BaseEncryption(ABC):
         pass
 
     @abstractmethod
-    def _decrypt(self, text: bytes | str) -> str | None:
+    def _decrypt(self, text: bytes) -> str | None:
         """
         This is needed because self.decrypt might need
         to perform actions (e.g. prompt for password)
