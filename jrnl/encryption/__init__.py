@@ -12,16 +12,14 @@ class EncryptionMethods(str, Enum):
     JRNLV2 = "Jrnlv2Encryption"
 
 
-ENCRYPTION_METHODS = {
-    # config: classname (as string)
-    True: EncryptionMethods.JRNLV2,  # the default
-    False: EncryptionMethods.NONE,
-    "jrnlv1": EncryptionMethods.JRNLV1,
-    "jrnlv2": EncryptionMethods.JRNLV2,
-}
-
-
 def determine_encryption_method(config: str | bool) -> BaseEncryption:
+    ENCRYPTION_METHODS = {
+        True: EncryptionMethods.JRNLV2,  # the default
+        False: EncryptionMethods.NONE,
+        "jrnlv1": EncryptionMethods.JRNLV1,
+        "jrnlv2": EncryptionMethods.JRNLV2,
+    }
+
     key = config
     if isinstance(config, str):
         key = config.lower()
