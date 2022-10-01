@@ -157,7 +157,7 @@ class Journal:
             return f.read()
 
     def _store(self, filename, text):
-        with open(filename, "w", encoding="utf-8") as f:
+        with open(filename, "wb") as f:
             f.write(text)
 
     def _parse(self, journal_txt):

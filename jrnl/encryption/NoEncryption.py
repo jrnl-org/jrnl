@@ -7,8 +7,8 @@ class NoEncryption(BaseEncryption):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def _encrypt(self, text: str) -> str:
-        return text
+    def _encrypt(self, text: str) -> bytes:
+        return text.encode(self._encoding)
 
     def _decrypt(self, text: bytes) -> str:
         return text.decode(self._encoding)
