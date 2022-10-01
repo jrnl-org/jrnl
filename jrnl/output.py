@@ -38,7 +38,7 @@ def list_journals(configuration):
     return result
 
 
-def print_msg(msg: Message, **kwargs) -> Union[None, str]:
+def print_msg(msg: Message, **kwargs) -> None | str:
     """Helper function to print a single message"""
     kwargs["style"] = msg.style
     return print_msgs([msg], **kwargs)
@@ -50,7 +50,7 @@ def print_msgs(
     style: MsgStyle = MsgStyle.NORMAL,
     get_input: bool = False,
     hide_input: bool = False,
-) -> Union[None, str]:
+) -> None | str:
     # Same as print_msg, but for a list
     text = Text("", end="")
     kwargs = style.decoration.args

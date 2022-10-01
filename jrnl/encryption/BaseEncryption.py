@@ -12,8 +12,9 @@ from jrnl.messages import MsgText
 class BaseEncryption(ABC):
     _encoding: str
     _journal_name: str
+    _config: dict
 
-    def __init__(self, journal_name, config):
+    def __init__(self, journal_name: str, config: dict):
         self._encoding = "utf-8"
         self._journal_name = journal_name
         self._config = config

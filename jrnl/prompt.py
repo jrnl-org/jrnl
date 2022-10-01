@@ -43,7 +43,7 @@ def create_password(journal_name: str) -> str:
     return pw
 
 
-def prompt_password(attempts: int, max_attempts: int) -> tuple[int, str | None]:
+def prompt_password(attempts: int, max_attempts: int) -> tuple[int, str]:
     if attempts >= max_attempts:
         raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgStyle.ERROR))
 
@@ -55,7 +55,7 @@ def prompt_password(attempts: int, max_attempts: int) -> tuple[int, str | None]:
         Message(MsgText.Password, MsgStyle.PROMPT),
         get_input=True,
         hide_input=True,
-    )
+    ) or ""
 
 
 def yesno(prompt: Message, default: bool = True) -> bool:

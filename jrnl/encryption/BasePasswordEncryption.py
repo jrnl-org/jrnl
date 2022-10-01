@@ -11,7 +11,7 @@ class BasePasswordEncryption(BaseEncryption):
     _max_attempts: int
     _password: str
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self._attempts = 0
         self._max_attempts = 3
@@ -23,11 +23,11 @@ class BasePasswordEncryption(BaseEncryption):
             self.password = keyring_pw
 
     @property
-    def password(self):
+    def password(self) -> str:
         return self._password
 
     @password.setter
-    def password(self, value):
+    def password(self, value: str) -> None:
         self._password = value
 
     def encrypt(self, text: str) -> str:
@@ -43,7 +43,7 @@ class BasePasswordEncryption(BaseEncryption):
 
         return result
 
-    def _prompt_password(self):
+    def _prompt_password(self) -> None:
         self._attempts, self.password = prompt_password(
             self._attempts, self._max_attempts
         )
