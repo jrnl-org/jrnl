@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import textwrap
-from typing import Union
 
 from rich.console import Console
 from rich.text import Text
