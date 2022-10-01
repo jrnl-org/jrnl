@@ -379,10 +379,6 @@ class Journal:
         self.entries = mod_entries
 
 
-class PlainJournal(Journal):
-    pass
-
-
 class LegacyJournal(Journal):
     """Legacy class to support opening journals formatted with the jrnl 1.x
     standard. Main difference here is that in 1.x, timestamps were not cuddled
@@ -474,9 +470,9 @@ def open_journal(journal_name, config, legacy=False):
             from jrnl import FolderJournal
 
             return FolderJournal.Folder(journal_name, **config).open()
-        return PlainJournal(journal_name, **config).open()
+        return Journal(journal_name, **config).open()
 
     if legacy:
         config["encrypt"] = "jrnlv1"
         return LegacyJournal(journal_name, **config).open()
-    return PlainJournal(journal_name, **config).open()
+    return Journal(journal_name, **config).open()
