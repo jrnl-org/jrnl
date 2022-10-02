@@ -83,13 +83,13 @@ class Journal:
         encryption_method = determine_encryption_method(self.config["encrypt"])
         self.encryption_method = encryption_method(self.name, self.config)
 
-    def _decrypt(self, text):
+    def _decrypt(self, text: bytes) -> str:
         if self.encryption_method is None:
             self._get_encryption_method()
 
         return self.encryption_method.decrypt(text)
 
-    def _encrypt(self, text):
+    def _encrypt(self, text: str) -> bytes:
         if self.encryption_method is None:
             self._get_encryption_method()
 
