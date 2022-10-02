@@ -71,6 +71,17 @@ back to journal. In the case of MacVim, this is `-f`:
 editor: "mvim -f"
 ```
 
+## Vim/Neovim
+
+To use any of the Vim derivatives as editor in Linux, simply set the `editor`
+to the executable:
+
+```yaml
+editor: "vim"
+# or
+editor: "nvim"
+```
+
 ## iA Writer
 
 On OS X, you can use the fabulous [iA
