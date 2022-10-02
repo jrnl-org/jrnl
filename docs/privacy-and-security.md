@@ -67,6 +67,53 @@ Windows doesn't log history to disk, but it does keep it in your command prompt
 session. Close the command prompt or press `Alt`+`F7` to clear your history
 after journaling.
 
+## Editor history
+
+Some editors keep usage history stored on disk for future use. This can be a
+security risk in the sense that sensitive information can leak via recent
+search patterns or editor commands.
+
+### Vim
+
+Vim stores progress data in a so called Viminfo file located at `~/.viminfo`
+and contains all sorts of user data including command line history, search
+string history, search/substitute patterns, contents of register etc. The use
+of this file can be disabled by starting Vim with `-i NONE`.
+
+Also to be able to recover opened files after an unexpected application close
+Vim uses swap files. These can be disabled by starting Vim with `-n`.
+
+Combining these flags we can now start a more private Vim session by setting
+the `editor` key in the Jrnl settings like this:
+
+```yaml
+editor: "vim -i NONE -n"
+```
+
+To disable all plugins and custom configurations and start Vim with the default
+configuration `-u NONE` can be passed as well. This will ensure that any rouge
+plugins or other difficult to catch information leaks are eliminated. The
+downside to this is that the editor experience will decrease quite a bit.
+
+Please see `:h viminfo`, `:h -i`, `:h -n` and `:h -u` in Vim for more information.
+
+### Neovim
+
+Neovim strives to be mostly compatible with Vim and has therefore similar
+functionality as Vim. One difference in Neovim is that the Viminfo file is
+instead called the ShaDa ("shared data") file which has a default path of
+`~/.local/share/nvim/shada/main.shada`. The ShaDa file can be disabled in the
+same way as for Vim.
+
+Let's also add the `-n` flag to disable the swap file.
+
+```yaml
+editor: "nvim -i NONE -n"
+```
+
+Please see `:h shada` in Neovim for more information (as well as the other
+flags mentioned for Vim above).
+
 ## Files in transit from editor to jrnl
 
 When creating or editing an entry, `jrnl` uses a unencrypted temporary file on

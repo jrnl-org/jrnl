@@ -14,6 +14,9 @@ in your [configuration file](./reference-config-file.md#editor)
 If your editor is not in your operating system's `PATH` environment variable,
 then you will have to enter in the full path of your editor.
 
+Please see [this section](./privacy-and-security.md#editor-history) about how
+your editor might leak sensitive information and how to mitigate that risk.
+
 ## Sublime Text
 
 To use [Sublime Text](https://www.sublimetext.com/), install the command line
