@@ -22,7 +22,7 @@ __pycache__/
 
 # Versioning
 .python-version
-.tool-version
+.tool-versions
 
 # Installer logs
 .DS_Store
