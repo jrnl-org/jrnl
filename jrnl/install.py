@@ -122,10 +122,10 @@ def install():
     )
     journal_path = absolute_path(user_given_path or default_journal_path)
     default_config = get_default_config()
-    default_config["journals"][DEFAULT_JOURNAL_KEY] = journal_path
+    default_config["journals"][DEFAULT_JOURNAL_KEY]["journal"] = journal_path
 
     # If the folder doesn't exist, create it
-    path = os.path.split(default_config["journals"][DEFAULT_JOURNAL_KEY])[0]
+    path = os.path.split(journal_path)[0]
     try:
         os.makedirs(path)
     except OSError:
