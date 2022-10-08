@@ -27,7 +27,7 @@ classifiers = [
 "Funding" = "https://opencollective.com/jrnl"
 
 [tool.poetry.dependencies]
-python = ">=3.9.0, <3.12"
+python = ">=3.10.0, <3.12"
 
 ansiwrap = "^0.8.4"
 colorama = ">=0.4"       # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
