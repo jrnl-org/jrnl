@@ -15,7 +15,7 @@ class BaseEncryption(ABC):
         self._journal_name: str = journal_name
         self._config: dict = config
 
-    def encrypt(self, text: str) -> str:
+    def encrypt(self, text: str) -> bytes:
         return self._encrypt(text)
 
     def decrypt(self, text: bytes) -> str:
@@ -27,7 +27,7 @@ class BaseEncryption(ABC):
         return result
 
     @abstractmethod
-    def _encrypt(self, text: str) -> str:
+    def _encrypt(self, text: str) -> bytes:
         """
         This is needed because self.decrypt might need
         to perform actions (e.g. prompt for password)
