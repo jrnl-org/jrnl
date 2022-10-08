@@ -1,7 +1,6 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -43,22 +42,17 @@ def create_password(journal_name: str) -> str:
     return pw
 
 
-def prompt_password(attempts: int, max_attempts: int) -> tuple[int, str]:
-    if attempts >= max_attempts:
-        raise JrnlException(Message(MsgText.PasswordMaxTriesExceeded, MsgStyle.ERROR))
-
-    if attempts > 0:
+def prompt_password(first_try: bool = True) -> str:
+    if not first_try:
         print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
 
-    attempts += 1
     return (
-        attempts,
         print_msg(
             Message(MsgText.Password, MsgStyle.PROMPT),
             get_input=True,
             hide_input=True,
         )
-        or "",
+        or ""
     )
 
 
