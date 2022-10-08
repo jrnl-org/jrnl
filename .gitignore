@@ -17,10 +17,12 @@ sdist/
 .tox/
 var/
 node_modules/
+__pycache__/
+.pytest_cache/
 
 # Versioning
 .python-version
-.tool-version
+.tool-versions
 
 # Installer logs
 .DS_Store

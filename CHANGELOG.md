@@ -1,18 +1,26 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.3-beta](https://pypi.org/project/jrnl/v3.3-beta/) (2022-10-08)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...v3.3-beta)
 
 **Implemented enhancements:**
 
 - Add dependency security checks in CI [\#1488](https://github.com/jrnl-org/jrnl/issues/1488)
 - Add machine-readable format for --list [\#1445](https://github.com/jrnl-org/jrnl/issues/1445)
+- Change default config to use journal key [\#1594](https://github.com/jrnl-org/jrnl/pull/1594) ([micahellison](https://github.com/micahellison))
 - Add machine readable --list output [\#1592](https://github.com/jrnl-org/jrnl/pull/1592) ([apainintheneck](https://github.com/apainintheneck))
+
+**Fixed bugs:**
+
+- Bug Report - Sometimes jrnl crashes and truncates journal file [\#1599](https://github.com/jrnl-org/jrnl/issues/1599)
+- Zero-length file created when attempting to export YAML to a directory that does not exist [\#1593](https://github.com/jrnl-org/jrnl/issues/1593)
+- Don't create empty file when attempting a YAML export to a non-existing folder [\#1600](https://github.com/jrnl-org/jrnl/pull/1600) ([outa](https://github.com/outa))
 
 **Build:**
 
 - Replace Dependabot [\#1560](https://github.com/jrnl-org/jrnl/issues/1560)
+- Update `.gitignore` [\#1604](https://github.com/jrnl-org/jrnl/pull/1604) ([wren](https://github.com/wren))
 - Fix Docs Accessibility Testing [\#1588](https://github.com/jrnl-org/jrnl/pull/1588) ([wren](https://github.com/wren))
 - Update to use renamed flag for `brew bump-formula-pr` [\#1587](https://github.com/jrnl-org/jrnl/pull/1587) ([wren](https://github.com/wren))
 - Update peter-evans/create-pull-request action to v4 [\#1585](https://github.com/jrnl-org/jrnl/pull/1585) ([renovate[bot]](https://github.com/apps/renovate))
@@ -23,6 +31,7 @@
 
 **Documentation:**
 
+- \[Documentation\] Edit on Github link broken [\#1601](https://github.com/jrnl-org/jrnl/issues/1601)
 - Update `--format yaml` example in docs [\#1525](https://github.com/jrnl-org/jrnl/issues/1525)
 - Update YAML export description in docs [\#1591](https://github.com/jrnl-org/jrnl/pull/1591) ([apainintheneck](https://github.com/apainintheneck))
 - Update dependency jinja2 to v3.1.2 [\#1579](https://github.com/jrnl-org/jrnl/pull/1579) ([renovate[bot]](https://github.com/apps/renovate))
