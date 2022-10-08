@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.3-beta](https://pypi.org/project/jrnl/v3.3-beta/) (2022-10-08)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...v3.3-beta)
 
 **Implemented enhancements:**
 
@@ -14,6 +14,8 @@
 **Fixed bugs:**
 
 - Bug Report - Sometimes jrnl crashes and truncates journal file [\#1599](https://github.com/jrnl-org/jrnl/issues/1599)
+- Zero-length file created when attempting to export YAML to a directory that does not exist [\#1593](https://github.com/jrnl-org/jrnl/issues/1593)
+- Don't create empty file when attempting a YAML export to a non-existing folder [\#1600](https://github.com/jrnl-org/jrnl/pull/1600) ([outa](https://github.com/outa))
 
 **Build:**
 
