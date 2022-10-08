@@ -15,7 +15,7 @@ class Jrnlv1Encryption(BasePasswordEncryption):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-    def _encrypt(self, text: str) -> bytes:
+    def _encrypt(self, _: str) -> bytes:
         raise NotImplementedError
 
     def _decrypt(self, text: bytes) -> str | None:
