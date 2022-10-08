@@ -7,15 +7,11 @@ from jrnl.prompt import prompt_password
 
 
 class BasePasswordEncryption(BaseEncryption):
-    _attempts: int
-    _max_attempts: int
-    _password: str
-
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self._attempts = 0
-        self._max_attempts = 3
-        self._password = ""
+        self._attempts: int = 0
+        self._max_attempts: int = 3
+        self._password: str = ""
 
         # Check keyring first for password.
         # That way we'll have it.

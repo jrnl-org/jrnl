@@ -10,14 +10,10 @@ from jrnl.messages import MsgText
 
 
 class BaseEncryption(ABC):
-    _encoding: str
-    _journal_name: str
-    _config: dict
-
     def __init__(self, journal_name: str, config: dict):
-        self._encoding = "utf-8"
-        self._journal_name = journal_name
-        self._config = config
+        self._encoding: str = "utf-8"
+        self._journal_name: str = journal_name
+        self._config: dict = config
 
     def encrypt(self, text: str) -> str:
         return self._encrypt(text)
