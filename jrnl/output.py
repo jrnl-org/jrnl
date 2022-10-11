@@ -12,7 +12,9 @@ from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 
 
-def deprecated_cmd(old_cmd: str, new_cmd: str, callback: Callable | None = None, **kwargs) -> None:
+def deprecated_cmd(
+    old_cmd: str, new_cmd: str, callback: Callable | None = None, **kwargs
+) -> None:
     print_msg(
         Message(
             MsgText.DeprecatedCommand,

@@ -194,7 +194,9 @@ def is_config_json(config_path: str) -> bool:
     return config_file.strip().startswith("{")
 
 
-def update_config(config: dict, new_config: dict, scope: str | None, force_local: bool = False) -> None:
+def update_config(
+    config: dict, new_config: dict, scope: str | None, force_local: bool = False
+) -> None:
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""

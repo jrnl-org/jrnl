@@ -1,8 +1,8 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-from argparse import Namespace
 import logging
 import sys
+from argparse import Namespace
 
 from jrnl import install
 from jrnl import plugins
@@ -15,8 +15,8 @@ from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
 from jrnl.Entry import Entry
 from jrnl.exception import JrnlException
-from jrnl.Journal import open_journal
 from jrnl.Journal import Journal
+from jrnl.Journal import open_journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -322,7 +322,9 @@ def _other_entries(journal: Journal, entries: list[Entry]) -> list[Entry]:
     return [e for e in entries if e not in journal.entries]
 
 
-def _edit_search_results(config: dict, journal: Journal, old_entries: list[Entry], **kwargs) -> None:
+def _edit_search_results(
+    config: dict, journal: Journal, old_entries: list[Entry], **kwargs
+) -> None:
     """
     1. Send the given journal entries to the user-configured editor
     2. Print out stats on any modifications to journal
@@ -356,7 +358,9 @@ def _edit_search_results(config: dict, journal: Journal, old_entries: list[Entry
     journal.write()
 
 
-def _print_edited_summary(journal: Journal, old_stats: dict[str, int], **kwargs) -> None:
+def _print_edited_summary(
+    journal: Journal, old_stats: dict[str, int], **kwargs
+) -> None:
     stats = {
         "added": len(journal) - old_stats["count"],
         "deleted": old_stats["count"] - len(journal),
@@ -399,7 +403,9 @@ def _get_predit_stats(journal: Journal) -> dict[str, int]:
     return {"count": len(journal)}
 
 
-def _delete_search_results(journal: Journal, old_entries: list[Entry], **kwargs) -> None:
+def _delete_search_results(
+    journal: Journal, old_entries: list[Entry], **kwargs
+) -> None:
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
     if entries_to_delete:
@@ -409,7 +415,13 @@ def _delete_search_results(journal: Journal, old_entries: list[Entry], **kwargs)
         journal.write()
 
 
-def _change_time_search_results(args: Namespace, journal: Journal, old_entries: list[Entry], no_prompt: bool = False, **kwargs) -> None:
+def _change_time_search_results(
+    args: Namespace,
+    journal: Journal,
+    old_entries: list[Entry],
+    no_prompt: bool = False,
+    **kwargs
+) -> None:
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
 

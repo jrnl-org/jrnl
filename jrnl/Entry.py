@@ -5,16 +5,25 @@ import datetime
 import logging
 import os
 import re
+from typing import TYPE_CHECKING
 
 import ansiwrap
 
-from .Journal import Journal
 from .color import colorize
 from .color import highlight_tags_with_background_color
 
+if TYPE_CHECKING:
+    from .Journal import Journal
+
 
 class Entry:
-    def __init__(self, journal: Journal, date: datetime.datetime | None = None, text: str = "", starred: bool = False):
+    def __init__(
+        self,
+        journal: "Journal",
+        date: datetime.datetime | None = None,
+        text: str = "",
+        starred: bool = False,
+    ):
         self.journal = journal  # Reference to journal mainly to access its config
         self.date = date or datetime.datetime.now()
         self.text = text

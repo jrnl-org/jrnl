@@ -4,11 +4,14 @@
 import re
 from string import punctuation
 from string import whitespace
+from typing import TYPE_CHECKING
 
 import colorama
 
-from jrnl.Entry import Entry
 from jrnl.os_compat import on_windows
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
 
 if on_windows():
     colorama.init()
@@ -28,7 +31,7 @@ def colorize(string: str, color: str, bold: bool = False) -> str:
 
 
 def highlight_tags_with_background_color(
-    entry: Entry, text: str, color: str, is_title: bool = False
+    entry: "Entry", text: str, color: str, is_title: bool = False
 ) -> str:
     """
     Takes a string and colorizes the tags in it based upon the config value for
