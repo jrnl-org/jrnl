@@ -2,7 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import textwrap
-from typing import Union
+from typing import Callable
 
 from rich.console import Console
 from rich.text import Text
@@ -12,7 +12,7 @@ from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 
 
-def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
+def deprecated_cmd(old_cmd: str, new_cmd: str, callback: Callable | None = None, **kwargs) -> None:
     print_msg(
         Message(
             MsgText.DeprecatedCommand,
@@ -25,13 +25,13 @@ def deprecated_cmd(old_cmd, new_cmd, callback=None, **kwargs):
         callback(**kwargs)
 
 
-def journal_list_to_json(journal_list):
+def journal_list_to_json(journal_list: dict) -> str:
     import json
 
     return json.dumps(journal_list)
 
 
-def journal_list_to_yaml(journal_list):
+def journal_list_to_yaml(journal_list: dict) -> str:
     from io import StringIO
 
     from ruamel.yaml import YAML
@@ -41,7 +41,7 @@ def journal_list_to_yaml(journal_list):
     return output.getvalue()
 
 
-def journal_list_to_stdout(journal_list):
+def journal_list_to_stdout(journal_list: dict) -> str:
     result = f"Journals defined in config ({journal_list['config_path']})\n"
     ml = min(max(len(k) for k in journal_list["journals"]), 20)
     for journal, cfg in journal_list["journals"].items():
@@ -51,7 +51,7 @@ def journal_list_to_stdout(journal_list):
     return result
 
 
-def list_journals(configuration, format=None):
+def list_journals(configuration: dict, format: str | None = None) -> str:
     from jrnl import config
 
     """List the journals specified in the configuration file"""
@@ -69,7 +69,7 @@ def list_journals(configuration, format=None):
         return journal_list_to_stdout(journal_list)
 
 
-def print_msg(msg: Message, **kwargs) -> Union[None, str]:
+def print_msg(msg: Message, **kwargs) -> str | None:
     """Helper function to print a single message"""
     kwargs["style"] = msg.style
     return print_msgs([msg], **kwargs)
@@ -81,7 +81,7 @@ def print_msgs(
     style: MsgStyle = MsgStyle.NORMAL,
     get_input: bool = False,
     hide_input: bool = False,
-) -> Union[None, str]:
+) -> str | None:
     # Same as print_msg, but for a list
     text = Text("", end="")
     kwargs = style.decoration.args
@@ -113,7 +113,7 @@ def _get_console(stderr: bool = True) -> Console:
     return Console(stderr=stderr)
 
 
-def _add_extra_style_args_if_needed(args, msg):
+def _add_extra_style_args_if_needed(args: dict, msg: Message):
     args["border_style"] = msg.style.color
     args["title"] = msg.style.box_title
     return args

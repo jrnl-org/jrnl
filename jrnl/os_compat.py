@@ -5,14 +5,14 @@ import shlex
 from sys import platform
 
 
-def on_windows():
+def on_windows() -> bool:
     return "win32" in platform
 
 
-def on_posix():
+def on_posix() -> bool:
     return not on_windows()
 
 
-def split_args(args):
+def split_args(args: str) -> list[str]:
     """Split arguments and add escape characters as appropriate for the OS"""
     return shlex.split(args, posix=on_posix())

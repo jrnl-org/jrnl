@@ -4,6 +4,7 @@
 import argparse
 import logging
 import os
+from typing import Any
 from typing import Callable
 
 import colorama
@@ -57,7 +58,7 @@ def make_yaml_valid_dict(input: list) -> dict:
     return runtime_modifications
 
 
-def save_config(config, alt_config_path=None):
+def save_config(config: dict, alt_config_path: str | None = None) -> None:
     """Supply alt_config_path if using an alternate config through --config-file."""
     config["version"] = __version__
 
@@ -72,7 +73,7 @@ def save_config(config, alt_config_path=None):
         yaml.dump(config, f)
 
 
-def get_config_path():
+def get_config_path() -> str:
     try:
         config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
     except FileExistsError:
@@ -91,7 +92,7 @@ def get_config_path():
     return os.path.join(config_directory_path or home_dir(), DEFAULT_CONFIG_NAME)
 
 
-def get_default_config():
+def get_default_config() -> dict[str, Any]:
     return {
         "version": __version__,
         "journals": {"default": {"journal": get_default_journal_path()}},
@@ -114,12 +115,12 @@ def get_default_config():
     }
 
 
-def get_default_journal_path():
+def get_default_journal_path() -> str:
     journal_data_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or home_dir()
     return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
 
 
-def scope_config(config, journal_name):
+def scope_config(config: dict, journal_name: str) -> dict:
     if journal_name not in config["journals"]:
         return config
     config = config.copy()
@@ -139,7 +140,7 @@ def scope_config(config, journal_name):
     return config
 
 
-def verify_config_colors(config):
+def verify_config_colors(config: dict) -> bool:
     """
     Ensures the keys set for colors are valid colorama.Fore attributes, or "None"
     :return: True if all keys are set correctly, False otherwise
@@ -164,7 +165,7 @@ def verify_config_colors(config):
     return all_valid_colors
 
 
-def load_config(config_path):
+def load_config(config_path: str) -> dict:
     """Tries to load a config file from YAML."""
     try:
         with open(config_path, encoding=YAML_FILE_ENCODING) as f:
@@ -187,13 +188,13 @@ def load_config(config_path):
             return yaml.load(f)
 
 
-def is_config_json(config_path):
+def is_config_json(config_path: str) -> bool:
     with open(config_path, "r", encoding="utf-8") as f:
         config_file = f.read()
     return config_file.strip().startswith("{")
 
 
-def update_config(config, new_config, scope, force_local=False):
+def update_config(config: dict, new_config: dict, scope: str | None, force_local: bool = False) -> None:
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""
@@ -206,7 +207,7 @@ def update_config(config, new_config, scope, force_local=False):
         config.update(new_config)
 
 
-def get_journal_name(args, config):
+def get_journal_name(args: argparse.Namespace, config: dict) -> argparse.Namespace:
     args.journal_name = DEFAULT_JOURNAL_KEY
 
     # The first arg might be a journal name

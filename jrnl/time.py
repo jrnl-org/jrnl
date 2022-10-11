@@ -8,7 +8,7 @@ DEFAULT_FUTURE = datetime.datetime(FAKE_YEAR, 12, 31, 23, 59, 59)
 DEFAULT_PAST = datetime.datetime(FAKE_YEAR, 1, 1, 0, 0)
 
 
-def __get_pdt_calendar():
+def __get_pdt_calendar() -> "pdt.Calendar":
     try:
         import parsedatetime.parsedatetime_consts as pdt
     except ImportError:
@@ -22,8 +22,8 @@ def __get_pdt_calendar():
 
 
 def parse(
-    date_str, inclusive=False, default_hour=None, default_minute=None, bracketed=False
-):
+    date_str: str | datetime.datetime, inclusive: bool = False, default_hour: int | None = None, default_minute: int | None = None, bracketed: bool = False
+) -> datetime.datetime | None:
     """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
     if not date_str:
         return None

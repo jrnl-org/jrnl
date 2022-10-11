@@ -8,12 +8,13 @@ import re
 
 import ansiwrap
 
+from .Journal import Journal
 from .color import colorize
 from .color import highlight_tags_with_background_color
 
 
 class Entry:
-    def __init__(self, journal, date=None, text="", starred=False):
+    def __init__(self, journal: Journal, date: datetime.datetime | None = None, text: str = "", starred: bool = False):
         self.journal = journal  # Reference to journal mainly to access its config
         self.date = date or datetime.datetime.now()
         self.text = text
@@ -24,7 +25,7 @@ class Entry:
         self.modified = False
 
     @property
-    def fulltext(self):
+    def fulltext(self) -> str:
         return self.title + " " + self.body
 
     def _parse_text(self):
@@ -68,11 +69,11 @@ class Entry:
         self._tags = x
 
     @staticmethod
-    def tag_regex(tagsymbols):
+    def tag_regex(tagsymbols: str) -> re.Pattern:
         pattern = rf"(?<!\S)([{tagsymbols}][-+*#/\w]+)"
         return re.compile(pattern)
 
-    def _parse_tags(self):
+    def _parse_tags(self) -> set[str]:
         tagsymbols = self.journal.config["tagsymbols"]
         return {
             tag.lower() for tag in re.findall(Entry.tag_regex(tagsymbols), self.text)
@@ -90,7 +91,7 @@ class Entry:
             body=self.body.rstrip("\n "),
         )
 
-    def pprint(self, short=False):
+    def pprint(self, short: bool = False) -> str:
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
         # Handle indentation
@@ -197,7 +198,7 @@ class Entry:
     def __hash__(self):
         return hash(self.__repr__())
 
-    def __eq__(self, other):
+    def __eq__(self, other: "Entry"):
         if (
             not isinstance(other, Entry)
             or self.title.strip() != other.title.strip()
@@ -230,7 +231,7 @@ SENTENCE_SPLITTER = re.compile(
 SENTENCE_SPLITTER_ONLY_NEWLINE = re.compile("\n")
 
 
-def split_title(text):
+def split_title(text: str) -> tuple[str, str]:
     """Splits the first sentence off from a text."""
     sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.lstrip())
     if not sep:

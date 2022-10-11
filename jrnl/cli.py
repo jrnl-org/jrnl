@@ -16,7 +16,7 @@ from jrnl.messages import MsgText
 from jrnl.output import print_msg
 
 
-def configure_logger(debug=False):
+def configure_logger(debug: bool = False) -> None:
     if not debug:
         logging.disable()
         return
@@ -31,7 +31,7 @@ def configure_logger(debug=False):
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
 
 
-def cli(manual_args=None):
+def cli(manual_args: list[str] | None = None) -> int:
     try:
         if manual_args is None:
             manual_args = sys.argv[1:]

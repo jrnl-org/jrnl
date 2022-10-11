@@ -38,7 +38,7 @@ class DayOne(Journal.Journal):
         self.can_be_encrypted = False
         super().__init__(**kwargs)
 
-    def open(self):
+    def open(self) -> "DayOne":
         filenames = []
         for root, dirnames, f in os.walk(self.config["journal"]):
             for filename in fnmatch.filter(f, "*.doentry"):
@@ -113,7 +113,7 @@ class DayOne(Journal.Journal):
         self.sort()
         return self
 
-    def write(self):
+    def write(self) -> None:
         """Writes only the entries that have been modified into plist files."""
         for entry in self.entries:
             if entry.modified:
@@ -177,12 +177,12 @@ class DayOne(Journal.Journal):
             )
             os.remove(filename)
 
-    def editable_str(self):
+    def editable_str(self) -> str:
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with eslf.parse_editable_str."""
         return "\n".join([f"{str(e)}\n# {e.uuid}\n" for e in self.entries])
 
-    def _update_old_entry(self, entry, new_entry):
+    def _update_old_entry(self, entry: Entry, new_entry: Entry) -> None:
         for attr in ("title", "body", "date"):
             old_attr = getattr(entry, attr)
             new_attr = getattr(new_entry, attr)
@@ -190,7 +190,7 @@ class DayOne(Journal.Journal):
                 entry.modified = True
                 setattr(entry, attr, new_attr)
 
-    def _get_and_remove_uuid_from_entry(self, entry):
+    def _get_and_remove_uuid_from_entry(self, entry: Entry) -> Entry:
         uuid_regex = "^ *?# ([a-zA-Z0-9]+) *?$"
         m = re.search(uuid_regex, entry.body, re.MULTILINE)
         entry.uuid = m.group(1) if m else None
@@ -201,7 +201,7 @@ class DayOne(Journal.Journal):
 
         return entry
 
-    def parse_editable_str(self, edited):
+    def parse_editable_str(self, edited: str) -> None:
         """Parses the output of self.editable_str and updates its entries."""
         # Method: create a new list of entries from the edited text, then match
         # UUIDs of the new entries against self.entries, updating the entries
@@ -210,7 +210,7 @@ class DayOne(Journal.Journal):
         entries_from_editor = self._parse(edited)
 
         for entry in entries_from_editor:
-            entry = self._get_and_remove_uuid_from_entry(entry)
+            self._get_and_remove_uuid_from_entry(entry)
 
         # Remove deleted entries
         edited_uuids = [e.uuid for e in entries_from_editor]
