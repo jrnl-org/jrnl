@@ -3,6 +3,8 @@
 
 from xml.dom import minidom
 
+from jrnl.Entry import Entry
+from jrnl.Journal import Journal
 from jrnl.plugins.json_exporter import JSONExporter
 from jrnl.plugins.util import get_tags_count
 
@@ -14,7 +16,9 @@ class XMLExporter(JSONExporter):
     extension = "xml"
 
     @classmethod
-    def export_entry(cls, entry, doc=None):
+    def export_entry(
+        cls, entry: Entry, doc: minidom.Document | None = None
+    ) -> minidom.Element | str:
         """Returns an XML representation of a single entry."""
         doc_el = doc or minidom.Document()
         entry_el = doc_el.createElement("entry")
@@ -29,7 +33,7 @@ class XMLExporter(JSONExporter):
             return entry_el
 
     @classmethod
-    def entry_to_xml(cls, entry, doc):
+    def entry_to_xml(cls, entry: Entry, doc: minidom.Document) -> minidom.Element:
         entry_el = doc.createElement("entry")
         entry_el.setAttribute("date", entry.date.isoformat())
         if hasattr(entry, "uuid"):
@@ -44,7 +48,7 @@ class XMLExporter(JSONExporter):
         return entry_el
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: Journal) -> str:
         """Returns an XML representation of an entire journal."""
         tags = get_tags_count(journal)
         doc = minidom.Document()

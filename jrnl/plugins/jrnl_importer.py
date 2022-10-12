@@ -4,6 +4,7 @@
 import sys
 
 from jrnl.exception import JrnlException
+from jrnl.Journal import Journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -16,7 +17,7 @@ class JRNLImporter:
     names = ["jrnl"]
 
     @staticmethod
-    def import_(journal, input=None):
+    def import_(journal: Journal, input: str | None = None) -> None:
         """Imports from an existing file if input is specified, and
         standard input otherwise."""
         old_cnt = len(journal.entries)

@@ -1,6 +1,8 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from jrnl.Entry import Entry
+from jrnl.Journal import Journal
 from jrnl.plugins.text_exporter import TextExporter
 from jrnl.plugins.util import get_tags_count
 
@@ -12,12 +14,12 @@ class TagExporter(TextExporter):
     extension = "tags"
 
     @classmethod
-    def export_entry(cls, entry):
+    def export_entry(cls, entry: Entry) -> str:
         """Returns a list of tags for a single entry."""
         return ", ".join(entry.tags)
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: Journal) -> str:
         """Returns a list of tags and their frequency for an entire journal."""
         tag_counts = get_tags_count(journal)
         result = ""

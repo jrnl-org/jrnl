@@ -3,6 +3,8 @@
 
 from collections import Counter
 
+from jrnl.Entry import Entry
+from jrnl.Journal import Journal
 from jrnl.plugins.text_exporter import TextExporter
 
 
@@ -13,11 +15,11 @@ class DatesExporter(TextExporter):
     extension = "dates"
 
     @classmethod
-    def export_entry(cls, entry):
+    def export_entry(cls, entry: Entry):
         raise NotImplementedError
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: Journal) -> str:
         """Returns dates and their frequencies for an entire journal."""
         date_counts = Counter()
         for entry in journal.entries:

@@ -4,6 +4,8 @@
 import os
 import re
 
+from jrnl.Entry import Entry
+from jrnl.Journal import Journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -18,7 +20,7 @@ class MarkdownExporter(TextExporter):
     extension = "md"
 
     @classmethod
-    def export_entry(cls, entry, to_multifile=True):
+    def export_entry(cls, entry: Entry, to_multifile: bool = True) -> str:
         """Returns a markdown representation of a single entry."""
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
@@ -73,7 +75,7 @@ class MarkdownExporter(TextExporter):
         return f"{heading} {date_str} {entry.title}\n{newbody} "
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: Journal) -> str:
         """Returns a Markdown representation of an entire journal."""
         out = []
         year, month = -1, -1

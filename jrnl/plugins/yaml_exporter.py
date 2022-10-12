@@ -4,7 +4,9 @@
 import os
 import re
 
+from jrnl.Entry import Entry
 from jrnl.exception import JrnlException
+from jrnl.Journal import Journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -19,7 +21,7 @@ class YAMLExporter(TextExporter):
     extension = "md"
 
     @classmethod
-    def export_entry(cls, entry, to_multifile=True):
+    def export_entry(cls, entry: Entry, to_multifile: bool = True) -> str:
         """Returns a markdown representation of a single entry, with YAML front matter."""
         if to_multifile is False:
             raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))
@@ -124,6 +126,6 @@ class YAMLExporter(TextExporter):
         )
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: Journal):
         """Returns an error, as YAML export requires a directory as a target."""
         raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))
