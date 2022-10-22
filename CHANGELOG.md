@@ -4,6 +4,14 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta...HEAD)
 
+**Implemented enhancements:**
+
+- Add machine-readable format for --list [\#1445](https://github.com/jrnl-org/jrnl/issues/1445)
+
+**Fixed bugs:**
+
+- Fix bug for new `--list --format` options when no default journal is specified [\#1621](https://github.com/jrnl-org/jrnl/pull/1621) ([wren](https://github.com/wren))
+
 **Documentation:**
 
 - Documentation of "display\_format" incorrectly states that it can be used to change date display format  [\#1617](https://github.com/jrnl-org/jrnl/issues/1617)
