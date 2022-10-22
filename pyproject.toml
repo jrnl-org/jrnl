@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jrnl"
-version = "v3.3-beta"
+version = "v3.3-beta2"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "jrnl contributors <maintainers@jrnl.sh>",
