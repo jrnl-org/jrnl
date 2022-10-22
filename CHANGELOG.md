@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta...HEAD)
+
+**Documentation:**
+
+- Documentation of "display\_format" incorrectly states that it can be used to change date display format  [\#1617](https://github.com/jrnl-org/jrnl/issues/1617)
+- Remove wrong option in configuration file reference [\#1618](https://github.com/jrnl-org/jrnl/pull/1618) ([DSiekmeier](https://github.com/DSiekmeier))
+
 ## [v3.3-beta](https://pypi.org/project/jrnl/v3.3-beta/) (2022-10-08)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...v3.3-beta)
