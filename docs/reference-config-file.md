@@ -90,9 +90,6 @@ See the [python docs](http://docs.python.org/library/time.html#time.strftime) fo
 Do not change this for an existing journal, since that might lead
 to data loss.
 
-If you would just like to change how `jrnl` displays dates,
-use display_format instead.
-
 !!! note
     `jrnl` doesn't support the `%z` or `%Z` time zone identifiers.
 
