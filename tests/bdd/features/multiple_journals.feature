@@ -80,7 +80,7 @@ Feature: Multiple journals
             2012-07-23 09:00 sell my junk on ebay and make lots of money
 
    Scenario: Don't crash if no default journal is specified
-        Given we use the config "bug343.yaml"
+        Given we use the config "no_default_journal.yaml"
         When we run "jrnl a long day in the office"
         Then the output should contain "No default journal configured"
 

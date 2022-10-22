@@ -64,9 +64,9 @@ Feature: Multiple journals
         Then the output should contain "sell my junk on ebay and make lots of money"
 
     Scenario: Don't crash if no default journal is specified using an alternate config
-        Given the config "bug343.yaml" exists
+        Given the config "no_default_journal.yaml" exists
         And we use the config "basic_onefile.yaml"
-        When we run "jrnl --cf bug343.yaml a long day in the office"
+        When we run "jrnl --cf no_default_journal.yaml a long day in the office"
         Then the output should contain "No default journal configured"
 
     Scenario: Don't crash if no file exists for a configured encrypted journal using an alternate config
