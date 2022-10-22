@@ -8,6 +8,7 @@ import re
 
 from jrnl import Entry
 from jrnl import time
+from jrnl.config import validate_journal_name
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -430,6 +431,7 @@ def open_journal(journal_name, config, legacy=False):
     If legacy is True, it will open Journals with legacy classes build for
     backwards compatibility with jrnl 1.x
     """
+    validate_journal_name(journal_name, config)
     config = config.copy()
     config["journal"] = expand_path(config["journal"])
 

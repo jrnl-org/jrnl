@@ -67,7 +67,7 @@ Feature: Multiple journals
         Given the config "no_default_journal.yaml" exists
         And we use the config "basic_onefile.yaml"
         When we run "jrnl --cf no_default_journal.yaml a long day in the office"
-        Then the output should contain "No default journal configured"
+        Then the output should contain "No 'default' journal configured"
 
     Scenario: Don't crash if no file exists for a configured encrypted journal using an alternate config
         Given the config "multiple.yaml" exists

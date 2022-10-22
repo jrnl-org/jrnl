@@ -17,6 +17,7 @@ avoid any possible overhead for these standalone commands.
 import platform
 import sys
 
+from jrnl.config import cmd_requires_valid_journal_name
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -62,6 +63,7 @@ def postconfig_list(args, config, **kwargs):
     print(list_journals(config, args.export))
 
 
+@cmd_requires_valid_journal_name
 def postconfig_import(args, config, **kwargs):
     from jrnl.Journal import open_journal
     from jrnl.plugins import get_importer
@@ -73,6 +75,7 @@ def postconfig_import(args, config, **kwargs):
     get_importer(format).import_(journal, args.filename)
 
 
+@cmd_requires_valid_journal_name
 def postconfig_encrypt(args, config, original_config, **kwargs):
     """
     Encrypt a journal in place, or optionally to a new file
@@ -123,6 +126,7 @@ def postconfig_encrypt(args, config, original_config, **kwargs):
         save_config(original_config)
 
 
+@cmd_requires_valid_journal_name
 def postconfig_decrypt(args, config, original_config, **kwargs):
     """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
     from jrnl.config import update_config

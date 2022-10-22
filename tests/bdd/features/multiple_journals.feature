@@ -82,7 +82,7 @@ Feature: Multiple journals
    Scenario: Don't crash if no default journal is specified
         Given we use the config "no_default_journal.yaml"
         When we run "jrnl a long day in the office"
-        Then the output should contain "No default journal configured"
+        Then the output should contain "No 'default' journal configured"
 
    Scenario: Don't crash if no file exists for a configured encrypted journal
         Given we use the config "multiple.yaml"

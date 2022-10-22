@@ -213,14 +213,27 @@ def get_journal_name(args, config):
             args.journal_name = potential_journal_name
             args.text = args.text[1:]
 
-    if args.journal_name not in config["journals"]:
-        raise JrnlException(
-            Message(
-                MsgText.NoDefaultJournal,
-                MsgStyle.ERROR,
-                {"journals": list_journals(config)},
-            ),
-        )
-
     logging.debug("Using journal name: %s", args.journal_name)
     return args
+
+
+def cmd_requires_valid_journal_name(func):
+    def wrapper(args, config, original_config):
+        validate_journal_name(args.journal_name, config)
+        func(args, config, original_config)
+
+    return wrapper
+
+
+def validate_journal_name(journal_name, config):
+    if journal_name not in config["journals"]:
+        raise JrnlException(
+            Message(
+                MsgText.NoNamedJournal,
+                MsgStyle.ERROR,
+                {
+                    "journal_name": journal_name,
+                    "journals": list_journals(config),
+                },
+            ),
+        )
