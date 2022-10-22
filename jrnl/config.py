@@ -1,8 +1,10 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import argparse
 import logging
 import os
+from typing import Callable
 
 import colorama
 import xdg.BaseDirectory
@@ -217,15 +219,15 @@ def get_journal_name(args, config):
     return args
 
 
-def cmd_requires_valid_journal_name(func):
-    def wrapper(args, config, original_config):
+def cmd_requires_valid_journal_name(func: Callable) -> Callable:
+    def wrapper(args: argparse.Namespace, config: dict, original_config: dict):
         validate_journal_name(args.journal_name, config)
         func(args=args, config=config, original_config=original_config)
 
     return wrapper
 
 
-def validate_journal_name(journal_name, config):
+def validate_journal_name(journal_name: str, config: dict) -> None:
     if journal_name not in config["journals"]:
         raise JrnlException(
             Message(

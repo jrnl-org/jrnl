@@ -14,6 +14,7 @@ run.
 Also, please note that all (non-builtin) imports should be scoped to each function to
 avoid any possible overhead for these standalone commands.
 """
+import argparse
 import platform
 import sys
 
@@ -57,14 +58,16 @@ def preconfig_version(_):
     print(output)
 
 
-def postconfig_list(args, config, **_):
+def postconfig_list(args: argparse.Namespace, config: dict, **_) -> int:
     from jrnl.output import list_journals
 
     print(list_journals(config, args.export))
 
+    return 0
+
 
 @cmd_requires_valid_journal_name
-def postconfig_import(args, config, **_):
+def postconfig_import(args: argparse.Namespace, config: dict, **_) -> int:
     from jrnl.Journal import open_journal
     from jrnl.plugins import get_importer
 
@@ -74,9 +77,13 @@ def postconfig_import(args, config, **_):
     format = args.export if args.export else "jrnl"
     get_importer(format).import_(journal, args.filename)
 
+    return 0
+
 
 @cmd_requires_valid_journal_name
-def postconfig_encrypt(args, config, original_config, **_):
+def postconfig_encrypt(
+    args: argparse.Namespace, config: dict, original_config: dict
+) -> int:
     """
     Encrypt a journal in place, or optionally to a new file
     """
@@ -125,9 +132,13 @@ def postconfig_encrypt(args, config, original_config, **_):
         )
         save_config(original_config)
 
+    return 0
+
 
 @cmd_requires_valid_journal_name
-def postconfig_decrypt(args, config, original_config, **kwargs):
+def postconfig_decrypt(
+    args: argparse.Namespace, config: dict, original_config: dict
+) -> int:
     """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
     from jrnl.config import update_config
     from jrnl.install import save_config
@@ -153,3 +164,5 @@ def postconfig_decrypt(args, config, original_config, **kwargs):
             original_config, {"encrypt": False}, args.journal_name, force_local=True
         )
         save_config(original_config)
+
+    return 0
