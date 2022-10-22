@@ -57,14 +57,14 @@ def preconfig_version(_):
     print(output)
 
 
-def postconfig_list(args, config, **kwargs):
+def postconfig_list(args, config, **_):
     from jrnl.output import list_journals
 
     print(list_journals(config, args.export))
 
 
 @cmd_requires_valid_journal_name
-def postconfig_import(args, config, **kwargs):
+def postconfig_import(args, config, **_):
     from jrnl.Journal import open_journal
     from jrnl.plugins import get_importer
 
@@ -76,7 +76,7 @@ def postconfig_import(args, config, **kwargs):
 
 
 @cmd_requires_valid_journal_name
-def postconfig_encrypt(args, config, original_config, **kwargs):
+def postconfig_encrypt(args, config, original_config, **_):
     """
     Encrypt a journal in place, or optionally to a new file
     """
