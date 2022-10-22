@@ -220,7 +220,7 @@ def get_journal_name(args, config):
 def cmd_requires_valid_journal_name(func):
     def wrapper(args, config, original_config):
         validate_journal_name(args.journal_name, config)
-        func(args, config, original_config)
+        func(args=args, config=config, original_config=original_config)
 
     return wrapper
 
