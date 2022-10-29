@@ -27,7 +27,6 @@ class Jrnlv1Encryption(BasePasswordEncryption):
         ).decryptor()
         try:
             plain_padded = decryptor.update(cipher) + decryptor.finalize()
-            # self._password = password
             if plain_padded[-1] in (" ", 32):
                 # Ancient versions of jrnl. Do not judge me.
                 return plain_padded.decode(self._encoding).rstrip(" ")
