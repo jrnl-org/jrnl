@@ -75,7 +75,6 @@ mypy-extensions = ">=0.4.3"
 pathspec = ">=0.9.0"
 platformdirs = ">=2"
 tomli = {version = ">=1.1.0", markers = "python_full_version < \"3.11.0a7\""}
-typing-extensions = {version = ">=3.10.0.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
@@ -256,7 +255,7 @@ python-versions = ">=3.5"
 name = "importlib-metadata"
 version = "4.12.0"
 description = "Read metadata from Python packages"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -390,7 +389,6 @@ optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
-importlib-metadata = {version = ">=3.6", markers = "python_version < \"3.10\""}
 jeepney = {version = ">=0.4.2", markers = "sys_platform == \"linux\""}
 pywin32-ctypes = {version = "<0.1.0 || >0.1.0,<0.1.1 || >0.1.1", markers = "sys_platform == \"win32\""}
 SecretStorage = {version = ">=3.2", markers = "sys_platform == \"linux\""}
@@ -422,9 +420,6 @@ description = "Python implementation of Markdown."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
-
-[package.dependencies]
-importlib-metadata = {version = ">=4.4", markers = "python_version < \"3.10\""}
 
 [package.extras]
 testing = ["coverage", "pyyaml"]
@@ -1025,14 +1020,6 @@ python-versions = ">=3.7"
 test = ["pre-commit", "pytest"]
 
 [[package]]
-name = "typing-extensions"
-version = "4.3.0"
-description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[[package]]
 name = "tzdata"
 version = "2022.1"
 description = "Provider of IANA time zone data"
@@ -1117,7 +1104,7 @@ python-versions = ">=3.4"
 name = "zipp"
 version = "3.8.1"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1127,8 +1114,8 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.9.0, <3.12"
-content-hash = "c9bebe280520ae31feec25f734a8404eee0e0f3b3691e9e7e75af0c54a1b02db"
+python-versions = ">=3.10.0, <3.13"
+content-hash = "ae08b5cb29698cb3fdaab3397d46250e0f06b04a3a4dff18c3dd9ae64b582377"
 
 [metadata.files]
 ansiwrap = [
@@ -1680,10 +1667,6 @@ tox = [
 traitlets = [
     {file = "traitlets-5.3.0-py3-none-any.whl", hash = "sha256:65fa18961659635933100db8ca120ef6220555286949774b9cfc106f941d1c7a"},
     {file = "traitlets-5.3.0.tar.gz", hash = "sha256:0bb9f1f9f017aa8ec187d8b1b2a7a6626a2a1d877116baba52a129bfa124f8e2"},
-]
-typing-extensions = [
-    {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
-    {file = "typing_extensions-4.3.0.tar.gz", hash = "sha256:e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"},
 ]
 tzdata = [
     {file = "tzdata-2022.1-py2.py3-none-any.whl", hash = "sha256:238e70234214138ed7b4e8a0fab0e5e13872edab3be586ab8198c407620e2ab9"},
