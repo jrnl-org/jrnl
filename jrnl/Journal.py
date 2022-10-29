@@ -438,6 +438,7 @@ def open_journal(journal_name, config, legacy=False):
     If legacy is True, it will open Journals with legacy classes build for
     backwards compatibility with jrnl 1.x
     """
+    logging.debug("open_journal start")
     validate_journal_name(journal_name, config)
     config = config.copy()
     config["journal"] = expand_path(config["journal"])

@@ -1,5 +1,6 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
+import logging
 from abc import ABC
 from abc import abstractmethod
 
@@ -11,6 +12,7 @@ from jrnl.messages import MsgText
 
 class BaseEncryption(ABC):
     def __init__(self, journal_name: str, config: dict):
+        logging.debug("BaseEncryption init")
         self._encoding: str = "utf-8"
         self._journal_name: str = journal_name
         self._config: dict = config

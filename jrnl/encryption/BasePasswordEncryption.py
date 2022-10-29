@@ -1,5 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
+import logging
+
 from jrnl.encryption.BaseEncryption import BaseEncryption
 from jrnl.exception import JrnlException
 from jrnl.keyring import get_keyring_password
@@ -12,6 +14,7 @@ from jrnl.prompt import prompt_password
 
 class BasePasswordEncryption(BaseEncryption):
     def __init__(self, *args, **kwargs) -> None:
+        logging.debug("BasePasswordEncryption init")
         super().__init__(*args, **kwargs)
         self._attempts: int = 0
         self._max_attempts: int = 3
@@ -36,6 +39,7 @@ class BasePasswordEncryption(BaseEncryption):
         return self._encrypt(text)
 
     def decrypt(self, text: bytes) -> str:
+        logging.debug("BasePasswordEncryption decrypt start")
         if not self.password:
             self._prompt_password()
 

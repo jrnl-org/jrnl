@@ -1,6 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 import base64
+import logging
 
 from cryptography.fernet import Fernet
 from cryptography.fernet import InvalidToken
@@ -13,6 +14,7 @@ from .BasePasswordEncryption import BasePasswordEncryption
 
 class Jrnlv2Encryption(BasePasswordEncryption):
     def __init__(self, *args, **kwargs) -> None:
+        logging.debug("Jrnlv2Encryption init")
         # Salt is hard-coded
         self._salt: bytes = b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8"
         self._key: bytes = b""

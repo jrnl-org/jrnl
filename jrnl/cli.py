@@ -25,6 +25,7 @@ def configure_logger(debug=False):
     )
     logging.getLogger("parsedatetime").setLevel(logging.INFO)
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
+    logging.debug("Logging start")
 
 
 def cli(manual_args=None):

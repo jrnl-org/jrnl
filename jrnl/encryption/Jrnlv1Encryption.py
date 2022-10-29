@@ -1,6 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 import hashlib
+import logging
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
@@ -13,6 +14,7 @@ from jrnl.encryption.BasePasswordEncryption import BasePasswordEncryption
 
 class Jrnlv1Encryption(BasePasswordEncryption):
     def __init__(self, *args, **kwargs) -> None:
+        logging.debug("Jrnlv1Encryption init")
         super().__init__(*args, **kwargs)
 
     def _encrypt(self, _: str) -> bytes:
