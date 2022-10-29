@@ -7,7 +7,7 @@ from jrnl.encryption.BaseEncryption import BaseEncryption
 
 class NoEncryption(BaseEncryption):
     def __init__(self, *args, **kwargs):
-        logging.debug("NoEncryption init")
+        logging.debug("NoEncryption.__init__ start")
         super().__init__(*args, **kwargs)
 
     def _encrypt(self, text: str) -> bytes:

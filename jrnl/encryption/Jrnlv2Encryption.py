@@ -14,12 +14,12 @@ from .BasePasswordEncryption import BasePasswordEncryption
 
 class Jrnlv2Encryption(BasePasswordEncryption):
     def __init__(self, *args, **kwargs) -> None:
-        logging.debug("Jrnlv2Encryption init")
         # Salt is hard-coded
         self._salt: bytes = b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8"
         self._key: bytes = b""
 
         super().__init__(*args, **kwargs)
+        logging.debug("Jrnlv2Encryption.__init__ start")
 
     @property
     def password(self):

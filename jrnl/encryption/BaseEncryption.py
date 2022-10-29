@@ -12,15 +12,17 @@ from jrnl.messages import MsgText
 
 class BaseEncryption(ABC):
     def __init__(self, journal_name: str, config: dict):
-        logging.debug("BaseEncryption init")
+        logging.debug("BaseEncryption.__init__ start")
         self._encoding: str = "utf-8"
         self._journal_name: str = journal_name
         self._config: dict = config
 
     def encrypt(self, text: str) -> bytes:
+        logging.debug("BaseEncryption.encrypt start")
         return self._encrypt(text)
 
     def decrypt(self, text: bytes) -> str:
+        logging.debug("BaseEncryption.decrypt start")
         if (result := self._decrypt(text)) is None:
             raise JrnlException(
                 Message(MsgText.DecryptionFailedGeneric, MsgStyle.ERROR)

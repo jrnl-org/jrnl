@@ -14,8 +14,8 @@ from jrnl.prompt import prompt_password
 
 class BasePasswordEncryption(BaseEncryption):
     def __init__(self, *args, **kwargs) -> None:
-        logging.debug("BasePasswordEncryption init")
         super().__init__(*args, **kwargs)
+        logging.debug("BasePasswordEncryption.__init__ start")
         self._attempts: int = 0
         self._max_attempts: int = 3
         self._password: str = ""

@@ -14,8 +14,8 @@ from jrnl.encryption.BasePasswordEncryption import BasePasswordEncryption
 
 class Jrnlv1Encryption(BasePasswordEncryption):
     def __init__(self, *args, **kwargs) -> None:
-        logging.debug("Jrnlv1Encryption init")
         super().__init__(*args, **kwargs)
+        logging.debug("Jrnlv1Encryption.__init__ start")
 
     def _encrypt(self, _: str) -> bytes:
         raise NotImplementedError
