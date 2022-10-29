@@ -14,7 +14,7 @@ then you will have to enter in the full path of your editor.
 !!! note
     To save and log any entry edits, save and close the file.
 
-All editors must be [blocking processes](https://en.wikipedia.org/wiki/Blocking_(computing)) to work with jrnl. Some editors, such as vim, are blocking by default, though others can be made to block with additional arguments, such as many of those documented below. If jrnl opens your editor but finishes running immediately, then your editor is not a blocking process, and you may be able to correct that with one of the suggestions below.
+All editors must be [blocking processes](https://en.wikipedia.org/wiki/Blocking_(computing)) to work with jrnl. Some editors, such as [micro](https://micro-editor.github.io/), are blocking by default, though others can be made to block with additional arguments, such as many of those documented below. If jrnl opens your editor but finishes running immediately, then your editor is not a blocking process, and you may be able to correct that with one of the suggestions below.
 
 ## Sublime Text
 
