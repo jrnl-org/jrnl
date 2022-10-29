@@ -14,7 +14,7 @@ On Mac and Linux, the easiest way to install `jrnl` is using
 brew install jrnl
 ```
 
-On other platforms, install `jrnl` using [Python](https://www.python.org/) 3.6+ and [pipx](https://pipxproject.github.io/pipx/):
+On other platforms, install `jrnl` using [Python](https://www.python.org/) 3.10+ and [pipx](https://pipxproject.github.io/pipx/):
 
 ``` sh
 pipx install jrnl
