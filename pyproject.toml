@@ -154,9 +154,9 @@ filterwarnings = [
 max_line_length = 88
 
 [tool.flakeheaven.plugins]
-pyflakes = ["+*"]
+"flake8-*" = ["+*"]
+"py*" = ["+*"]
 pycodestyle = [
-  "+*",
   "-E101",
   "-E111", "-E114", "-E115", "-E116", "-E117",
   "-E12*",
@@ -168,7 +168,6 @@ pycodestyle = [
   "-E70",
   "-W1*", "-W2*", "-W3*", "-W5*",
 ]
-"flake8-*" = ["+*"]
 
 
 [build-system]
