@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta2...HEAD)
+
+**Documentation:**
+
+- Add documentation about how the editor must be a blocking process [\#1456](https://github.com/jrnl-org/jrnl/issues/1456)
+
 ## [v3.3-beta2](https://pypi.org/project/jrnl/v3.3-beta2/) (2022-10-22)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta...v3.3-beta2)
