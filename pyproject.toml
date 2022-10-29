@@ -153,6 +153,7 @@ filterwarnings = [
 
 [tool.flakeheaven]
 max_line_length = 88
+exclude = [".venv"]
 
 [tool.flakeheaven.plugins]
 "py*" = ["+*"]
