@@ -42,7 +42,7 @@ rich = "^12.2.0"
 # dayone-only deps
 tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
 flakeheaven = ">=3.0"
 ipdb = "*"
