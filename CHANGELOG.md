@@ -1,50 +1,21 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta2...HEAD)
-
-**Documentation:**
-
-- Add documentation about how the editor must be a blocking process [\#1456](https://github.com/jrnl-org/jrnl/issues/1456)
-
-## [v3.3-beta2](https://pypi.org/project/jrnl/v3.3-beta2/) (2022-10-22)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta...v3.3-beta2)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta2...v3.3)
 
 **Implemented enhancements:**
 
-- Add machine-readable format for --list [\#1445](https://github.com/jrnl-org/jrnl/issues/1445)
-
-**Fixed bugs:**
-
-- Fix bug for new `--list --format` options when no default journal is specified [\#1621](https://github.com/jrnl-org/jrnl/pull/1621) ([wren](https://github.com/wren))
-
-**Documentation:**
-
-- Documentation of "display\_format" incorrectly states that it can be used to change date display format  [\#1617](https://github.com/jrnl-org/jrnl/issues/1617)
-- Remove wrong option in configuration file reference [\#1618](https://github.com/jrnl-org/jrnl/pull/1618) ([DSiekmeier](https://github.com/DSiekmeier))
-
-## [v3.3-beta](https://pypi.org/project/jrnl/v3.3-beta/) (2022-10-08)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.2...v3.3-beta)
-
-**Implemented enhancements:**
-
-- Add dependency security checks in CI [\#1488](https://github.com/jrnl-org/jrnl/issues/1488)
-- Add machine-readable format for --list [\#1445](https://github.com/jrnl-org/jrnl/issues/1445)
 - Change default config to use journal key [\#1594](https://github.com/jrnl-org/jrnl/pull/1594) ([micahellison](https://github.com/micahellison))
 - Add machine readable --list output [\#1592](https://github.com/jrnl-org/jrnl/pull/1592) ([apainintheneck](https://github.com/apainintheneck))
 
 **Fixed bugs:**
 
-- Bug Report - Sometimes jrnl crashes and truncates journal file [\#1599](https://github.com/jrnl-org/jrnl/issues/1599)
-- Zero-length file created when attempting to export YAML to a directory that does not exist [\#1593](https://github.com/jrnl-org/jrnl/issues/1593)
+- Fix bug for new `--list --format` options when no default journal is specified [\#1621](https://github.com/jrnl-org/jrnl/pull/1621) ([wren](https://github.com/wren))
 - Don't create empty file when attempting a YAML export to a non-existing folder [\#1600](https://github.com/jrnl-org/jrnl/pull/1600) ([outa](https://github.com/outa))
 
 **Build:**
 
-- Replace Dependabot [\#1560](https://github.com/jrnl-org/jrnl/issues/1560)
 - Update `.gitignore` [\#1604](https://github.com/jrnl-org/jrnl/pull/1604) ([wren](https://github.com/wren))
 - Fix Docs Accessibility Testing [\#1588](https://github.com/jrnl-org/jrnl/pull/1588) ([wren](https://github.com/wren))
 - Update to use renamed flag for `brew bump-formula-pr` [\#1587](https://github.com/jrnl-org/jrnl/pull/1587) ([wren](https://github.com/wren))
@@ -56,8 +27,9 @@
 
 **Documentation:**
 
-- \[Documentation\] Edit on Github link broken [\#1601](https://github.com/jrnl-org/jrnl/issues/1601)
-- Update `--format yaml` example in docs [\#1525](https://github.com/jrnl-org/jrnl/issues/1525)
+- Add documentation about how the editor must be a blocking process [\#1456](https://github.com/jrnl-org/jrnl/issues/1456)
+- Document that editors must be blocking processes [\#1624](https://github.com/jrnl-org/jrnl/pull/1624) ([micahellison](https://github.com/micahellison))
+- Remove wrong option in configuration file reference [\#1618](https://github.com/jrnl-org/jrnl/pull/1618) ([DSiekmeier](https://github.com/DSiekmeier))
 - Update YAML export description in docs [\#1591](https://github.com/jrnl-org/jrnl/pull/1591) ([apainintheneck](https://github.com/apainintheneck))
 - Update dependency jinja2 to v3.1.2 [\#1579](https://github.com/jrnl-org/jrnl/pull/1579) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency typed.js to v2.0.12 [\#1578](https://github.com/jrnl-org/jrnl/pull/1578) ([renovate[bot]](https://github.com/apps/renovate))
