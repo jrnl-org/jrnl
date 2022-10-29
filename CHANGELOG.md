@@ -95,6 +95,8 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.0-beta2...v3.0)
 
+🚨 **BREAKING CHANGES** 🚨
+
 **Implemented enhancements:**
 
 - Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
