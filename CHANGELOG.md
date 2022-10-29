@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3...HEAD)
+
+**Deprecated:**
+
+- Drop Python 3.9 and use Python 3.11 official release [\#1611](https://github.com/jrnl-org/jrnl/pull/1611) ([micahellison](https://github.com/micahellison))
+
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta2...v3.3)
