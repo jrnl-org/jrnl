@@ -140,7 +140,6 @@ import argparse
 from Crypto.Cipher import AES
 import getpass
 import hashlib
-import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("filepath", help="journal file to decrypt")

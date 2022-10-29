@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jrnl"
-version = "v3.2"
+version = "v3.3"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "jrnl contributors <maintainers@jrnl.sh>",
@@ -44,11 +44,11 @@ tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
+flakeheaven = ">=3.0"
 ipdb = "*"
 isort = ">=5.10"
 mkdocs = ">=1.0,<1.3"
 poethepoet = "*"
-pyproject-flake8 = "*"
 pytest = ">=6.2"
 pytest-bdd = ">=4.0.1,<6.0"
 pytest-clarity = "*"
@@ -70,8 +70,9 @@ format-check = [
   {cmd = "black --check --diff ."},
 ]
 style-check = [
-  {cmd = "pflake8 --version"},
-  {cmd = "pflake8 jrnl tests tasks.py"},
+  {cmd = "flakeheaven --version"},
+  {cmd = "flakeheaven plugins"},
+  {cmd = "flakeheaven lint"},
 ]
 sort-run = [
   {cmd = "isort ."},
@@ -150,9 +151,25 @@ filterwarnings = [
     "ignore:[WinError 5].*"
 ]
 
-[tool.flake8]
-# ignore formatting warnings and errors because we use Black to autoformat
-extend-ignore = "E101,E111,E114,E115,E116,E117,E12,E13,E2,E3,E401,E5,E70,W1,W2,W3,W5"
+[tool.flakeheaven]
+max_line_length = 88
+exclude = [".git", ".tox", ".venv", "node_modules"]
+
+[tool.flakeheaven.plugins]
+"py*" = ["+*"]
+pycodestyle = [
+  "-E101",
+  "-E111", "-E114", "-E115", "-E116", "-E117",
+  "-E12*",
+  "-E13*",
+  "-E2*",
+  "-E3*",
+  "-E401",
+  "-E5*",
+  "-E70",
+  "-W1*", "-W2*", "-W3*", "-W5*",
+]
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

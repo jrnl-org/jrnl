@@ -39,7 +39,7 @@ read them or edit them.
 `jrnl` plays nicely with your favorite text editor. You may prefer to write
 journal entries in an editor. Or you may want to make changes that require a
 more comprehensive application. `jrnl` can filter specific entries and pass them
-to the external editor of your choice.
+to the [external editor](./external-editors.md) of your choice.
 
 ## Encryption
   

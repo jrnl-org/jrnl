@@ -612,3 +612,20 @@ Feature: Custom formats
             config_path: .+basic_onefile\.yaml
             journals:
               default: features/journals/basic_onefile\.journal
+
+    Scenario: Export journal list to formats with no default journal
+        Given we use the config "no_default_journal.yaml"
+        When we run "jrnl --list"
+        Then the output should match
+            Journals defined in config \(.+no_default_journal\.yaml\)
+             \* simple -> features/journals/simple\.journal
+             \* work   -> features/journals/work\.journal
+        When we run "jrnl --list --format json"
+        Then the output should match
+            {"config_path": ".+no_default_journal\.yaml", "journals": {"simple": "features/journals/simple\.journal", "work": "features/journals/work\.journal"}}
+        When we run "jrnl --list --format yaml"
+        Then the output should match
+            config_path: .+no_default_journal\.yaml
+            journals:
+              simple: features/journals/simple\.journal
+              work: features/journals/work\.journal

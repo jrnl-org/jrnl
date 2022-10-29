@@ -47,10 +47,11 @@ key will be used instead.
 If set, executes this command to launch an external editor for
 writing and editing your entries. The path to a temporary file
 is passed after it, and `jrnl` processes the file once
-the editor is closed.
+the editor returns control to `jrnl`.
 
-Some editors require special options to work properly. See
-[External Editors](external-editors.md) for details.
+Some editors require special options to work properly, since they must be
+blocking processes to work with `jrnl`. See [External Editors](external-editors.md)
+for details.
 
 ### encrypt
 If `true`, encrypts your journal using AES. Do not change this
@@ -89,9 +90,6 @@ See the [python docs](http://docs.python.org/library/time.html#time.strftime) fo
 
 Do not change this for an existing journal, since that might lead
 to data loss.
-
-If you would just like to change how `jrnl` displays dates,
-use display_format instead.
 
 !!! note
     `jrnl` doesn't support the `%z` or `%Z` time zone identifiers.

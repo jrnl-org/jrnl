@@ -1,8 +1,10 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import argparse
 import logging
 import os
+from typing import Callable
 
 import colorama
 import xdg.BaseDirectory
@@ -91,7 +93,7 @@ def get_config_path():
 def get_default_config():
     return {
         "version": __version__,
-        "journals": {"default": get_default_journal_path()},
+        "journals": {"default": {"journal": get_default_journal_path()}},
         "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
         "encrypt": False,
         "template": False,
@@ -213,14 +215,27 @@ def get_journal_name(args, config):
             args.journal_name = potential_journal_name
             args.text = args.text[1:]
 
-    if args.journal_name not in config["journals"]:
-        raise JrnlException(
-            Message(
-                MsgText.NoDefaultJournal,
-                MsgStyle.ERROR,
-                {"journals": list_journals(config)},
-            ),
-        )
-
     logging.debug("Using journal name: %s", args.journal_name)
     return args
+
+
+def cmd_requires_valid_journal_name(func: Callable) -> Callable:
+    def wrapper(args: argparse.Namespace, config: dict, original_config: dict):
+        validate_journal_name(args.journal_name, config)
+        func(args=args, config=config, original_config=original_config)
+
+    return wrapper
+
+
+def validate_journal_name(journal_name: str, config: dict) -> None:
+    if journal_name not in config["journals"]:
+        raise JrnlException(
+            Message(
+                MsgText.NoNamedJournal,
+                MsgStyle.ERROR,
+                {
+                    "journal_name": journal_name,
+                    "journals": list_journals(config),
+                },
+            ),
+        )

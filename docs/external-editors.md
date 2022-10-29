@@ -8,11 +8,13 @@ License: https://www.gnu.org/licenses/gpl-3.0.html
 Configure your preferred external editor by updating the `editor` option
 in your [configuration file](./reference-config-file.md#editor)
 
+If your editor is not in your operating system's `PATH` environment variable,
+then you will have to enter in the full path of your editor.
+
 !!! note
     To save and log any entry edits, save and close the file.
 
-If your editor is not in your operating system's `PATH` environment variable,
-then you will have to enter in the full path of your editor.
+All editors must be [blocking processes](https://en.wikipedia.org/wiki/Blocking_(computing)) to work with jrnl. Some editors, such as [micro](https://micro-editor.github.io/), are blocking by default, though others can be made to block with additional arguments, such as many of those documented below. If jrnl opens your editor but finishes running immediately, then your editor is not a blocking process, and you may be able to correct that with one of the suggestions below.
 
 ## Sublime Text
 

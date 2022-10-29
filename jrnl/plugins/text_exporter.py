@@ -31,18 +31,19 @@ class TextExporter:
     @classmethod
     def write_file(cls, journal, path):
         """Exports a journal into a single file."""
+        export_str = cls.export_journal(journal)
         with open(path, "w", encoding="utf-8") as f:
-            f.write(cls.export_journal(journal))
-            print_msg(
-                Message(
-                    MsgText.JournalExportedTo,
-                    MsgStyle.NORMAL,
-                    {
-                        "path": path,
-                    },
-                )
+            f.write(export_str)
+        print_msg(
+            Message(
+                MsgText.JournalExportedTo,
+                MsgStyle.NORMAL,
+                {
+                    "path": path,
+                },
             )
-            return ""
+        )
+        return ""
 
     @classmethod
     def make_filename(cls, entry):
