@@ -103,7 +103,7 @@ class MsgText(Enum):
         {template}
         """
 
-    NoDefaultJournal = "No default journal configured\n{journals}"
+    NoNamedJournal = "No '{journal_name}' journal configured\n{journals}"
 
     DoesNotExist = "{name} does not exist"
 
