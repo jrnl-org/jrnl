@@ -83,17 +83,21 @@ test-run = [
 ]
 
 # Groups of tasks
-format = [
-  {cmd = "isort ."},
-  {cmd = "black ."},
+format.default_item_type = "cmd"
+format.sequence = [
+  "isort .",
+  "black .",
 ]
-lint = [
-  {cmd = "poetry --version"},
-  {cmd = "poetry check"},
-  {cmd = "flakeheaven --version"},
-  {cmd = "flakeheaven plugins"},
-  {cmd = "flakeheaven lint"},
+
+lint.default_item_type = "cmd"
+lint.sequence = [
+  "poetry --version",
+  "poetry check",
+  "flakeheaven --version",
+  "flakeheaven plugins",
+  "flakeheaven lint",
 ]
+
 test = [
   "lint",
   "test-run",
