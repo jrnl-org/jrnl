@@ -151,6 +151,9 @@ jobs:
           git add "$FILENAME"
           git commit -m "Update changelog [ci skip]"
           git push origin "$BRANCH"
+          # update the tag to include the changelog
+          git tag -fam "${GITHUB_REF##*/}" "${GITHUB_REF##*/}"
+          git push --tags --force
 
       - name: Merge to Release branch
         if: env.FULL_RELEASE == 'true'
