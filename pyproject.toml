@@ -45,6 +45,8 @@ tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
 flakeheaven = ">=3.0"
+flake8-black = ">=0.3.3"
+flake8-isort = ">=5.0.0"
 ipdb = "*"
 isort = ">=5.10"
 mkdocs = ">=1.0,<1.3"
@@ -62,26 +64,6 @@ xmltodict = "*"
 jrnl = 'jrnl.cli:cli'
 
 [tool.poe.tasks]
-format-run = [
-  {cmd = "black ."},
-]
-format-check = [
-  {cmd = "black --version"},
-  {cmd = "black --check --diff ."},
-]
-style-check = [
-  {cmd = "flakeheaven --version"},
-  {cmd = "flakeheaven plugins"},
-  {cmd = "flakeheaven lint"},
-]
-sort-run = [
-  {cmd = "isort ."},
-]
-sort-check = [
-  {cmd = "isort --version"},
-  {cmd = "isort --check ."},
-]
-
 docs-check.default_item_type = "script"
 docs-check.sequence = [
   "tasks:delete_files(['sitemap.xml', 'config.json'])",
@@ -100,21 +82,17 @@ test-run = [
   {cmd = "tox -q -e py --"},
 ]
 
-installer-check = [
-  {cmd = "poetry --version"},
-  {cmd = "poetry check"},
-]
-
 # Groups of tasks
 format = [
-  "format-run",
-  "sort-run",
+  {cmd = "isort ."},
+  {cmd = "black ."},
 ]
 lint = [
-  "installer-check",
-  "style-check",
-  "sort-check",
-  "format-check",
+  {cmd = "poetry --version"},
+  {cmd = "poetry check"},
+  {cmd = "flakeheaven --version"},
+  {cmd = "flakeheaven plugins"},
+  {cmd = "flakeheaven lint"},
 ]
 test = [
   "lint",
@@ -169,6 +147,7 @@ pycodestyle = [
   "-E70",
   "-W1*", "-W2*", "-W3*", "-W5*",
 ]
+"flake8-*" = ["+*"]
 
 
 [build-system]
