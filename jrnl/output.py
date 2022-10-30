@@ -2,7 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import textwrap
-from typing import Union
+from typing import Optional
 
 from rich.console import Console
 from rich.text import Text
@@ -69,7 +69,7 @@ def list_journals(configuration, format=None):
         return journal_list_to_stdout(journal_list)
 
 
-def print_msg(msg: Message, **kwargs) -> Union[None, str]:
+def print_msg(msg: Message, **kwargs) -> Optional[str]:
     """Helper function to print a single message"""
     kwargs["style"] = msg.style
     return print_msgs([msg], **kwargs)
@@ -81,7 +81,7 @@ def print_msgs(
     style: MsgStyle = MsgStyle.NORMAL,
     get_input: bool = False,
     hide_input: bool = False,
-) -> Union[None, str]:
+) -> Optional[str]:
     # Same as print_msg, but for a list
     text = Text("", end="")
     kwargs = style.decoration.args
