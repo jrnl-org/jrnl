@@ -46,6 +46,22 @@ Feature: Encrypting and decrypting journals
         Then we should be prompted for a password
         And the output should contain "2013-06-10 15:40 Life is good"
 
+    Scenario: Encrypt journal twice and get prompted each time
+        Given we use the config "simple.yaml"
+        When we run "jrnl --encrypt" and enter
+            swordfish
+            swordfish
+            y
+        Then we should get no error
+        And the output should contain "Journal encrypted"
+        When we run "jrnl --encrypt" and enter
+            swordfish
+            swordfish
+            y
+        Then we should get no error
+        And the output should contain "Journal default is already encrypted. Create a new password."
+        And we should be prompted for a password
+        And the config for journal "default" should contain "encrypt: true"
 
     Scenario Outline: Running jrnl with encrypt: true on unencryptable journals
         Given we use the config "<config_file>"
