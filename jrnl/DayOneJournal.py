@@ -1,6 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import contextlib
 import datetime
 import fnmatch
 import os
@@ -75,40 +76,23 @@ class DayOne(Journal.Journal):
                     ]
 
                     """Extended DayOne attributes"""
-                    try:
+                    # just ignore it if the keys don't exist
+                    with contextlib.suppress(KeyError):
                         entry.creator_device_agent = dict_entry["Creator"][
                             "Device Agent"
                         ]
-                    except:  # noqa: E722
-                        pass
-                    try:
-                        entry.creator_generation_date = dict_entry["Creator"][
-                            "Generation Date"
-                        ]
-                    except:  # noqa: E722
-                        entry.creator_generation_date = date
-                    try:
                         entry.creator_host_name = dict_entry["Creator"]["Host Name"]
-                    except:  # noqa: E722
-                        pass
-                    try:
                         entry.creator_os_agent = dict_entry["Creator"]["OS Agent"]
-                    except:  # noqa: E722
-                        pass
-                    try:
                         entry.creator_software_agent = dict_entry["Creator"][
                             "Software Agent"
                         ]
-                    except:  # noqa: E722
-                        pass
-                    try:
                         entry.location = dict_entry["Location"]
-                    except:  # noqa: E722
-                        pass
-                    try:
                         entry.weather = dict_entry["Weather"]
-                    except:  # noqa: E722
-                        pass
+
+                    entry.creator_generation_date = dict_entry.get("Creator", {}).get(
+                        "Generation Date", date
+                    )
+
                     self.entries.append(entry)
         self.sort()
         return self

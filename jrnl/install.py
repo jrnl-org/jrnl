@@ -1,6 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import contextlib
 import glob
 import logging
 import os
@@ -126,10 +127,8 @@ def install():
 
     # If the folder doesn't exist, create it
     path = os.path.split(journal_path)[0]
-    try:
+    with contextlib.suppress(OSError):
         os.makedirs(path)
-    except OSError:
-        pass
 
     # Encrypt it?
     encrypt = yesno(Message(MsgText.EncryptJournalQuestion), default=False)
