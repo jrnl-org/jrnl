@@ -152,6 +152,7 @@ pycodestyle = [
   "-W1*", "-W2*", "-W3*", "-W5*",
 ]
 "flake8-*" = ["+*"]
+flake8-black = ["-BLK901"]
 
 
 [build-system]
