@@ -4,6 +4,7 @@
 from typing import TYPE_CHECKING
 from typing import Mapping
 from typing import NamedTuple
+
 from jrnl.messages.MsgStyle import MsgStyle
 
 if TYPE_CHECKING:
