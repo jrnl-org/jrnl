@@ -8,6 +8,7 @@ from typing import Callable
 
 import colorama
 import xdg.BaseDirectory
+from rich.pretty import pretty_repr
 from ruamel.yaml import YAML
 from ruamel.yaml import constructor
 
@@ -126,12 +127,15 @@ def scope_config(config, journal_name):
     if type(journal_conf) is dict:
         # We can override the default config on a by-journal basis
         logging.debug(
-            "Updating configuration with specific journal overrides %s", journal_conf
+            "Updating configuration with specific journal overrides:\n%s",
+            pretty_repr(journal_conf),
         )
         config.update(journal_conf)
     else:
         # But also just give them a string to point to the journal file
         config["journal"] = journal_conf
+
+    logging.debug("Scoped config:\n%s", pretty_repr(config))
     return config
 
 
