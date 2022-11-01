@@ -151,6 +151,11 @@ jobs:
           git add "$FILENAME"
           git commit -m "Update changelog [ci skip]"
           git push origin "$BRANCH"
+
+      - name: Update tag to include changelog
+        if: startsWith(env.GITHUB_REF, 'refs/tags/')
+        run: |
+          # This is a tag build (releases and prereleases)
           # update the tag to include the changelog
           git tag -fam "${GITHUB_REF##*/}" "${GITHUB_REF##*/}"
           git push --tags --force
