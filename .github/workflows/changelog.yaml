@@ -157,7 +157,7 @@ jobs:
         run: |
           # This is a tag build (releases and prereleases)
           # update the tag to include the changelog
-          git tag -fam "${GITHUB_REF##*/}" "${GITHUB_REF##*/}"
+          git tag -fam "$GITHUB_REF_NAME" "$GITHUB_REF_NAME"
           git push --tags --force
 
       - name: Merge to Release branch
