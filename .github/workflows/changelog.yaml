@@ -152,6 +152,14 @@ jobs:
           git commit -m "Update changelog [ci skip]"
           git push origin "$BRANCH"
 
+      - name: Update tag to include changelog
+        if: startsWith(env.GITHUB_REF, 'refs/tags/')
+        run: |
+          # This is a tag build (releases and prereleases)
+          # update the tag to include the changelog
+          git tag -fam "$GITHUB_REF_NAME" "$GITHUB_REF_NAME"
+          git push --tags --force
+
       - name: Merge to Release branch
         if: env.FULL_RELEASE == 'true'
         run: |

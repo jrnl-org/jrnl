@@ -7,6 +7,8 @@ import logging
 import os
 import sys
 
+from rich.pretty import pretty_repr
+
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_default_config
@@ -102,7 +104,7 @@ def load_or_install_jrnl(alt_config_path):
         logging.debug("Configuration file not found, installing jrnl...")
         config = install()
 
-    logging.debug('Using configuration "%s"', config)
+    logging.debug('Using configuration:\n"%s"', pretty_repr(config))
     return config
 
 
