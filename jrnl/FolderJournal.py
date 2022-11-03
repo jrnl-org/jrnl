@@ -4,10 +4,13 @@
 import codecs
 import fnmatch
 import os
+from typing import TYPE_CHECKING
 
 from jrnl import Journal
 from jrnl import time
-from jrnl.Entry import Entry
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
 
 
 def get_files(journal_config: str) -> list[str]:
@@ -82,7 +85,7 @@ class Folder(Journal.Journal):
             if os.stat(filename).st_size <= 0:
                 os.remove(filename)
 
-    def delete_entries(self, entries_to_delete: list[Entry]) -> None:
+    def delete_entries(self, entries_to_delete: list["Entry"]) -> None:
         """Deletes specific entries from a journal."""
         for entry in entries_to_delete:
             self.entries.remove(entry)

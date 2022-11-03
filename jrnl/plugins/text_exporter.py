@@ -5,13 +5,16 @@ import errno
 import os
 import re
 import unicodedata
+from typing import TYPE_CHECKING
 
-from jrnl.Entry import Entry
-from jrnl.Journal import Journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
+    from jrnl.Journal import Journal
 
 
 class TextExporter:
@@ -21,17 +24,17 @@ class TextExporter:
     extension = "txt"
 
     @classmethod
-    def export_entry(cls, entry: Entry) -> str:
+    def export_entry(cls, entry: "Entry") -> str:
         """Returns a string representation of a single entry."""
         return str(entry)
 
     @classmethod
-    def export_journal(cls, journal: Journal) -> str:
+    def export_journal(cls, journal: "Journal") -> str:
         """Returns a string representation of an entire journal."""
         return "\n".join(cls.export_entry(entry) for entry in journal)
 
     @classmethod
-    def write_file(cls, journal: Journal, path: str) -> str:
+    def write_file(cls, journal: "Journal", path: str) -> str:
         """Exports a journal into a single file."""
         export_str = cls.export_journal(journal)
         with open(path, "w", encoding="utf-8") as f:
@@ -48,13 +51,13 @@ class TextExporter:
         return ""
 
     @classmethod
-    def make_filename(cls, entry: Entry) -> str:
+    def make_filename(cls, entry: "Entry") -> str:
         return entry.date.strftime("%Y-%m-%d") + "_{}.{}".format(
             cls._slugify(str(entry.title)), cls.extension
         )
 
     @classmethod
-    def write_files(cls, journal: Journal, path: str) -> str:
+    def write_files(cls, journal: "Journal", path: str) -> str:
         """Exports a journal into individual files for each entry."""
         for entry in journal.entries:
             entry_is_written = False
@@ -94,7 +97,7 @@ class TextExporter:
         return slug
 
     @classmethod
-    def export(cls, journal: Journal, output: str | None = None) -> str:
+    def export(cls, journal: "Journal", output: str | None = None) -> str:
         """Exports to individual files if output is an existing path, or into
         a single file if output is a file name, or returns the exporter's
         representation as string if output is None."""

@@ -1,12 +1,15 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from typing import TYPE_CHECKING
 from xml.dom import minidom
 
-from jrnl.Entry import Entry
-from jrnl.Journal import Journal
 from jrnl.plugins.json_exporter import JSONExporter
 from jrnl.plugins.util import get_tags_count
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
+    from jrnl.Journal import Journal
 
 
 class XMLExporter(JSONExporter):
@@ -17,7 +20,7 @@ class XMLExporter(JSONExporter):
 
     @classmethod
     def export_entry(
-        cls, entry: Entry, doc: minidom.Document | None = None
+        cls, entry: "Entry", doc: minidom.Document | None = None
     ) -> minidom.Element | str:
         """Returns an XML representation of a single entry."""
         doc_el = doc or minidom.Document()
@@ -33,7 +36,7 @@ class XMLExporter(JSONExporter):
             return entry_el
 
     @classmethod
-    def entry_to_xml(cls, entry: Entry, doc: minidom.Document) -> minidom.Element:
+    def entry_to_xml(cls, entry: "Entry", doc: minidom.Document) -> minidom.Element:
         entry_el = doc.createElement("entry")
         entry_el.setAttribute("date", entry.date.isoformat())
         if hasattr(entry, "uuid"):
@@ -48,7 +51,7 @@ class XMLExporter(JSONExporter):
         return entry_el
 
     @classmethod
-    def export_journal(cls, journal: Journal) -> str:
+    def export_journal(cls, journal: "Journal") -> str:
         """Returns an XML representation of an entire journal."""
         tags = get_tags_count(journal)
         doc = minidom.Document()

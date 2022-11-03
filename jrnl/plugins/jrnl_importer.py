@@ -2,13 +2,16 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import sys
+from typing import TYPE_CHECKING
 
 from jrnl.exception import JrnlException
-from jrnl.Journal import Journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
+
+if TYPE_CHECKING:
+    from jrnl.Journal import Journal
 
 
 class JRNLImporter:
@@ -17,7 +20,7 @@ class JRNLImporter:
     names = ["jrnl"]
 
     @staticmethod
-    def import_(journal: Journal, input: str | None = None) -> None:
+    def import_(journal: "Journal", input: str | None = None) -> None:
         """Imports from an existing file if input is specified, and
         standard input otherwise."""
         old_cnt = len(journal.entries)

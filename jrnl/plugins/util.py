@@ -1,10 +1,13 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from jrnl.Journal import Journal
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from jrnl.Journal import Journal
 
 
-def get_tags_count(journal: Journal) -> set[tuple[int, str]]:
+def get_tags_count(journal: "Journal") -> set[tuple[int, str]]:
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
     # Astute reader: should the following line leave you as puzzled as me the first time
     # I came across this construction, worry not and embrace the ensuing moment of enlightment.

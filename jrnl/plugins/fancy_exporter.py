@@ -4,14 +4,17 @@
 import logging
 import os
 from textwrap import TextWrapper
+from typing import TYPE_CHECKING
 
-from jrnl.Entry import Entry
 from jrnl.exception import JrnlException
-from jrnl.Journal import Journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.plugins.text_exporter import TextExporter
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
+    from jrnl.Journal import Journal
 
 
 class FancyExporter(TextExporter):
@@ -37,7 +40,7 @@ class FancyExporter(TextExporter):
     border_m = "┘"
 
     @classmethod
-    def export_entry(cls, entry: Entry) -> str:
+    def export_entry(cls, entry: "Entry") -> str:
         """Returns a fancy unicode representation of a single entry."""
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
 
@@ -102,7 +105,7 @@ class FancyExporter(TextExporter):
         return "\n".join(cls.export_entry(entry) for entry in journal)
 
 
-def check_provided_linewrap_viability(linewrap: int, card: list[str], journal: Journal):
+def check_provided_linewrap_viability(linewrap: int, card: list[str], journal: "Journal"):
     if len(card[0]) > linewrap:
         width_violation = len(card[0]) - linewrap
         raise JrnlException(

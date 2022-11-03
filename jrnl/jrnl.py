@@ -2,7 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 import logging
 import sys
-from argparse import Namespace
+from typing import TYPE_CHECKING
 
 from jrnl import install
 from jrnl import plugins
@@ -13,7 +13,6 @@ from jrnl.config import get_journal_name
 from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
-from jrnl.Entry import Entry
 from jrnl.exception import JrnlException
 from jrnl.Journal import Journal
 from jrnl.Journal import open_journal
@@ -25,8 +24,13 @@ from jrnl.output import print_msgs
 from jrnl.override import apply_overrides
 from jrnl.path import expand_path
 
+if TYPE_CHECKING:
+    from argparse import Namespace
 
-def run(args: Namespace):
+    from jrnl.Entry import Entry
+
+
+def run(args: "Namespace"):
     """
     Flow:
     1. Run standalone command if it doesn't require config (help, version, etc), then exit
@@ -74,7 +78,7 @@ def run(args: Namespace):
         search_mode(**kwargs)
 
 
-def _is_write_mode(args: Namespace, config: dict, **kwargs) -> bool:
+def _is_write_mode(args: "Namespace", config: dict, **kwargs) -> bool:
     """Determines if we are in write mode (as opposed to search mode)"""
     # Are any search filters present? If so, then search mode.
     write_mode = not any(
@@ -115,7 +119,7 @@ def _is_write_mode(args: Namespace, config: dict, **kwargs) -> bool:
     return write_mode
 
 
-def write_mode(args: Namespace, config: dict, journal: Journal, **kwargs) -> None:
+def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> None:
     """
     Gets input from the user to write to the journal
     1. Check for input from cli
@@ -159,7 +163,7 @@ def write_mode(args: Namespace, config: dict, journal: Journal, **kwargs) -> Non
     logging.debug("Write mode: completed journal.write()")
 
 
-def search_mode(args: Namespace, journal: Journal, **kwargs) -> None:
+def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
     """
     Search for entries in a journal, then either:
     1. Send them to configured editor for user manipulation (and also
@@ -251,7 +255,7 @@ def _get_editor_template(config: dict, **kwargs) -> str:
     return template
 
 
-def _has_search_args(args: Namespace) -> bool:
+def _has_search_args(args: "Namespace") -> bool:
     return any(
         (
             args.on_date,
@@ -271,7 +275,7 @@ def _has_search_args(args: Namespace) -> bool:
     )
 
 
-def _filter_journal_entries(args: Namespace, journal: Journal, **kwargs) -> None:
+def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> None:
     """Filter journal entries in-place based upon search args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
@@ -296,7 +300,7 @@ def _filter_journal_entries(args: Namespace, journal: Journal, **kwargs) -> None
     journal.limit(args.limit)
 
 
-def _print_entries_found_count(count: int, args: Namespace) -> None:
+def _print_entries_found_count(count: int, args: "Namespace") -> None:
     if count == 0:
         if args.edit or args.change_time:
             print_msg(Message(MsgText.NothingToModify, MsgStyle.WARNING))
@@ -317,13 +321,13 @@ def _print_entries_found_count(count: int, args: Namespace) -> None:
         print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
 
 
-def _other_entries(journal: Journal, entries: list[Entry]) -> list[Entry]:
+def _other_entries(journal: Journal, entries: list["Entry"]) -> list["Entry"]:
     """Find entries that are not in journal"""
     return [e for e in entries if e not in journal.entries]
 
 
 def _edit_search_results(
-    config: dict, journal: Journal, old_entries: list[Entry], **kwargs
+    config: dict, journal: Journal, old_entries: list["Entry"], **kwargs
 ) -> None:
     """
     1. Send the given journal entries to the user-configured editor
@@ -404,7 +408,7 @@ def _get_predit_stats(journal: Journal) -> dict[str, int]:
 
 
 def _delete_search_results(
-    journal: Journal, old_entries: list[Entry], **kwargs
+    journal: Journal, old_entries: list["Entry"], **kwargs
 ) -> None:
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
@@ -416,9 +420,9 @@ def _delete_search_results(
 
 
 def _change_time_search_results(
-    args: Namespace,
+    args: "Namespace",
     journal: Journal,
-    old_entries: list[Entry],
+    old_entries: list["Entry"],
     no_prompt: bool = False,
     **kwargs
 ) -> None:
@@ -444,7 +448,7 @@ def _change_time_search_results(
         journal.write()
 
 
-def _display_search_results(args: Namespace, journal: Journal, **kwargs) -> None:
+def _display_search_results(args: "Namespace", journal: Journal, **kwargs) -> None:
     # Get export format from config file if not provided at the command line
     args.export = args.export or kwargs["config"].get("display_format")
 
