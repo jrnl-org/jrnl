@@ -47,6 +47,7 @@ black = { version = ">=21.5b2", allow-prereleases = true }
 flakeheaven = ">=3.0"
 flake8-black = ">=0.3.3"
 flake8-isort = ">=5.0.0"
+flake8-type-checking = ">=2.2.0"
 ipdb = "*"
 isort = ">=5.10"
 mkdocs = ">=1.0,<1.3"
