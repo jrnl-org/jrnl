@@ -111,7 +111,7 @@ jobs:
       id: pypi-version-getter
       run: |
         pypi_version="$(find dist/jrnl-*.tar.gz | sed -r 's!dist/jrnl-(.*)\.tar\.gz!\1!')"
-        echo 'pypi_version="$pypi_version"' >> $GITHUB_OUTPUT
+        echo "pypi_version=$pypi_version" >> "$GITHUB_OUTPUT"
 
   release_homebrew:
     if: ${{ github.event.inputs.include_brew == 'true' }}
