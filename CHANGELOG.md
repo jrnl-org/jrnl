@@ -16,10 +16,6 @@
 
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
 
-**Documentation:**
-
-- Document that editors must be blocking processes [\#1624](https://github.com/jrnl-org/jrnl/pull/1624) ([micahellison](https://github.com/micahellison))
-
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta2...v3.3)
