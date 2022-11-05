@@ -20,7 +20,7 @@ from jrnl.plugins import util
 class WrappingFormatter(argparse.RawTextHelpFormatter):
     """Used in help screen"""
 
-    def _split_lines(self, text, width):
+    def _split_lines(self, text: str, width: int) -> list[str]:
         text = text.split("\n\n")
         text = map(lambda t: self._whitespace_matcher.sub(" ", t).strip(), text)
         text = map(lambda t: textwrap.wrap(t, width=56), text)
@@ -28,7 +28,7 @@ class WrappingFormatter(argparse.RawTextHelpFormatter):
         return text
 
 
-def parse_args(args=[]):
+def parse_args(args: list[str] = []) -> argparse.Namespace:
     """
     Argument parsing that is doable before the config is available.
     Everything else goes into "text" for later parsing.

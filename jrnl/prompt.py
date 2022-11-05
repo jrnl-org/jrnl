@@ -42,7 +42,7 @@ def create_password(journal_name: str) -> str:
     return pw
 
 
-def yesno(prompt: Message, default: bool = True) -> bool:
+def yesno(prompt: Message | str, default: bool = True) -> bool:
     response = print_msgs(
         [
             prompt,

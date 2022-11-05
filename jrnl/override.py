@@ -37,12 +37,12 @@ def apply_overrides(args: "Namespace", base_config: dict) -> dict:
     return base_config
 
 
-def _get_key_and_value_from_pair(pairs):
+def _get_key_and_value_from_pair(pairs: dict) -> tuple:
     key_as_dots, override_value = list(pairs.items())[0]
     return key_as_dots, override_value
 
 
-def _convert_dots_to_list(key_as_dots):
+def _convert_dots_to_list(key_as_dots: str) -> list[str]:
     keys = key_as_dots.split(".")
     keys = [k for k in keys if k != ""]  # remove empty elements
     return keys

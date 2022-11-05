@@ -15,6 +15,7 @@
 **Build:**
 
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
+- Add type hints [\#1614](https://github.com/jrnl-org/jrnl/pull/1614) ([outa](https://github.com/outa))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
