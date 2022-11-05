@@ -22,8 +22,12 @@ def __get_pdt_calendar():
 
 
 def parse(
-    date_str, inclusive=False, default_hour=None, default_minute=None, bracketed=False
-):
+    date_str: str | datetime.datetime,
+    inclusive: bool = False,
+    default_hour: int | None = None,
+    default_minute: int | None = None,
+    bracketed: bool = False,
+) -> datetime.datetime | None:
     """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
     if not date_str:
         return None

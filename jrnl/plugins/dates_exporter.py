@@ -2,8 +2,13 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from collections import Counter
+from typing import TYPE_CHECKING
 
 from jrnl.plugins.text_exporter import TextExporter
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
+    from jrnl.Journal import Journal
 
 
 class DatesExporter(TextExporter):
@@ -13,11 +18,11 @@ class DatesExporter(TextExporter):
     extension = "dates"
 
     @classmethod
-    def export_entry(cls, entry):
+    def export_entry(cls, entry: "Entry"):
         raise NotImplementedError
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: "Journal") -> str:
         """Returns dates and their frequencies for an entire journal."""
         date_counts = Counter()
         for entry in journal.entries:

@@ -1,6 +1,8 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from typing import Type
+
 from jrnl.plugins.dates_exporter import DatesExporter
 from jrnl.plugins.fancy_exporter import FancyExporter
 from jrnl.plugins.jrnl_importer import JRNLImporter
@@ -32,14 +34,14 @@ EXPORT_FORMATS = sorted(__exporter_types.keys())
 IMPORT_FORMATS = sorted(__importer_types.keys())
 
 
-def get_exporter(format):
+def get_exporter(format: str) -> Type[TextExporter] | None:
     for exporter in __exporters:
         if hasattr(exporter, "names") and format in exporter.names:
             return exporter
     return None
 
 
-def get_importer(format):
+def get_importer(format: str) -> Type[JRNLImporter] | None:
     for importer in __importers:
         if hasattr(importer, "names") and format in importer.names:
             return importer
