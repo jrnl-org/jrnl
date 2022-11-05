@@ -115,12 +115,3 @@ jrnl --config-file ~/foo/jrnl/work-config.yaml
 # Use default configuration file (created on first run)
 jrnl
 ```
-
-## Known Issues
-
-### Unicode on Windows
-
-The Windows shell prior to Windows 7 has issues with unicode encoding.
-To use non-ascii characters, first tweak Python to recognize the encoding by adding `'cp65001': 'utf_8'`, to `Lib/encoding/aliases.py`. Then, change the codepage with `chcp 1252` before using `jrnl`.
-
-(Related issue: [#486](https://github.com/jrnl-org/jrnl/issues/486))
