@@ -140,10 +140,7 @@ class Journal:
     def validate_parsing(self):
         """Confirms that the jrnl is still parsed correctly after being dumped to text."""
         new_entries = self._parse(self._to_text())
-        for i, entry in enumerate(self.entries):
-            if entry != new_entries[i]:
-                return False
-        return True
+        return all(entry == new_entries[i] for i, entry in enumerate(self.entries))
 
     @staticmethod
     def create_file(filename):

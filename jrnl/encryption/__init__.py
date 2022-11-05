@@ -2,8 +2,10 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 from enum import Enum
 from importlib import import_module
+from typing import TYPE_CHECKING
 
-from .BaseEncryption import BaseEncryption
+if TYPE_CHECKING:
+    from .BaseEncryption import BaseEncryption
 
 
 class EncryptionMethods(str, Enum):

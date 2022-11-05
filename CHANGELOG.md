@@ -15,7 +15,12 @@
 **Build:**
 
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
+- Add `simplify` plugin to linting checks [\#1630](https://github.com/jrnl-org/jrnl/pull/1630) ([wren](https://github.com/wren))
 - Add type hints [\#1614](https://github.com/jrnl-org/jrnl/pull/1614) ([outa](https://github.com/outa))
+
+**Documentation:**
+
+- Remove Windows 7 known issue since Windows 7 is no longer supported [\#1636](https://github.com/jrnl-org/jrnl/pull/1636) ([micahellison](https://github.com/micahellison))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 

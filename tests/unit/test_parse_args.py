@@ -293,7 +293,7 @@ class TestDeserialization:
 
         runtime_config = make_yaml_valid_dict(input_str)
         assert runtime_config.__class__ == dict
-        assert input_str[0] in runtime_config.keys()
+        assert input_str[0] in runtime_config
         assert runtime_config[input_str[0]] == input_str[1]
 
     def test_deserialize_multiple_datatypes(self):

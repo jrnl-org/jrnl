@@ -240,7 +240,8 @@ def _get_editor_template(config: dict, **kwargs) -> str:
     template_path = expand_path(config["template"])
 
     try:
-        template = open(template_path).read()
+        with open(template_path) as f:
+            template = f.read()
         logging.debug("Write mode: template loaded: %s", template)
     except OSError:
         logging.error("Write mode: template not loaded")

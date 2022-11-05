@@ -83,11 +83,11 @@ class MarkdownExporter(TextExporter):
         out = []
         year, month = -1, -1
         for e in journal.entries:
-            if not e.date.year == year:
+            if e.date.year != year:
                 year = e.date.year
                 out.append("# " + str(year))
                 out.append("")
-            if not e.date.month == month:
+            if e.date.month != month:
                 month = e.date.month
                 out.append("## " + e.date.strftime("%B"))
                 out.append("")
