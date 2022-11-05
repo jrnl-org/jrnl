@@ -19,7 +19,7 @@ class Jrnlv2Encryption(BasePasswordEncryption):
         self._key: bytes = b""
 
         super().__init__(*args, **kwargs)
-        logging.debug("Jrnlv2Encryption.__init__ start")
+        logging.debug("start")
 
     @property
     def password(self):
@@ -43,9 +43,11 @@ class Jrnlv2Encryption(BasePasswordEncryption):
         self._key = base64.urlsafe_b64encode(key)
 
     def _encrypt(self, text: str) -> bytes:
+        logging.debug("encrypting")
         return Fernet(self._key).encrypt(text.encode(self._encoding))
 
     def _decrypt(self, text: bytes) -> str | None:
+        logging.debug("decrypting")
         try:
             return Fernet(self._key).decrypt(text).decode(self._encoding)
         except (InvalidToken, IndexError):

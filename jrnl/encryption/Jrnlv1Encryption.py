@@ -15,12 +15,13 @@ from jrnl.encryption.BasePasswordEncryption import BasePasswordEncryption
 class Jrnlv1Encryption(BasePasswordEncryption):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        logging.debug("Jrnlv1Encryption.__init__ start")
+        logging.debug("start")
 
     def _encrypt(self, _: str) -> bytes:
         raise NotImplementedError
 
     def _decrypt(self, text: bytes) -> str | None:
+        logging.debug("decrypting")
         iv, cipher = text[:16], text[16:]
         password = self._password or ""
         decryption_key = hashlib.sha256(password.encode(self._encoding)).digest()

@@ -15,7 +15,7 @@ from jrnl.prompt import prompt_password
 class BasePasswordEncryption(BaseEncryption):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        logging.debug("BasePasswordEncryption.__init__ start")
+        logging.debug("start")
         self._attempts: int = 0
         self._max_attempts: int = 3
         self._password: str = ""
@@ -34,12 +34,13 @@ class BasePasswordEncryption(BaseEncryption):
         self._password = value
 
     def encrypt(self, text: str) -> bytes:
+        logging.debug("encrypting")
         if not self.password:
             self.password = create_password(self._journal_name)
         return self._encrypt(text)
 
     def decrypt(self, text: bytes) -> str:
-        logging.debug("BasePasswordEncryption decrypt start")
+        logging.debug("decrypting")
         if not self.password:
             self._prompt_password()
 
