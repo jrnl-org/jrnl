@@ -3,12 +3,17 @@
 
 import os
 import re
+from typing import TYPE_CHECKING
 
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.plugins.text_exporter import TextExporter
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
+    from jrnl.Journal import Journal
 
 
 class MarkdownExporter(TextExporter):
@@ -18,7 +23,7 @@ class MarkdownExporter(TextExporter):
     extension = "md"
 
     @classmethod
-    def export_entry(cls, entry, to_multifile=True):
+    def export_entry(cls, entry: "Entry", to_multifile: bool = True) -> str:
         """Returns a markdown representation of a single entry."""
         date_str = entry.date.strftime(entry.journal.config["timeformat"])
         body_wrapper = "\n" if entry.body else ""
@@ -73,7 +78,7 @@ class MarkdownExporter(TextExporter):
         return f"{heading} {date_str} {entry.title}\n{newbody} "
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: "Journal") -> str:
         """Returns a Markdown representation of an entire journal."""
         out = []
         year, month = -1, -1

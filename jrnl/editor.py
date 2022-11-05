@@ -17,7 +17,7 @@ from jrnl.os_compat import split_args
 from jrnl.output import print_msg
 
 
-def get_text_from_editor(config, template=""):
+def get_text_from_editor(config: dict, template: str = "") -> str:
     suffix = ".jrnl"
     if config["template"]:
         template_filename = Path(config["template"]).name
@@ -50,7 +50,7 @@ def get_text_from_editor(config, template=""):
     return raw
 
 
-def get_text_from_stdin():
+def get_text_from_stdin() -> str:
     print_msg(
         Message(
             MsgText.WritingEntryStart,

@@ -19,7 +19,7 @@ from jrnl.path import expand_path
 from jrnl.prompt import yesno
 
 
-def backup(filename, binary=False):
+def backup(filename: str, binary: bool = False):
     filename = expand_path(filename)
 
     try:
@@ -42,14 +42,14 @@ def backup(filename, binary=False):
             raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
 
-def check_exists(path):
+def check_exists(path: str) -> bool:
     """
     Checks if a given path exists.
     """
     return os.path.exists(path)
 
 
-def upgrade_jrnl(config_path):
+def upgrade_jrnl(config_path: str) -> None:
     config = load_config(config_path)
 
     print_msg(Message(MsgText.WelcomeToJrnl, MsgStyle.NORMAL, {"version": __version__}))
@@ -115,7 +115,7 @@ def upgrade_jrnl(config_path):
 
     cont = yesno(Message(MsgText.ContinueUpgrade), default=False)
     if not cont:
-        raise JrnlException(Message(MsgText.UpgradeAborted), MsgStyle.WARNING)
+        raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
     for journal_name, path in encrypted_journals.items():
         print_msg(
@@ -188,7 +188,7 @@ def upgrade_jrnl(config_path):
     print_msg(Message(MsgText.AllDoneUpgrade, MsgStyle.NORMAL))
 
 
-def is_old_version(config_path):
+def is_old_version(config_path: str) -> bool:
     return is_config_json(config_path)
 
 

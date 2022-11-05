@@ -2,9 +2,14 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import json
+from typing import TYPE_CHECKING
 
 from jrnl.plugins.text_exporter import TextExporter
 from jrnl.plugins.util import get_tags_count
+
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
+    from jrnl.Journal import Journal
 
 
 class JSONExporter(TextExporter):
@@ -14,7 +19,7 @@ class JSONExporter(TextExporter):
     extension = "json"
 
     @classmethod
-    def entry_to_dict(cls, entry):
+    def entry_to_dict(cls, entry: "Entry") -> dict:
         entry_dict = {
             "title": entry.title,
             "body": entry.body,
@@ -49,12 +54,12 @@ class JSONExporter(TextExporter):
         return entry_dict
 
     @classmethod
-    def export_entry(cls, entry):
+    def export_entry(cls, entry: "Entry") -> str:
         """Returns a json representation of a single entry."""
         return json.dumps(cls.entry_to_dict(entry), indent=2) + "\n"
 
     @classmethod
-    def export_journal(cls, journal):
+    def export_journal(cls, journal: "Journal") -> str:
         """Returns a json representation of an entire journal."""
         tags = get_tags_count(journal)
         result = {

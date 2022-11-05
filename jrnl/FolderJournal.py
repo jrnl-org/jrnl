@@ -4,12 +4,16 @@
 import codecs
 import fnmatch
 import os
+from typing import TYPE_CHECKING
 
 from jrnl import Journal
 from jrnl import time
 
+if TYPE_CHECKING:
+    from jrnl.Entry import Entry
 
-def get_files(journal_config):
+
+def get_files(journal_config: str) -> list[str]:
     """Searches through sub directories starting with journal_config and find all text files"""
     filenames = []
     for root, dirnames, f in os.walk(journal_config):
@@ -21,13 +25,13 @@ def get_files(journal_config):
 class Folder(Journal.Journal):
     """A Journal handling multiple files in a folder"""
 
-    def __init__(self, name="default", **kwargs):
+    def __init__(self, name: str = "default", **kwargs):
         self.entries = []
         self._diff_entry_dates = []
         self.can_be_encrypted = False
         super().__init__(name, **kwargs)
 
-    def open(self):
+    def open(self) -> "Folder":
         filenames = []
         self.entries = []
         filenames = get_files(self.config["journal"])
@@ -38,7 +42,7 @@ class Folder(Journal.Journal):
         self.sort()
         return self
 
-    def write(self):
+    def write(self) -> None:
         """Writes only the entries that have been modified into proper files."""
         # Create a list of dates of modified entries. Start with diff_entry_dates
         modified_dates = self._diff_entry_dates
@@ -81,13 +85,13 @@ class Folder(Journal.Journal):
             if os.stat(filename).st_size <= 0:
                 os.remove(filename)
 
-    def delete_entries(self, entries_to_delete):
+    def delete_entries(self, entries_to_delete: list["Entry"]) -> None:
         """Deletes specific entries from a journal."""
         for entry in entries_to_delete:
             self.entries.remove(entry)
             self._diff_entry_dates.append(entry.date)
 
-    def change_date_entries(self, date):
+    def change_date_entries(self, date: str) -> None:
         """Changes entry dates to given date."""
 
         date = time.parse(date)
@@ -98,7 +102,7 @@ class Folder(Journal.Journal):
             self._diff_entry_dates.append(entry.date)
             entry.date = date
 
-    def parse_editable_str(self, edited):
+    def parse_editable_str(self, edited: str) -> None:
         """Parses the output of self.editable_str and updates its entries."""
         mod_entries = self._parse(edited)
         diff_entries = set(self.entries) - set(mod_entries)

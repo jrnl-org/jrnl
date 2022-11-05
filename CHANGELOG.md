@@ -1,5 +1,22 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3...HEAD)
+
+**Implemented enhancements:**
+
+- Add `rich` handler to debug logging [\#1627](https://github.com/jrnl-org/jrnl/pull/1627) ([wren](https://github.com/wren))
+
+**Deprecated:**
+
+- Drop Python 3.9 and use Python 3.11 official release [\#1611](https://github.com/jrnl-org/jrnl/pull/1611) ([micahellison](https://github.com/micahellison))
+
+**Build:**
+
+- Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
+- Add type hints [\#1614](https://github.com/jrnl-org/jrnl/pull/1614) ([outa](https://github.com/outa))
+
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3-beta2...v3.3)

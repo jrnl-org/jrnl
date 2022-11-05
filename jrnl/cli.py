@@ -5,6 +5,8 @@ import logging
 import sys
 import traceback
 
+from rich.logging import RichHandler
+
 from jrnl.args import parse_args
 from jrnl.exception import JrnlException
 from jrnl.jrnl import run
@@ -14,28 +16,30 @@ from jrnl.messages import MsgText
 from jrnl.output import print_msg
 
 
-def configure_logger(debug=False):
+def configure_logger(debug: bool = False) -> None:
     if not debug:
         logging.disable()
         return
 
     logging.basicConfig(
         level=logging.DEBUG,
-        format="%(levelname)-8s %(name)-12s %(message)s",
+        datefmt="[%X]",
+        format="%(message)s",
+        handlers=[RichHandler()],
     )
     logging.getLogger("parsedatetime").setLevel(logging.INFO)
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
     logging.debug("Logging start")
 
 
-def cli(manual_args=None):
+def cli(manual_args: list[str] | None = None) -> int:
     try:
         if manual_args is None:
             manual_args = sys.argv[1:]
 
         args = parse_args(manual_args)
         configure_logger(args.debug)
-        logging.debug("Parsed args: %s", args)
+        logging.debug("Parsed args:\n%s", args)
 
         status_code = run(args)
 

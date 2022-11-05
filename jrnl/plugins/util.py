@@ -1,8 +1,13 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from typing import TYPE_CHECKING
 
-def get_tags_count(journal):
+if TYPE_CHECKING:
+    from jrnl.Journal import Journal
+
+
+def get_tags_count(journal: "Journal") -> set[tuple[int, str]]:
     """Returns a set of tuples (count, tag) for all tags present in the journal."""
     # Astute reader: should the following line leave you as puzzled as me the first time
     # I came across this construction, worry not and embrace the ensuing moment of enlightment.
@@ -12,7 +17,7 @@ def get_tags_count(journal):
     return tag_counts
 
 
-def oxford_list(lst):
+def oxford_list(lst: list) -> str:
     """Return Human-readable list of things obeying the object comma)"""
     lst = sorted(lst)
     if not lst:

@@ -100,16 +100,16 @@ something like `pip3 install crytography`)
 import base64
 import getpass
 from pathlib import Path
+
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-
 filepath = input("journal file path: ")
 password = getpass.getpass("Password: ")
 
-with open(Path(filepath),"rb") as f:
+with open(Path(filepath), "rb") as f:
     ciphertext = f.read()
 
 password = password.encode("utf-8")
@@ -123,7 +123,7 @@ kdf = PBKDF2HMAC(
 
 key = base64.urlsafe_b64encode(kdf.derive(password))
 
-print(Fernet(key).decrypt(ciphertext).decode('utf-8'))
+print(Fernet(key).decrypt(ciphertext).decode("utf-8"))
 ```
 
 **Example for jrnl v1 files**:
@@ -137,18 +137,19 @@ like `pip3 install pycrypto`)
 """
 
 import argparse
-from Crypto.Cipher import AES
 import getpass
 import hashlib
+
+from Crypto.Cipher import AES
 
 parser = argparse.ArgumentParser()
 parser.add_argument("filepath", help="journal file to decrypt")
 args = parser.parse_args()
 
 pwd = getpass.getpass()
-key = hashlib.sha256(pwd.encode('utf-8')).digest()
+key = hashlib.sha256(pwd.encode("utf-8")).digest()
 
-with open(args.filepath, 'rb') as f:
+with open(args.filepath, "rb") as f:
     ciphertext = f.read()
 
 crypto = AES.new(key, AES.MODE_CBC, ciphertext[:16])

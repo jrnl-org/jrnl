@@ -56,7 +56,7 @@ def prompt_password(first_try: bool = True) -> str:
     )
 
 
-def yesno(prompt: Message, default: bool = True) -> bool:
+def yesno(prompt: Message | str, default: bool = True) -> bool:
     response = print_msgs(
         [
             prompt,

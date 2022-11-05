@@ -6,6 +6,8 @@ import logging
 import os
 import sys
 
+from rich.pretty import pretty_repr
+
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_default_config
@@ -25,7 +27,7 @@ from jrnl.prompt import yesno
 from jrnl.upgrade import is_old_version
 
 
-def upgrade_config(config_data, alt_config_path=None):
+def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> None:
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions.
@@ -44,7 +46,7 @@ def upgrade_config(config_data, alt_config_path=None):
         )
 
 
-def find_default_config():
+def find_default_config() -> str:
     config_path = (
         get_config_path()
         if os.path.exists(get_config_path())
@@ -53,7 +55,7 @@ def find_default_config():
     return config_path
 
 
-def find_alt_config(alt_config):
+def find_alt_config(alt_config: str) -> str:
     if not os.path.exists(alt_config):
         raise JrnlException(
             Message(
@@ -64,7 +66,7 @@ def find_alt_config(alt_config):
     return alt_config
 
 
-def load_or_install_jrnl(alt_config_path):
+def load_or_install_jrnl(alt_config_path: str) -> dict:
     """
     If jrnl is already installed, loads and returns a default config object.
     If alternate config is specified via --config-file flag, it will be used.
@@ -101,11 +103,11 @@ def load_or_install_jrnl(alt_config_path):
         logging.debug("Configuration file not found, installing jrnl...")
         config = install()
 
-    logging.debug('Using configuration "%s"', config)
+    logging.debug('Using configuration:\n"%s"', pretty_repr(config))
     return config
 
 
-def install():
+def install() -> dict:
     _initialize_autocomplete()
 
     # Where to create the journal?
@@ -141,7 +143,7 @@ def install():
     return default_config
 
 
-def _initialize_autocomplete():
+def _initialize_autocomplete() -> None:
     # readline is not included in Windows Active Python and perhaps some other distributions
     if sys.modules.get("readline"):
         import readline
@@ -151,7 +153,7 @@ def _initialize_autocomplete():
         readline.set_completer(_autocomplete_path)
 
 
-def _autocomplete_path(text, state):
+def _autocomplete_path(text: str, state: int) -> list[str | None]:
     expansions = glob.glob(expand_path(text) + "*")
     expansions = [e + "/" if os.path.isdir(e) else e for e in expansions]
     expansions.append(None)
