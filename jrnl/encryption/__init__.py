@@ -17,7 +17,7 @@ class EncryptionMethods(str, Enum):
     JRNLV2 = "Jrnlv2Encryption"
 
 
-def determine_encryption_method(config: str | bool) -> BaseEncryption:
+def determine_encryption_method(config: str | bool) -> "BaseEncryption":
     ENCRYPTION_METHODS = {
         True: EncryptionMethods.JRNLV2,  # the default
         False: EncryptionMethods.NONE,
