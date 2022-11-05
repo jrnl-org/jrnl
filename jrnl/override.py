@@ -1,14 +1,15 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
-
-from argparse import Namespace
+from typing import TYPE_CHECKING
 
 from jrnl.config import make_yaml_valid_dict
 from jrnl.config import update_config
 
+if TYPE_CHECKING:
+    from argparse import Namespace
 
 # import logging
-def apply_overrides(args: Namespace, base_config: dict) -> dict:
+def apply_overrides(args: "Namespace", base_config: dict) -> dict:
     """Unpack CLI provided overrides into the configuration tree.
 
     :param overrides: List of configuration key-value pairs collected from the CLI
