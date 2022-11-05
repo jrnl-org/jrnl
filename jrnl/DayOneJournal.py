@@ -210,7 +210,7 @@ class DayOne(Journal.Journal):
         entries_from_editor = self._parse(edited)
 
         for entry in entries_from_editor:
-            self._get_and_remove_uuid_from_entry(entry)
+            entry = self._get_and_remove_uuid_from_entry(entry)
 
         # Remove deleted entries
         edited_uuids = [e.uuid for e in entries_from_editor]
