@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import base64
+import contextlib
 import hashlib
 import logging
 import os
@@ -202,10 +203,9 @@ def set_keychain(journal_name, password):
     import keyring
 
     if password is None:
-        try:
+        cm = contextlib.suppress(keyring.errors.KeyringError)
+        with cm:
             keyring.delete_password("jrnl", journal_name)
-        except keyring.errors.KeyringError:
-            pass
     else:
         try:
             keyring.set_password("jrnl", journal_name, password)
