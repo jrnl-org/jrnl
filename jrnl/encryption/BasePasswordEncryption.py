@@ -19,30 +19,51 @@ class BasePasswordEncryption(BaseEncryption):
         self._attempts: int = 0
         self._max_attempts: int = 3
         self._password: str = ""
-
-        # Check keyring first for password.
-        # That way we'll have it.
-        if keyring_pw := get_keyring_password(self._journal_name):
-            self.password = keyring_pw
+        self._check_keyring: bool = True
 
     @property
-    def password(self) -> str:
+    def check_keyring(self) -> bool:
+        return self._check_keyring
+
+    @check_keyring.setter
+    def check_keyring(self, value: bool) -> None:
+        self._check_keyring = value
+
+    @property
+    def password(self) -> str | None:
         return self._password
 
     @password.setter
     def password(self, value: str) -> None:
         self._password = value
 
+    def clear(self):
+        self.password = None
+        self.check_keyring = False
+
     def encrypt(self, text: str) -> bytes:
         logging.debug("encrypting")
         if not self.password:
-            self.password = create_password(self._journal_name)
+            if self.check_keyring and (
+                keyring_pw := get_keyring_password(self._journal_name)
+            ):
+                self.password = keyring_pw
+
+            if not self.password:
+                self.password = create_password(self._journal_name)
+
         return self._encrypt(text)
 
     def decrypt(self, text: bytes) -> str:
         logging.debug("decrypting")
         if not self.password:
-            self._prompt_password()
+            if self.check_keyring and (
+                keyring_pw := get_keyring_password(self._journal_name)
+            ):
+                self.password = keyring_pw
+
+            if not self.password:
+                self._prompt_password()
 
         while (result := self._decrypt(text)) is None:
             self._prompt_password()

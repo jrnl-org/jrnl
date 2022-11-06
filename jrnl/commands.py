@@ -107,13 +107,16 @@ def postconfig_encrypt(
         )
 
     # If journal is encrypted, create new password
+    logging.debug("Clearing encryption method...")
+
     if journal.config["encrypt"] is True:
         logging.debug("Journal already encrypted. Re-encrypting...")
         print(f"Journal {journal.name} is already encrypted. Create a new password.")
+        journal.encryption_method.clear()
+    else:
+        journal.config["encrypt"] = True
+        journal.encryption_method = None
 
-    logging.debug("Clearing encryption method...")
-    journal.encryption_method = None
-    journal.config["encrypt"] = True
     journal.write(args.filename)
 
     print_msg(

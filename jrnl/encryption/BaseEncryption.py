@@ -17,6 +17,9 @@ class BaseEncryption(ABC):
         self._journal_name: str = journal_name
         self._config: dict = config
 
+    def clear(self) -> None:
+        pass
+
     def encrypt(self, text: str) -> bytes:
         logging.debug("encrypting")
         return self._encrypt(text)

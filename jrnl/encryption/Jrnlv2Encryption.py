@@ -26,11 +26,15 @@ class Jrnlv2Encryption(BasePasswordEncryption):
         return self._password
 
     @password.setter
-    def password(self, value):
+    def password(self, value: str | None):
         self._password = value
         self._make_key()
 
     def _make_key(self) -> None:
+        if self._password is None:
+            # Password was removed after being set
+            self._key = None
+            return
         password = self.password.encode(self._encoding)
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
