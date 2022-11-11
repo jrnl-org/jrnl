@@ -183,14 +183,16 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
         _filter_journal_entries(**kwargs)
         _print_entries_found_count(len(journal), args)
 
-    if not journal:
-        # Bail out if there are no entries
-        return
-
     # Where do the search results go?
-    elif args.edit:
+    if args.edit:
         # If we want to both edit and change time in one action
         if args.change_time:
+            if not journal:
+                # --edit can be called on an empty journal, but --edit
+                # and --change-time together means the user is likely
+                # expecting to have selected some entries; bail out
+                return
+
             # Generate a new list instead of assigning so it won't be
             # modified by _change_time_search_results
             selected_entries = [e for e in journal.entries]
@@ -206,6 +208,13 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
             journal.entries = selected_entries
 
         _edit_search_results(**kwargs)
+
+    elif not journal:
+        # Bail out if there are no entries and we're not editing; we
+        # could put this before the above edit block, but there are
+        # some use cases where --edit is called on an empty journal
+        return
+
     elif args.change_time:
         _change_time_search_results(**kwargs)
 
