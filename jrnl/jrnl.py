@@ -183,8 +183,12 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
         _filter_journal_entries(**kwargs)
         _print_entries_found_count(len(journal), args)
 
+    if not journal:
+        # Bail out if there are no entries
+        return
+
     # Where do the search results go?
-    if args.edit:
+    elif args.edit:
         # If we want to both edit and change time in one action
         if args.change_time:
             # Generate a new list instead of assigning so it won't be
@@ -202,11 +206,6 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
             journal.entries = selected_entries
 
         _edit_search_results(**kwargs)
-
-    elif not journal:
-        # Bail out if there are no entries and we're not editing
-        return
-
     elif args.change_time:
         _change_time_search_results(**kwargs)
 
