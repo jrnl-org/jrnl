@@ -328,7 +328,11 @@ def _other_entries(journal: Journal, entries: list["Entry"]) -> list["Entry"]:
 
 
 def _edit_search_results(
-    config: dict, journal: Journal, old_entries: list["Entry"], **kwargs
+    args: "Namespace",
+    config: dict,
+    journal: Journal,
+    old_entries: list["Entry"],
+    **kwargs
 ) -> None:
     """
     1. Send the given journal entries to the user-configured editor
@@ -350,6 +354,10 @@ def _edit_search_results(
     # Get stats now for summary later
     old_stats = _get_predit_stats(journal)
 
+    # If we're adding a new entry (due to no entries matching the
+    # search), apply the change time operation if it was requested
+    do_change_time = not journal.entries and args.change_time
+
     # Send user to the editor
     edited = get_text_from_editor(config, journal.editable_str())
     journal.parse_editable_str(edited)
@@ -358,9 +366,16 @@ def _edit_search_results(
     _print_edited_summary(journal, old_stats)
 
     # Put back entries we separated earlier, sort, and write the journal
-    journal.entries += other_entries
-    journal.sort()
-    journal.write()
+    if do_change_time:
+        # If we're changing time, _change_time_search_results will
+        # handle the recombining, sorting, and saving
+        _change_time_search_results(
+            args, journal, other_entries, no_prompt=True, **kwargs
+        )
+    else:
+        journal.entries += other_entries
+        journal.sort()
+        journal.write()
 
 
 def _print_edited_summary(

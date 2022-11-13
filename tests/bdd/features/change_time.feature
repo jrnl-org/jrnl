@@ -243,19 +243,19 @@ Feature: Change entry times in journal
         # | basic_dayone.yaml    | @todo
 
 
-    Scenario Outline: --change-time with --edit and an empty search adds an entry
+    Scenario Outline: --change-time with --edit and an empty search adds an entry at the specified time
         Given we use the config "<config_file>"
         And we write nothing to the editor if opened
         And we use the password "test" if prompted
         And we append to the editor if opened
-            [2022-11-13 11:25] worked on jrnl tests
-        When we run "jrnl -on tomorrow --change-time --edit"
+            worked on jrnl tests
+        When we run "jrnl -on tomorrow --change-time '2022-11-13 13:25' --edit"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
             2020-08-31 14:32 A second entry in what I hope to be a long series.
             2020-09-24 09:14 The third entry finally after weeks without writing.
-            2022-11-13 11:25 worked on jrnl tests
+            2022-11-13 13:25 worked on jrnl tests
 
         Examples: Configs
         | config_file        |
