@@ -187,12 +187,6 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
     if args.edit:
         # If we want to both edit and change time in one action
         if args.change_time:
-            if not journal:
-                # --edit can be called on an empty journal, but --edit
-                # and --change-time together means the user is likely
-                # expecting to have selected some entries; bail out
-                return
-
             # Generate a new list instead of assigning so it won't be
             # modified by _change_time_search_results
             selected_entries = [e for e in journal.entries]
@@ -210,9 +204,7 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
         _edit_search_results(**kwargs)
 
     elif not journal:
-        # Bail out if there are no entries and we're not editing; we
-        # could put this before the above edit block, but there are
-        # some use cases where --edit is called on an empty journal
+        # Bail out if there are no entries and we're not editing
         return
 
     elif args.change_time:
@@ -445,16 +437,15 @@ def _change_time_search_results(
             MsgText.ChangeTimeEntryQuestion
         )
 
-    if entries_to_change:
-        other_entries += [e for e in journal.entries if e not in entries_to_change]
-        journal.entries = entries_to_change
+    other_entries += [e for e in journal.entries if e not in entries_to_change]
+    journal.entries = entries_to_change
 
-        date = time.parse(args.change_time)
-        journal.change_date_entries(date)
+    date = time.parse(args.change_time)
+    journal.change_date_entries(date)
 
-        journal.entries += other_entries
-        journal.sort()
-        journal.write()
+    journal.entries += other_entries
+    journal.sort()
+    journal.write()
 
 
 def _display_search_results(args: "Namespace", journal: Journal, **kwargs) -> None:
