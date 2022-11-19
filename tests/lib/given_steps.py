@@ -17,6 +17,7 @@ from pytest_bdd.parsers import parse
 from jrnl import __version__
 from jrnl.time import __get_pdt_calendar
 from tests.lib.fixtures import FailedKeyring
+from tests.lib.fixtures import NoKeyring
 from tests.lib.fixtures import TestKeyring
 from tests.lib.helpers import get_fixture
 
@@ -67,13 +68,20 @@ def now_is_str(date_str, mock_factories):
     )
 
 
+@given("we don't have a keyring", target_fixture="keyring")
+def we_dont_have_keyring(keyring_type):
+    return NoKeyring()
+
+
 @given("we have a keyring", target_fixture="keyring")
 @given(parse("we have a {keyring_type} keyring"), target_fixture="keyring")
 def we_have_type_of_keyring(keyring_type):
-    if keyring_type == "failed":
-        return FailedKeyring()
-    else:
-        return TestKeyring()
+    match keyring_type:
+        case "failed":
+            return FailedKeyring()
+
+        case _:
+            return TestKeyring()
 
 
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")

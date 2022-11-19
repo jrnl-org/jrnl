@@ -15,6 +15,7 @@ Also, please note that all (non-builtin) imports should be scoped to each functi
 avoid any possible overhead for these standalone commands.
 """
 import argparse
+import logging
 import platform
 import sys
 
@@ -24,7 +25,6 @@ from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
-from jrnl.prompt import create_password
 
 
 def preconfig_diagnostic(_):
@@ -88,7 +88,6 @@ def postconfig_encrypt(
     Encrypt a journal in place, or optionally to a new file
     """
     from jrnl.config import update_config
-    from jrnl.EncryptedJournal import EncryptedJournal
     from jrnl.install import save_config
     from jrnl.Journal import open_journal
 
@@ -107,21 +106,24 @@ def postconfig_encrypt(
             )
         )
 
-    new_journal = EncryptedJournal.from_journal(journal)
-
     # If journal is encrypted, create new password
-    if journal.config["encrypt"] is True:
-        print(f"Journal {journal.name} is already encrypted. Create a new password.")
-        new_journal.password = create_password(new_journal.name)
+    logging.debug("Clearing encryption method...")
 
-    journal.config["encrypt"] = True
-    new_journal.write(args.filename)
+    if journal.config["encrypt"] is True:
+        logging.debug("Journal already encrypted. Re-encrypting...")
+        print(f"Journal {journal.name} is already encrypted. Create a new password.")
+        journal.encryption_method.clear()
+    else:
+        journal.config["encrypt"] = True
+        journal.encryption_method = None
+
+    journal.write(args.filename)
 
     print_msg(
         Message(
             MsgText.JournalEncryptedTo,
             MsgStyle.NORMAL,
-            {"path": args.filename or new_journal.config["journal"]},
+            {"path": args.filename or journal.config["journal"]},
         )
     )
 
@@ -142,19 +144,20 @@ def postconfig_decrypt(
     """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
     from jrnl.config import update_config
     from jrnl.install import save_config
-    from jrnl.Journal import PlainJournal
     from jrnl.Journal import open_journal
 
     journal = open_journal(args.journal_name, config)
-    journal.config["encrypt"] = False
 
-    new_journal = PlainJournal.from_journal(journal)
-    new_journal.write(args.filename)
+    logging.debug("Clearing encryption method...")
+    journal.config["encrypt"] = False
+    journal.encryption_method = None
+
+    journal.write(args.filename)
     print_msg(
         Message(
             MsgText.JournalDecryptedTo,
             MsgStyle.NORMAL,
-            {"path": args.filename or new_journal.config["journal"]},
+            {"path": args.filename or journal.config["journal"]},
         )
     )
 

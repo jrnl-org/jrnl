@@ -105,7 +105,9 @@ class FancyExporter(TextExporter):
         return "\n".join(cls.export_entry(entry) for entry in journal)
 
 
-def check_provided_linewrap_viability(linewrap: int, card: list[str], journal: "Journal"):
+def check_provided_linewrap_viability(
+    linewrap: int, card: list[str], journal: "Journal"
+):
     if len(card[0]) > linewrap:
         width_violation = len(card[0]) - linewrap
         raise JrnlException(

@@ -1,6 +1,7 @@
 # Copyright © 2012-2022 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import logging
 import os
 
 from jrnl import Journal
@@ -8,7 +9,6 @@ from jrnl import __version__
 from jrnl.config import is_config_json
 from jrnl.config import load_config
 from jrnl.config import scope_config
-from jrnl.EncryptedJournal import EncryptedJournal
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -132,7 +132,17 @@ def upgrade_jrnl(config_path: str) -> None:
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
         )
-        all_journals.append(EncryptedJournal.from_journal(old_journal))
+
+        logging.debug(f"Clearing encryption method for '{journal_name}' journal")
+
+        # Update the encryption method
+        new_journal = Journal.Journal.from_journal(old_journal)
+        new_journal.config["encrypt"] = "jrnlv2"
+        new_journal._get_encryption_method()
+        # Copy over password (jrnlv1 only supported password-based encryption)
+        new_journal.encryption_method.password = old_journal.encryption_method.password
+
+        all_journals.append(new_journal)
 
     for journal_name, path in plain_journals.items():
         print_msg(
@@ -149,7 +159,7 @@ def upgrade_jrnl(config_path: str) -> None:
         old_journal = Journal.open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
         )
-        all_journals.append(Journal.PlainJournal.from_journal(old_journal))
+        all_journals.append(Journal.Journal.from_journal(old_journal))
 
     # loop through lists to validate
     failed_journals = [j for j in all_journals if not j.validate_parsing()]

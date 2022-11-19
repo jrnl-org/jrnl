@@ -9,6 +9,7 @@ import re
 from jrnl import Entry
 from jrnl import time
 from jrnl.config import validate_journal_name
+from jrnl.encryption import determine_encryption_method
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -47,6 +48,7 @@ class Journal:
         self.search_tags = None  # Store tags we're highlighting
         self.name = name
         self.entries = []
+        self.encryption_method = None
 
     def __len__(self):
         """Returns the number of entries"""
@@ -78,6 +80,22 @@ class Journal:
         self.entries = list(frozenset(self.entries) | frozenset(imported_entries))
         self.sort()
 
+    def _get_encryption_method(self) -> None:
+        encryption_method = determine_encryption_method(self.config["encrypt"])
+        self.encryption_method = encryption_method(self.name, self.config)
+
+    def _decrypt(self, text: bytes) -> str:
+        if self.encryption_method is None:
+            self._get_encryption_method()
+
+        return self.encryption_method.decrypt(text)
+
+    def _encrypt(self, text: str) -> bytes:
+        if self.encryption_method is None:
+            self._get_encryption_method()
+
+        return self.encryption_method.encrypt(text)
+
     def open(self, filename=None):
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
@@ -106,6 +124,7 @@ class Journal:
             )
 
         text = self._load(filename)
+        text = self._decrypt(text)
         self.entries = self._parse(text)
         self.sort()
         logging.debug("opened %s with %d entries", self.__class__.__name__, len(self))
@@ -115,6 +134,7 @@ class Journal:
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config["journal"]
         text = self._to_text()
+        text = self._encrypt(text)
         self._store(filename, text)
 
     def validate_parsing(self):
@@ -131,11 +151,12 @@ class Journal:
         return "\n".join([str(e) for e in self.entries])
 
     def _load(self, filename):
-        raise NotImplementedError
+        with open(filename, "rb") as f:
+            return f.read()
 
-    @classmethod
-    def _store(filename, text):
-        raise NotImplementedError
+    def _store(self, filename, text):
+        with open(filename, "wb") as f:
+            f.write(text)
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
@@ -342,7 +363,7 @@ class Journal:
 
     def editable_str(self):
         """Turns the journal into a string of entries that can be edited
-        manually and later be parsed with eslf.parse_editable_str."""
+        manually and later be parsed with self.parse_editable_str."""
         return "\n".join([str(e) for e in self.entries])
 
     def parse_editable_str(self, edited):
@@ -356,24 +377,10 @@ class Journal:
         self.entries = mod_entries
 
 
-class PlainJournal(Journal):
-    def _load(self, filename):
-        with open(filename, "r", encoding="utf-8") as f:
-            return f.read()
-
-    def _store(self, filename, text):
-        with open(filename, "w", encoding="utf-8") as f:
-            f.write(text)
-
-
 class LegacyJournal(Journal):
     """Legacy class to support opening journals formatted with the jrnl 1.x
     standard. Main difference here is that in 1.x, timestamps were not cuddled
     by square brackets. You'll not be able to save these journals anymore."""
-
-    def _load(self, filename):
-        with open(filename, "r", encoding="utf-8") as f:
-            return f.read()
 
     def _parse(self, journal_txt):
         """Parses a journal that's stored in a string and returns a list of entries"""
@@ -428,6 +435,7 @@ def open_journal(journal_name, config, legacy=False):
     If legacy is True, it will open Journals with legacy classes build for
     backwards compatibility with jrnl 1.x
     """
+    logging.debug("open_journal start")
     validate_journal_name(journal_name, config)
     config = config.copy()
     config["journal"] = expand_path(config["journal"])
@@ -462,10 +470,9 @@ def open_journal(journal_name, config, legacy=False):
             from jrnl import FolderJournal
 
             return FolderJournal.Folder(journal_name, **config).open()
-        return PlainJournal(journal_name, **config).open()
-
-    from jrnl import EncryptedJournal
+        return Journal(journal_name, **config).open()
 
     if legacy:
-        return EncryptedJournal.LegacyEncryptedJournal(journal_name, **config).open()
-    return EncryptedJournal.EncryptedJournal(journal_name, **config).open()
+        config["encrypt"] = "jrnlv1"
+        return LegacyJournal(journal_name, **config).open()
+    return Journal(journal_name, **config).open()

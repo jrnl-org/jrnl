@@ -35,11 +35,25 @@ def create_password(journal_name: str) -> str:
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
-        from jrnl.EncryptedJournal import set_keychain
+        from jrnl.keyring import set_keyring_password
 
-        set_keychain(journal_name, pw)
+        set_keyring_password(pw, journal_name)
 
     return pw
+
+
+def prompt_password(first_try: bool = True) -> str:
+    if not first_try:
+        print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
+
+    return (
+        print_msg(
+            Message(MsgText.Password, MsgStyle.PROMPT),
+            get_input=True,
+            hide_input=True,
+        )
+        or ""
+    )
 
 
 def yesno(prompt: Message | str, default: bool = True) -> bool:

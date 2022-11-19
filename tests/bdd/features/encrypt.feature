@@ -48,6 +48,7 @@ Feature: Encrypting and decrypting journals
 
     Scenario: Encrypt journal twice and get prompted each time
         Given we use the config "simple.yaml"
+        And we don't have a keyring
         When we run "jrnl --encrypt" and enter
             swordfish
             swordfish
@@ -56,7 +57,26 @@ Feature: Encrypting and decrypting journals
         And the output should contain "Journal encrypted"
         When we run "jrnl --encrypt" and enter
             swordfish
+            tuna
+            tuna
+            y
+        Then we should get no error
+        And the output should contain "Journal default is already encrypted. Create a new password."
+        And we should be prompted for a password
+        And the config for journal "default" should contain "encrypt: true"
+
+    Scenario: Encrypt journal twice and get prompted each time with keyring
+        Given we use the config "simple.yaml"
+        And we have a keyring
+        When we run "jrnl --encrypt" and enter
             swordfish
+            swordfish
+            y
+        Then we should get no error
+        And the output should contain "Journal encrypted"
+        When we run "jrnl --encrypt" and enter
+            tuna
+            tuna
             y
         Then we should get no error
         And the output should contain "Journal default is already encrypted. Create a new password."

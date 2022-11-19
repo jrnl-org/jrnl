@@ -29,6 +29,7 @@ def configure_logger(debug: bool = False) -> None:
     )
     logging.getLogger("parsedatetime").setLevel(logging.INFO)
     logging.getLogger("keyring.backend").setLevel(logging.ERROR)
+    logging.debug("Logging start")
 
 
 def cli(manual_args: list[str] | None = None) -> int:

@@ -93,6 +93,8 @@ class MsgText(Enum):
         of journal can't be encrypted. Please fix your config file.
         """
 
+    DecryptionFailedGeneric = "The decryption of journal data failed."
+
     KeyboardInterruptMsg = "Aborted by user"
 
     CantReadTemplate = """
