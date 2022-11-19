@@ -6,7 +6,9 @@
 
 **Implemented enhancements:**
 
+- Don't import cryptography package if not needed [\#1521](https://github.com/jrnl-org/jrnl/issues/1521)
 - Add `rich` handler to debug logging [\#1627](https://github.com/jrnl-org/jrnl/pull/1627) ([wren](https://github.com/wren))
+- Rework Encryption to enable future support of other encryption methods [\#1602](https://github.com/jrnl-org/jrnl/pull/1602) ([wren](https://github.com/wren))
 
 **Deprecated:**
 
