@@ -133,3 +133,9 @@ Feature: Multiple journals
         Given we use the config "multiple.yaml"
         When we run "jrnl --config-override highlight false"
         Then the output should not contain "There is at least one duplicate key in your configuration file"
+
+    Scenario: Update version number in config file when running newer version
+        Given we use the config "format_md.yaml"
+        When we run "jrnl -1"
+        Then the output should contain "Configuration updated to newest version at"
+        And the version in the config file should be up-to-date
