@@ -303,7 +303,7 @@ Feature: Writing new entries.
         And we use the password "test" if prompted
         And we append to the editor if opened
             This is a small addendum to my latest entry.
-        When we run "jrnl --edit"
+        When we run "jrnl --edit -1"
         Then the output should contain
             1 entry modified
 
@@ -334,3 +334,20 @@ Feature: Writing new entries.
         When we run "jrnl work This is a new entry"
         Then the output should contain "Entry added to work journal"
         And we should get no error
+
+    Scenario Outline: Tags are saved when an entry is edited with --edit and can be searched afterward
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we append to the editor if opened
+            @newtag
+        When we run "jrnl --edit -1"
+        When we run "jrnl --tags @newtag"
+        Then the output should contain
+            1 entry found
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
