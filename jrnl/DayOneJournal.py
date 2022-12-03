@@ -167,7 +167,7 @@ class DayOne(Journal.Journal):
         return "\n".join([f"{str(e)}\n# {e.uuid}\n" for e in self.entries])
 
     def _update_old_entry(self, entry: Entry, new_entry: Entry) -> None:
-        for attr in ("title", "body", "date", "tags"):
+        for attr in ("title", "body", "date"):
             old_attr = getattr(entry, attr)
             new_attr = getattr(new_entry, attr)
             if old_attr != new_attr:
