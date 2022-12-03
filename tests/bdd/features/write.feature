@@ -303,7 +303,7 @@ Feature: Writing new entries.
         And we use the password "test" if prompted
         And we append to the editor if opened
             This is a small addendum to my latest entry.
-        When we run "jrnl --edit -1"
+        When we run "jrnl --edit"
         Then the output should contain
             1 entry modified
 
