@@ -172,8 +172,6 @@ class DayOne(Journal.Journal):
             old_attr = getattr(entry, attr)
             new_attr = getattr(new_entry, attr)
             if old_attr != new_attr:
-                print(old_attr)
-                print(new_attr)
                 entry.modified = True
                 setattr(entry, attr, new_attr)
 
