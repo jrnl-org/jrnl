@@ -156,7 +156,9 @@ class MsgText(Enum):
     NoTextReceived = """
         No entry to save, because no text was received
         """
-
+    NoChangesToTemplate = """
+        No entry to save, because the template was not changed
+    """
     # --- Upgrade --- #
     JournalFailedUpgrade = """
         The following journal{s} failed to upgrade:
