@@ -30,7 +30,12 @@
 **Documentation:**
 
 - Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
+- Fix markup in "Advanced Usage" doc [\#1655](https://github.com/jrnl-org/jrnl/pull/1655) ([multani](https://github.com/multani))
 - Remove Windows 7 known issue since Windows 7 is no longer supported [\#1636](https://github.com/jrnl-org/jrnl/pull/1636) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Update dependency rich to v13 [\#1654](https://github.com/jrnl-org/jrnl/pull/1654) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
