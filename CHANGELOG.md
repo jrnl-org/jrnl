@@ -10,6 +10,11 @@
 - Add `rich` handler to debug logging [\#1627](https://github.com/jrnl-org/jrnl/pull/1627) ([wren](https://github.com/wren))
 - Rework Encryption to enable future support of other encryption methods [\#1602](https://github.com/jrnl-org/jrnl/pull/1602) ([wren](https://github.com/wren))
 
+**Fixed bugs:**
+
+- jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
+- Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
+
 **Deprecated:**
 
 - Drop Python 3.9 and use Python 3.11 official release [\#1611](https://github.com/jrnl-org/jrnl/pull/1611) ([micahellison](https://github.com/micahellison))
@@ -22,6 +27,7 @@
 
 **Documentation:**
 
+- Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
 - Remove Windows 7 known issue since Windows 7 is no longer supported [\#1636](https://github.com/jrnl-org/jrnl/pull/1636) ([micahellison](https://github.com/micahellison))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
