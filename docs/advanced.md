@@ -20,8 +20,8 @@ for example:
 
 ``` yaml
 journals:
-  default: ~\journal.txt
-  work: ~\work.txt
+  default: ~/journal.txt
+  work: ~/work.txt
 ```
 
 The `default` journal gets created the first time you start `jrnl`
@@ -42,11 +42,11 @@ If your `jrnl.yaml` looks like this:
 ``` yaml
 encrypt: false
 journals:
-default: ~/journal.txt
-work:
-  journal: ~/work.txt
-  encrypt: true
-food: ~/my_recipes.txt
+  default: ~/journal.txt
+  work:
+    journal: ~/work.txt
+    encrypt: true
+  food: ~/my_recipes.txt
 ```
 
 Your `default` and your `food` journals won't be encrypted, however your
@@ -59,7 +59,7 @@ that journal.
 
 Consider the following example configuration
 
-```yaml
+``` yaml
 editor: vi -c startinsert 
 journals: 
   default: ~/journal.txt 
@@ -80,22 +80,22 @@ The `work` journal is encrypted, prints to `json` by default, and is edited usin
 You can override a configuration field for the current instance of `jrnl` using `--config-override CONFIG_KEY CONFIG_VALUE` where `CONFIG_KEY` is a valid configuration field, specified in dot notation and `CONFIG_VALUE` is the (valid) desired override value. The dot notation can be used to change config keys within other keys, such as `colors.title` for the `title` key within the `colors` key.
 
 You can specify multiple overrides as multiple calls to `--config-override`.
+
 !!! note
     These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing. 
 
 #### Examples: 
 
 ``` sh
-#Create an entry using the `stdin` prompt, for rapid logging
+# Create an entry using the `stdin` prompt, for rapid logging
 jrnl --config-override editor ""
 
-#Populate a project's log
+# Populate a project's log
 jrnl --config-override journals.todo "$(git rev-parse --show-toplevel)/todo.txt" todo find my towel 
 
-#Pass multiple overrides 
+# Pass multiple overrides 
 jrnl --config-override display_format fancy --config-override linewrap 20 \
 --config-override colors.title green
-
 ```
 
 ### Using an alternate config
@@ -105,7 +105,7 @@ You can specify an alternate configuration file for the current instance of `jrn
 
 #### Examples:
 
-```
+``` sh
 # Use personalised configuration file for personal journal entries
 jrnl --config-file ~/foo/jrnl/personal-config.yaml
 
