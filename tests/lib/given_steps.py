@@ -106,6 +106,12 @@ def we_use_the_config(request, temp_dir, working_dir):
     journal_dest = os.path.join(temp_dir.name, "features", "journals")
     shutil.copytree(journal_source, journal_dest)
 
+    # @todo maybe only copy needed templates over?
+    # Copy all of the templates over
+    template_source = os.path.join(working_dir, "data", "templates")
+    template_dest = os.path.join(temp_dir.name, "features", "templates")
+    shutil.copytree(template_source, template_dest)
+
     # @todo get rid of this by using default config values
     # merge in version number
     if (
