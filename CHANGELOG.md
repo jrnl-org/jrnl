@@ -13,6 +13,7 @@
 **Fixed bugs:**
 
 - jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
+- Add tag to XML file when edited DayOne entry and is searchable afterward [\#1648](https://github.com/jrnl-org/jrnl/pull/1648) ([jonakeys](https://github.com/jonakeys))
 - Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
 
 **Deprecated:**
