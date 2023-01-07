@@ -1,5 +1,6 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
+
 from typing import TYPE_CHECKING
 
 from jrnl.config import make_yaml_valid_dict
