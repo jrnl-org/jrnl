@@ -1,4 +1,4 @@
-# Copyright © 2012-2022 jrnl contributors
+# Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 from pytest_bdd import scenarios
@@ -20,5 +20,6 @@ scenarios("features/password.feature")
 scenarios("features/search.feature")
 scenarios("features/star.feature")
 scenarios("features/tag.feature")
+scenarios("features/template.feature")
 scenarios("features/upgrade.feature")
 scenarios("features/write.feature")

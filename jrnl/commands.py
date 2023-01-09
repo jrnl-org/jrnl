@@ -1,4 +1,4 @@
-# Copyright © 2012-2022 jrnl contributors
+# Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 """
@@ -14,6 +14,7 @@ run.
 Also, please note that all (non-builtin) imports should be scoped to each function to
 avoid any possible overhead for these standalone commands.
 """
+
 import argparse
 import logging
 import platform
@@ -47,7 +48,7 @@ def preconfig_version(_):
     output = f"""
     {__title__} {__version__}
 
-    Copyright © 2012-2022 jrnl contributors
+    Copyright © 2012-2023 jrnl contributors
 
     This is free software, and you are welcome to redistribute it under certain
     conditions; for details, see: https://www.gnu.org/licenses/gpl-3.0.html

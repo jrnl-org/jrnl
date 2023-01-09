@@ -1,4 +1,4 @@
-# Copyright © 2012-2022 jrnl contributors
+# Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import contextlib
@@ -74,6 +74,7 @@ class DayOne(Journal.Journal):
                         self.config["tagsymbols"][0] + tag.lower()
                         for tag in dict_entry.get("Tags", [])
                     ]
+                    if entry._tags: entry._tags.sort()
 
                     """Extended DayOne attributes"""
                     # just ignore it if the keys don't exist
@@ -167,7 +168,7 @@ class DayOne(Journal.Journal):
         return "\n".join([f"{str(e)}\n# {e.uuid}\n" for e in self.entries])
 
     def _update_old_entry(self, entry: Entry, new_entry: Entry) -> None:
-        for attr in ("title", "body", "date"):
+        for attr in ("title", "body", "date", "tags"):
             old_attr = getattr(entry, attr)
             new_attr = getattr(new_entry, attr)
             if old_attr != new_attr:
@@ -195,6 +196,7 @@ class DayOne(Journal.Journal):
 
         for entry in entries_from_editor:
             entry = self._get_and_remove_uuid_from_entry(entry)
+            if entry._tags: entry._tags.sort()
 
         # Remove deleted entries
         edited_uuids = [e.uuid for e in entries_from_editor]
@@ -204,5 +206,9 @@ class DayOne(Journal.Journal):
         for entry in entries_from_editor:
             for old_entry in self.entries:
                 if entry.uuid == old_entry.uuid:
+                    if old_entry._tags:
+                        tags_not_in_body = [tag for tag in old_entry._tags if(tag not in entry._body)]
+                        if tags_not_in_body:
+                            entry._tags.extend(tags_not_in_body.sort())
                     self._update_old_entry(old_entry, entry)
                     break

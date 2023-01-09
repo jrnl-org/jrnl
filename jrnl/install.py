@@ -1,4 +1,4 @@
-# Copyright © 2012-2022 jrnl contributors
+# Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import contextlib
@@ -9,6 +9,7 @@ import sys
 
 from rich.pretty import pretty_repr
 
+from jrnl import __version__
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_default_config
@@ -32,12 +33,20 @@ def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> Non
     """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
     This essentially automatically ports jrnl installations if new config parameters are introduced in later
     versions.
+    Also checks for existence of and difference in version number between config dict and current jrnl version,
+    and if so, update the config file accordingly.
     Supply alt_config_path if using an alternate config through --config-file."""
     default_config = get_default_config()
     missing_keys = set(default_config).difference(config_data)
     if missing_keys:
         for key in missing_keys:
             config_data[key] = default_config[key]
+        
+    different_version = (config_data["version"] != __version__)
+    if different_version:
+        config_data["version"] = __version__
+
+    if missing_keys or different_version:
         save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
         print_msg(

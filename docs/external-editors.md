@@ -1,15 +1,36 @@
 <!--
-Copyright © 2012-2022 jrnl contributors
+Copyright © 2012-2023 jrnl contributors
 License: https://www.gnu.org/licenses/gpl-3.0.html
 -->
 
 # External editors
 
 Configure your preferred external editor by updating the `editor` option
-in your [configuration file](./reference-config-file.md#editor)
+in your [configuration file](./reference-config-file.md#editor). If your editor is not 
+in your operating system's `PATH` environment variable, then you will have to 
+enter the full path of your editor.
 
-If your editor is not in your operating system's `PATH` environment variable,
-then you will have to enter in the full path of your editor.
+Once it's configured, you can create an entry as a new document in your editor using the `jrnl` 
+command by itself:
+
+``` text
+jrnl
+```
+
+You can specify the time and title of the entry as usual on the first line of the document. 
+
+If you want, you can skip the editor by including a quick entry with the `jrnl` command:
+
+``` text
+jrnl yesterday: All my troubles seemed so far away.
+```
+
+If you want to start the entry on the command line and continue writing in your chosen editor, 
+use the `--edit` flag. For example:
+
+``` text
+jrnl yesterday: All my troubles seemed so far away. --edit
+```
 
 !!! note
     To save and log any entry edits, save and close the file.

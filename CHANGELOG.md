@@ -10,19 +10,32 @@
 - Add `rich` handler to debug logging [\#1627](https://github.com/jrnl-org/jrnl/pull/1627) ([wren](https://github.com/wren))
 - Rework Encryption to enable future support of other encryption methods [\#1602](https://github.com/jrnl-org/jrnl/pull/1602) ([wren](https://github.com/wren))
 
+**Fixed bugs:**
+
+- jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
+- Add tag to XML file when edited DayOne entry and is searchable afterward [\#1648](https://github.com/jrnl-org/jrnl/pull/1648) ([jonakeys](https://github.com/jonakeys))
+- Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
+
 **Deprecated:**
 
 - Drop Python 3.9 and use Python 3.11 official release [\#1611](https://github.com/jrnl-org/jrnl/pull/1611) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
+- Update copyright notices for 2023 [\#1660](https://github.com/jrnl-org/jrnl/pull/1660) ([wren](https://github.com/wren))
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
 - Add `simplify` plugin to linting checks [\#1630](https://github.com/jrnl-org/jrnl/pull/1630) ([wren](https://github.com/wren))
 - Add type hints [\#1614](https://github.com/jrnl-org/jrnl/pull/1614) ([outa](https://github.com/outa))
 
 **Documentation:**
 
+- Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
+- Fix markup in "Advanced Usage" doc [\#1655](https://github.com/jrnl-org/jrnl/pull/1655) ([multani](https://github.com/multani))
 - Remove Windows 7 known issue since Windows 7 is no longer supported [\#1636](https://github.com/jrnl-org/jrnl/pull/1636) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Update dependency rich to v13 [\#1654](https://github.com/jrnl-org/jrnl/pull/1654) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
