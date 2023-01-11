@@ -7,8 +7,8 @@ from jrnl.plugins.text_exporter import TextExporter
 from jrnl.plugins.util import get_tags_count
 
 if TYPE_CHECKING:
-    from jrnl.Entry import Entry
-    from jrnl.Journal import Journal
+    from jrnl.journals import Entry
+    from jrnl.journals import Journal
 
 
 class TagExporter(TextExporter):

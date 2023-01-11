@@ -17,13 +17,14 @@ from xml.parsers.expat import ExpatError
 
 import tzlocal
 
-from jrnl import Entry
-from jrnl import Journal
 from jrnl import __title__
 from jrnl import __version__
 
+from .Entry import Entry
+from .Journal import Journal
 
-class DayOne(Journal.Journal):
+
+class DayOne(Journal):
     """A special Journal handling DayOne files"""
 
     # InvalidFileException was added to plistlib in Python3.4
@@ -63,7 +64,7 @@ class DayOne(Journal.Journal):
                     if timezone.key != "UTC":
                         date = date.replace(fold=1) + timezone.utcoffset(date)
 
-                    entry = Entry.Entry(
+                    entry = Entry(
                         self,
                         date,
                         text=dict_entry["Entry Text"],

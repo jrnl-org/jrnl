@@ -69,7 +69,7 @@ def postconfig_list(args: argparse.Namespace, config: dict, **_) -> int:
 
 @cmd_requires_valid_journal_name
 def postconfig_import(args: argparse.Namespace, config: dict, **_) -> int:
-    from jrnl.Journal import open_journal
+    from jrnl.journals import open_journal
     from jrnl.plugins import get_importer
 
     # Requires opening the journal
@@ -90,7 +90,7 @@ def postconfig_encrypt(
     """
     from jrnl.config import update_config
     from jrnl.install import save_config
-    from jrnl.Journal import open_journal
+    from jrnl.journals import open_journal
 
     # Open the journal
     journal = open_journal(args.journal_name, config)
@@ -145,7 +145,7 @@ def postconfig_decrypt(
     """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
     from jrnl.config import update_config
     from jrnl.install import save_config
-    from jrnl.Journal import open_journal
+    from jrnl.journals import open_journal
 
     journal = open_journal(args.journal_name, config)
 

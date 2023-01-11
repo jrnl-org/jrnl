@@ -11,7 +11,7 @@ import colorama
 from jrnl.os_compat import on_windows
 
 if TYPE_CHECKING:
-    from jrnl.Entry import Entry
+    from jrnl.journals import Entry
 
 if on_windows():
     colorama.init()

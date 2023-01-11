@@ -157,6 +157,8 @@ pycodestyle = [
 "flake8-*" = ["+*"]
 flake8-black = ["-BLK901"]
 
+[tool.flakeheaven.exceptions."jrnl/journals/__init__.py"]
+pyflakes = ["-F401"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
