@@ -9,7 +9,7 @@ import pytest
 
 import jrnl
 from jrnl.args import parse_args
-from jrnl.jrnl import _display_search_results
+from jrnl.controller import _display_search_results
 
 
 @pytest.fixture

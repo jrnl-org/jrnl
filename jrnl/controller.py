@@ -31,7 +31,7 @@ if TYPE_CHECKING:
     from jrnl.Entry import Entry
 
 
-def run(args: "Namespace"):
+def start(args: "Namespace"):
     """
     Flow:
     1. Run standalone command if it doesn't require config (help, version, etc), then exit
