@@ -63,7 +63,7 @@ tox = "*"
 xmltodict = "*"
 
 [tool.poetry.scripts]
-jrnl = 'jrnl.cli:cli'
+jrnl = 'jrnl.main:run'
 
 [tool.poe.tasks]
 docs-check.default_item_type = "script"
