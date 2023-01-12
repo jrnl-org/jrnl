@@ -138,6 +138,36 @@ Feature: Searching in a journal
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
 
+    Scenario: Searching for tagged entries
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl -tagged"
+        Then we should get no error
+        And the output should contain "3 entries found"
+
+        Examples: configs
+        | config_file        |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
+    Scenario: Searching for untagged entries
+        Given we use the config "empty_folder.yaml"
+        When we run "jrnl Tagged entry. This one has a @tag."
+        Then we should get no error
+        When we run "jrnl Untagged entry. This one has no tag."
+        Then we should get no error
+        When we run "jrnl -not -tagged"
+        Then we should get no error
+        And the output should contain "1 entry found"
+        And the output should contain "This one has no tag"
+
+        Examples: configs
+        | config_file        |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
     Scenario Outline: Searching for dates
         Given we use the config "<config_file>"
         When we run "jrnl -on 2020-08-31 --short"

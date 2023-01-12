@@ -27,10 +27,43 @@ class WrappingFormatter(argparse.RawTextHelpFormatter):
         text = [item for sublist in text for item in sublist]
         return text
 
+
 class IgnoreNoneAppendAction(argparse._AppendAction):
+    """
+    Pass -not without a following string and avoid appending
+    a None value to the excluded list
+    """
+
     def __call__(self, parser, namespace, values, option_string=None):
         if values is not None:
             super().__call__(parser, namespace, values, option_string)
+
+
+def parse_not_arg(
+    args: list[str], parsed_args: argparse.Namespace, parser: argparse.ArgumentParser
+) -> argparse.Namespace:
+    """
+    It's possible to use -not as a precursor to -starred and -tagged
+    to reverse their behaviour, however this requires some extra logic
+    to parse, and to ensure we still do not allow passing an empty -not
+    """
+
+    parsed_args.exclude_starred = False
+    parsed_args.exclude_tagged = False
+
+    if "-not-starred" in "".join(args):
+        parsed_args.starred = False
+        parsed_args.exclude_starred = True
+    if "-not-tagged" in "".join(args):
+        parsed_args.tagged = False
+        parsed_args.exclude_tagged = True
+    if "-not" in args and not any(
+        [parsed_args.exclude_starred, parsed_args.exclude_tagged, parsed_args.excluded]
+    ):
+        parser.error("argument -not: expected 1 argument")
+
+    return parsed_args
+
 
 def parse_args(args: list[str] = []) -> argparse.Namespace:
     """
@@ -242,6 +275,12 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         help="Show only starred entries (marked with *)",
     )
     reading.add_argument(
+        "-tagged",
+        dest="tagged",
+        action="store_true",
+        help="Show only entries that have at least one tag",
+    )
+    reading.add_argument(
         "-n",
         dest="limit",
         default=None,
@@ -257,8 +296,10 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         default=[],
         metavar="TAG/FLAG",
         action=IgnoreNoneAppendAction,
-        help=("If passed a string, will exclude entries with that tag. "
-              "If it preceeds -starred flag, will exclude starred entries"
+        help=(
+            "If passed a string, will exclude entries with that tag. "
+            "Can be also used before -starred or -tagged flags, to exclude "
+            "starred or tagged entries respectively."
         ),
     )
 
@@ -395,13 +436,6 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
     parsed_args = parser.parse_intermixed_args(args)
-    parsed_args.exclude_starred = False
-
-    # Handle -not where it is reversing the behaviour of a flag
-    if "-not-starred" in "".join(args):
-        parsed_args.starred = False
-        parsed_args.exclude_starred = True
-    if "-not" in args and not any([parsed_args.exclude_starred, parsed_args.excluded]):
-        return parser.error("argument -not: expected 1 argument")
+    parsed_args = parse_not_arg(args, parsed_args, parser)
 
     return parsed_args

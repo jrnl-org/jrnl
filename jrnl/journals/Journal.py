@@ -236,7 +236,9 @@ class Journal:
         start_date=None,
         end_date=None,
         starred=False,
+        tagged=False,
         exclude_starred=False,
+        exclude_tagged=False,
         strict=False,
         contains=None,
         exclude=[],
@@ -260,7 +262,7 @@ class Journal:
         start_date = time.parse(start_date)
 
         # If strict mode is on, all tags have to be present in entry
-        tagged = self.search_tags.issubset if strict else self.search_tags.intersection
+        has_tags = self.search_tags.issubset if strict else self.search_tags.intersection
 
         def excluded(tags):
             return 0 < len([tag for tag in tags if tag in excluded_tags])
@@ -276,8 +278,9 @@ class Journal:
         result = [
             entry
             for entry in self.entries
-            if (not tags or tagged(entry.tags))
+            if (not tags or has_tags(entry.tags))
             and (not (starred or exclude_starred) or entry.starred == starred)
+            and (not (tagged or exclude_tagged) or bool(entry.tags) == tagged)
             and (not month or entry.date.month == compare_d.month)
             and (not day or entry.date.day == compare_d.day)
             and (not year or entry.date.year == compare_d.year)
