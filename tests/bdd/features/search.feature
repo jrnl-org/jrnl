@@ -124,6 +124,20 @@ Feature: Searching in a journal
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
 
+
+    Scenario: Searching for unstarred entries
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl -not -starred"
+        Then we should get no error
+        And the output should contain "2 entries found"
+
+        Examples: configs
+        | config_file        |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
     Scenario Outline: Searching for dates
         Given we use the config "<config_file>"
         When we run "jrnl -on 2020-08-31 --short"

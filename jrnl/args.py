@@ -27,6 +27,10 @@ class WrappingFormatter(argparse.RawTextHelpFormatter):
         text = [item for sublist in text for item in sublist]
         return text
 
+class IgnoreNoneAppendAction(argparse._AppendAction):
+    def __call__(self, parser, namespace, values, option_string=None):
+        if values is not None:
+            super().__call__(parser, namespace, values, option_string)
 
 def parse_args(args: list[str] = []) -> argparse.Namespace:
     """
@@ -249,11 +253,13 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     reading.add_argument(
         "-not",
         dest="excluded",
-        nargs=1,
+        nargs="?",
         default=[],
-        metavar="TAG",
-        action="extend",
-        help="Exclude entries with this tag",
+        metavar="TAG/FLAG",
+        action=IgnoreNoneAppendAction,
+        help=("If passed a string, will exclude entries with that tag. "
+              "If it preceeds -starred flag, will exclude starred entries"
+        ),
     )
 
     search_options_msg = """    These help you do various tasks with the selected entries from your search.
@@ -388,5 +394,14 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
+    parsed_args = parser.parse_intermixed_args(args)
+    parsed_args.exclude_starred = False
 
-    return parser.parse_intermixed_args(args)
+    # Handle -not where it is reversing the behaviour of a flag
+    if "-not-starred" in "".join(args):
+        parsed_args.starred = False
+        parsed_args.exclude_starred = True
+    if "-not" in args and not any([parsed_args.exclude_starred, parsed_args.excluded]):
+        return parser.error("argument -not: expected 1 argument")
+
+    return parsed_args

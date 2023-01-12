@@ -89,6 +89,7 @@ def _is_write_mode(args: "Namespace", config: dict, **kwargs) -> bool:
             args.edit,
             args.change_time,
             args.excluded,
+            args.exclude_starred,
             args.export,
             args.end_date,
             args.today_in_history,
@@ -271,6 +272,7 @@ def _has_search_args(args: "Namespace") -> bool:
             args.strict,
             args.starred,
             args.excluded,
+            args.exclude_starred,
             args.contains,
             args.limit,
         )
@@ -297,6 +299,7 @@ def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> No
         strict=args.strict,
         starred=args.starred,
         exclude=args.excluded,
+        exclude_starred=args.exclude_starred,
         contains=args.contains,
     )
     journal.limit(args.limit)

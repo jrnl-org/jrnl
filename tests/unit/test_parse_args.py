@@ -23,6 +23,7 @@ def expected_args(**kwargs):
         "change_time": None,
         "edit": False,
         "end_date": None,
+        "exclude_starred": False,
         "today_in_history": False,
         "month": None,
         "day": None,

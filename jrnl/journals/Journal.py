@@ -229,16 +229,17 @@ class Journal:
 
     def filter(
         self,
-        tags: list = [],
-        month: str | int | None = None,
-        day: str | int | None = None,
-        year: str | None = None,
-        start_date: str | None = None,
-        end_date: str | None = None,
-        starred: bool = False,
-        strict: bool = False,
-        contains: bool = None,
-        exclude: list = [],
+        tags=[],
+        month=None,
+        day=None,
+        year=None,
+        start_date=None,
+        end_date=None,
+        starred=False,
+        exclude_starred=False,
+        strict=False,
+        contains=None,
+        exclude=[],
     ):
         """Removes all entries from the journal that don't match the filter.
 
@@ -276,7 +277,7 @@ class Journal:
             entry
             for entry in self.entries
             if (not tags or tagged(entry.tags))
-            and (not starred or entry.starred)
+            and (not (starred or exclude_starred) or entry.starred == starred)
             and (not month or entry.date.month == compare_d.month)
             and (not day or entry.date.day == compare_d.day)
             and (not year or entry.date.year == compare_d.year)
