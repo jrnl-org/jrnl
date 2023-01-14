@@ -41,7 +41,7 @@ def run(manual_args: list[str] | None = None) -> int:
         configure_logger(args.debug)
         logging.debug("Parsed args:\n%s", args)
 
-        status_code = controller.start(args)
+        status_code = controller.run(args)
 
     except JrnlException as e:
         status_code = 1
