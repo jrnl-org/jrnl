@@ -12,8 +12,8 @@ from jrnl.output import print_msg
 from jrnl.plugins.text_exporter import TextExporter
 
 if TYPE_CHECKING:
-    from jrnl.Entry import Entry
-    from jrnl.Journal import Journal
+    from jrnl.journals import Entry
+    from jrnl.journals import Journal
 
 
 class MarkdownExporter(TextExporter):

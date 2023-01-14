@@ -6,11 +6,12 @@ import fnmatch
 import os
 from typing import TYPE_CHECKING
 
-from jrnl import Journal
 from jrnl import time
 
+from .Journal import Journal
+
 if TYPE_CHECKING:
-    from jrnl.Entry import Entry
+    from jrnl.journals import Entry
 
 
 def get_files(journal_config: str) -> list[str]:
@@ -22,7 +23,7 @@ def get_files(journal_config: str) -> list[str]:
     return filenames
 
 
-class Folder(Journal.Journal):
+class Folder(Journal):
     """A Journal handling multiple files in a folder"""
 
     def __init__(self, name: str = "default", **kwargs):

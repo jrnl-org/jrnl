@@ -4,12 +4,13 @@
 import logging
 import os
 
-from jrnl import Journal
 from jrnl import __version__
 from jrnl.config import is_config_json
 from jrnl.config import load_config
 from jrnl.config import scope_config
 from jrnl.exception import JrnlException
+from jrnl.journals import Journal
+from jrnl.journals import open_journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -129,14 +130,14 @@ def upgrade_jrnl(config_path: str) -> None:
         )
 
         backup(path, binary=True)
-        old_journal = Journal.open_journal(
+        old_journal = open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
         )
 
         logging.debug(f"Clearing encryption method for '{journal_name}' journal")
 
         # Update the encryption method
-        new_journal = Journal.Journal.from_journal(old_journal)
+        new_journal = Journal.from_journal(old_journal)
         new_journal.config["encrypt"] = "jrnlv2"
         new_journal._get_encryption_method()
         # Copy over password (jrnlv1 only supported password-based encryption)
@@ -156,10 +157,10 @@ def upgrade_jrnl(config_path: str) -> None:
         )
 
         backup(path)
-        old_journal = Journal.open_journal(
+        old_journal = open_journal(
             journal_name, scope_config(config, journal_name), legacy=True
         )
-        all_journals.append(Journal.Journal.from_journal(old_journal))
+        all_journals.append(Journal.from_journal(old_journal))
 
     # loop through lists to validate
     failed_journals = [j for j in all_journals if not j.validate_parsing()]

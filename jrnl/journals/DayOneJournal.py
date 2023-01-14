@@ -17,13 +17,14 @@ from xml.parsers.expat import ExpatError
 
 import tzlocal
 
-from jrnl import Entry
-from jrnl import Journal
 from jrnl import __title__
 from jrnl import __version__
 
+from .Entry import Entry
+from .Journal import Journal
 
-class DayOne(Journal.Journal):
+
+class DayOne(Journal):
     """A special Journal handling DayOne files"""
 
     # InvalidFileException was added to plistlib in Python3.4
@@ -63,7 +64,7 @@ class DayOne(Journal.Journal):
                     if timezone.key != "UTC":
                         date = date.replace(fold=1) + timezone.utcoffset(date)
 
-                    entry = Entry.Entry(
+                    entry = Entry(
                         self,
                         date,
                         text=dict_entry["Entry Text"],
@@ -74,7 +75,8 @@ class DayOne(Journal.Journal):
                         self.config["tagsymbols"][0] + tag.lower()
                         for tag in dict_entry.get("Tags", [])
                     ]
-                    if entry._tags: entry._tags.sort()
+                    if entry._tags:
+                        entry._tags.sort()
 
                     """Extended DayOne attributes"""
                     # just ignore it if the keys don't exist
@@ -196,7 +198,8 @@ class DayOne(Journal.Journal):
 
         for entry in entries_from_editor:
             entry = self._get_and_remove_uuid_from_entry(entry)
-            if entry._tags: entry._tags.sort()
+            if entry._tags:
+                entry._tags.sort()
 
         # Remove deleted entries
         edited_uuids = [e.uuid for e in entries_from_editor]
@@ -207,7 +210,9 @@ class DayOne(Journal.Journal):
             for old_entry in self.entries:
                 if entry.uuid == old_entry.uuid:
                     if old_entry._tags:
-                        tags_not_in_body = [tag for tag in old_entry._tags if(tag not in entry._body)]
+                        tags_not_in_body = [
+                            tag for tag in old_entry._tags if (tag not in entry._body)
+                        ]
                         if tags_not_in_body:
                             entry._tags.extend(tags_not_in_body.sort())
                     self._update_old_entry(old_entry, entry)

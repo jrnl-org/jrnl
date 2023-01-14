@@ -6,7 +6,6 @@ import logging
 import os
 import re
 
-from jrnl import Entry
 from jrnl import time
 from jrnl.config import validate_journal_name
 from jrnl.encryption import determine_encryption_method
@@ -16,6 +15,8 @@ from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.path import expand_path
 from jrnl.prompt import yesno
+
+from .Entry import Entry
 
 
 class Tag:
@@ -184,11 +185,11 @@ class Journal:
                 if entries:
                     entries[-1].text = journal_txt[last_entry_pos : match.start()]
                 last_entry_pos = match.end()
-                entries.append(Entry.Entry(self, date=new_date))
+                entries.append(Entry(self, date=new_date))
 
         # If no entries were found, treat all the existing text as an entry made now
         if not entries:
-            entries.append(Entry.Entry(self, date=time.parse("now")))
+            entries.append(Entry(self, date=time.parse("now")))
 
         # Fill in the text of the last entry
         entries[-1].text = journal_txt[last_entry_pos:]
@@ -354,7 +355,7 @@ class Journal:
         )
         if not date:  # Still nothing? Meh, just live in the moment.
             date = time.parse("now")
-        entry = Entry.Entry(self, date, raw, starred=starred)
+        entry = Entry(self, date, raw, starred=starred)
         entry.modified = True
         self.entries.append(entry)
         if sort:
@@ -410,7 +411,7 @@ class LegacyJournal(Journal):
                 else:
                     starred = False
 
-                current_entry = Entry.Entry(
+                current_entry = Entry(
                     self, date=new_date, text=line[date_length + 1 :], starred=starred
                 )
             except ValueError:
@@ -455,21 +456,21 @@ def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journ
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
             config["journal"]
         ):
-            from jrnl import DayOneJournal
+            from jrnl.journals import DayOne
 
-            return DayOneJournal.DayOne(**config).open()
+            return DayOne(**config).open()
         else:
-            from jrnl import FolderJournal
+            from jrnl.journals import Folder
 
-            return FolderJournal.Folder(journal_name, **config).open()
+            return Folder(journal_name, **config).open()
 
     if not config["encrypt"]:
         if legacy:
             return LegacyJournal(journal_name, **config).open()
         if config["journal"].endswith(os.sep):
-            from jrnl import FolderJournal
+            from jrnl.journals import Folder
 
-            return FolderJournal.Folder(journal_name, **config).open()
+            return Folder(journal_name, **config).open()
         return Journal(journal_name, **config).open()
 
     if legacy:

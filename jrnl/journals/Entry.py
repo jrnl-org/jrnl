@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING
 
 import ansiwrap
 
-from .color import colorize
-from .color import highlight_tags_with_background_color
+from jrnl.color import colorize
+from jrnl.color import highlight_tags_with_background_color
 
 if TYPE_CHECKING:
     from .Journal import Journal

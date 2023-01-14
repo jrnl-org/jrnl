@@ -7,9 +7,9 @@ import traceback
 
 from rich.logging import RichHandler
 
+from jrnl import controller
 from jrnl.args import parse_args
 from jrnl.exception import JrnlException
-from jrnl.jrnl import run
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -32,7 +32,7 @@ def configure_logger(debug: bool = False) -> None:
     logging.debug("Logging start")
 
 
-def cli(manual_args: list[str] | None = None) -> int:
+def run(manual_args: list[str] | None = None) -> int:
     try:
         if manual_args is None:
             manual_args = sys.argv[1:]
@@ -41,7 +41,7 @@ def cli(manual_args: list[str] | None = None) -> int:
         configure_logger(args.debug)
         logging.debug("Parsed args:\n%s", args)
 
-        status_code = run(args)
+        status_code = controller.run(args)
 
     except JrnlException as e:
         status_code = 1
