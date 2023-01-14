@@ -7,6 +7,7 @@
 **Implemented enhancements:**
 
 - Don't import cryptography package if not needed [\#1521](https://github.com/jrnl-org/jrnl/issues/1521)
+- Add more type hints [\#1642](https://github.com/jrnl-org/jrnl/pull/1642) ([outa](https://github.com/outa))
 - Add `rich` handler to debug logging [\#1627](https://github.com/jrnl-org/jrnl/pull/1627) ([wren](https://github.com/wren))
 - Rework Encryption to enable future support of other encryption methods [\#1602](https://github.com/jrnl-org/jrnl/pull/1602) ([wren](https://github.com/wren))
 
@@ -30,6 +31,7 @@
 **Documentation:**
 
 - Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
+- Update docs to include time and title in arguments with `--edit` [\#1657](https://github.com/jrnl-org/jrnl/pull/1657) ([pconrad-fb](https://github.com/pconrad-fb))
 - Fix markup in "Advanced Usage" doc [\#1655](https://github.com/jrnl-org/jrnl/pull/1655) ([multani](https://github.com/multani))
 - Remove Windows 7 known issue since Windows 7 is no longer supported [\#1636](https://github.com/jrnl-org/jrnl/pull/1636) ([micahellison](https://github.com/micahellison))
 
