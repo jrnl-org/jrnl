@@ -299,11 +299,13 @@ class Journal:
         for entry in entries_to_delete:
             self.entries.remove(entry)
 
-    def change_date_entries(self, date: datetime.datetime | None) -> None:
+    def change_date_entries(
+        self, date: datetime.datetime, entries_to_change: list[Entry]
+    ) -> None:
         """Changes entry dates to given date."""
         date = time.parse(date)
 
-        for entry in self.entries:
+        for entry in entries_to_change:
             entry.date = date
 
     def prompt_action_entries(self, msg: MsgText) -> list[Entry]:
@@ -436,7 +438,7 @@ def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journ
     If legacy is True, it will open Journals with legacy classes build for
     backwards compatibility with jrnl 1.x
     """
-    logging.debug("open_journal start")
+    logging.debug(f"open_journal '{journal_name}'")
     validate_journal_name(journal_name, config)
     config = config.copy()
     config["journal"] = expand_path(config["journal"])

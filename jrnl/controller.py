@@ -39,7 +39,8 @@ def run(args: "Namespace"):
     3. Run standalone command if it does require config (encrypt, decrypt, etc), then exit
     4. Load specified journal
     5. Start write mode, or search mode
-    6. Profit
+    6. Perform actions with results from search mode (if needed)
+    7. Profit
     """
 
     # Run command if possible before config is available
@@ -71,56 +72,56 @@ def run(args: "Namespace"):
         "args": args,
         "config": config,
         "journal": journal,
+        "old_entries": journal.entries,
     }
 
-    if _is_write_mode(**kwargs):
-        write_mode(**kwargs)
-    else:
-        search_mode(**kwargs)
+    if _is_append_mode(**kwargs):
+        append_mode(**kwargs)
+        return
+
+    # If not append mode, then we're in search mode (only 2 modes exist)
+    search_mode(**kwargs)
+
+    # perform actions (if needed)
+    if args.change_time:
+        _change_time_search_results(**kwargs)
+
+    if args.delete:
+        _delete_search_results(**kwargs)
+
+    # open results in editor (if `--edit` was used)
+    if args.edit:
+        _edit_search_results(**kwargs)
+
+    _print_entries_found_count(len(journal), args)
+
+    if not args.edit and not _has_action_args(args):
+        # display only occurs if no other action occurs
+        _display_search_results(**kwargs)
 
 
-def _is_write_mode(args: "Namespace", config: dict, **kwargs) -> bool:
+def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
     """Determines if we are in write mode (as opposed to search mode)"""
     # Are any search filters present? If so, then search mode.
-    write_mode = not any(
-        (
-            args.contains,
-            args.delete,
-            args.edit,
-            args.change_time,
-            args.excluded,
-            args.export,
-            args.end_date,
-            args.today_in_history,
-            args.month,
-            args.day,
-            args.year,
-            args.limit,
-            args.on_date,
-            args.short,
-            args.starred,
-            args.start_date,
-            args.strict,
-            args.tags,
-        )
+    append_mode = (
+        not _has_search_args(args)
+        and not _has_action_args(args)
+        and not _has_display_args(args)
+        and not args.edit
     )
 
     # Might be writing and want to move to editor part of the way through
     if args.edit and args.text:
-        write_mode = True
+        append_mode = True
 
     # If the text is entirely tags, then we are also searching (not writing)
-    if (
-        write_mode
-        and args.text
-        and all(word[0] in config["tagsymbols"] for word in " ".join(args.text).split())
-    ):
-        write_mode = False
+    if append_mode and args.text and _has_only_tags(config["tagsymbols"], args.text):
+        append_mode = False
 
-    return write_mode
+    return append_mode
 
 
-def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> None:
+def append_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> None:
     """
     Gets input from the user to write to the journal
     1. Check for input from cli
@@ -129,27 +130,27 @@ def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> N
     4. Use stdin.read as last resort
     6. Write any found text to journal, or exit
     """
-    logging.debug("Write mode: starting")
+    logging.debug("Append mode: starting")
 
     if args.text:
-        logging.debug("Write mode: cli text detected: %s", args.text)
+        logging.debug("Append mode: cli text detected: %s", args.text)
         raw = " ".join(args.text).strip()
         if args.edit:
             raw = _write_in_editor(config, raw)
 
     elif not sys.stdin.isatty():
-        logging.debug("Write mode: receiving piped text")
+        logging.debug("Append mode: receiving piped text")
         raw = sys.stdin.read()
 
     else:
         raw = _write_in_editor(config)
 
     if not raw or raw.isspace():
-        logging.error("Write mode: couldn't get raw text or entry was empty")
+        logging.error("Append mode: couldn't get raw text or entry was empty")
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
 
     logging.debug(
-        'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
+        f"Append mode: appending raw text to journal '{args.journal_name}': {raw}"
     )
     journal.new_entry(raw)
     if args.journal_name != DEFAULT_JOURNAL_KEY:
@@ -161,66 +162,32 @@ def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> N
             )
         )
     journal.write()
-    logging.debug("Write mode: completed journal.write()")
+    logging.debug("Append mode: completed journal.write()")
 
 
 def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
     """
-    Search for entries in a journal, then either:
-    1. Send them to configured editor for user manipulation (and also
-       change their timestamps if requested)
-    2. Change their timestamps
-    2. Delete them (with confirmation for each entry)
-    3. Display them (with formatting options)
+    Search for entries in a journal, and return the
+    results. If no search args, then return all results
     """
-    kwargs = {
-        **kwargs,
-        "args": args,
-        "journal": journal,
-        "old_entries": journal.entries,
-    }
+    logging.debug("Search mode: starting")
 
-    if _has_search_args(args):
-        _filter_journal_entries(**kwargs)
-        _print_entries_found_count(len(journal), args)
-
-    # Where do the search results go?
-    if args.edit:
-        # If we want to both edit and change time in one action
-        if args.change_time:
-            # Generate a new list instead of assigning so it won't be
-            # modified by _change_time_search_results
-            selected_entries = [e for e in journal.entries]
-
-            no_change_time_prompt = len(journal.entries) == 1
-            _change_time_search_results(no_prompt=no_change_time_prompt, **kwargs)
-
-            # Re-filter the journal enties (_change_time_search_results
-            # puts the filtered entries back); use selected_entries
-            # instead of running _search_journal again, because times
-            # have changed since the original search
-            kwargs["old_entries"] = journal.entries
-            journal.entries = selected_entries
-
-        _edit_search_results(**kwargs)
-
-    elif not journal:
-        # Bail out if there are no entries and we're not editing
+    # If no search args, then return all results (don't filter anything)
+    if (
+        not _has_search_args(args)
+        and not _has_display_args(args)
+        and not _has_only_tags(kwargs["config"]["tagsymbols"], args.text)
+    ):
+        logging.debug("Search mode: has not search args")
         return
 
-    elif args.change_time:
-        _change_time_search_results(**kwargs)
-
-    elif args.delete:
-        _delete_search_results(**kwargs)
-
-    else:
-        _display_search_results(**kwargs)
+    logging.debug("Search mode: has search args")
+    _filter_journal_entries(args, journal)
 
 
 def _write_in_editor(config: dict, template: str | None = None) -> str:
     if config["editor"]:
-        logging.debug("Write mode: opening editor")
+        logging.debug("Append mode: opening editor")
         if not template:
             template = _get_editor_template(config)
         raw = get_text_from_editor(config, template)
@@ -232,10 +199,10 @@ def _write_in_editor(config: dict, template: str | None = None) -> str:
 
 
 def _get_editor_template(config: dict, **kwargs) -> str:
-    logging.debug("Write mode: loading template for entry")
+    logging.debug("Append mode: loading template for entry")
 
     if not config["template"]:
-        logging.debug("Write mode: no template configured")
+        logging.debug("Append mode: no template configured")
         return ""
 
     template_path = expand_path(config["template"])
@@ -243,9 +210,9 @@ def _get_editor_template(config: dict, **kwargs) -> str:
     try:
         with open(template_path) as f:
             template = f.read()
-        logging.debug("Write mode: template loaded: %s", template)
+        logging.debug("Append mode: template loaded: %s", template)
     except OSError:
-        logging.error("Write mode: template not loaded")
+        logging.error("Append mode: template not loaded")
         raise JrnlException(
             Message(
                 MsgText.CantReadTemplate,
@@ -255,26 +222,6 @@ def _get_editor_template(config: dict, **kwargs) -> str:
         )
 
     return template
-
-
-def _has_search_args(args: "Namespace") -> bool:
-    return any(
-        (
-            args.on_date,
-            args.today_in_history,
-            args.text,
-            args.month,
-            args.day,
-            args.year,
-            args.start_date,
-            args.end_date,
-            args.strict,
-            args.starred,
-            args.excluded,
-            args.contains,
-            args.limit,
-        )
-    )
 
 
 def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> None:
@@ -425,28 +372,21 @@ def _change_time_search_results(
     args: "Namespace",
     journal: Journal,
     old_entries: list["Entry"],
-    no_prompt: bool = False,
-    **kwargs
+    **kwargs,
 ) -> None:
-    # separate entries we are not editing
-    other_entries = _other_entries(journal, old_entries)
 
-    if no_prompt:
-        entries_to_change = journal.entries
-    else:
-        entries_to_change = journal.prompt_action_entries(
-            MsgText.ChangeTimeEntryQuestion
-        )
+    import ipdb
+
+    ipdb.sset_trace()
+    # separate entries we are not editing
+    # @todo if there's only 1, don't prompt
+    entries_to_change = journal.prompt_action_entries(MsgText.ChangeTimeEntryQuestion)
 
     if entries_to_change:
-        other_entries += [e for e in journal.entries if e not in entries_to_change]
-        journal.entries = entries_to_change
-
         date = time.parse(args.change_time)
-        journal.change_date_entries(date)
+        journal.entries = old_entries
+        journal.change_date_entries(date, entries_to_change)
 
-        journal.entries += other_entries
-        journal.sort()
         journal.write()
 
 
@@ -468,3 +408,46 @@ def _display_search_results(args: "Namespace", journal: Journal, **kwargs) -> No
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
+
+
+def _has_search_args(args: "Namespace") -> bool:
+    """Looking for arguments that filter a journal"""
+    return any(
+        (
+            args.contains,
+            args.excluded,  # -not
+            args.end_date,
+            args.today_in_history,
+            args.month,
+            args.day,
+            args.year,
+            args.limit,
+            args.on_date,
+            args.starred,
+            args.start_date,
+            args.strict,  # -and
+        )
+    )
+
+
+def _has_action_args(args: "Namespace") -> bool:
+    return any(
+        (
+            args.change_time,
+            args.delete,
+        )
+    )
+
+
+def _has_display_args(args: "Namespace") -> bool:
+    return any(
+        (
+            args.tags,
+            args.short,
+            args.export,  # --format
+        )
+    )
+
+
+def _has_only_tags(tag_symbols: str, args_text: str) -> bool:
+    return all(word[0] in tag_symbols for word in " ".join(args_text).split())
