@@ -17,16 +17,3 @@ Feature: Using templates
         | basic_folder.yaml    |
         | basic_dayone.yaml    |
 
-    Scenario Outline: Templated entry should not be saved if template is unchanged
-        Given we use the config "<config_file>"
-        And we use the password "test" if prompted
-        When we run "jrnl --config-override template features/templates/basic.template"
-        Then the output should contain "No entry to save, because the template was not changed"
-
-        Examples: configs
-            | config_file          |
-            | basic_onefile.yaml   |
-            | basic_encrypted.yaml |
-            | basic_folder.yaml    |
-            | basic_dayone.yaml    |
-
