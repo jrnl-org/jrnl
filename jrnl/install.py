@@ -41,8 +41,8 @@ def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> Non
     if missing_keys:
         for key in missing_keys:
             config_data[key] = default_config[key]
-        
-    different_version = (config_data["version"] != __version__)
+
+    different_version = config_data["version"] != __version__
     if different_version:
         config_data["version"] = __version__
 

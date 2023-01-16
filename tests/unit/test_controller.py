@@ -9,7 +9,7 @@ import pytest
 
 import jrnl
 from jrnl.args import parse_args
-from jrnl.jrnl import _display_search_results
+from jrnl.controller import _display_search_results
 
 
 @pytest.fixture
@@ -19,10 +19,10 @@ def random_string():
 
 @pytest.mark.parametrize("export_format", ["pretty", "short"])
 @mock.patch("builtins.print")
-@mock.patch("jrnl.Journal.Journal.pprint")
+@mock.patch("jrnl.controller.Journal.pprint")
 def test_display_search_results_pretty_short(mock_pprint, mock_print, export_format):
     mock_args = parse_args(["--format", export_format])
-    test_journal = mock.Mock(wraps=jrnl.Journal.Journal)
+    test_journal = mock.Mock(wraps=jrnl.journals.Journal)
 
     _display_search_results(mock_args, test_journal)
 
@@ -40,7 +40,7 @@ def test_display_search_results_builtin_plugins(
     test_filename = random_string
     mock_args = parse_args(["--format", export_format, "--file", test_filename])
 
-    test_journal = mock.Mock(wraps=jrnl.Journal.Journal)
+    test_journal = mock.Mock(wraps=jrnl.journals.Journal)
     mock_export = mock.Mock()
     mock_exporter.return_value.export = mock_export
 

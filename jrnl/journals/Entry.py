@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING
 
 import ansiwrap
 
-from .color import colorize
-from .color import highlight_tags_with_background_color
+from jrnl.color import colorize
+from jrnl.color import highlight_tags_with_background_color
 
 if TYPE_CHECKING:
     from .Journal import Journal
@@ -48,33 +48,33 @@ class Entry:
             self._tags = list(self._parse_tags())
 
     @property
-    def title(self):
+    def title(self) -> str:
         if self._title is None:
             self._parse_text()
         return self._title
 
     @title.setter
-    def title(self, x):
+    def title(self, x: str):
         self._title = x
 
     @property
-    def body(self):
+    def body(self) -> str:
         if self._body is None:
             self._parse_text()
         return self._body
 
     @body.setter
-    def body(self, x):
+    def body(self, x: str):
         self._body = x
 
     @property
-    def tags(self):
+    def tags(self) -> list[str]:
         if self._tags is None:
             self._parse_text()
         return self._tags
 
     @tags.setter
-    def tags(self, x):
+    def tags(self, x: list[str]):
         self._tags = x
 
     @staticmethod
@@ -218,7 +218,7 @@ class Entry:
             return False
         return True
 
-    def __ne__(self, other):
+    def __ne__(self, other: "Entry"):
         return not self.__eq__(other)
 
 

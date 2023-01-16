@@ -144,7 +144,7 @@ def mock_overrides(config_in_memory):
 
     return {
         "overrides": lambda: patch(
-            "jrnl.jrnl.apply_overrides", side_effect=my_overrides
+            "jrnl.controller.apply_overrides", side_effect=my_overrides
         )
     }
 

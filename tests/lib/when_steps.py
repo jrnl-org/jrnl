@@ -8,7 +8,7 @@ from pytest_bdd import when
 from pytest_bdd.parsers import parse
 from pytest_bdd.parsers import re
 
-from jrnl.cli import cli
+from jrnl.main import run
 
 
 @when(parse('we change directory to "{directory_name}"'))
@@ -44,7 +44,7 @@ def we_run_jrnl(cli_run, capsys, keyring):
             mocks[id] = stack.enter_context(factories[id]())
 
         try:
-            cli_run["status"] = cli() or 0
+            cli_run["status"] = run() or 0
         except StopIteration:
             # This happens when input is expected, but don't have any input left
             pass

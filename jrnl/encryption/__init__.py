@@ -4,6 +4,7 @@
 from enum import Enum
 from importlib import import_module
 from typing import TYPE_CHECKING
+from typing import Type
 
 if TYPE_CHECKING:
     from .BaseEncryption import BaseEncryption
@@ -18,7 +19,7 @@ class EncryptionMethods(str, Enum):
     JRNLV2 = "Jrnlv2Encryption"
 
 
-def determine_encryption_method(config: str | bool) -> "BaseEncryption":
+def determine_encryption_method(config: str | bool) -> Type["BaseEncryption"]:
     ENCRYPTION_METHODS = {
         True: EncryptionMethods.JRNLV2,  # the default
         False: EncryptionMethods.NONE,

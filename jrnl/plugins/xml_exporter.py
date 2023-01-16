@@ -8,8 +8,8 @@ from jrnl.plugins.json_exporter import JSONExporter
 from jrnl.plugins.util import get_tags_count
 
 if TYPE_CHECKING:
-    from jrnl.Entry import Entry
-    from jrnl.Journal import Journal
+    from jrnl.journals import Entry
+    from jrnl.journals import Journal
 
 
 class XMLExporter(JSONExporter):

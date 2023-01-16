@@ -4,7 +4,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from jrnl.Journal import Journal
+    from jrnl.journals import Journal
 
 
 def get_tags_count(journal: "Journal") -> set[tuple[int, str]]:

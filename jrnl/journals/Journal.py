@@ -6,7 +6,6 @@ import logging
 import os
 import re
 
-from jrnl import Entry
 from jrnl import time
 from jrnl.config import validate_journal_name
 from jrnl.encryption import determine_encryption_method
@@ -16,6 +15,8 @@ from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.path import expand_path
 from jrnl.prompt import yesno
+
+from .Entry import Entry
 
 
 class Tag:
@@ -59,7 +60,7 @@ class Journal:
         return (entry for entry in self.entries)
 
     @classmethod
-    def from_journal(cls, other):
+    def from_journal(cls, other: "Journal") -> "Journal":
         """Creates a new journal by copying configuration and entries from
         another journal object"""
         new_journal = cls(other.name, **other.config)
@@ -72,7 +73,7 @@ class Journal:
         )
         return new_journal
 
-    def import_(self, other_journal_txt):
+    def import_(self, other_journal_txt: str) -> None:
         imported_entries = self._parse(other_journal_txt)
         for entry in imported_entries:
             entry.modified = True
@@ -96,7 +97,7 @@ class Journal:
 
         return self.encryption_method.encrypt(text)
 
-    def open(self, filename=None):
+    def open(self, filename: str | None = None) -> "Journal":
         """Opens the journal file defined in the config and parses it into a list of Entries.
         Entries have the form (date, title, body)."""
         filename = filename or self.config["journal"]
@@ -130,35 +131,35 @@ class Journal:
         logging.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
-    def write(self, filename=None):
+    def write(self, filename: str | None = None) -> None:
         """Dumps the journal into the config file, overwriting it"""
         filename = filename or self.config["journal"]
         text = self._to_text()
         text = self._encrypt(text)
         self._store(filename, text)
 
-    def validate_parsing(self):
+    def validate_parsing(self) -> bool:
         """Confirms that the jrnl is still parsed correctly after being dumped to text."""
         new_entries = self._parse(self._to_text())
         return all(entry == new_entries[i] for i, entry in enumerate(self.entries))
 
     @staticmethod
-    def create_file(filename):
+    def create_file(filename: str) -> None:
         with open(filename, "w"):
             pass
 
-    def _to_text(self):
+    def _to_text(self) -> str:
         return "\n".join([str(e) for e in self.entries])
 
-    def _load(self, filename):
+    def _load(self, filename: str) -> bytes:
         with open(filename, "rb") as f:
             return f.read()
 
-    def _store(self, filename, text):
+    def _store(self, filename: str, text: bytes) -> None:
         with open(filename, "wb") as f:
             f.write(text)
 
-    def _parse(self, journal_txt):
+    def _parse(self, journal_txt: str) -> list[Entry]:
         """Parses a journal that's stored in a string and returns a list of entries"""
 
         # Return empty array if the journal is blank
@@ -184,11 +185,11 @@ class Journal:
                 if entries:
                     entries[-1].text = journal_txt[last_entry_pos : match.start()]
                 last_entry_pos = match.end()
-                entries.append(Entry.Entry(self, date=new_date))
+                entries.append(Entry(self, date=new_date))
 
         # If no entries were found, treat all the existing text as an entry made now
         if not entries:
-            entries.append(Entry.Entry(self, date=time.parse("now")))
+            entries.append(Entry(self, date=time.parse("now")))
 
         # Fill in the text of the last entry
         entries[-1].text = journal_txt[last_entry_pos:]
@@ -197,7 +198,7 @@ class Journal:
             entry._parse_text()
         return entries
 
-    def pprint(self, short=False):
+    def pprint(self, short: bool = False) -> str:
         """Prettyprints the journal's entries"""
         return "\n".join([e.pprint(short=short) for e in self.entries])
 
@@ -207,17 +208,17 @@ class Journal:
     def __repr__(self):
         return f"<Journal with {len(self.entries)} entries>"
 
-    def sort(self):
+    def sort(self) -> None:
         """Sorts the Journal's entries by date"""
         self.entries = sorted(self.entries, key=lambda entry: entry.date)
 
-    def limit(self, n=None):
+    def limit(self, n: int | None = None) -> None:
         """Removes all but the last n entries"""
         if n:
             self.entries = self.entries[-n:]
 
     @property
-    def tags(self):
+    def tags(self) -> list[Tag]:
         """Returns a set of tuples (count, tag) for all tags present in the journal."""
         # Astute reader: should the following line leave you as puzzled as me the first time
         # I came across this construction, worry not and embrace the ensuing moment of enlightment.
@@ -228,16 +229,16 @@ class Journal:
 
     def filter(
         self,
-        tags=[],
-        month=None,
-        day=None,
-        year=None,
-        start_date=None,
-        end_date=None,
-        starred=False,
-        strict=False,
-        contains=None,
-        exclude=[],
+        tags: list = [],
+        month: str | int | None = None,
+        day: str | int | None = None,
+        year: str | None = None,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        starred: bool = False,
+        strict: bool = False,
+        contains: bool = None,
+        exclude: list = [],
     ):
         """Removes all entries from the journal that don't match the filter.
 
@@ -293,19 +294,19 @@ class Journal:
 
         self.entries = result
 
-    def delete_entries(self, entries_to_delete):
+    def delete_entries(self, entries_to_delete: list[Entry]) -> None:
         """Deletes specific entries from a journal."""
         for entry in entries_to_delete:
             self.entries.remove(entry)
 
-    def change_date_entries(self, date):
+    def change_date_entries(self, date: datetime.datetime | None) -> None:
         """Changes entry dates to given date."""
         date = time.parse(date)
 
         for entry in self.entries:
             entry.date = date
 
-    def prompt_action_entries(self, msg: MsgText):
+    def prompt_action_entries(self, msg: MsgText) -> list[Entry]:
         """Prompts for action for each entry in a journal, using given message.
         Returns the entries the user wishes to apply the action on."""
         to_act = []
@@ -325,7 +326,7 @@ class Journal:
 
         return to_act
 
-    def new_entry(self, raw, date=None, sort=True):
+    def new_entry(self, raw: str, date=None, sort: bool = True) -> Entry:
         """Constructs a new entry from some raw text input.
         If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
 
@@ -354,19 +355,19 @@ class Journal:
         )
         if not date:  # Still nothing? Meh, just live in the moment.
             date = time.parse("now")
-        entry = Entry.Entry(self, date, raw, starred=starred)
+        entry = Entry(self, date, raw, starred=starred)
         entry.modified = True
         self.entries.append(entry)
         if sort:
             self.sort()
         return entry
 
-    def editable_str(self):
+    def editable_str(self) -> str:
         """Turns the journal into a string of entries that can be edited
         manually and later be parsed with self.parse_editable_str."""
         return "\n".join([str(e) for e in self.entries])
 
-    def parse_editable_str(self, edited):
+    def parse_editable_str(self, edited: str) -> None:
         """Parses the output of self.editable_str and updates it's entries."""
         mod_entries = self._parse(edited)
         # Match those entries that can be found in self.entries and set
@@ -382,7 +383,7 @@ class LegacyJournal(Journal):
     standard. Main difference here is that in 1.x, timestamps were not cuddled
     by square brackets. You'll not be able to save these journals anymore."""
 
-    def _parse(self, journal_txt):
+    def _parse(self, journal_txt: str) -> list[Entry]:
         """Parses a journal that's stored in a string and returns a list of entries"""
         # Entries start with a line that looks like 'date title' - let's figure out how
         # long the date will be by constructing one
@@ -410,7 +411,7 @@ class LegacyJournal(Journal):
                 else:
                     starred = False
 
-                current_entry = Entry.Entry(
+                current_entry = Entry(
                     self, date=new_date, text=line[date_length + 1 :], starred=starred
                 )
             except ValueError:
@@ -429,7 +430,7 @@ class LegacyJournal(Journal):
         return entries
 
 
-def open_journal(journal_name, config, legacy=False):
+def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journal:
     """
     Creates a normal, encrypted or DayOne journal based on the passed config.
     If legacy is True, it will open Journals with legacy classes build for
@@ -455,21 +456,21 @@ def open_journal(journal_name, config, legacy=False):
         if config["journal"].strip("/").endswith(".dayone") or "entries" in os.listdir(
             config["journal"]
         ):
-            from jrnl import DayOneJournal
+            from jrnl.journals import DayOne
 
-            return DayOneJournal.DayOne(**config).open()
+            return DayOne(**config).open()
         else:
-            from jrnl import FolderJournal
+            from jrnl.journals import Folder
 
-            return FolderJournal.Folder(journal_name, **config).open()
+            return Folder(journal_name, **config).open()
 
     if not config["encrypt"]:
         if legacy:
             return LegacyJournal(journal_name, **config).open()
         if config["journal"].endswith(os.sep):
-            from jrnl import FolderJournal
+            from jrnl.journals import Folder
 
-            return FolderJournal.Folder(journal_name, **config).open()
+            return Folder(journal_name, **config).open()
         return Journal(journal_name, **config).open()
 
     if legacy:

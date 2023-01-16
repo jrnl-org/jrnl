@@ -15,8 +15,8 @@ from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
 from jrnl.exception import JrnlException
-from jrnl.Journal import Journal
-from jrnl.Journal import open_journal
+from jrnl.journals import Journal
+from jrnl.journals import open_journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -28,7 +28,7 @@ from jrnl.path import expand_path
 if TYPE_CHECKING:
     from argparse import Namespace
 
-    from jrnl.Entry import Entry
+    from jrnl.journals import Entry
 
 
 def run(args: "Namespace"):
