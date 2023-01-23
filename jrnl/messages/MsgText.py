@@ -97,10 +97,16 @@ class MsgText(Enum):
 
     KeyboardInterruptMsg = "Aborted by user"
 
-    CantReadTemplate = """
-        Unreadable template
-        Could not read template file at:
-        {template}
+    CantReadTemplateGlobalConfig = """
+        Could not read template file defined in config:
+        {global_template_path}
+        """
+
+    CantReadTemplateCLIArg = """
+        Unable to find a template file based on the passed arg, and no global template was detected.
+        The following filepaths were checked:
+        jrnl XDG Template Directory : {jrnl_template_dir}
+        Local Filepath              : {normalized_template_arg_filepath}
         """
 
     NoNamedJournal = "No '{journal_name}' journal configured\n{journals}"

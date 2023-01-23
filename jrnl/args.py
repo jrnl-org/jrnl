@@ -174,6 +174,11 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         "Writing", textwrap.dedent(compose_msg).strip()
     )
     composing.add_argument("text", metavar="", nargs="*")
+    composing.add_argument(
+        "--template",
+        dest="template",
+        help="Path to template file. Can be a local path, absolute path, or a path relative to $JRNL_TEMPLATE_DIR",
+    )
 
     read_msg = (
         "To find entries from your journal, use any combination of the below filters."
@@ -372,7 +377,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         default="",
         help="""
         Overrides default (created when first installed) config file for this command only.
-        
+
         Examples: \n
         \t - Use a work config file for this jrnl entry, call: \n
             \t jrnl --config-file /home/user1/work_config.yaml
