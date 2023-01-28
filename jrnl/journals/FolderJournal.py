@@ -92,14 +92,14 @@ class Folder(Journal):
             self.entries.remove(entry)
             self._diff_entry_dates.append(entry.date)
 
-    def change_date_entries(self, date: str) -> None:
+    def change_date_entries(self, date: str, entries_to_change: list["Entry"]) -> None:
         """Changes entry dates to given date."""
 
         date = time.parse(date)
 
         self._diff_entry_dates.append(date)
 
-        for entry in self.entries:
+        for entry in entries_to_change:
             self._diff_entry_dates.append(entry.date)
             entry.date = date
 
