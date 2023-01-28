@@ -176,9 +176,9 @@ def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
     if (
         not _has_search_args(args)
         and not _has_display_args(args)
-        and not _has_only_tags(kwargs["config"]["tagsymbols"], args.text)
+        and not args.text
     ):
-        logging.debug("Search mode: has not search args")
+        logging.debug("Search mode: has no search args")
         return
 
     logging.debug("Search mode: has search args")
@@ -374,10 +374,6 @@ def _change_time_search_results(
     old_entries: list["Entry"],
     **kwargs,
 ) -> None:
-
-    import ipdb
-
-    ipdb.sset_trace()
     # separate entries we are not editing
     # @todo if there's only 1, don't prompt
     entries_to_change = journal.prompt_action_entries(MsgText.ChangeTimeEntryQuestion)
