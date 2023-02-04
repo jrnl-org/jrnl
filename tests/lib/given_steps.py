@@ -132,7 +132,7 @@ def config_exists(config_file, temp_dir, working_dir):
     shutil.copy2(config_source, config_dest)
 
 
-@given(parse('we use the password "{password}" if prompted'))
+@given(parse('we use the password "{password}" if prompted'), target_fixture="password")
 def use_password_forever(password):
     return password
 
