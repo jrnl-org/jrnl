@@ -202,6 +202,16 @@ def input_method():
 
 
 @fixture
+def all_input():
+    return ""
+
+
+@fixture
+def command():
+    return ""
+
+
+@fixture
 def cache_dir():
     return {"exists": False, "path": ""}
 

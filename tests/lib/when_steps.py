@@ -7,6 +7,7 @@ from contextlib import ExitStack
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
 from pytest_bdd.parsers import re
+from pytest_bdd.steps import inject_fixture
 
 from jrnl.main import run
 
@@ -31,10 +32,13 @@ all_input = '("(?P<all_input>[^"]*)")'
 @when(re(f'we run "jrnl ?{command}" and {input_method} {all_input}'))
 @when(parse('we run "jrnl {command}"'))
 @when('we run "jrnl"')
-def we_run_jrnl(cli_run, capsys, keyring):
+def we_run_jrnl(cli_run, capsys, keyring, request, command, input_method, all_input):
     from keyring import set_keyring
 
     set_keyring(keyring)
+
+    # fixture injection (pytest-bdd >=6.0)
+    inject_fixture(request, "command", command)
 
     with ExitStack() as stack:
         mocks = cli_run["mocks"]
