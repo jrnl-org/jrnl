@@ -39,6 +39,8 @@ def we_run_jrnl(cli_run, capsys, keyring, request, command, input_method, all_in
 
     # fixture injection (pytest-bdd >=6.0)
     inject_fixture(request, "command", command)
+    inject_fixture(request, "input_method", input_method)
+    inject_fixture(request, "all_input", all_input)
 
     with ExitStack() as stack:
         mocks = cli_run["mocks"]
