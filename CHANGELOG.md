@@ -33,6 +33,7 @@
 **Documentation:**
 
 - Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
+- Update documentation on temporary files naming [\#1673](https://github.com/jrnl-org/jrnl/pull/1673) ([giuseppedandrea](https://github.com/giuseppedandrea))
 - Update docs to include time and title in arguments with `--edit` [\#1657](https://github.com/jrnl-org/jrnl/pull/1657) ([pconrad-fb](https://github.com/pconrad-fb))
 - Fix markup in "Advanced Usage" doc [\#1655](https://github.com/jrnl-org/jrnl/pull/1655) ([multani](https://github.com/multani))
 - Remove Windows 7 known issue since Windows 7 is no longer supported [\#1636](https://github.com/jrnl-org/jrnl/pull/1636) ([micahellison](https://github.com/micahellison))
