@@ -18,15 +18,13 @@ def random_string():
 
 
 @pytest.mark.parametrize("export_format", ["pretty", "short"])
-@mock.patch("builtins.print")
-@mock.patch("jrnl.controller.Journal.pprint")
-def test_display_search_results_pretty_short(mock_pprint, mock_print, export_format):
+def test_display_search_results_pretty_short(export_format):
     mock_args = parse_args(["--format", export_format])
-    test_journal = mock.Mock(wraps=jrnl.journals.Journal)
+    test_journal = mock.Mock(wraps=jrnl.journals.Journal('default'))
 
     _display_search_results(mock_args, test_journal)
 
-    mock_print.assert_called_once_with(mock_pprint.return_value)
+    test_journal.pprint.assert_called_once()
 
 
 @pytest.mark.parametrize(

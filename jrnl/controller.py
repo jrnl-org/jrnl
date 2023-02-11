@@ -15,7 +15,6 @@ from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
 from jrnl.exception import JrnlException
-from jrnl.journals import Journal
 from jrnl.journals import open_journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -29,6 +28,7 @@ if TYPE_CHECKING:
     from argparse import Namespace
 
     from jrnl.journals import Entry
+    from jrnl.journals import Journal
 
 
 def run(args: "Namespace"):
@@ -79,10 +79,28 @@ def run(args: "Namespace"):
         append_mode(**kwargs)
         return
 
+    # Get stats now for summary later
+    old_stats = _get_predit_stats(journal)
+    logging.debug(f"old_stats: {old_stats}")
+
     # If not append mode, then we're in search mode (only 2 modes exist)
     search_mode(**kwargs)
+    _print_entries_found_count(len(journal), args)
 
-    # perform actions (if needed)
+    # Actions
+    _perform_actions_on_search_results(**kwargs)
+
+    if _has_action_args(args):
+        _print_edited_summary(journal, old_stats)
+    else:
+        # display only occurs if no other action occurs
+        _display_search_results(**kwargs)
+
+
+def _perform_actions_on_search_results(**kwargs):
+    args = kwargs["args"]
+
+    # Perform actions (if needed)
     if args.change_time:
         _change_time_search_results(**kwargs)
 
@@ -93,12 +111,6 @@ def run(args: "Namespace"):
     if args.edit:
         _edit_search_results(**kwargs)
 
-    _print_entries_found_count(len(journal), args)
-
-    if not args.edit and not _has_action_args(args):
-        # display only occurs if no other action occurs
-        _display_search_results(**kwargs)
-
 
 def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
     """Determines if we are in write mode (as opposed to search mode)"""
@@ -107,7 +119,6 @@ def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
         not _has_search_args(args)
         and not _has_action_args(args)
         and not _has_display_args(args)
-        and not args.edit
     )
 
     # Might be writing and want to move to editor part of the way through
@@ -121,7 +132,7 @@ def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
     return append_mode
 
 
-def append_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> None:
+def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -> None:
     """
     Gets input from the user to write to the journal
     1. Check for input from cli
@@ -165,7 +176,7 @@ def append_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> 
     logging.debug("Append mode: completed journal.write()")
 
 
-def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
+def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
     """
     Search for entries in a journal, and return the
     results. If no search args, then return all results
@@ -224,7 +235,7 @@ def _get_editor_template(config: dict, **kwargs) -> str:
     return template
 
 
-def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> None:
+def _filter_journal_entries(args: "Namespace", journal: "Journal", **kwargs) -> None:
     """Filter journal entries in-place based upon search args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
@@ -250,6 +261,7 @@ def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> No
 
 
 def _print_entries_found_count(count: int, args: "Namespace") -> None:
+    logging.debug(f"count: {count}")
     if count == 0:
         if args.edit or args.change_time:
             print_msg(Message(MsgText.NothingToModify, MsgStyle.WARNING))
@@ -257,26 +269,28 @@ def _print_entries_found_count(count: int, args: "Namespace") -> None:
             print_msg(Message(MsgText.NothingToDelete, MsgStyle.WARNING))
         else:
             print_msg(Message(MsgText.NoEntriesFound, MsgStyle.NORMAL))
-    elif args.limit:
-        # Don't show count if the user expects a limited number of results
         return
-    elif args.edit or not (args.change_time or args.delete):
-        # Don't show count if we are ONLY changing the time or deleting entries
-        my_msg = (
-            MsgText.EntryFoundCountSingular
-            if count == 1
-            else MsgText.EntryFoundCountPlural
-        )
-        print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
+    elif args.limit and args.limit == count:
+        # Don't show count if the user expects a limited number of results
+        logging.debug("args.limit is true-ish")
+        return
+
+    logging.debug("Printing general summary")
+    my_msg = (
+        MsgText.EntryFoundCountSingular
+        if count == 1
+        else MsgText.EntryFoundCountPlural
+    )
+    print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
 
 
-def _other_entries(journal: Journal, entries: list["Entry"]) -> list["Entry"]:
+def _other_entries(journal: "Journal", entries: list["Entry"]) -> list["Entry"]:
     """Find entries that are not in journal"""
     return [e for e in entries if e not in journal.entries]
 
 
 def _edit_search_results(
-    config: dict, journal: Journal, old_entries: list["Entry"], **kwargs
+    config: dict, journal: "Journal", old_entries: list["Entry"], **kwargs
 ) -> None:
     """
     1. Send the given journal entries to the user-configured editor
@@ -295,15 +309,9 @@ def _edit_search_results(
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
 
-    # Get stats now for summary later
-    old_stats = _get_predit_stats(journal)
-
     # Send user to the editor
     edited = get_text_from_editor(config, journal.editable_str())
     journal.parse_editable_str(edited)
-
-    # Print summary if available
-    _print_edited_summary(journal, old_stats)
 
     # Put back entries we separated earlier, sort, and write the journal
     journal.entries += other_entries
@@ -312,7 +320,7 @@ def _edit_search_results(
 
 
 def _print_edited_summary(
-    journal: Journal, old_stats: dict[str, int], **kwargs
+    journal: "Journal", old_stats: dict[str, int], **kwargs
 ) -> None:
     stats = {
         "added": len(journal) - old_stats["count"],
@@ -352,12 +360,12 @@ def _print_edited_summary(
     print_msgs(msgs)
 
 
-def _get_predit_stats(journal: Journal) -> dict[str, int]:
+def _get_predit_stats(journal: "Journal") -> dict[str, int]:
     return {"count": len(journal)}
 
 
 def _delete_search_results(
-    journal: Journal, old_entries: list["Entry"], **kwargs
+    journal: "Journal", old_entries: list["Entry"], **kwargs
 ) -> None:
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
@@ -370,7 +378,7 @@ def _delete_search_results(
 
 def _change_time_search_results(
     args: "Namespace",
-    journal: Journal,
+    journal: "Journal",
     old_entries: list["Entry"],
     **kwargs,
 ) -> None:
@@ -386,7 +394,7 @@ def _change_time_search_results(
         journal.write()
 
 
-def _display_search_results(args: "Namespace", journal: Journal, **kwargs) -> None:
+def _display_search_results(args: "Namespace", journal: "Journal", **kwargs) -> None:
     # Get export format from config file if not provided at the command line
     args.export = args.export or kwargs["config"].get("display_format")
 
@@ -431,6 +439,7 @@ def _has_action_args(args: "Namespace") -> bool:
         (
             args.change_time,
             args.delete,
+            args.edit,
         )
     )
 
