@@ -15,7 +15,9 @@
 
 **Fixed bugs:**
 
+- Templated entries should not be saved if the raw text is identical to the original template  [\#1652](https://github.com/jrnl-org/jrnl/issues/1652)
 - jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
+- Don't save templated journal entries if the received raw text is the same as the template itself [\#1653](https://github.com/jrnl-org/jrnl/pull/1653) ([Briscoooe](https://github.com/Briscoooe))
 - Add tag to XML file when edited DayOne entry and is searchable afterward [\#1648](https://github.com/jrnl-org/jrnl/pull/1648) ([jonakeys](https://github.com/jonakeys))
 - Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
 
