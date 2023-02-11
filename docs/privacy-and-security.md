@@ -90,7 +90,7 @@ editor: "vim -c 'set viminfo= noswapfile noundofile nobackup nowritebackup noshe
 
 To disable all plugins and custom configurations and start Vim with the default
 configuration `-u NONE` can be passed on the command line as well. This will
-ensure that any rouge plugins or other difficult to catch information leaks are
+ensure that any rogue plugins or other difficult to catch information leaks are
 eliminated. The downside to this is that the editor experience will decrease
 quite a bit.
 
