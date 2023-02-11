@@ -160,6 +160,9 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     if not raw or raw.isspace():
         logging.error("Append mode: couldn't get raw text or entry was empty")
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
+    if config["template"] and raw == _get_editor_template(config):
+        logging.error("Write mode: raw text was the same as the template")
+        raise JrnlException(Message(MsgText.NoChangesToTemplate, MsgStyle.NORMAL))
 
     logging.debug(
         f"Append mode: appending raw text to journal '{args.journal_name}': {raw}"
