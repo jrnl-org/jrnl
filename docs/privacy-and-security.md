@@ -92,6 +92,18 @@ pattern for the `workbench.localHistory.exclude` setting in the [Settings editor
     On Windows, the history location is typically found at
     `%APPDATA%\Code\User\History`.
 
+Visual Studio Code also creates a copy of all unsaved files that are open in
+the tabs of a window. Visual Studio Code stores these copies in a backup
+location that is automatically cleaned when you save the file. However, if
+your computer were to shut off before you save the file, or the Visual Studio
+Code process were killed unexpectedly, then an unencrypted temporary file will
+remain on your disk. You can manually delete these files from the backup
+location.
+
+!!! note
+    On Windows, the backup location is typically found at
+    `%APPDATA%\Code\Backups`.
+
 ### Vim
 
 Vim stores progress data in a so called Viminfo file located at `~/.viminfo`
