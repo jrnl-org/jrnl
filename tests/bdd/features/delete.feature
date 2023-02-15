@@ -11,6 +11,7 @@ Feature: Delete entries from journal
             N
             N
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -28,6 +29,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete -n 1" and enter
             N
+        Then the error output should not contain "deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -44,7 +46,7 @@ Feature: Delete entries from journal
     Scenario Outline: Delete flag with nonsense input deletes nothing (issue #932)
         Given we use the config "<config_file>"
         When we run "jrnl --delete asdfasdf"
-        Then the output should contain "No entries to delete"
+        Then the error output should contain "No entries to delete"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -62,6 +64,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete @ipsum" and enter
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
@@ -79,6 +82,7 @@ Feature: Delete entries from journal
         When we run "jrnl --delete @ipsum @tagthree" and enter
             Y
             Y
+        Then the error output should contain "2 entries deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
@@ -94,6 +98,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete -and @tagone @tagtwo" and enter
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
@@ -110,6 +115,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete @tagone -not @ipsum" and enter
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -126,6 +132,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete -from 2020-09-01" and enter
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -143,6 +150,7 @@ Feature: Delete entries from journal
         When we run "jrnl --delete -to 2020-08-31" and enter
             Y
             Y
+        Then the error output should contain "2 entries deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-09-24 09:14 The third entry finally after weeks without writing.
@@ -158,6 +166,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete -starred" and enter
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -174,6 +183,7 @@ Feature: Delete entries from journal
         Given we use the config "<config_file>"
         When we run "jrnl --delete -contains dignissim" and enter
             Y
+        Then the error output should contain "1 entry deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.

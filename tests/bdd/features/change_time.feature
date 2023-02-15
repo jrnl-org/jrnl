@@ -49,6 +49,8 @@ Feature: Change entry times in journal
         Given we use the config "<config_file>"
         When we run "jrnl --change-time now asdfasdf"
         Then the output should contain "No entries to modify"
+        And the error output should not contain "entries modified"
+        And the error output should not contain "entries deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -187,6 +189,7 @@ Feature: Change entry times in journal
         Given we use the config "<config_file>"
         When we run "jrnl --change-time '2022-04-23 10:30'  -contains dignissim" and enter
             Y
+        Then the error output should contain "1 entry modified"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
