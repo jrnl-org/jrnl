@@ -403,7 +403,7 @@ def _change_time_search_results(
 
 
 def _display_search_results(args: "Namespace", journal: "Journal", **kwargs) -> None:
-    if len(journal.entries) == 0:
+    if len(journal) == 0:
         return
 
     # Get export format from config file if not provided at the command line

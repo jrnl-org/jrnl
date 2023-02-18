@@ -20,7 +20,11 @@ def random_string():
 @pytest.mark.parametrize("export_format", ["pretty", "short"])
 def test_display_search_results_pretty_short(export_format):
     mock_args = parse_args(["--format", export_format])
-    test_journal = mock.Mock(wraps=jrnl.journals.Journal('default'))
+
+    test_journal = jrnl.journals.Journal()
+    test_journal.new_entry("asdf")
+
+    test_journal.pprint = mock.Mock()
 
     _display_search_results(mock_args, test_journal)
 
