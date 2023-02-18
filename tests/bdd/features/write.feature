@@ -271,7 +271,7 @@ Feature: Writing new entries.
             [2021-11-13] I am replacing my whole journal with this entry
         When we run "jrnl --edit"
         Then the output should contain "2 entries deleted"
-        Then the output should contain "3 entries modified"
+        Then the output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
