@@ -369,8 +369,9 @@ def _delete_search_results(
 ) -> None:
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
+    journal.entries = old_entries
+    
     if entries_to_delete:
-        journal.entries = old_entries
         journal.delete_entries(entries_to_delete)
 
         journal.write()
