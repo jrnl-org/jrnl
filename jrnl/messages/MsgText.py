@@ -151,6 +151,14 @@ class MsgText(Enum):
             https://jrnl.sh/en/stable/external-editors/
         """
 
+    NoEditsReceivedJournalNotDeleted = """
+        No text received from editor. Were you trying to delete all the entries?
+
+        This seems a bit drastic, so the operation was cancelled.
+
+        To delete all entries, use the --delete option.
+        """
+
     NoEditsReceived = "No edits to save, because nothing was changed"
 
     NoTextReceived = """

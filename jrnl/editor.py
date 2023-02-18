@@ -44,6 +44,9 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
         raw = f.read()
     os.remove(tmpfile)
 
+    if not raw:
+        raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
+
     return raw
 
 

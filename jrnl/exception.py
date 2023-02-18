@@ -7,6 +7,7 @@ from jrnl.output import print_msg
 
 if TYPE_CHECKING:
     from jrnl.messages import Message
+    from jrnl.messages import MsgText
 
 
 class JrnlException(Exception):
@@ -18,3 +19,6 @@ class JrnlException(Exception):
     def print(self) -> None:
         for msg in self.messages:
             print_msg(msg)
+    
+    def has_message_text(self, message_text: "MsgText"):
+        return any([m.text == message_text for m in self.messages])

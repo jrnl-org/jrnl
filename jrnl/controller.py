@@ -311,7 +311,14 @@ def _edit_search_results(
     other_entries = _other_entries(journal, old_entries)
 
     # Send user to the editor
-    edited = get_text_from_editor(config, journal.editable_str())
+    try:
+        edited = get_text_from_editor(config, journal.editable_str())
+    except JrnlException as e:
+        if e.has_message_text(MsgText.NoTextReceived):
+            raise JrnlException(Message(MsgText.NoEditsReceivedJournalNotDeleted, MsgStyle.WARNING))
+        else:
+            raise e
+
     journal.parse_editable_str(edited)
 
     # Put back entries we separated earlier, sort, and write the journal
