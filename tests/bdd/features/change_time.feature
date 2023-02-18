@@ -231,7 +231,7 @@ Feature: Change entry times in journal
             Y
             N
             Y
-        Then the error output should contain "No entry to save"
+        Then the error output should contain "No text received from editor. Were you trying to delete all the entries?"
         And the editor should have been called
         When we run "jrnl -99 --short"
         Then the output should be

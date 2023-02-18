@@ -76,12 +76,12 @@ Feature: Writing new entries.
         | basic_dayone.yaml    |
         | basic_folder.yaml    |
 
-    Scenario Outline: Writing an empty entry from the editor should yield "No entry to save" message
+    Scenario Outline: Clearing the editor's contents should yield "No text received" message
         Given we use the config "<config_file>"
-        And we append nothing to the editor if opened
+        And we write nothing to the editor if opened
         And we use the password "test" if prompted
         When we run "jrnl --edit"
-        Then the error output should contain "No edits to save, because nothing was changed"
+        Then the error output should contain "No text received from editor. Were you trying to delete all the entries?"
         And the editor should have been called
 
         Examples: configs
