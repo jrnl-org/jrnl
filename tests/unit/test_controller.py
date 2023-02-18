@@ -42,7 +42,9 @@ def test_display_search_results_builtin_plugins(
     test_filename = random_string
     mock_args = parse_args(["--format", export_format, "--file", test_filename])
 
-    test_journal = mock.Mock(wraps=jrnl.journals.Journal)
+    test_journal = jrnl.journals.Journal()
+    test_journal.new_entry("asdf")
+
     mock_export = mock.Mock()
     mock_exporter.return_value.export = mock_export
 
