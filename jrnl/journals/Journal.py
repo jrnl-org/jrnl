@@ -307,6 +307,7 @@ class Journal:
 
         for entry in entries_to_change:
             entry.date = date
+            entry.modified = True
 
     def prompt_action_entries(self, msg: MsgText) -> list[Entry]:
         """Prompts for action for each entry in a journal, using given message.

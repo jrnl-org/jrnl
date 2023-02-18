@@ -102,6 +102,7 @@ class Folder(Journal):
         for entry in entries_to_change:
             self._diff_entry_dates.append(entry.date)
             entry.date = date
+            entry.modified = True
 
     def parse_editable_str(self, edited: str) -> None:
         """Parses the output of self.editable_str and updates its entries."""
