@@ -85,13 +85,13 @@ def run(args: "Namespace"):
 
     # If not append mode, then we're in search mode (only 2 modes exist)
     search_mode(**kwargs)
-    _print_entries_found_count(len(journal), args)
+    entries_found_count = len(journal)
+    _print_entries_found_count(entries_found_count, args)
 
     # Actions
     _perform_actions_on_search_results(**kwargs)
 
-
-    if len(journal.entries) != 0 and _has_action_args(args):
+    if entries_found_count != 0 and _has_action_args(args):
         _print_edited_summary(journal, old_stats)
     else:
         # display only occurs if no other action occurs
@@ -328,7 +328,6 @@ def _print_edited_summary(
         "deleted": old_stats["count"] - len(journal),
         "modified": len([e for e in journal.entries if e.modified]),
     }
-    stats["modified"] -= stats["added"]
     msgs = []
 
     if stats["added"] > 0:
