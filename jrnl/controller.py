@@ -90,7 +90,8 @@ def run(args: "Namespace"):
     # Actions
     _perform_actions_on_search_results(**kwargs)
 
-    if _has_action_args(args):
+
+    if len(journal.entries) != 0 and _has_action_args(args):
         _print_edited_summary(journal, old_stats)
     else:
         # display only occurs if no other action occurs
@@ -395,6 +396,9 @@ def _change_time_search_results(
 
 
 def _display_search_results(args: "Namespace", journal: "Journal", **kwargs) -> None:
+    if len(journal.entries) == 0:
+        return
+
     # Get export format from config file if not provided at the command line
     args.export = args.export or kwargs["config"].get("display_format")
 
