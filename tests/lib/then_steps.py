@@ -15,7 +15,7 @@ from tests.lib.helpers import assert_equal_tags_ignoring_order
 from tests.lib.helpers import does_directory_contain_files
 from tests.lib.helpers import does_directory_contain_n_files
 from tests.lib.helpers import get_nested_val
-from tests.lib.helpers import parse_should_or_should_not
+from tests.lib.helpers import should_or_should_not_choice
 
 
 @then("we should get no error")
@@ -31,40 +31,54 @@ def output_should_match(regex, cli_run):
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
 
 
-@then(parse("the output {should_or_should_not} contain\n{expected_output}"))
-@then(parse('the output {should_or_should_not} contain "{expected_output}"'))
 @then(
     parse(
-        "the {which_output_stream} output {should_or_should_not} contain\n{expected_output}"
+        "the output {should_or_should_not:ShouldOrShouldNot} contain\n{expected_output}",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
 @then(
     parse(
-        'the {which_output_stream} output {should_or_should_not} contain "{expected_output}"'
+        'the output {should_or_should_not:ShouldOrShouldNot} contain "{expected_output}"',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
+@then(
+    parse(
+        "the {which_output_stream} output {should_or_should_not:ShouldOrShouldNot} contain\n{expected_output}",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
+@then(
+    parse(
+        'the {which_output_stream} output {should_or_should_not:ShouldOrShouldNot} contain "{expected_output}"',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
 def output_should_contain(
     expected_output, which_output_stream, cli_run, should_or_should_not
 ):
-    we_should = parse_should_or_should_not(should_or_should_not)
-
     output_str = f"\nEXPECTED:\n{expected_output}\n\nACTUAL STDOUT:\n{cli_run['stdout']}\n\nACTUAL STDERR:\n{cli_run['stderr']}"
     assert expected_output
     if which_output_stream is None:
-        assert ((expected_output in cli_run["stdout"]) == we_should) or (
-            (expected_output in cli_run["stderr"]) == we_should
+        assert ((expected_output in cli_run["stdout"]) == should_or_should_not) or (
+            (expected_output in cli_run["stderr"]) == should_or_should_not
         ), output_str
 
     elif which_output_stream == "standard":
-        assert (expected_output in cli_run["stdout"]) == we_should, output_str
+        assert (
+            expected_output in cli_run["stdout"]
+        ) == should_or_should_not, output_str
 
     elif which_output_stream == "error":
-        assert (expected_output in cli_run["stderr"]) == we_should, output_str
+        assert (
+            expected_output in cli_run["stderr"]
+        ) == should_or_should_not, output_str
 
     else:
         assert (
             expected_output in cli_run[which_output_stream]
-        ) == we_should, output_str
+        ) == should_or_should_not, output_str
 
 
 @then(parse("the output should not contain\n{expected_output}"))
@@ -130,19 +144,29 @@ def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir
 
 @then(
     parse(
-        'the config for journal "{journal_name}" {should_or_should_not} contain "{some_yaml}"'
+        'the config for journal "{journal_name}" {should_or_should_not:ShouldOrShouldNot} contain "{some_yaml}"',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
 @then(
     parse(
-        'the config for journal "{journal_name}" {should_or_should_not} contain\n{some_yaml}'
+        'the config for journal "{journal_name}" {should_or_should_not:ShouldOrShouldNot} contain\n{some_yaml}',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
-@then(parse('the config {should_or_should_not} contain "{some_yaml}"'))
-@then(parse("the config {should_or_should_not} contain\n{some_yaml}"))
+@then(
+    parse(
+        'the config {should_or_should_not:ShouldOrShouldNot} contain "{some_yaml}"',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
+@then(
+    parse(
+        "the config {should_or_should_not:ShouldOrShouldNot} contain\n{some_yaml}",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
 def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_yaml):
-    we_should = parse_should_or_should_not(should_or_should_not)
-
     actual = config_on_disk
     if journal_name:
         actual = actual["journals"][journal_name]
@@ -154,26 +178,36 @@ def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: actual.get(key, None) for key in expected.keys()}
 
-    assert (expected == actual_slice) == we_should
+    assert (expected == actual_slice) == should_or_should_not
 
 
 @then(
     parse(
-        'the config in memory for journal "{journal_name}" {should_or_should_not} contain "{some_yaml}"'
+        'the config in memory for journal "{journal_name}" {should_or_should_not:ShouldOrShouldNot} contain "{some_yaml}"',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
 @then(
     parse(
-        'the config in memory for journal "{journal_name}" {should_or_should_not} contain\n{some_yaml}'
+        'the config in memory for journal "{journal_name}" {should_or_should_not:ShouldOrShouldNot} contain\n{some_yaml}',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
-@then(parse('the config in memory {should_or_should_not} contain "{some_yaml}"'))
-@then(parse("the config in memory {should_or_should_not} contain\n{some_yaml}"))
+@then(
+    parse(
+        'the config in memory {should_or_should_not:ShouldOrShouldNot} contain "{some_yaml}"',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
+@then(
+    parse(
+        "the config in memory {should_or_should_not} contain\n{some_yaml}",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
 def config_var_in_memory(
     config_in_memory, journal_name, should_or_should_not, some_yaml
 ):
-    we_should = parse_should_or_should_not(should_or_should_not)
-
     actual = config_in_memory["overrides"]
     if journal_name:
         actual = actual["journals"][journal_name]
@@ -185,7 +219,7 @@ def config_var_in_memory(
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: get_nested_val(actual, key) for key in expected.keys()}
 
-    assert (expected == actual_slice) == we_should
+    assert (expected == actual_slice) == should_or_should_not
 
 
 @then("we should be prompted for a password")
@@ -224,31 +258,30 @@ def journal_directory_should_not_exist(config_on_disk, journal_name):
     ), f'Journal "{journal_name}" does exist'
 
 
-@then(parse("the journal {should_or_should_not} exist"))
+@then(parse("the journal {should_or_should_not:ShouldOrShouldNot} exist",
+    dict(ShouldOrShouldNot=should_or_should_not_choice),
+    ))
 def journal_should_not_exist(config_on_disk, should_or_should_not):
     scoped_config = scope_config(config_on_disk, "default")
     expected_path = scoped_config["journal"]
 
     contains_files = does_directory_contain_files(expected_path, ".")
 
-    if should_or_should_not == "should":
-        assert contains_files
-    elif should_or_should_not == "should not":
-        assert not contains_files
-    else:
-        raise Exception(
-            "should_or_should_not valid values are 'should' or 'should not'"
-        )
+    assert contains_files == should_or_should_not
 
 
-@then(parse('the journal "{journal_name}" directory {should_or_should_not} exist'))
+@then(
+    parse(
+        'the journal "{journal_name}" directory {should_or_should_not:ShouldOrShouldNot} exist',
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
 def directory_should_not_exist(config_on_disk, should_or_should_not, journal_name):
     scoped_config = scope_config(config_on_disk, journal_name)
     expected_path = scoped_config["journal"]
-    we_should = parse_should_or_should_not(should_or_should_not)
     dir_exists = os.path.isdir(expected_path)
 
-    assert dir_exists == we_should
+    assert dir_exists == should_or_should_not
 
 
 @then(parse('the content of file "{file_path}" in the cache should be\n{file_content}'))
@@ -383,26 +416,24 @@ def count_elements(number, item, cli_run):
     assert len(xml_tree.findall(".//" + item)) == number
 
 
-@then(parse("the editor {should_or_should_not} have been called"))
+@then(parse("the editor {should_or_should_not:ShouldOrShouldNot} have been called", dict(ShouldOrShouldNot=should_or_should_not_choice)))
 @then(
     parse(
-        "the editor {should_or_should_not} have been called with {num_args} arguments"
+        "the editor {should_or_should_not:ShouldOrShouldNot} have been called with {num_args} arguments",
+        dict(ShouldOrShouldNot=should_or_should_not_choice)
     )
 )
 def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
-    we_should = parse_should_or_should_not(should_or_should_not)
-
-    assert cli_run["mocks"]["editor"].called == we_should
+    assert cli_run["mocks"]["editor"].called == should_or_should_not
 
     if isinstance(num_args, int):
         assert len(editor_state["command"]) == int(num_args)
 
 
-@then(parse("the stdin prompt {should_or_should_not} have been called"))
+@then(parse("the stdin prompt {should_or_should_not:ShouldOrShouldNot} have been called",
+    dict(ShouldOrShouldNot=should_or_should_not_choice)))
 def stdin_prompt_called(cli_run, should_or_should_not):
-    we_should = parse_should_or_should_not(should_or_should_not)
-
-    assert cli_run["mocks"]["stdin_input"].called == we_should
+    assert cli_run["mocks"]["stdin_input"].called == should_or_should_not
 
 
 @then(parse('the editor filename should end with "{suffix}"'))

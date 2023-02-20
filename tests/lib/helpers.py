@@ -4,6 +4,8 @@
 import functools
 import os
 
+from parse_type import TypeBuilder
+
 
 def does_directory_contain_files(file_list, directory_path):
     if not os.path.isdir(directory_path):
@@ -32,15 +34,9 @@ def does_directory_contain_n_files(directory_path, number):
     return int(number) == count
 
 
-def parse_should_or_should_not(should_or_should_not):
-    if should_or_should_not == "should":
-        return True
-    elif should_or_should_not == "should not":
-        return False
-    else:
-        raise Exception(
-            "should_or_should_not valid values are 'should' or 'should not'"
-        )
+should_or_should_not_choice = TypeBuilder.make_enum(
+    {"should": True, "should not": False}
+)
 
 
 def assert_equal_tags_ignoring_order(
