@@ -125,7 +125,7 @@ Feature: Searching in a journal
         | basic_dayone.yaml  |
 
 
-    Scenario: Searching for unstarred entries
+    Scenario Outline: Searching for unstarred entries
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl -not -starred"
@@ -138,7 +138,7 @@ Feature: Searching in a journal
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
 
-    Scenario: Searching for tagged entries
+    Scenario Outline: Searching for tagged entries
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl -tagged"
@@ -151,7 +151,7 @@ Feature: Searching in a journal
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
 
-    Scenario: Searching for untagged entries
+    Scenario Outline: Searching for untagged entries
         Given we use the config "empty_folder.yaml"
         When we run "jrnl Tagged entry. This one has a @tag."
         Then we should get no error
