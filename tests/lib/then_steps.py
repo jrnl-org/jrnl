@@ -201,7 +201,7 @@ def config_var_on_disk(config_on_disk, journal_name, should_or_should_not, some_
 )
 @then(
     parse(
-        "the config in memory {should_or_should_not} contain\n{some_yaml}",
+        "the config in memory {should_or_should_not:ShouldOrShouldNot} contain\n{some_yaml}",
         dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
