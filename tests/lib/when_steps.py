@@ -30,7 +30,7 @@ all_input = '("(?P<all_input>[^"]*)")'
 
 @when(parse('we run "jrnl {command}" and {input_method}\n{all_input}'))
 @when(re(f'we run "jrnl ?{command}" and {input_method} {all_input}'))
-@when(parse('we run "jrnl {command}"'))
+@when(re(f'we run "jrnl {command}"(?! and)'))
 @when('we run "jrnl"')
 def we_run_jrnl(capsys, keyring, request, command, input_method, all_input):
     from keyring import set_keyring
