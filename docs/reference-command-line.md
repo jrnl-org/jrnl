@@ -76,8 +76,11 @@ entries, such as `yesterday`, `today`, `Tuesday`, or `2021-08-01`.
 | -contains TEXT | Show entries containing specific text (put quotes around text with spaces) |
 | -and | Show only entries that match all conditions, like saying "x AND y" (default: OR) |
 | -starred | Show only starred entries (marked with *) |
+| -tagged | Show only tagged entries (marked with the [configured tagsymbols](reference-config-file.md#tagsymbols)) |
 | -n [NUMBER] | Show a maximum of NUMBER entries (note: '-n 3' and '-3' have the same effect) |
 | -not [TAG] | Exclude entries with this tag |
+| -not -starred | Exclude entries that are starred |
+| -not -tagged | Exclude entries that are tagged |
 
 ## Searching Options
 These help you do various tasks with the selected entries from your search.
