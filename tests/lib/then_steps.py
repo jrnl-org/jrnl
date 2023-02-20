@@ -258,9 +258,12 @@ def journal_directory_should_not_exist(config_on_disk, journal_name):
     ), f'Journal "{journal_name}" does exist'
 
 
-@then(parse("the journal {should_or_should_not:ShouldOrShouldNot} exist",
-    dict(ShouldOrShouldNot=should_or_should_not_choice),
-    ))
+@then(
+    parse(
+        "the journal {should_or_should_not:ShouldOrShouldNot} exist",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
 def journal_should_not_exist(config_on_disk, should_or_should_not):
     scoped_config = scope_config(config_on_disk, "default")
     expected_path = scoped_config["journal"]
@@ -416,11 +419,16 @@ def count_elements(number, item, cli_run):
     assert len(xml_tree.findall(".//" + item)) == number
 
 
-@then(parse("the editor {should_or_should_not:ShouldOrShouldNot} have been called", dict(ShouldOrShouldNot=should_or_should_not_choice)))
+@then(
+    parse(
+        "the editor {should_or_should_not:ShouldOrShouldNot} have been called",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
 @then(
     parse(
         "the editor {should_or_should_not:ShouldOrShouldNot} have been called with {num_args} arguments",
-        dict(ShouldOrShouldNot=should_or_should_not_choice)
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
     )
 )
 def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
@@ -430,8 +438,12 @@ def count_editor_args(num_args, cli_run, editor_state, should_or_should_not):
         assert len(editor_state["command"]) == int(num_args)
 
 
-@then(parse("the stdin prompt {should_or_should_not:ShouldOrShouldNot} have been called",
-    dict(ShouldOrShouldNot=should_or_should_not_choice)))
+@then(
+    parse(
+        "the stdin prompt {should_or_should_not:ShouldOrShouldNot} have been called",
+        dict(ShouldOrShouldNot=should_or_should_not_choice),
+    )
+)
 def stdin_prompt_called(cli_run, should_or_should_not):
     assert cli_run["mocks"]["stdin_input"].called == should_or_should_not
 

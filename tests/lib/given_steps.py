@@ -85,13 +85,14 @@ def we_have_type_of_keyring(keyring_type):
 
 @given(parse("we use no config"), target_fixture="config_path")
 def we_use_no_config(temp_dir):
-    os.chdir(temp_dir.name) # @todo move this step to a more universal place
+    os.chdir(temp_dir.name)  # @todo move this step to a more universal place
     return os.path.join(temp_dir.name, "non_existing_config.yaml")
+
 
 @given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 def we_use_the_config(request, temp_dir, working_dir, config_file):
     # Move into temp dir as cwd
-    os.chdir(temp_dir.name) # @todo move this step to a more universal place
+    os.chdir(temp_dir.name)  # @todo move this step to a more universal place
 
     # Copy the config file over
     config_source = os.path.join(working_dir, "data", "configs", config_file)
