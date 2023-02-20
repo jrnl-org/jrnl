@@ -19,7 +19,6 @@ from jrnl.time import __get_pdt_calendar
 from tests.lib.fixtures import FailedKeyring
 from tests.lib.fixtures import NoKeyring
 from tests.lib.fixtures import TestKeyring
-from tests.lib.helpers import get_fixture
 
 
 @given(parse("we {editor_method} to the editor if opened\n{editor_input}"))
