@@ -73,6 +73,34 @@ Some editors keep usage history stored on disk for future use. This can be a
 security risk in the sense that sensitive information can leak via recent
 search patterns or editor commands.
 
+### Visual Studio Code
+
+Visual Studio Code stores the contents of saved files to allow you to restore or
+review the contents later. You can disable this feature for all files by unchecking
+the `workbench.localHistory.enabled` setting in the
+[Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
+
+Alternatively, you can disable this feature for specific files by configuring a
+[pattern](https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options)
+in the `workbench.localHistory.exclude` setting. To exclude unencrypted temporary files generated
+by `jrnl`, you can set the `**/jrnl*.jrnl` pattern for the `workbench.localHistory.exclude` setting
+in the [Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
+
+!!! note
+    On Windows, the history location is typically found at
+    `%APPDATA%\Code\User\History`.
+
+Visual Studio Code also creates a copy of all unsaved files that are open.
+It stores these copies in a backup location that's automatically cleaned when
+you save the file. However, if your computer shuts off before you save the file,
+or the Visual Studio Code process stops unexpectedly, then an unencrypted
+temporary file may remain on your disk. You can manually delete these files
+from the backup location.
+
+!!! note
+    On Windows, the backup location is typically found at
+    `%APPDATA%\Code\Backups`.
+
 ### Vim
 
 Vim stores progress data in a so called Viminfo file located at `~/.viminfo`
@@ -177,7 +205,6 @@ behavior depending on your operating system.
 In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
 and can be accessed by any other application running under your username. If this is
 a concern for you, you may not want to store your password.
-
 
 ## Notice any other risks?
 
