@@ -236,7 +236,9 @@ Feature: Writing new entries.
         And we append to the editor if opened
             [2021-11-13] worked on jrnl tests
         When we run "jrnl --edit"
-        Then the output should contain "1 entry added"
+        Then the error output should contain "3 entries found"
+        And the error output should contain "1 entry added"
+
 
         Examples: configs
         | config_file          |
@@ -254,7 +256,8 @@ Feature: Writing new entries.
             [2021-11-12] worked on jrnl tests again
             [2021-11-13] worked on jrnl tests a little bit more
         When we run "jrnl --edit"
-        Then the error output should contain "3 entries added"
+        Then the error output should contain "3 entries found"
+        And the error output should contain "3 entries added"
 
         Examples: configs
         | config_file          |
@@ -271,7 +274,7 @@ Feature: Writing new entries.
             [2021-11-13] I am replacing my whole journal with this entry
         When we run "jrnl --edit"
         Then the output should contain "2 entries deleted"
-        Then the output should contain "1 entry modified"
+        And the output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
@@ -287,8 +290,7 @@ Feature: Writing new entries.
         And we write to the editor if opened
             [2021-11-13] I am replacing the last entry with this entry
         When we run "jrnl --edit -1"
-        Then the output should contain
-            1 entry modified
+        Then the error output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
@@ -304,8 +306,8 @@ Feature: Writing new entries.
         And we append to the editor if opened
             This is a small addendum to my latest entry.
         When we run "jrnl --edit"
-        Then the output should contain
-            1 entry modified
+        Then the error output should contain "3 entries found"
+        And the error output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
@@ -341,6 +343,7 @@ Feature: Writing new entries.
         And we append to the editor if opened
             @newtag
         When we run "jrnl --edit -1"
+        Then the error output should contain "1 entry modified"
         When we run "jrnl --tags @newtag"
         Then the output should contain
             1 entry found
