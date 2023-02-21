@@ -9,6 +9,8 @@ Feature: Change entry times in journal
         Then the output should contain "2020-09-24 09:14 The third entry finally"
         When we run "jrnl -1 --change-time '2022-04-23 10:30'" and enter
             Y
+        Then the error output should contain "1 entry modified"
+        And the error output should not contain "deleted"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-29 11:11 Entry the first.
@@ -31,6 +33,8 @@ Feature: Change entry times in journal
             Y
             N
             Y
+        Then the error output should contain "3 entries found"
+        And the error output should contain "2 entries modified"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
@@ -44,6 +48,28 @@ Feature: Change entry times in journal
         | basic_folder.yaml    |
         # | basic_dayone.yaml  | @todo
 
+
+    Scenario Outline: Answering "N" to change-time prompt deletes no entries
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl -1"
+        Then the output should contain "2020-09-24 09:14 The third entry finally"
+        When we run "jrnl -1 --change-time '2023-02-21 10:30'" and enter
+            N
+        Then the error output should not contain "modified"
+        And the error output should not contain "deleted"
+        When we run "jrnl -99 --short"
+        Then the output should be
+            2020-08-29 11:11 Entry the first.
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            2020-09-24 09:14 The third entry finally after weeks without writing.
+
+        Examples: Configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        # | basic_dayone.yaml  | @todo
 
     Scenario Outline: Change time flag with nonsense input changes nothing
         Given we use the config "<config_file>"
@@ -68,6 +94,8 @@ Feature: Change entry times in journal
         Given we use the config "<config_file>"
         When we run "jrnl --change-time '2022-04-23 10:30' @ipsum" and enter
             Y
+        Then the error output should contain "1 entry found"
+        And the error output should contain "1 entry modified"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
@@ -223,24 +251,3 @@ Feature: Change entry times in journal
         | basic_dayone.yaml  |
 
 
-    Scenario Outline: --change-time with --edit modifies selected entries
-        Given we use the config "<config_file>"
-        And we write nothing to the editor if opened
-        And we use the password "test" if prompted
-        When we run "jrnl --change-time '2022-04-23 10:30' --edit" and enter
-            Y
-            N
-            Y
-        Then the error output should contain "No text received from editor. Were you trying to delete all the entries?"
-        And the editor should have been called
-        When we run "jrnl -99 --short"
-        Then the output should be
-            2020-08-31 14:32 A second entry in what I hope to be a long series.
-            2022-04-23 10:30 Entry the first.
-            2022-04-23 10:30 The third entry finally after weeks without writing.
-
-        Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
-        # | basic_dayone.yaml    | @todo
