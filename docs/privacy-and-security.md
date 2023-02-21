@@ -184,8 +184,10 @@ unencrypted temporary remains on your disk. If your computer were to shut off
 during this time, or the `jrnl` process were killed unexpectedly, then the
 unencrypted temporary file will remain on your disk. You can mitigate this
 issue by only saving with your editor right before closing it. You can also
-manually delete these files (i.e. files named `jrnl*.jrnl`) from your temporary
-folder.
+manually delete these files from your temporary folder. By default, they
+are named `jrnl*.jrnl` but if you use a
+[template](reference-config-file.md#template), they will have the same
+extension as the template.
 
 ## Plausible deniability
 
