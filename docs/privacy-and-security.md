@@ -67,6 +67,22 @@ Windows doesn't log history to disk, but it does keep it in your command prompt
 session. Close the command prompt or press `Alt`+`F7` to clear your history
 after journaling.
 
+## Files in transit from editor to jrnl
+
+When creating or editing an entry, `jrnl` uses a unencrypted temporary file on
+disk in order to give your editor access to your journal. After you close your
+editor, `jrnl` then deletes this temporary file.
+
+So, if you have saved a journal entry but haven't closed your editor yet, the
+unencrypted temporary remains on your disk. If your computer were to shut off
+during this time, or the `jrnl` process were killed unexpectedly, then the
+unencrypted temporary file will remain on your disk. You can mitigate this
+issue by only saving with your editor right before closing it. You can also
+manually delete these files from your temporary folder. By default, they
+are named `jrnl*.jrnl` but if you use a
+[template](reference-config-file.md#template), they will have the same
+extension as the template.
+
 ## Editor history
 
 Some editors keep usage history stored on disk for future use. This can be a
@@ -83,7 +99,8 @@ the `workbench.localHistory.enabled` setting in the
 Alternatively, you can disable this feature for specific files by configuring a
 [pattern](https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options)
 in the `workbench.localHistory.exclude` setting. To exclude unencrypted temporary files generated
-by `jrnl`, you can set the `**/jrnl*.jrnl` pattern for the `workbench.localHistory.exclude` setting
+by `jrnl`, you can set the `**/jrnl*.jrnl` (unless you are using a
+[template](reference-config-file.md#template)) pattern for the `workbench.localHistory.exclude` setting
 in the [Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
 
 !!! note
@@ -129,7 +146,11 @@ autocommand can be used. Place this in your `~/.vimrc`:
 autocmd BufNewFile,BufReadPre *.jrnl setlocal viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
 ```
 
-Please see `:h <option>` in Vim for more information about the options mentioned.
+!!! note
+    If you're using a [template](reference-config-file.md#template), you will
+    have to use the template's file extension instead of `.jrnl`.
+
+See `:h <option>` in Vim for more information about the options mentioned.
 
 ### Neovim
 
@@ -171,23 +192,11 @@ vim.api.nvim_create_autocmd( {"BufNewFile","BufReadPre" }, {
 })
 ```
 
+!!! note
+    If you're using a [template](reference-config-file.md#template), you will
+    have to use the template's file extension instead of `.jrnl`.
+
 Please see `:h <option>` in Neovim for more information about the options mentioned.
-
-## Files in transit from editor to jrnl
-
-When creating or editing an entry, `jrnl` uses a unencrypted temporary file on
-disk in order to give your editor access to your journal. After you close your
-editor, `jrnl` then deletes this temporary file.
-
-So, if you have saved a journal entry but haven't closed your editor yet, the
-unencrypted temporary remains on your disk. If your computer were to shut off
-during this time, or the `jrnl` process were killed unexpectedly, then the
-unencrypted temporary file will remain on your disk. You can mitigate this
-issue by only saving with your editor right before closing it. You can also
-manually delete these files from your temporary folder. By default, they
-are named `jrnl*.jrnl` but if you use a
-[template](reference-config-file.md#template), they will have the same
-extension as the template.
 
 ## Plausible deniability
 
