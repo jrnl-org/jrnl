@@ -57,7 +57,7 @@ Feature: Installing jrnl
         And the config should contain
             colors:
                 date: none
-                title: black
+                title: magenta
                 body: yellow
                 tags: cyan
 

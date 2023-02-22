@@ -118,7 +118,7 @@ def get_default_config() -> dict[str, Any]:
 def get_default_colors() -> dict[str, Any]:
     return {
         "date": "none",
-        "title": "black",
+        "title": "magenta",
         "body": "yellow",
         "tags": "cyan",
     }
