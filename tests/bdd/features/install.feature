@@ -5,6 +5,7 @@ Feature: Installing jrnl
         When we run "jrnl hello world" and enter
             \n
             \n
+            \n
         Then the output should contain "Journal 'default' created"
         And the default journal "journal.txt" should be in the "." directory
         And the config should contain "encrypt: false"
@@ -15,6 +16,7 @@ Feature: Installing jrnl
         When we run "jrnl hello world" and enter
             default/custom.txt
             n
+            \n
         Then the output should contain "Journal 'default' created"
         And the default journal "custom.txt" should be in the "default" directory
         And the config should contain "encrypt: false"
@@ -26,6 +28,7 @@ Feature: Installing jrnl
         When we run "jrnl hello world" and enter
             ~/custom.txt
             n
+            \n
         Then the output should contain "Journal 'default' created"
         And the default journal "custom.txt" should be in the "home" directory
         And the config should contain "encrypt: false"
@@ -36,10 +39,38 @@ Feature: Installing jrnl
         When we run "jrnl hello world" and enter
             encrypted.txt
             y
+            \n
         Then the output should contain "Journal will be encrypted"
         And the default journal "encrypted.txt" should be in the "." directory
         And the config should contain "encrypt: true"
         And the version in the config file should be up-to-date
         When we run "jrnl"
         Then we should be prompted for a password
-    
+
+   Scenario: Install jrnl with colors by default
+        Given we use no config
+        When we run "jrnl hello world" and enter
+            \n
+            \n
+            \n
+        Then the output should contain "Journal 'default' created"
+        And the config should contain
+            colors:
+                date: none
+                title: black
+                body: yellow
+                tags: cyan
+
+   Scenario: Install jrnl without colors
+        Given we use no config
+        When we run "jrnl hello world" and enter
+            \n
+            \n
+            N
+        Then the output should contain "Journal 'default' created"
+        And the config should contain
+            colors:
+                date: none
+                title: none
+                body: none
+                tags: none

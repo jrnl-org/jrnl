@@ -115,6 +115,15 @@ def get_default_config() -> dict[str, Any]:
     }
 
 
+def get_default_colors() -> dict[str, Any]:
+    return {
+        "date": "none",
+        "title": "black",
+        "body": "yellow",
+        "tags": "cyan",
+    }
+
+
 def get_default_journal_path() -> str:
     journal_data_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or home_dir()
     return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)

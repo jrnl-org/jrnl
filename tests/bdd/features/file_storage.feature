@@ -57,6 +57,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         When we run "jrnl hello world" and enter
             test.txt
             n
+            \n
         Then the output should contain "Journal 'default' created"
         When we change directory to "subfolder"
         And we run "jrnl -n 1"
