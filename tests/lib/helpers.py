@@ -77,7 +77,7 @@ def spy_wrapper(wrapped_function):
 
 
 def get_fixture(request, name, default=None):
-    result = default
-    if name in request.node.fixturenames:
-        result = request.getfixturevalue(name)
-    return result
+    try:
+        return request.getfixturevalue(name)
+    except LookupError:
+        return default

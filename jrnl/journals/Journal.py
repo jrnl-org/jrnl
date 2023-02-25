@@ -262,7 +262,9 @@ class Journal:
         start_date = time.parse(start_date)
 
         # If strict mode is on, all tags have to be present in entry
-        has_tags = self.search_tags.issubset if strict else self.search_tags.intersection
+        has_tags = (
+            self.search_tags.issubset if strict else self.search_tags.intersection
+        )
 
         def excluded(tags):
             return 0 < len([tag for tag in tags if tag in excluded_tags])

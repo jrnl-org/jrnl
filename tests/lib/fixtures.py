@@ -231,13 +231,15 @@ def mock_user_input(request, password_input, stdin_input):
     def _mock_user_input():
         # user_input needs to be here because we don't know it until cli_run starts
         user_input = get_fixture(request, "all_input", None)
+
         if user_input is None:
             user_input = Exception("Unexpected call for user input")
         else:
             user_input = iter(user_input.splitlines())
 
         def mock_console_input(**kwargs):
-            if kwargs["password"] and not isinstance(password_input, Exception):
+            pw = kwargs.get("password", False)
+            if pw and not isinstance(password_input, Exception):
                 return password_input
 
             if isinstance(user_input, Iterable):
@@ -246,7 +248,7 @@ def mock_user_input(request, password_input, stdin_input):
                 return "" if input_line == r"\n" else input_line
 
             # exceptions
-            return user_input if not kwargs["password"] else password_input
+            return user_input if not pw else password_input
 
         mock_console = Mock(wraps=Console(stderr=True))
         mock_console.input = Mock(side_effect=mock_console_input)
