@@ -37,6 +37,9 @@ class MsgText(Enum):
     EncryptJournalQuestion = """
         Do you want to encrypt your journal? (You can always change this later)
         """
+    UseColorsQuestion = """
+        Do you want jrnl to use colors when displaying entries? (You can always change this later)
+        """
     YesOrNoPromptDefaultYes = "[Y/n]"
     YesOrNoPromptDefaultNo = "[y/N]"
     ContinueUpgrade = "Continue upgrading jrnl?"
