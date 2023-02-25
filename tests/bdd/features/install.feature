@@ -74,3 +74,19 @@ Feature: Installing jrnl
                 date: none
                 tags: none
                 title: none
+
+    Scenario: Install jrnl with encrypted default journal with no entries
+        Given we use no config
+        And we use the password "test" if prompted
+        When we run "jrnl -1" and enter
+            encrypted.txt
+            y
+            n
+        Then the error output should contain "Journal will be encrypted"
+        And the default journal "encrypted.txt" should be in the "." directory
+        And the config should contain "encrypt: true"
+        And the version in the config file should be up-to-date
+        When we run "jrnl -1"
+        Then we should be prompted for a password
+        And the error output should contain "no entries found"
+        And the error output should not contain "Wrong password, try again"
