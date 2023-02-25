@@ -123,6 +123,7 @@ class Journal:
                     },
                 )
             )
+            self.write()
 
         text = self._load(filename)
         text = self._decrypt(text)
