@@ -56,10 +56,10 @@ Feature: Installing jrnl
         Then the output should contain "Journal 'default' created"
         And the config should contain
             colors:
-                date: none
-                title: magenta
-                body: yellow
-                tags: cyan
+                body: none
+                date: black
+                tags: yellow
+                title: cyan
 
    Scenario: Install jrnl without colors
         Given we use no config
@@ -70,7 +70,7 @@ Feature: Installing jrnl
         Then the output should contain "Journal 'default' created"
         And the config should contain
             colors:
-                date: none
-                title: none
                 body: none
+                date: none
                 tags: none
+                title: none
