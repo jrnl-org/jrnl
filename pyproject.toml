@@ -52,6 +52,7 @@ flake8-simplify = ">=0.19"
 ipdb = "*"
 isort = ">=5.10"
 mkdocs = ">=1.4"
+parse-type = ">=0.6.0"
 poethepoet = "*"
 pytest = ">=6.2"
 pytest-bdd = ">=6.0"
@@ -176,6 +177,7 @@ deps =
   pytest >= 6.2
   pytest-bdd >=6.0
   pytest-xdist >=2.5.0
+  parse-type >=0.6.0
   toml >=0.10
 
 commands = pytest {posargs}
