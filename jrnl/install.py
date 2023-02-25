@@ -12,6 +12,7 @@ from rich.pretty import pretty_repr
 from jrnl import __version__
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
+from jrnl.config import get_default_colors
 from jrnl.config import get_default_config
 from jrnl.config import get_default_journal_path
 from jrnl.config import load_config
@@ -146,6 +147,11 @@ def install() -> dict:
     if encrypt:
         default_config["encrypt"] = True
         print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
+
+    # Use colors?
+    use_colors = yesno(Message(MsgText.UseColorsQuestion), default=True)
+    if use_colors:
+        default_config["colors"] = get_default_colors()
 
     save_config(default_config)
     return default_config
