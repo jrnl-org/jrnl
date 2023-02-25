@@ -118,7 +118,7 @@ div.rst-content {
   background-size: 100%;
 }
 
-a.icon-home:before {
+.wy-side-nav-search a.icon-home:before {
   display: block;
   width: 84px;
   height: 70px;
