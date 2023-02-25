@@ -92,7 +92,7 @@ def output_should_not_contain(expected_output, cli_run):
 def output_should_be(expected_output, cli_run):
     actual = cli_run["stdout"].strip()
     expected = expected_output.strip()
-    assert expected == actual
+    assert actual == expected
 
 
 @then("the output should be empty")
