@@ -29,7 +29,6 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.10.0, <3.13"
 
-ansiwrap = "^0.8.4"
 colorama = ">=0.4"       # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
 cryptography = ">=3.0"   # https://cryptography.io/en/latest/api-stability.html
 keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration

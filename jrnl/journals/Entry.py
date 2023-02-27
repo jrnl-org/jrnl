@@ -7,8 +7,6 @@ import os
 import re
 from typing import TYPE_CHECKING
 
-import ansiwrap
-
 from jrnl.color import colorize
 from jrnl.color import highlight_tags_with_background_color
 from jrnl.output import wrap_with_ansi_colors
