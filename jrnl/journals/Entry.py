@@ -144,28 +144,17 @@ class Entry:
             body = highlight_tags_with_background_color(
                 self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
             )
-            body_text = [
-                colorize(
-                    wrap_with_ansi_colors(line, columns, indent_text=indent),
-                    self.journal.config["colors"]["body"],
-                )
-                for line in body.rstrip(" \n").splitlines()
-            ]
 
-            # ansiwrap doesn't handle lines with only the "\n" character and some
-            # ANSI escapes properly, so we have this hack here to make sure the
-            # beginning of each line has the indent character and it's colored
-            # properly. textwrap doesn't have this issue, however, it doesn't wrap
-            # the strings properly as it counts ANSI escapes as literal characters.
-            # TL;DR: I'm sorry.
-            body = "\n".join(
-                [
+            body = wrap_with_ansi_colors(body, columns - len(indent))
+            if indent:
+                # Without explicitly colorizing the indent character, it will lose its
+                # color after a tag appears.
+                body = "\n".join(
                     colorize(indent, self.journal.config["colors"]["body"]) + line
-                    if not ansiwrap.strip_color(line).startswith(indent)
-                    else line
-                    for line in body_text
-                ]
-            )
+                    for line in body.splitlines()
+                )
+
+            body = colorize(body, self.journal.config["colors"]["body"])
         else:
             title = (
                 date_str
