@@ -128,3 +128,17 @@ def format_msg_text(msg: Message) -> Text:
     text = textwrap.dedent(text)
     text = text.strip()
     return Text(text)
+
+
+def wrap_with_ansi_colors(
+    text: str, width: int, indent_text: str = "", drop_whitespace: bool = True
+) -> str:
+    richtext = Text.from_ansi(text, no_wrap=False, tab_size=None)
+    pre_indent_width = width - len(indent_text)
+
+    console = Console(width=pre_indent_width)
+    with console.capture() as capture:
+        console.print(richtext)
+    wrapped_text = capture.get()
+
+    return "\n".join([indent_text + line for line in wrapped_text.splitlines()])

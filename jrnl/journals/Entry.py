@@ -11,6 +11,7 @@ import ansiwrap
 
 from jrnl.color import colorize
 from jrnl.color import highlight_tags_with_background_color
+from jrnl.output import wrap_with_ansi_colors
 
 if TYPE_CHECKING:
     from .Journal import Journal
@@ -129,7 +130,7 @@ class Entry:
                     columns = 79
 
             # Color date / title and bold title
-            title = ansiwrap.fill(
+            title = wrap_with_ansi_colors(
                 date_str
                 + " "
                 + highlight_tags_with_background_color(
@@ -145,16 +146,9 @@ class Entry:
             )
             body_text = [
                 colorize(
-                    ansiwrap.fill(
-                        line,
-                        columns,
-                        initial_indent=indent,
-                        subsequent_indent=indent,
-                        drop_whitespace=True,
-                    ),
+                    wrap_with_ansi_colors(line, columns, indent_text=indent),
                     self.journal.config["colors"]["body"],
                 )
-                or indent
                 for line in body.rstrip(" \n").splitlines()
             ]
 
