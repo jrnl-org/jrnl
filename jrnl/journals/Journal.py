@@ -51,6 +51,10 @@ class Journal:
         self.entries = []
         self.encryption_method = None
 
+        # Track changes to journal in session. Modified is tracked in Entry
+        self.added_entry_count = 0
+        self.deleted_entry_count = 0
+
     def __len__(self):
         """Returns the number of entries"""
         return len(self.entries)
@@ -298,6 +302,7 @@ class Journal:
         """Deletes specific entries from a journal."""
         for entry in entries_to_delete:
             self.entries.remove(entry)
+            self.deleted_entry_count += 1
 
     def change_date_entries(
         self, date: datetime.datetime, entries_to_change: list[Entry]
@@ -378,7 +383,23 @@ class Journal:
         # modified and how many got deleted later.
         for entry in mod_entries:
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
+
+        self.increment_change_counts_by_edit(mod_entries)
+
         self.entries = mod_entries
+
+    def increment_change_counts_by_edit(self, mod_entries: Entry) -> None:
+        if len(mod_entries) > len(self.entries):
+            self.added_entry_count += len(mod_entries) - len(self.entries)
+        else:
+            self.deleted_entry_count += len(self.entries) - len(mod_entries)
+
+    def get_change_counts(self) -> dict:
+        return {
+            "added": self.added_entry_count,
+            "deleted": self.deleted_entry_count,
+            "modified": len([e for e in self.entries if e.modified]),
+        }
 
 
 class LegacyJournal(Journal):

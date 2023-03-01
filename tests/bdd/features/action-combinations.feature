@@ -36,10 +36,8 @@ Feature: Test combinations of edit, change-time, and delete
             Y
         Then the editor should have been called
         And the error output should contain "3 entries found"
-        # 2 deleted minus 1 for the 1 added
-        And the error output should contain "1 entry deleted" 
-        # Added entry counts as modified because it replaced a deleted entry
-        And the error output should contain "1 entry modified"
+        And the error output should contain "2 entries deleted" 
+        And the error output should contain "1 entry added"
         When we run "jrnl -99 --short"
         Then the error output should contain "2 entries found"
         And the output should be
@@ -65,7 +63,7 @@ Feature: Test combinations of edit, change-time, and delete
             N
         Then the error output should contain "3 entries found"
         And the error output should contain "1 entry deleted"
-        And the error output should contain "2 entries modified"
+        And the error output should contain "1 entry modified"
         When we run "jrnl -99 --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
@@ -91,11 +89,9 @@ Feature: Test combinations of edit, change-time, and delete
             Y
             N
         Then the error output should contain "3 entries found"
-        # deleted = 2 deleted minus 1 added by edit = 1
-        # modified = 2 modified by change-time minus 1 of those deleted plus 1 of the deleted replaced by edit = 2
-        # added = 1 added minus 2 deleted = none
-        And the error output should contain "1 entry deleted"
-        And the error output should contain "2 entries modified"
+        And the error output should contain "2 entries deleted"
+        And the error output should contain "1 entry modified" # only 1, because the other was deleted
+        And the error output should contain "1 entry added" # by edit
         When we run "jrnl -99 --short"
         Then the output should be
             2022-04-23 10:30 The third entry finally after weeks without writing.

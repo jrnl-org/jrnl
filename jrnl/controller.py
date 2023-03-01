@@ -79,10 +79,6 @@ def run(args: "Namespace"):
         append_mode(**kwargs)
         return
 
-    # Get stats now for summary later
-    old_stats = _get_predit_stats(journal)
-    logging.debug(f"old_stats: {old_stats}")
-
     # If not append mode, then we're in search mode (only 2 modes exist)
     search_mode(**kwargs)
     entries_found_count = len(journal)
@@ -92,7 +88,7 @@ def run(args: "Namespace"):
     _perform_actions_on_search_results(**kwargs)
 
     if entries_found_count != 0 and _has_action_args(args):
-        _print_edited_summary(journal, old_stats)
+        _print_changed_counts(journal)
     else:
         # display only occurs if no other action occurs
         _display_search_results(**kwargs)
@@ -188,11 +184,7 @@ def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
     logging.debug("Search mode: starting")
 
     # If no search args, then return all results (don't filter anything)
-    if (
-        not _has_search_args(args)
-        and not _has_display_args(args)
-        and not args.text
-    ):
+    if not _has_search_args(args) and not _has_display_args(args) and not args.text:
         logging.debug("Search mode: has no search args")
         return
 
@@ -281,9 +273,7 @@ def _print_entries_found_count(count: int, args: "Namespace") -> None:
 
     logging.debug("Printing general summary")
     my_msg = (
-        MsgText.EntryFoundCountSingular
-        if count == 1
-        else MsgText.EntryFoundCountPlural
+        MsgText.EntryFoundCountSingular if count == 1 else MsgText.EntryFoundCountPlural
     )
     print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
 
@@ -318,7 +308,9 @@ def _edit_search_results(
         edited = get_text_from_editor(config, journal.editable_str())
     except JrnlException as e:
         if e.has_message_text(MsgText.NoTextReceived):
-            raise JrnlException(Message(MsgText.NoEditsReceivedJournalNotDeleted, MsgStyle.WARNING))
+            raise JrnlException(
+                Message(MsgText.NoEditsReceivedJournalNotDeleted, MsgStyle.WARNING)
+            )
         else:
             raise e
 
@@ -330,14 +322,8 @@ def _edit_search_results(
     journal.write()
 
 
-def _print_edited_summary(
-    journal: "Journal", old_stats: dict[str, int], **kwargs
-) -> None:
-    stats = {
-        "added": len(journal) - old_stats["count"],
-        "deleted": old_stats["count"] - len(journal),
-        "modified": len([e for e in journal.entries if e.modified]),
-    }
+def _print_changed_counts(journal: "Journal", **kwargs) -> None:
+    stats = journal.get_change_counts()
     msgs = []
 
     if stats["added"] > 0:
@@ -380,7 +366,7 @@ def _delete_search_results(
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
     journal.entries = old_entries
-    
+
     if entries_to_delete:
         journal.delete_entries(entries_to_delete)
 
