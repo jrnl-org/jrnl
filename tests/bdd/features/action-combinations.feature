@@ -3,11 +3,6 @@
 
 Feature: Test combinations of edit, change-time, and delete
 
-# [x] edit + change-time
-# [x] edit + delete
-# [x] change-time + delete
-# [ ] edit + change-time + delete
-
     Scenario Outline: --change-time with --edit modifies selected entries
         Given we use the config "<config_file>"
         And we write nothing to the editor if opened
