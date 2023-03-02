@@ -14,13 +14,31 @@ if TYPE_CHECKING:
     from jrnl.journals import Entry
 
 
-def get_files(journal_config: str) -> list[str]:
-    """Searches through sub directories starting with journal_config and find all text files"""
+def get_files(journal_path: str) -> list[str]:
+    """Searches through sub directories starting with journal_path and find all text files that look like entries"""
     filenames = []
-    for root, dirnames, f in os.walk(journal_config):
+    for dirpath, dirnames, f in os.walk(journal_path):
         for filename in fnmatch.filter(f, "*.txt"):
-            filenames.append(os.path.join(root, filename))
+            if _should_file_be_opened(journal_path, dirpath, filename):
+                filenames.append(os.path.join(dirpath, filename))
     return filenames
+
+
+def _should_file_be_opened(journal_path: str, dirpath: str, filename: str) -> bool:
+    """Checks whether a file should be opened based on its name and location in the folder journal structure"""
+    if journal_path[-1] in ["\\", "/"]:
+        journal_path = journal_path[:-1]  # no trailing slash
+
+    filename_without_extension = os.path.splitext(filename)[0]
+
+    return (
+        dirpath != journal_path  # don't read any files in top level
+        and os.path.dirname(dirpath) != journal_path  # no files in year
+        and os.path.basename(dirpath).isdigit()  # month dir is numbers
+        and len(os.path.basename(dirpath)) <= 2  # month dir is 1-2 digits
+        and filename_without_extension.isdigit()  # day of the month
+        and len(filename_without_extension) <= 2  # day of the month
+    )
 
 
 class Folder(Journal):
