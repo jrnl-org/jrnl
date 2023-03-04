@@ -101,7 +101,6 @@ def test_get_kv_from_pair():
 
 class TestDotNotationToList:
     def test_unpack_dots_to_list(self):
-
         keys = "a.b.c.d.e.f"
         keys_list = _convert_dots_to_list(keys)
         assert len(keys_list) == 6

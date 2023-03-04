@@ -229,7 +229,6 @@ def test_version_alone():
 
 
 def test_editor_override():
-
     parsed_args = cli_as_dict('--config-override editor "nano"')
     assert parsed_args == expected_args(config_override=[["editor", "nano"]])
 
@@ -293,7 +292,6 @@ class TestDeserialization:
         ],
     )
     def test_deserialize_multiword_strings(self, input_str):
-
         runtime_config = make_yaml_valid_dict(input_str)
         assert runtime_config.__class__ == dict
         assert input_str[0] in runtime_config

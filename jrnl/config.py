@@ -34,7 +34,6 @@ YAML_FILE_ENCODING = "utf-8"
 
 
 def make_yaml_valid_dict(input: list) -> dict:
-
     """
 
     Convert a two-element list of configuration key-value pair into a flat dict.

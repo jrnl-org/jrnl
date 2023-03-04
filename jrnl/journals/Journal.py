@@ -343,7 +343,8 @@ class Journal:
 
     def new_entry(self, raw: str, date=None, sort: bool = True) -> Entry:
         """Constructs a new entry from some raw text input.
-        If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
+        If a date is given, it will parse and use this, otherwise scan for a date in the input first.
+        """
 
         raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
         # Split raw text into title and body

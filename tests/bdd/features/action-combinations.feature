@@ -28,7 +28,7 @@ Feature: Test combinations of edit, change-time, and delete
     Scenario Outline: --delete with --edit deletes selected entries
         Given we use the config "<config_file>"
         And we append to the editor if opened
-        	[2023-02-21 10:32] Here is a new entry
+          [2023-02-21 10:32] Here is a new entry
         And we use the password "test" if prompted
         When we run "jrnl --delete --edit" and enter
             Y
@@ -36,14 +36,14 @@ Feature: Test combinations of edit, change-time, and delete
             Y
         Then the editor should have been called
         And the error output should contain "3 entries found"
-        And the error output should contain "2 entries deleted" 
+        And the error output should contain "2 entries deleted"
         And the error output should contain "1 entry added"
         When we run "jrnl -99 --short"
         Then the error output should contain "2 entries found"
         And the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
             2023-02-21 10:32 Here is a new entry
-            
+
         Examples: Configs
         | config_file        |
         | basic_onefile.yaml |
