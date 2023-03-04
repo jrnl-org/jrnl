@@ -42,11 +42,13 @@
 
 - Document template extension behavior [\#1677](https://github.com/jrnl-org/jrnl/issues/1677)
 - Visual Studio Code may store unencrypted temporary files [\#1675](https://github.com/jrnl-org/jrnl/issues/1675)
+- Document `-tagged`, `-not -tagged`, and `-not -starred` [\#1668](https://github.com/jrnl-org/jrnl/issues/1668)
 - Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
 - Update console examples on jrnl.sh front page [\#1622](https://github.com/jrnl-org/jrnl/issues/1622)
 - Update documentation front page text [\#1698](https://github.com/jrnl-org/jrnl/pull/1698) ([micahellison](https://github.com/micahellison))
 - Support mkdocs 1.4.2 and fix its missing breadcrumb [\#1691](https://github.com/jrnl-org/jrnl/pull/1691) ([micahellison](https://github.com/micahellison))
 - Document temporary file extension behavior when using template [\#1686](https://github.com/jrnl-org/jrnl/pull/1686) ([micahellison](https://github.com/micahellison))
+- Document `-tagged`, `-not -tagged`, and `-not -starred` [\#1684](https://github.com/jrnl-org/jrnl/pull/1684) ([micahellison](https://github.com/micahellison))
 - Update documentation about privacy and security in VSCode [\#1680](https://github.com/jrnl-org/jrnl/pull/1680) ([giuseppedandrea](https://github.com/giuseppedandrea))
 - Update documentation on temporary files naming [\#1673](https://github.com/jrnl-org/jrnl/pull/1673) ([giuseppedandrea](https://github.com/giuseppedandrea))
 - Update docs to include time and title in arguments with `--edit` [\#1657](https://github.com/jrnl-org/jrnl/pull/1657) ([pconrad-fb](https://github.com/pconrad-fb))
