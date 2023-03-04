@@ -76,6 +76,7 @@ Feature: Change entry times in journal
 
     Scenario Outline: Change time flag with nonsense input changes nothing
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time now asdfasdf"
         Then the output should contain "No entries to modify"
         And the error output should not contain "entries modified"
@@ -87,14 +88,16 @@ Feature: Change entry times in journal
             2020-09-24 09:14 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
-        | basic_dayone.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
+        | basic_dayone.yaml     |
 
 
     Scenario Outline: Change time flag with tag only changes tagged entries
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30' @ipsum" and enter
             Y
         Then the error output should contain "1 entry found"
@@ -106,14 +109,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 Entry the first.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with multiple tags changes all entries matching any of the tags
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30'  @ipsum @tagthree" and enter
             Y
             Y
@@ -124,14 +129,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with -and changes boolean AND of tagged entries
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30' -and @tagone @tagtwo" and enter
             Y
         When we run "jrnl -99 --short"
@@ -141,14 +148,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 Entry the first.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with -not does not change entries from given tag
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30' @tagone -not @ipsum" and enter
             Y
         When we run "jrnl -99 --short"
@@ -158,14 +167,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with -from search operator only changes entries since that date
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30' -from 2020-09-01" and enter
             Y
         When we run "jrnl -99 --short"
@@ -175,14 +186,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with -to only changes entries up to specified date
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30' -to 2020-08-31" and enter
             Y
             Y
@@ -193,14 +206,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 A second entry in what I hope to be a long series.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with -starred only changes starred entries
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30' -starred" and enter
             Y
         When we run "jrnl -99 --short"
@@ -210,14 +225,16 @@ Feature: Change entry times in journal
             2022-04-23 10:30 A second entry in what I hope to be a long series.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
     Scenario Outline: Change time flag with -contains only changes entries containing expression
         Given we use the config "<config_file>"
+        And we use the password "test" if prompted
         When we run "jrnl --change-time '2022-04-23 10:30'  -contains dignissim" and enter
             Y
         Then the error output should contain "1 entry modified"
@@ -228,13 +245,14 @@ Feature: Change entry times in journal
             2022-04-23 10:30 Entry the first.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
         # | basic_dayone.yaml  | @todo
 
 
-    Scenario Outline: Change time flag with no enties specified changes nothing
+    Scenario Outline: Change time flag with no entries specified changes nothing
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl --change-time" and enter
@@ -248,9 +266,8 @@ Feature: Change entry times in journal
             2020-09-24 09:14 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
-        | basic_dayone.yaml  |
-
-
+        | config_file           |
+        | basic_onefile.yaml    |
+        | basic_folder.yaml     |
+        | basic_encrypted.yaml  |
+        | basic_dayone.yaml     |
