@@ -3,7 +3,7 @@
 
 from pytest_bdd import scenarios
 
-scenarios("features/action-combinations.feature")
+scenarios("features/actions.feature")
 scenarios("features/build.feature")
 scenarios("features/config_file.feature")
 scenarios("features/core.feature")
