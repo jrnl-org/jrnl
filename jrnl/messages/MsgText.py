@@ -28,6 +28,11 @@ class MsgText(Enum):
 
     AllDoneUpgrade = "We're all done here and you can start enjoying jrnl 2"
 
+    InstallComplete = """
+        jrnl configuration created at {config_path}
+        For advanced features, read the docs at https://jrnl.sh
+    """
+
     # --- Prompts --- #
     InstallJournalPathQuestion = """
         Path to your journal file (leave blank for {default_journal_path}):
