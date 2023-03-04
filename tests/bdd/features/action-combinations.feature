@@ -20,9 +20,10 @@ Feature: Test combinations of edit, change-time, and delete
             2022-04-23 10:30 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_folder.yaml    |
+        | basic_encrypted.yaml |
         # | basic_dayone.yaml    | @todo
 
     Scenario Outline: --delete with --edit deletes selected entries
@@ -45,9 +46,10 @@ Feature: Test combinations of edit, change-time, and delete
             2023-02-21 10:32 Here is a new entry
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_folder.yaml    |
+        | basic_encrypted.yaml |
         # | basic_dayone.yaml    | @todo
 
     Scenario Outline: --change-time with --delete affects appropriate entries
@@ -70,9 +72,10 @@ Feature: Test combinations of edit, change-time, and delete
             2022-04-23 10:30 The third entry finally after weeks without writing.
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_folder.yaml    |
+        | basic_encrypted.yaml |
         # | basic_dayone.yaml    | @todo
 
     Scenario Outline: Combining --change-time and --delete and --edit affects appropriate entries
@@ -98,7 +101,8 @@ Feature: Test combinations of edit, change-time, and delete
             2023-02-21 10:32 Here is a new entry
 
         Examples: Configs
-        | config_file        |
-        | basic_onefile.yaml |
-        | basic_folder.yaml  |
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_folder.yaml    |
+        | basic_encrypted.yaml |
         # | basic_dayone.yaml    | @todo
