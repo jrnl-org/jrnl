@@ -30,6 +30,7 @@
 
 **Build:**
 
+- Support pytest-bdd 6 [\#1534](https://github.com/jrnl-org/jrnl/issues/1534)
 - Update copyright notices for 2023 [\#1660](https://github.com/jrnl-org/jrnl/pull/1660) ([wren](https://github.com/wren))
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
 - Add `simplify` plugin to linting checks [\#1630](https://github.com/jrnl-org/jrnl/pull/1630) ([wren](https://github.com/wren))
@@ -40,6 +41,8 @@
 - Document template extension behavior [\#1677](https://github.com/jrnl-org/jrnl/issues/1677)
 - Visual Studio Code may store unencrypted temporary files [\#1675](https://github.com/jrnl-org/jrnl/issues/1675)
 - Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
+- Update console examples on jrnl.sh front page [\#1622](https://github.com/jrnl-org/jrnl/issues/1622)
+- Update documentation front page text [\#1698](https://github.com/jrnl-org/jrnl/pull/1698) ([micahellison](https://github.com/micahellison))
 - Support mkdocs 1.4.2 and fix its missing breadcrumb [\#1691](https://github.com/jrnl-org/jrnl/pull/1691) ([micahellison](https://github.com/micahellison))
 - Document temporary file extension behavior when using template [\#1686](https://github.com/jrnl-org/jrnl/pull/1686) ([micahellison](https://github.com/micahellison))
 - Update documentation about privacy and security in VSCode [\#1680](https://github.com/jrnl-org/jrnl/pull/1680) ([giuseppedandrea](https://github.com/giuseppedandrea))
