@@ -67,11 +67,56 @@ Windows doesn't log history to disk, but it does keep it in your command prompt
 session. Close the command prompt or press `Alt`+`F7` to clear your history
 after journaling.
 
+## Files in transit from editor to jrnl
+
+When creating or editing an entry, `jrnl` uses a unencrypted temporary file on
+disk in order to give your editor access to your journal. After you close your
+editor, `jrnl` then deletes this temporary file.
+
+So, if you have saved a journal entry but haven't closed your editor yet, the
+unencrypted temporary remains on your disk. If your computer were to shut off
+during this time, or the `jrnl` process were killed unexpectedly, then the
+unencrypted temporary file will remain on your disk. You can mitigate this
+issue by only saving with your editor right before closing it. You can also
+manually delete these files from your temporary folder. By default, they
+are named `jrnl*.jrnl`, but if you use a
+[template](reference-config-file.md#template), they will have the same
+extension as the template.
+
 ## Editor history
 
 Some editors keep usage history stored on disk for future use. This can be a
 security risk in the sense that sensitive information can leak via recent
 search patterns or editor commands.
+
+### Visual Studio Code
+
+Visual Studio Code stores the contents of saved files to allow you to restore or
+review the contents later. You can disable this feature for all files by unchecking
+the `workbench.localHistory.enabled` setting in the
+[Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
+
+Alternatively, you can disable this feature for specific files by configuring a
+[pattern](https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options)
+in the `workbench.localHistory.exclude` setting. To exclude unencrypted temporary files generated
+by `jrnl`, you can set the `**/jrnl*.jrnl` (unless you are using a
+[template](reference-config-file.md#template)) pattern for the `workbench.localHistory.exclude` setting
+in the [Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
+
+!!! note
+    On Windows, the history location is typically found at
+    `%APPDATA%\Code\User\History`.
+
+Visual Studio Code also creates a copy of all unsaved files that are open.
+It stores these copies in a backup location that's automatically cleaned when
+you save the file. However, if your computer shuts off before you save the file,
+or the Visual Studio Code process stops unexpectedly, then an unencrypted
+temporary file may remain on your disk. You can manually delete these files
+from the backup location.
+
+!!! note
+    On Windows, the backup location is typically found at
+    `%APPDATA%\Code\Backups`.
 
 ### Vim
 
@@ -101,7 +146,11 @@ autocommand can be used. Place this in your `~/.vimrc`:
 autocmd BufNewFile,BufReadPre *.jrnl setlocal viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
 ```
 
-Please see `:h <option>` in Vim for more information about the options mentioned.
+!!! note
+    If you're using a [template](reference-config-file.md#template), you will
+    have to use the template's file extension instead of `.jrnl`.
+
+See `:h <option>` in Vim for more information about the options mentioned.
 
 ### Neovim
 
@@ -143,21 +192,11 @@ vim.api.nvim_create_autocmd( {"BufNewFile","BufReadPre" }, {
 })
 ```
 
+!!! note
+    If you're using a [template](reference-config-file.md#template), you will
+    have to use the template's file extension instead of `.jrnl`.
+
 Please see `:h <option>` in Neovim for more information about the options mentioned.
-
-## Files in transit from editor to jrnl
-
-When creating or editing an entry, `jrnl` uses a unencrypted temporary file on
-disk in order to give your editor access to your journal. After you close your
-editor, `jrnl` then deletes this temporary file.
-
-So, if you have saved a journal entry but haven't closed your editor yet, the
-unencrypted temporary remains on your disk. If your computer were to shut off
-during this time, or the `jrnl` process were killed unexpectedly, then the
-unencrypted temporary file will remain on your disk. You can mitigate this
-issue by only saving with your editor right before closing it. You can also
-manually delete these files (i.e. files named `jrnl*.jrnl`) from your temporary
-folder.
 
 ## Plausible deniability
 
@@ -177,7 +216,6 @@ behavior depending on your operating system.
 In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
 and can be accessed by any other application running under your username. If this is
 a concern for you, you may not want to store your password.
-
 
 ## Notice any other risks?
 

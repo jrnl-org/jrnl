@@ -6,7 +6,11 @@
 
 **Implemented enhancements:**
 
+- Display locations of config file and documentation after initial install [\#1694](https://github.com/jrnl-org/jrnl/issues/1694)
 - Don't import cryptography package if not needed [\#1521](https://github.com/jrnl-org/jrnl/issues/1521)
+- Add message with config location and docs location when installation is complete [\#1695](https://github.com/jrnl-org/jrnl/pull/1695) ([micahellison](https://github.com/micahellison))
+- Prompt to include colors in config when first running jrnl [\#1687](https://github.com/jrnl-org/jrnl/pull/1687) ([micahellison](https://github.com/micahellison))
+- Search for entries with no tags or stars with `-not -starred` and `-not -tagged` [\#1663](https://github.com/jrnl-org/jrnl/pull/1663) ([cjcon90](https://github.com/cjcon90))
 - Refactor flow for easier access to some files \(avoid things like `jrnl.Journal.Journal` and `jrnl.jrnl` co-existing\) [\#1662](https://github.com/jrnl-org/jrnl/pull/1662) ([wren](https://github.com/wren))
 - Add more type hints [\#1642](https://github.com/jrnl-org/jrnl/pull/1642) ([outa](https://github.com/outa))
 - Add `rich` handler to debug logging [\#1627](https://github.com/jrnl-org/jrnl/pull/1627) ([wren](https://github.com/wren))
@@ -16,6 +20,8 @@
 
 - Templated entries should not be saved if the raw text is identical to the original template  [\#1652](https://github.com/jrnl-org/jrnl/issues/1652)
 - jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
+- jrnl should not create 0-length "encrypted" file on startup [\#1493](https://github.com/jrnl-org/jrnl/issues/1493)
+- Save empty journal on install instead of just creating a zero-length file [\#1690](https://github.com/jrnl-org/jrnl/pull/1690) ([micahellison](https://github.com/micahellison))
 - Don't save templated journal entries if the received raw text is the same as the template itself [\#1653](https://github.com/jrnl-org/jrnl/pull/1653) ([Briscoooe](https://github.com/Briscoooe))
 - Add tag to XML file when edited DayOne entry and is searchable afterward [\#1648](https://github.com/jrnl-org/jrnl/pull/1648) ([jonakeys](https://github.com/jonakeys))
 - Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
@@ -26,6 +32,7 @@
 
 **Build:**
 
+- Support pytest-bdd 6 [\#1534](https://github.com/jrnl-org/jrnl/issues/1534)
 - Update copyright notices for 2023 [\#1660](https://github.com/jrnl-org/jrnl/pull/1660) ([wren](https://github.com/wren))
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
 - Add `simplify` plugin to linting checks [\#1630](https://github.com/jrnl-org/jrnl/pull/1630) ([wren](https://github.com/wren))
@@ -33,7 +40,16 @@
 
 **Documentation:**
 
+- Document template extension behavior [\#1677](https://github.com/jrnl-org/jrnl/issues/1677)
+- Visual Studio Code may store unencrypted temporary files [\#1675](https://github.com/jrnl-org/jrnl/issues/1675)
+- Document `-tagged`, `-not -tagged`, and `-not -starred` [\#1668](https://github.com/jrnl-org/jrnl/issues/1668)
 - Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
+- Update console examples on jrnl.sh front page [\#1622](https://github.com/jrnl-org/jrnl/issues/1622)
+- Update documentation front page text [\#1698](https://github.com/jrnl-org/jrnl/pull/1698) ([micahellison](https://github.com/micahellison))
+- Support mkdocs 1.4.2 and fix its missing breadcrumb [\#1691](https://github.com/jrnl-org/jrnl/pull/1691) ([micahellison](https://github.com/micahellison))
+- Document temporary file extension behavior when using template [\#1686](https://github.com/jrnl-org/jrnl/pull/1686) ([micahellison](https://github.com/micahellison))
+- Document `-tagged`, `-not -tagged`, and `-not -starred` [\#1684](https://github.com/jrnl-org/jrnl/pull/1684) ([micahellison](https://github.com/micahellison))
+- Update documentation about privacy and security in VSCode [\#1680](https://github.com/jrnl-org/jrnl/pull/1680) ([giuseppedandrea](https://github.com/giuseppedandrea))
 - Update documentation on temporary files naming [\#1673](https://github.com/jrnl-org/jrnl/pull/1673) ([giuseppedandrea](https://github.com/giuseppedandrea))
 - Update docs to include time and title in arguments with `--edit` [\#1657](https://github.com/jrnl-org/jrnl/pull/1657) ([pconrad-fb](https://github.com/pconrad-fb))
 - Fix markup in "Advanced Usage" doc [\#1655](https://github.com/jrnl-org/jrnl/pull/1655) ([multani](https://github.com/multani))

@@ -5,6 +5,9 @@ theme:
   custom_dir: docs_theme
   static_templates:
       - index.html
+watch:
+  - docs
+  - docs_theme
 extra_css:
     - https://fonts.googleapis.com/css?family=Open+Sans:300,600
     - assets/colors.css

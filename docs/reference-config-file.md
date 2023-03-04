@@ -59,7 +59,9 @@ value for journals that already have data in them.
 
 ### template
 The path to a text file to use as a template for new entries. Only works when you
-have the `editor` field configured.
+have the `editor` field configured. If you use a template, the editor's
+[temporary files](privacy-and-security.md#files-in-transit-from-editor-to-jrnl)
+will have the same extension as the template.
 
 ### tagsymbols
 Symbols to be interpreted as tags.

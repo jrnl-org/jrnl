@@ -250,7 +250,10 @@ def _filter_journal_entries(args: "Namespace", journal: "Journal", **kwargs) -> 
         end_date=args.end_date,
         strict=args.strict,
         starred=args.starred,
+        tagged=args.tagged,
         exclude=args.excluded,
+        exclude_starred=args.exclude_starred,
+        exclude_tagged=args.exclude_tagged,
         contains=args.contains,
     )
     journal.limit(args.limit)
@@ -419,7 +422,10 @@ def _has_search_args(args: "Namespace") -> bool:
     return any(
         (
             args.contains,
-            args.excluded,  # -not
+            args.tagged,
+            args.excluded,
+            args.exclude_starred,
+            args.exclude_tagged,
             args.end_date,
             args.today_in_history,
             args.month,
