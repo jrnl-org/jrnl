@@ -38,6 +38,7 @@ class Folder(Journal):
                 with codecs.open(filename, "r", "utf-8") as f:
                     journal = f.read()
                     self.entries.extend(self._parse(journal))
+            self.sort()
 
         return self
 
