@@ -113,11 +113,20 @@ def get_default_config() -> dict[str, Any]:
         "linewrap": 79,
         "indent_character": "|",
         "colors": {
-            "date": "none",
-            "title": "none",
             "body": "none",
+            "date": "none",
             "tags": "none",
+            "title": "none",
         },
+    }
+
+
+def get_default_colors() -> dict[str, Any]:
+    return {
+        "body": "none",
+        "date": "black",
+        "tags": "yellow",
+        "title": "cyan",
     }
 
 

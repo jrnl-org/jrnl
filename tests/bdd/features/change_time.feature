@@ -25,13 +25,16 @@ Feature: Change entry times in journal
     Scenario Outline: Change flag changes prompted entries
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
-        When we run "jrnl -1"
-        Then the output should contain "2020-09-24 09:14 The third entry finally"
+        When we run "jrnl --short"
+        Then the output should be
+            2020-08-29 11:11 Entry the first.
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            2020-09-24 09:14 The third entry finally after weeks without writing.
         When we run "jrnl --change-time '2022-04-23 10:30'" and enter
             Y
             N
             Y
-        When we run "jrnl -99 --short"
+        When we run "jrnl --short"
         Then the output should be
             2020-08-31 14:32 A second entry in what I hope to be a long series.
             2022-04-23 10:30 Entry the first.

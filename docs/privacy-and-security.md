@@ -78,8 +78,125 @@ unencrypted temporary remains on your disk. If your computer were to shut off
 during this time, or the `jrnl` process were killed unexpectedly, then the
 unencrypted temporary file will remain on your disk. You can mitigate this
 issue by only saving with your editor right before closing it. You can also
-manually delete these files (i.e. files named `jrnl_*.txt`) from your temporary
-folder.
+manually delete these files from your temporary folder. By default, they
+are named `jrnl*.jrnl`, but if you use a
+[template](reference-config-file.md#template), they will have the same
+extension as the template.
+
+## Editor history
+
+Some editors keep usage history stored on disk for future use. This can be a
+security risk in the sense that sensitive information can leak via recent
+search patterns or editor commands.
+
+### Visual Studio Code
+
+Visual Studio Code stores the contents of saved files to allow you to restore or
+review the contents later. You can disable this feature for all files by unchecking
+the `workbench.localHistory.enabled` setting in the
+[Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
+
+Alternatively, you can disable this feature for specific files by configuring a
+[pattern](https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options)
+in the `workbench.localHistory.exclude` setting. To exclude unencrypted temporary files generated
+by `jrnl`, you can set the `**/jrnl*.jrnl` (unless you are using a
+[template](reference-config-file.md#template)) pattern for the `workbench.localHistory.exclude` setting
+in the [Settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
+
+!!! note
+    On Windows, the history location is typically found at
+    `%APPDATA%\Code\User\History`.
+
+Visual Studio Code also creates a copy of all unsaved files that are open.
+It stores these copies in a backup location that's automatically cleaned when
+you save the file. However, if your computer shuts off before you save the file,
+or the Visual Studio Code process stops unexpectedly, then an unencrypted
+temporary file may remain on your disk. You can manually delete these files
+from the backup location.
+
+!!! note
+    On Windows, the backup location is typically found at
+    `%APPDATA%\Code\Backups`.
+
+### Vim
+
+Vim stores progress data in a so called Viminfo file located at `~/.viminfo`
+which contains all sorts of user data including command line history, search
+string history, search/substitute patterns, contents of register etc. Also to
+be able to recover opened files after an unexpected application close Vim uses
+swap files.
+
+These options as well as other leaky features can be disabled by setting the
+`editor` key in the Jrnl settings like this:
+
+``` yaml
+editor: "vim -c 'set viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'"
+```
+
+To disable all plugins and custom configurations and start Vim with the default
+configuration `-u NONE` can be passed on the command line as well. This will
+ensure that any rogue plugins or other difficult to catch information leaks are
+eliminated. The downside to this is that the editor experience will decrease
+quite a bit.
+
+To instead let Vim automatically detect when a Jrnl file is being edited an
+autocommand can be used. Place this in your `~/.vimrc`:
+
+``` vim
+autocmd BufNewFile,BufReadPre *.jrnl setlocal viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
+```
+
+!!! note
+    If you're using a [template](reference-config-file.md#template), you will
+    have to use the template's file extension instead of `.jrnl`.
+
+See `:h <option>` in Vim for more information about the options mentioned.
+
+### Neovim
+
+Neovim strives to be mostly compatible with Vim and has therefore similar
+functionality as Vim. One difference in Neovim is that the Viminfo file is
+instead called the ShaDa ("shared data") file which resides in
+`~/.local/state/nvim` (`~/.local/share/nvim` pre Neovim v0.8.0). The ShaDa file
+can be disabled in the same way as for Vim.
+
+``` yaml
+editor: "nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'"
+```
+
+`-u NONE` can be passed here as well to start a session with the default configs.
+
+As for Vim above we can create an autocommand in Vimscript:
+
+``` vim
+autocmd BufNewFile,BufReadPre *.jrnl setlocal shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
+```
+
+or the same but in Lua:
+
+``` lua
+vim.api.nvim_create_autocmd( {"BufNewFile","BufReadPre" }, {
+  group = vim.api.nvim_create_augroup("PrivateJrnl", {}),
+  pattern = "*.jrnl",
+  callback = function()
+    vim.o.shada = ""
+    vim.o.swapfile = false
+    vim.o.undofile = false
+    vim.o.backup = false
+    vim.o.writebackup = false
+    vim.o.shelltemp = false
+    vim.o.history = 0
+    vim.o.modeline = false
+    vim.o.secure = true
+  end,
+})
+```
+
+!!! note
+    If you're using a [template](reference-config-file.md#template), you will
+    have to use the template's file extension instead of `.jrnl`.
+
+Please see `:h <option>` in Neovim for more information about the options mentioned.
 
 ## Plausible deniability
 
@@ -99,7 +216,6 @@ behavior depending on your operating system.
 In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
 and can be accessed by any other application running under your username. If this is
 a concern for you, you may not want to store your password.
-
 
 ## Notice any other risks?
 

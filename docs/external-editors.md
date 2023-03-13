@@ -37,6 +37,9 @@ jrnl yesterday: All my troubles seemed so far away. --edit
 
 All editors must be [blocking processes](https://en.wikipedia.org/wiki/Blocking_(computing)) to work with jrnl. Some editors, such as [micro](https://micro-editor.github.io/), are blocking by default, though others can be made to block with additional arguments, such as many of those documented below. If jrnl opens your editor but finishes running immediately, then your editor is not a blocking process, and you may be able to correct that with one of the suggestions below.
 
+Please see [this section](./privacy-and-security.md#editor-history) about how
+your editor might leak sensitive information and how to mitigate that risk.
+
 ## Sublime Text
 
 To use [Sublime Text](https://www.sublimetext.com/), install the command line
@@ -69,6 +72,17 @@ back to journal. In the case of MacVim, this is `-f`:
 
 ```yaml
 editor: "mvim -f"
+```
+
+## Vim/Neovim
+
+To use any of the Vim derivatives as editor in Linux, simply set the `editor`
+to the executable:
+
+```yaml
+editor: "vim"
+# or
+editor: "nvim"
 ```
 
 ## iA Writer

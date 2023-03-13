@@ -32,17 +32,6 @@ def does_directory_contain_n_files(directory_path, number):
     return int(number) == count
 
 
-def parse_should_or_should_not(should_or_should_not):
-    if should_or_should_not == "should":
-        return True
-    elif should_or_should_not == "should not":
-        return False
-    else:
-        raise Exception(
-            "should_or_should_not valid values are 'should' or 'should not'"
-        )
-
-
 def assert_equal_tags_ignoring_order(
     actual_line, expected_line, actual_content, expected_content
 ):
@@ -81,7 +70,7 @@ def spy_wrapper(wrapped_function):
 
 
 def get_fixture(request, name, default=None):
-    result = default
-    if name in request.node.fixturenames:
-        result = request.getfixturevalue(name)
-    return result
+    try:
+        return request.getfixturevalue(name)
+    except LookupError:
+        return default

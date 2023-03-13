@@ -19,7 +19,6 @@ from jrnl.time import __get_pdt_calendar
 from tests.lib.fixtures import FailedKeyring
 from tests.lib.fixtures import NoKeyring
 from tests.lib.fixtures import TestKeyring
-from tests.lib.helpers import get_fixture
 
 
 @given(parse("we {editor_method} to the editor if opened\n{editor_input}"))
@@ -84,16 +83,16 @@ def we_have_type_of_keyring(keyring_type):
             return TestKeyring()
 
 
-@given(parse('we use the config "{config_file}"'), target_fixture="config_path")
 @given(parse("we use no config"), target_fixture="config_path")
-def we_use_the_config(request, temp_dir, working_dir):
-    config_file = get_fixture(request, "config_file")
+def we_use_no_config(temp_dir):
+    os.chdir(temp_dir.name)  # @todo move this step to a more universal place
+    return os.path.join(temp_dir.name, "non_existing_config.yaml")
 
+
+@given(parse('we use the config "{config_file}"'), target_fixture="config_path")
+def we_use_the_config(request, temp_dir, working_dir, config_file):
     # Move into temp dir as cwd
-    os.chdir(temp_dir.name)
-
-    if not config_file:
-        return os.path.join(temp_dir.name, "non_existing_config.yaml")
+    os.chdir(temp_dir.name)  # @todo move this step to a more universal place
 
     # Copy the config file over
     config_source = os.path.join(working_dir, "data", "configs", config_file)
@@ -133,7 +132,7 @@ def config_exists(config_file, temp_dir, working_dir):
     shutil.copy2(config_source, config_dest)
 
 
-@given(parse('we use the password "{password}" if prompted'))
+@given(parse('we use the password "{password}" if prompted'), target_fixture="password")
 def use_password_forever(password):
     return password
 

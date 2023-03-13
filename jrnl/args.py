@@ -28,6 +28,43 @@ class WrappingFormatter(argparse.RawTextHelpFormatter):
         return text
 
 
+class IgnoreNoneAppendAction(argparse._AppendAction):
+    """
+    Pass -not without a following string and avoid appending
+    a None value to the excluded list
+    """
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if values is not None:
+            super().__call__(parser, namespace, values, option_string)
+
+
+def parse_not_arg(
+    args: list[str], parsed_args: argparse.Namespace, parser: argparse.ArgumentParser
+) -> argparse.Namespace:
+    """
+    It's possible to use -not as a precursor to -starred and -tagged
+    to reverse their behaviour, however this requires some extra logic
+    to parse, and to ensure we still do not allow passing an empty -not
+    """
+
+    parsed_args.exclude_starred = False
+    parsed_args.exclude_tagged = False
+
+    if "-not-starred" in "".join(args):
+        parsed_args.starred = False
+        parsed_args.exclude_starred = True
+    if "-not-tagged" in "".join(args):
+        parsed_args.tagged = False
+        parsed_args.exclude_tagged = True
+    if "-not" in args and not any(
+        [parsed_args.exclude_starred, parsed_args.exclude_tagged, parsed_args.excluded]
+    ):
+        parser.error("argument -not: expected 1 argument")
+
+    return parsed_args
+
+
 def parse_args(args: list[str] = []) -> argparse.Namespace:
     """
     Argument parsing that is doable before the config is available.
@@ -177,7 +214,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     composing.add_argument(
         "--template",
         dest="template",
-        help="Path to template file. Can be a local path, absolute path, or a path relative to $JRNL_TEMPLATE_DIR",
+        help="Path to template file. Can be a local path, absolute path, or a path relative to $XDG_DATA_HOME/jrnl/templates/",
     )
 
     read_msg = (
@@ -243,6 +280,12 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         help="Show only starred entries (marked with *)",
     )
     reading.add_argument(
+        "-tagged",
+        dest="tagged",
+        action="store_true",
+        help="Show only entries that have at least one tag",
+    )
+    reading.add_argument(
         "-n",
         dest="limit",
         default=None,
@@ -254,11 +297,15 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     reading.add_argument(
         "-not",
         dest="excluded",
-        nargs=1,
+        nargs="?",
         default=[],
-        metavar="TAG",
-        action="extend",
-        help="Exclude entries with this tag",
+        metavar="TAG/FLAG",
+        action=IgnoreNoneAppendAction,
+        help=(
+            "If passed a string, will exclude entries with that tag. "
+            "Can be also used before -starred or -tagged flags, to exclude "
+            "starred or tagged entries respectively."
+        ),
     )
 
     search_options_msg = """    These help you do various tasks with the selected entries from your search.
@@ -393,5 +440,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
+    parsed_args = parser.parse_intermixed_args(args)
+    parsed_args = parse_not_arg(args, parsed_args, parser)
 
-    return parser.parse_intermixed_args(args)
+    return parsed_args

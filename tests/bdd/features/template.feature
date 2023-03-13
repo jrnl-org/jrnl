@@ -6,9 +6,12 @@ Feature: Using templates
     Scenario Outline: Template contents should be used in new entry
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
+        And we append to the editor if opened
+            This is an addition to a templated entry
         When we run "jrnl --config-override template features/templates/basic.template"
         And we run "jrnl -1"
         Then the output should contain "This text is in the basic template"
+        Then the output should contain "This is an addition to a templated entry"
 
         Examples: configs
         | config_file          |
@@ -87,4 +90,5 @@ Feature: Using templates
         | basic_onefile.yaml   |
         | basic_encrypted.yaml |
         | basic_folder.yaml    |
+        | basic_dayone.yaml    |
         | basic_dayone.yaml    |

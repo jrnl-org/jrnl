@@ -90,6 +90,8 @@ def _is_write_mode(args: "Namespace", config: dict, **kwargs) -> bool:
             args.edit,
             args.change_time,
             args.excluded,
+            args.exclude_starred,
+            args.exclude_tagged,
             args.export,
             args.end_date,
             args.today_in_history,
@@ -102,6 +104,7 @@ def _is_write_mode(args: "Namespace", config: dict, **kwargs) -> bool:
             args.starred,
             args.start_date,
             args.strict,
+            args.tagged,
             args.tags,
         )
     )
@@ -206,7 +209,9 @@ def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> N
         # Read template file and pass as raw text into the composer
         template_data = _read_template_file(args.template, config["template"])
         raw = _write_in_editor(config, template_data)
-
+        if raw == template_data:
+            logging.error("Write mode: raw text was the same as the template")
+            raise JrnlException(Message(MsgText.NoChangesToTemplate, MsgStyle.NORMAL))
     elif args.text:
         logging.debug(f"Write mode: cli text detected: {args.text}")
         raw = " ".join(args.text).strip()
@@ -317,7 +322,10 @@ def _has_search_args(args: "Namespace") -> bool:
             args.end_date,
             args.strict,
             args.starred,
+            args.tagged,
             args.excluded,
+            args.exclude_starred,
+            args.exclude_tagged,
             args.contains,
             args.limit,
         )
@@ -343,7 +351,10 @@ def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> No
         end_date=args.end_date,
         strict=args.strict,
         starred=args.starred,
+        tagged=args.tagged,
         exclude=args.excluded,
+        exclude_starred=args.exclude_starred,
+        exclude_tagged=args.exclude_tagged,
         contains=args.contains,
     )
     journal.limit(args.limit)
