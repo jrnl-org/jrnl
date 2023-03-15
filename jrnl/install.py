@@ -154,6 +154,15 @@ def install() -> dict:
         default_config["colors"] = get_default_colors()
 
     save_config(default_config)
+
+    print_msg(
+        Message(
+            MsgText.InstallComplete,
+            MsgStyle.NORMAL,
+            params={"config_path": get_config_path()},
+        )
+    )
+
     return default_config
 
 

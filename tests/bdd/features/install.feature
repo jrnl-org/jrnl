@@ -6,7 +6,9 @@ Feature: Installing jrnl
             \n
             \n
             \n
-        Then the output should contain "Journal 'default' created"
+        Then the output should contain "jrnl configuration created at"
+        And the output should contain "For advanced features, read the docs at https://jrnl.sh"
+        And the output should contain "Journal 'default' created"
         And the default journal "journal.txt" should be in the "." directory
         And the config should contain "encrypt: false"
         And the version in the config file should be up-to-date
