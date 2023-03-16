@@ -135,5 +135,5 @@ def wrap_with_ansi_colors(text: str, width: int) -> str:
 
     console = Console(width=width)
     with console.capture() as capture:
-        console.print(richtext)
+        console.print(richtext, sep="", end="")
     return capture.get()
