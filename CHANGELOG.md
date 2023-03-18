@@ -58,6 +58,7 @@
 **Packaging:**
 
 - Update dependency tzlocal to v4.3 [\#1708](https://github.com/jrnl-org/jrnl/pull/1708) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v39.0.2 [\#1701](https://github.com/jrnl-org/jrnl/pull/1701) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13 [\#1654](https://github.com/jrnl-org/jrnl/pull/1654) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
