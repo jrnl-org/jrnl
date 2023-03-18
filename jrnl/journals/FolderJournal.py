@@ -137,7 +137,7 @@ class Folder(Journal):
         for child in path.iterdir():
             if (
                 child.stem in Folder.DAY_FILE_STEMS
-                and child.suffix.lower() == ".txt"
+                and child.match("*.txt")
                 and child.is_file()
             ):
                 yield str(child)
