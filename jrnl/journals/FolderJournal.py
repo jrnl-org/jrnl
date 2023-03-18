@@ -115,24 +115,28 @@ class Folder(Journal):
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
         self.entries = mod_entries
 
+    @staticmethod
     def _get_files(journal_path: str) -> list[str]:
         """Searches through sub directories starting with journal_path and find all text files that look like entries"""
         for year_folder in Folder._get_year_folders(pathlib.Path(journal_path)):
             for month_folder in Folder._get_month_folders(year_folder):
                 yield from Folder._get_day_files(month_folder)
 
+    @staticmethod
     def _get_year_folders(path: pathlib.Path) -> list[pathlib.Path]:
         for child in path.iterdir():
             if child.name.isdigit() and len(child.name) == 4 and child.is_dir():
                 yield child
         return
 
+    @staticmethod
     def _get_month_folders(path: pathlib.Path) -> list[pathlib.Path]:
         for child in path.iterdir():
             if child.name in Folder.MONTH_FOLDERS and path.is_dir():
                 yield child
         return
 
+    @staticmethod
     def _get_day_files(path: pathlib.Path) -> list[str]:
         for child in path.iterdir():
             if (
