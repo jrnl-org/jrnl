@@ -604,14 +604,14 @@ flake8 = ">=3.7"
 
 [[package]]
 name = "flake8-type-checking"
-version = "2.3.0"
+version = "2.3.1"
 description = "A flake8 plugin for managing type-checking imports & forward references"
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "flake8_type_checking-2.3.0-py3-none-any.whl", hash = "sha256:7117b8a22d64db02f9d8c724df5d2517e59c6290b034cfa54496c7ae73c07f51"},
-    {file = "flake8_type_checking-2.3.0.tar.gz", hash = "sha256:f802c9933b2a98b96fc4a0b3b90ef0f8379625f867cb73633c09fc2bf746333b"},
+    {file = "flake8_type_checking-2.3.1-py3-none-any.whl", hash = "sha256:4088d9c3b5c8c431d78bb3a6914ddf3cae9a04856b120290f1531f0a0e140c50"},
+    {file = "flake8_type_checking-2.3.1.tar.gz", hash = "sha256:b4c6e5f4fb8309b6fc1c9cec1c6446583d2de94a4a3f25769759d637df0f6574"},
 ]
 
 [package.dependencies]
