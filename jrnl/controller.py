@@ -187,7 +187,7 @@ def _get_template(args, config) -> str:
 
     template_text = None
 
-    if (template_path):
+    if template_path:
         template_text = read_template_file(template_path)
 
     return template_text
