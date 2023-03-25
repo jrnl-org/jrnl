@@ -278,7 +278,7 @@ def _write_in_editor(config: dict, prepopulated_text: str | None = None) -> str:
 
 
 
-def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> None:
+def _filter_journal_entries(args: "Namespace", journal: "Journal", **kwargs) -> None:
     """Filter journal entries in-place based upon search args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
