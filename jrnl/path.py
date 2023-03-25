@@ -6,8 +6,6 @@ from pathlib import Path
 
 import xdg.BaseDirectory
 
-from jrnl.config import DEFAULT_CONFIG_NAME
-from jrnl.config import DEFAULT_JOURNAL_NAME
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -15,6 +13,8 @@ from jrnl.messages import MsgText
 
 # Constants
 XDG_RESOURCE = "jrnl"
+DEFAULT_CONFIG_NAME = "jrnl.yaml"
+DEFAULT_JOURNAL_NAME = "journal.txt"
 
 
 def home_dir() -> str:

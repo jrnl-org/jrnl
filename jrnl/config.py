@@ -23,9 +23,6 @@ from jrnl.path import get_config_path
 from jrnl.path import get_default_journal_path
 
 # Constants
-DEFAULT_CONFIG_NAME = "jrnl.yaml"
-
-DEFAULT_JOURNAL_NAME = "journal.txt"
 DEFAULT_JOURNAL_KEY = "default"
 
 YAML_SEPARATOR = ": "
