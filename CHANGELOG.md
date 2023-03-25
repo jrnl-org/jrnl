@@ -57,6 +57,16 @@
 
 **Packaging:**
 
+- Update dependency cryptography to v40 [\#1710](https://github.com/jrnl-org/jrnl/pull/1710) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.19.0 [\#1709](https://github.com/jrnl-org/jrnl/pull/1709) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tzlocal to v4.3 [\#1708](https://github.com/jrnl-org/jrnl/pull/1708) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.4.7 [\#1707](https://github.com/jrnl-org/jrnl/pull/1707) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.3.2 [\#1706](https://github.com/jrnl-org/jrnl/pull/1706) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.2.1 [\#1705](https://github.com/jrnl-org/jrnl/pull/1705) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.2.2 [\#1704](https://github.com/jrnl-org/jrnl/pull/1704) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ipdb to v0.13.13 [\#1703](https://github.com/jrnl-org/jrnl/pull/1703) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flake8-type-checking to v2.3.1 [\#1702](https://github.com/jrnl-org/jrnl/pull/1702) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v39.0.2 [\#1701](https://github.com/jrnl-org/jrnl/pull/1701) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13 [\#1654](https://github.com/jrnl-org/jrnl/pull/1654) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)

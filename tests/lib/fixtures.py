@@ -89,6 +89,7 @@ def cli_run(
     mock_user_input,
     mock_overrides,
     mock_default_journal_path,
+    mock_default_templates_path,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -98,6 +99,7 @@ def cli_run(
     mock_factories.update(mock_config_path)
     mock_factories.update(mock_user_input)
     mock_factories.update(mock_default_journal_path)
+    mock_factories.update(mock_default_templates_path)
 
     return {
         "status": 0,
@@ -175,6 +177,16 @@ def mock_default_journal_path(temp_dir):
         ),
         "default_journal_path_config": lambda: patch(
             "jrnl.config.get_default_journal_path", return_value=journal_path
+        ),
+    }
+
+
+@fixture
+def mock_default_templates_path(temp_dir):
+    templates_path = Path(temp_dir.name, "templates")
+    return {
+        "get_templates_path": lambda: patch(
+            "jrnl.controller.get_templates_path", return_value=templates_path
         ),
     }
 

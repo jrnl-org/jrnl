@@ -42,6 +42,7 @@ def expected_args(**kwargs):
         "strict": False,
         "tagged": False,
         "tags": False,
+        "template": None,
         "text": [],
         "config_override": [],
         "config_file_path": "",

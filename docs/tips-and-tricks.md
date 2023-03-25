@@ -74,48 +74,51 @@ jrnlimport () {
 }
 ```
 
-## Using templates
+## Using Templates
 
 !!! note
     Templates require an [external editor](./advanced.md) be configured.
 
-A template is a code snippet that makes it easier to use repeated text
-each time a new journal entry is started. There are two ways you can utilize
-templates in your entries.
+Templates are text files that are used for creating structured journals.
+There are three ways you can use templates:
 
-### 1. Command line arguments
+### 1. Use the `--template` command line argument and the default $XDG_DATA_HOME/jrnl/templates directory
 
-If you had a `template.txt` file with the following contents:
+`$XDG_DATA_HOME/jrnl/templates` is created by default to store your templates! Create a template (like `default.md`) in this directory and pass `--template FILE_IN_DIR`.
 
 ```sh
+jrnl --template default.md
+```
+
+### 2. Use the `--template` command line argument with a local / absolute path
+
+You can create a template file with any text. Here is an example:
+
+```sh
+# /tmp/template.txt
 My Personal Journal
 Title:
 
 Body:
 ```
 
-The `template.txt` file could be used to create a new entry with these
-command line arguments:
+Then, pass the absolute or relative path to the template file as an argument, and your external
+editor will open and have your template pre-populated.
 
 ```sh
-jrnl < template.txt     # Imports template.txt as the most recent entry
-jrnl -1 --edit          # Opens the most recent entry in the editor
+jrnl --template /tmp/template.md
 ```
 
-### 2. Include the template file in `jrnl.yaml`
+### 3. Set a default template file in `jrnl.yaml`
 
-A more efficient way to work with a template file is to declare the file
-in your [config file](./reference-config-file.md) by changing the `template`
-setting from `false` to the template file's path in double quotes:
+If you want a template by default, change the value of `template` in the [config file](./reference-config-file.md)
+from `false` to the template file's path, wrapped in double quotes:
 
 ```sh
 ...
 template: "/path/to/template.txt"
 ...
 ```
-
-Changes can be saved as you continue writing the journal entry and will be
-logged as a new entry in the journal you specified in the original argument.
 
 !!! tip
     To read your journal entry or to verify the entry saved, you can use this
@@ -219,4 +222,3 @@ To cause vi to jump to the end of the last line of the entry you edit, in your c
 ```yaml
 editor: vi + -c "call cursor('.',strwidth(getline('.')))"
 ```
-
