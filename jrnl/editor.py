@@ -77,6 +77,17 @@ def get_text_from_stdin() -> str:
     return raw
 
 
+def get_template_path(template_path: str, jrnl_template_dir: Path) -> Path:
+    actual_template_path = jrnl_template_dir / template_path
+    if not actual_template_path.exists():
+        logging.debug(
+            f"Couldn't open {actual_template_path}. Treating template path like a local / abs path."
+        )
+        actual_template_path = absolute_path(template_path)
+
+    return str(actual_template_path)
+
+
 def read_template_file(template_path: str) -> str:
     """
     Reads the template file given a template path in this order:
@@ -89,13 +100,7 @@ def read_template_file(template_path: str) -> str:
     """
 
     jrnl_template_dir = get_templates_path()
-
-    actual_template_path = jrnl_template_dir / template_path
-    if not (actual_template_path).exists():
-        logging.debug(
-            f"Couldn't open {actual_template_path}. Treating template path like a local / abs path."
-        )
-        actual_template_path = absolute_path(template_path)
+    actual_template_path = get_template_path(template_path, jrnl_template_dir)
 
     try:
         with open(actual_template_path, encoding="utf-8") as f:
