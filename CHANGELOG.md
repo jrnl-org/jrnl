@@ -37,6 +37,7 @@
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
 - Add `simplify` plugin to linting checks [\#1630](https://github.com/jrnl-org/jrnl/pull/1630) ([wren](https://github.com/wren))
 - Add type hints [\#1614](https://github.com/jrnl-org/jrnl/pull/1614) ([outa](https://github.com/outa))
+- Update to use renamed flag for `brew bump-formula-pr` [\#1587](https://github.com/jrnl-org/jrnl/pull/1587) ([wren](https://github.com/wren))
 
 **Documentation:**
 
@@ -57,6 +58,7 @@
 
 **Packaging:**
 
+- Update dependency poethepoet to v0.19.0 [\#1709](https://github.com/jrnl-org/jrnl/pull/1709) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v4.3 [\#1708](https://github.com/jrnl-org/jrnl/pull/1708) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.4.7 [\#1707](https://github.com/jrnl-org/jrnl/pull/1707) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.3.2 [\#1706](https://github.com/jrnl-org/jrnl/pull/1706) ([renovate[bot]](https://github.com/apps/renovate))
