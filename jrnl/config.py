@@ -4,6 +4,7 @@
 import argparse
 import logging
 import os
+from pathlib import Path
 from typing import Any
 from typing import Callable
 
@@ -34,7 +35,6 @@ YAML_FILE_ENCODING = "utf-8"
 
 
 def make_yaml_valid_dict(input: list) -> dict:
-
     """
 
     Convert a two-element list of configuration key-value pair into a flat dict.
@@ -73,9 +73,9 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
         yaml.dump(config, f)
 
 
-def get_config_path() -> str:
+def get_config_directory() -> str:
     try:
-        config_directory_path = xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
+        return xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
     except FileExistsError:
         raise JrnlException(
             Message(
@@ -89,7 +89,13 @@ def get_config_path() -> str:
             ),
         )
 
-    return os.path.join(config_directory_path or home_dir(), DEFAULT_CONFIG_NAME)
+
+def get_config_path() -> Path:
+    try:
+        config_directory_path = get_config_directory()
+    except JrnlException:
+        return Path(home_dir(), DEFAULT_CONFIG_NAME)
+    return Path(config_directory_path, DEFAULT_CONFIG_NAME)
 
 
 def get_default_config() -> dict[str, Any]:
@@ -127,6 +133,15 @@ def get_default_colors() -> dict[str, Any]:
 def get_default_journal_path() -> str:
     journal_data_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or home_dir()
     return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
+
+
+def get_templates_path() -> Path:
+    # jrnl_xdg_resource_path is created by save_data_path if it does not exist
+    jrnl_xdg_resource_path = Path(xdg.BaseDirectory.save_data_path(XDG_RESOURCE))
+    jrnl_templates_path = jrnl_xdg_resource_path / "templates"
+    # Create the directory if needed.
+    jrnl_templates_path.mkdir(exist_ok=True)
+    return jrnl_templates_path
 
 
 def scope_config(config: dict, journal_name: str) -> dict:
