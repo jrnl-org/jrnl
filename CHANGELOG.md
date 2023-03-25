@@ -10,6 +10,7 @@
 - Don't import cryptography package if not needed [\#1521](https://github.com/jrnl-org/jrnl/issues/1521)
 - Add message with config location and docs location when installation is complete [\#1695](https://github.com/jrnl-org/jrnl/pull/1695) ([micahellison](https://github.com/micahellison))
 - Prompt to include colors in config when first running jrnl [\#1687](https://github.com/jrnl-org/jrnl/pull/1687) ([micahellison](https://github.com/micahellison))
+- Add ability to use template with `--template` [\#1667](https://github.com/jrnl-org/jrnl/pull/1667) ([alichtman](https://github.com/alichtman))
 - Search for entries with no tags or stars with `-not -starred` and `-not -tagged` [\#1663](https://github.com/jrnl-org/jrnl/pull/1663) ([cjcon90](https://github.com/cjcon90))
 - Refactor flow for easier access to some files \(avoid things like `jrnl.Journal.Journal` and `jrnl.jrnl` co-existing\) [\#1662](https://github.com/jrnl-org/jrnl/pull/1662) ([wren](https://github.com/wren))
 - Add more type hints [\#1642](https://github.com/jrnl-org/jrnl/pull/1642) ([outa](https://github.com/outa))
