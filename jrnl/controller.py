@@ -11,10 +11,10 @@ from jrnl import time
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_journal_name
-from jrnl.config import get_templates_path
 from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
+from jrnl.editor import read_template_file
 from jrnl.exception import JrnlException
 from jrnl.journals import open_journal
 from jrnl.messages import Message
@@ -23,7 +23,6 @@ from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
 from jrnl.override import apply_overrides
-from jrnl.path import absolute_path
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -130,74 +129,6 @@ def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
     return append_mode
 
 
-def _read_template_file(template_arg: str, template_path_from_config: str) -> str:
-    """
-    This function is called when either a template file is passed with --template, or config.template is set.
-
-    The processing logic is:
-        If --template was not used: Load the global template file.
-        If --template was used:
-            * Check $XDG_DATA_HOME/jrnl/templates/template_arg.
-            * Check template_arg as an absolute / relative path.
-
-        If a file is found, its contents are returned as a string.
-        If not, a JrnlException is raised.
-    """
-    logging.debug(
-        "Append mode: Either a template arg was passed, or the global config is set."
-    )
-
-    # If filename is unset, we are in this flow due to a global template being configured
-    if not template_arg:
-        logging.debug("Append mode: Global template configuration detected.")
-        global_template_path = absolute_path(template_path_from_config)
-        try:
-            with open(global_template_path, encoding="utf-8") as f:
-                template_data = f.read()
-                return template_data
-        except FileNotFoundError:
-            raise JrnlException(
-                Message(
-                    MsgText.CantReadTemplateGlobalConfig,
-                    MsgStyle.ERROR,
-                    {
-                        "global_template_path": global_template_path,
-                    },
-                )
-            )
-    else:  # A template CLI arg was passed.
-        logging.debug("Trying to load template from $XDG_DATA_HOME/jrnl/templates/")
-        jrnl_template_dir = get_templates_path()
-        logging.debug(f"Append mode: jrnl templates directory: {jrnl_template_dir}")
-        template_path = jrnl_template_dir / template_arg
-        try:
-            with open(template_path, encoding="utf-8") as f:
-                template_data = f.read()
-                return template_data
-        except FileNotFoundError:
-            logging.debug(
-                f"Couldn't open {template_path}. Treating --template argument like a local / abs path."
-            )
-            pass
-
-        normalized_template_arg_filepath = absolute_path(template_arg)
-        try:
-            with open(normalized_template_arg_filepath, encoding="utf-8") as f:
-                template_data = f.read()
-                return template_data
-        except FileNotFoundError:
-            raise JrnlException(
-                Message(
-                    MsgText.CantReadTemplateCLIArg,
-                    MsgStyle.ERROR,
-                    {
-                        "normalized_template_arg_filepath": normalized_template_arg_filepath,
-                        "jrnl_template_dir": template_path,
-                    },
-                )
-            )
-
-
 def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -> None:
     """
     Gets input from the user to write to the journal
@@ -213,7 +144,7 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     if args.template or config["template"]:
         logging.debug(f"Append mode: template CLI arg detected: {args.template}")
         # Read template file and pass as raw text into the composer
-        template_data = _read_template_file(args.template, config["template"])
+        template_data = read_template_file(args.template, config["template"])
         raw = _write_in_editor(config, template_data)
         if raw == template_data:
             logging.error("Append mode: raw text was the same as the template")
