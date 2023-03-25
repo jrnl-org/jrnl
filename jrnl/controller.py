@@ -16,7 +16,6 @@ from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
 from jrnl.exception import JrnlException
-from jrnl.journals import Journal
 from jrnl.journals import open_journal
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -30,6 +29,7 @@ if TYPE_CHECKING:
     from argparse import Namespace
 
     from jrnl.journals import Entry
+    from jrnl.journals import Journal
 
 
 def run(args: "Namespace"):
@@ -39,8 +39,9 @@ def run(args: "Namespace"):
     2. Load config
     3. Run standalone command if it does require config (encrypt, decrypt, etc), then exit
     4. Load specified journal
-    5. Start write mode, or search mode
-    6. Profit
+    5. Start append mode, or search mode
+    6. Perform actions with results from search mode (if needed)
+    7. Profit
     """
 
     # Run command if possible before config is available
@@ -72,56 +73,61 @@ def run(args: "Namespace"):
         "args": args,
         "config": config,
         "journal": journal,
+        "old_entries": journal.entries,
     }
 
-    if _is_write_mode(**kwargs):
-        write_mode(**kwargs)
+    if _is_append_mode(**kwargs):
+        append_mode(**kwargs)
+        return
+
+    # If not append mode, then we're in search mode (only 2 modes exist)
+    search_mode(**kwargs)
+    entries_found_count = len(journal)
+    _print_entries_found_count(entries_found_count, args)
+
+    # Actions
+    _perform_actions_on_search_results(**kwargs)
+
+    if entries_found_count != 0 and _has_action_args(args):
+        _print_changed_counts(journal)
     else:
-        search_mode(**kwargs)
+        # display only occurs if no other action occurs
+        _display_search_results(**kwargs)
 
 
-def _is_write_mode(args: "Namespace", config: dict, **kwargs) -> bool:
-    """Determines if we are in write mode (as opposed to search mode)"""
+def _perform_actions_on_search_results(**kwargs):
+    args = kwargs["args"]
+
+    # Perform actions (if needed)
+    if args.change_time:
+        _change_time_search_results(**kwargs)
+
+    if args.delete:
+        _delete_search_results(**kwargs)
+
+    # open results in editor (if `--edit` was used)
+    if args.edit:
+        _edit_search_results(**kwargs)
+
+
+def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
+    """Determines if we are in append mode (as opposed to search mode)"""
     # Are any search filters present? If so, then search mode.
-    write_mode = not any(
-        (
-            args.contains,
-            args.delete,
-            args.edit,
-            args.change_time,
-            args.excluded,
-            args.exclude_starred,
-            args.exclude_tagged,
-            args.export,
-            args.end_date,
-            args.today_in_history,
-            args.month,
-            args.day,
-            args.year,
-            args.limit,
-            args.on_date,
-            args.short,
-            args.starred,
-            args.start_date,
-            args.strict,
-            args.tagged,
-            args.tags,
-        )
+    append_mode = (
+        not _has_search_args(args)
+        and not _has_action_args(args)
+        and not _has_display_args(args)
     )
 
     # Might be writing and want to move to editor part of the way through
     if args.edit and args.text:
-        write_mode = True
+        append_mode = True
 
     # If the text is entirely tags, then we are also searching (not writing)
-    if (
-        write_mode
-        and args.text
-        and all(word[0] in config["tagsymbols"] for word in " ".join(args.text).split())
-    ):
-        write_mode = False
+    if append_mode and args.text and _has_only_tags(config["tagsymbols"], args.text):
+        append_mode = False
 
-    return write_mode
+    return append_mode
 
 
 def _read_template_file(template_arg: str, template_path_from_config: str) -> str:
@@ -138,12 +144,12 @@ def _read_template_file(template_arg: str, template_path_from_config: str) -> st
         If not, a JrnlException is raised.
     """
     logging.debug(
-        "Write mode: Either a template arg was passed, or the global config is set."
+        "Append mode: Either a template arg was passed, or the global config is set."
     )
 
     # If filename is unset, we are in this flow due to a global template being configured
     if not template_arg:
-        logging.debug("Write mode: Global template configuration detected.")
+        logging.debug("Append mode: Global template configuration detected.")
         global_template_path = absolute_path(template_path_from_config)
         try:
             with open(global_template_path, encoding="utf-8") as f:
@@ -162,7 +168,7 @@ def _read_template_file(template_arg: str, template_path_from_config: str) -> st
     else:  # A template CLI arg was passed.
         logging.debug("Trying to load template from $XDG_DATA_HOME/jrnl/templates/")
         jrnl_template_dir = get_templates_path()
-        logging.debug(f"Write mode: jrnl templates directory: {jrnl_template_dir}")
+        logging.debug(f"Append mode: jrnl templates directory: {jrnl_template_dir}")
         template_path = jrnl_template_dir / template_arg
         try:
             with open(template_path, encoding="utf-8") as f:
@@ -192,7 +198,7 @@ def _read_template_file(template_arg: str, template_path_from_config: str) -> st
             )
 
 
-def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> None:
+def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -> None:
     """
     Gets input from the user to write to the journal
     0. Check for a template passed as an argument, or in the global config
@@ -202,35 +208,35 @@ def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> N
     4. Use stdin.read as last resort
     6. Write any found text to journal, or exit
     """
-    logging.debug("Write mode: starting")
+    logging.debug("Append mode: starting")
 
     if args.template or config["template"]:
-        logging.debug(f"Write mode: template CLI arg detected: {args.template}")
+        logging.debug(f"Append mode: template CLI arg detected: {args.template}")
         # Read template file and pass as raw text into the composer
         template_data = _read_template_file(args.template, config["template"])
         raw = _write_in_editor(config, template_data)
         if raw == template_data:
-            logging.error("Write mode: raw text was the same as the template")
+            logging.error("Append mode: raw text was the same as the template")
             raise JrnlException(Message(MsgText.NoChangesToTemplate, MsgStyle.NORMAL))
     elif args.text:
-        logging.debug(f"Write mode: cli text detected: {args.text}")
+        logging.debug(f"Append mode: cli text detected: {args.text}")
         raw = " ".join(args.text).strip()
         if args.edit:
             raw = _write_in_editor(config, raw)
 
     elif not sys.stdin.isatty():
-        logging.debug("Write mode: receiving piped text")
+        logging.debug("Append mode: receiving piped text")
         raw = sys.stdin.read()
 
     else:
         raw = _write_in_editor(config)
 
     if not raw or raw.isspace():
-        logging.error("Write mode: couldn't get raw text or entry was empty")
+        logging.error("Append mode: couldn't get raw text or entry was empty")
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
 
     logging.debug(
-        'Write mode: appending raw text to journal "%s": %s', args.journal_name, raw
+        f"Append mode: appending raw text to journal '{args.journal_name}': {raw}"
     )
     journal.new_entry(raw)
     if args.journal_name != DEFAULT_JOURNAL_KEY:
@@ -242,66 +248,28 @@ def write_mode(args: "Namespace", config: dict, journal: Journal, **kwargs) -> N
             )
         )
     journal.write()
-    logging.debug("Write mode: completed journal.write()")
+    logging.debug("Append mode: completed journal.write()")
 
 
-def search_mode(args: "Namespace", journal: Journal, **kwargs) -> None:
+def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
     """
-    Search for entries in a journal, then either:
-    1. Send them to configured editor for user manipulation (and also
-       change their timestamps if requested)
-    2. Change their timestamps
-    2. Delete them (with confirmation for each entry)
-    3. Display them (with formatting options)
+    Search for entries in a journal, and return the
+    results. If no search args, then return all results
     """
-    kwargs = {
-        **kwargs,
-        "args": args,
-        "journal": journal,
-        "old_entries": journal.entries,
-    }
+    logging.debug("Search mode: starting")
 
-    if _has_search_args(args):
-        _filter_journal_entries(**kwargs)
-        _print_entries_found_count(len(journal), args)
-
-    # Where do the search results go?
-    if args.edit:
-        # If we want to both edit and change time in one action
-        if args.change_time:
-            # Generate a new list instead of assigning so it won't be
-            # modified by _change_time_search_results
-            selected_entries = [e for e in journal.entries]
-
-            no_change_time_prompt = len(journal.entries) == 1
-            _change_time_search_results(no_prompt=no_change_time_prompt, **kwargs)
-
-            # Re-filter the journal enties (_change_time_search_results
-            # puts the filtered entries back); use selected_entries
-            # instead of running _search_journal again, because times
-            # have changed since the original search
-            kwargs["old_entries"] = journal.entries
-            journal.entries = selected_entries
-
-        _edit_search_results(**kwargs)
-
-    elif not journal:
-        # Bail out if there are no entries and we're not editing
+    # If no search args, then return all results (don't filter anything)
+    if not _has_search_args(args) and not _has_display_args(args) and not args.text:
+        logging.debug("Search mode: has no search args")
         return
 
-    elif args.change_time:
-        _change_time_search_results(**kwargs)
-
-    elif args.delete:
-        _delete_search_results(**kwargs)
-
-    else:
-        _display_search_results(**kwargs)
+    logging.debug("Search mode: has search args")
+    _filter_journal_entries(args, journal)
 
 
 def _write_in_editor(config: dict, prepopulated_text: str | None = None) -> str:
     if config["editor"]:
-        logging.debug("Write mode: opening editor")
+        logging.debug("Append mode: opening editor")
         raw = get_text_from_editor(config, prepopulated_text)
     else:
         raw = get_text_from_stdin()
@@ -309,30 +277,7 @@ def _write_in_editor(config: dict, prepopulated_text: str | None = None) -> str:
     return raw
 
 
-def _has_search_args(args: "Namespace") -> bool:
-    return any(
-        (
-            args.on_date,
-            args.today_in_history,
-            args.text,
-            args.month,
-            args.day,
-            args.year,
-            args.start_date,
-            args.end_date,
-            args.strict,
-            args.starred,
-            args.tagged,
-            args.excluded,
-            args.exclude_starred,
-            args.exclude_tagged,
-            args.contains,
-            args.limit,
-        )
-    )
-
-
-def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> None:
+def _filter_journal_entries(args: "Namespace", journal: "Journal", **kwargs) -> None:
     """Filter journal entries in-place based upon search args"""
     if args.on_date:
         args.start_date = args.end_date = args.on_date
@@ -361,6 +306,7 @@ def _filter_journal_entries(args: "Namespace", journal: Journal, **kwargs) -> No
 
 
 def _print_entries_found_count(count: int, args: "Namespace") -> None:
+    logging.debug(f"count: {count}")
     if count == 0:
         if args.edit or args.change_time:
             print_msg(Message(MsgText.NothingToModify, MsgStyle.WARNING))
@@ -368,26 +314,26 @@ def _print_entries_found_count(count: int, args: "Namespace") -> None:
             print_msg(Message(MsgText.NothingToDelete, MsgStyle.WARNING))
         else:
             print_msg(Message(MsgText.NoEntriesFound, MsgStyle.NORMAL))
-    elif args.limit:
-        # Don't show count if the user expects a limited number of results
         return
-    elif args.edit or not (args.change_time or args.delete):
-        # Don't show count if we are ONLY changing the time or deleting entries
-        my_msg = (
-            MsgText.EntryFoundCountSingular
-            if count == 1
-            else MsgText.EntryFoundCountPlural
-        )
-        print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
+    elif args.limit and args.limit == count:
+        # Don't show count if the user expects a limited number of results
+        logging.debug("args.limit is true-ish")
+        return
+
+    logging.debug("Printing general summary")
+    my_msg = (
+        MsgText.EntryFoundCountSingular if count == 1 else MsgText.EntryFoundCountPlural
+    )
+    print_msg(Message(my_msg, MsgStyle.NORMAL, {"num": count}))
 
 
-def _other_entries(journal: Journal, entries: list["Entry"]) -> list["Entry"]:
+def _other_entries(journal: "Journal", entries: list["Entry"]) -> list["Entry"]:
     """Find entries that are not in journal"""
     return [e for e in entries if e not in journal.entries]
 
 
 def _edit_search_results(
-    config: dict, journal: Journal, old_entries: list["Entry"], **kwargs
+    config: dict, journal: "Journal", old_entries: list["Entry"], **kwargs
 ) -> None:
     """
     1. Send the given journal entries to the user-configured editor
@@ -406,15 +352,18 @@ def _edit_search_results(
     # separate entries we are not editing
     other_entries = _other_entries(journal, old_entries)
 
-    # Get stats now for summary later
-    old_stats = _get_predit_stats(journal)
-
     # Send user to the editor
-    edited = get_text_from_editor(config, journal.editable_str())
-    journal.parse_editable_str(edited)
+    try:
+        edited = get_text_from_editor(config, journal.editable_str())
+    except JrnlException as e:
+        if e.has_message_text(MsgText.NoTextReceived):
+            raise JrnlException(
+                Message(MsgText.NoEditsReceivedJournalNotDeleted, MsgStyle.WARNING)
+            )
+        else:
+            raise e
 
-    # Print summary if available
-    _print_edited_summary(journal, old_stats)
+    journal.parse_editable_str(edited)
 
     # Put back entries we separated earlier, sort, and write the journal
     journal.entries += other_entries
@@ -422,15 +371,8 @@ def _edit_search_results(
     journal.write()
 
 
-def _print_edited_summary(
-    journal: Journal, old_stats: dict[str, int], **kwargs
-) -> None:
-    stats = {
-        "added": len(journal) - old_stats["count"],
-        "deleted": old_stats["count"] - len(journal),
-        "modified": len([e for e in journal.entries if e.modified]),
-    }
-    stats["modified"] -= stats["added"]
+def _print_changed_counts(journal: "Journal", **kwargs) -> None:
+    stats = journal.get_change_counts()
     msgs = []
 
     if stats["added"] > 0:
@@ -463,17 +405,18 @@ def _print_edited_summary(
     print_msgs(msgs)
 
 
-def _get_predit_stats(journal: Journal) -> dict[str, int]:
+def _get_predit_stats(journal: "Journal") -> dict[str, int]:
     return {"count": len(journal)}
 
 
 def _delete_search_results(
-    journal: Journal, old_entries: list["Entry"], **kwargs
+    journal: "Journal", old_entries: list["Entry"], **kwargs
 ) -> None:
     entries_to_delete = journal.prompt_action_entries(MsgText.DeleteEntryQuestion)
 
+    journal.entries = old_entries
+
     if entries_to_delete:
-        journal.entries = old_entries
         journal.delete_entries(entries_to_delete)
 
         journal.write()
@@ -481,34 +424,27 @@ def _delete_search_results(
 
 def _change_time_search_results(
     args: "Namespace",
-    journal: Journal,
+    journal: "Journal",
     old_entries: list["Entry"],
     no_prompt: bool = False,
     **kwargs,
 ) -> None:
     # separate entries we are not editing
-    other_entries = _other_entries(journal, old_entries)
-
-    if no_prompt:
-        entries_to_change = journal.entries
-    else:
-        entries_to_change = journal.prompt_action_entries(
-            MsgText.ChangeTimeEntryQuestion
-        )
+    # @todo if there's only 1, don't prompt
+    entries_to_change = journal.prompt_action_entries(MsgText.ChangeTimeEntryQuestion)
 
     if entries_to_change:
-        other_entries += [e for e in journal.entries if e not in entries_to_change]
-        journal.entries = entries_to_change
-
         date = time.parse(args.change_time)
-        journal.change_date_entries(date)
+        journal.entries = old_entries
+        journal.change_date_entries(date, entries_to_change)
 
-        journal.entries += other_entries
-        journal.sort()
         journal.write()
 
 
-def _display_search_results(args: "Namespace", journal: Journal, **kwargs) -> None:
+def _display_search_results(args: "Namespace", journal: "Journal", **kwargs) -> None:
+    if len(journal) == 0:
+        return
+
     # Get export format from config file if not provided at the command line
     args.export = args.export or kwargs["config"].get("display_format")
 
@@ -526,3 +462,50 @@ def _display_search_results(args: "Namespace", journal: Journal, **kwargs) -> No
         print(exporter.export(journal, args.filename))
     else:
         print(journal.pprint())
+
+
+def _has_search_args(args: "Namespace") -> bool:
+    """Looking for arguments that filter a journal"""
+    return any(
+        (
+            args.contains,
+            args.tagged,
+            args.excluded,
+            args.exclude_starred,
+            args.exclude_tagged,
+            args.end_date,
+            args.today_in_history,
+            args.month,
+            args.day,
+            args.year,
+            args.limit,
+            args.on_date,
+            args.starred,
+            args.start_date,
+            args.strict,  # -and
+        )
+    )
+
+
+def _has_action_args(args: "Namespace") -> bool:
+    return any(
+        (
+            args.change_time,
+            args.delete,
+            args.edit,
+        )
+    )
+
+
+def _has_display_args(args: "Namespace") -> bool:
+    return any(
+        (
+            args.tags,
+            args.short,
+            args.export,  # --format
+        )
+    )
+
+
+def _has_only_tags(tag_symbols: str, args_text: str) -> bool:
+    return all(word[0] in tag_symbols for word in " ".join(args_text).split())

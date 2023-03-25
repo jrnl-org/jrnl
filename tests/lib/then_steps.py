@@ -197,12 +197,12 @@ def config_var_in_memory(config_in_memory, journal_name, it_should, some_yaml):
 
 @then("we should be prompted for a password")
 def password_was_called(cli_run):
-    assert cli_run["mocks"]["user_input"].called
+    assert cli_run["mocks"]["user_input"].return_value.input.called
 
 
 @then("we should not be prompted for a password")
 def password_was_not_called(cli_run):
-    assert not cli_run["mocks"]["user_input"].called
+    assert not cli_run["mocks"]["user_input"].return_value.input.called
 
 
 @then(parse("the cache directory should contain the files\n{file_list}"))

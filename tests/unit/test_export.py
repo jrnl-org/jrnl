@@ -26,7 +26,6 @@ def build_card_header(datestr):
 
 class TestFancy:
     def test_too_small_linewrap(self, datestr):
-
         journal = "test_journal"
         content = build_card_header(datestr)
 

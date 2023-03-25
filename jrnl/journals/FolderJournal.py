@@ -91,17 +91,19 @@ class Folder(Journal):
         for entry in entries_to_delete:
             self.entries.remove(entry)
             self._diff_entry_dates.append(entry.date)
+            self.deleted_entry_count += 1
 
-    def change_date_entries(self, date: str) -> None:
+    def change_date_entries(self, date: str, entries_to_change: list["Entry"]) -> None:
         """Changes entry dates to given date."""
 
         date = time.parse(date)
 
         self._diff_entry_dates.append(date)
 
-        for entry in self.entries:
+        for entry in entries_to_change:
             self._diff_entry_dates.append(entry.date)
             entry.date = date
+            entry.modified = True
 
     def parse_editable_str(self, edited: str) -> None:
         """Parses the output of self.editable_str and updates its entries."""
@@ -114,4 +116,6 @@ class Folder(Journal):
         # modified and how many got deleted later.
         for entry in mod_entries:
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
+
+        self.increment_change_counts_by_edit(mod_entries)
         self.entries = mod_entries
