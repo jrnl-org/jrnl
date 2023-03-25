@@ -77,69 +77,39 @@ def get_text_from_stdin() -> str:
     return raw
 
 
-def read_template_file(template_arg: str, template_path_from_config: str) -> str:
+def read_template_file(template_path: str) -> str:
     """
-    This function is called when either a template file is passed with --template, or config.template is set.
+    Reads the template file given a template path in this order:
 
-    The processing logic is:
-        If --template was not used: Load the global template file.
-        If --template was used:
-            * Check $XDG_DATA_HOME/jrnl/templates/template_arg.
-            * Check template_arg as an absolute / relative path.
+        * Check $XDG_DATA_HOME/jrnl/templates/template_path.
+        * Check template_arg as an absolute / relative path.
 
-        If a file is found, its contents are returned as a string.
-        If not, a JrnlException is raised.
+    If a file is found, its contents are returned as a string.
+    If not, a JrnlException is raised.
     """
-    logging.debug(
-        "Append mode: Either a template arg was passed, or the global config is set."
-    )
 
-    # If filename is unset, we are in this flow due to a global template being configured
-    if not template_arg:
-        logging.debug("Append mode: Global template configuration detected.")
-        global_template_path = absolute_path(template_path_from_config)
-        try:
-            with open(global_template_path, encoding="utf-8") as f:
-                template_data = f.read()
-                return template_data
-        except FileNotFoundError:
-            raise JrnlException(
-                Message(
-                    MsgText.CantReadTemplateGlobalConfig,
-                    MsgStyle.ERROR,
-                    {
-                        "global_template_path": global_template_path,
-                    },
-                )
-            )
-    else:  # A template CLI arg was passed.
-        logging.debug("Trying to load template from $XDG_DATA_HOME/jrnl/templates/")
-        jrnl_template_dir = get_templates_path()
-        logging.debug(f"Append mode: jrnl templates directory: {jrnl_template_dir}")
-        template_path = jrnl_template_dir / template_arg
-        try:
-            with open(template_path, encoding="utf-8") as f:
-                template_data = f.read()
-                return template_data
-        except FileNotFoundError:
-            logging.debug(
-                f"Couldn't open {template_path}. Treating --template argument like a local / abs path."
-            )
-            pass
+    jrnl_template_dir = get_templates_path()
 
-        normalized_template_arg_filepath = absolute_path(template_arg)
-        try:
-            with open(normalized_template_arg_filepath, encoding="utf-8") as f:
-                template_data = f.read()
-                return template_data
-        except FileNotFoundError:
-            raise JrnlException(
-                Message(
-                    MsgText.CantReadTemplateCLIArg,
-                    MsgStyle.ERROR,
-                    {
-                        "normalized_template_arg_filepath": normalized_template_arg_filepath,
-                        "jrnl_template_dir": template_path,
-                    },
-                )
+    actual_template_path = jrnl_template_dir / template_path
+    if not (actual_template_path).exists():
+        logging.debug(
+            f"Couldn't open {actual_template_path}. Treating template path like a local / abs path."
+        )
+        actual_template_path = absolute_path(template_path)
+
+    try:
+        with open(actual_template_path, encoding="utf-8") as f:
+            template_data = f.read()
+            return template_data
+    except FileNotFoundError:
+        raise JrnlException(
+            Message(
+                MsgText.CantReadTemplate,
+                MsgStyle.ERROR,
+                {
+                    "template_path": template_path,
+                    "actual_template_path": actual_template_path,
+                    "jrnl_template_dir": str(jrnl_template_dir) + os.sep,
+                },
             )
+        )

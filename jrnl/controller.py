@@ -141,26 +141,22 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     """
     logging.debug("Append mode: starting")
 
-    if args.template or config["template"]:
-        logging.debug(f"Append mode: template CLI arg detected: {args.template}")
-        # Read template file and pass as raw text into the composer
-        template_data = read_template_file(args.template, config["template"])
-        raw = _write_in_editor(config, template_data)
-        if raw == template_data:
-            logging.error("Append mode: raw text was the same as the template")
-            raise JrnlException(Message(MsgText.NoChangesToTemplate, MsgStyle.NORMAL))
-    elif args.text:
+    template_text = _get_template(args, config)
+
+    if args.text:
         logging.debug(f"Append mode: cli text detected: {args.text}")
         raw = " ".join(args.text).strip()
         if args.edit:
             raw = _write_in_editor(config, raw)
-
     elif not sys.stdin.isatty():
         logging.debug("Append mode: receiving piped text")
         raw = sys.stdin.read()
-
     else:
-        raw = _write_in_editor(config)
+        raw = _write_in_editor(config, template_text)
+
+    if template_text is not None and raw == template_text:
+        logging.error("Append mode: raw text was the same as the template")
+        raise JrnlException(Message(MsgText.NoChangesToTemplate, MsgStyle.NORMAL))
 
     if not raw or raw.isspace():
         logging.error("Append mode: couldn't get raw text or entry was empty")
@@ -180,6 +176,21 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
         )
     journal.write()
     logging.debug("Append mode: completed journal.write()")
+
+
+def _get_template(args, config) -> str:
+    # Read template file and pass as raw text into the composer
+    logging.debug(
+        f"Get template:\n--template: {args.template}\nfrom config: {config.get('template')}"
+    )
+    template_path = args.template or config.get("template")
+
+    template_text = None
+
+    if (template_path):
+        template_text = read_template_file(template_path)
+
+    return template_text
 
 
 def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
