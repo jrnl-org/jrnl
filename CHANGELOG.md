@@ -19,10 +19,14 @@
 
 **Fixed bugs:**
 
+- Combinations of `--change-time`, `--delete`, and `--edit` don't work consistently [\#1696](https://github.com/jrnl-org/jrnl/issues/1696)
+- jrnl doesn't display count of entries deleted after deleting entries with `--delete` [\#1666](https://github.com/jrnl-org/jrnl/issues/1666)
 - Templated entries should not be saved if the raw text is identical to the original template  [\#1652](https://github.com/jrnl-org/jrnl/issues/1652)
+- Adding an entry with a combination of flags causes a journal overwrite [\#1639](https://github.com/jrnl-org/jrnl/issues/1639)
 - jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
 - jrnl should not create 0-length "encrypted" file on startup [\#1493](https://github.com/jrnl-org/jrnl/issues/1493)
 - Save empty journal on install instead of just creating a zero-length file [\#1690](https://github.com/jrnl-org/jrnl/pull/1690) ([micahellison](https://github.com/micahellison))
+- Allow combinations of `--change-time`, `--delete`, and `--edit` while correctly counting the number of entries affected [\#1669](https://github.com/jrnl-org/jrnl/pull/1669) ([wren](https://github.com/wren))
 - Don't save templated journal entries if the received raw text is the same as the template itself [\#1653](https://github.com/jrnl-org/jrnl/pull/1653) ([Briscoooe](https://github.com/Briscoooe))
 - Add tag to XML file when edited DayOne entry and is searchable afterward [\#1648](https://github.com/jrnl-org/jrnl/pull/1648) ([jonakeys](https://github.com/jonakeys))
 - Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
