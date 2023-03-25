@@ -39,7 +39,7 @@ def run(args: "Namespace"):
     2. Load config
     3. Run standalone command if it does require config (encrypt, decrypt, etc), then exit
     4. Load specified journal
-    5. Start write mode, or search mode
+    5. Start append mode, or search mode
     6. Perform actions with results from search mode (if needed)
     7. Profit
     """
@@ -111,7 +111,7 @@ def _perform_actions_on_search_results(**kwargs):
 
 
 def _is_append_mode(args: "Namespace", config: dict, **kwargs) -> bool:
-    """Determines if we are in write mode (as opposed to search mode)"""
+    """Determines if we are in append mode (as opposed to search mode)"""
     # Are any search filters present? If so, then search mode.
     append_mode = (
         not _has_search_args(args)
@@ -144,12 +144,12 @@ def _read_template_file(template_arg: str, template_path_from_config: str) -> st
         If not, a JrnlException is raised.
     """
     logging.debug(
-        "Write mode: Either a template arg was passed, or the global config is set."
+        "Append mode: Either a template arg was passed, or the global config is set."
     )
 
     # If filename is unset, we are in this flow due to a global template being configured
     if not template_arg:
-        logging.debug("Write mode: Global template configuration detected.")
+        logging.debug("Append mode: Global template configuration detected.")
         global_template_path = absolute_path(template_path_from_config)
         try:
             with open(global_template_path, encoding="utf-8") as f:
@@ -168,7 +168,7 @@ def _read_template_file(template_arg: str, template_path_from_config: str) -> st
     else:  # A template CLI arg was passed.
         logging.debug("Trying to load template from $XDG_DATA_HOME/jrnl/templates/")
         jrnl_template_dir = get_templates_path()
-        logging.debug(f"Write mode: jrnl templates directory: {jrnl_template_dir}")
+        logging.debug(f"Append mode: jrnl templates directory: {jrnl_template_dir}")
         template_path = jrnl_template_dir / template_arg
         try:
             with open(template_path, encoding="utf-8") as f:
@@ -211,15 +211,15 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     logging.debug("Append mode: starting")
 
     if args.template or config["template"]:
-        logging.debug(f"Write mode: template CLI arg detected: {args.template}")
+        logging.debug(f"Append mode: template CLI arg detected: {args.template}")
         # Read template file and pass as raw text into the composer
         template_data = _read_template_file(args.template, config["template"])
         raw = _write_in_editor(config, template_data)
         if raw == template_data:
-            logging.error("Write mode: raw text was the same as the template")
+            logging.error("Append mode: raw text was the same as the template")
             raise JrnlException(Message(MsgText.NoChangesToTemplate, MsgStyle.NORMAL))
     elif args.text:
-        logging.debug(f"Write mode: cli text detected: {args.text}")
+        logging.debug(f"Append mode: cli text detected: {args.text}")
         raw = " ".join(args.text).strip()
         if args.edit:
             raw = _write_in_editor(config, raw)
@@ -269,7 +269,7 @@ def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
 
 def _write_in_editor(config: dict, prepopulated_text: str | None = None) -> str:
     if config["editor"]:
-        logging.debug("Write mode: opening editor")
+        logging.debug("Append mode: opening editor")
         raw = get_text_from_editor(config, prepopulated_text)
     else:
         raw = get_text_from_stdin()
