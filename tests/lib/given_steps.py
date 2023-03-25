@@ -125,7 +125,10 @@ def we_use_the_config(request, temp_dir, working_dir, config_file):
     return config_dest
 
 
-@given(parse('we copy the template "{template_file}" to the default templates folder'), target_fixture="default_templates_path")
+@given(
+    parse('we copy the template "{template_file}" to the default templates folder'),
+    target_fixture="default_templates_path",
+)
 def we_copy_the_template(request, temp_dir, working_dir, template_file):
     # Move into temp dir as cwd
     os.chdir(temp_dir.name)  # @todo move this step to a more universal place
