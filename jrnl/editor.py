@@ -77,15 +77,15 @@ def get_text_from_stdin() -> str:
     return raw
 
 
-def get_template_path(template_path: str, jrnl_template_dir: Path) -> Path:
-    actual_template_path = jrnl_template_dir / template_path
-    if not actual_template_path.exists():
+def get_template_path(template_path: str, jrnl_template_dir: str) -> str:
+    actual_template_path = os.path.join(jrnl_template_dir, template_path)
+    if not os.path.exists(actual_template_path):
         logging.debug(
             f"Couldn't open {actual_template_path}. Treating template path like a local / abs path."
         )
         actual_template_path = absolute_path(template_path)
 
-    return str(actual_template_path)
+    return actual_template_path
 
 
 def read_template_file(template_path: str) -> str:

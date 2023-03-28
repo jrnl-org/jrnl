@@ -34,13 +34,17 @@ def get_default_journal_path() -> str:
     return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
 
 
-def get_templates_path() -> Path:
+def get_templates_path() -> str:
+    """
+    Get the path to the XDG templates directory. Creates the directory if it
+    doesn't exist.
+    """
     # jrnl_xdg_resource_path is created by save_data_path if it does not exist
     jrnl_xdg_resource_path = Path(xdg.BaseDirectory.save_data_path(XDG_RESOURCE))
     jrnl_templates_path = jrnl_xdg_resource_path / "templates"
     # Create the directory if needed.
     jrnl_templates_path.mkdir(exist_ok=True)
-    return jrnl_templates_path
+    return str(jrnl_templates_path)
 
 
 def get_config_directory() -> str:
