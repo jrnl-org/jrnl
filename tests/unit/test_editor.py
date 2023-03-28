@@ -25,7 +25,7 @@ def test_read_template_file_with_valid_file_returns_text(mock_file):
 
 
 def test_get_template_path_when_exists_returns_correct_path():
-    with patch("os.path.exists", return_value = True):
+    with patch("os.path.exists", return_value=True):
         output = get_template_path("template", "templatepath")
 
     assert output == os.path.join("templatepath", "template")
@@ -33,7 +33,7 @@ def test_get_template_path_when_exists_returns_correct_path():
 
 @patch("jrnl.editor.absolute_path")
 def test_get_template_path_when_doesnt_exist_returns_correct_path(mock_absolute_paths):
-    with patch("os.path.exists", return_value = False):
+    with patch("os.path.exists", return_value=False):
         output = get_template_path("template", "templatepath")
 
     assert output == mock_absolute_paths.return_value
