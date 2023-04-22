@@ -331,7 +331,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         nargs="?",
         metavar="DATE",
         const="now",
-        help="Change timestamp for seleted entries (default: now)",
+        help="Change timestamp for selected entries (default: now)",
     )
     exporting.add_argument(
         "--format",
@@ -360,7 +360,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         "--tags",
         dest="tags",
         action="store_true",
-        help="Alias for '--format tags'. Returns a list of all tags and number of occurences",
+        help="Alias for '--format tags'. Returns a list of all tags and number of occurrences",
     )
     exporting.add_argument(
         "--short",

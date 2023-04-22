@@ -19,7 +19,7 @@ jrnl
 ====
 
 _To get help, [submit an issue](https://github.com/jrnl-org/jrnl/issues/new/choose) on
-Github._
+GitHub._
 
 `jrnl` is a simple journal application for the command line.
 
