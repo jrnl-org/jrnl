@@ -616,14 +616,14 @@ flake8 = "*"
 
 [[package]]
 name = "flakeheaven"
-version = "3.2.1"
+version = "3.3.0"
 description = "FlakeHeaven is a [Flake8](https://gitlab.com/pycqa/flake8) wrapper to make it cool."
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "flakeheaven-3.2.1-py3-none-any.whl", hash = "sha256:fdae542414a8cd327dbbc969bb18d5972379570f6562af21b4a83f67bdd6b87c"},
-    {file = "flakeheaven-3.2.1.tar.gz", hash = "sha256:f2d54aedd98b817e94c8c0fcc0da1230b43dbf911ce38aa412d00eb5db6fb71d"},
+    {file = "flakeheaven-3.3.0-py3-none-any.whl", hash = "sha256:ae246197a178845b30b63fc03023f7ba925cc84cc96314ec19807dafcd6b39a3"},
+    {file = "flakeheaven-3.3.0.tar.gz", hash = "sha256:eb07860e028ff8dd56cce742c4766624a37a4ce397fd34300254ab623d13047b"},
 ]
 
 [package.dependencies]
