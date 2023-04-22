@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v4.0-beta2](https://pypi.org/project/jrnl/v4.0-beta2/) (2023-04-22)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...v4.0-beta2)
 
 **Documentation:**
 
