@@ -7,6 +7,8 @@
 **Packaging:**
 
 - Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.3.1 [\#1720](https://github.com/jrnl-org/jrnl/pull/1720) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0-beta](https://pypi.org/project/jrnl/v4.0-beta/) (2023-03-25)
 
