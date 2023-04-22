@@ -16,6 +16,7 @@
 - Update dependency black to v23.3.0 [\#1715](https://github.com/jrnl-org/jrnl/pull/1715) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency flake8-type-checking to v2.4.0 [\#1714](https://github.com/jrnl-org/jrnl/pull/1714) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.3.4 [\#1713](https://github.com/jrnl-org/jrnl/pull/1713) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.4.12 [\#1712](https://github.com/jrnl-org/jrnl/pull/1712) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0-beta](https://pypi.org/project/jrnl/v4.0-beta/) (2023-03-25)
 
