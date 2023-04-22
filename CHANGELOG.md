@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...HEAD)
 
+**Documentation:**
+
+- Fix various typos [\#1718](https://github.com/jrnl-org/jrnl/pull/1718) ([hezhizhen](https://github.com/hezhizhen))
+
 **Packaging:**
 
 - Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
