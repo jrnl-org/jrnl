@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...HEAD)
+
+**Packaging:**
+
+- Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v4.0-beta](https://pypi.org/project/jrnl/v4.0-beta/) (2023-03-25)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3...v4.0-beta)
