@@ -12,7 +12,7 @@ Here are some key points to include in your description:
 
 ### Checklist
 
-- [ ] I have read the [contributing doc](https://github.com/jrnl-org/jrnl/blob/develop/CONTRIBUTING.md).
+- [ ] I have read the [contributing doc](https://github.com/jrnl-org/jrnl/blob/develop/docs/contributing.md).
 - [ ] I have included a link to the relevant issue number.
 - [ ] I have checked to ensure there aren't other open [pull requests](../pulls)
   for the same issue.
