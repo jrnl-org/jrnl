@@ -70,7 +70,7 @@ src="https://opencollective.com/jrnl/contributors.svg?width=890&button=false"
 /></a>
 
 If you'd also like to help make `jrnl` better, please see our [contributing
-documentation](CONTRIBUTING.md).
+documentation](docs/contributing.md).
 
 ### Financial Backers
 
