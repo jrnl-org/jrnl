@@ -1,0 +1,4 @@
+[2022-03-02 9:25:00 AM] This file should be ignored (month)
+This text file is in a folder journal's month directory ("2020/09"), but it's not in the file name format used by jrnl for folder journal entries, so it should be ignored.
+
+This file should not ever appear in a test.

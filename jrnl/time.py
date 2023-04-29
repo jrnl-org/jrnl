@@ -89,3 +89,11 @@ def parse(
     if dt.days < -28 and not year_present:
         date = date.replace(date.year - 1)
     return date
+
+
+def is_valid_date(year: int, month: int, day: int) -> bool:
+    try:
+        datetime.datetime(year, month, day)
+        return True
+    except ValueError:
+        return False
