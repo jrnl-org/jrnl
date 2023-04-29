@@ -6,7 +6,6 @@ from unittest import mock
 
 import pytest
 
-import jrnl
 from jrnl.journals.FolderJournal import Folder
 
 
