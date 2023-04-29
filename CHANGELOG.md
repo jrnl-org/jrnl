@@ -1,16 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v4.0-beta3](https://pypi.org/project/jrnl/v4.0-beta3/) (2023-04-29)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta2...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta2...v4.0-beta3)
+
+**Fixed bugs:**
+
+- jrnl reads extraneous text files when reading folder journal [\#1692](https://github.com/jrnl-org/jrnl/issues/1692)
+- jrnl crashes when adding tag argument after `--change-time` [\#1644](https://github.com/jrnl-org/jrnl/issues/1644)
+- Only read text files that look like entries when opening folder journal [\#1697](https://github.com/jrnl-org/jrnl/pull/1697) ([micahellison](https://github.com/micahellison))
 
 **Documentation:**
 
 - Update contributing.md links in documentation [\#1726](https://github.com/jrnl-org/jrnl/pull/1726) ([ahosking](https://github.com/ahosking))
-
-**Packaging:**
-
-- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0-beta2](https://pypi.org/project/jrnl/v4.0-beta2/) (2023-04-22)
 
