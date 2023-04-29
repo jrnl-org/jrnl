@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta2...HEAD)
+
+**Documentation:**
+
+- Update contributing.md links in documentation [\#1726](https://github.com/jrnl-org/jrnl/pull/1726) ([ahosking](https://github.com/ahosking))
+
+**Packaging:**
+
+- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v4.0-beta2](https://pypi.org/project/jrnl/v4.0-beta2/) (2023-04-22)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...v4.0-beta2)
