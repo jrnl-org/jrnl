@@ -13,7 +13,7 @@ from .Journal import Journal
 if TYPE_CHECKING:
     from jrnl.journals import Entry
 
-# glob search patterns
+# glob search patterns for folder/file structure
 DIGIT_PATTERN = "[0123456789]"
 YEAR_PATTERN = DIGIT_PATTERN * 4
 MONTH_PATTERN = "[01]" + DIGIT_PATTERN
