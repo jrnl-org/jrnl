@@ -91,10 +91,7 @@ def parse(
     return date
 
 
-def is_valid_date(year, month, day):
-    """
-    Checks if a string can be parsed as a date
-    """
+def is_valid_date(year: int, month: int, day: int) -> bool:
     try:
         datetime.datetime(year, month, day)
         return True
