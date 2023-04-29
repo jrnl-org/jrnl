@@ -13,14 +13,19 @@ from .Journal import Journal
 if TYPE_CHECKING:
     from jrnl.journals import Entry
 
+# Search patterns
+DIGIT_PATTERN = "[0123456789]"
+YEAR_PATTERN = DIGIT_PATTERN * 4
+MONTH_PATTERN = DIGIT_PATTERN * 2
+DAY_PATTERN = (DIGIT_PATTERN * 2) + ".txt"
 
+# Entire range of possible folder/file names for months and days
+MONTH_FOLDERS = [str(m).zfill(2) for m in range(1, 13)]
+DAY_FILE_STEMS = [str(d).zfill(2) for d in range(1, 32)]
 
 class Folder(Journal):
     """A Journal handling multiple files in a folder"""
 
-    # Entire range of possible folder/file names for months and days
-    MONTH_FOLDERS = [str(m).zfill(2) for m in range(1, 13)]
-    DAY_FILE_STEMS = [str(d).zfill(2) for d in range(1, 32)]
 
     def __init__(self, name: str = "default", **kwargs):
         self.entries = []
@@ -128,23 +133,23 @@ class Folder(Journal):
 
     @staticmethod
     def _get_year_folders(path: pathlib.Path) -> list[pathlib.Path]:
-        for child in path.iterdir():
+        for child in path.glob(YEAR_PATTERN):
             if child.name.isdigit() and len(child.name) == 4 and child.is_dir():
                 yield child
         return
 
     @staticmethod
     def _get_month_folders(path: pathlib.Path) -> list[pathlib.Path]:
-        for child in path.iterdir():
-            if child.name in Folder.MONTH_FOLDERS and path.is_dir():
+        for child in path.glob(MONTH_PATTERN):
+            if child.name in MONTH_FOLDERS and path.is_dir():
                 yield child
         return
 
     @staticmethod
     def _get_day_files(path: pathlib.Path) -> list[str]:
-        for child in path.iterdir():
+        for child in path.glob(DAY_PATTERN):
             if (
-                child.stem in Folder.DAY_FILE_STEMS
+                child.stem in DAY_FILE_STEMS
                 and child.match("*.txt")
                 and child.is_file()
             ):
