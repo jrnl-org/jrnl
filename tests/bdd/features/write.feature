@@ -76,21 +76,21 @@ Feature: Writing new entries.
         | basic_dayone.yaml    |
         | basic_folder.yaml    |
 
-    Scenario Outline: Writing an empty entry from the editor should yield "No entry to save" message
+    Scenario Outline: Clearing the editor's contents should yield "No text received" message
         Given we use the config "<config_file>"
         And we write nothing to the editor if opened
         And we use the password "test" if prompted
         When we run "jrnl --edit"
-        Then the error output should contain "No entry to save, because no text was received"
+        Then the error output should contain "No text received from editor. Were you trying to delete all the entries?"
         And the editor should have been called
 
         Examples: configs
-        | config_file              |
-        | editor.yaml              |
-        | editor_empty_folder.yaml |
-        | dayone.yaml              |
-        | basic_encrypted.yaml     |
-        | basic_onefile.yaml       |
+        | config_file          |
+        | editor.yaml          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_dayone.yaml    |
+        | basic_folder.yaml    |
 
     Scenario Outline: Writing an empty entry from the command line should yield "No entry to save" message
         Given we use the config "<config_file>"
@@ -236,7 +236,9 @@ Feature: Writing new entries.
         And we append to the editor if opened
             [2021-11-13] worked on jrnl tests
         When we run "jrnl --edit"
-        Then the output should contain "1 entry added"
+        Then the error output should contain "3 entries found"
+        And the error output should contain "1 entry added"
+
 
         Examples: configs
         | config_file          |
@@ -254,7 +256,8 @@ Feature: Writing new entries.
             [2021-11-12] worked on jrnl tests again
             [2021-11-13] worked on jrnl tests a little bit more
         When we run "jrnl --edit"
-        Then the error output should contain "3 entries added"
+        Then the error output should contain "3 entries found"
+        And the error output should contain "3 entries added"
 
         Examples: configs
         | config_file          |
@@ -271,7 +274,7 @@ Feature: Writing new entries.
             [2021-11-13] I am replacing my whole journal with this entry
         When we run "jrnl --edit"
         Then the output should contain "2 entries deleted"
-        Then the output should contain "3 entries modified"
+        And the output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
@@ -287,8 +290,7 @@ Feature: Writing new entries.
         And we write to the editor if opened
             [2021-11-13] I am replacing the last entry with this entry
         When we run "jrnl --edit -1"
-        Then the output should contain
-            1 entry modified
+        Then the error output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
@@ -304,8 +306,8 @@ Feature: Writing new entries.
         And we append to the editor if opened
             This is a small addendum to my latest entry.
         When we run "jrnl --edit"
-        Then the output should contain
-            1 entry modified
+        Then the error output should contain "3 entries found"
+        And the error output should contain "1 entry modified"
 
         Examples: configs
         | config_file          |
@@ -341,6 +343,7 @@ Feature: Writing new entries.
         And we append to the editor if opened
             @newtag
         When we run "jrnl --edit -1"
+        Then the error output should contain "1 entry modified"
         When we run "jrnl --tags @newtag"
         Then the output should contain
             1 entry found

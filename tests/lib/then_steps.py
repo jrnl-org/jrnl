@@ -25,6 +25,11 @@ def should_get_no_error(cli_run):
     assert cli_run["status"] == 0, cli_run["status"]
 
 
+@then("we should get an error")
+def should_get_an_error(cli_run):
+    assert cli_run["status"] != 0, cli_run["status"]
+
+
 @then(parse("the output should match\n{regex}"))
 @then(parse('the output should match "{regex}"'))
 def output_should_match(regex, cli_run):
@@ -192,12 +197,12 @@ def config_var_in_memory(config_in_memory, journal_name, it_should, some_yaml):
 
 @then("we should be prompted for a password")
 def password_was_called(cli_run):
-    assert cli_run["mocks"]["user_input"].called
+    assert cli_run["mocks"]["user_input"].return_value.input.called
 
 
 @then("we should not be prompted for a password")
 def password_was_not_called(cli_run):
-    assert not cli_run["mocks"]["user_input"].called
+    assert not cli_run["mocks"]["user_input"].return_value.input.called
 
 
 @then(parse("the cache directory should contain the files\n{file_list}"))

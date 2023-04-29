@@ -105,10 +105,16 @@ class MsgText(Enum):
 
     KeyboardInterruptMsg = "Aborted by user"
 
-    CantReadTemplate = """
-        Unreadable template
-        Could not read template file at:
-        {template}
+    CantReadTemplateGlobalConfig = """
+        Could not read template file defined in config:
+        {global_template_path}
+        """
+
+    CantReadTemplateCLIArg = """
+        Unable to find a template file based on the passed arg, and no global template was detected.
+        The following filepaths were checked:
+        jrnl XDG Template Directory : {jrnl_template_dir}
+        Local Filepath              : {normalized_template_arg_filepath}
         """
 
     NoNamedJournal = "No '{journal_name}' journal configured\n{journals}"
@@ -157,6 +163,14 @@ class MsgText(Enum):
 
         For examples of how to configure an external editor, see:
             https://jrnl.sh/en/stable/external-editors/
+        """
+
+    NoEditsReceivedJournalNotDeleted = """
+        No text received from editor. Were you trying to delete all the entries?
+
+        This seems a bit drastic, so the operation was cancelled.
+
+        To delete all entries, use the --delete option.
         """
 
     NoEditsReceived = "No edits to save, because nothing was changed"

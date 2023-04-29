@@ -9,6 +9,7 @@ from jrnl.config import update_config
 if TYPE_CHECKING:
     from argparse import Namespace
 
+
 # import logging
 def apply_overrides(args: "Namespace", base_config: dict) -> dict:
     """Unpack CLI provided overrides into the configuration tree.
@@ -26,7 +27,6 @@ def apply_overrides(args: "Namespace", base_config: dict) -> dict:
 
     cfg_with_overrides = base_config.copy()
     for pairs in overrides:
-
         pairs = make_yaml_valid_dict(pairs)
         key_as_dots, override_value = _get_key_and_value_from_pair(pairs)
         keys = _convert_dots_to_list(key_as_dots)

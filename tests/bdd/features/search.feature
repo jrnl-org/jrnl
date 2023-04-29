@@ -372,3 +372,29 @@ Feature: Searching in a journal
             2013-06-17 20:38 This entry has a location.
 
             2013-07-17 11:38 This entry is starred!
+
+    Scenario Outline: Searching the most recent entry should not show found count
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl -1"
+        Then the error output should not contain "1 entry found"
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
+
+    Scenario Outline: Searching for more entries than are in the journal should show found count
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl -4"
+        Then the error output should contain "3 entries found"
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
