@@ -12,15 +12,17 @@ from jrnl.editor import read_template_file
 from jrnl.exception import JrnlException
 
 
+@patch("os.getcwd", side_effect="/") # prevent failures in CI if current directory has been deleted
 @patch("builtins.open", side_effect=FileNotFoundError())
-def test_read_template_file_with_no_file_raises_exception(mock_open):
+def test_read_template_file_with_no_file_raises_exception(mock_open, mock_getcwd):
     with pytest.raises(JrnlException) as ex:
         read_template_file("invalid_file.txt")
         assert isinstance(ex.value, JrnlException)
 
 
+@patch("os.getcwd", side_effect="/")  # prevent failures in CI if current directory has been deleted
 @patch("builtins.open", new_callable=mock_open, read_data="template text")
-def test_read_template_file_with_valid_file_returns_text(mock_file):
+def test_read_template_file_with_valid_file_returns_text(mock_file, mock_getcwd):
     assert read_template_file("valid_file.txt") == "template text"
 
 
