@@ -1,8 +1,40 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v4.0-beta3](https://pypi.org/project/jrnl/v4.0-beta3/) (2023-04-29)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta2...v4.0-beta3)
+
+**Fixed bugs:**
+
+- jrnl reads extraneous text files when reading folder journal [\#1692](https://github.com/jrnl-org/jrnl/issues/1692)
+- jrnl crashes when adding tag argument after `--change-time` [\#1644](https://github.com/jrnl-org/jrnl/issues/1644)
+- Only read text files that look like entries when opening folder journal [\#1697](https://github.com/jrnl-org/jrnl/pull/1697) ([micahellison](https://github.com/micahellison))
+
+**Documentation:**
+
+- Update contributing.md links in documentation [\#1726](https://github.com/jrnl-org/jrnl/pull/1726) ([ahosking](https://github.com/ahosking))
+
+## [v4.0-beta2](https://pypi.org/project/jrnl/v4.0-beta2/) (2023-04-22)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...v4.0-beta2)
+
+**Documentation:**
+
+- Fix various typos [\#1718](https://github.com/jrnl-org/jrnl/pull/1718) ([hezhizhen](https://github.com/hezhizhen))
+
+**Packaging:**
+
+- Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.3.1 [\#1720](https://github.com/jrnl-org/jrnl/pull/1720) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.3.0 [\#1715](https://github.com/jrnl-org/jrnl/pull/1715) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flake8-type-checking to v2.4.0 [\#1714](https://github.com/jrnl-org/jrnl/pull/1714) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.3.4 [\#1713](https://github.com/jrnl-org/jrnl/pull/1713) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.4.12 [\#1712](https://github.com/jrnl-org/jrnl/pull/1712) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [v4.0-beta](https://pypi.org/project/jrnl/v4.0-beta/) (2023-03-25)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3...v4.0-beta)
 
 **Implemented enhancements:**
 
