@@ -51,6 +51,10 @@ class Journal:
         self.entries = []
         self.encryption_method = None
 
+        # Track changes to journal in session. Modified is tracked in Entry
+        self.added_entry_count = 0
+        self.deleted_entry_count = 0
+
     def __len__(self):
         """Returns the number of entries"""
         return len(self.entries)
@@ -305,13 +309,17 @@ class Journal:
         """Deletes specific entries from a journal."""
         for entry in entries_to_delete:
             self.entries.remove(entry)
+            self.deleted_entry_count += 1
 
-    def change_date_entries(self, date: datetime.datetime | None) -> None:
+    def change_date_entries(
+        self, date: datetime.datetime, entries_to_change: list[Entry]
+    ) -> None:
         """Changes entry dates to given date."""
         date = time.parse(date)
 
-        for entry in self.entries:
+        for entry in entries_to_change:
             entry.date = date
+            entry.modified = True
 
     def prompt_action_entries(self, msg: MsgText) -> list[Entry]:
         """Prompts for action for each entry in a journal, using given message.
@@ -335,7 +343,8 @@ class Journal:
 
     def new_entry(self, raw: str, date=None, sort: bool = True) -> Entry:
         """Constructs a new entry from some raw text input.
-        If a date is given, it will parse and use this, otherwise scan for a date in the input first."""
+        If a date is given, it will parse and use this, otherwise scan for a date in the input first.
+        """
 
         raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
         # Split raw text into title and body
@@ -382,7 +391,23 @@ class Journal:
         # modified and how many got deleted later.
         for entry in mod_entries:
             entry.modified = not any(entry == old_entry for old_entry in self.entries)
+
+        self.increment_change_counts_by_edit(mod_entries)
+
         self.entries = mod_entries
+
+    def increment_change_counts_by_edit(self, mod_entries: Entry) -> None:
+        if len(mod_entries) > len(self.entries):
+            self.added_entry_count += len(mod_entries) - len(self.entries)
+        else:
+            self.deleted_entry_count += len(self.entries) - len(mod_entries)
+
+    def get_change_counts(self) -> dict:
+        return {
+            "added": self.added_entry_count,
+            "deleted": self.deleted_entry_count,
+            "modified": len([e for e in self.entries if e.modified]),
+        }
 
 
 class LegacyJournal(Journal):
@@ -443,7 +468,7 @@ def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journ
     If legacy is True, it will open Journals with legacy classes build for
     backwards compatibility with jrnl 1.x
     """
-    logging.debug("open_journal start")
+    logging.debug(f"open_journal '{journal_name}'")
     validate_journal_name(journal_name, config)
     config = config.copy()
     config["journal"] = expand_path(config["journal"])
