@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import os.path
-from pathlib import Path
 
 import xdg.BaseDirectory
 
@@ -40,8 +39,8 @@ def get_templates_path() -> str:
     doesn't exist.
     """
     # jrnl_xdg_resource_path is created by save_data_path if it does not exist
-    jrnl_xdg_resource_path = Path(xdg.BaseDirectory.save_data_path(XDG_RESOURCE))
-    jrnl_templates_path = jrnl_xdg_resource_path / "templates"
+    jrnl_xdg_resource_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE)
+    jrnl_templates_path = os.path.join(jrnl_xdg_resource_path, "templates")
     # Create the directory if needed.
     jrnl_templates_path.mkdir(exist_ok=True)
     return str(jrnl_templates_path)
@@ -64,9 +63,9 @@ def get_config_directory() -> str:
         )
 
 
-def get_config_path() -> Path:
+def get_config_path() -> str:
     try:
         config_directory_path = get_config_directory()
     except JrnlException:
-        return Path(home_dir(), DEFAULT_CONFIG_NAME)
-    return Path(config_directory_path, DEFAULT_CONFIG_NAME)
+        return os.path.join(home_dir(), DEFAULT_CONFIG_NAME)
+    return os.path.join(config_directory_path, DEFAULT_CONFIG_NAME)
