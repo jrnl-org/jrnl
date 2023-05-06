@@ -1,5 +1,8 @@
 [tool.poetry]
 name = "jrnl"
+version = "0.0"
+description = ""
+authors = []
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.main:run'
