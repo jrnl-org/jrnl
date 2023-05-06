@@ -6,10 +6,10 @@ from jrnl.main import run
 
 def test_passes():
     num = 80
-    assert run(num) == "a: " + ("a" * num) +  "\nb: {c: 1, d: 2}\n"
+    assert run(num) == "a: " + ("a" * num) +  "\nb:\n  c: 1\n  d: 2\n"
 
 
 def test_fails():
     num = 81
-    assert run(num) == "a: " + ("a" * num) +  "\nb: {c: 1, d: 2}\n"
+    assert run(num) == "a: " + ("a" * num) +  "\nb:\n  c: 1\n  d: 2\n"
 
