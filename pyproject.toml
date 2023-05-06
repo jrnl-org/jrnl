@@ -33,6 +33,6 @@ isolated_build = True
 deps =
   pytest >= 6.2
 
-commands = pytest -vvv {posargs}
+commands = pytest -v {posargs}
 passenv = HOME
 """

@@ -4,9 +4,12 @@
 from jrnl.main import run
 
 
-def test_whatever():
-    expected_output = """
-        a: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        b: {c: 1, d: 2}
-    """.strip()
-    assert run() == expected_output
+def test_passes():
+    num = 80
+    assert run(num) == "a: " + ("a" * num) +  "\nb: {c: 1, d: 2}\n"
+
+
+def test_fails():
+    num = 81
+    assert run(num) == "a: " + ("a" * num) +  "\nb: {c: 1, d: 2}\n"
+
