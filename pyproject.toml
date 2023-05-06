@@ -1,165 +1,19 @@
 [tool.poetry]
 name = "jrnl"
-version = "v4.0-beta3"
-description = "Collect your thoughts and notes without leaving the command line."
-authors = [
-    "jrnl contributors <maintainers@jrnl.sh>",
-    "Manuel Ebert <manuel@1450.me>",
-    "Jonathan Wren <jonathan@nowandwren.com>",
-    "Micah Ellison <micahellison@gmail.com>"
-]
-maintainers = [
-    "Jonathan Wren and Micah Ellison <maintainers@jrnl.sh>",
-]
-license = "GPL-3.0-only"
-readme = "README.md"
-homepage = "https://jrnl.sh"
-repository = "https://github.com/jrnl-org/jrnl"
-classifiers = [
-    "Topic :: Office/Business :: News/Diary",
-    "Environment :: Console",
-    "Operating System :: OS Independent"
-]
-
-[tool.poetry.urls]
-"Documentation" = "https://jrnl.sh"
-"Issue Tracker" = "https://github.com/jrnl-org/jrnl/issues"
-"Funding" = "https://opencollective.com/jrnl"
-
-[tool.poetry.dependencies]
-python = ">=3.10.0, <3.13"
-
-ansiwrap = "^0.8.4"
-colorama = ">=0.4"       # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
-cryptography = ">=3.0"   # https://cryptography.io/en/latest/api-stability.html
-keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration
-parsedatetime = ">=2.6"
-python-dateutil = "^2.8" # https://github.com/dateutil/dateutil/blob/master/RELEASING
-pyxdg = ">=0.27.0"
-"ruamel.yaml" = "^0.17.21"
-rich = ">=12.2.0, <14.0.0"
-
-# dayone-only deps
-tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
-
-[tool.poetry.dev-dependencies]
-black = { version = ">=21.5b2", allow-prereleases = true }
-flakeheaven = ">=3.0"
-flake8-black = ">=0.3.3"
-flake8-isort = ">=5.0.0"
-flake8-type-checking = ">=2.2.0"
-flake8-simplify = ">=0.19"
-ipdb = "*"
-isort = ">=5.10"
-mkdocs = ">=1.4"
-parse-type = ">=0.6.0"
-poethepoet = "*"
-pytest = ">=6.2"
-pytest-bdd = ">=6.0"
-pytest-clarity = "*"
-pytest-xdist = ">=2.5.0"
-requests = "*"
-toml = ">=0.10"
-tox = "*"
-xmltodict = "*"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.main:run'
 
-[tool.poe.tasks]
-docs-check.default_item_type = "script"
-docs-check.sequence = [
-  "tasks:delete_files(['sitemap.xml', 'config.json'])",
-  "tasks:generate_sitemap",
-  "tasks:output_file('sitemap.xml')",
-  "tasks:generate_pa11y_config_from_sitemap",
-  "tasks:output_file('config.json')",
-  "tasks:run_shell('npx pa11y-ci -c config.json')",
-  "tasks:delete_files(['sitemap.xml', 'config.json'])",
-]
-docs-run = [
-  {cmd = "mkdocs serve"},
-]
+[tool.poetry.dependencies]
+python = ">=3.10.0, <3.13"
+"ruamel.yaml" = "^0.17.21"
 
-test-run = [
-  {cmd = "tox -q -e py --"},
-]
-
-# Groups of tasks
-format.default_item_type = "cmd"
-format.sequence = [
-  "isort .",
-  "black .",
-]
-
-lint.env = { FLAKEHEAVEN_CACHE_TIMEOUT = "0" }
-lint.default_item_type = "cmd"
-lint.sequence = [
-  "poetry --version",
-  "poetry check",
-  "flakeheaven --version",
-  "flakeheaven plugins",
-  "flakeheaven lint",
-]
-
-test = [
-  "lint",
-  "test-run",
-]
-
-[tool.isort]
-profile = "black"
-force_single_line = true
-known_first_party = ["jrnl", "tests"]
+[tool.poetry.dev-dependencies]
+pytest = ">=6.2"
+tox = "*"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-required_plugins = [
-  "pytest-bdd"
-]
-markers = [
-    "todo",
-    "skip_win",
-    "skip_posix",
-    "on_win",
-    "on_posix",
-]
-addopts = [
-  "--pdbcls=IPython.terminal.debugger:Pdb",
-  "--tb=native",
-  "-n=auto",
-]
-
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore:Flag style will be deprecated in.*",
-    "ignore:[WinError 32].*",
-    "ignore:[WinError 5].*"
-]
-
-[tool.flakeheaven]
-max_line_length = 88
-exclude = [".git", ".tox", ".venv", "node_modules"]
-
-[tool.flakeheaven.plugins]
-"py*" = ["+*"]
-pycodestyle = [
-  "-E101",
-  "-E111", "-E114", "-E115", "-E116", "-E117",
-  "-E12*",
-  "-E13*",
-  "-E2*",
-  "-E3*",
-  "-E401",
-  "-E5*",
-  "-E70",
-  "-W1*", "-W2*", "-W3*", "-W5*",
-]
-"flake8-*" = ["+*"]
-flake8-black = ["-BLK901"]
-
-[tool.flakeheaven.exceptions."jrnl/journals/__init__.py"]
-pyflakes = ["-F401"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -175,11 +29,7 @@ isolated_build = True
 [testenv]
 deps =
   pytest >= 6.2
-  pytest-bdd >=6.0
-  pytest-xdist >=2.5.0
-  parse-type >=0.6.0
-  toml >=0.10
 
-commands = pytest {posargs}
+commands = pytest -vvv {posargs}
 passenv = HOME
 """
