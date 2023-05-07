@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta3...HEAD)
+
+**Packaging:**
+
+- Lock ruaml.yaml version until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
+
 ## [v4.0-beta3](https://pypi.org/project/jrnl/v4.0-beta3/) (2023-04-29)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta2...v4.0-beta3)
