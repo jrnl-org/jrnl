@@ -4,6 +4,11 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0...HEAD)
 
+**Fixed bugs:**
+
+- jrnl crashes when running `jrnl --list --format json` and `jrnl --list --format yaml` [\#1737](https://github.com/jrnl-org/jrnl/issues/1737)
+- Failing Mac test on develop branch [\#1736](https://github.com/jrnl-org/jrnl/issues/1736)
+
 **Build:**
 
 - Run pipeline tests weekly [\#1744](https://github.com/jrnl-org/jrnl/pull/1744) ([wren](https://github.com/wren))
@@ -19,6 +24,7 @@
 - Update dependency requests to v2.30.0 [\#1728](https://github.com/jrnl-org/jrnl/pull/1728) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.5.1 [\#1727](https://github.com/jrnl-org/jrnl/pull/1727) ([renovate[bot]](https://github.com/apps/renovate))
 - Update peter-evans/create-pull-request action to v5 [\#1719](https://github.com/jrnl-org/jrnl/pull/1719) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flake8-simplify to v0.20.0 [\#1716](https://github.com/jrnl-org/jrnl/pull/1716) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0](https://pypi.org/project/jrnl/v4.0/) (2023-05-20)
 
