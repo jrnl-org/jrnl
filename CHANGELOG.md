@@ -18,6 +18,7 @@
 - Update dependency rich to v13.3.5 [\#1729](https://github.com/jrnl-org/jrnl/pull/1729) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency requests to v2.30.0 [\#1728](https://github.com/jrnl-org/jrnl/pull/1728) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.5.1 [\#1727](https://github.com/jrnl-org/jrnl/pull/1727) ([renovate[bot]](https://github.com/apps/renovate))
+- Update peter-evans/create-pull-request action to v5 [\#1719](https://github.com/jrnl-org/jrnl/pull/1719) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0](https://pypi.org/project/jrnl/v4.0/) (2023-05-20)
 
