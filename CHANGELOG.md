@@ -10,6 +10,9 @@
 - Update dependency pytest-xdist to v3.3.1 [\#1740](https://github.com/jrnl-org/jrnl/pull/1740) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.20.0 [\#1735](https://github.com/jrnl-org/jrnl/pull/1735) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.4.3 [\#1733](https://github.com/jrnl-org/jrnl/pull/1733) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.3.5 [\#1729](https://github.com/jrnl-org/jrnl/pull/1729) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency requests to v2.30.0 [\#1728](https://github.com/jrnl-org/jrnl/pull/1728) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.5.1 [\#1727](https://github.com/jrnl-org/jrnl/pull/1727) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0](https://pypi.org/project/jrnl/v4.0/) (2023-05-20)
 
