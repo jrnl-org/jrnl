@@ -1,53 +1,11 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v4.0](https://pypi.org/project/jrnl/v4.0/) (2023-05-20)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta3...HEAD)
-
-**Packaging:**
-
-- Lock ruaml.yaml version until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
-
-## [v4.0-beta3](https://pypi.org/project/jrnl/v4.0-beta3/) (2023-04-29)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta2...v4.0-beta3)
-
-**Fixed bugs:**
-
-- jrnl reads extraneous text files when reading folder journal [\#1692](https://github.com/jrnl-org/jrnl/issues/1692)
-- jrnl crashes when adding tag argument after `--change-time` [\#1644](https://github.com/jrnl-org/jrnl/issues/1644)
-- Only read text files that look like entries when opening folder journal [\#1697](https://github.com/jrnl-org/jrnl/pull/1697) ([micahellison](https://github.com/micahellison))
-
-**Documentation:**
-
-- Update contributing.md links in documentation [\#1726](https://github.com/jrnl-org/jrnl/pull/1726) ([ahosking](https://github.com/ahosking))
-
-## [v4.0-beta2](https://pypi.org/project/jrnl/v4.0-beta2/) (2023-04-22)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta...v4.0-beta2)
-
-**Documentation:**
-
-- Fix various typos [\#1718](https://github.com/jrnl-org/jrnl/pull/1718) ([hezhizhen](https://github.com/hezhizhen))
-
-**Packaging:**
-
-- Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency pytest to v7.3.1 [\#1720](https://github.com/jrnl-org/jrnl/pull/1720) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency black to v23.3.0 [\#1715](https://github.com/jrnl-org/jrnl/pull/1715) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency flake8-type-checking to v2.4.0 [\#1714](https://github.com/jrnl-org/jrnl/pull/1714) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to v13.3.4 [\#1713](https://github.com/jrnl-org/jrnl/pull/1713) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.4.12 [\#1712](https://github.com/jrnl-org/jrnl/pull/1712) ([renovate[bot]](https://github.com/apps/renovate))
-
-## [v4.0-beta](https://pypi.org/project/jrnl/v4.0-beta/) (2023-03-25)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v3.3...v4.0-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta3...v4.0)
 
 **Implemented enhancements:**
 
-- Display locations of config file and documentation after initial install [\#1694](https://github.com/jrnl-org/jrnl/issues/1694)
-- Don't import cryptography package if not needed [\#1521](https://github.com/jrnl-org/jrnl/issues/1521)
 - Add message with config location and docs location when installation is complete [\#1695](https://github.com/jrnl-org/jrnl/pull/1695) ([micahellison](https://github.com/micahellison))
 - Prompt to include colors in config when first running jrnl [\#1687](https://github.com/jrnl-org/jrnl/pull/1687) ([micahellison](https://github.com/micahellison))
 - Add ability to use template with `--template` [\#1667](https://github.com/jrnl-org/jrnl/pull/1667) ([alichtman](https://github.com/alichtman))
@@ -59,12 +17,7 @@
 
 **Fixed bugs:**
 
-- Combinations of `--change-time`, `--delete`, and `--edit` don't work consistently [\#1696](https://github.com/jrnl-org/jrnl/issues/1696)
-- jrnl doesn't display count of entries deleted after deleting entries with `--delete` [\#1666](https://github.com/jrnl-org/jrnl/issues/1666)
-- Templated entries should not be saved if the raw text is identical to the original template  [\#1652](https://github.com/jrnl-org/jrnl/issues/1652)
-- Adding an entry with a combination of flags causes a journal overwrite [\#1639](https://github.com/jrnl-org/jrnl/issues/1639)
-- jrnl does not update version key in config file [\#1638](https://github.com/jrnl-org/jrnl/issues/1638)
-- jrnl should not create 0-length "encrypted" file on startup [\#1493](https://github.com/jrnl-org/jrnl/issues/1493)
+- Only read text files that look like entries when opening folder journal [\#1697](https://github.com/jrnl-org/jrnl/pull/1697) ([micahellison](https://github.com/micahellison))
 - Save empty journal on install instead of just creating a zero-length file [\#1690](https://github.com/jrnl-org/jrnl/pull/1690) ([micahellison](https://github.com/micahellison))
 - Allow combinations of `--change-time`, `--delete`, and `--edit` while correctly counting the number of entries affected [\#1669](https://github.com/jrnl-org/jrnl/pull/1669) ([wren](https://github.com/wren))
 - Don't save templated journal entries if the received raw text is the same as the template itself [\#1653](https://github.com/jrnl-org/jrnl/pull/1653) ([Briscoooe](https://github.com/Briscoooe))
@@ -77,7 +30,6 @@
 
 **Build:**
 
-- Support pytest-bdd 6 [\#1534](https://github.com/jrnl-org/jrnl/issues/1534)
 - Update copyright notices for 2023 [\#1660](https://github.com/jrnl-org/jrnl/pull/1660) ([wren](https://github.com/wren))
 - Fix bug where changelog is always slightly out of date on release tags [\#1631](https://github.com/jrnl-org/jrnl/pull/1631) ([wren](https://github.com/wren))
 - Add `simplify` plugin to linting checks [\#1630](https://github.com/jrnl-org/jrnl/pull/1630) ([wren](https://github.com/wren))
@@ -85,11 +37,8 @@
 
 **Documentation:**
 
-- Document template extension behavior [\#1677](https://github.com/jrnl-org/jrnl/issues/1677)
-- Visual Studio Code may store unencrypted temporary files [\#1675](https://github.com/jrnl-org/jrnl/issues/1675)
-- Document `-tagged`, `-not -tagged`, and `-not -starred` [\#1668](https://github.com/jrnl-org/jrnl/issues/1668)
-- Documentation Change [\#1651](https://github.com/jrnl-org/jrnl/issues/1651)
-- Update console examples on jrnl.sh front page [\#1622](https://github.com/jrnl-org/jrnl/issues/1622)
+- Update contributing.md links in documentation [\#1726](https://github.com/jrnl-org/jrnl/pull/1726) ([ahosking](https://github.com/ahosking))
+- Fix various typos [\#1718](https://github.com/jrnl-org/jrnl/pull/1718) ([hezhizhen](https://github.com/hezhizhen))
 - Update documentation front page text [\#1698](https://github.com/jrnl-org/jrnl/pull/1698) ([micahellison](https://github.com/micahellison))
 - Support mkdocs 1.4.2 and fix its missing breadcrumb [\#1691](https://github.com/jrnl-org/jrnl/pull/1691) ([micahellison](https://github.com/micahellison))
 - Document temporary file extension behavior when using template [\#1686](https://github.com/jrnl-org/jrnl/pull/1686) ([micahellison](https://github.com/micahellison))
@@ -102,6 +51,14 @@
 
 **Packaging:**
 
+- Lock ruaml.yaml version until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
+- Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.3.1 [\#1720](https://github.com/jrnl-org/jrnl/pull/1720) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.3.0 [\#1715](https://github.com/jrnl-org/jrnl/pull/1715) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flake8-type-checking to v2.4.0 [\#1714](https://github.com/jrnl-org/jrnl/pull/1714) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.3.4 [\#1713](https://github.com/jrnl-org/jrnl/pull/1713) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.4.12 [\#1712](https://github.com/jrnl-org/jrnl/pull/1712) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v40 [\#1710](https://github.com/jrnl-org/jrnl/pull/1710) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.19.0 [\#1709](https://github.com/jrnl-org/jrnl/pull/1709) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v4.3 [\#1708](https://github.com/jrnl-org/jrnl/pull/1708) ([renovate[bot]](https://github.com/apps/renovate))
