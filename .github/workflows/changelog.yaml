@@ -59,7 +59,7 @@ jobs:
 
           if [[ "$(git rev-parse "origin/$BRANCH")" != "$GITHUB_SHA" ]]; then
             # Normal build on a branch (no tag)
-            echo "::debug::BRANCH: $BRANCH $(git rev-parse origin/$BRANCH)"
+            echo "::debug::BRANCH: $BRANCH $(git rev-parse "origin/$BRANCH")"
             echo "::debug::GITHUB_SHA: $GITHUB_SHA"
             echo "::error::$BRANCH has been updated since build started. Aborting changelog."
             exit 1
