@@ -157,7 +157,7 @@ def config_var_on_disk(config_on_disk, journal_name, it_should, some_yaml):
     actual_slice = actual
     if type(actual) is dict:
         # `expected` objects formatted in yaml only compare one level deep
-        actual_slice = {key: actual.get(key, None) for key in expected.keys()}
+        actual_slice = {key: actual.get(key) for key in expected.keys()}
 
     assert (expected == actual_slice) == it_should
 
