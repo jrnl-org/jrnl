@@ -183,10 +183,10 @@ def mock_default_journal_path(temp_dir):
 
 @fixture
 def mock_default_templates_path(temp_dir):
-    templates_path = Path(temp_dir.name, "templates")
+    templates_path = os.path.join(temp_dir.name, "templates")
     return {
         "get_templates_path": lambda: patch(
-            "jrnl.controller.get_templates_path", return_value=templates_path
+            "jrnl.editor.get_templates_path", return_value=templates_path
         ),
     }
 

@@ -4,12 +4,10 @@
 import argparse
 import logging
 import os
-from pathlib import Path
 from typing import Any
 from typing import Callable
 
 import colorama
-import xdg.BaseDirectory
 from rich.pretty import pretty_repr
 from ruamel.yaml import YAML
 from ruamel.yaml import constructor
@@ -21,13 +19,10 @@ from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import list_journals
 from jrnl.output import print_msg
-from jrnl.path import home_dir
+from jrnl.path import get_config_path
+from jrnl.path import get_default_journal_path
 
 # Constants
-DEFAULT_CONFIG_NAME = "jrnl.yaml"
-XDG_RESOURCE = "jrnl"
-
-DEFAULT_JOURNAL_NAME = "journal.txt"
 DEFAULT_JOURNAL_KEY = "default"
 
 YAML_SEPARATOR = ": "
@@ -73,31 +68,6 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
         yaml.dump(config, f)
 
 
-def get_config_directory() -> str:
-    try:
-        return xdg.BaseDirectory.save_config_path(XDG_RESOURCE)
-    except FileExistsError:
-        raise JrnlException(
-            Message(
-                MsgText.ConfigDirectoryIsFile,
-                MsgStyle.ERROR,
-                {
-                    "config_directory_path": os.path.join(
-                        xdg.BaseDirectory.xdg_config_home, XDG_RESOURCE
-                    )
-                },
-            ),
-        )
-
-
-def get_config_path() -> Path:
-    try:
-        config_directory_path = get_config_directory()
-    except JrnlException:
-        return Path(home_dir(), DEFAULT_CONFIG_NAME)
-    return Path(config_directory_path, DEFAULT_CONFIG_NAME)
-
-
 def get_default_config() -> dict[str, Any]:
     return {
         "version": __version__,
@@ -128,20 +98,6 @@ def get_default_colors() -> dict[str, Any]:
         "tags": "yellow",
         "title": "cyan",
     }
-
-
-def get_default_journal_path() -> str:
-    journal_data_path = xdg.BaseDirectory.save_data_path(XDG_RESOURCE) or home_dir()
-    return os.path.join(journal_data_path, DEFAULT_JOURNAL_NAME)
-
-
-def get_templates_path() -> Path:
-    # jrnl_xdg_resource_path is created by save_data_path if it does not exist
-    jrnl_xdg_resource_path = Path(xdg.BaseDirectory.save_data_path(XDG_RESOURCE))
-    jrnl_templates_path = jrnl_xdg_resource_path / "templates"
-    # Create the directory if needed.
-    jrnl_templates_path.mkdir(exist_ok=True)
-    return jrnl_templates_path
 
 
 def scope_config(config: dict, journal_name: str) -> dict:
