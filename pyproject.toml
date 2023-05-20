@@ -36,7 +36,7 @@ keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration
 parsedatetime = ">=2.6"
 python-dateutil = "^2.8" # https://github.com/dateutil/dateutil/blob/master/RELEASING
 pyxdg = ">=0.27.0"
-"ruamel.yaml" = "0.17.21" # locked to this version until bug is resolved: https://github.com/jrnl-org/jrnl/issues/1736
+"ruamel.yaml" = "0.17.26" # locked to this version until bug is resolved: https://github.com/jrnl-org/jrnl/issues/1736
 rich = ">=12.2.0, <14.0.0"
 
 # dayone-only deps
