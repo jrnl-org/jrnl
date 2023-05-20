@@ -4,6 +4,12 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta3...v4.0)
 
+🚨 **BREAKING CHANGES** 🚨
+
+**Deprecated:**
+
+- Drop Python 3.9 and use Python 3.11 official release [\#1611](https://github.com/jrnl-org/jrnl/pull/1611) ([micahellison](https://github.com/micahellison))
+
 **Implemented enhancements:**
 
 - Add message with config location and docs location when installation is complete [\#1695](https://github.com/jrnl-org/jrnl/pull/1695) ([micahellison](https://github.com/micahellison))
@@ -23,10 +29,6 @@
 - Don't save templated journal entries if the received raw text is the same as the template itself [\#1653](https://github.com/jrnl-org/jrnl/pull/1653) ([Briscoooe](https://github.com/Briscoooe))
 - Add tag to XML file when edited DayOne entry and is searchable afterward [\#1648](https://github.com/jrnl-org/jrnl/pull/1648) ([jonakeys](https://github.com/jonakeys))
 - Update version key in config file after version changes [\#1646](https://github.com/jrnl-org/jrnl/pull/1646) ([jonakeys](https://github.com/jonakeys))
-
-**Deprecated:**
-
-- Drop Python 3.9 and use Python 3.11 official release [\#1611](https://github.com/jrnl-org/jrnl/pull/1611) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
@@ -51,25 +53,18 @@
 
 **Packaging:**
 
-- Lock ruaml.yaml version until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
-- Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency pytest to v7.3.1 [\#1720](https://github.com/jrnl-org/jrnl/pull/1720) ([renovate[bot]](https://github.com/apps/renovate))
+- Lock ruamel.yaml version to v0.17.21 until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
 - Update dependency black to v23.3.0 [\#1715](https://github.com/jrnl-org/jrnl/pull/1715) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v40.0.2 [\#1723](https://github.com/jrnl-org/jrnl/pull/1723) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency flake8-type-checking to v2.4.0 [\#1714](https://github.com/jrnl-org/jrnl/pull/1714) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to v13.3.4 [\#1713](https://github.com/jrnl-org/jrnl/pull/1713) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.4.12 [\#1712](https://github.com/jrnl-org/jrnl/pull/1712) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency cryptography to v40 [\#1710](https://github.com/jrnl-org/jrnl/pull/1710) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency poethepoet to v0.19.0 [\#1709](https://github.com/jrnl-org/jrnl/pull/1709) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tzlocal to v4.3 [\#1708](https://github.com/jrnl-org/jrnl/pull/1708) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.4.7 [\#1707](https://github.com/jrnl-org/jrnl/pull/1707) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to v13.3.2 [\#1706](https://github.com/jrnl-org/jrnl/pull/1706) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency pytest-xdist to v3.2.1 [\#1705](https://github.com/jrnl-org/jrnl/pull/1705) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency pytest to v7.2.2 [\#1704](https://github.com/jrnl-org/jrnl/pull/1704) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency flakeheaven to v3.3.0 [\#1722](https://github.com/jrnl-org/jrnl/pull/1722) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ipdb to v0.13.13 [\#1703](https://github.com/jrnl-org/jrnl/pull/1703) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency flake8-type-checking to v2.3.1 [\#1702](https://github.com/jrnl-org/jrnl/pull/1702) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency cryptography to v39.0.2 [\#1701](https://github.com/jrnl-org/jrnl/pull/1701) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to v13 [\#1654](https://github.com/jrnl-org/jrnl/pull/1654) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.19.0 [\#1709](https://github.com/jrnl-org/jrnl/pull/1709) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.3.1 [\#1720](https://github.com/jrnl-org/jrnl/pull/1720) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.2.1 [\#1705](https://github.com/jrnl-org/jrnl/pull/1705) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.3.4 [\#1713](https://github.com/jrnl-org/jrnl/pull/1713) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.4.7 [\#1707](https://github.com/jrnl-org/jrnl/pull/1707) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tzlocal to v4.3 [\#1708](https://github.com/jrnl-org/jrnl/pull/1708) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v3.3](https://pypi.org/project/jrnl/v3.3/) (2022-10-29)
 
@@ -168,6 +163,10 @@
 
 🚨 **BREAKING CHANGES** 🚨
 
+**Deprecated:**
+
+- Drop support for Python 3.7 and 3.8 [\#1412](https://github.com/jrnl-org/jrnl/pull/1412) ([micahellison](https://github.com/micahellison))
+
 **Implemented enhancements:**
 
 - Show name of journal when creating a password/encrypting [\#1478](https://github.com/jrnl-org/jrnl/pull/1478) ([jonakeys](https://github.com/jonakeys))
@@ -189,10 +188,6 @@
 - Give a proper message when trying to use an empty config file [\#1461](https://github.com/jrnl-org/jrnl/pull/1461) ([jonakeys](https://github.com/jonakeys))
 - Display "No entry to save, because no text was received" after empty entry on cmdline [\#1459](https://github.com/jrnl-org/jrnl/pull/1459) ([apainintheneck](https://github.com/apainintheneck))
 - Yaml export errors now don't show stack trace [\#1449](https://github.com/jrnl-org/jrnl/pull/1449) ([apainintheneck](https://github.com/apainintheneck))
-
-**Deprecated:**
-
-- Drop support for Python 3.7 and 3.8 [\#1412](https://github.com/jrnl-org/jrnl/pull/1412) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
