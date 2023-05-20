@@ -9,6 +9,7 @@
 - Update dependency tzlocal to v5 [\#1741](https://github.com/jrnl-org/jrnl/pull/1741) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.3.1 [\#1740](https://github.com/jrnl-org/jrnl/pull/1740) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.20.0 [\#1735](https://github.com/jrnl-org/jrnl/pull/1735) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.4.3 [\#1733](https://github.com/jrnl-org/jrnl/pull/1733) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0](https://pypi.org/project/jrnl/v4.0/) (2023-05-20)
 
