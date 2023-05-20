@@ -6,11 +6,13 @@
 
 **Build:**
 
+- Run pipeline tests weekly [\#1744](https://github.com/jrnl-org/jrnl/pull/1744) ([wren](https://github.com/wren))
 - Fix linting issue in CI pipeline [\#1743](https://github.com/jrnl-org/jrnl/pull/1743) ([wren](https://github.com/wren))
 
 **Packaging:**
 
 - Update dependency tzlocal to v5 [\#1741](https://github.com/jrnl-org/jrnl/pull/1741) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.3.1 [\#1740](https://github.com/jrnl-org/jrnl/pull/1740) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.20.0 [\#1735](https://github.com/jrnl-org/jrnl/pull/1735) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.4.3 [\#1733](https://github.com/jrnl-org/jrnl/pull/1733) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.3.5 [\#1729](https://github.com/jrnl-org/jrnl/pull/1729) ([renovate[bot]](https://github.com/apps/renovate))
