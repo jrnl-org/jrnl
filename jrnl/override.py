@@ -21,7 +21,7 @@ def apply_overrides(args: "Namespace", base_config: dict) -> dict:
     :return: Configuration to be used during runtime with the overrides applied
     :rtype: dict
     """
-    overrides = vars(args).get("config_override", None)
+    overrides = vars(args).get("config_override")
     if not overrides:
         return base_config
 
