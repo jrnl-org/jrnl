@@ -7,15 +7,15 @@
 **Fixed bugs:**
 
 - jrnl crashes when running `jrnl --list --format json` and `jrnl --list --format yaml` [\#1737](https://github.com/jrnl-org/jrnl/issues/1737)
-- Failing Mac test on develop branch [\#1736](https://github.com/jrnl-org/jrnl/issues/1736)
+- Refactor --template code [\#1711](https://github.com/jrnl-org/jrnl/pull/1711) ([micahellison](https://github.com/micahellison))
 
 **Build:**
 
-- Run pipeline tests weekly [\#1744](https://github.com/jrnl-org/jrnl/pull/1744) ([wren](https://github.com/wren))
 - Fix linting issue in CI pipeline [\#1743](https://github.com/jrnl-org/jrnl/pull/1743) ([wren](https://github.com/wren))
 
 **Packaging:**
 
+- Update dependency ruamel.yaml to v0.17.26 [\#1746](https://github.com/jrnl-org/jrnl/pull/1746) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5 [\#1741](https://github.com/jrnl-org/jrnl/pull/1741) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.3.1 [\#1740](https://github.com/jrnl-org/jrnl/pull/1740) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.20.0 [\#1735](https://github.com/jrnl-org/jrnl/pull/1735) ([renovate[bot]](https://github.com/apps/renovate))
