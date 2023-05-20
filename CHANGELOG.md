@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0...HEAD)
+
+**Packaging:**
+
+- Update dependency tzlocal to v5 [\#1741](https://github.com/jrnl-org/jrnl/pull/1741) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.3.1 [\#1740](https://github.com/jrnl-org/jrnl/pull/1740) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v4.0](https://pypi.org/project/jrnl/v4.0/) (2023-05-20)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0-beta3...v4.0)
