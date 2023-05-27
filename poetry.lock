@@ -1598,14 +1598,14 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.17.26"
+version = "0.17.28"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 category = "main"
 optional = false
 python-versions = ">=3"
 files = [
-    {file = "ruamel.yaml-0.17.26-py3-none-any.whl", hash = "sha256:25d0ee82a0a9a6f44683dcf8c282340def4074a4562f3a24f55695bb254c1693"},
-    {file = "ruamel.yaml-0.17.26.tar.gz", hash = "sha256:baa2d0a5aad2034826c439ce61c142c07082b76f4791d54145e131206e998059"},
+    {file = "ruamel.yaml-0.17.28-py3-none-any.whl", hash = "sha256:823aff68f88260805049d6a4825e36cb7f1e273a7dd8f391e7b35a16a67a30ea"},
+    {file = "ruamel.yaml-0.17.28.tar.gz", hash = "sha256:3bf6df1c481d2463a633be6ee86e8aece941bb3298a9a0cd6d0865f47b1ddce6"},
 ]
 
 [package.dependencies]
