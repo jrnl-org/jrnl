@@ -4,12 +4,9 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1-beta...HEAD)
 
-**Fixed bugs:**
-
-- `--template` doesn't appear in the help menu [\#1747](https://github.com/jrnl-org/jrnl/issues/1747)
-
 **Packaging:**
 
+- Update dependency ruamel.yaml to v0.17.28 [\#1749](https://github.com/jrnl-org/jrnl/pull/1749) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency requests to v2.31.0 [\#1748](https://github.com/jrnl-org/jrnl/pull/1748) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0.1-beta](https://pypi.org/project/jrnl/v4.0.1-beta/) (2023-05-20)
