@@ -33,7 +33,7 @@ def oxford_list(lst: list) -> str:
         return ", ".join(lst[:-1]) + ", or " + lst[-1]
 
 
-def get_journal_frequency_as_dict(journal: "Journal") -> NestedDict:
+def get_journal_frequency_nested(journal: "Journal") -> NestedDict:
     """Returns a NestedDict of the form {year: {month: {day: count}}}"""
     journal_frequency = NestedDict()
     for entry in journal.entries:
@@ -46,7 +46,7 @@ def get_journal_frequency_as_dict(journal: "Journal") -> NestedDict:
     return journal_frequency
 
 
-def get_journal_frequency_as_str(journal: "Journal") -> Counter:
+def get_journal_frequency_one_level(journal: "Journal") -> Counter:
     """Returns a Counter of the form {date (YYYY-MM-DD): count}"""
     date_counts = Counter()
     for entry in journal.entries:

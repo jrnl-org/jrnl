@@ -4,7 +4,7 @@
 from typing import TYPE_CHECKING
 
 from jrnl.plugins.text_exporter import TextExporter
-from jrnl.plugins.util import get_journal_frequency_as_str
+from jrnl.plugins.util import get_journal_frequency_one_level
 
 if TYPE_CHECKING:
     from jrnl.journals import Entry
@@ -24,6 +24,6 @@ class DatesExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal: "Journal") -> str:
         """Returns dates and their frequencies for an entire journal."""
-        date_counts = get_journal_frequency_as_str(journal)
+        date_counts = get_journal_frequency_one_level(journal)
         result = "\n".join(f"{date}, {count}" for date, count in date_counts.items())
         return result

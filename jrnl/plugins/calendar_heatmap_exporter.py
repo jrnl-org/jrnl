@@ -13,7 +13,7 @@ from rich.table import Table
 from rich.text import Text
 
 from jrnl.plugins.text_exporter import TextExporter
-from jrnl.plugins.util import get_journal_frequency_as_dict
+from jrnl.plugins.util import get_journal_frequency_nested
 
 if TYPE_CHECKING:
     from jrnl.datatypes import NestedDict
@@ -107,5 +107,5 @@ class CalendarHeatmapExporter(TextExporter):
     @classmethod
     def export_journal(cls, journal: "Journal"):
         """Returns dates and their frequencies for an entire journal."""
-        journal_entry_date_frequency = get_journal_frequency_as_dict(journal)
+        journal_entry_date_frequency = get_journal_frequency_nested(journal)
         return cls.print_calendar_heatmap(journal_entry_date_frequency)
