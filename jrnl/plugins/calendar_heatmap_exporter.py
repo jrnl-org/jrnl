@@ -45,9 +45,17 @@ class CalendarHeatmapExporter(TextExporter):
                 for month in range(1, 13):
                     if month > curr_month and year == curr_year:
                         break
+
+                    entries_this_month = sum(month_journaling_freq[month].values())
+                    if entries_this_month == 0:
+                        entry_msg = "No entries"
+                    elif entries_this_month == 1:
+                        entry_msg = "1 entry"
+                    else:
+                        entry_msg = f"{entries_this_month} entries"
                     table = Table(
-                        title=f"{calendar.month_name[month]} {year}",
-                        style="white",
+                        title=f"{calendar.month_name[month]} {year} ({entry_msg})",
+                        title_style="bold green",
                         box=box.SIMPLE_HEAVY,
                         padding=0,
                     )
