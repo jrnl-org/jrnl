@@ -12,11 +12,11 @@ from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
-from jrnl.datatypes import NestedDict
 from jrnl.plugins.text_exporter import TextExporter
 from jrnl.plugins.util import get_journal_frequency_as_dict
 
 if TYPE_CHECKING:
+    from jrnl.datatypes import NestedDict
     from jrnl.journals import Entry
     from jrnl.journals import Journal
 

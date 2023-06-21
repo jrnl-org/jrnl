@@ -1,7 +1,6 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
-from collections import Counter
 from typing import TYPE_CHECKING
 
 from jrnl.plugins.text_exporter import TextExporter
