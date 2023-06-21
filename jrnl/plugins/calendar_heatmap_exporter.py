@@ -32,7 +32,7 @@ class CalendarHeatmapExporter(TextExporter):
         raise NotImplementedError
 
     @classmethod
-    def print_calendar_heatmap(cls, journal_frequency: NestedDict) -> str:
+    def print_calendar_heatmap(cls, journal_frequency: "NestedDict") -> str:
         """Returns a string representation of the calendar heatmap."""
         console = Console()
         cal = calendar.Calendar()
