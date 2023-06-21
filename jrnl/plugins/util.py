@@ -1,7 +1,10 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+from collections import Counter
 from typing import TYPE_CHECKING
+
+from jrnl.datatypes import NestedDict
 
 if TYPE_CHECKING:
     from jrnl.journals import Journal
@@ -28,3 +31,26 @@ def oxford_list(lst: list) -> str:
         return lst[0] + " or " + lst[1]
     else:
         return ", ".join(lst[:-1]) + ", or " + lst[-1]
+
+
+def get_journal_frequency_as_dict(journal: "Journal") -> NestedDict:
+    """Returns a NestedDict of the form {year: {month: {day: count}}}"""
+    journal_frequency = NestedDict()
+    for entry in journal.entries:
+        date = entry.date.date()
+        if date.day in journal_frequency[date.year][date.month]:
+            journal_frequency[date.year][date.month][date.day] += 1
+        else:
+            journal_frequency[date.year][date.month][date.day] = 1
+
+    return journal_frequency
+
+
+def get_journal_frequency_as_str(journal: "Journal") -> Counter:
+    """Returns a Counter of the form {date (YYYY-MM-DD): count}"""
+    date_counts = Counter()
+    for entry in journal.entries:
+        # entry.date.date() gets date without time
+        date = str(entry.date.date())
+        date_counts[date] += 1
+    return date_counts
