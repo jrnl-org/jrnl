@@ -81,23 +81,16 @@ class CalendarHeatmapExporter(TextExporter):
                                 journal_frequency_for_day = (
                                     month_journaling_freq[month][day] or 0
                                 )
+                                day = str(day)
                                 # TODO: Make colors configurable?
                                 if journal_frequency_for_day == 0:
-                                    day_label = Text(
-                                        str(day or ""), style="red on black"
-                                    )
+                                    day_label = Text(day, style="red on black")
                                 elif journal_frequency_for_day == 1:
-                                    day_label = Text(
-                                        str(day or ""), style="black on yellow"
-                                    )
+                                    day_label = Text(day, style="black on yellow")
                                 elif journal_frequency_for_day == 2:
-                                    day_label = Text(
-                                        str(day or ""), style="black on green"
-                                    )
+                                    day_label = Text(day, style="black on green")
                                 else:
-                                    day_label = Text(
-                                        str(day or ""), style="black on white"
-                                    )
+                                    day_label = Text(day, style="black on white")
 
                             days.append(day_label)
                         table.add_row(*days)
