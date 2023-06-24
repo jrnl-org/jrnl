@@ -6,6 +6,7 @@
 
 **Packaging:**
 
+- Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.4.2 [\#1754](https://github.com/jrnl-org/jrnl/pull/1754) ([renovate[bot]](https://github.com/apps/renovate))
