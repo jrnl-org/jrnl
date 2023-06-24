@@ -2,16 +2,21 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1-beta...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
 
 **Packaging:**
 
-- Update dependency ruamel.yaml to v0.17.28 [\#1749](https://github.com/jrnl-org/jrnl/pull/1749) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency requests to v2.31.0 [\#1748](https://github.com/jrnl-org/jrnl/pull/1748) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.4.2 [\#1754](https://github.com/jrnl-org/jrnl/pull/1754) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41 [\#1753](https://github.com/jrnl-org/jrnl/pull/1753) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.17.32 [\#1752](https://github.com/jrnl-org/jrnl/pull/1752) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.6.3 [\#1751](https://github.com/jrnl-org/jrnl/pull/1751) ([renovate[bot]](https://github.com/apps/renovate))
 
-## [v4.0.1-beta](https://pypi.org/project/jrnl/v4.0.1-beta/) (2023-05-20)
+## [v4.0.1](https://pypi.org/project/jrnl/v4.0.1/) (2023-06-20)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0...v4.0.1-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1-beta...v4.0.1)
 
 **Fixed bugs:**
 
@@ -24,6 +29,8 @@
 
 **Packaging:**
 
+- Update dependency ruamel.yaml to v0.17.28 [\#1749](https://github.com/jrnl-org/jrnl/pull/1749) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency requests to v2.31.0 [\#1748](https://github.com/jrnl-org/jrnl/pull/1748) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.26 [\#1746](https://github.com/jrnl-org/jrnl/pull/1746) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5 [\#1741](https://github.com/jrnl-org/jrnl/pull/1741) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.3.1 [\#1740](https://github.com/jrnl-org/jrnl/pull/1740) ([renovate[bot]](https://github.com/apps/renovate))
