@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
+
+**Packaging:**
+
+- Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.4.2 [\#1754](https://github.com/jrnl-org/jrnl/pull/1754) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41 [\#1753](https://github.com/jrnl-org/jrnl/pull/1753) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.17.32 [\#1752](https://github.com/jrnl-org/jrnl/pull/1752) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.6.3 [\#1751](https://github.com/jrnl-org/jrnl/pull/1751) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v4.0.1](https://pypi.org/project/jrnl/v4.0.1/) (2023-06-20)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1-beta...v4.0.1)
