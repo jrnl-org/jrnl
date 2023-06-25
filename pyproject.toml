@@ -138,6 +138,12 @@ filterwarnings = [
     "ignore:[WinError 5].*"
 ]
 
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
 [tool.flakeheaven]
 max_line_length = 88
 exclude = [".git", ".tox", ".venv", "node_modules"]
