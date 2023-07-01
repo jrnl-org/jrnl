@@ -154,7 +154,9 @@ select = [
   'Q',
   'RSE',
   'TID',
-  'TCH'
+  'TCH',
+  'T100', # debugger, don't allow break points
+  'ICN'
 ]
 exclude = [".git", ".tox", ".venv", "node_modules"]
 
