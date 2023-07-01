@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from jrnl import install
 from jrnl import plugins
 from jrnl import time
+from jrnl.config import get_config
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_journal_name
@@ -47,15 +48,21 @@ def run(args: "Namespace"):
     if callable(args.preconfig_cmd):
         return args.preconfig_cmd(args)
 
-    # Load the config, and extract journal name
-    config = install.load_or_install_jrnl(args.config_file_path)
-    original_config = config.copy()
+    config = get_config(args)
+
+    if config.needs_upgrade():
+        upgrade.run_upgrade(config)
+
+
+    # old code
+    # config = install.load_or_install_jrnl(args.config_file_path)
+    # original_config = config.copy()
 
     # Apply config overrides
-    config = apply_overrides(args, config)
+    # config = apply_overrides(args, config)
 
     args = get_journal_name(args, config)
-    config = scope_config(config, args.journal_name)
+    # config = scope_config(config, args.journal_name)
 
     # Run post-config command now that config is ready
     if callable(args.postconfig_cmd):
