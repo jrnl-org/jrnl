@@ -2,21 +2,36 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import logging
+
 from .BaseConfigReader import BaseConfigReader
-from pathlib import PurePath
 
 
 class DefaultConfigReader(BaseConfigReader):
-    def __init__(self, filename: str):
+    def __init__(self, *args, **kwargs):
         logging.debug("start")
-        super()
-        self.filename: PurePath = PurePath(filename)
+        super().__init__(*args, **kwargs)
 
     def read(self):
-        self._parse_args()
-        # do some actual reading
+        logging.debug("start read")
+        self.config = {
+            # TODO: Uncomment these lines
 
-    def _parse_args(self):
-        # read self.args
-        # update self.cofig somehow
-        pass
+            # "version": __version__,
+            # "journals": {"default": {"journal": get_default_journal_path()}},
+            # "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
+            "encrypt": False,
+            "template": False,
+            "default_hour": 9,
+            "default_minute": 0,
+            "timeformat": "%F %r",
+            "tagsymbols": "#@",
+            "highlight": True,
+            "linewrap": 79,
+            "indent_character": "|",
+            "colors": {
+                "body": "none",
+                "date": "none",
+                "tags": "none",
+                "title": "none",
+            },
+        }

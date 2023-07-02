@@ -22,3 +22,10 @@ class JrnlException(Exception):
 
     def has_message_text(self, message_text: "MsgText"):
         return any([m.text == message_text for m in self.messages])
+
+
+class JrnlConfigException(JrnlException):
+    """For catching something something"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

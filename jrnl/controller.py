@@ -5,14 +5,12 @@ import logging
 import sys
 from typing import TYPE_CHECKING
 
-from jrnl import install
 from jrnl import plugins
 from jrnl import time
 from jrnl.config import get_config
 from jrnl.config import DEFAULT_JOURNAL_KEY
 from jrnl.config import get_config_path
 from jrnl.config import get_journal_name
-from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
 from jrnl.editor import read_template_file
@@ -23,7 +21,6 @@ from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.output import print_msgs
-from jrnl.override import apply_overrides
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -50,8 +47,7 @@ def run(args: "Namespace"):
 
     config = get_config(args)
 
-    if config.needs_upgrade():
-        upgrade.run_upgrade(config)
+    raise JrnlException
 
 
     # old code
