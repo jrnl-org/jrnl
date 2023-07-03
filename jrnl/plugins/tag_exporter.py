@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class TagExporter(TextExporter):
-    """This Exporter can lists the tags for entries and journals, exported as a plain text file."""
+    """This Exporter lists the tags for entries and journals."""
 
     names = ["tags"]
     extension = "tags"

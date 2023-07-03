@@ -439,7 +439,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
             \t jrnl --config-file /home/user1/work_config.yaml
         \t - Use a personal config file stored on a thumb drive: \n
             \t jrnl --config-file /media/user1/my-thumb-drive/personal_config.yaml
-        """,  # noqa E501
+        """,  # noqa: E501
     )
 
     alternate_config.add_argument(
