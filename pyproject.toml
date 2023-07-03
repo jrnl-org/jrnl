@@ -93,7 +93,6 @@ format.sequence = [
   "black .",
 ]
 
-lint.env = { FLAKEHEAVEN_CACHE_TIMEOUT = "0" }
 lint.default_item_type = "cmd"
 lint.sequence = [
   "poetry --version",
