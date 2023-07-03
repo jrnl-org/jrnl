@@ -78,7 +78,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
             """
         We gratefully thank all contributors!
         Come see the whole list of code and financial contributors at https://github.com/jrnl-org/jrnl
-        And special thanks to Bad Lip Reading for the Yoda joke in the Writing section above :)"""
+        And special thanks to Bad Lip Reading for the Yoda joke in the Writing section above :)"""  # noqa: E501
         ),
     )
 
