@@ -44,13 +44,7 @@ tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
-flakeheaven = ">=3.0"
-flake8-black = ">=0.3.3"
-flake8-isort = ">=5.0.0"
-flake8-type-checking = ">=2.2.0"
-flake8-simplify = ">=0.19"
 ipdb = "*"
-isort = ">=5.10"
 mkdocs = ">=1.4"
 parse-type = ">=0.6.0"
 poethepoet = "*"
