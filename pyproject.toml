@@ -100,6 +100,7 @@ lint.sequence = [
   "poetry check",
   "ruff --version",
   "ruff .",
+  "black --check ."
 ]
 
 test = [
