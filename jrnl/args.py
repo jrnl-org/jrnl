@@ -214,7 +214,8 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     composing.add_argument(
         "--template",
         dest="template",
-        help="Path to template file. Can be a local path, absolute path, or a path relative to $XDG_DATA_HOME/jrnl/templates/",
+        help="Path to template file. Can be a local path, absolute path, or a path "
+        "relative to $XDG_DATA_HOME/jrnl/templates/",
     )
 
     read_msg = (
@@ -265,13 +266,15 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         "-contains",
         dest="contains",
         metavar="TEXT",
-        help="Show entries containing specific text (put quotes around text with spaces)",
+        help="Show entries containing specific text (put quotes around text with "
+        "spaces)",
     )
     reading.add_argument(
         "-and",
         dest="strict",
         action="store_true",
-        help='Show only entries that match all conditions, like saying "x AND y" (default: OR)',
+        help='Show only entries that match all conditions, like saying "x AND y" '
+        "(default: OR)",
     )
     reading.add_argument(
         "-starred",
@@ -290,7 +293,8 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         dest="limit",
         default=None,
         metavar="NUMBER",
-        help="Show a maximum of NUMBER entries (note: '-n 3' and '-3' have the same effect)",
+        help="Show a maximum of NUMBER entries (note: '-n 3' and '-3' have the same "
+        "effect)",
         nargs="?",
         type=int,
     )
@@ -308,8 +312,12 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         ),
     )
 
-    search_options_msg = """    These help you do various tasks with the selected entries from your search.
-    If used on their own (with no search), they will act on your entire journal"""
+    search_options_msg = (
+        "    " # Preserves indentation
+        """
+        These help you do various tasks with the selected entries from your search.
+        If used on their own (with no search), they will act on your entire journal"""
+    )
     exporting = parser.add_argument_group(
         "Searching Options", textwrap.dedent(search_options_msg)
     )
@@ -360,7 +368,8 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         "--tags",
         dest="tags",
         action="store_true",
-        help="Alias for '--format tags'. Returns a list of all tags and number of occurrences",
+        help="Alias for '--format tags'. Returns a list of all tags and number of "
+        "occurrences",
     )
     exporting.add_argument(
         "--short",
@@ -400,7 +409,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
             \t jrnl --config-override editor "nano" \n
         \t - Override color selections\n
            \t jrnl --config-override colors.body blue --config-override colors.title green
-        """,
+        """,  # noqa: E501
     )
     config_overrides.add_argument(
         "--co",
@@ -430,7 +439,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
             \t jrnl --config-file /home/user1/work_config.yaml
         \t - Use a personal config file stored on a thumb drive: \n
             \t jrnl --config-file /media/user1/my-thumb-drive/personal_config.yaml
-        """,
+        """, # noqa E501
     )
 
     alternate_config.add_argument(
