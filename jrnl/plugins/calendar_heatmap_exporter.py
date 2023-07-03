@@ -39,6 +39,7 @@ class CalendarHeatmapExporter(TextExporter):
         curr_year = datetime.now().year
         curr_month = datetime.now().month
         curr_day = datetime.now().day
+        hit_first_entry = False
         with console.capture() as capture:
             for year, month_journaling_freq in journal_frequency.items():
                 year_calendar = []
@@ -47,7 +48,12 @@ class CalendarHeatmapExporter(TextExporter):
                         break
 
                     entries_this_month = sum(month_journaling_freq[month].values())
-                    if entries_this_month == 0:
+                    if not hit_first_entry and entries_this_month > 0:
+                        hit_first_entry = True
+
+                    if entries_this_month == 0 and not hit_first_entry:
+                        continue
+                    elif entries_this_month == 0:
                         entry_msg = "No entries"
                     elif entries_this_month == 1:
                         entry_msg = "1 entry"

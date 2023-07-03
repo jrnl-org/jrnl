@@ -565,6 +565,19 @@ Feature: Custom formats
         | basic_dayone.yaml    |
 
 
+Scenario Outline: Export calendar heatmap
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl --format calendar"
+        Then the output should be
+            2013-06-09, 1
+            2013-06-10, 1
+
+        Examples: configs
+        | config_file   |
+        | simple.yaml   |
+
+
     Scenario Outline: display_format short and pretty do not crash if specified as config values
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
