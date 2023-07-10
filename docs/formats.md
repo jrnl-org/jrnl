@@ -118,8 +118,8 @@ programs. Even so, they can still be used in the same way as any other format (l
 written to a file, or displayed in your terminal, if you want).
 
 !!! note
-While you may see boxed messages like "2 entries found" when using these formats,
-those messages are written to STDERR instead of STDOUT, and won't be piped when
+You may see boxed messages like "2 entries found" when using these formats, but
+those messages are written to `stderr` instead of `stdout`, and won't be piped when
 using the `|` operator.
 
 ### JSON
