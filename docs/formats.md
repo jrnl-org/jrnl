@@ -119,7 +119,7 @@ written to a file, or displayed in your terminal, if you want).
 
 !!! note
 While you may see boxed messages like "2 entries found" when using these formats,
-those messages are exported to STDERR instead of STDOUT, and won't be piped when
+those messages are written to STDERR instead of STDOUT, and won't be piped when
 using the `|` operator.
 
 ### JSON
