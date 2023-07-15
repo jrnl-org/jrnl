@@ -131,21 +131,21 @@ line-length = 88
 
 # https://beta.ruff.rs/docs/rules/
 select = [ 
-  'E',
-  'F',
-  'W',
-  'I',
-  'ASYNC',
-  'S110', # try-except-pass
-  'S112', # try-except-continue
-  'EM',
-  'ISC',
-  'Q',
-  'RSE',
-  'TID',
-  'TCH',
-  'T100', # debugger, don't allow break points
-  'ICN'
+  'F',     # Pyflakes
+  'E',     # pycodestyle errors
+  'W',     # pycodestyle warnings
+  'I',     # isort
+  'ASYNC', # flake8-async
+  'S110',  # try-except-pass
+  'S112',  # try-except-continue
+  'EM',    # flake8-errmsg
+  'ISC',   # flake8-implicit-str-concat
+  'Q',     # flake8-quotes
+  'RSE',   # flake8-raise
+  'TID',   # flake8-tidy-imports
+  'TCH',   # flake8-type-checking
+  'T100',  # debugger, don't allow break points
+  'ICN'    # flake8-import-conventions
 ]
 exclude = [".git", ".tox", ".venv", "node_modules"]
 
