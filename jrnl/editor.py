@@ -81,7 +81,8 @@ def get_template_path(template_path: str, jrnl_template_dir: str) -> str:
     actual_template_path = os.path.join(jrnl_template_dir, template_path)
     if not os.path.exists(actual_template_path):
         logging.debug(
-            f"Couldn't open {actual_template_path}. Treating template path like a local / abs path."
+            f"Couldn't open {actual_template_path}. "
+            "Treating template path like a local / abs path."
         )
         actual_template_path = absolute_path(template_path)
 

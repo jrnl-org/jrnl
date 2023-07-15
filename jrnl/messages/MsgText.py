@@ -43,8 +43,8 @@ class MsgText(Enum):
         Do you want to encrypt your journal? (You can always change this later)
         """
     UseColorsQuestion = """
-        Do you want jrnl to use colors when displaying entries? (You can always change this later)
-        """
+        Do you want jrnl to use colors to display entries? (You can always change this later)
+        """  # noqa: E501 - the line is still under 88 when dedented
     YesOrNoPromptDefaultYes = "[Y/n]"
     YesOrNoPromptDefaultNo = "[y/N]"
     ContinueUpgrade = "Continue upgrading jrnl?"
