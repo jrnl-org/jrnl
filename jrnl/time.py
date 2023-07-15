@@ -34,8 +34,8 @@ def parse(
     elif isinstance(date_str, datetime.datetime):
         return date_str
 
-    # Don't try to parse anything with 6 or fewer characters and was parsed from the existing journal.
-    # It's probably a markdown footnote
+    # Don't try to parse anything with 6 or fewer characters and was parsed from the
+    # existing journal. It's probably a markdown footnote
     if len(date_str) <= 6 and bracketed:
         return None
 
@@ -82,9 +82,9 @@ def parse(
     else:
         date = datetime.datetime(*date[:6])
 
-    # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
-    # Rather than this, we would like to see parsedatetime patched so we can tell it to prefer
-    # past dates
+    # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year
+    # wrong. Rather than this, we would like to see parsedatetime patched so we can
+    # tell it to prefer past dates
     dt = datetime.datetime.now() - date
     if dt.days < -28 and not year_present:
         date = date.replace(date.year - 1)

@@ -34,9 +34,9 @@ if TYPE_CHECKING:
 def run(args: "Namespace"):
     """
     Flow:
-    1. Run standalone command if it doesn't require config (help, version, etc), then exit
+    1. Run standalone command if it doesn't need config (help, version, etc), then exit
     2. Load config
-    3. Run standalone command if it does require config (encrypt, decrypt, etc), then exit
+    3. Run standalone command if it does need config (encrypt, decrypt, etc), then exit
     4. Load specified journal
     5. Start append mode, or search mode
     6. Perform actions with results from search mode (if needed)
@@ -181,7 +181,9 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
 def _get_template(args, config) -> str:
     # Read template file and pass as raw text into the composer
     logging.debug(
-        f"Get template:\n--template: {args.template}\nfrom config: {config.get('template')}"
+        "Get template:\n"
+        f"--template: {args.template}\n"
+        f"from config: {config.get('template')}"
     )
     template_path = args.template or config.get("template")
 

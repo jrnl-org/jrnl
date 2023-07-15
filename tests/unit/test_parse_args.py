@@ -242,7 +242,9 @@ def test_color_override():
 
 def test_multiple_overrides():
     parsed_args = cli_as_dict(
-        '--config-override colors.title green --config-override editor "nano" --config-override journal.scratchpad "/tmp/scratchpad"'
+        "--config-override colors.title green "
+        '--config-override editor "nano" '
+        '--config-override journal.scratchpad "/tmp/scratchpad"'
     )
     assert parsed_args == expected_args(
         config_override=[
