@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
 
+**Documentation:**
+
+- Add note about messages going to `stderr` and the implication for piping [\#1768](https://github.com/jrnl-org/jrnl/pull/1768) ([micahellison](https://github.com/micahellison))
+
 **Packaging:**
 
 - Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
