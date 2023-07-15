@@ -4,6 +4,14 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
 
+**Fixed bugs:**
+
+- Linting rules aren't enforced the same as format rules [\#1742](https://github.com/jrnl-org/jrnl/issues/1742)
+
+**Build:**
+
+- Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
+
 **Documentation:**
 
 - Add note about messages going to `stderr` and the implication for piping [\#1768](https://github.com/jrnl-org/jrnl/pull/1768) ([micahellison](https://github.com/micahellison))
