@@ -21,7 +21,7 @@ def apply_overrides(args: "Namespace", base_config: dict) -> dict:
     :return: Configuration to be used during runtime with the overrides applied
     :rtype: dict
     """
-    overrides = vars(args).get("config_override", None)
+    overrides = vars(args).get("config_override")
     if not overrides:
         return base_config
 
@@ -56,7 +56,8 @@ def _recursively_apply(tree: dict, nodes: list, override_value) -> dict:
 
     Args:
         config (dict): Configuration to modify
-        nodes (list): Vector of override keys; the length of the vector indicates tree depth
+        nodes (list): Vector of override keys; the length of the vector indicates tree
+            depth
         override_value (str): Runtime override passed from the command-line
     """
     key = nodes[0]

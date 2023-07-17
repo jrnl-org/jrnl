@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jrnl"
-version = "v4.0-beta3"
+version = "v4.0.1"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
     "jrnl contributors <maintainers@jrnl.sh>",
@@ -35,7 +35,7 @@ keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration
 parsedatetime = ">=2.6"
 python-dateutil = "^2.8" # https://github.com/dateutil/dateutil/blob/master/RELEASING
 pyxdg = ">=0.27.0"
-"ruamel.yaml" = "^0.17.21"
+"ruamel.yaml" = ">=0.17.22"
 rich = ">=12.2.0, <14.0.0"
 
 # dayone-only deps
@@ -43,13 +43,7 @@ tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
-flakeheaven = ">=3.0"
-flake8-black = ">=0.3.3"
-flake8-isort = ">=5.0.0"
-flake8-type-checking = ">=2.2.0"
-flake8-simplify = ">=0.19"
 ipdb = "*"
-isort = ">=5.10"
 mkdocs = ">=1.4"
 parse-type = ">=0.6.0"
 poethepoet = "*"
@@ -58,6 +52,7 @@ pytest-bdd = ">=6.0"
 pytest-clarity = "*"
 pytest-xdist = ">=2.5.0"
 requests = "*"
+ruff = ">=0.0.276"
 toml = ">=0.10"
 tox = "*"
 xmltodict = "*"
@@ -87,29 +82,24 @@ test-run = [
 # Groups of tasks
 format.default_item_type = "cmd"
 format.sequence = [
-  "isort .",
+  "ruff check . --select I --fix", # equivalent to "isort ."
   "black .",
 ]
 
-lint.env = { FLAKEHEAVEN_CACHE_TIMEOUT = "0" }
 lint.default_item_type = "cmd"
 lint.sequence = [
   "poetry --version",
   "poetry check",
-  "flakeheaven --version",
-  "flakeheaven plugins",
-  "flakeheaven lint",
+  "ruff --version",
+  "ruff .",
+  "black --version",
+  "black --check ."
 ]
 
 test = [
   "lint",
   "test-run",
 ]
-
-[tool.isort]
-profile = "black"
-force_single_line = true
-known_first_party = ["jrnl", "tests"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -136,29 +126,35 @@ filterwarnings = [
     "ignore:[WinError 5].*"
 ]
 
-[tool.flakeheaven]
-max_line_length = 88
+[tool.ruff]
+line-length = 88
+
+# https://beta.ruff.rs/docs/rules/
+select = [ 
+  'F',     # Pyflakes
+  'E',     # pycodestyle errors
+  'W',     # pycodestyle warnings
+  'I',     # isort
+  'ASYNC', # flake8-async
+  'S110',  # try-except-pass
+  'S112',  # try-except-continue
+  'EM',    # flake8-errmsg
+  'ISC',   # flake8-implicit-str-concat
+  'Q',     # flake8-quotes
+  'RSE',   # flake8-raise
+  'TID',   # flake8-tidy-imports
+  'TCH',   # flake8-type-checking
+  'T100',  # debugger, don't allow break points
+  'ICN'    # flake8-import-conventions
+]
 exclude = [".git", ".tox", ".venv", "node_modules"]
 
-[tool.flakeheaven.plugins]
-"py*" = ["+*"]
-pycodestyle = [
-  "-E101",
-  "-E111", "-E114", "-E115", "-E116", "-E117",
-  "-E12*",
-  "-E13*",
-  "-E2*",
-  "-E3*",
-  "-E401",
-  "-E5*",
-  "-E70",
-  "-W1*", "-W2*", "-W3*", "-W5*",
-]
-"flake8-*" = ["+*"]
-flake8-black = ["-BLK901"]
+[tool.ruff.isort]
+force-single-line = true
+known-first-party = ["jrnl", "tests"]
 
-[tool.flakeheaven.exceptions."jrnl/journals/__init__.py"]
-pyflakes = ["-F401"]
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"] # unused imports
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

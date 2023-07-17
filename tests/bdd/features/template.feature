@@ -38,7 +38,7 @@ Feature: Using templates
         And we use the password "test" if prompted
         When we run "jrnl --template this_template_does_not_exist.template"
         Then we should get an error
-        Then the error output should contain "Unable to find a template file based on the passed arg"
+        Then the error output should contain "Unable to find a template file"
 
         Examples: configs
         | config_file          |

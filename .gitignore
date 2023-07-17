@@ -19,6 +19,7 @@ var/
 node_modules/
 __pycache__/
 .pytest_cache/
+.flakeheaven_cache/
 
 # Versioning
 .python-version
@@ -39,7 +40,7 @@ exp/
 objects.inv
 searchindex.js
 
-# virtaulenv
+# virtualenv
 .venv*/
 env/
 env*/

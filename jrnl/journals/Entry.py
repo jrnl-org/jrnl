@@ -88,7 +88,7 @@ class Entry:
         }
 
     def __str__(self):
-        """Returns a string representation of the entry to be written into a journal file."""
+        """Returns string representation of the entry to be written to journal file."""
         date_str = self.date.strftime(self.journal.config["timeformat"])
         title = "[{}] {}".format(date_str, self.title.rstrip("\n "))
         if self.starred:
@@ -214,7 +214,7 @@ SENTENCE_SPLITTER = re.compile(
     \s+                 # AND a sequence of required spaces.
     )
     |[\uFF01\uFF0E\uFF1F\uFF61\u3002] # CJK full/half width terminals usually do not have following spaces.
-    """,
+    """,  # noqa: E501
     re.VERBOSE,
 )
 

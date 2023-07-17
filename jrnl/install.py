@@ -31,11 +31,11 @@ from jrnl.upgrade import is_old_version
 
 
 def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> None:
-    """Checks if there are keys missing in a given config dict, and if so, updates the config file accordingly.
-    This essentially automatically ports jrnl installations if new config parameters are introduced in later
-    versions.
-    Also checks for existence of and difference in version number between config dict and current jrnl version,
-    and if so, update the config file accordingly.
+    """Checks if there are keys missing in a given config dict, and if so, updates the
+    config file accordingly. This essentially automatically ports jrnl installations
+    if new config parameters are introduced in later versions. Also checks for
+    existence of and difference in version number between config dict
+    and current jrnl version, and if so, update the config file accordingly.
     Supply alt_config_path if using an alternate config through --config-file."""
     default_config = get_default_config()
     missing_keys = set(default_config).difference(config_data)
@@ -167,7 +167,7 @@ def install() -> dict:
 
 
 def _initialize_autocomplete() -> None:
-    # readline is not included in Windows Active Python and perhaps some other distributions
+    # readline is not included in Windows Active Python and perhaps some other distss
     if sys.modules.get("readline"):
         import readline
 

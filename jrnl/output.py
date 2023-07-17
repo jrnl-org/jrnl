@@ -39,7 +39,10 @@ def journal_list_to_yaml(journal_list: dict) -> str:
     from ruamel.yaml import YAML
 
     output = StringIO()
-    YAML().dump(journal_list, output)
+    dumper = YAML()
+    dumper.width = 1000
+    dumper.dump(journal_list, output)
+
     return output.getvalue()
 
 

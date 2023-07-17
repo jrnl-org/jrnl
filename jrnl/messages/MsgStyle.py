@@ -90,4 +90,4 @@ class MsgStyle(Enum):
 
     @property
     def box_title(self) -> MsgText:
-        return self.value.get("box_title", None)
+        return self.value.get("box_title")

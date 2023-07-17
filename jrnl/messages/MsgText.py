@@ -43,8 +43,8 @@ class MsgText(Enum):
         Do you want to encrypt your journal? (You can always change this later)
         """
     UseColorsQuestion = """
-        Do you want jrnl to use colors when displaying entries? (You can always change this later)
-        """
+        Do you want jrnl to use colors to display entries? (You can always change this later)
+        """  # noqa: E501 - the line is still under 88 when dedented
     YesOrNoPromptDefaultYes = "[Y/n]"
     YesOrNoPromptDefaultNo = "[y/N]"
     ContinueUpgrade = "Continue upgrading jrnl?"
@@ -105,16 +105,12 @@ class MsgText(Enum):
 
     KeyboardInterruptMsg = "Aborted by user"
 
-    CantReadTemplateGlobalConfig = """
-        Could not read template file defined in config:
-        {global_template_path}
-        """
+    CantReadTemplate = """
+        Unable to find a template file {template_path}.
 
-    CantReadTemplateCLIArg = """
-        Unable to find a template file based on the passed arg, and no global template was detected.
-        The following filepaths were checked:
-        jrnl XDG Template Directory : {jrnl_template_dir}
-        Local Filepath              : {normalized_template_arg_filepath}
+        The following paths were checked:
+         * {jrnl_template_dir}{template_path}
+         * {actual_template_path}
         """
 
     NoNamedJournal = "No '{journal_name}' journal configured\n{journals}"

@@ -142,7 +142,7 @@ def postconfig_encrypt(
 def postconfig_decrypt(
     args: argparse.Namespace, config: dict, original_config: dict
 ) -> int:
-    """Decrypts into new file. If filename is not set, we encrypt the journal file itself."""
+    """Decrypts to file. If filename is not set, we encrypt the journal file itself."""
     from jrnl.config import update_config
     from jrnl.install import save_config
     from jrnl.journals import open_journal
