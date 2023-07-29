@@ -25,6 +25,7 @@
 - Update dependency black to v23.7.0 [\#1769](https://github.com/jrnl-org/jrnl/pull/1769) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.21.1 [\#1767](https://github.com/jrnl-org/jrnl/pull/1767) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.6.4 [\#1765](https://github.com/jrnl-org/jrnl/pull/1765) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency parse-type to v0.6.2 [\#1762](https://github.com/jrnl-org/jrnl/pull/1762) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
