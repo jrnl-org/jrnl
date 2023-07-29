@@ -19,6 +19,8 @@
 **Packaging:**
 
 - Update dependency ruff to v0.0.280 [\#1773](https://github.com/jrnl-org/jrnl/pull/1773) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.7.0 [\#1769](https://github.com/jrnl-org/jrnl/pull/1769) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.21.1 [\#1767](https://github.com/jrnl-org/jrnl/pull/1767) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.6.4 [\#1765](https://github.com/jrnl-org/jrnl/pull/1765) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
