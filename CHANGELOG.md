@@ -18,6 +18,7 @@
 
 **Packaging:**
 
+- Update dependency tox to v4.6.4 [\#1765](https://github.com/jrnl-org/jrnl/pull/1765) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
