@@ -4,12 +4,28 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
 
+**Fixed bugs:**
+
+- Linting rules aren't enforced the same as format rules [\#1742](https://github.com/jrnl-org/jrnl/issues/1742)
+
+**Build:**
+
+- Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
+
 **Documentation:**
 
 - Add note about messages going to `stderr` and the implication for piping [\#1768](https://github.com/jrnl-org/jrnl/pull/1768) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
+- Update dependency rich to v13.5.0 [\#1775](https://github.com/jrnl-org/jrnl/pull/1775) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.5.1 [\#1774](https://github.com/jrnl-org/jrnl/pull/1774) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.0.280 [\#1773](https://github.com/jrnl-org/jrnl/pull/1773) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41.0.2 [\#1770](https://github.com/jrnl-org/jrnl/pull/1770) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.7.0 [\#1769](https://github.com/jrnl-org/jrnl/pull/1769) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.21.1 [\#1767](https://github.com/jrnl-org/jrnl/pull/1767) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.6.4 [\#1765](https://github.com/jrnl-org/jrnl/pull/1765) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency parse-type to v0.6.2 [\#1762](https://github.com/jrnl-org/jrnl/pull/1762) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
