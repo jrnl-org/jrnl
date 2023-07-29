@@ -18,6 +18,7 @@
 
 **Packaging:**
 
+- Update dependency rich to v13.5.0 [\#1775](https://github.com/jrnl-org/jrnl/pull/1775) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.0.280 [\#1773](https://github.com/jrnl-org/jrnl/pull/1773) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v23.7.0 [\#1769](https://github.com/jrnl-org/jrnl/pull/1769) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.21.1 [\#1767](https://github.com/jrnl-org/jrnl/pull/1767) ([renovate[bot]](https://github.com/apps/renovate))
