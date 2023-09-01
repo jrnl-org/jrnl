@@ -4,6 +4,7 @@
 import codecs
 import os
 import pathlib
+import re
 from typing import TYPE_CHECKING
 
 from jrnl import time
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
 DIGIT_PATTERN = "[0123456789]"
 YEAR_PATTERN = DIGIT_PATTERN * 4
 MONTH_PATTERN = "[01]" + DIGIT_PATTERN
-DAY_PATTERN = "[0123]" + DIGIT_PATTERN + ".txt"
+DAY_PATTERN = "[0-3][0-9].(txt|md)"
 
 
 class Folder(Journal):
@@ -144,9 +145,11 @@ class Folder(Journal):
 
     @staticmethod
     def _get_day_files(path: pathlib.Path) -> list[str]:
-        for child in path.glob(DAY_PATTERN):
+        for child in path.iterdir():
+            match = re.search(DAY_PATTERN, str(child))
             if (
-                int(child.stem) > 0
+                match is not None
+                and int(child.stem) > 0
                 and int(child.stem) <= 31
                 and time.is_valid_date(
                     year=int(path.parent.name),
