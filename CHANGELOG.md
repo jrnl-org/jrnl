@@ -18,6 +18,7 @@
 
 **Packaging:**
 
+- Update dependency black to v23.9.0 [\#1790](https://github.com/jrnl-org/jrnl/pull/1790) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.11.3 [\#1782](https://github.com/jrnl-org/jrnl/pull/1782) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.5.2 [\#1780](https://github.com/jrnl-org/jrnl/pull/1780) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.3 [\#1779](https://github.com/jrnl-org/jrnl/pull/1779) ([renovate[bot]](https://github.com/apps/renovate))
