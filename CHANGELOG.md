@@ -25,6 +25,7 @@
 - Update dependency tox to v4.11.3 [\#1782](https://github.com/jrnl-org/jrnl/pull/1782) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.5.2 [\#1780](https://github.com/jrnl-org/jrnl/pull/1780) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.3 [\#1779](https://github.com/jrnl-org/jrnl/pull/1779) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.0.287 [\#1778](https://github.com/jrnl-org/jrnl/pull/1778) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.5.2 [\#1776](https://github.com/jrnl-org/jrnl/pull/1776) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.5.0 [\#1775](https://github.com/jrnl-org/jrnl/pull/1775) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.5.1 [\#1774](https://github.com/jrnl-org/jrnl/pull/1774) ([renovate[bot]](https://github.com/apps/renovate))
