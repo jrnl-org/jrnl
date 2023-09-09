@@ -161,7 +161,7 @@ def config_var_on_disk(config_on_disk, journal_name, it_should, some_yaml):
     expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
-    if type(actual) is dict:
+    if isinstance(actual, dict):
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: actual.get(key) for key in expected.keys()}
 
@@ -196,7 +196,7 @@ def config_var_in_memory(config_in_memory, journal_name, it_should, some_yaml):
     expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
-    if type(actual) is dict:
+    if isinstance(actual, dict):
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: get_nested_val(actual, key) for key in expected.keys()}
 
@@ -368,7 +368,7 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
                 my_obj = my_obj[node]
 
         if comparison == "be":
-            if type(my_obj) is str:
+            if isinstance(my_obj, str):
                 assert expected_keys == my_obj, [my_obj, expected_keys]
             else:
                 assert set(expected_keys) == set(my_obj), [
@@ -376,7 +376,7 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
                     set(expected_keys),
                 ]
         elif comparison == "contain":
-            if type(my_obj) is str:
+            if isinstance(my_obj, str):
                 assert expected_keys in my_obj, [my_obj, expected_keys]
             else:
                 assert all(elem in my_obj for elem in expected_keys), [
