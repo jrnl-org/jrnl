@@ -18,6 +18,17 @@
 
 **Packaging:**
 
+- Update dependency ruff to v0.0.290 [\#1792](https://github.com/jrnl-org/jrnl/pull/1792) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.9.1 [\#1791](https://github.com/jrnl-org/jrnl/pull/1791) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.9.0 [\#1790](https://github.com/jrnl-org/jrnl/pull/1790) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v4 [\#1788](https://github.com/jrnl-org/jrnl/pull/1788) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.4.2 [\#1787](https://github.com/jrnl-org/jrnl/pull/1787) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.22.1 [\#1785](https://github.com/jrnl-org/jrnl/pull/1785) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.11.3 [\#1782](https://github.com/jrnl-org/jrnl/pull/1782) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.5.2 [\#1780](https://github.com/jrnl-org/jrnl/pull/1780) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41.0.3 [\#1779](https://github.com/jrnl-org/jrnl/pull/1779) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.0.287 [\#1778](https://github.com/jrnl-org/jrnl/pull/1778) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.5.2 [\#1776](https://github.com/jrnl-org/jrnl/pull/1776) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.5.0 [\#1775](https://github.com/jrnl-org/jrnl/pull/1775) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.5.1 [\#1774](https://github.com/jrnl-org/jrnl/pull/1774) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.0.280 [\#1773](https://github.com/jrnl-org/jrnl/pull/1773) ([renovate[bot]](https://github.com/apps/renovate))
