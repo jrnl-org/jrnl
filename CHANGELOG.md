@@ -18,7 +18,9 @@
 
 **Packaging:**
 
+- Update dependency ruamel.yaml to v0.17.35 [\#1802](https://github.com/jrnl-org/jrnl/pull/1802) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.4 [\#1796](https://github.com/jrnl-org/jrnl/pull/1796) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.6.0 [\#1794](https://github.com/jrnl-org/jrnl/pull/1794) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.0.290 [\#1792](https://github.com/jrnl-org/jrnl/pull/1792) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v23.9.1 [\#1791](https://github.com/jrnl-org/jrnl/pull/1791) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v23.9.0 [\#1790](https://github.com/jrnl-org/jrnl/pull/1790) ([renovate[bot]](https://github.com/apps/renovate))
