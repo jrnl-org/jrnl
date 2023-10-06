@@ -18,7 +18,10 @@
 
 **Packaging:**
 
+- Update dependency tzlocal to v5.1 [\#1804](https://github.com/jrnl-org/jrnl/pull/1804) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.35 [\#1802](https://github.com/jrnl-org/jrnl/pull/1802) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.24.0 [\#1798](https://github.com/jrnl-org/jrnl/pull/1798) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.0.292 [\#1797](https://github.com/jrnl-org/jrnl/pull/1797) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.4 [\#1796](https://github.com/jrnl-org/jrnl/pull/1796) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.5.3 [\#1795](https://github.com/jrnl-org/jrnl/pull/1795) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.6.0 [\#1794](https://github.com/jrnl-org/jrnl/pull/1794) ([renovate[bot]](https://github.com/apps/renovate))
@@ -45,6 +48,7 @@
 - Update dependency keyring to v24 [\#1758](https://github.com/jrnl-org/jrnl/pull/1758) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v7.4.0 [\#1757](https://github.com/jrnl-org/jrnl/pull/1757) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.4.2 [\#1754](https://github.com/jrnl-org/jrnl/pull/1754) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41 [\#1753](https://github.com/jrnl-org/jrnl/pull/1753) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.32 [\#1752](https://github.com/jrnl-org/jrnl/pull/1752) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.6.3 [\#1751](https://github.com/jrnl-org/jrnl/pull/1751) ([renovate[bot]](https://github.com/apps/renovate))
 
