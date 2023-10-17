@@ -10,6 +10,7 @@
 
 **Build:**
 
+- Set new required build fields in the ReadTheDocs config file [\#1803](https://github.com/jrnl-org/jrnl/pull/1803) ([micahellison](https://github.com/micahellison))
 - Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
 
 **Documentation:**
