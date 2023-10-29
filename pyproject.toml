@@ -121,7 +121,6 @@ addopts = [
 
 filterwarnings = [
     "ignore::DeprecationWarning",
-    "ignore:Flag style will be deprecated in.*",
     "ignore:[WinError 32].*",
     "ignore:[WinError 5].*"
 ]
