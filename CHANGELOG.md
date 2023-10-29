@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v4.1-beta](https://pypi.org/project/jrnl/v4.1-beta/) (2023-10-29)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...v4.1-beta)
 
 **Implemented enhancements:**
 
@@ -60,7 +60,7 @@
 - Update dependency rich to v13.4.2 [\#1754](https://github.com/jrnl-org/jrnl/pull/1754) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41 [\#1753](https://github.com/jrnl-org/jrnl/pull/1753) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.32 [\#1752](https://github.com/jrnl-org/jrnl/pull/1752) ([renovate[bot]](https://github.com/apps/renovate))
-- Lock ruamel.yaml version to v0.17.21 until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
+- Update dependency tox to v4.6.3 [\#1751](https://github.com/jrnl-org/jrnl/pull/1751) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.0.1](https://pypi.org/project/jrnl/v4.0.1/) (2023-06-20)
 
