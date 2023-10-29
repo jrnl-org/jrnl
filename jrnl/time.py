@@ -77,7 +77,7 @@ def parse(
             return None
 
     if hasDate and not hasTime:
-        date = datetime.datetime( # Use the default time
+        date = datetime.datetime(  # Use the default time
             *date[:3],
             hour=23 if inclusive else default_hour or 0,
             minute=59 if inclusive else default_minute or 0,
