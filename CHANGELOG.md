@@ -8,12 +8,9 @@
 
 - Add Python 3.12 support [\#1750](https://github.com/jrnl-org/jrnl/issues/1750)
 
-**Fixed bugs:**
-
-- Linting rules aren't enforced the same as format rules [\#1742](https://github.com/jrnl-org/jrnl/issues/1742)
-
 **Build:**
 
+- Linting rules aren't enforced the same as format rules [\#1742](https://github.com/jrnl-org/jrnl/issues/1742)
 - Set new required build fields in the ReadTheDocs config file [\#1803](https://github.com/jrnl-org/jrnl/pull/1803) ([micahellison](https://github.com/micahellison))
 - Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
 
@@ -63,7 +60,7 @@
 - Update dependency rich to v13.4.2 [\#1754](https://github.com/jrnl-org/jrnl/pull/1754) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41 [\#1753](https://github.com/jrnl-org/jrnl/pull/1753) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.32 [\#1752](https://github.com/jrnl-org/jrnl/pull/1752) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.6.3 [\#1751](https://github.com/jrnl-org/jrnl/pull/1751) ([renovate[bot]](https://github.com/apps/renovate))
+- Lock ruamel.yaml version to v0.17.21 until bug is fixed [\#1738](https://github.com/jrnl-org/jrnl/pull/1738) ([wren](https://github.com/wren))
 
 ## [v4.0.1](https://pypi.org/project/jrnl/v4.0.1/) (2023-06-20)
 
