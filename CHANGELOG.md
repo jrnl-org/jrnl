@@ -23,10 +23,14 @@
 
 **Packaging:**
 
+- Update dependency pytest to v7.4.3 [\#1816](https://github.com/jrnl-org/jrnl/pull/1816) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.5 [\#1815](https://github.com/jrnl-org/jrnl/pull/1815) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5.2 [\#1814](https://github.com/jrnl-org/jrnl/pull/1814) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.18.3 [\#1813](https://github.com/jrnl-org/jrnl/pull/1813) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.10.1 [\#1811](https://github.com/jrnl-org/jrnl/pull/1811) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.1.3 [\#1810](https://github.com/jrnl-org/jrnl/pull/1810) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-bdd to v7 [\#1807](https://github.com/jrnl-org/jrnl/pull/1807) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.24.1 [\#1806](https://github.com/jrnl-org/jrnl/pull/1806) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5.1 [\#1804](https://github.com/jrnl-org/jrnl/pull/1804) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.35 [\#1802](https://github.com/jrnl-org/jrnl/pull/1802) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.24.0 [\#1798](https://github.com/jrnl-org/jrnl/pull/1798) ([renovate[bot]](https://github.com/apps/renovate))
