@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...HEAD)
 
+**Implemented enhancements:**
+
+- Add Python 3.12 support [\#1750](https://github.com/jrnl-org/jrnl/issues/1750)
+
 **Fixed bugs:**
 
 - Linting rules aren't enforced the same as format rules [\#1742](https://github.com/jrnl-org/jrnl/issues/1742)
