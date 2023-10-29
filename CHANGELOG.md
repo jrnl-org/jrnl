@@ -24,6 +24,7 @@
 **Packaging:**
 
 - Update dependency cryptography to v41.0.5 [\#1815](https://github.com/jrnl-org/jrnl/pull/1815) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.18.3 [\#1813](https://github.com/jrnl-org/jrnl/pull/1813) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5.1 [\#1804](https://github.com/jrnl-org/jrnl/pull/1804) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.17.35 [\#1802](https://github.com/jrnl-org/jrnl/pull/1802) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.24.0 [\#1798](https://github.com/jrnl-org/jrnl/pull/1798) ([renovate[bot]](https://github.com/apps/renovate))
