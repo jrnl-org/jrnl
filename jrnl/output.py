@@ -136,7 +136,7 @@ def format_msg_text(msg: Message) -> Text:
 def wrap_with_ansi_colors(text: str, width: int) -> str:
     richtext = Text.from_ansi(text, no_wrap=False, tab_size=None)
 
-    console = Console(width=width)
+    console = Console(width=width, force_terminal=True)
     with console.capture() as capture:
         console.print(richtext, sep="", end="")
     return capture.get()
