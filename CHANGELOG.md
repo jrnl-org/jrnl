@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta...HEAD)
+
+**Fixed bugs:**
+
+- Update from `4.0.1\_4` to `4.0.1\_5` broke something with colors [\#1819](https://github.com/jrnl-org/jrnl/issues/1819)
+
 ## [v4.1-beta](https://pypi.org/project/jrnl/v4.1-beta/) (2023-10-29)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...v4.1-beta)
