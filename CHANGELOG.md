@@ -1,24 +1,11 @@
 # Changelog
 
-## [v4.1-beta2](https://pypi.org/project/jrnl/v4.1-beta2/) (2023-10-31)
+## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta...v4.1-beta2)
-
-**Fixed bugs:**
-
-- Update from `4.0.1\_4` to `4.0.1\_5` broke something with colors [\#1819](https://github.com/jrnl-org/jrnl/issues/1819)
-
-## [v4.1-beta](https://pypi.org/project/jrnl/v4.1-beta/) (2023-10-29)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1...v4.1-beta)
-
-**Implemented enhancements:**
-
-- Add Python 3.12 support [\#1750](https://github.com/jrnl-org/jrnl/issues/1750)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta2...v4.1)
 
 **Build:**
 
-- Linting rules aren't enforced the same as format rules [\#1742](https://github.com/jrnl-org/jrnl/issues/1742)
 - Set new required build fields in the ReadTheDocs config file [\#1803](https://github.com/jrnl-org/jrnl/pull/1803) ([micahellison](https://github.com/micahellison))
 - Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
 
