@@ -5,6 +5,7 @@
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta2...v4.1)
 
 **Build:**
+
 - Add Python 3.12 support [\#1761](https://github.com/jrnl-org/jrnl/pull/1761) ([micahellison](https://github.com/micahellison))
 - Set new required build fields in the ReadTheDocs config file [\#1803](https://github.com/jrnl-org/jrnl/pull/1803) ([micahellison](https://github.com/micahellison))
 - Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
