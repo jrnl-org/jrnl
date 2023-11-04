@@ -5,7 +5,7 @@
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta2...v4.1)
 
 **Build:**
-
+- Add Python 3.12 support [\#1761](https://github.com/jrnl-org/jrnl/pull/1761) ([micahellison](https://github.com/micahellison))
 - Set new required build fields in the ReadTheDocs config file [\#1803](https://github.com/jrnl-org/jrnl/pull/1803) ([micahellison](https://github.com/micahellison))
 - Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
 
@@ -15,6 +15,8 @@
 
 **Packaging:**
 
+- Drop/replace ansiwrap dependency [\#1191](https://github.com/jrnl-org/jrnl/issues/1191)
+- Use rich instead of ansiwrap to wrap text [\#1693](https://github.com/jrnl-org/jrnl/pull/1693) ([micahellison](https://github.com/micahellison))
 - Update actions/checkout action to v4 [\#1788](https://github.com/jrnl-org/jrnl/pull/1788) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v23.10.1 [\#1811](https://github.com/jrnl-org/jrnl/pull/1811) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.5 [\#1815](https://github.com/jrnl-org/jrnl/pull/1815) ([renovate[bot]](https://github.com/apps/renovate))
@@ -29,6 +31,9 @@
 - Update dependency ruff to v0.1.3 [\#1810](https://github.com/jrnl-org/jrnl/pull/1810) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.11.3 [\#1782](https://github.com/jrnl-org/jrnl/pull/1782) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5.2 [\#1814](https://github.com/jrnl-org/jrnl/pull/1814) ([renovate[bot]](https://github.com/apps/renovate))
+
+**Special thanks:**
+- jrnl uses UTC instead of local time for entries in WSL/Ubuntu [\#1607](https://github.com/jrnl-org/jrnl/issues/1607) investigated and reported upstream by [giuseppedandrea](https://github.com/giuseppedandrea)
 
 ## [v4.0.1](https://pypi.org/project/jrnl/v4.0.1/) (2023-06-20)
 
