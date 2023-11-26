@@ -198,13 +198,25 @@ vim.api.nvim_create_autocmd( {"BufNewFile","BufReadPre" }, {
 
 Please see `:h <option>` in Neovim for more information about the options mentioned.
 
-## Plausible deniability
+## Limitations
+
+### Plausible deniability
 
 You may be able to hide the contents of your journal behind a layer of encryption,
 but if someone has access to your configuration file, then they can figure out that
 you have a journal, where that journal file is, and when you last edited it.
 With a sufficient power imbalance, someone may be able to force you to unencrypt
 it through non-technical means.
+
+### Spying
+
+While `jrnl` can protect against unauthorized access to your journal entries while
+it isn't open, it cannot protect you against an unsafe computer/location.
+For example:
+
+- Someone installs a keylogger, tracking what you type into your journal.
+- Someone watches your screen while you write your entry.
+- Someone installs a backdoor into `jrnl` or poisons your journal into revealing your entries.
 
 ## Saved Passwords
 
