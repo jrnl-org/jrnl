@@ -14,6 +14,35 @@ program there are some limitations to be aware of.
 passwords can be easily circumvented by someone with basic security skills
 to access to your encrypted `jrnl` file.
 
+## Plausible deniability
+
+You may be able to hide the contents of your journal behind a layer of encryption,
+but if someone has access to your configuration file, then they can figure out that
+you have a journal, where that journal file is, and when you last edited it.
+With a sufficient power imbalance, someone may be able to force you to unencrypt
+it through non-technical means.
+
+## Spying
+
+While `jrnl` can protect against unauthorized access to your journal entries while
+it isn't open, it cannot protect you against an unsafe computer/location.
+For example:
+
+- Someone installs a keylogger, tracking what you type into your journal.
+- Someone watches your screen while you write your entry.
+- Someone installs a backdoor into `jrnl` or poisons your journal into revealing your entries.
+
+## Saved Passwords
+
+When creating an encrypted journal, you'll be prompted as to whether or not you
+want to "store the password in your keychain." This keychain is accessed using
+the [Python keyring library](https://pypi.org/project/keyring/), which has different
+behavior depending on your operating system.
+
+In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
+and can be accessed by any other application running under your username. If this is
+a concern for you, you may not want to store your password.
+
 ## Shell history
 
 Since you can enter entries from the command line, any tool that logs command
@@ -197,35 +226,6 @@ vim.api.nvim_create_autocmd( {"BufNewFile","BufReadPre" }, {
     have to use the template's file extension instead of `.jrnl`.
 
 Please see `:h <option>` in Neovim for more information about the options mentioned.
-
-## Plausible deniability
-
-You may be able to hide the contents of your journal behind a layer of encryption,
-but if someone has access to your configuration file, then they can figure out that
-you have a journal, where that journal file is, and when you last edited it.
-With a sufficient power imbalance, someone may be able to force you to unencrypt
-it through non-technical means.
-
-## Spying
-
-While `jrnl` can protect against unauthorized access to your journal entries while
-it isn't open, it cannot protect you against an unsafe computer/location.
-For example:
-
-- Someone installs a keylogger, tracking what you type into your journal.
-- Someone watches your screen while you write your entry.
-- Someone installs a backdoor into `jrnl` or poisons your journal into revealing your entries.
-
-## Saved Passwords
-
-When creating an encrypted journal, you'll be prompted as to whether or not you
-want to "store the password in your keychain." This keychain is accessed using
-the [Python keyring library](https://pypi.org/project/keyring/), which has different
-behavior depending on your operating system.
-
-In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
-and can be accessed by any other application running under your username. If this is
-a concern for you, you may not want to store your password.
 
 ## Notice any other risks?
 
