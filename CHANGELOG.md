@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1...HEAD)
+
+**Documentation:**
+
+- Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
+
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta2...v4.1)
