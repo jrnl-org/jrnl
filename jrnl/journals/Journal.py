@@ -102,7 +102,7 @@ class Journal:
         return self.encryption_method.encrypt(text)
 
     def open(self, filename: str | None = None) -> "Journal":
-        """Opens the journal file defined in the config and parses it into a list of Entries.
+        """Opens the journal file and parses it into a list of Entries
         Entries have the form (date, title, body)."""
         filename = filename or self.config["journal"]
         dirname = os.path.dirname(filename)
@@ -144,7 +144,7 @@ class Journal:
         self._store(filename, text)
 
     def validate_parsing(self) -> bool:
-        """Confirms that the jrnl is still parsed correctly after being dumped to text."""
+        """Confirms that the jrnl is still parsed correctly after conversion to text."""
         new_entries = self._parse(self._to_text())
         return all(entry == new_entries[i] for i, entry in enumerate(self.entries))
 
@@ -225,8 +225,9 @@ class Journal:
     @property
     def tags(self) -> list[Tag]:
         """Returns a set of tuples (count, tag) for all tags present in the journal."""
-        # Astute reader: should the following line leave you as puzzled as me the first time
-        # I came across this construction, worry not and embrace the ensuing moment of enlightment.
+        # Astute reader: should the following line leave you as puzzled as me the first
+        # time I came across this construction, worry not and embrace the ensuing moment
+        # of enlightment.
         tags = [tag for entry in self.entries for tag in set(entry.tags)]
         # To be read: [for entry in journal.entries: for tag in set(entry.tags): tag]
         tag_counts = {(tags.count(tag), tag) for tag in tags}
@@ -343,7 +344,8 @@ class Journal:
 
     def new_entry(self, raw: str, date=None, sort: bool = True) -> Entry:
         """Constructs a new entry from some raw text input.
-        If a date is given, it will parse and use this, otherwise scan for a date in the input first.
+        If a date is given, it will parse and use this, otherwise scan for a date in
+        the input first.
         """
 
         raw = raw.replace("\\n ", "\n").replace("\\n", "\n")

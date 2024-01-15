@@ -7,10 +7,9 @@ import os
 import re
 from typing import TYPE_CHECKING
 
-import ansiwrap
-
 from jrnl.color import colorize
 from jrnl.color import highlight_tags_with_background_color
+from jrnl.output import wrap_with_ansi_colors
 
 if TYPE_CHECKING:
     from .Journal import Journal
@@ -89,7 +88,7 @@ class Entry:
         }
 
     def __str__(self):
-        """Returns a string representation of the entry to be written into a journal file."""
+        """Returns string representation of the entry to be written to journal file."""
         date_str = self.date.strftime(self.journal.config["timeformat"])
         title = "[{}] {}".format(date_str, self.title.rstrip("\n "))
         if self.starred:
@@ -129,7 +128,7 @@ class Entry:
                     columns = 79
 
             # Color date / title and bold title
-            title = ansiwrap.fill(
+            title = wrap_with_ansi_colors(
                 date_str
                 + " "
                 + highlight_tags_with_background_color(
@@ -143,35 +142,17 @@ class Entry:
             body = highlight_tags_with_background_color(
                 self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
             )
-            body_text = [
-                colorize(
-                    ansiwrap.fill(
-                        line,
-                        columns,
-                        initial_indent=indent,
-                        subsequent_indent=indent,
-                        drop_whitespace=True,
-                    ),
-                    self.journal.config["colors"]["body"],
-                )
-                or indent
-                for line in body.rstrip(" \n").splitlines()
-            ]
 
-            # ansiwrap doesn't handle lines with only the "\n" character and some
-            # ANSI escapes properly, so we have this hack here to make sure the
-            # beginning of each line has the indent character and it's colored
-            # properly. textwrap doesn't have this issue, however, it doesn't wrap
-            # the strings properly as it counts ANSI escapes as literal characters.
-            # TL;DR: I'm sorry.
-            body = "\n".join(
-                [
+            body = wrap_with_ansi_colors(body, columns - len(indent))
+            if indent:
+                # Without explicitly colorizing the indent character, it will lose its
+                # color after a tag appears.
+                body = "\n".join(
                     colorize(indent, self.journal.config["colors"]["body"]) + line
-                    if not ansiwrap.strip_color(line).startswith(indent)
-                    else line
-                    for line in body_text
-                ]
-            )
+                    for line in body.splitlines()
+                )
+
+            body = colorize(body, self.journal.config["colors"]["body"])
         else:
             title = (
                 date_str
@@ -233,7 +214,7 @@ SENTENCE_SPLITTER = re.compile(
     \s+                 # AND a sequence of required spaces.
     )
     |[\uFF01\uFF0E\uFF1F\uFF61\u3002] # CJK full/half width terminals usually do not have following spaces.
-    """,
+    """,  # noqa: E501
     re.VERBOSE,
 )
 

@@ -122,7 +122,8 @@ class Folder(Journal):
 
     @staticmethod
     def _get_files(journal_path: str) -> list[str]:
-        """Searches through sub directories starting with journal_path and find all text files that look like entries"""
+        """Searches through sub directories starting with journal_path and find all text
+        files that look like entries"""
         for year_folder in Folder._get_year_folders(pathlib.Path(journal_path)):
             for month_folder in Folder._get_month_folders(year_folder):
                 yield from Folder._get_day_files(month_folder)

@@ -1,5 +1,49 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1...HEAD)
+
+**Documentation:**
+
+- Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
+
+## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta2...v4.1)
+
+**Build:**
+
+- Add Python 3.12 support [\#1761](https://github.com/jrnl-org/jrnl/pull/1761) ([micahellison](https://github.com/micahellison))
+- Set new required build fields in the ReadTheDocs config file [\#1803](https://github.com/jrnl-org/jrnl/pull/1803) ([micahellison](https://github.com/micahellison))
+- Replace flake8 and isort with ruff linter and add `black --check` to linting step [\#1763](https://github.com/jrnl-org/jrnl/pull/1763) ([micahellison](https://github.com/micahellison))
+
+**Documentation:**
+
+- Add note about messages going to `stderr` and the implication for piping [\#1768](https://github.com/jrnl-org/jrnl/pull/1768) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Drop/replace ansiwrap dependency [\#1191](https://github.com/jrnl-org/jrnl/issues/1191)
+- Use rich instead of ansiwrap to wrap text [\#1693](https://github.com/jrnl-org/jrnl/pull/1693) ([micahellison](https://github.com/micahellison))
+- Update actions/checkout action to v4 [\#1788](https://github.com/jrnl-org/jrnl/pull/1788) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v23.10.1 [\#1811](https://github.com/jrnl-org/jrnl/pull/1811) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41.0.5 [\#1815](https://github.com/jrnl-org/jrnl/pull/1815) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v24.2.0 [\#1760](https://github.com/jrnl-org/jrnl/pull/1760) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.5.3 [\#1795](https://github.com/jrnl-org/jrnl/pull/1795) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency parse-type to v0.6.2 [\#1762](https://github.com/jrnl-org/jrnl/pull/1762) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.24.1 [\#1806](https://github.com/jrnl-org/jrnl/pull/1806) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.4.3 [\#1816](https://github.com/jrnl-org/jrnl/pull/1816) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-bdd to v7 [\#1807](https://github.com/jrnl-org/jrnl/pull/1807) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.6.0 [\#1794](https://github.com/jrnl-org/jrnl/pull/1794) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.18.3 [\#1813](https://github.com/jrnl-org/jrnl/pull/1813) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.1.3 [\#1810](https://github.com/jrnl-org/jrnl/pull/1810) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.11.3 [\#1782](https://github.com/jrnl-org/jrnl/pull/1782) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tzlocal to v5.2 [\#1814](https://github.com/jrnl-org/jrnl/pull/1814) ([renovate[bot]](https://github.com/apps/renovate))
+
+**Special thanks:**
+- jrnl uses UTC instead of local time for entries in WSL/Ubuntu [\#1607](https://github.com/jrnl-org/jrnl/issues/1607) investigated and reported upstream by [giuseppedandrea](https://github.com/giuseppedandrea)
+
 ## [v4.0.1](https://pypi.org/project/jrnl/v4.0.1/) (2023-06-20)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.0.1-beta...v4.0.1)

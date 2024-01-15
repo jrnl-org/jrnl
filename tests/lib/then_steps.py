@@ -38,38 +38,41 @@ def output_should_match(regex, cli_run):
     assert matches, f"\nRegex didn't match:\n{regex}\n{str(out)}\n{str(matches)}"
 
 
-@then(parse("the output {it_should:Should} contain\n{expected_output}", SHOULD_DICT))
-@then(parse('the output {it_should:Should} contain "{expected_output}"', SHOULD_DICT))
+@then(parse("the output {it_should:Should} contain\n{expected}", SHOULD_DICT))
+@then(parse('the output {it_should:Should} contain "{expected}"', SHOULD_DICT))
 @then(
     parse(
-        "the {which_output_stream} output {it_should:Should} contain\n{expected_output}",
+        "the {which_output_stream} output {it_should:Should} contain\n{expected}",
         SHOULD_DICT,
     )
 )
 @then(
     parse(
-        'the {which_output_stream} output {it_should:Should} contain "{expected_output}"',
+        'the {which_output_stream} output {it_should:Should} contain "{expected}"',
         SHOULD_DICT,
     )
 )
-def output_should_contain(expected_output, which_output_stream, cli_run, it_should):
-    output_str = f"\nEXPECTED:\n{expected_output}\n\nACTUAL STDOUT:\n{cli_run['stdout']}\n\nACTUAL STDERR:\n{cli_run['stderr']}"
-    assert expected_output
+def output_should_contain(expected, which_output_stream, cli_run, it_should):
+    output_str = (
+        f"\nEXPECTED:\n{expected}\n\n"
+        f"ACTUAL STDOUT:\n{cli_run['stdout']}\n\n"
+        f"ACTUAL STDERR:\n{cli_run['stderr']}"
+    )
+
+    assert expected
     if which_output_stream is None:
-        assert ((expected_output in cli_run["stdout"]) == it_should) or (
-            (expected_output in cli_run["stderr"]) == it_should
+        assert ((expected in cli_run["stdout"]) == it_should) or (
+            (expected in cli_run["stderr"]) == it_should
         ), output_str
 
     elif which_output_stream == "standard":
-        assert (expected_output in cli_run["stdout"]) == it_should, output_str
+        assert (expected in cli_run["stdout"]) == it_should, output_str
 
     elif which_output_stream == "error":
-        assert (expected_output in cli_run["stderr"]) == it_should, output_str
+        assert (expected in cli_run["stderr"]) == it_should, output_str
 
     else:
-        assert (
-            expected_output in cli_run[which_output_stream]
-        ) == it_should, output_str
+        assert (expected in cli_run[which_output_stream]) == it_should, output_str
 
 
 @then(parse("the output should not contain\n{expected_output}"))
@@ -119,7 +122,8 @@ def output_should_be_columns_wide(cli_run, width):
 
 @then(
     parse(
-        'the default journal "{journal_file}" should be in the "{journal_dir}" directory'
+        'the default journal "{journal_file}" '
+        'should be in the "{journal_dir}" directory'
     )
 )
 def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir):
@@ -135,13 +139,15 @@ def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir
 
 @then(
     parse(
-        'the config for journal "{journal_name}" {it_should:Should} contain "{some_yaml}"',
+        'the config for journal "{journal_name}" '
+        '{it_should:Should} contain "{some_yaml}"',
         SHOULD_DICT,
     )
 )
 @then(
     parse(
-        'the config for journal "{journal_name}" {it_should:Should} contain\n{some_yaml}',
+        'the config for journal "{journal_name}" '
+        "{it_should:Should} contain\n{some_yaml}",
         SHOULD_DICT,
     )
 )
@@ -155,7 +161,7 @@ def config_var_on_disk(config_on_disk, journal_name, it_should, some_yaml):
     expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
-    if type(actual) is dict:
+    if isinstance(actual, dict):
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: actual.get(key) for key in expected.keys()}
 
@@ -164,13 +170,15 @@ def config_var_on_disk(config_on_disk, journal_name, it_should, some_yaml):
 
 @then(
     parse(
-        'the config in memory for journal "{journal_name}" {it_should:Should} contain "{some_yaml}"',
+        'the config in memory for journal "{journal_name}" '
+        '{it_should:Should} contain "{some_yaml}"',
         SHOULD_DICT,
     )
 )
 @then(
     parse(
-        'the config in memory for journal "{journal_name}" {it_should:Should} contain\n{some_yaml}',
+        'the config in memory for journal "{journal_name}" '
+        "{it_should:Should} contain\n{some_yaml}",
         SHOULD_DICT,
     )
 )
@@ -188,7 +196,7 @@ def config_var_in_memory(config_in_memory, journal_name, it_should, some_yaml):
     expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
-    if type(actual) is dict:
+    if isinstance(actual, dict):
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: get_nested_val(actual, key) for key in expected.keys()}
 
@@ -360,7 +368,7 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
                 my_obj = my_obj[node]
 
         if comparison == "be":
-            if type(my_obj) is str:
+            if isinstance(my_obj, str):
                 assert expected_keys == my_obj, [my_obj, expected_keys]
             else:
                 assert set(expected_keys) == set(my_obj), [
@@ -368,7 +376,7 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
                     set(expected_keys),
                 ]
         elif comparison == "contain":
-            if type(my_obj) is str:
+            if isinstance(my_obj, str):
                 assert expected_keys in my_obj, [my_obj, expected_keys]
             else:
                 assert all(elem in my_obj for elem in expected_keys), [

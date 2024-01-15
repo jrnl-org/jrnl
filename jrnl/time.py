@@ -9,14 +9,11 @@ DEFAULT_PAST = datetime.datetime(FAKE_YEAR, 1, 1, 0, 0)
 
 
 def __get_pdt_calendar():
-    try:
-        import parsedatetime.parsedatetime_consts as pdt
-    except ImportError:
-        import parsedatetime as pdt
+    import parsedatetime as pdt
 
     consts = pdt.Constants(usePyICU=False)
     consts.DOWParseStyle = -1  # "Monday" will be either today or the last Monday
-    calendar = pdt.Calendar(consts)
+    calendar = pdt.Calendar(consts, version=pdt.VERSION_CONTEXT_STYLE)
 
     return calendar
 
@@ -34,14 +31,18 @@ def parse(
     elif isinstance(date_str, datetime.datetime):
         return date_str
 
-    # Don't try to parse anything with 6 or fewer characters and was parsed from the existing journal.
-    # It's probably a markdown footnote
+    # Don't try to parse anything with 6 or fewer characters and was parsed from the
+    # existing journal. It's probably a markdown footnote
     if len(date_str) <= 6 and bracketed:
         return None
 
     default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
     date = None
     year_present = False
+
+    hasTime = False
+    hasDate = False
+
     while not date:
         try:
             from dateutil.parser import parse as dateparse
@@ -53,7 +54,8 @@ def parse(
                 )
             else:
                 year_present = True
-            flag = 1 if date.hour == date.minute == 0 else 2
+            hasTime = not (date.hour == date.minute == 0)
+            hasDate = True
             date = date.timetuple()
         except Exception as e:
             if e.args[0] == "day is out of range for month":
@@ -61,9 +63,11 @@ def parse(
                 default_date = datetime.datetime(y, m, d - 1, H, M, S)
             else:
                 calendar = __get_pdt_calendar()
-                date, flag = calendar.parse(date_str)
+                date, parse_context = calendar.parse(date_str)
+                hasTime = parse_context.hasTime
+                hasDate = parse_context.hasDate
 
-    if not flag:  # Oops, unparsable.
+    if not hasDate and not hasTime:
         try:  # Try and parse this as a single year
             year = int(date_str)
             return datetime.datetime(year, 1, 1)
@@ -72,8 +76,8 @@ def parse(
         except TypeError:
             return None
 
-    if flag == 1:  # Date found, but no time. Use the default time.
-        date = datetime.datetime(
+    if hasDate and not hasTime:
+        date = datetime.datetime(  # Use the default time
             *date[:3],
             hour=23 if inclusive else default_hour or 0,
             minute=59 if inclusive else default_minute or 0,
@@ -82,9 +86,9 @@ def parse(
     else:
         date = datetime.datetime(*date[:6])
 
-    # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year wrong.
-    # Rather than this, we would like to see parsedatetime patched so we can tell it to prefer
-    # past dates
+    # Ugly heuristic: if the date is more than 4 weeks in the future, we got the year
+    # wrong. Rather than this, we would like to see parsedatetime patched so we can
+    # tell it to prefer past dates
     dt = datetime.datetime.now() - date
     if dt.days < -28 and not year_present:
         date = date.replace(date.year - 1)

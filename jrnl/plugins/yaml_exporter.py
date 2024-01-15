@@ -18,14 +18,15 @@ if TYPE_CHECKING:
 
 
 class YAMLExporter(TextExporter):
-    """This Exporter can convert entries and journals into Markdown formatted text with YAML front matter."""
+    """This Exporter converts entries and journals into Markdown formatted text with
+    YAML front matter."""
 
     names = ["yaml"]
     extension = "md"
 
     @classmethod
     def export_entry(cls, entry: "Entry", to_multifile: bool = True) -> str:
-        """Returns a markdown representation of a single entry, with YAML front matter."""
+        """Returns a markdown representation of an entry, with YAML front matter."""
         if to_multifile is False:
             raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))
 
@@ -117,7 +118,14 @@ class YAMLExporter(TextExporter):
         # source directory is  entry.journal.config['journal']
         # output directory is...?
 
-        return "{start}\ntitle: {title}\ndate: {date}\nstarred: {starred}\ntags: {tags}\n{dayone}body: |{body}{end}".format(
+        return (
+            "{start}\n"
+            "title: {title}\n"
+            "date: {date}\n"
+            "starred: {starred}\n"
+            "tags: {tags}\n"
+            "{dayone}body: |{body}{end}"
+        ).format(
             start="---",
             date=date_str,
             title=entry.title,

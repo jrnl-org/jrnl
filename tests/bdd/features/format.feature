@@ -72,7 +72,7 @@ Feature: Custom formats
         And the output should be
             2020-08-29 11:11 Entry the first.
             | Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
-            | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus
+            | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus 
             | pellentesque
             | augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
             | consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In

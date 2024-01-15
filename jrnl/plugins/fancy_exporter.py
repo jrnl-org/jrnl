@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 
 class FancyExporter(TextExporter):
-    """This Exporter can convert entries and journals into text with unicode box drawing characters."""
+    """This Exporter converts entries and journals into text with unicode boxes."""
 
     names = ["fancy", "boxed"]
     extension = "txt"

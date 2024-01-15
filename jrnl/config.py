@@ -37,9 +37,10 @@ def make_yaml_valid_dict(input: list) -> dict:
     The dict is created through the yaml loader, with the assumption that
     "input[0]: input[1]" is valid yaml.
 
-    :param input: list of configuration keys in dot-notation and their respective values.
+    :param input: list of configuration keys in dot-notation and their respective values
     :type input: list
-    :return: A single level dict of the configuration keys in dot-notation and their respective desired values
+    :return: A single level dict of the configuration keys in dot-notation and their
+        respective desired values
     :rtype: dict
     """
 
@@ -105,7 +106,7 @@ def scope_config(config: dict, journal_name: str) -> dict:
         return config
     config = config.copy()
     journal_conf = config["journals"].get(journal_name)
-    if type(journal_conf) is dict:
+    if isinstance(journal_conf, dict):
         # We can override the default config on a by-journal basis
         logging.debug(
             "Updating configuration with specific journal overrides:\n%s",
@@ -180,7 +181,7 @@ def update_config(
     """Updates a config dict with new values - either global if scope is None
     or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""
-    if scope and type(config["journals"][scope]) is dict:  # Update to journal specific
+    if scope and isinstance(config["journals"][scope], dict):
         config["journals"][scope].update(new_config)
     elif scope and force_local:  # Convert to dict
         config["journals"][scope] = {"journal": config["journals"][scope]}
