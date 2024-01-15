@@ -570,8 +570,30 @@ Scenario Outline: Export calendar heatmap
         And we use the password "test" if prompted
         When we run "jrnl --format calendar"
         Then the output should be
-            2013-06-09, 1
-            2013-06-10, 1
+           ──────────────────────────────────────────────────────────────────────── 2013 ─────────────────────────────────────────────────────────────────────────
+         
+              June 2013 (2 entries)         July 2013 (No entries)        August 2013 (No entries)     September 2013 (No entries)    October 2013 (No entries)
+         
+           Mon Tue Wed Thu Fri Sat Sun    Mon Tue Wed Thu Fri Sat Sun    Mon Tue Wed Thu Fri Sat Sun   Mon Tue Wed Thu Fri Sat Sun   Mon Tue Wed Thu Fri Sat Sun
+           ━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━   ━━━━━━━━━━━━━━━━━━━━━━━━━━━   ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                 1   2      1   2   3   4   5   6   7                  1   2   3   4                             1         1   2   3   4   5   6
+             3   4   5   6   7   8   9      8   9  10  11  12  13  14      5   6   7   8   9  10  11     2   3   4   5   6   7   8     7   8   9  10  11  12  13
+            10  11  12  13  14  15  16     15  16  17  18  19  20  21     12  13  14  15  16  17  18     9  10  11  12  13  14  15    14  15  16  17  18  19  20
+            17  18  19  20  21  22  23     22  23  24  25  26  27  28     19  20  21  22  23  24  25    16  17  18  19  20  21  22    21  22  23  24  25  26  27
+            24  25  26  27  28  29  30     29  30  31                     26  27  28  29  30  31        23  24  25  26  27  28  29    28  29  30  31
+                                                                                                        30     
+         
+           November 2013 (No entries)     December 2013 (No entries)
+         
+           Mon Tue Wed Thu Fri Sat Sun    Mon Tue Wed Thu Fri Sat Sun
+           ━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                             1   2   3                              1
+             4   5   6   7   8   9  10      2   3   4   5   6   7   8
+            11  12  13  14  15  16  17      9  10  11  12  13  14  15
+            18  19  20  21  22  23  24     16  17  18  19  20  21  22
+            25  26  27  28  29  30         23  24  25  26  27  28  29
+                                           30  31
+
 
         Examples: configs
         | config_file   |
