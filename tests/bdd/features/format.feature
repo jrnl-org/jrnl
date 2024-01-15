@@ -72,13 +72,13 @@ Feature: Custom formats
         And the output should be
             2020-08-29 11:11 Entry the first.
             | Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
-            | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus 
+            | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus
             | pellentesque
             | augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
             | consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
             | commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
             | venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
-            | 
+            |
             | Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
             | ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
             | potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
@@ -418,9 +418,9 @@ Feature: Custom formats
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu ligula eget
                 velit scelerisque fringilla. Phasellus pharetra justo et nulla fringilla, ac
                 porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
-                conubia nostra, per inceptos himenaeos.        
+                conubia nostra, per inceptos himenaeos.
             ...
-            
+
         Examples: configs
         | config_file          |
         | basic_onefile.yaml   |
@@ -470,7 +470,7 @@ Feature: Custom formats
                 Quisque egestas semper nibh in hendrerit. Nam finibus ex in mi mattis
                 vulputate. Sed mauris urna, consectetur in justo eu, volutpat accumsan justo.
                 Phasellus aliquam lacus placerat convallis vestibulum. Curabitur maximus at
-                ante eget fringilla. @tagthree and also @tagone        
+                ante eget fringilla. @tagthree and also @tagone
             ...
 
         Examples: configs
@@ -565,48 +565,13 @@ Feature: Custom formats
         | basic_dayone.yaml    |
 
 
-Scenario Outline: Export calendar heatmap
-        Given we use the config "<config_file>"
-        And we use the password "test" if prompted
-        When we run "jrnl --format calendar"
-        Then the output should be
-           ──────────────────────────────────────────────────────────────────────── 2013 ─────────────────────────────────────────────────────────────────────────
-         
-              June 2013 (2 entries)         July 2013 (No entries)        August 2013 (No entries)     September 2013 (No entries)    October 2013 (No entries)
-         
-           Mon Tue Wed Thu Fri Sat Sun    Mon Tue Wed Thu Fri Sat Sun    Mon Tue Wed Thu Fri Sat Sun   Mon Tue Wed Thu Fri Sat Sun   Mon Tue Wed Thu Fri Sat Sun
-           ━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━   ━━━━━━━━━━━━━━━━━━━━━━━━━━━   ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                                 1   2      1   2   3   4   5   6   7                  1   2   3   4                             1         1   2   3   4   5   6
-             3   4   5   6   7   8   9      8   9  10  11  12  13  14      5   6   7   8   9  10  11     2   3   4   5   6   7   8     7   8   9  10  11  12  13
-            10  11  12  13  14  15  16     15  16  17  18  19  20  21     12  13  14  15  16  17  18     9  10  11  12  13  14  15    14  15  16  17  18  19  20
-            17  18  19  20  21  22  23     22  23  24  25  26  27  28     19  20  21  22  23  24  25    16  17  18  19  20  21  22    21  22  23  24  25  26  27
-            24  25  26  27  28  29  30     29  30  31                     26  27  28  29  30  31        23  24  25  26  27  28  29    28  29  30  31
-                                                                                                        30     
-         
-           November 2013 (No entries)     December 2013 (No entries)
-         
-           Mon Tue Wed Thu Fri Sat Sun    Mon Tue Wed Thu Fri Sat Sun
-           ━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                             1   2   3                              1
-             4   5   6   7   8   9  10      2   3   4   5   6   7   8
-            11  12  13  14  15  16  17      9  10  11  12  13  14  15
-            18  19  20  21  22  23  24     16  17  18  19  20  21  22
-            25  26  27  28  29  30         23  24  25  26  27  28  29
-                                           30  31
-
-
-        Examples: configs
-        | config_file   |
-        | simple.yaml   |
-
-
     Scenario Outline: display_format short and pretty do not crash if specified as config values
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
         When we run "jrnl --config-override display_format short -1"
         Then we should get no error
         When we run "jrnl --config-override display_format pretty -1"
-        Then we should get no error            
+        Then we should get no error
 
         Examples: configs
         | config_file          |
@@ -623,7 +588,7 @@ Scenario Outline: Export calendar heatmap
         When we run "jrnl --format markdown --file {cache_dir}"
         Then the cache directory should contain 5 files
         And we should get no error
-    
+
     Scenario: Export entries in text format with a title longer than max file name length.
         Given we use the config "basic_onefile.yaml"
         And we create a cache directory

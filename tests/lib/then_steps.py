@@ -84,15 +84,8 @@ def output_should_not_contain(expected_output, cli_run):
 @then(parse("the output should be\n{expected_output}"))
 @then(parse('the output should be "{expected_output}"'))
 def output_should_be(expected_output, cli_run):
-    from pprint import pprint
     actual = cli_run["stdout"].strip()
-    print("ACTUAL: \n\n")
-    print(type(actual))
-    pprint(actual)
     expected = expected_output.strip()
-    print("EXPECTED: \n\n")
-    print(type(expected))
-    pprint(expected)
     assert actual == expected
 
 
