@@ -72,13 +72,13 @@ Feature: Custom formats
         And the output should be
             2020-08-29 11:11 Entry the first.
             | Lorem @ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
-            | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus
+            | quis est ac dignissim. Aliquam dignissim rutrum pretium. Phasellus 
             | pellentesque
             | augue et venenatis facilisis. Suspendisse potenti. Sed dignissim sed nisl eu
             | consequat. Aenean ante ex, elementum ut interdum et, mattis eget lacus. In
             | commodo nulla nec tellus placerat, sed ultricies metus bibendum. Duis eget
             | venenatis erat. In at dolor dui. @tagone and maybe also @tagtwo.
-            |
+            | 
             | Curabitur accumsan nunc ac neque tristique, eleifend faucibus justo
             | ullamcorper. Suspendisse at mattis nunc. Nullam eget lacinia urna. Suspendisse
             | potenti. Ut urna est, venenatis sed ante in, ultrices congue mi. Maecenas eget
@@ -418,9 +418,9 @@ Feature: Custom formats
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu ligula eget
                 velit scelerisque fringilla. Phasellus pharetra justo et nulla fringilla, ac
                 porta sapien accumsan. Class aptent taciti sociosqu ad litora torquent per
-                conubia nostra, per inceptos himenaeos.
+                conubia nostra, per inceptos himenaeos.        
             ...
-
+            
         Examples: configs
         | config_file          |
         | basic_onefile.yaml   |
@@ -470,7 +470,7 @@ Feature: Custom formats
                 Quisque egestas semper nibh in hendrerit. Nam finibus ex in mi mattis
                 vulputate. Sed mauris urna, consectetur in justo eu, volutpat accumsan justo.
                 Phasellus aliquam lacus placerat convallis vestibulum. Curabitur maximus at
-                ante eget fringilla. @tagthree and also @tagone
+                ante eget fringilla. @tagthree and also @tagone        
             ...
 
         Examples: configs
@@ -571,7 +571,7 @@ Feature: Custom formats
         When we run "jrnl --config-override display_format short -1"
         Then we should get no error
         When we run "jrnl --config-override display_format pretty -1"
-        Then we should get no error
+        Then we should get no error            
 
         Examples: configs
         | config_file          |
@@ -588,7 +588,7 @@ Feature: Custom formats
         When we run "jrnl --format markdown --file {cache_dir}"
         Then the cache directory should contain 5 files
         And we should get no error
-
+    
     Scenario: Export entries in text format with a title longer than max file name length.
         Given we use the config "basic_onefile.yaml"
         And we create a cache directory
