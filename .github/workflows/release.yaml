@@ -168,7 +168,7 @@ jobs:
       run: brew install pipgrip
 
     - name: Query PyPI API
-      uses: nick-invision/retry@v2
+      uses: nick-invision/retry@v3
       with:
         timeout_seconds: 10
         max_attempts: 30
@@ -186,7 +186,7 @@ jobs:
           fi
 
     - name: Update Homebrew Formula
-      uses: nick-invision/retry@v2
+      uses: nick-invision/retry@v3
       with:
         timeout_minutes: 8
         max_attempts: 6
