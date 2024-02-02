@@ -16,6 +16,7 @@
 
 - Update dependency jinja2 to v3.1.3 [\#1844](https://github.com/jrnl-org/jrnl/pull/1844) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.12.1 [\#1838](https://github.com/jrnl-org/jrnl/pull/1838) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41.0.7 [\#1837](https://github.com/jrnl-org/jrnl/pull/1837) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
