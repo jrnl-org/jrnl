@@ -26,6 +26,7 @@
 - Update dependency cryptography to v41.0.7 [\#1837](https://github.com/jrnl-org/jrnl/pull/1837) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.7.0 [\#1833](https://github.com/jrnl-org/jrnl/pull/1833) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pa11y-ci to v3.1.0 [\#1831](https://github.com/jrnl-org/jrnl/pull/1831) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v24.3.0 [\#1830](https://github.com/jrnl-org/jrnl/pull/1830) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
