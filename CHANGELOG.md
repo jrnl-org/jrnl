@@ -27,6 +27,8 @@
 - Update dependency rich to v13.7.0 [\#1833](https://github.com/jrnl-org/jrnl/pull/1833) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pa11y-ci to v3.1.0 [\#1831](https://github.com/jrnl-org/jrnl/pull/1831) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.3.0 [\#1830](https://github.com/jrnl-org/jrnl/pull/1830) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.5.0 [\#1829](https://github.com/jrnl-org/jrnl/pull/1829) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.1.3 [\#1810](https://github.com/jrnl-org/jrnl/pull/1810) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
