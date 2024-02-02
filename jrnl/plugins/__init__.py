@@ -3,6 +3,7 @@
 
 from typing import Type
 
+from jrnl.plugins.calendar_heatmap_exporter import CalendarHeatmapExporter
 from jrnl.plugins.dates_exporter import DatesExporter
 from jrnl.plugins.fancy_exporter import FancyExporter
 from jrnl.plugins.jrnl_importer import JRNLImporter
@@ -14,14 +15,15 @@ from jrnl.plugins.xml_exporter import XMLExporter
 from jrnl.plugins.yaml_exporter import YAMLExporter
 
 __exporters = [
+    CalendarHeatmapExporter,
+    DatesExporter,
+    FancyExporter,
     JSONExporter,
     MarkdownExporter,
     TagExporter,
-    DatesExporter,
     TextExporter,
     XMLExporter,
     YAMLExporter,
-    FancyExporter,
 ]
 __importers = [JRNLImporter]
 
