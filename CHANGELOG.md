@@ -17,6 +17,7 @@
 - Update peter-evans/create-pull-request action to v6 [\#1852](https://github.com/jrnl-org/jrnl/pull/1852) ([renovate[bot]](https://github.com/apps/renovate))
 - Update nick-invision/retry action to v3 [\#1851](https://github.com/jrnl-org/jrnl/pull/1851) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v42 [\#1850](https://github.com/jrnl-org/jrnl/pull/1850) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v24 [\#1849](https://github.com/jrnl-org/jrnl/pull/1849) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/setup-python action to v5 [\#1848](https://github.com/jrnl-org/jrnl/pull/1848) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/cache action to v4 [\#1847](https://github.com/jrnl-org/jrnl/pull/1847) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-bdd to v7.0.1 [\#1846](https://github.com/jrnl-org/jrnl/pull/1846) ([renovate[bot]](https://github.com/apps/renovate))
@@ -28,6 +29,7 @@
 - Update dependency pa11y-ci to v3.1.0 [\#1831](https://github.com/jrnl-org/jrnl/pull/1831) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.3.0 [\#1830](https://github.com/jrnl-org/jrnl/pull/1830) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.5.0 [\#1829](https://github.com/jrnl-org/jrnl/pull/1829) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.24.4 [\#1825](https://github.com/jrnl-org/jrnl/pull/1825) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.2.0 [\#1824](https://github.com/jrnl-org/jrnl/pull/1824) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.18.5 [\#1822](https://github.com/jrnl-org/jrnl/pull/1822) ([renovate[bot]](https://github.com/apps/renovate))
 
