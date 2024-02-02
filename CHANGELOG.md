@@ -14,9 +14,16 @@
 
 **Packaging:**
 
+- Update nick-invision/retry action to v3 [\#1851](https://github.com/jrnl-org/jrnl/pull/1851) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/setup-python action to v5 [\#1848](https://github.com/jrnl-org/jrnl/pull/1848) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v4 [\#1847](https://github.com/jrnl-org/jrnl/pull/1847) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-bdd to v7.0.1 [\#1846](https://github.com/jrnl-org/jrnl/pull/1846) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.4.4 [\#1845](https://github.com/jrnl-org/jrnl/pull/1845) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency jinja2 to v3.1.3 [\#1844](https://github.com/jrnl-org/jrnl/pull/1844) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.12.1 [\#1838](https://github.com/jrnl-org/jrnl/pull/1838) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v41.0.7 [\#1837](https://github.com/jrnl-org/jrnl/pull/1837) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.7.0 [\#1833](https://github.com/jrnl-org/jrnl/pull/1833) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pa11y-ci to v3.1.0 [\#1831](https://github.com/jrnl-org/jrnl/pull/1831) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
