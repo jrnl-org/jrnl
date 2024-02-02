@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1...HEAD)
 
+**Fixed bugs:**
+
+- Ignore color when used in  a pipeline [\#1839](https://github.com/jrnl-org/jrnl/issues/1839)
+
 **Documentation:**
 
 - Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
