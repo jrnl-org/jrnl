@@ -12,6 +12,10 @@
 
 - Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
 
+**Packaging:**
+
+- Update dependency tox to v4.12.1 [\#1838](https://github.com/jrnl-org/jrnl/pull/1838) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1-beta2...v4.1)
