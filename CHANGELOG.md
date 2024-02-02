@@ -29,6 +29,7 @@
 - Update dependency keyring to v24.3.0 [\#1830](https://github.com/jrnl-org/jrnl/pull/1830) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.5.0 [\#1829](https://github.com/jrnl-org/jrnl/pull/1829) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.2.0 [\#1824](https://github.com/jrnl-org/jrnl/pull/1824) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.18.5 [\#1822](https://github.com/jrnl-org/jrnl/pull/1822) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 
