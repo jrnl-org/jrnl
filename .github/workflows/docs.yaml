@@ -50,13 +50,13 @@ jobs:
       run: echo "PYTHON_FULL_VERSION=$(python --version)" >> "$GITHUB_ENV"
 
     - name: poetry cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: .venv
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ secrets.CACHE_STRING }}
 
     - name: npm cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-pa11y-v3

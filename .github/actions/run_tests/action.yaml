@@ -21,7 +21,7 @@ runs:
     shell: bash
 
   - name: poetry cache # Change CACHE_STRING secret to bust the cache
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: .venv
       key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ inputs.cache-string }}
