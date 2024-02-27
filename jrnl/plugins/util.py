@@ -4,10 +4,15 @@
 from collections import Counter
 from typing import TYPE_CHECKING
 
-from jrnl.datatypes import NestedDict
-
 if TYPE_CHECKING:
     from jrnl.journals import Journal
+
+
+"""https://stackoverflow.com/a/74873621/8740440"""
+class NestedDict(dict):
+    def __missing__(self, x):
+        self[x] = NestedDict()
+        return self[x]
 
 
 def get_tags_count(journal: "Journal") -> set[tuple[int, str]]:
