@@ -40,6 +40,7 @@ def backup(filename: str, binary: bool = False):
         print_msg(Message(MsgText.DoesNotExist, MsgStyle.WARNING, {"name": filename}))
         cont = yesno(f"\nCreate {filename}?", default=False)
         if not cont:
+            logger.info(f'Condition in body log is: (not cont) is True') # STRUDEL_LOG vqec
             raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
 
@@ -62,6 +63,7 @@ def upgrade_jrnl(config_path: str) -> None:
 
     for journal_name, journal_conf in config["journals"].items():
         if isinstance(journal_conf, dict):
+            logger.info(f'Condition in body log is: journal_conf is type: dict') # STRUDEL_LOG jdkv
             path = expand_path(journal_conf.get("journal"))
             encrypt = journal_conf.get("encrypt")
         else:
@@ -69,14 +71,17 @@ def upgrade_jrnl(config_path: str) -> None:
             path = expand_path(journal_conf)
 
         if os.path.exists(path):
+            logger.info(f'Condition in body log is: os.path.exists( path)') # STRUDEL_LOG ooxz
             path = os.path.expanduser(path)
         else:
             print_msg(Message(MsgText.DoesNotExist, MsgStyle.ERROR, {"name": path}))
             continue
 
         if encrypt:
+            logger.info(f'Condition in body log is: encrypt') # STRUDEL_LOG paoq
             encrypted_journals[journal_name] = path
         elif os.path.isdir(path):
+            logger.info(f'Condition in body log is: os.path.isdir( path)') # STRUDEL_LOG rbud
             other_journals[journal_name] = path
         else:
             plain_journals[journal_name] = path
@@ -116,6 +121,7 @@ def upgrade_jrnl(config_path: str) -> None:
 
     cont = yesno(Message(MsgText.ContinueUpgrade), default=False)
     if not cont:
+        logger.info(f'Condition in body log is: (not cont) is True') # STRUDEL_LOG ywxs
         raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
     for journal_name, path in encrypted_journals.items():
@@ -166,6 +172,7 @@ def upgrade_jrnl(config_path: str) -> None:
     failed_journals = [j for j in all_journals if not j.validate_parsing()]
 
     if len(failed_journals) > 0:
+        logger.info(f'Condition in body log is: len( failed_journals) > 0') # STRUDEL_LOG euov
         raise JrnlException(
             Message(MsgText.AbortingUpgrade, MsgStyle.WARNING),
             Message(
@@ -195,6 +202,7 @@ def is_old_version(config_path: str) -> bool:
 
 def _print_journal_summary(journals: dict, header: Message, pad: int) -> None:
     if not journals:
+        logger.info(f'Condition in body log is: (not journals) is True') # STRUDEL_LOG jlxe
         return
 
     msgs = [header]

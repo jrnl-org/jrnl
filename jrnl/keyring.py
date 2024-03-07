@@ -14,6 +14,7 @@ def get_keyring_password(journal_name: str = "default") -> str | None:
         return keyring.get_password("jrnl", journal_name)
     except keyring.errors.KeyringError as e:
         if not isinstance(e, keyring.errors.NoKeyringError):
+            logger.info(f'Condition in body log is: UnaryOp isinstance( e keyring.errors.NoKeyringError)') # STRUDEL_LOG ladx
             print_msg(Message(MsgText.KeyringRetrievalFailure, MsgStyle.ERROR))
         return None
 
@@ -23,6 +24,7 @@ def set_keyring_password(password: str, journal_name: str = "default") -> None:
         return keyring.set_password("jrnl", journal_name, password)
     except keyring.errors.KeyringError as e:
         if isinstance(e, keyring.errors.NoKeyringError):
+            logger.info(f'Condition in body log is: isinstance( e keyring.errors.NoKeyringError)') # STRUDEL_LOG gnnn
             msg = Message(MsgText.KeyringBackendNotFound, MsgStyle.WARNING)
         else:
             msg = Message(MsgText.KeyringRetrievalFailure, MsgStyle.ERROR)

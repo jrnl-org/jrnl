@@ -24,6 +24,7 @@ def deprecated_cmd(
     )
 
     if callback is not None:
+        logger.info(f'Condition in body log is: callback IsNot None') # STRUDEL_LOG ojwq
         callback(**kwargs)
 
 
@@ -67,8 +68,10 @@ def list_journals(configuration: dict, format: str | None = None) -> str:
     }
 
     if format == "json":
+        logger.info(f'Condition in body log is: format({format}) = "json"') # STRUDEL_LOG aoms
         return journal_list_to_json(journal_list)
     elif format == "yaml":
+        logger.info(f'Condition in body log is: format({format}) = "yaml"') # STRUDEL_LOG cqep
         return journal_list_to_yaml(journal_list)
     else:
         return journal_list_to_stdout(journal_list)
@@ -97,11 +100,13 @@ def print_msgs(
         m = format_msg_text(msg)
 
         if i != len(msgs) - 1:
+            logger.info(f'Condition in body log is: i != len( msgs) BinOp 1') # STRUDEL_LOG wjax
             m.append(delimiter)
 
         text.append(m)
 
     if style.append_space:
+        logger.info(f'Condition in body log is: Attribute "append_space" of "style" is True') # STRUDEL_LOG ecqs
         text.append(" ")
 
     decorated_text = style.decoration.callback(text, **kwargs)
@@ -110,6 +115,7 @@ def print_msgs(
     console = _get_console(stderr=True)
 
     if get_input:
+        logger.info(f'Condition in body log is: get_input') # STRUDEL_LOG zvxo
         return str(console.input(prompt=decorated_text, password=hide_input))
     console.print(decorated_text, new_line_start=style.prepend_newline)
 

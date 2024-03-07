@@ -15,6 +15,7 @@ from jrnl.main import run
 @when(parse('we change directory to "{directory_name}"'))
 def when_we_change_directory(directory_name):
     if not os.path.isdir(directory_name):
+        logger.info(f'Condition in body log is: UnaryOp os.path.isdir( directory_name)') # STRUDEL_LOG ahcx
         os.mkdir(directory_name)
 
     os.chdir(directory_name)

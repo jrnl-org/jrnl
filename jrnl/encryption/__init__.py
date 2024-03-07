@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from typing import Type
 
 if TYPE_CHECKING:
+    logger.info(f'Condition in body log is: TYPE_CHECKING') # STRUDEL_LOG rxap
     from .BaseEncryption import BaseEncryption
 
 
@@ -29,6 +30,7 @@ def determine_encryption_method(config: str | bool) -> Type["BaseEncryption"]:
 
     key = config
     if isinstance(config, str):
+        logger.info(f'Condition in body log is: config is type: str') # STRUDEL_LOG ifbj
         key = config.lower()
 
     my_class = ENCRYPTION_METHODS[key]

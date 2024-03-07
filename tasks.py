@@ -46,6 +46,7 @@ def generate_pa11y_config_from_sitemap():
 
 def output_file(file):
     if not os.getenv("CI", False):
+        logger.info(f'Condition in body log is: UnaryOp os.getenv( "CI" False)') # STRUDEL_LOG tafj
         return
 
     print(f"::group::{file}")

@@ -22,6 +22,7 @@ from jrnl.path import get_templates_path
 def get_text_from_editor(config: dict, template: str = "") -> str:
     suffix = ".jrnl"
     if config["template"]:
+        logger.info(f'Condition in body log is: config["template"]') # STRUDEL_LOG djpb
         template_filename = Path(config["template"]).name
         suffix = "-" + template_filename
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=suffix)
@@ -29,6 +30,7 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
 
     with open(tmpfile, "w", encoding="utf-8") as f:
         if template:
+            logger.info(f'Condition in body log is: template') # STRUDEL_LOG ygot
             f.write(template)
 
     try:
@@ -47,6 +49,7 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
     os.remove(tmpfile)
 
     if not raw:
+        logger.info(f'Condition in body log is: (not raw) is True') # STRUDEL_LOG newi
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
 
     return raw
@@ -80,6 +83,7 @@ def get_text_from_stdin() -> str:
 def get_template_path(template_path: str, jrnl_template_dir: str) -> str:
     actual_template_path = os.path.join(jrnl_template_dir, template_path)
     if not os.path.exists(actual_template_path):
+        logger.info(f'Condition in body log is: UnaryOp os.path.exists( actual_template_path)') # STRUDEL_LOG rlgy
         logging.debug(
             f"Couldn't open {actual_template_path}. "
             "Treating template path like a local / abs path."

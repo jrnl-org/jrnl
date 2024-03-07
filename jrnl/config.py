@@ -103,10 +103,12 @@ def get_default_colors() -> dict[str, Any]:
 
 def scope_config(config: dict, journal_name: str) -> dict:
     if journal_name not in config["journals"]:
+        logger.info(f'Condition in body log is: journal_name NotIn config["journals"]') # STRUDEL_LOG kwyl
         return config
     config = config.copy()
     journal_conf = config["journals"].get(journal_name)
     if isinstance(journal_conf, dict):
+        logger.info(f'Condition in body log is: journal_conf is type: dict') # STRUDEL_LOG cwdp
         # We can override the default config on a by-journal basis
         logging.debug(
             "Updating configuration with specific journal overrides:\n%s",
@@ -130,8 +132,10 @@ def verify_config_colors(config: dict) -> bool:
     for key, color in config["colors"].items():
         upper_color = color.upper()
         if upper_color == "NONE":
+            logger.info(f'Condition in body log is: upper_color({upper_color}) = "NONE"') # STRUDEL_LOG utcp
             continue
         if not getattr(colorama.Fore, upper_color, None):
+            logger.info(f'Condition in body log is: UnaryOp getattr( colorama.Fore upper_color None)') # STRUDEL_LOG zdgs
             print_msg(
                 Message(
                     MsgText.InvalidColor,
@@ -182,8 +186,10 @@ def update_config(
     or config['journals'][scope] is just a string pointing to a journal file,
     or within the scope"""
     if scope and isinstance(config["journals"][scope], dict):
+        logger.info(f'Condition in body log is: scope BoolOp isinstance( config["journals"][scope] dict)') # STRUDEL_LOG eyxh
         config["journals"][scope].update(new_config)
     elif scope and force_local:  # Convert to dict
+        logger.info(f'Condition in body log is: Both scope AND force_local are True') # STRUDEL_LOG bzob
         config["journals"][scope] = {"journal": config["journals"][scope]}
         config["journals"][scope].update(new_config)
     else:
@@ -195,11 +201,14 @@ def get_journal_name(args: argparse.Namespace, config: dict) -> argparse.Namespa
 
     # The first arg might be a journal name
     if args.text:
+        logger.info(f'Condition in body log is: Attribute "text" of "args" is True') # STRUDEL_LOG leag
         potential_journal_name = args.text[0]
         if potential_journal_name[-1] == ":":
+            logger.info(f'Condition in body log is: potential_journal_name[UnaryOp 1] = ":"') # STRUDEL_LOG cqmv
             potential_journal_name = potential_journal_name[0:-1]
 
         if potential_journal_name in config["journals"]:
+            logger.info(f'Condition in body log is: potential_journal_name in config["journals"]') # STRUDEL_LOG npkg
             args.journal_name = potential_journal_name
             args.text = args.text[1:]
 
@@ -217,6 +226,7 @@ def cmd_requires_valid_journal_name(func: Callable) -> Callable:
 
 def validate_journal_name(journal_name: str, config: dict) -> None:
     if journal_name not in config["journals"]:
+        logger.info(f'Condition in body log is: journal_name NotIn config["journals"]') # STRUDEL_LOG thla
         raise JrnlException(
             Message(
                 MsgText.NoNamedJournal,

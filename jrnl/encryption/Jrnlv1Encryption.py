@@ -32,6 +32,7 @@ class Jrnlv1Encryption(BasePasswordEncryption):
         try:
             plain_padded = decryptor.update(cipher) + decryptor.finalize()
             if plain_padded[-1] in (" ", 32):
+                logger.info(f'Condition in body log is: plain_padded[UnaryOp 1] in tuple of length 2.') # STRUDEL_LOG cznx
                 # Ancient versions of jrnl. Do not judge me.
                 return plain_padded.decode(self._encoding).rstrip(" ")
             else:

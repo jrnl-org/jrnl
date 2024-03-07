@@ -24,17 +24,20 @@ def create_password(journal_name: str) -> str:
         )
 
         if not pw:
+            logger.info(f'Condition in body log is: (not pw) is True') # STRUDEL_LOG xyiw
             print_msg(Message(MsgText.PasswordCanNotBeEmpty, MsgStyle.WARNING))
             continue
 
         elif pw == print_msg(
             Message(MsgText.PasswordConfirmEntry, MsgStyle.PROMPT), **kwargs
         ):
+            logger.info(f'Condition in body log is: pw = print_msg( Message( MsgText.PasswordConfirmEntry MsgStyle.PROMPT))') # STRUDEL_LOG dhhc
             break
 
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
     if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
+        logger.info(f'Condition in body log is: yesno( Message( MsgText.PasswordStoreInKeychain))') # STRUDEL_LOG feov
         from jrnl.keyring import set_keyring_password
 
         set_keyring_password(pw, journal_name)
@@ -44,6 +47,7 @@ def create_password(journal_name: str) -> str:
 
 def prompt_password(first_try: bool = True) -> str:
     if not first_try:
+        logger.info(f'Condition in body log is: (not first_try) is True') # STRUDEL_LOG xmea
         print_msg(Message(MsgText.WrongPasswordTryAgain, MsgStyle.WARNING))
 
     return (

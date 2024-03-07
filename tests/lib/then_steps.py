@@ -61,14 +61,17 @@ def output_should_contain(expected, which_output_stream, cli_run, it_should):
 
     assert expected
     if which_output_stream is None:
+        logger.info(f'Condition in body log is: which_output_stream({which_output_stream}) Is None') # STRUDEL_LOG ivav
         assert ((expected in cli_run["stdout"]) == it_should) or (
             (expected in cli_run["stderr"]) == it_should
         ), output_str
 
     elif which_output_stream == "standard":
+        logger.info(f'Condition in body log is: which_output_stream({which_output_stream}) = "standard"') # STRUDEL_LOG zlhq
         assert (expected in cli_run["stdout"]) == it_should, output_str
 
     elif which_output_stream == "error":
+        logger.info(f'Condition in body log is: which_output_stream({which_output_stream}) = "error"') # STRUDEL_LOG qlkb
         assert (expected in cli_run["stderr"]) == it_should, output_str
 
     else:
@@ -156,12 +159,14 @@ def default_journal_location(journal_file, journal_dir, config_on_disk, temp_dir
 def config_var_on_disk(config_on_disk, journal_name, it_should, some_yaml):
     actual = config_on_disk
     if journal_name:
+        logger.info(f'Condition in body log is: journal_name') # STRUDEL_LOG etsi
         actual = actual["journals"][journal_name]
 
     expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
     if isinstance(actual, dict):
+        logger.info(f'Condition in body log is: actual is type: dict') # STRUDEL_LOG dqjv
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: actual.get(key) for key in expected.keys()}
 
@@ -191,12 +196,14 @@ def config_var_on_disk(config_on_disk, journal_name, it_should, some_yaml):
 def config_var_in_memory(config_in_memory, journal_name, it_should, some_yaml):
     actual = config_in_memory["overrides"]
     if journal_name:
+        logger.info(f'Condition in body log is: journal_name') # STRUDEL_LOG ulkm
         actual = actual["journals"][journal_name]
 
     expected = YAML(typ="safe").load(some_yaml)
 
     actual_slice = actual
     if isinstance(actual, dict):
+        logger.info(f'Condition in body log is: actual is type: dict') # STRUDEL_LOG rnbf
         # `expected` objects formatted in yaml only compare one level deep
         actual_slice = {key: get_nested_val(actual, key) for key in expected.keys()}
 
@@ -272,6 +279,7 @@ def content_of_file_should_be(file_path, file_content, cache_dir):
 
     for actual_line, expected_line in zip(actual_content, expected_content):
         if actual_line.startswith("tags: ") and expected_line.startswith("tags: "):
+            logger.info(f'Condition in body log is: actual_line.startswith( "tags: ") BoolOp expected_line.startswith( "tags: ")') # STRUDEL_LOG mcja
             assert_equal_tags_ignoring_order(
                 actual_line, expected_line, actual_content, expected_content
             )
@@ -300,9 +308,11 @@ def cache_dir_contains_files(file_list, cache_dir):
 def assert_output_is_valid_language(cli_run, language_name):
     language_name = language_name.upper()
     if language_name == "XML":
+        logger.info(f'Condition in body log is: language_name({language_name}) = "XML"') # STRUDEL_LOG dxkz
         xml_tree = ElementTree.fromstring(cli_run["stdout"])
         assert xml_tree, "Invalid XML"
     elif language_name == "JSON":
+        logger.info(f'Condition in body log is: language_name({language_name}) = "JSON"') # STRUDEL_LOG boxr
         assert json.loads(cli_run["stdout"]), "Invalid JSON"
     else:
         assert False, f"Language name {language_name} not recognized"
@@ -314,6 +324,7 @@ def assert_parsed_output_item_count(node_name, number, parsed_output):
     obj = parsed_output["obj"]
 
     if lang == "XML":
+        logger.info(f'Condition in body log is: lang({lang}) = "XML"') # STRUDEL_LOG erlc
         xml_node_names = (node.tag for node in obj)
         assert node_name in xml_node_names, str(list(xml_node_names))
 
@@ -321,6 +332,7 @@ def assert_parsed_output_item_count(node_name, number, parsed_output):
         assert actual_entry_count == number, actual_entry_count
 
     elif lang == "JSON":
+        logger.info(f'Condition in body log is: lang({lang}) = "JSON"') # STRUDEL_LOG vtrh
         my_obj = obj
 
         for node in node_name.split("."):
@@ -342,13 +354,16 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
     obj = parsed_output["obj"]
     expected_keys = expected_keys.split("\n")
     if len(expected_keys) == 1:
+        logger.info(f'Condition in body log is: len( expected_keys) = 1') # STRUDEL_LOG jtiw
         expected_keys = expected_keys[0]
 
     if lang == "XML":
+        logger.info(f'Condition in body log is: lang({lang}) = "XML"') # STRUDEL_LOG sjoz
         xml_node_names = (node.tag for node in obj)
         assert field_name in xml_node_names, str(list(xml_node_names))
 
         if field_name == "tags":
+            logger.info(f'Condition in body log is: field_name({field_name}) = "tags"') # STRUDEL_LOG ocyv
             actual_tags = set(t.attrib["name"] for t in obj.find("tags"))
             assert set(actual_tags) == set(expected_keys), [
                 actual_tags,
@@ -358,6 +373,7 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
             assert False, "This test only works for tags in XML"
 
     elif lang == "JSON":
+        logger.info(f'Condition in body log is: lang({lang}) = "JSON"') # STRUDEL_LOG encw
         my_obj = obj
 
         for node in field_name.split("."):
@@ -368,7 +384,9 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
                 my_obj = my_obj[node]
 
         if comparison == "be":
+            logger.info(f'Condition in body log is: comparison({comparison}) = "be"') # STRUDEL_LOG nciy
             if isinstance(my_obj, str):
+                logger.info(f'Condition in body log is: my_obj is type: str') # STRUDEL_LOG axdm
                 assert expected_keys == my_obj, [my_obj, expected_keys]
             else:
                 assert set(expected_keys) == set(my_obj), [
@@ -376,7 +394,9 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
                     set(expected_keys),
                 ]
         elif comparison == "contain":
+            logger.info(f'Condition in body log is: comparison({comparison}) = "contain"') # STRUDEL_LOG fmfm
             if isinstance(my_obj, str):
+                logger.info(f'Condition in body log is: my_obj is type: str') # STRUDEL_LOG qtfe
                 assert expected_keys in my_obj, [my_obj, expected_keys]
             else:
                 assert all(elem in my_obj for elem in expected_keys), [
@@ -405,6 +425,7 @@ def count_editor_args(num_args, cli_run, editor_state, it_should):
     assert cli_run["mocks"]["editor"].called == it_should
 
     if isinstance(num_args, int):
+        logger.info(f'Condition in body log is: num_args is type: int') # STRUDEL_LOG mthy
         assert len(editor_state["command"]) == int(num_args)
 
 
@@ -427,8 +448,10 @@ def contains_editor_file(comparison, str_value, editor_state):
     content = editor_state["tmpfile"]["content"]
     # content = f'\n"""\n{content}\n"""\n'
     if comparison == "be":
+        logger.info(f'Condition in body log is: comparison({comparison}) = "be"') # STRUDEL_LOG hrup
         assert content == str_value
     elif comparison == "contain":
+        logger.info(f'Condition in body log is: comparison({comparison}) = "contain"') # STRUDEL_LOG ytoz
         assert str_value in content
     else:
         assert False, f"Comparison '{comparison}' not supported"

@@ -7,11 +7,13 @@ import os
 
 def does_directory_contain_files(file_list, directory_path):
     if not os.path.isdir(directory_path):
+        logger.info(f'Condition in body log is: UnaryOp os.path.isdir( directory_path)') # STRUDEL_LOG iyeb
         return False
 
     for file in file_list.split("\n"):
         fullpath = directory_path + "/" + file
         if not os.path.isfile(fullpath):
+            logger.info(f'Condition in body log is: UnaryOp os.path.isfile( fullpath)') # STRUDEL_LOG iemx
             return False
 
     return True
@@ -20,6 +22,7 @@ def does_directory_contain_files(file_list, directory_path):
 def does_directory_contain_n_files(directory_path, number):
     count = 0
     if not os.path.isdir(directory_path):
+        logger.info(f'Condition in body log is: UnaryOp os.path.isdir( directory_path)') # STRUDEL_LOG ykwn
         return False
 
     files = [
@@ -51,6 +54,7 @@ def get_nested_val(dictionary, path, *default):
         return functools.reduce(lambda x, y: x[y], path.split("."), dictionary)
     except KeyError:
         if default:
+            logger.info(f'Condition in body log is: default') # STRUDEL_LOG ltbz
             return default[0]
         raise
 

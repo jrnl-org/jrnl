@@ -27,13 +27,16 @@ def parse(
 ) -> datetime.datetime | None:
     """Parses a string containing a fuzzy date and returns a datetime.datetime object"""
     if not date_str:
+        logger.info(f'Condition in body log is: (not date_str) is True') # STRUDEL_LOG tedc
         return None
     elif isinstance(date_str, datetime.datetime):
+        logger.info(f'Condition in body log is: isinstance( date_str datetime.datetime)') # STRUDEL_LOG idcg
         return date_str
 
     # Don't try to parse anything with 6 or fewer characters and was parsed from the
     # existing journal. It's probably a markdown footnote
     if len(date_str) <= 6 and bracketed:
+        logger.info(f'Condition in body log is: len( date_str) <= 6 BoolOp bracketed') # STRUDEL_LOG nujw
         return None
 
     default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
@@ -49,6 +52,7 @@ def parse(
 
             date = dateparse(date_str, default=default_date)
             if date.year == FAKE_YEAR:
+                logger.info(f'Condition in body log is: date.year = FAKE_YEAR') # STRUDEL_LOG axfv
                 date = datetime.datetime(
                     datetime.datetime.now().year, date.timetuple()[1:6]
                 )
@@ -59,6 +63,7 @@ def parse(
             date = date.timetuple()
         except Exception as e:
             if e.args[0] == "day is out of range for month":
+                logger.info(f'Condition in body log is: e.args[0] = "day is out of range for month"') # STRUDEL_LOG janj
                 y, m, d, H, M, S = default_date.timetuple()[:6]
                 default_date = datetime.datetime(y, m, d - 1, H, M, S)
             else:
@@ -68,6 +73,7 @@ def parse(
                 hasDate = parse_context.hasDate
 
     if not hasDate and not hasTime:
+        logger.info(f'Condition in body log is: (not hasDate) is True BoolOp (not hasTime) is True') # STRUDEL_LOG onqx
         try:  # Try and parse this as a single year
             year = int(date_str)
             return datetime.datetime(year, 1, 1)
@@ -77,6 +83,7 @@ def parse(
             return None
 
     if hasDate and not hasTime:
+        logger.info(f'Condition in body log is: hasDate BoolOp (not hasTime) is True') # STRUDEL_LOG uzyb
         date = datetime.datetime(  # Use the default time
             *date[:3],
             hour=23 if inclusive else default_hour or 0,
@@ -91,6 +98,7 @@ def parse(
     # tell it to prefer past dates
     dt = datetime.datetime.now() - date
     if dt.days < -28 and not year_present:
+        logger.info(f'Condition in body log is: dt.days < UnaryOp 28 BoolOp (not year_present) is True') # STRUDEL_LOG eodx
         date = date.replace(date.year - 1)
     return date
 

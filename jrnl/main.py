@@ -18,6 +18,7 @@ from jrnl.output import print_msg
 
 def configure_logger(debug: bool = False) -> None:
     if not debug:
+        logger.info(f'Condition in body log is: (not debug) is True') # STRUDEL_LOG ealt
         logging.disable()
         return
 
@@ -35,6 +36,7 @@ def configure_logger(debug: bool = False) -> None:
 def run(manual_args: list[str] | None = None) -> int:
     try:
         if manual_args is None:
+            logger.info(f'Condition in body log is: manual_args({manual_args}) Is None') # STRUDEL_LOG yrbb
             manual_args = sys.argv[1:]
 
         args = parse_args(manual_args)
@@ -63,14 +65,17 @@ def run(manual_args: list[str] | None = None) -> int:
         debug = False
         try:
             if args.debug:  # type: ignore
+                logger.info(f'Condition in body log is: Attribute "debug" of "args" is True') # STRUDEL_LOG ynyg
                 debug = True
         except NameError:
             # This should only happen when the exception
             # happened before the args were parsed
             if "--debug" in sys.argv:
+                logger.info(f'Condition in body log is: "--debug" in sys.argv') # STRUDEL_LOG zyck
                 debug = True
 
         if debug:
+            logger.info(f'Condition in body log is: debug') # STRUDEL_LOG ccav
             from rich.console import Console
 
             traceback.print_tb(sys.exc_info()[2])

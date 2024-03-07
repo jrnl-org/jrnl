@@ -37,6 +37,7 @@ IMPORT_FORMATS = sorted(__importer_types.keys())
 def get_exporter(format: str) -> Type[TextExporter] | None:
     for exporter in __exporters:
         if hasattr(exporter, "names") and format in exporter.names:
+            logger.info(f'Condition in body log is: hasattr( exporter "names") BoolOp format in exporter.names') # STRUDEL_LOG vxeb
             return exporter
     return None
 
@@ -44,5 +45,6 @@ def get_exporter(format: str) -> Type[TextExporter] | None:
 def get_importer(format: str) -> Type[JRNLImporter] | None:
     for importer in __importers:
         if hasattr(importer, "names") and format in importer.names:
+            logger.info(f'Condition in body log is: hasattr( importer "names") BoolOp format in importer.names') # STRUDEL_LOG tkzr
             return importer
     return None

@@ -40,14 +40,17 @@ def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> Non
     default_config = get_default_config()
     missing_keys = set(default_config).difference(config_data)
     if missing_keys:
+        logger.info(f'Condition in body log is: missing_keys') # STRUDEL_LOG mipm
         for key in missing_keys:
             config_data[key] = default_config[key]
 
     different_version = config_data["version"] != __version__
     if different_version:
+        logger.info(f'Condition in body log is: different_version') # STRUDEL_LOG odzs
         config_data["version"] = __version__
 
     if missing_keys or different_version:
+        logger.info(f'Condition in body log is: Either missing_keys OR different_version is True') # STRUDEL_LOG xugd
         save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
         print_msg(
@@ -68,6 +71,7 @@ def find_default_config() -> str:
 
 def find_alt_config(alt_config: str) -> str:
     if not os.path.exists(alt_config):
+        logger.info(f'Condition in body log is: UnaryOp os.path.exists( alt_config)') # STRUDEL_LOG ruqd
         raise JrnlException(
             Message(
                 MsgText.AltConfigNotFound, MsgStyle.ERROR, {"config_file": alt_config}
@@ -88,10 +92,12 @@ def load_or_install_jrnl(alt_config_path: str) -> dict:
     )
 
     if os.path.exists(config_path):
+        logger.info(f'Condition in body log is: os.path.exists( config_path)') # STRUDEL_LOG mosl
         logging.debug("Reading configuration from file %s", config_path)
         config = load_config(config_path)
 
         if config is None:
+            logger.info(f'Condition in body log is: config({config}) Is None') # STRUDEL_LOG sply
             raise JrnlException(
                 Message(
                     MsgText.CantParseConfigFile,
@@ -103,6 +109,7 @@ def load_or_install_jrnl(alt_config_path: str) -> dict:
             )
 
         if is_old_version(config_path):
+            logger.info(f'Condition in body log is: is_old_version( config_path)') # STRUDEL_LOG xcqp
             from jrnl import upgrade
 
             upgrade.upgrade_jrnl(config_path)
@@ -145,12 +152,14 @@ def install() -> dict:
     # Encrypt it?
     encrypt = yesno(Message(MsgText.EncryptJournalQuestion), default=False)
     if encrypt:
+        logger.info(f'Condition in body log is: encrypt') # STRUDEL_LOG afpw
         default_config["encrypt"] = True
         print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
 
     # Use colors?
     use_colors = yesno(Message(MsgText.UseColorsQuestion), default=True)
     if use_colors:
+        logger.info(f'Condition in body log is: use_colors') # STRUDEL_LOG edic
         default_config["colors"] = get_default_colors()
 
     save_config(default_config)
@@ -169,6 +178,7 @@ def install() -> dict:
 def _initialize_autocomplete() -> None:
     # readline is not included in Windows Active Python and perhaps some other distss
     if sys.modules.get("readline"):
+        logger.info(f'Condition in body log is: sys.modules.get( "readline")') # STRUDEL_LOG dusn
         import readline
 
         readline.set_completer_delims(" \t\n;")
