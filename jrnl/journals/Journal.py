@@ -224,7 +224,7 @@ class Journal:
 
     @property
     def tags(self) -> list[Tag]:
-        """Returns a set of tuples (count, tag) for all tags present in the journal."""
+        """Returns a list of Tag instances enumerating all the tags present in the journal."""
         # Astute reader: should the following line leave you as puzzled as me the first
         # time I came across this construction, worry not and embrace the ensuing moment
         # of enlightment.
