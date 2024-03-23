@@ -22,7 +22,7 @@ Feature: Journals iteracting with the file system in a way that users can see
     Scenario: Adding multiple entries to a Folder journal should generate multiple date files
         Given we use the config "empty_folder.yaml"
         When we run "jrnl 23 July 2013: Testing folder journal."
-        And we run "jrnl 3/7/2014: Second entry of journal."
+        And we run "jrnl 5/3/2014: Second entry of journal."
         Then we should get no error
         And the journal directory should contain
             """
