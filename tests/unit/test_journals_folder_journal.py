@@ -51,7 +51,7 @@ def test_get_day_files_expected_filtering(inputs_and_outputs):
         mock.patch("pathlib.Path.glob", return_value=glob_files),
         mock.patch.object(pathlib.Path, "is_file", return_value=True),
     ):
-        actual_output = list(Folder._get_day_files(year_month_path))
+        actual_output = list(Folder._get_day_files(year_month_path, ".txt"))
         actual_output.sort()
 
         expected_output.sort()
