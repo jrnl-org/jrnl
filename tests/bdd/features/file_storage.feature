@@ -24,6 +24,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         Then we should get no error
         And the journal directory should contain
             2013/07/23.txt
+            2014/07/23.txt
 
     Scenario: If the journal and its parent directory don't exist, they should be created
         Given we use the config "missing_directory.yaml"
