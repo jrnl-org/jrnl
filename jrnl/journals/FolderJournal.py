@@ -17,7 +17,8 @@ if TYPE_CHECKING:
 DIGIT_PATTERN = "[0123456789]"
 YEAR_PATTERN = DIGIT_PATTERN * 4
 MONTH_PATTERN = "[01]" + DIGIT_PATTERN
-DAY_PATTERN = "[0123]" + DIGIT_PATTERN + ".txt"
+
+DEFAULT_EXTENSION = ".txt"
 
 
 class Folder(Journal):
@@ -34,7 +35,8 @@ class Folder(Journal):
         self.entries = []
 
         if os.path.exists(self.config["journal"]):
-            filenames = Folder._get_files(self.config["journal"])
+            file_extension = self.config.get("extension", DEFAULT_EXTENSION)
+            filenames = Folder._get_files(self, self.config["journal"], file_extension)
             for filename in filenames:
                 with codecs.open(filename, "r", "utf-8") as f:
                     journal = f.read()
@@ -45,6 +47,8 @@ class Folder(Journal):
 
     def write(self) -> None:
         """Writes only the entries that have been modified into proper files."""
+        file_extension = self.config.get("extension", DEFAULT_EXTENSION)
+
         # Create a list of dates of modified entries. Start with diff_entry_dates
         modified_dates = self._diff_entry_dates
         seen_dates = set(self._diff_entry_dates)
@@ -63,7 +67,7 @@ class Folder(Journal):
                 self.config["journal"],
                 d.strftime("%Y"),
                 d.strftime("%m"),
-                d.strftime("%d") + ".txt",
+                d.strftime("%d") + file_extension,
             )
             dirname = os.path.dirname(filename)
             # create directory if it doesn't exist
@@ -81,7 +85,7 @@ class Folder(Journal):
                 journal_file.write(journal)
         # look for and delete empty files
         filenames = []
-        filenames = Folder._get_files(self.config["journal"])
+        filenames = Folder._get_files(self, self.config["journal"], file_extension)
         for filename in filenames:
             if os.stat(filename).st_size <= 0:
                 os.remove(filename)
@@ -121,12 +125,12 @@ class Folder(Journal):
         self.entries = mod_entries
 
     @staticmethod
-    def _get_files(journal_path: str) -> list[str]:
+    def _get_files(self, journal_path: str, extension: str) -> list[str]:
         """Searches through sub directories starting with journal_path and find all text
         files that look like entries"""
         for year_folder in Folder._get_year_folders(pathlib.Path(journal_path)):
             for month_folder in Folder._get_month_folders(year_folder):
-                yield from Folder._get_day_files(month_folder)
+                yield from Folder._get_day_files(month_folder, extension)
 
     @staticmethod
     def _get_year_folders(path: pathlib.Path) -> list[pathlib.Path]:
@@ -143,7 +147,8 @@ class Folder(Journal):
         return
 
     @staticmethod
-    def _get_day_files(path: pathlib.Path) -> list[str]:
+    def _get_day_files(path: pathlib.Path, extension: str) -> list[str]:
+        DAY_PATTERN = "[0-3][0-9]" + extension
         for child in path.glob(DAY_PATTERN):
             if (
                 int(child.stem) > 0
