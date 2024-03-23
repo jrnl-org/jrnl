@@ -223,7 +223,8 @@ SENTENCE_SPLITTER_ONLY_NEWLINE = re.compile("\n")
 
 def split_title(text: str) -> tuple[str, str]:
     """Splits the first sentence off from a text."""
-    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text.lstrip())
+    text = text.lstrip()
+    sep = SENTENCE_SPLITTER_ONLY_NEWLINE.search(text)
     if not sep:
         sep = SENTENCE_SPLITTER.search(text)
         if not sep:
