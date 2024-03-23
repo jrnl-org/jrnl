@@ -1,0 +1,13 @@
+default_hour: 9
+default_minute: 0
+editor: ''
+template: false
+encrypt: false
+extension: .md
+highlight: true
+journals:
+  default: features/journals/empty_folder_with_extension/
+linewrap: 80
+tagsymbols: '@'
+timeformat: '%Y-%m-%d %H:%M'
+indent_character: "|"

@@ -10,6 +10,13 @@ Feature: Journals iteracting with the file system in a way that users can see
         And the journal directory should contain
             2013/07/23.txt
 
+    Scenario: Adding entries to a Folder journal with a custom extension should generate date files
+        Given we use the config "empty_folder_with_extension.yaml"
+        When we run "jrnl 23 July 2013: Testing folder journal."
+        Then we should get no error
+        And the journal directory should contain
+            2013/07/23.md
+
     Scenario: Adding multiple entries to a Folder journal should generate multiple date files
         Given we use the config "empty_folder.yaml"
         When we run "jrnl 23 July 2013: Testing folder journal."
@@ -17,6 +24,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         Then we should get no error
         And the journal directory should contain
             2013/07/23.txt
+            2014/07/23.txt
 
     Scenario: If the journal and its parent directory don't exist, they should be created
         Given we use the config "missing_directory.yaml"
