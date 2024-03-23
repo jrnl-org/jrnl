@@ -22,9 +22,7 @@ use any extension. `jrnl` will automatically create the file when you save
 your first entry.
 
 ## Folder
-The folder journal format organizes your entries into subfolders for the year
-and month and `.txt` files for each day. If there are multiple entries in a day,
-they all appear in the same `.txt` file.
+The folder journal format organizes your entries into subfolders for the year and month, and a new file for each day. If there are multiple entries in a day, they all appear in the same file. The file extension (`.txt` by default) can be configured with the `extension` configuration key.
 
 The directory tree structure is in this format: `YYYY/MM/DD.txt`. For instance, if
 you have an entry on May 5th, 2021 in a folder journal at `~/folderjournal`, it will
