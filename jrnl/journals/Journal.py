@@ -5,6 +5,7 @@ import datetime
 import logging
 import os
 import re
+import sys
 
 from jrnl import time
 from jrnl.config import validate_journal_name
@@ -378,6 +379,10 @@ class Journal:
         self.entries.append(entry)
         if sort:
             self.sort()
+
+        if self.config["output_new_entry"]:
+            sys.stdout.write(entry.pprint())
+            sys.stdout.write("\n")
         return entry
 
     def editable_str(self) -> str:

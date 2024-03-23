@@ -89,6 +89,7 @@ def get_default_config() -> dict[str, Any]:
             "tags": "none",
             "title": "none",
         },
+        "output_new_entry": False,
     }
 
 
