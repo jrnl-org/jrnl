@@ -7,7 +7,13 @@ from contextlib import ExitStack
 from pytest_bdd import when
 from pytest_bdd.parsers import parse
 from pytest_bdd.parsers import re
-from pytest_bdd.steps import inject_fixture
+
+# This is an undocumented and unsupported function:
+# https://github.com/pytest-dev/pytest-bdd/issues/684
+try:
+    from pytest_bdd.compat import inject_fixture  # pytest_bdd 7.1.2 and later
+except ImportError:
+    from pytest_bdd.steps import inject_fixture  # pytest_bdd 7.1.1 and earlier
 
 from jrnl.main import run
 
