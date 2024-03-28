@@ -166,7 +166,7 @@ class DayOne(Journal):
 
     def editable_str(self) -> str:
         """Turns the journal into a string of entries that can be edited
-        manually and later be parsed with eslf.parse_editable_str."""
+        manually and later be parsed with self.parse_editable_str."""
         return "\n".join([f"{str(e)}\n# {e.uuid}\n" for e in self.entries])
 
     def _update_old_entry(self, entry: Entry, new_entry: Entry) -> None:
