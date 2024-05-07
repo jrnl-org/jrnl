@@ -7,14 +7,9 @@ License: https://www.gnu.org/licenses/gpl-3.0.html
 
 ## Installation
 
-On Mac and Linux, the easiest way to install `jrnl` is using
-[Homebrew](http://brew.sh/):
-
-``` sh
-brew install jrnl
-```
-
-On other platforms, install `jrnl` using [Python](https://www.python.org/) 3.10+ and [pipx](https://pipxproject.github.io/pipx/):
+The easiest way to install `jrnl` is using
+[pipx](https://pipx.pypa.io/stable/installation/)
+with [Python](https://www.python.org/) 3.10+:
 
 ``` sh
 pipx install jrnl
