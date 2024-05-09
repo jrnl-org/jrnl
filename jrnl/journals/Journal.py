@@ -298,7 +298,16 @@ class Journal:
             and (
                 not contains
                 or (
-                    any(
+                    strict
+                    and all(
+                        substring in entry.title.casefold() 
+                        or substring in entry.body.casefold()
+                        for substring in contains_lower
+                    )
+                )
+                or (
+                    not strict 
+                    and any(
                         substring in entry.title.casefold() 
                         or substring in entry.body.casefold()
                         for substring in contains_lower
