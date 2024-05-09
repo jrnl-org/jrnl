@@ -265,6 +265,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     reading.add_argument(
         "-contains",
         dest="contains",
+        action="append",
         metavar="TEXT",
         help="Show entries containing specific text (put quotes around text with "
         "spaces)",
