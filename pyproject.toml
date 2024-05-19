@@ -42,7 +42,7 @@ rich = ">=12.2.0, <14.0.0"
 tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 
 [tool.poetry.dev-dependencies]
-black = { version = ">=21.5b2", allow-prereleases = true }
+black = { version = ">=23.11.0", allow-prereleases = true }
 ipdb = "*"
 mkdocs = ">=1.4"
 parse-type = ">=0.6.0"
