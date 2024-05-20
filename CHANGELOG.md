@@ -16,6 +16,7 @@
 
 **Packaging:**
 
+- Update dependency black to v24.4.2 [\#1856](https://github.com/jrnl-org/jrnl/pull/1856) ([renovate[bot]](https://github.com/apps/renovate))
 - Update peter-evans/create-pull-request action to v6 [\#1852](https://github.com/jrnl-org/jrnl/pull/1852) ([renovate[bot]](https://github.com/apps/renovate))
 - Update nick-invision/retry action to v3 [\#1851](https://github.com/jrnl-org/jrnl/pull/1851) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v42 [\#1850](https://github.com/jrnl-org/jrnl/pull/1850) ([renovate[bot]](https://github.com/apps/renovate))
