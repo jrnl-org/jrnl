@@ -9,6 +9,7 @@
 - Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
 - Bug Report [\#1870](https://github.com/jrnl-org/jrnl/issues/1870)
 - Ignore color when used in  a pipeline [\#1839](https://github.com/jrnl-org/jrnl/issues/1839)
+- Fix -contains to allow multiple terms with "OR" logic unless -and is added [\#1890](https://github.com/jrnl-org/jrnl/pull/1890) ([eigenric](https://github.com/eigenric))
 
 **Documentation:**
 
