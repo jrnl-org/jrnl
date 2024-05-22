@@ -6,6 +6,7 @@
 
 **Fixed bugs:**
 
+- -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
 - Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
 - Bug Report [\#1870](https://github.com/jrnl-org/jrnl/issues/1870)
 - Ignore color when used in  a pipeline [\#1839](https://github.com/jrnl-org/jrnl/issues/1839)
@@ -17,6 +18,7 @@
 
 **Packaging:**
 
+- Update dependency keyring to v24.3.1 [\#1863](https://github.com/jrnl-org/jrnl/pull/1863) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v24.4.2 [\#1856](https://github.com/jrnl-org/jrnl/pull/1856) ([renovate[bot]](https://github.com/apps/renovate))
 - Update peter-evans/create-pull-request action to v6 [\#1852](https://github.com/jrnl-org/jrnl/pull/1852) ([renovate[bot]](https://github.com/apps/renovate))
 - Update nick-invision/retry action to v3 [\#1851](https://github.com/jrnl-org/jrnl/pull/1851) ([renovate[bot]](https://github.com/apps/renovate))
