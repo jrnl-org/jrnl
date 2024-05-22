@@ -18,10 +18,12 @@
 
 **Packaging:**
 
+- Update dependency rich to v13.7.1 [\#1864](https://github.com/jrnl-org/jrnl/pull/1864) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.3.1 [\#1863](https://github.com/jrnl-org/jrnl/pull/1863) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v42.0.7 [\#1857](https://github.com/jrnl-org/jrnl/pull/1857) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v24.4.2 [\#1856](https://github.com/jrnl-org/jrnl/pull/1856) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.18.6 [\#1855](https://github.com/jrnl-org/jrnl/pull/1855) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.4.4 [\#1854](https://github.com/jrnl-org/jrnl/pull/1854) ([renovate[bot]](https://github.com/apps/renovate))
 - Update peter-evans/create-pull-request action to v6 [\#1852](https://github.com/jrnl-org/jrnl/pull/1852) ([renovate[bot]](https://github.com/apps/renovate))
 - Update nick-invision/retry action to v3 [\#1851](https://github.com/jrnl-org/jrnl/pull/1851) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v42 [\#1850](https://github.com/jrnl-org/jrnl/pull/1850) ([renovate[bot]](https://github.com/apps/renovate))
