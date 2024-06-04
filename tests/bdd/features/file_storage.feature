@@ -10,6 +10,7 @@ Feature: Journals iteracting with the file system in a way that users can see
         And the journal directory should contain
             2013/07/23.txt
 
+    @skip_win # https://github.com/jrnl-org/jrnl/issues/1894
     Scenario: Adding entries to a Folder journal with a custom extension should generate date files
         Given we use the config "empty_folder_with_extension.yaml"
         When we run "jrnl 23 July 2013: Testing folder journal."
