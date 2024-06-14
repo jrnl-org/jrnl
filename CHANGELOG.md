@@ -14,7 +14,10 @@
 
 **Documentation:**
 
+- Recommend pipx as default installation method [\#1888](https://github.com/jrnl-org/jrnl/issues/1888)
+- Remove documentation recommendation to install pipx through brew or pip [\#1886](https://github.com/jrnl-org/jrnl/issues/1886)
 - Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
+- Recommend pipx as easiest installation method for all OSes and remove warning about apt [\#1889](https://github.com/jrnl-org/jrnl/pull/1889) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
 
