@@ -16,9 +16,9 @@ from jrnl.plugins.text_exporter import TextExporter
 from jrnl.plugins.util import get_journal_frequency_nested
 
 if TYPE_CHECKING:
-    from jrnl.plugins.util import NestedDict
     from jrnl.journals import Entry
     from jrnl.journals import Journal
+    from jrnl.plugins.util import NestedDict
 
 
 class CalendarHeatmapExporter(TextExporter):
