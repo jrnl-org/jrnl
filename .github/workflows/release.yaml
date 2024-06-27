@@ -66,9 +66,9 @@ jobs:
         echo "JRNL_VERSION=$JRNL_VERSION" >> "$GITHUB_ENV"
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
 
     - name: Checkout repo
       uses: actions/checkout@v4
@@ -168,7 +168,7 @@ jobs:
       run: brew install pipgrip
 
     - name: Query PyPI API
-      uses: nick-invision/retry@v2
+      uses: nick-invision/retry@v3
       with:
         timeout_seconds: 10
         max_attempts: 30
@@ -186,7 +186,7 @@ jobs:
           fi
 
     - name: Update Homebrew Formula
-      uses: nick-invision/retry@v2
+      uses: nick-invision/retry@v3
       with:
         timeout_minutes: 8
         max_attempts: 6
@@ -200,7 +200,7 @@ jobs:
           --force
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v6
       with:
         path: ${{ env.BREW_TAP_DIRECTORY }}
         token: ${{ secrets.JRNL_BOT_TOKEN }}

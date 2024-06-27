@@ -55,7 +55,7 @@ def test_empty():
 
 
 def test_contains_alone():
-    assert cli_as_dict("-contains whatever") == expected_args(contains="whatever")
+    assert cli_as_dict("-contains whatever") == expected_args(contains=["whatever"])
 
 
 def test_debug_alone():

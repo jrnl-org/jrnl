@@ -86,6 +86,36 @@ Feature: Searching in a journal
         | basic_folder.yaml  |
         | basic_dayone.yaml  |
 
+    Scenario Outline: Multiple -contains returns entries that match any
+        Given we use the config "<config_file>"
+        When we run "jrnl -contains emojis -contains lorem --short"
+        Then we should get no error
+        And the output should contain "3 entries found"
+        And the output should be
+            2020-08-29 11:11 Entry the first.
+            2020-08-31 14:32 A second entry in what I hope to be a long series.
+            2020-09-24 09:14 The third entry finally after weeks without writing.
+
+        Examples: configs
+        | config_file   |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
+    Scenario Outline: Multiple -contains with -and returns only entries that match all
+        Given we use the config "<config_file>"
+        When we run "jrnl -contains emojis -contains nulla -and --short"
+        Then we should get no error
+        And the output should contain "1 entry found"
+        And the output should be
+            2020-09-24 09:14 The third entry finally after weeks without writing.
+
+        Examples: configs
+        | config_file   |
+        | basic_onefile.yaml |
+        | basic_folder.yaml  |
+        | basic_dayone.yaml  |
+
     Scenario Outline: Searching for a string within tag results
         Given we use the config "<config_file>"
         When we run "jrnl @tagone -contains maybe"

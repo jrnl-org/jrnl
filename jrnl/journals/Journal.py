@@ -246,7 +246,7 @@ class Journal:
         exclude_starred=False,
         exclude_tagged=False,
         strict=False,
-        contains=None,
+        contains=[],
         exclude=[],
     ):
         """Removes all entries from the journal that don't match the filter.
@@ -276,7 +276,7 @@ class Journal:
             return 0 < len([tag for tag in tags if tag in excluded_tags])
 
         if contains:
-            contains_lower = contains.casefold()
+            contains_lower = [substring.casefold() for substring in contains]
 
         # Create datetime object for comparison below
         # this approach allows various formats
@@ -298,8 +298,20 @@ class Journal:
             and (
                 not contains
                 or (
-                    contains_lower in entry.title.casefold()
-                    or contains_lower in entry.body.casefold()
+                    strict
+                    and all(
+                        substring in entry.title.casefold()
+                        or substring in entry.body.casefold()
+                        for substring in contains_lower
+                    )
+                )
+                or (
+                    not strict
+                    and any(
+                        substring in entry.title.casefold()
+                        or substring in entry.body.casefold()
+                        for substring in contains_lower
+                    )
                 )
             )
         ]

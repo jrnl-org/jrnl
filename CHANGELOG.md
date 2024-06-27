@@ -4,9 +4,49 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1...HEAD)
 
+**Fixed bugs:**
+
+- -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
+- Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
+- Bug Report [\#1870](https://github.com/jrnl-org/jrnl/issues/1870)
+- Ignore color when used in  a pipeline [\#1839](https://github.com/jrnl-org/jrnl/issues/1839)
+- Fix -contains to allow multiple terms with "OR" logic unless -and is added [\#1890](https://github.com/jrnl-org/jrnl/pull/1890) ([eigenric](https://github.com/eigenric))
+
 **Documentation:**
 
+- Recommend pipx as default installation method [\#1888](https://github.com/jrnl-org/jrnl/issues/1888)
+- Remove documentation recommendation to install pipx through brew or pip [\#1886](https://github.com/jrnl-org/jrnl/issues/1886)
 - Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
+- Recommend pipx as easiest installation method for all OSes and remove warning about apt [\#1889](https://github.com/jrnl-org/jrnl/pull/1889) ([micahellison](https://github.com/micahellison))
+
+**Packaging:**
+
+- Update dependency rich to v13.7.1 [\#1864](https://github.com/jrnl-org/jrnl/pull/1864) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v24.3.1 [\#1863](https://github.com/jrnl-org/jrnl/pull/1863) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.26.1 [\#1862](https://github.com/jrnl-org/jrnl/pull/1862) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.15.0 [\#1860](https://github.com/jrnl-org/jrnl/pull/1860) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v42.0.7 [\#1857](https://github.com/jrnl-org/jrnl/pull/1857) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v24.4.2 [\#1856](https://github.com/jrnl-org/jrnl/pull/1856) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.18.6 [\#1855](https://github.com/jrnl-org/jrnl/pull/1855) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.4.4 [\#1854](https://github.com/jrnl-org/jrnl/pull/1854) ([renovate[bot]](https://github.com/apps/renovate))
+- Update peter-evans/create-pull-request action to v6 [\#1852](https://github.com/jrnl-org/jrnl/pull/1852) ([renovate[bot]](https://github.com/apps/renovate))
+- Update nick-invision/retry action to v3 [\#1851](https://github.com/jrnl-org/jrnl/pull/1851) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v42 [\#1850](https://github.com/jrnl-org/jrnl/pull/1850) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v24 [\#1849](https://github.com/jrnl-org/jrnl/pull/1849) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/setup-python action to v5 [\#1848](https://github.com/jrnl-org/jrnl/pull/1848) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v4 [\#1847](https://github.com/jrnl-org/jrnl/pull/1847) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-bdd to v7.0.1 [\#1846](https://github.com/jrnl-org/jrnl/pull/1846) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v7.4.4 [\#1845](https://github.com/jrnl-org/jrnl/pull/1845) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency jinja2 to v3.1.3 [\#1844](https://github.com/jrnl-org/jrnl/pull/1844) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.12.1 [\#1838](https://github.com/jrnl-org/jrnl/pull/1838) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v41.0.7 [\#1837](https://github.com/jrnl-org/jrnl/pull/1837) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v13.7.0 [\#1833](https://github.com/jrnl-org/jrnl/pull/1833) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pa11y-ci to v3.1.0 [\#1831](https://github.com/jrnl-org/jrnl/pull/1831) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v24.3.0 [\#1830](https://github.com/jrnl-org/jrnl/pull/1830) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.5.0 [\#1829](https://github.com/jrnl-org/jrnl/pull/1829) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.24.4 [\#1825](https://github.com/jrnl-org/jrnl/pull/1825) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.2.0 [\#1824](https://github.com/jrnl-org/jrnl/pull/1824) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.18.5 [\#1822](https://github.com/jrnl-org/jrnl/pull/1822) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.1](https://pypi.org/project/jrnl/v4.1/) (2023-11-04)
 

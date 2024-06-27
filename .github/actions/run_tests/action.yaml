@@ -11,7 +11,7 @@ runs:
     shell: bash
 
   - name: Set up Python ${{ matrix.python-version }}
-    uses: actions/setup-python@v4
+    uses: actions/setup-python@v5
     with:
       python-version: ${{ matrix.python-version }}
       allow-prereleases: true
@@ -21,7 +21,7 @@ runs:
     shell: bash
 
   - name: poetry cache # Change CACHE_STRING secret to bust the cache
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: .venv
       key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ inputs.cache-string }}
