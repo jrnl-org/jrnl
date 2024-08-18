@@ -1,0 +1,408 @@
+sunday
+sun
+su
+Monday
+mon
+mond
+tuesday
+tues
+tue
+wednesday
+wedn
+wed
+thursday
+thu
+thur
+thurs
+friday
+fri
+frid
+saturday
+sat
+sa
+Aug 05, 2014 4:15 AM
+Aug 05, 2003 3:15 AM
+Aug 05, 2003 03:15 AM
+June 30th 12PM
+June 30th 12:00
+December 30th 23PM
+December 30th 23:02
+08/25/2006 5pm
+5pm on 08.25.2006
+5pm August 25, 2006
+5pm August 25th, 2006
+5pm 25 August, 2006
+5pm 25th August, 2006
+Aug 25, 2006 5pm
+Aug 25th, 2006 5pm
+25 Aug, 2006 5pm
+25th Aug 2006, 5pm
+8/5 at 5pm
+5pm 8.5
+08/05 5pm
+August 5 5pm
+5pm Aug 05
+Aug 05 5pm
+Aug 05th 5pm
+5 August 5pm
+5th August 5pm
+5pm 05 Aug
+05 Aug 5pm
+05th Aug 5pm
+August 5th 5pm
+August 5th 12:00
+August 5th 12pm
+August 5th 12:00pm
+August 5th 12 pm
+August 5th 12:00 pm
+August 22nd 3:26
+August 22nd 3:26am
+August 22nd 3:26 am
+tuesday august 23nd 2016 at 5pm
+5 min from now
+5 min from now
+7/11/2015
+7/11/2015
+afternoon 5pm
+morning
+night
+5 minutes ago
+34 hours ago
+2 days ago
+58.4 minutes ago
+1855336.424 minutes ago
+8.3 hours ago
+22.355 hours ago
+7.2 days ago
+7.3 days ago
+17.7 days ago
+1.4 months ago
+4.8 months ago
+5.1 months ago
+5.11553 years ago
+3 years 2 weeks 5 days
+3years 2weeks 5days
+3 y 2 w 5 d
+3y 2w 5d
+3y 5h 50m
+3 years, 2 weeks, 5 days
+3 years, 2 weeks and 5 days
+3y, 2w, 5d 
+4pm + 3 days
+4pm +3 days
+4pm - 3 days
+4pm -3 days
+flight from SFO at 4pm
+eod
+meeting eod
+eod meeting
+tomorrow eod
+eod tomorrow
+eod %s
+eod %s
+eom
+meeting eom
+eoy
+meeting eoy
+last friday
+11:00:00 PM
+11:00 PM
+11 PM
+11PM
+2300
+23:00
+11p
+11pm
+11:00:00 P.M.
+11:00 P.M.
+11 P.M.
+11P.M.
+11p.m.
+11 p.m.
+"11 p.m."
+11:00:00 AM
+11:00 AM
+11 AM
+11AM
+1100
+11:00
+11a
+11am
+11:00:00 A.M.
+11:00 A.M.
+11 A.M.
+11A.M.
+11a.m.
+11 a.m.
+(11 a.m.)
+730
+0730
+0730am
+1730
+173000
+3 axmx
+3 pxmx
+08/25/2006
+08.25.2006
+2006/08/25
+2006/8/25
+2006-08-25
+8/25/06
+August 25, 2006
+Aug 25, 2006
+Aug. 25, 2006
+August 25 2006
+Aug 25 2006
+Aug. 25 2006
+25 August 2006
+25 Aug 2006
+8/25
+8.25
+08/25
+August 25
+Aug 25
+Aug. 25
+"8.25"
+(8.25)
+$1.23
+$12.34
+Aug. 2013
+Aug  2013
+02/29/2000
+02/29/2004
+02/29/2008
+02/29/2012
+August 22nd, 2008
+Aug 22nd, 2008
+Aug. 22nd, 2008
+August 22nd 2008
+Aug 22nd 2008
+Aug. 22nd 2008
+22nd August 2008
+22nd Aug 2008
+December 31st, 1949
+Dec 31st, 1949
+December 31st 1949
+Dec 31st 1949
+31st December 1949
+31st Dec 1949
+August 23rd, 2008
+Aug 23rd, 2008
+Aug. 23rd, 2008
+August 23rd 2008
+Aug 23rd 2008
+Aug. 23rd 2008
+August 25th, 2008
+Aug 25th, 2008
+Aug. 25th, 2008
+August 25th 2008
+Aug 25th 2008
+Aug. 25th 2008
+morning
+breakfast
+lunch
+afternoon
+evening
+dinner
+night
+tonight
+midnight
+12:00:00 AM
+12:00 AM
+12 AM
+12AM
+12am
+12a
+0000
+00:00
+12:00:00 A.M.
+12:00 A.M.
+12 A.M.
+12A.M.
+12a.m.
+noon
+12:00:00 PM
+12:00 PM
+12 PM
+12PM
+12pm
+12p
+1200
+12:00
+12:00:00 P.M.
+12:00 P.M.
+12 P.M.
+12P.M.
+12p.m.
+sunday
+sun
+Monday
+mon
+tuesday
+tues
+wednesday
+wed
+thursday
+thu
+friday
+fri
+saturday
+sat
+jun
+12:00:00 PM
+12:00 PM
+12 PM
+12PM
+12pm
+12p
+1200
+12:00
+now
+right now
+Thursday
+one hour from Thursday
+Thursday
+one hour before Thursday
+5 minutes from now
+5 min from now
+5m from now
+in 5 minutes
+in 5 min
+5 minutes
+5 min
+5m
+five minutes from now
+five min from now
+in five minutes
+in five min
+five minutes
+five min
+5 minutes before now
+5 min before now
+5m before now
+5 minutes ago
+five minutes before now
+five min before now
+in 1 week
+1 week from now
+in one week
+one week from now
+in a week
+a week from now
+in 7 days
+7 days from now
+in seven days
+seven days from now
+next week
+next friday
+next friday?
+next friday
+next friday at 1pm
+1pm next friday
+1pm this friday
+1 week before now
+one week before now
+a week before now
+7 days before now
+seven days before now
+1 week ago
+a week ago
+last week
+tomorrow
+next day
+yesterday
+today
+5 hours from now
+5 hour from now
+5 hr from now
+in 5 hours
+in 5 hour
+5 hours
+5 hr
+5h
+five hours from now
+five hour from now
+five hr from now
+in five hours
+in five hour
+five hours
+five hr
+an hour from now
+in an hour
+an hour
+an hr
+an h
+5 hours before now
+5 hr before now
+5h before now
+five hours before now
+five hr before now
+an hour before now
+an hr before now
+an h before now
+5 hours after 12pm
+five hours after 12pm
+5 hours after 12 pm
+5 hours after 12:00pm
+5 hours after 12:00 pm
+5 hours after noon
+5 hours from noon
+5 hours before noon
+5 hours before 12pm
+five hours before 12pm
+5 hours before 12 pm
+5 hours before 12:00pm
+5 hours before 12:00 pm
+5 hours before next noon
+eom
+meeting eom
+eoy
+meeting eoy
+1 minutes
+1 minute
+1 min
+1min
+1 m
+1m
+1 minutes ago
+1 minute ago
+1 hour
+1 hours
+1 hr
+1 hour ago
+1 hours ago
+1 day
+1 days
+1days
+1 dy
+1 d
+-1 day
+-1 days
+-1days
+-1 dy
+-1 d
+- 1 day
+- 1 days
+- 1days
+- 1 dy
+- 1 d
+1 day ago
+1 days ago
+1 week
+1week
+1 weeks
+1 wk
+1 w
+1w
+1 week ago
+1 weeks ago
+1 month
+1 months
+1month
+1 month ago
+1 months ago
+1 year
+1 years
+1 yr
+1 y
+1y
