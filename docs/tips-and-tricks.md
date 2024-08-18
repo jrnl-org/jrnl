@@ -147,7 +147,7 @@ log_question 'What did I make progress with?'
 Whenever your shell is reloaded, you will be prompted to answer each of the
 questions in the example above. Each answer will be logged as a separate
 journal entry at the `default_hour` and `default_minute` listed in your
-`jrnl.yaml` [config file](../advanced/#configuration-file).
+`jrnl.yaml` [config file](./advanced.md#configuration-file).
 
 ## Display random entry
 

@@ -56,6 +56,8 @@ If you don't specify a date and time (e.g., `jrnl finished writing letter to bro
 - 5/20/1998 at 23:42
 - 2020-05-22T15:55-04:00
 
+For further examples please see this [list of possible datetime inputs](./res/datetime-examples-raw.txt).
+
 If you don't use a timestamp, `jrnl` will create an entry using the current
 time. If you use a date only (no time), `jrnl` will use the default time
 specified in your [configuration file](./reference-config-file.md#default_hour-and-default_minute).
