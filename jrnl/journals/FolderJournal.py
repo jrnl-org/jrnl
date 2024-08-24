@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 DIGIT_PATTERN = "[0123456789]"
 YEAR_PATTERN = DIGIT_PATTERN * 4
 MONTH_PATTERN = "[01]" + DIGIT_PATTERN
+DAY_PATTERN = "[0-3][0-9]"
 
 DEFAULT_EXTENSION = ".txt"
 
@@ -148,15 +149,15 @@ class Folder(Journal):
 
     @staticmethod
     def _get_day_files(path: pathlib.Path, extension: str) -> list[str]:
-        DAY_PATTERN = "[0-3][0-9]" + extension
-        for child in path.glob(DAY_PATTERN):
+        for child in path.glob(DAY_PATTERN + extension):
+            day = str(child.name).replace(extension, "")
             if (
-                int(child.stem) > 0
-                and int(child.stem) <= 31
+                int(day) > 0
+                and int(day) <= 31
                 and time.is_valid_date(
                     year=int(path.parent.name),
                     month=int(path.name),
-                    day=int(child.stem),
+                    day=int(day),
                 )
                 and child.is_file()
             ):
