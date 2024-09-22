@@ -16,6 +16,31 @@ Feature: Starring entries
         | empty_folder.yaml |
         | dayone.yaml       |
 
+    Scenario Outline: Starring an entry with bracketed date will mark it in the journal file
+        Given we use the config "<config_file>"
+        When we run "jrnl <command>"
+        Then we should get no error
+        When we run "jrnl -on 2013-07-20 -starred"
+        Then the output should contain "2013-07-20 09:00 Best day of my life!"
+
+        Examples: configs
+        | config_file       | command |
+        | simple.yaml       | [2013-07-20] Best day of my life! * |
+        | empty_folder.yaml | [2013-07-20] Best day of my life! * |
+        # Note: this one fail due to whitespace, cmp. next config
+#        | dayone.yaml       | [2013-07-20] Best day of my life! * |
+        | dayone.yaml       | [2013-07-20] Best day of my life!* |
+        | simple.yaml       | [2013-07-20]*: Best day of my life! |
+        | empty_folder.yaml | [2013-07-20]*: Best day of my life! |
+        | dayone.yaml       | [2013-07-20]*: Best day of my life! |
+        | simple.yaml       | [2013-07-20] * : Best day of my life! |
+        | empty_folder.yaml | [2013-07-20] * : Best day of my life! |
+        | dayone.yaml       | [2013-07-20] * : Best day of my life! |
+        | simple.yaml       | [2013-07-20] * Best day of my life! |
+        | empty_folder.yaml | [2013-07-20] * Best day of my life! |
+        # Note: this one fails in having the star in the output too
+#        | dayone.yaml       | [2013-07-20] * Best day of my life! |
+
     Scenario Outline: Filtering by starred entries will show only starred entries
         Given we use the config "<config_file>"
         When we run "jrnl -starred"

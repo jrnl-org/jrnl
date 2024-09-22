@@ -51,6 +51,13 @@ Feature: Reading and writing to journal with custom date formats
         | little_endian_dates.yaml | 2032-02-01: Test.            | 01.02.2032 09:00 Test.            |
         | little_endian_dates.yaml | 2020-01-01: Test.            | 01.01.2020 09:00 Test.            |
         | little_endian_dates.yaml | 2020-12-31: Test.            | 31.12.2020 09:00 Test.            |
+        # @todo: is it fine that default time be used here and not 00:00?
+        | little_endian_dates.yaml | [2020-12-31] bracket.        | 31.12.2020 09:00 bracket.         |
+        | little_endian_dates.yaml | [2020-12-31 10:00 PM] brkt.  | 31.12.2020 22:00 brkt.            |
+        | little_endian_dates.yaml | [2020-12-31]: brkt colon.    | 31.12.2020 09:00 brkt colon.      |
+        | little_endian_dates.yaml | [2020-12-31 12:34]: b colon. | 31.12.2020 12:34 b colon.         |
+        | little_endian_dates.yaml | [2019-02-29] brkt neg.       | [2019-02-29] brkt neg.            |
+        | little_endian_dates.yaml | [2020-08-32] brkt neg.       | [2020-08-32] brkt neg.            |
 
 
     Scenario Outline: Searching for dates with custom date
@@ -76,6 +83,14 @@ Feature: Reading and writing to journal with custom date formats
         Then we should get no error
         When we run "jrnl -999"
         Then the output should contain "10.05.2013 09:00 I saw Elvis."
+        And the output should contain "He's alive."
+
+    Scenario: Writing an entry at the prompt with custom date in bracket format
+        Given we use the config "little_endian_dates.yaml"
+        When we run "jrnl" and type "[2013-05-10 12:34] I saw Elvis. He's alive."
+        Then we should get no error
+        When we run "jrnl -999"
+        Then the output should contain "10.05.2013 12:34 I saw Elvis."
         And the output should contain "He's alive."
 
 
