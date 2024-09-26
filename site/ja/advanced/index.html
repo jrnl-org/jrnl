@@ -1,0 +1,306 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/advanced/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>高度な使い方 - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u9ad8\u5ea6\u306a\u4f7f\u3044\u65b9";
+        var mkdocs_page_input_path = "ja/advanced.md";
+        var mkdocs_page_url = "/ja/advanced/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >ユーザーガイド</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">高度な使い方</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_2">設定ファイル</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">複数のジャーナルファイル</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">コマンドラインから設定を変更する</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">代替設定の使用</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+          <li>ユーザーガイド &raquo;</li>
+      <li>高度な使い方</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/advanced.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">高度な使用方法</h1>
+<h2 id="_2">設定ファイル</h2>
+<p><code>jrnl</code>には、テンプレート、フォーマット、複数のジャーナルなど、設定ファイルを通
+してカスタマイズできる多様なオプションがあります。詳細については<a href="../reference-config-file/">設定ファイルリ
+ファレンス</a>を参照するか、以下の一般的な使用例をお読
+みください。</p>
+<h3 id="_3">複数のジャーナルファイル</h3>
+<p><a href="../reference-config-file/">設定ファイル</a>でより多くのジャーナルを定義することで、<code>jrnl</code>を複数のジャーナル（例：<code>private</code>と<code>work</code>）で使用するように設定できます。例えば：</p>
+<pre><code class="language-yaml">journals:
+  default: ~/journal.txt
+  work: ~/work.txt
+</code></pre>
+<p><code>default</code>ジャーナルは<code>jrnl</code>を初めて起動したときに作成されます。
+これで、<code>jrnl</code>の代わりに<code>jrnl work</code>を使用して<code>work</code>ジャーナルにアクセスできます。例えば：</p>
+<pre><code class="language-sh">jrnl work at 10am: @Steveとのミーティング
+jrnl work -n 3
+</code></pre>
+<p>これらはどちらも<code>~/work.txt</code>を使用しますが、<code>jrnl -n 3</code>は<code>~/journal.txt</code>から最後の3つのエントリーを表示します（<code>jrnl default -n 3</code>も同様です）。</p>
+<p>各ジャーナルのデフォルトオプションを個別にオーバーライドすることもできます。
+<code>jrnl.yaml</code>が以下のようになっている場合：</p>
+<pre><code class="language-yaml">encrypt: false
+journals:
+  default: ~/journal.txt
+  work:
+    journal: ~/work.txt
+    encrypt: true
+  food: ~/my_recipes.txt
+</code></pre>
+<p><code>default</code>と<code>food</code>ジャーナルは暗号化されませんが、<code>work</code>ジャーナルは暗号化されます！</p>
+<p><code>jrnl.yaml</code>のトップレベルにあるすべてのオプションをオーバーライドできますが、少なくともそのジャーナルのジャーナルファイルを指す<code>journal: ...</code>キーを指定してください。</p>
+<p>以下の設定例を考えてみましょう：</p>
+<pre><code class="language-yaml">editor: vi -c startinsert
+journals:
+  default: ~/journal.txt
+  work:
+    journal: ~/work.txt
+    encrypt: true
+    display_format: json
+    editor: code -rw
+  food:
+    display_format: markdown
+    journal: ~/recipes.txt
+</code></pre>
+<p><code>work</code>ジャーナルは暗号化され、デフォルトで<code>json</code>形式で出力され、VSCodeの既存のウィンドウで編集されます。同様に、<code>food</code>ジャーナルはデフォルトでmarkdown形式で出力されますが、他のすべてのデフォルト設定を使用します。</p>
+<h3 id="_4">コマンドラインから設定を変更する</h3>
+<p>現在の<code>jrnl</code>インスタンスの設定フィールドを<code>--config-override CONFIG_KEY CONFIG_VALUE</code>を使用してオーバーライドできます。ここで、<code>CONFIG_KEY</code>は有効な設定フィールドをドット表記で指定し、<code>CONFIG_VALUE</code>は希望する（有効な）オーバーライド値です。ドット表記を使用して、<code>colors.title</code>のような他のキー内のキーを変更することもできます。</p>
+<p>複数のオーバーライドを指定するには、<code>--config-override</code>を複数回呼び出します。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>これらのオーバーライドにより、jrnl設定の<strong><em>任意の</em></strong>フィールドを変更できます。自己責任で使用してください。</p>
+<h4 id="_5">例</h4>
+<pre><code class="language-sh"># 高速ログ記録のために`stdin`プロンプトを使用してエントリーを作成する
+jrnl --config-override editor &quot;&quot;
+
+# プロジェクトのログを記録する
+jrnl --config-override journals.todo &quot;$(git rev-parse --show-toplevel)/todo.txt&quot; todo タオルを見つける
+
+# 複数のオーバーライドを渡す
+jrnl --config-override display_format fancy --config-override linewrap 20 \
+--config-override colors.title green
+</code></pre>
+<h3 id="_6">代替設定の使用</h3>
+<p>現在の<code>jrnl</code>インスタンスに対して、<code>--config-file CONFIG_FILE_PATH</code>を使用して代替設定ファイルを指定できます。ここで<code>CONFIG_FILE_PATH</code>は代替<code>jrnl</code>設定ファイルへのパスです。</p>
+<h4 id="_7">例</h4>
+<pre><code class="language-sh"># 個人的なジャーナルエントリーに個人用設定ファイルを使用する
+jrnl --config-file ~/foo/jrnl/personal-config.yaml
+
+# 仕事関連のエントリーに代替設定ファイルを使用する
+jrnl --config-file ~/foo/jrnl/work-config.yaml
+
+# デフォルトの設定ファイルを使用する（初回実行時に作成される）
+jrnl
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../formats/" class="btn btn-neutral float-left" title="フォーマット"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../external-editors/" class="btn btn-neutral float-right" title="外部エディタ">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../formats/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../external-editors/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

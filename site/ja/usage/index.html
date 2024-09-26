@@ -1,0 +1,417 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/usage/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>基本的な使い方 - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u57fa\u672c\u7684\u306a\u4f7f\u3044\u65b9";
+        var mkdocs_page_input_path = "ja/usage.md";
+        var mkdocs_page_url = "/ja/usage/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >ユーザーガイド</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">基本的な使い方</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_2">エントリーの作成</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">日付と時間の指定</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">タグの使用</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">エントリーにスターを付ける</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">エントリーの閲覧と検索</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">テキスト検索</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">タグによるフィルタリング</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">スター付きエントリーの表示</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">エントリーの編集</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">エントリーの削除</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">ジャーナルのリスト表示</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+          <li>ユーザーガイド &raquo;</li>
+      <li>基本的な使い方</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/usage.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">基本的な使い方</h1>
+<p><code>jrnl</code>には2つのモードがあります：<strong>作成モード</strong>と<strong>閲覧モード</strong>です。ダッシュ（<code>-</code>）
+やダブルダッシュ（<code>--</code>）で始まる引数を入力しない場合は作成モードになり、
+コマンドラインでエントリーを書くことができます。</p>
+<p>私たちは意図的にコマンドライン引数の慣例を破っています：<em>一重のダッシュ</em>（<code>-</code>）で
+始まるすべての引数は、閲覧前にジャーナルを<em>フィルタリング</em>します。フィルタ引数は
+任意に組み合わせることができます。<em>二重のダッシュ</em>（<code>--</code>）で始まる引数は、
+ジャーナルの表示やエクスポートの方法を<em>制御</em>します。制御引数は相互に排他的です
+（つまり、一度に一つの方法でのみジャーナルの表示やエクスポートを指定できます）。</p>
+<p>コマンドのリストを表示するには、<code>jrnl --help</code>と入力してください。</p>
+<h2 id="_2">エントリーの作成</h2>
+<p>作成モードは、引数なしで<code>jrnl</code>を起動する（外部エディタが起動します）か、
+コマンドラインに直接エントリーを書くことで入ります：</p>
+<pre><code class="language-text">jrnl today at 3am: バーでスティーブ・ブシェミに会った！とても良い人だった。
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>ほとんどのシェルには<code>#</code>や<code>*</code>などの予約文字があります。これらの文字や、
+バランスの取れていない単一または二重引用符、括弧などは、おそらく問題を
+引き起こします。予約文字は<code>\</code>を使ってエスケープできますが、長文の
+書き込みには理想的ではありません。解決策：まず<code>jrnl</code>と入力してリターンキーを
+押します。その後、ジャーナルエントリーのテキストを入力できます。
+または、<a href="../advanced/">外部エディタを使用する</a>こともできます。</p>
+<p>ファイルから直接エントリーをインポートすることもできます：</p>
+<pre><code class="language-sh">jrnl &lt; my_entry.txt
+</code></pre>
+<h3 id="_3">日付と時間の指定</h3>
+<p>日付と時間を指定しない場合（例：<code>jrnl 弟への手紙を書き終えた</code>）、<code>jrnl</code>は現在の日付と時間を使用してエントリーを作成します。過去のエントリーの場合、タイムスタンプを使用して<code>jrnl</code>にエントリーの配置場所を指示できます。タイムスタンプは様々な形式で入力できます。以下は機能する例です：</p>
+<ul>
+<li>at 6am</li>
+<li>yesterday</li>
+<li>last monday</li>
+<li>sunday at noon</li>
+<li>2 march 2012</li>
+<li>7 apr</li>
+<li>5/20/1998 at 23:42</li>
+<li>2020-05-22T15:55-04:00</li>
+</ul>
+<p>タイムスタンプを使用しない場合、<code>jrnl</code>は現在の時刻を使用してエントリーを作成します。
+日付のみを使用する場合（時刻なし）、<code>jrnl</code>は<a href="../reference-config-file/#default_hour-and-default_minute">設定ファイル</a>で
+指定されたデフォルトの時刻を使用します。
+内部的には、<code>jrnl</code>はエントリーを年代順に並べ替えます。</p>
+<h3 id="_4">タグの使用</h3>
+<p><code>jrnl</code>はタグをサポートしています。デフォルトのタグシンボルは<code>@</code>です（主に<code>#</code>が
+予約文字であるため）。<a href="../reference-config-file/#tagsymbols">設定ファイル</a>で
+独自のタグシンボルを指定できます。タグを使用するには、目的のタグの前にシンボルを
+付けます：</p>
+<pre><code class="language-sh">jrnl @ビーチで@トムと@アンナと素晴らしい一日を過ごした。
+</code></pre>
+<p>エントリーにタグを付ける際に大文字を使用できますが、タグによる検索は
+大文字小文字を区別しません。</p>
+<p>1つのエントリーで使用できるタグの数に制限はありません。</p>
+<h3 id="_5">エントリーにスターを付ける</h3>
+<p>エントリーをお気に入りとしてマークするには、単にアスタリスク（<code>*</code>）を使って
+「スター」を付けます：</p>
+<pre><code class="language-sh">jrnl last sunday *: 人生最高の日。
+</code></pre>
+<p>日付を追加したくない場合（つまり、日付を<em>now</em>として入力したい場合）、
+以下のオプションは同等です：</p>
+<ul>
+<li><code>jrnl *: 人生最高の日。</code></li>
+<li><code>jrnl *人生最高の日。</code></li>
+<li><code>jrnl 人生最高の日。*</code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>アスタリスク（<code>*</code>）の前後に空白がないことを確認してください。
+<code>jrnl 人生最高の日！ *</code>は機能しません。なぜなら、<code>*</code>文字はほとんどの
+シェルで特別な意味を持つからです。</p>
+<h2 id="_6">エントリーの閲覧と検索</h2>
+<p><code>jrnl</code>は様々な方法でエントリーを表示できます。</p>
+<p>すべてのエントリーを表示するには、次のように入力します：</p>
+<pre><code class="language-sh">jrnl -to today
+</code></pre>
+<p><code>jrnl</code>はいくつかのフィルタリングコマンドを提供しており、一重のダッシュ（<code>-</code>）で
+始まり、より具体的な範囲のエントリーを見つけることができます。例えば、</p>
+<pre><code class="language-sh">jrnl -n 10
+</code></pre>
+<p>は最新の10件のエントリーを表示します。<code>jrnl -10</code>はさらに簡潔で、同じように機能します。
+昨年の初めから今年の3月末までに書いたすべてのエントリーを見たい場合は、
+次のように入力します：</p>
+<pre><code class="language-sh">jrnl -from &quot;last year&quot; -to march
+</code></pre>
+<p>複数の単語を使用するフィルタ条件は、引用符（<code>""</code>）で囲む必要があります。</p>
+<p>特定の日のエントリーを見るには、<code>-on</code>を使用します：</p>
+<pre><code class="language-sh">jrnl -on yesterday
+</code></pre>
+<h3 id="_7">テキスト検索</h3>
+<p><code>-contains</code>コマンドは、その後に入力したテキストを含むすべてのエントリーを表示します。
+これは、エントリーを検索する際に、書いた時にタグを付けたかどうか覚えていない場合に
+役立つかもしれません。</p>
+<p>ある単語をよく使っていることに気づき、過去のすべてのエントリーでそれをタグに
+変えたいと思うかもしれません。</p>
+<pre><code class="language-sh">jrnl -contains &quot;犬&quot; --edit
+</code></pre>
+<p>外部エディタを開き、"犬"という単語のすべてのインスタンスにタグシンボル
+（デフォルトでは<code>@</code>）を追加できます。</p>
+<h3 id="_8">タグによるフィルタリング</h3>
+<p>ジャーナルエントリーをタグでフィルタリングできます。例えば、</p>
+<pre><code class="language-sh">jrnl @ピンキー @世界征服
+</code></pre>
+<p>は<code>@ピンキー</code>または<code>@世界征服</code>のいずれかが出現するすべてのエントリーを表示します。
+タグフィルタは他のフィルタと組み合わせることができます：</p>
+<pre><code class="language-sh">jrnl -n 5 @ピンキー -and @世界征服
+</code></pre>
+<p>は<code>@ピンキー</code><em>と</em><code>@世界征服</code>の<em>両方</em>を含む最新の5つのエントリーを表示します。
+<a href="../reference-config-file/#tagsymbols">設定ファイル</a>でタグに使用したいシンボルを
+変更できます。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p><code>jrnl @ピンキー @世界征服</code>と入力すると、両方のタグが存在するエントリーが
+表示されます。これは、コマンドライン引数が与えられていないにもかかわらず、
+すべての入力文字列がタグのように見えるためです。<code>jrnl</code>は、タグのみで
+構成される新しいエントリーを作成するのではなく、タグでフィルタリング
+したいと想定します。</p>
+<p>ジャーナル内のすべてのタグのリストを表示するには、次のように入力します：</p>
+<pre><code class="language-sh">jrnl --tags
+</code></pre>
+<h3 id="_9">スター付きエントリーの表示</h3>
+<p>お気に入り（スター付き）のエントリーのみを表示するには、次のように入力します：</p>
+<pre><code class="language-sh">jrnl -starred
+</code></pre>
+<h2 id="_10">エントリーの編集</h2>
+<p>エントリーを書いた後で編集することができます。これは特に、ジャーナルファイルが
+暗号化されている場合に便利です。この機能を使用するには、<a href="../reference-config-file/#editor">設定ファイル</a>で
+外部エディタを設定する必要があります。また、特定の検索条件に一致するエントリー
+のみを編集することもできます。例えば、</p>
+<pre><code class="language-sh">jrnl -to 1950 @テキサス -and @歴史 --edit
+</code></pre>
+<p>は外部エディタを開き、1950年以前に書かれた<code>@テキサス</code>と<code>@歴史</code>のタグが付いた
+すべてのエントリーを表示します。変更を加えてファイルを保存して閉じると、
+それらのエントリーのみが変更されます（該当する場合は暗号化されます）。</p>
+<p>複数のジャーナルを使用している場合、特定のジャーナルから特定のエントリーを
+簡単に編集できます。フィルタ文字列の前にジャーナルの名前を付けるだけです。
+例えば、</p>
+<pre><code class="language-sh">jrnl work -n 1 --edit
+</code></pre>
+<p>は'work'ジャーナルの最新のエントリーを外部エディタで開きます。</p>
+<h2 id="_11">エントリーの削除</h2>
+<p><code>--delete</code>コマンドは、エントリーを削除するための対話型インターフェースを開きます。
+ジャーナル内の各エントリーの日付とタイトルが一つずつ表示され、各エントリーを
+保持するか削除するかを選択できます。</p>
+<p>フィルタが指定されていない場合、<code>jrnl</code>はジャーナル全体の各エントリーを一つずつ
+保持するか削除するかを尋ねます。ジャーナルに多くのエントリーがある場合は、
+<code>--delete</code>コマンドを渡す前にエントリーをフィルタリングする方が効率的かもしれません。</p>
+<p>例を挙げます。過去12年間のブログ投稿をインポートしたジャーナルがあるとします。
+<code>@本</code>タグを頻繁に使用しており、何らかの理由で、そのタグを使用したエントリーの
+一部（全部ではない）を削除したいのですが、2004年以前に書いたものだけです。
+どのエントリーを保持したいかわからず、決定する前に確認したいとします。
+次のように入力するかもしれません：</p>
+<pre><code class="language-sh">jrnl -to 2004 @本 --delete
+</code></pre>
+<p><code>jrnl</code>は関連するエントリーのみを表示し、削除したいものを選択できます。</p>
+<p>2004年以前に書いた<code>@本</code>を含むすべてのエントリーを削除したい場合もあるでしょう。
+数十または数百ある場合、最も簡単な方法は外部エディタを使用することです。
+削除したいエントリーをエディタで開きます...</p>
+<pre><code class="language-sh">jrnl -to 2004 @本 --edit
+</code></pre>
+<p>...すべてを選択し、削除して保存して閉じると、それらのエントリーすべてが
+ジャーナルから削除されます。</p>
+<h2 id="_12">ジャーナルのリスト表示</h2>
+<p>すべてのジャーナルをリスト表示するには：</p>
+<pre><code class="language-sh">jrnl --list
+</code></pre>
+<p>表示されるジャーナルは、<code>jrnl</code>の<a href="../reference-config-file/#journals">設定ファイル</a>で
+指定されたものに対応します。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../installation/" class="btn btn-neutral float-left" title="クイックスタート"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../encryption/" class="btn btn-neutral float-right" title="暗号化">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../encryption/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

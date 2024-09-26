@@ -1,0 +1,533 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/formats/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Formats - jrnl</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../assets/colors.css" rel="stylesheet" />
+        <link href="../assets/theme.css" rel="stylesheet" />
+        <link href="../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Formats";
+        var mkdocs_page_input_path = "formats.md";
+        var mkdocs_page_url = "/formats/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Formats</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#display-formats">Display Formats</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#pretty">Pretty</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#short">Short</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fancy-or-boxed">Fancy (or Boxed)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#data-formats">Data Formats</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#json">JSON</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdown">Markdown</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#plain-text">Plain Text</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#xml">XML</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#yaml">YAML</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#report-formats">Report formats</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#tags">Tags</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#options">Options</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#exporting-with-file">Exporting with --file</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#exporting-to-directories">Exporting to directories</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ja/overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >ユーザーガイド</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>User Guide &raquo;</li>
+      <li>Formats</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/formats.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="formats">Formats</h1>
+<p><code>jrnl</code> supports a variety of alternate formats. These can be used to display your
+journal in a different manner than the <code>jrnl</code> default, and can even be used to pipe data
+from your journal for use in another program to create reports, or do whatever you want
+with your <code>jrnl</code> data.</p>
+<p>Any of these formats can be used with a search (e.g. <code>jrnl -contains "lorem ipsum"
+--format json</code>) to display the results of that search in the given format, or can be
+used alone (e.g. <code>jrnl --format json</code>) to display all entries from the selected journal.</p>
+<p>This page shows examples of all the built-in formats, but since <code>jrnl</code> supports adding
+more formats through plugins, you may have more available on your system. Please see
+<code>jrnl --help</code> for a list of which formats are available on your system.</p>
+<p>Any of these formats can be used interchangeably, and are only grouped into "display",
+"data", and "report" formats below for convenience.</p>
+<h2 id="display-formats">Display Formats</h2>
+<p>These formats are mainly intended for displaying your journal in the terminal. Even so,
+they can still be used in the same way as any other format (like written to a file, if
+you choose).</p>
+<h3 id="pretty">Pretty</h3>
+<pre><code class="language-sh">jrnl --format pretty
+# or
+jrnl -1 # any search
+</code></pre>
+<p>This is the default format in <code>jrnl</code>. If no <code>--format</code> is given, <code>pretty</code> will be used.</p>
+<p>It displays the timestamp of each entry formatted to by the user config followed by the
+title on the same line. Then the body of the entry is shown below.</p>
+<p>This format is configurable through these values from your config file (see
+<a href="../advanced/">Advanced Usage</a> for more details):</p>
+<ul>
+<li><code>colors</code><ul>
+<li><code>body</code></li>
+<li><code>date</code></li>
+<li><code>tags</code></li>
+<li><code>title</code></li>
+</ul>
+</li>
+<li><code>indent_character</code></li>
+<li><code>linewrap</code></li>
+<li><code>timeformat</code></li>
+</ul>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-sh">2020-06-28 18:22 This is the first sample entry
+| This is the sample body text of the first sample entry.
+
+2020-07-01 20:00 This is the second sample entry
+| This is the sample body text of the second sample entry, but
+| this one has a @tag.
+
+2020-07-02 09:00 This is the third sample entry
+| This is the sample body text of the third sample entry.
+</code></pre>
+<h3 id="short">Short</h3>
+<pre><code class="language-sh">jrnl --format short
+# or
+jrnl --short
+</code></pre>
+<p>This will shorten entries to display only the date and title. It is essentially the
+<code>pretty</code> format but without the body of each entry. This can be useful if you have long
+journal entries and only want to see a list of entries that match your search.</p>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-sh">2020-06-28 18:22 This is the first sample entry
+2020-07-01 20:00 This is the second sample entry
+2020-07-02 09:00 This is the third sample entry
+</code></pre>
+<h3 id="fancy-or-boxed">Fancy (or Boxed)</h3>
+<pre><code class="language-sh">jrnl --format fancy
+# or
+jrnl --format boxed
+</code></pre>
+<p>This format outlines each entry with a border. This makes it much easier to tell where
+each entry starts and ends. It's an example of how free-form the formats can be, and also
+just looks kinda ~<em>~fancy~</em>~, if you're into that kind of thing.</p>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-sh">┎──────────────────────────────────────────────────────────────────────╮2020-06-28 18:22
+┃ This is the first sample entry                                       ╘═══════════════╕
+┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+┃ This is the sample body text of the first sample entry.                              │
+┖──────────────────────────────────────────────────────────────────────────────────────┘
+┎──────────────────────────────────────────────────────────────────────╮2020-07-01 20:00
+┃ This is the second sample entry                                      ╘═══════════════╕
+┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+┃ This is the sample body text of the second sample entry, but this one has a @tag.    │
+┖──────────────────────────────────────────────────────────────────────────────────────┘
+┎──────────────────────────────────────────────────────────────────────╮2020-07-02 09:00
+┃ This is the third sample entry                                       ╘═══════════════╕
+┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+┃ This is the sample body text of the third sample entry.                              │
+┖──────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2 id="data-formats">Data Formats</h2>
+<p>These formats are mainly intended for piping or exporting your journal to other
+programs. Even so, they can still be used in the same way as any other format (like
+written to a file, or displayed in your terminal, if you want).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>You may see boxed messages like "2 entries found" when using these formats, but
+those messages are written to <code>stderr</code> instead of <code>stdout</code>, and won't be piped when
+using the <code>|</code> operator.</p>
+<h3 id="json">JSON</h3>
+<pre><code class="language-sh">jrnl --format json
+</code></pre>
+<p>JSON is a very handy format used by many programs and has support in nearly every
+programming language. There are many things you could do with JSON data. Maybe you could
+use <code>jq</code> (<a href="https://github.com/stedolan/jq">project page</a>) to filter through the fields in your journal.
+Like this:</p>
+<pre><code class="language-sh">$ j -3 --format json | jq '.entries[].date'                                                                                                                            jrnl-GFqVlfgP-py3.8 
+&quot;2020-06-28&quot;
+&quot;2020-07-01&quot;
+&quot;2020-07-02&quot;
+</code></pre>
+<p>Or why not create a <a href="http://timeline.knightlab.com/">beautiful timeline</a> of your journal?</p>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-json">{
+  &quot;tags&quot;: {
+    &quot;@tag&quot;: 1
+  },
+  &quot;entries&quot;: [
+    {
+      &quot;title&quot;: &quot;This is the first sample entry&quot;,
+      &quot;body&quot;: &quot;This is the sample body text of the first sample entry.&quot;,
+      &quot;date&quot;: &quot;2020-06-28&quot;,
+      &quot;time&quot;: &quot;18:22&quot;,
+      &quot;tags&quot;: [],
+      &quot;starred&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;This is the second sample entry&quot;,
+      &quot;body&quot;: &quot;This is the sample body text of the second sample entry, but this one has a @tag.&quot;,
+      &quot;date&quot;: &quot;2020-07-01&quot;,
+      &quot;time&quot;: &quot;20:00&quot;,
+      &quot;tags&quot;: [
+        &quot;@tag&quot;
+      ],
+      &quot;starred&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;This is the third sample entry&quot;,
+      &quot;body&quot;: &quot;This is the sample body text of the third sample entry.&quot;,
+      &quot;date&quot;: &quot;2020-07-02&quot;,
+      &quot;time&quot;: &quot;09:00&quot;,
+      &quot;tags&quot;: [],
+      &quot;starred&quot;: false
+    }
+  ]
+}
+</code></pre>
+<h3 id="markdown">Markdown</h3>
+<pre><code class="language-sh">jrnl --format markdown
+# or
+jrnl --format md
+</code></pre>
+<p>Markdown is a simple markup language that is human readable and can be used to be
+rendered to other formats (html, pdf). <code>jrnl</code>'s
+<a href="https://github.com/jrnl-org/jrnl/blob/develop/README.md">README</a> for example is
+formatted in markdown, then Github adds some formatting to make it look nice.</p>
+<p>The markdown format groups entries by date (first by year, then by month), and adds
+header markings as needed (e.g. <code>#</code>, <code>##</code>, etc). If you already have markdown header
+markings in your journal, they will be incremented as necessary to make them fit under
+these new headers (i.e. <code>#</code> will become <code>##</code>).</p>
+<p>This format can be very useful, for example, to export a journal to a program that
+converts markdown to html to make a website or a blog from your journal.</p>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-markdown"># 2020
+
+## June
+
+### 2020-06-28 18:22 This is the first sample entry
+
+This is the sample body text of the first sample entry.
+
+## July
+
+### 2020-07-01 20:00 This is the second sample entry
+
+This is the sample body text of the second sample entry, but this one has a @tag.
+
+### 2020-07-02 09:00 This is the third sample entry
+
+This is the sample body text of the third sample entry.
+</code></pre>
+<h3 id="plain-text">Plain Text</h3>
+<pre><code class="language-sh">jrnl --format text
+# or
+jrnl --format txt
+</code></pre>
+<p>This outputs your journal in the same plain-text format that <code>jrnl</code> uses to store your
+journal on disk. This format is particularly useful for importing and exporting journals
+within <code>jrnl</code>.</p>
+<p>You can use it, for example, to move entries from one journal to another, or to create a
+new journal with search results from another journal.</p>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-sh">[2020-06-28 18:22] This is the first sample entry
+This is the sample body text of the first sample entry.
+
+[2020-07-01 20:00] This is the second sample entry
+This is the sample body text of the second sample entry, but this one has a @tag.
+
+[2020-07-02 09:00] This is the third sample entry
+This is the sample body text of the third sample entry.
+</code></pre>
+<h3 id="xml">XML</h3>
+<pre><code class="language-sh">jrnl --format xml
+</code></pre>
+<p>This outputs your journal into XML format. XML is a commonly used data format and is
+supported by many programs and programming languages.</p>
+<p><strong>Example output</strong>:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;journal&gt;
+        &lt;entries&gt;
+                &lt;entry date=&quot;2020-06-28T18:22:00&quot; starred=&quot;&quot;&gt;This is the first sample entry This is the sample body text of the first sample entry.&lt;/entry&gt;
+                &lt;entry date=&quot;2020-07-01T20:00:00&quot; starred=&quot;&quot;&gt;
+                        &lt;tag name=&quot;@tag&quot;/&gt;
+                        This is the second sample entry This is the sample body text of the second sample entry, but this one has a @tag.
+                &lt;/entry&gt;
+                &lt;entry date=&quot;2020-07-02T09:00:00&quot; starred=&quot;&quot;&gt;*This is the third sample entry, and is starred This is the sample body text of the third sample entry.&lt;/entry&gt;
+        &lt;/entries&gt;
+        &lt;tags&gt;
+                &lt;tag name=&quot;@tag&quot;&gt;1&lt;/tag&gt;
+        &lt;/tags&gt;
+&lt;/journal&gt;
+</code></pre>
+<h3 id="yaml">YAML</h3>
+<pre><code class="language-sh">jrnl --format yaml --file 'my_directory/'
+</code></pre>
+<p>This outputs your journal into YAML format. YAML is a commonly used data format and is
+supported by many programs and programming languages. <a href="#exporting-to-directories">Exporting to directories</a> is the
+only supported YAML export option and each entry will be written to a separate file.</p>
+<p><strong>Example file</strong>:</p>
+<pre><code class="language-yaml">title: This is the second sample entry
+date: 2020-07-01 20:00
+starred: False
+tags: tag
+
+This is the sample body text of the second sample entry, but this one has a @tag.
+</code></pre>
+<h2 id="report-formats">Report formats</h2>
+<p>Since formats use your journal data and display it in different ways, they can also be
+used to create reports.</p>
+<h3 id="tags">Tags</h3>
+<pre><code class="language-sh">jrnl --format tags
+# or
+jrnl --tags
+</code></pre>
+<p>This format is a simple example of how formats can be used to create reports. It
+displays each tag, and a count of how many entries in which tag appears in your journal
+(or in the search results), sorted by most frequent.</p>
+<p>Example output:</p>
+<pre><code class="language-sh">@one                 : 32
+@two                 : 17
+@three               : 4
+</code></pre>
+<h2 id="options">Options</h2>
+<h3 id="exporting-with-file">Exporting with <code>--file</code></h3>
+<p>Example: <code>jrnl --format json --file /some/path/to/a/file.txt</code></p>
+<p>By default, <code>jrnl</code> will output entries to your terminal. But if you provide <code>--file</code>
+along with a filename, the same output that would have been to your terminal will be
+written to the file instead. This is the same as piping the output to a file.</p>
+<p>So, in bash for example, the following two statements are equivalent:</p>
+<pre><code class="language-sh">jrnl --format json --file myjournal.json
+</code></pre>
+<pre><code class="language-sh">jrnl --format json &gt; myjournal.json
+</code></pre>
+<h4 id="exporting-to-directories">Exporting to directories</h4>
+<p>If the <code>--file</code> argument is a directory, jrnl will export each entry into an individual file:</p>
+<pre><code class="language-sh">jrnl --format yaml --file my_entries/
+</code></pre>
+<p>The contents of <code>my_entries/</code> will then look like this:</p>
+<pre><code class="language-output">my_entries/
+|- 2013_06_03_a-beautiful-day.yaml
+|- 2013_06_07_dinner-with-gabriel.yaml
+|- ...
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../privacy-and-security/" class="btn btn-neutral float-left" title="Privacy and Security"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../advanced/" class="btn btn-neutral float-right" title="Advanced Usage">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../privacy-and-security/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../advanced/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

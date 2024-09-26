@@ -3,22 +3,20 @@ name = "jrnl"
 version = "v4.1"
 description = "Collect your thoughts and notes without leaving the command line."
 authors = [
-    "jrnl contributors <maintainers@jrnl.sh>",
-    "Manuel Ebert <manuel@1450.me>",
-    "Jonathan Wren <jonathan@nowandwren.com>",
-    "Micah Ellison <micahellison@gmail.com>"
+  "jrnl contributors <maintainers@jrnl.sh>",
+  "Manuel Ebert <manuel@1450.me>",
+  "Jonathan Wren <jonathan@nowandwren.com>",
+  "Micah Ellison <micahellison@gmail.com>",
 ]
-maintainers = [
-    "Jonathan Wren and Micah Ellison <maintainers@jrnl.sh>",
-]
+maintainers = ["Jonathan Wren and Micah Ellison <maintainers@jrnl.sh>"]
 license = "GPL-3.0-only"
 readme = "README.md"
 homepage = "https://jrnl.sh"
 repository = "https://github.com/jrnl-org/jrnl"
 classifiers = [
-    "Topic :: Office/Business :: News/Diary",
-    "Environment :: Console",
-    "Operating System :: OS Independent"
+  "Topic :: Office/Business :: News/Diary",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
 ]
 
 [tool.poetry.urls]
@@ -29,17 +27,19 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.10.0, <3.13"
 
-colorama = ">=0.4"       # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
-cryptography = ">=3.0"   # https://cryptography.io/en/latest/api-stability.html
-keyring = ">=21.0"       # https://github.com/jaraco/keyring#integration
+colorama = ">=0.4"          # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
+cryptography = ">=3.0"      # https://cryptography.io/en/latest/api-stability.html
+keyring = ">=21.0"          # https://github.com/jaraco/keyring#integration
 parsedatetime = ">=2.6"
-python-dateutil = "^2.8" # https://github.com/dateutil/dateutil/blob/master/RELEASING
+python-dateutil = "^2.8"    # https://github.com/dateutil/dateutil/blob/master/RELEASING
 pyxdg = ">=0.27.0"
 "ruamel.yaml" = ">=0.17.22"
 rich = ">=12.2.0, <14.0.0"
 
+
 # dayone-only deps
-tzlocal = ">=4.0"   # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
+tzlocal = ">=4.0"      # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
+mkdocs-i18n = "^0.4.6"
 
 [tool.poetry.dev-dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
@@ -56,6 +56,10 @@ ruff = ">=0.0.276"
 toml = ">=0.10"
 tox = "*"
 xmltodict = "*"
+mkdocs-i18n = "^0.4.6"
+
+#[tool.poetry.plugins."mkdocs.plugins"]
+#i18n = "mkdocs_i18n.plugin:I18nPlugin"
 
 [tool.poetry.scripts]
 jrnl = 'jrnl.main:run'
@@ -71,13 +75,9 @@ docs-check.sequence = [
   "tasks:run_shell('npx pa11y-ci -c config.json')",
   "tasks:delete_files(['sitemap.xml', 'config.json'])",
 ]
-docs-run = [
-  {cmd = "mkdocs serve"},
-]
+docs-run = [{ cmd = "mkdocs serve" }]
 
-test-run = [
-  {cmd = "tox -q -e py --"},
-]
+test-run = [{ cmd = "tox -q -e py --" }]
 
 # Groups of tasks
 format.default_item_type = "cmd"
@@ -93,36 +93,21 @@ lint.sequence = [
   "ruff --version",
   "ruff .",
   "black --version",
-  "black --check ."
+  "black --check .",
 ]
 
-test = [
-  "lint",
-  "test-run",
-]
+test = ["lint", "test-run"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-required_plugins = [
-  "pytest-bdd"
-]
-markers = [
-    "todo",
-    "skip_win",
-    "skip_posix",
-    "on_win",
-    "on_posix",
-]
-addopts = [
-  "--pdbcls=IPython.terminal.debugger:Pdb",
-  "--tb=native",
-  "-n=auto",
-]
+required_plugins = ["pytest-bdd"]
+markers = ["todo", "skip_win", "skip_posix", "on_win", "on_posix"]
+addopts = ["--pdbcls=IPython.terminal.debugger:Pdb", "--tb=native", "-n=auto"]
 
 filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore:[WinError 32].*",
-    "ignore:[WinError 5].*"
+  "ignore::DeprecationWarning",
+  "ignore:[WinError 32].*",
+  "ignore:[WinError 5].*",
 ]
 
 [tool.ruff]
@@ -130,7 +115,7 @@ line-length = 88
 target-version = "py310"
 
 # https://beta.ruff.rs/docs/rules/
-select = [ 
+select = [
   'F',     # Pyflakes
   'E',     # pycodestyle errors
   'W',     # pycodestyle warnings
@@ -145,7 +130,7 @@ select = [
   'TID',   # flake8-tidy-imports
   'TCH',   # flake8-type-checking
   'T100',  # debugger, don't allow break points
-  'ICN'    # flake8-import-conventions
+  'ICN',   # flake8-import-conventions
 ]
 exclude = [".git", ".tox", ".venv", "node_modules"]
 

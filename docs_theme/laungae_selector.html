@@ -1,0 +1,23 @@
+{% if config.theme.language %}
+<div
+  class="rst-versions"
+  data-toggle="rst-versions"
+  role="note"
+  aria-label="versions"
+>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Language </span>
+    {{ config.theme.language }}
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    {% for lang in config.extra.alternate %} {% if lang.lang !=
+    config.theme.language %}
+    <dl>
+      <dt>{{ lang.name }}</dt>
+      <dd><a href="{{ lang.link }}">{{ lang.name }}</a></dd>
+    </dl>
+    {% endif %} {% endfor %}
+  </div>
+</div>
+{% endif %}
