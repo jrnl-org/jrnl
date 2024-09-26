@@ -1,0 +1,425 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/privacy-and-security/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Privacy and Security - jrnl</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../assets/colors.css" rel="stylesheet" />
+        <link href="../assets/theme.css" rel="stylesheet" />
+        <link href="../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Privacy and Security";
+        var mkdocs_page_input_path = "privacy-and-security.md";
+        var mkdocs_page_url = "/privacy-and-security/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Privacy and Security</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#password-strength">Password strength</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#plausible-deniability">Plausible deniability</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#spying">Spying</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#saved-passwords">Saved Passwords</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#shell-history">Shell history</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#bash">bash</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#zsh">zsh</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fish">fish</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#windows-command-prompt">Windows Command Prompt</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#files-in-transit-from-editor-to-jrnl">Files in transit from editor to jrnl</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#editor-history">Editor history</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#visual-studio-code">Visual Studio Code</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vim">Vim</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#neovim">Neovim</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notice-any-other-risks">Notice any other risks?</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ja/overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >ユーザーガイド</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>User Guide &raquo;</li>
+      <li>Privacy and Security</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/privacy-and-security.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="privacy-and-security">Privacy and Security</h1>
+<p><code>jrnl</code> is designed with privacy and security in mind, but like any other
+program there are some limitations to be aware of.</p>
+<h2 id="password-strength">Password strength</h2>
+<p><code>jrnl</code> doesn't enforce password strength requirements. Short or commonly-used
+passwords can be easily circumvented by someone with basic security skills
+to access to your encrypted <code>jrnl</code> file.</p>
+<h2 id="plausible-deniability">Plausible deniability</h2>
+<p>You may be able to hide the contents of your journal behind a layer of encryption,
+but if someone has access to your configuration file, then they can figure out that
+you have a journal, where that journal file is, and when you last edited it.
+With a sufficient power imbalance, someone may be able to force you to unencrypt
+it through non-technical means.</p>
+<h2 id="spying">Spying</h2>
+<p>While <code>jrnl</code> can protect against unauthorized access to your journal entries while
+it isn't open, it cannot protect you against an unsafe computer/location.
+For example:</p>
+<ul>
+<li>Someone installs a keylogger, tracking what you type into your journal.</li>
+<li>Someone watches your screen while you write your entry.</li>
+<li>Someone installs a backdoor into <code>jrnl</code> or poisons your journal into revealing your entries.</li>
+</ul>
+<h2 id="saved-passwords">Saved Passwords</h2>
+<p>When creating an encrypted journal, you'll be prompted as to whether or not you
+want to "store the password in your keychain." This keychain is accessed using
+the <a href="https://pypi.org/project/keyring/">Python keyring library</a>, which has different
+behavior depending on your operating system.</p>
+<p>In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
+and can be accessed by any other application running under your username. If this is
+a concern for you, you may not want to store your password.</p>
+<h2 id="shell-history">Shell history</h2>
+<p>Since you can enter entries from the command line, any tool that logs command
+line actions is a potential security risk. See below for how to deal with this
+problem in various shells.</p>
+<h3 id="bash">bash</h3>
+<p>You can disable history logging for jrnl by adding this line into your
+<code>~/.bashrc</code> file:</p>
+<pre><code class="language-sh">HISTIGNORE=&quot;$HISTIGNORE:jrnl *&quot;
+</code></pre>
+<p>To delete existing <code>jrnl</code> commands from <code>bash</code> history, simply delete them from
+your bash history file. The default location of this file is <code>~/.bash_history</code>,
+but you can run <code>echo "$HISTFILE"</code> to find it if needed.  Also, you can run
+<code>history -c</code> to delete all commands from your history.</p>
+<h3 id="zsh">zsh</h3>
+<p>You can disable history logging for jrnl by adding this to your <code>~/.zshrc</code>
+file:</p>
+<pre><code class="language-sh">setopt HIST_IGNORE_SPACE
+alias jrnl=&quot; jrnl&quot;
+</code></pre>
+<p>To delete existing <code>jrnl</code> commands from <code>zsh</code> history, simply remove them from
+your zsh history file. The default location of this file is <code>~/.zsh_history</code>,
+but you can run <code>echo "$HISTFILE"</code> to find it if needed. Also, you can run
+<code>history -c</code> to delete all commands from your history.</p>
+<h3 id="fish">fish</h3>
+<p>By default <code>fish</code> will not log any command that starts with a space. If you
+want to always run jrnl with a space before it, then you can add this to your
+<code>~/.config/fish/config.fish</code> file:</p>
+<pre><code class="language-sh">abbr --add jrnl &quot; jrnl&quot;
+</code></pre>
+<p>To delete existing jrnl commands from <code>fish</code> history, run <code>history delete --prefix 'jrnl '</code>.</p>
+<h3 id="windows-command-prompt">Windows Command Prompt</h3>
+<p>Windows doesn't log history to disk, but it does keep it in your command prompt
+session. Close the command prompt or press <code>Alt</code>+<code>F7</code> to clear your history
+after journaling.</p>
+<h2 id="files-in-transit-from-editor-to-jrnl">Files in transit from editor to jrnl</h2>
+<p>When creating or editing an entry, <code>jrnl</code> uses a unencrypted temporary file on
+disk in order to give your editor access to your journal. After you close your
+editor, <code>jrnl</code> then deletes this temporary file.</p>
+<p>So, if you have saved a journal entry but haven't closed your editor yet, the
+unencrypted temporary remains on your disk. If your computer were to shut off
+during this time, or the <code>jrnl</code> process were killed unexpectedly, then the
+unencrypted temporary file will remain on your disk. You can mitigate this
+issue by only saving with your editor right before closing it. You can also
+manually delete these files from your temporary folder. By default, they
+are named <code>jrnl*.jrnl</code>, but if you use a
+<a href="../reference-config-file/#template">template</a>, they will have the same
+extension as the template.</p>
+<h2 id="editor-history">Editor history</h2>
+<p>Some editors keep usage history stored on disk for future use. This can be a
+security risk in the sense that sensitive information can leak via recent
+search patterns or editor commands.</p>
+<h3 id="visual-studio-code">Visual Studio Code</h3>
+<p>Visual Studio Code stores the contents of saved files to allow you to restore or
+review the contents later. You can disable this feature for all files by unchecking
+the <code>workbench.localHistory.enabled</code> setting in the
+<a href="https://code.visualstudio.com/docs/getstarted/settings#_settings-editor">Settings editor</a>.</p>
+<p>Alternatively, you can disable this feature for specific files by configuring a
+<a href="https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options">pattern</a>
+in the <code>workbench.localHistory.exclude</code> setting. To exclude unencrypted temporary files generated
+by <code>jrnl</code>, you can set the <code>**/jrnl*.jrnl</code> (unless you are using a
+<a href="../reference-config-file/#template">template</a>) pattern for the <code>workbench.localHistory.exclude</code> setting
+in the <a href="https://code.visualstudio.com/docs/getstarted/settings#_settings-editor">Settings editor</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Windows, the history location is typically found at
+<code>%APPDATA%\Code\User\History</code>.</p>
+</div>
+<p>Visual Studio Code also creates a copy of all unsaved files that are open.
+It stores these copies in a backup location that's automatically cleaned when
+you save the file. However, if your computer shuts off before you save the file,
+or the Visual Studio Code process stops unexpectedly, then an unencrypted
+temporary file may remain on your disk. You can manually delete these files
+from the backup location.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Windows, the backup location is typically found at
+<code>%APPDATA%\Code\Backups</code>.</p>
+</div>
+<h3 id="vim">Vim</h3>
+<p>Vim stores progress data in a so called Viminfo file located at <code>~/.viminfo</code>
+which contains all sorts of user data including command line history, search
+string history, search/substitute patterns, contents of register etc. Also to
+be able to recover opened files after an unexpected application close Vim uses
+swap files.</p>
+<p>These options as well as other leaky features can be disabled by setting the
+<code>editor</code> key in the Jrnl settings like this:</p>
+<pre><code class="language-yaml">editor: &quot;vim -c 'set viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'&quot;
+</code></pre>
+<p>To disable all plugins and custom configurations and start Vim with the default
+configuration <code>-u NONE</code> can be passed on the command line as well. This will
+ensure that any rogue plugins or other difficult to catch information leaks are
+eliminated. The downside to this is that the editor experience will decrease
+quite a bit.</p>
+<p>To instead let Vim automatically detect when a Jrnl file is being edited an
+autocommand can be used. Place this in your <code>~/.vimrc</code>:</p>
+<pre><code class="language-vim">autocmd BufNewFile,BufReadPre *.jrnl setlocal viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you're using a <a href="../reference-config-file/#template">template</a>, you will
+have to use the template's file extension instead of <code>.jrnl</code>.</p>
+</div>
+<p>See <code>:h &lt;option&gt;</code> in Vim for more information about the options mentioned.</p>
+<h3 id="neovim">Neovim</h3>
+<p>Neovim strives to be mostly compatible with Vim and has therefore similar
+functionality as Vim. One difference in Neovim is that the Viminfo file is
+instead called the ShaDa ("shared data") file which resides in
+<code>~/.local/state/nvim</code> (<code>~/.local/share/nvim</code> pre Neovim v0.8.0). The ShaDa file
+can be disabled in the same way as for Vim.</p>
+<pre><code class="language-yaml">editor: &quot;nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'&quot;
+</code></pre>
+<p><code>-u NONE</code> can be passed here as well to start a session with the default configs.</p>
+<p>As for Vim above we can create an autocommand in Vimscript:</p>
+<pre><code class="language-vim">autocmd BufNewFile,BufReadPre *.jrnl setlocal shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
+</code></pre>
+<p>or the same but in Lua:</p>
+<pre><code class="language-lua">vim.api.nvim_create_autocmd( {&quot;BufNewFile&quot;,&quot;BufReadPre&quot; }, {
+  group = vim.api.nvim_create_augroup(&quot;PrivateJrnl&quot;, {}),
+  pattern = &quot;*.jrnl&quot;,
+  callback = function()
+    vim.o.shada = &quot;&quot;
+    vim.o.swapfile = false
+    vim.o.undofile = false
+    vim.o.backup = false
+    vim.o.writebackup = false
+    vim.o.shelltemp = false
+    vim.o.history = 0
+    vim.o.modeline = false
+    vim.o.secure = true
+  end,
+})
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you're using a <a href="../reference-config-file/#template">template</a>, you will
+have to use the template's file extension instead of <code>.jrnl</code>.</p>
+</div>
+<p>Please see <code>:h &lt;option&gt;</code> in Neovim for more information about the options mentioned.</p>
+<h2 id="notice-any-other-risks">Notice any other risks?</h2>
+<p>Please let the maintainers know by <a href="https://github.com/jrnl-org/jrnl/issues">filing an issue on GitHub</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../journal-types/" class="btn btn-neutral float-left" title="Journal Types"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../formats/" class="btn btn-neutral float-right" title="Formats">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../journal-types/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../formats/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

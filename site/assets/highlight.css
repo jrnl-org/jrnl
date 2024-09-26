@@ -1,0 +1,141 @@
+/*
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+
+Atom One Dark With support for ReasonML by Gidi Morris, based off work by
+Daniel Gamage
+
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  line-height: 1.3em;
+  color: var(--off-white);
+  background: #383e49;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+}
+.hljs-keyword,
+.hljs-operator {
+  color: var(--pink);
+}
+.hljs-pattern-match {
+  color: var(--pink);
+}
+.hljs-pattern-match .hljs-constructor {
+  color: var(--blue);
+}
+.hljs-function {
+  color: var(--blue);
+}
+.hljs-function .hljs-params {
+  color: var(--green);
+}
+.hljs-function .hljs-params .hljs-typing {
+  color: var(--orange);
+}
+.hljs-module-access .hljs-module {
+  color: var(--purple);
+}
+.hljs-constructor {
+  color: var(--yellow);
+}
+.hljs-constructor .hljs-string {
+  color: var(--green);
+}
+.hljs-comment,
+.hljs-quote {
+  color: var(--light-purple);
+  font-style: italic;
+}
+.hljs-doctag,
+.hljs-formula {
+  color: var(--purple);
+}
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: var(--yellow);
+}
+.hljs-literal {
+  color: var(--blue);
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: var(--green);
+}
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: var(--orange);
+}
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: var(--orange);
+}
+
+.rst-content a tt,
+.rst-content a tt,
+.rst-content a code {
+  color: var(--blue);
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: var(--blue);
+}
+
+.hljs-tag {
+  color: var(--pink)
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: var(--blue);
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+.hljs-link {
+  text-decoration: underline;
+}
+
+.rst-content .note .admonition-title {
+  background: var(--dark-blue);
+}
+
+.rst-content .note.admonition {
+  background: var(--light-blue);
+}
+
+.rst-content .tip .admonition-title {
+  background: var(--teal);
+}
+
+.rst-content .tip .admonition {
+  background: var(--light-blue);
+}

@@ -1,0 +1,342 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/reference-config-file/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>設定ファイル - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u8a2d\u5b9a\u30d5\u30a1\u30a4\u30eb";
+        var mkdocs_page_input_path = "ja/reference-config-file.md";
+        var mkdocs_page_url = "/ja/reference-config-file/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >ユーザーガイド</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >リファレンス</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">設定ファイル</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_2">設定ファイルの場所</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">設定フォーマット</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">設定キー</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#journals">journals</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#editor">editor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#encrypt">encrypt</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#template">template</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#tagsymbols">tagsymbols</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#default_hour-default_minute">default_hour と default_minute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#timeformat">timeformat</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#highlight">highlight</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#linewrap">linewrap</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#colors">colors</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#display_format">display_format</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#version">version</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+          <li>リファレンス &raquo;</li>
+      <li>設定ファイル</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/reference-config-file.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">設定ファイル参照</h1>
+<p><code>jrnl</code>はYAML形式の設定ファイルに情報を保存します。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>編集前にジャーナルと設定ファイルをバックアップしてください。設定ファイルの
+変更はジャーナルに破壊的な影響を与える可能性があります！</p>
+<h2 id="_2">設定ファイルの場所</h2>
+<p>以下のコマンドを実行すると、設定ファイルの場所を確認できます：
+<code>jrnl --list</code></p>
+<p>デフォルトでは、設定ファイルは<code>~/.config/jrnl/jrnl.yaml</code>にあります。
+<code>XDG_CONFIG_HOME</code>変数が設定されている場合、設定ファイルは
+<code>$XDG_CONFIG_HOME/jrnl/jrnl.yaml</code>として保存されます。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>Windowsでは、設定ファイルは通常
+<code>%USERPROFILE%\.config\jrnl\jrnl.yaml</code>にあります。</p>
+<h2 id="_3">設定フォーマット</h2>
+<p>設定ファイルは<a href="https://yaml.org/">YAML</a>形式で、テキストエディタで編集できます。</p>
+<h2 id="_4">設定キー</h2>
+<h3 id="journals">journals</h3>
+<p><code>jrnl</code>が使用する各ジャーナルを記述します。このキーの後の各インデントされたキーは
+ジャーナルの名前です。</p>
+<p>ジャーナルキーに値がある場合、その値はジャーナルへのパスとして解釈されます。
+そうでない場合、ジャーナルはパスを指定するための追加のインデントされた
+<code>journal</code>キーが必要です。</p>
+<p>以下のすべてのキーは、<code>journal</code>キーと同じレベルで各ジャーナルに対して指定できます。
+キーがトップレベルのキーと競合する場合、ジャーナル固有のキーが代わりに使用されます。</p>
+<h3 id="editor">editor</h3>
+<p>設定されている場合、このコマンドを実行して外部エディタを起動し、
+エントリーの作成と編集を行います。一時ファイルへのパスがその後に
+渡され、エディタが制御を<code>jrnl</code>に戻すと、<code>jrnl</code>がファイルを処理します。</p>
+<p>一部のエディタは<code>jrnl</code>で動作するためにブロッキングプロセスである必要があるため、
+特別なオプションが必要です。詳細は<a href="../external-editors/">外部エディタ</a>を参照してください。</p>
+<h3 id="encrypt">encrypt</h3>
+<p><code>true</code>の場合、AESを使用してジャーナルを暗号化します。既にデータがある
+ジャーナルでは、この値を変更しないでください。</p>
+<h3 id="template">template</h3>
+<p>新しいエントリーのテンプレートとして使用するテキストファイルへのパス。<code>editor</code>フィールドが
+設定されている場合のみ機能します。テンプレートを使用する場合、エディタの
+<a href="../privacy-and-security/#files-in-transit-from-editor-to-jrnl">一時ファイル</a>は
+テンプレートと同じ拡張子を持ちます。</p>
+<h3 id="tagsymbols">tagsymbols</h3>
+<p>タグとして解釈されるシンボル。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>タグに<code>#</code>文字を使用するのが直感的に思えますが、欠点があります：ほとんどの
+シェルでは、これはコメントを開始するメタ文字として解釈されます。つまり、
+以下のように入力すると：</p>
+<pre><code>&gt; `jrnl Implemented endless scrolling on the #frontend of our website.`
+
+bashは`#`以降をすべて切り捨てて`jrnl`に渡します。これを避けるには、
+入力を次のように引用符で囲みます：
+
+&gt; `jrnl "Implemented endless scrolling on the #frontend of our website."`
+
+または、組み込みのプロンプトや外部エディタを使用してエントリーを
+作成してください。
+</code></pre>
+<h3 id="default_hour-default_minute">default_hour と default_minute</h3>
+<p>日付を指定しても具体的な時間を指定しない場合（例：<code>last thursday</code>）、エントリーはこの時間に作成されます。</p>
+<h3 id="timeformat">timeformat</h3>
+<p>ジャーナルに保存されるタイムスタンプの形式を定義します。
+参照は<a href="http://docs.python.org/library/time.html#time.strftime">pythonドキュメント</a>を確認してください。</p>
+<p>既存のジャーナルでは変更しないでください。データ損失につながる可能性があります。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p><code>jrnl</code>は<code>%z</code>または<code>%Z</code>タイムゾーン識別子をサポートしていません。</p>
+<h3 id="highlight">highlight</h3>
+<p><code>true</code>の場合、タグはシアン色で強調表示されます。</p>
+<h3 id="linewrap">linewrap</h3>
+<p>出力の幅を制御します。長い行を折り返したくない場合は<code>false</code>に設定します。
+<code>jrnl</code>に自動的に端末幅を決定させる場合は<code>auto</code>に設定します。</p>
+<h3 id="colors">colors</h3>
+<p>ジャーナルエントリーの表示に使用される色を制御する辞書です。
+4つのサブキーがあります：<code>body</code>、<code>date</code>、<code>tags</code>、<code>title</code>。</p>
+<p>現在有効な値は：<code>BLACK</code>、<code>RED</code>、<code>GREEN</code>、<code>YELLOW</code>、<code>BLUE</code>、
+<code>MAGENTA</code>、<code>CYAN</code>、<code>WHITE</code>、<code>NONE</code>です。</p>
+<p>色付けには<code>colorama.Fore</code>が使用され、<a href="https://github.com/tartley/colorama#colored-output">ドキュメントはこちら</a>で確認できます。</p>
+<p>色付き出力を無効にするには、値を<code>NONE</code>に設定します。</p>
+<h3 id="display_format">display_format</h3>
+<p>デフォルトで使用するフォーマッタを指定します。<a href="../formats/">フォーマット</a>を参照してください。</p>
+<h3 id="version">version</h3>
+<p><code>jrnl</code>は自動的にこのフィールドを実行中のバージョンに更新します。
+このフィールドを手動で変更する必要はありません。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../reference-command-line/" class="btn btn-neutral float-left" title="コマンドライン"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../contributing/" class="btn btn-neutral float-right" title="jrnlへの貢献">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../reference-command-line/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../contributing/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

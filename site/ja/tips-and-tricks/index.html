@@ -1,0 +1,380 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/tips-and-tricks/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>ヒントとコツ - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u30d2\u30f3\u30c8\u3068\u30b3\u30c4";
+        var mkdocs_page_input_path = "ja/tips-and-tricks.md";
+        var mkdocs_page_url = "/ja/tips-and-tricks/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >ユーザーガイド</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">ヒントとコツ</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#co-occurrence-of-tags">Co-occurrence of tags</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">フィルターの組み合わせ</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">統計</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">古いファイルのインポート</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">テンプレートの使用</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-template-xdg_data_homejrnltemplates">1. --template コマンドライン引数とデフォルトの $XDG_DATA_HOME/jrnl/templates ディレクトリを使用</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-template">2. --template コマンドライン引数とローカル/絶対パスを使用</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-jrnlyaml">3. jrnl.yaml にデフォルトのテンプレートファイルを設定</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">シェルのリロード時にプロンプトを表示</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">ランダムエントリの表示</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">高速記録用の端末を起動</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cli-markdown">CLI でフォーマットされた Markdown を視覚化</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vi">バッファの末尾にジャンプ（vi使用時）</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+          <li>ユーザーガイド &raquo;</li>
+      <li>ヒントとコツ</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/tips-and-tricks.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">ヒントとコツ</h1>
+<p>このページでは、他のツールや外部エディタと組み合わせて
+jrnlを使用するためのヒントとコツを紹介します。</p>
+<h2 id="co-occurrence-of-tags">Co-occurrence of tags</h2>
+<p>ルームメイトの AlbertoとMeloを同じエントリーでどれくらい一緒に言及したか調べたい場合、
+次のコマンドを使います。</p>
+<pre><code class="language-sh">jrnl @alberto --tags | grep @melo
+</code></pre>
+<p>これにより、<code>@melo: 9</code>と言った結果が表示されます。これは<code>@alberto</code>と
+<code>@melo</code>の両方がタグ付けされたエントリーが9件あることを意味しています。
+仕組みを説明すると､まず<code>jrnl @alberto</code> が<code>@alberto</code>タグの有るエントリーだけを
+抽出します。次に <code>--tags</code>オプションを使うと、その抽出されたエントリー内で
+各タグがどれくらい使われているかが表示されます。最後に、<code>grep</code>で<code>@melo</code>を
+含み行だけを示しています。</p>
+<h2 id="_2">フィルターの組み合わせ</h2>
+<p>次のようにコマンドを使うことが出来ます。</p>
+<pre><code class="language-sh">jrnl @fixed -starred -n 10 -to &quot;jan 2013&quot; --short
+</code></pre>
+<p>これで2013年1月1日以前に<code>@fixed</code>タグが付けられた最近のお気に入りの10件の
+エントリーの要約を取得できます。</p>
+<h2 id="_3">統計</h2>
+<p>昨年どれくらい書いたか知りたい場合は？</p>
+<pre><code class="language-sh">jrnl -from &quot;jan 1 2013&quot; -to &quot;dec 31 2013&quot; | wc -w
+</code></pre>
+<p>このコマンドを実行すると、2013年に書いた単語数が表示されます。</p>
+<p>エントリーの平均の長さを知りたい場合は？</p>
+<pre><code class="language-sh">expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
+</code></pre>
+<p>このコマンドは、まずジャーナル全体の単語数を取得し､それをエントリーの数で
+割ります(<code>jrnl --short</code>は各エントリーごとに1行だけ出力するため、この方法が機能
+します)。</p>
+<h2 id="_4">古いファイルのインポート</h2>
+<p>ファイルを <code>jrnl</code> のエントリとしてインポートしたい場合は、
+単に <code>jrnl &lt; entry.ext</code> と実行するだけです。
+しかし、ファイルの最終更新日時を <code>jrnl</code> のエントリの日付として設定したい場合はどうでしょうか？</p>
+<p>次のコマンドを試してみてください。</p>
+<pre><code class="language-sh">echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' entry.txt` `cat entry.txt` | jrnl
+</code></pre>
+<p>このコマンドの前半部分は <code>entry.txt</code> の最終更新日時をフォーマットし、ファイルの内容と結合してからそれを <code>jrnl</code> にパイプします。これを頻繁に行う場合は、<code>.bashrc</code> や <code>.bash_profile</code> に関数を作成することを検討してください。</p>
+<pre><code class="language-sh">jrnlimport () {
+  echo `stat -f %Sm -t '%d %b %Y at %H:%M: ' $1` `cat $1` | jrnl
+}
+</code></pre>
+<h2 id="_5">テンプレートの使用</h2>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+</div>
+<p>テンプレートを使用するには、<a href="../advanced/">外部エディタ</a> の設定が必要です。</p>
+<p>テンプレートは、構造化されたジャーナルを作成するために使うテキストファイルです。テンプレートを使用する方法は3つあります。</p>
+<h3 id="1-template-xdg_data_homejrnltemplates">1. <code>--template</code> コマンドライン引数とデフォルトの <code>$XDG_DATA_HOME/jrnl/templates</code> ディレクトリを使用</h3>
+<p><code>$XDG_DATA_HOME/jrnl/templates</code> は、テンプレートを保存するためにデフォルトで作成されます！このディレクトリにテンプレート（例えば <code>default.md</code>）を作成し、<code>--template FILE_IN_DIR</code> として指定します。</p>
+<pre><code class="language-sh">jrnl --template default.md
+</code></pre>
+<h3 id="2-template">2. <code>--template</code> コマンドライン引数とローカル/絶対パスを使用</h3>
+<p>任意のテキストでテンプレートファイルを作成できます。例は以下の通りです：</p>
+<pre><code class="language-sh"># /tmp/template.txt
+私の個人ジャーナル
+タイトル：
+
+本文：
+</code></pre>
+<p>その後、テンプレートファイルの絶対パスまたは相対パスを引数として指定すると、外部エディタが開き、テンプレートが事前に入力された状態になります。</p>
+<pre><code class="language-sh">jrnl --template /tmp/template.md
+</code></pre>
+<h3 id="3-jrnlyaml">3. <code>jrnl.yaml</code> にデフォルトのテンプレートファイルを設定</h3>
+<p>デフォルトでテンプレートを使用したい場合は、<a href="../reference-config-file/">設定ファイル</a> 内の <code>template</code> の値を <code>false</code> からダブルクオーテーションで囲まれたテンプレートファイルのパスに変更します。</p>
+<pre><code class="language-sh">...
+template: &quot;/path/to/template.txt&quot;
+...
+</code></pre>
+<div class="admonition ヒント">
+<p class="admonition-title">ヒント</p>
+</div>
+<p>ジャーナルエントリを確認したり、保存されたエントリを確認したい場合は、以下のコマンドを使用します：<code>jrnl -n 1</code> （他のオプションについては<a href="../formats/">フォーマット</a> を確認してください）。</p>
+<pre><code class="language-sh">jrnl -n 1
+</code></pre>
+<h2 id="_6">シェルのリロード時にプロンプトを表示</h2>
+<p>シェルをリフレッシュするたびにプロンプトを表示させたい場合は、以下を <code>.bash_profile</code> に追加できます：</p>
+<pre><code class="language-sh">function log_question()
+{
+   echo $1
+   read
+   jrnl today: ${1}. $REPLY
+}
+log_question '今日達成したことは何ですか？'
+log_question 'どんな進展がありましたか？'
+</code></pre>
+<p>シェルがリロードされるたびに、上記の質問に回答するように促されます。各回答は、<code>jrnl.yaml</code> の <code>default_hour</code> および <code>default_minute</code> にリストされている時刻で別々のジャーナルエントリとして記録されます。</p>
+<h2 id="_7">ランダムエントリの表示</h2>
+<p>ランダムに1つのタイトルを選択し、エントリ全体を表示することができます。タイムスタンプのフォーマットに合わせて <code>cut</code> の呼び出しを調整します。日時要素の間にスペースがあるタイムスタンプでは、以下のようにフィールド1と2を選択します。スペースがないタイムスタンプの場合は、フィールド1のみを選択します。</p>
+<pre><code class="language-sh">jrnl -on &quot;$(jrnl --short | shuf -n 1 | cut -d' ' -f1,2)&quot;
+</code></pre>
+<h2 id="_8">高速記録用の端末を起動</h2>
+<p><code>jrnl</code> の stdin プロンプトを持つ端末を起動し、すぐに入力を開始できるようにすることができます。</p>
+<pre><code class="language-bash">jrnl --config-override editor &quot;&quot;
+</code></pre>
+<p>これをキーボードショートカットに割り当てます。</p>
+<p><code>Super+Alt+J</code> に <code>jrnl</code> プロンプトを持つ端末を起動するようにマップする</p>
+<ul>
+<li><strong>xbindkeys</strong>
+  あなたの <code>.xbindkeysrc</code> に以下を追加します</li>
+</ul>
+<pre><code class="language-ini">Mod4+Mod1+j
+ alacritty -t floating-jrnl -e jrnl --config-override editor &quot;&quot;,
+</code></pre>
+<ul>
+<li><strong>I3 WM</strong> <code>jrnl</code> プロンプトを持つフローティング端末を起動します</li>
+</ul>
+<pre><code class="language-ini">bindsym Mod4+Mod1+j exec --no-startup-id alacritty -t floating-jrnl -e jrnl --config-override editor &quot;&quot;
+for_window[title=&quot;floating *&quot;] floating enable
+</code></pre>
+<h2 id="cli-markdown">CLI でフォーマットされた Markdown を視覚化</h2>
+<p><code>jrnl</code> はデフォルトでジャーナルエントリをMarkdown形式で出力できます。これを視覚化するには、<a href="https://github.com/ttscoff/mdless">mdless</a> にパイプします。<code>mdless</code> は、Markdownテキストをフォーマットおよびシンタックスハイライト付きでCLIで表示できる、<a href="https://en.wikipedia.org/wiki/Less_(Unix)">less</a> のようなツールです。この機能は、パイプをサポートする任意のシェルで使用できます。</p>
+<p>Markdown出力を <code>mdless</code> で視覚化する最も簡単な方法は次の通りです：</p>
+<pre><code class="language-sh">jrnl --export md | mdless
+</code></pre>
+<p>これにより、画面全体にMarkdown出力がレンダリングされます。</p>
+<p>幸いなことに、<code>mdless</code> には画面幅を調整するための <code>-w</code> オプションがあります。以下のように使用します：</p>
+<pre><code class="language-sh">jrnl --export md | mdless -w 70
+</code></pre>
+<p>Markdownをデフォルトの表示形式にしたい場合は、設定ファイルで次のように定義できます：</p>
+<pre><code class="language-yaml">display_format: md
+# または
+display_format: markdown
+</code></pre>
+<p><code>jrnl</code> がエントリをMarkdown形式で出力する方法についての詳細は、<a href="../formats/">フォーマット</a> セクションを参照してください。</p>
+<h2 id="vi">バッファの末尾にジャンプ（vi使用時）</h2>
+<p>viを使用して編集する際に、エントリの最後の行にジャンプさせるには、設定ファイルで次のように設定します：</p>
+<pre><code class="language-yaml">editor: vi + -c &quot;call cursor('.',strwidth(getline('.')))&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../external-editors/" class="btn btn-neutral float-left" title="外部エディタ"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../reference-command-line/" class="btn btn-neutral float-right" title="コマンドライン">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../external-editors/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../reference-command-line/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

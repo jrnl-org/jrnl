@@ -1,0 +1,296 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/external-editors/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>外部エディタ - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u5916\u90e8\u30a8\u30c7\u30a3\u30bf";
+        var mkdocs_page_input_path = "ja/external-editors.md";
+        var mkdocs_page_url = "/ja/external-editors/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >ユーザーガイド</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">外部エディタ</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#sublime-text">Sublime Text</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#visual-studio-code">Visual Studio Code</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#macvim">MacVim</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vimneovim">Vim/Neovim</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ia-writer">iA Writer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#windowsnotepad">Windows上のNotepad++</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#emacs">emacs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">その他のエディタ</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+          <li>ユーザーガイド &raquo;</li>
+      <li>外部エディタ</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/external-editors.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">外部エディタ</h1>
+<p>お好みの外部エディタを設定するには、<a href="../reference-config-file/#editor">設定ファイル</a>の<code>editor</code>オプションを更新してください。エディタがオペレーティングシステムの<code>PATH</code>環境変数に含まれていない場合は、エディタのフルパスを入力する必要があります。</p>
+<p>設定が完了したら、<code>jrnl</code>コマンドを単独で使用して、エディタで新しいドキュメントとしてエントリーを作成できます：</p>
+<pre><code class="language-text">jrnl
+</code></pre>
+<p>ドキュメントの最初の行に、通常通りエントリーの時間とタイトルを指定できます。</p>
+<p>クイックエントリーを含めることで、エディタをスキップすることもできます：</p>
+<pre><code class="language-text">jrnl yesterday: All my troubles seemed so far away.
+</code></pre>
+<p>コマンドラインでエントリーを開始し、選択したエディタで書き続けたい場合は、<code>--edit</code>フラグを使用します。例：</p>
+<pre><code class="language-text">jrnl yesterday: All my troubles seemed so far away. --edit
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>エントリーの編集を保存してログに記録するには、ファイルを保存して閉じてください。</p>
+<p>jrnlで動作するには、すべてのエディタが<a href="https://en.wikipedia.org/wiki/Blocking_(computing)">ブロッキングプロセス</a>である必要があります。<a href="https://micro-editor.github.io/">micro</a>のような一部のエディタはデフォルトでブロッキングですが、他のエディタは以下に記載されているような追加の引数でブロッキングにすることができます。jrnlがエディタを開いても即座に実行が終了する場合、そのエディタはブロッキングプロセスではありません。以下の提案のいずれかで修正できる可能性があります。</p>
+<p>エディタが機密情報を漏洩する可能性とそのリスクを軽減する方法については、<a href="../privacy-and-security/#editor-history">このセクション</a>を参照してください。</p>
+<h2 id="sublime-text">Sublime Text</h2>
+<p><a href="https://www.sublimetext.com/">Sublime Text</a>を使用するには、Sublime Textのコマンドラインツールをインストールし、<code>jrnl.yaml</code>を以下のように設定します：</p>
+<pre><code class="language-yaml">editor: &quot;subl -w&quot;
+</code></pre>
+<p><code>-w</code>フラグは、jrnlがSublime Textがファイルを閉じるのを待ってからジャーナルに書き込むようにするためのものです。</p>
+<h2 id="visual-studio-code">Visual Studio Code</h2>
+<p><a href="https://code.visualstudio.com">Visual Studio Code</a>も、プロセスがファイルを閉じるまで待機するように指示するフラグが必要です：</p>
+<pre><code class="language-yaml">editor: &quot;code --wait&quot;
+</code></pre>
+<p>Windowsでは、<code>code</code>はデフォルトでパスに追加されていないので、<code>code.exe</code>ファイルのフルパスを入力するか、<code>PATH</code>変数に追加する必要があります。</p>
+<h2 id="macvim">MacVim</h2>
+<p>Sublime Textと同様に、MacVimもプロセスがファイルを閉じるまで待機してからジャーナルに制御を戻すように指示するフラグで起動する必要があります。MacVimの場合、このフラグは<code>-f</code>です：</p>
+<pre><code class="language-yaml">editor: &quot;mvim -f&quot;
+</code></pre>
+<h2 id="vimneovim">Vim/Neovim</h2>
+<p>Linuxでエディタとしてvimの派生版を使用するには、単純に<code>editor</code>を実行ファイルに設定します：</p>
+<pre><code class="language-yaml">editor: &quot;vim&quot;
+# または
+editor: &quot;nvim&quot;
+</code></pre>
+<h2 id="ia-writer">iA Writer</h2>
+<p>OS Xでは、素晴らしい<a href="http://www.iawriter.com/mac">iA Writer</a>を使用してエントリーを書くことができます。<code>jrnl.yaml</code>を以下のように設定してください：</p>
+<pre><code class="language-yaml">editor: &quot;open -b pro.writer.mac -Wn&quot;
+</code></pre>
+<p>これは何をしているのでしょうか？<code>open -b ...</code>は、バンドル識別子（すべてのアプリに固有の文字列）で識別されるアプリケーションを使用してファイルを開きます。<code>-Wn</code>は、制御を戻す前にアプリケーションが閉じるまで待つこと、およびアプリケーションの新しいインスタンスを使用することをアプリケーションに指示します。</p>
+<p>システムで<code>pro.writer.mac</code>バンドル識別子が見つからない場合は、シェルでiA Writerの<code>Info.plist</code>ファイルを調べることで、使用する正しい文字列を見つけることができます：</p>
+<pre><code class="language-sh">grep -A 1 CFBundleIdentifier /Applications/iA\ Writer.app/Contents/Info.plist
+</code></pre>
+<h2 id="windowsnotepad">Windows上のNotepad++</h2>
+<p><a href="http://notepad-plus-plus.org/">Notepad++</a>をエディタとして設定するには、<code>jrnl</code>の設定ファイル（<code>jrnl.yaml</code>）を以下のように編集します：</p>
+<pre><code class="language-yaml">editor: &quot;C:\\Program Files (x86)\\Notepad++\\notepad++.exe -multiInst -nosession&quot;
+</code></pre>
+<p>二重のバックスラッシュは、<code>jrnl</code>がファイルパスを正しく読み取るために必要です。<code>-multiInst -nosession</code>オプションにより、<code>jrnl</code>は独自のNotepad++ウィンドウを開きます。</p>
+<h2 id="emacs">emacs</h2>
+<p><code>emacs</code>をエディタとして使用するには、<code>jrnl</code>の設定ファイル（<code>jrnl.yaml</code>）を以下のように編集します：</p>
+<pre><code class="language-yaml">editor: emacsclient -a &quot;&quot; -c
+</code></pre>
+<p>メッセージの編集が終わったら、保存して<code>C-x #</code>でバッファを閉じ、emacsclientプロセスを停止します。</p>
+<h2 id="_2">その他のエディタ</h2>
+<p>他のエディタを使用していて、共有したい場合は、<a href="../contributing/#editing-documentation">ドキュメントの貢献</a>を自由に行ってください。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../advanced/" class="btn btn-neutral float-left" title="高度な使い方"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../tips-and-tricks/" class="btn btn-neutral float-right" title="ヒントとコツ">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../advanced/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../tips-and-tricks/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/contributing/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Contributing to jrnl - jrnl</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../assets/colors.css" rel="stylesheet" />
+        <link href="../assets/theme.css" rel="stylesheet" />
+        <link href="../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Contributing to jrnl";
+        var mkdocs_page_input_path = "contributing.md";
+        var mkdocs_page_url = "/contributing/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Contributing to jrnl</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#code-of-conduct">Code of Conduct</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reporting-bugs">Reporting Bugs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#editing-documentation">Editing Documentation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#external-editors-and-tips-and-tricks">External editors and tips and tricks</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#prereleases">Prereleases</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pull-requests">Pull requests</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#confirm-bug-reports">Confirm bug reports</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#automate-tests">Automate tests</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#submitting-feature-requests-and-ideas">Submitting feature requests and ideas</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#developing">Developing</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#getting-your-environment-set-up">Getting your environment set up</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#understanding-the-branches">Understanding the branches</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#common-development-commands">Common development commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#updating-automated-tests">Updating automated tests</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#submitting-pull-requests">Submitting pull requests</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#finding-things-to-work-on">Finding things to work on</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#a-note-for-new-programmers-and-programmers-new-to-python">A note for new programmers and programmers new to python</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ja/overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >ユーザーガイド</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>Contributing &raquo;</li>
+      <li>Contributing to jrnl</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/contributing.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="contributing-to-jrnl">Contributing to jrnl</h1>
+<p>We welcome contributions to jrnl, whether it's through reporting bugs, improving the documentation, testing releases, engaging in discussion on features and bugs, or writing code.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#code-of-conduct">Code of Conduct</a></li>
+<li><a href="#reporting-bugs">Reporting Bugs</a></li>
+<li><a href="#editing-documentation">Editing Documentation</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#submitting-feature-requests-and-ideas">Submitting feature requests and ideas</a></li>
+<li><a href="#developing">Developing jrnl</a></li>
+</ul>
+<h2 id="code-of-conduct">Code of Conduct</h2>
+<p>Before starting, please read the <a href="https://github.com/jrnl-org/jrnl/blob/develop/CODE_OF_CONDUCT.md">Code of Conduct</a>.</p>
+<h2 id="reporting-bugs">Reporting Bugs</h2>
+<p>Please report bugs by <a href="https://github.com/jrnl-org/jrnl/issues/new/choose">opening a new issue</a> and describing it as well as possible. Many bugs are specific to a particular operating system and Python version, so please include that information!</p>
+<h2 id="editing-documentation">Editing Documentation</h2>
+<p>If you find a typo or a mistake in the docs, please fix it right away and send a pull request. If you're unsure what to change but still see a problem, you can <a href="https://github.com/jrnl-org/jrnl/issues/new/choose">open a new issue</a> with the "Documentation change" type.</p>
+<p>To edit the documentation, edit the <code>docs/*.md</code> files on the <strong>develop</strong> branch. You can see the result by running <code>poe docs-run</code> inside the project's root directory, then navigating your browser to <a href="http://localhost:8000">localhost:8000</a>.</p>
+<h3 id="external-editors-and-tips-and-tricks">External editors and tips and tricks</h3>
+<p>If you'd like to share a jrnl command line trick that you find useful, you may find it worthwhile to add it to the <a href="../tips-and-tricks/">"Tips and Tricks" section</a>. For advice on how to integrate a particular external editor, you can add to the <a href="../external-editors/">"External Editors" section</a>.</p>
+<h2 id="testing">Testing</h2>
+<p>Much of the work of maintaining jrnl involves testing rather than coding.</p>
+<p>The nature of jrnl means we deal with extremely sensitive data, and can't risk data loss. While jrnl does have a comprehensive automated testing suite, user testing is crucial to mitigating this risk.</p>
+<h3 id="prereleases">Prereleases</h3>
+<p><a href="https://pypi.org/project/jrnl/#history">Prereleases are deployed through PyPi much like normal releases</a>. You can use <a href="https://pypi.org/project/pipx/">pipx</a> to fetch them and test them. See the <a href="https://github.com/jrnl-org/jrnl/blob/develop/CHANGELOG.md">changelog</a> for information on what has changed with each release.</p>
+<h3 id="pull-requests">Pull requests</h3>
+<p>If you are comfortable enough with git, feel free to fetch particular <a href="https://github.com/jrnl-org/jrnl/pulls">pull requests</a>, test them yourself, and report back your findings. Bonus points if you can add a screencast of how the new feature works.</p>
+<h3 id="confirm-bug-reports">Confirm bug reports</h3>
+<p>There are always <a href="https://github.com/jrnl-org/jrnl/issues?q=is%3Aissue+is%3Aopen+label%3Abug">open bugs among our GitHub issues</a> and many are specific to a particular OS, Python version, or jrnl version. A simple comment like "Confirmed on jrnl v2.2, MacOS 10.15, Python 3.8.1" would be extremely helpful in tracking down bugs.</p>
+<h3 id="automate-tests">Automate tests</h3>
+<p>See the develop section below for information on how to contribute new automated tests.</p>
+<h2 id="submitting-feature-requests-and-ideas">Submitting feature requests and ideas</h2>
+<p>If you have a feature request or idea for jrnl, please <a href="https://github.com/jrnl-org/jrnl/issues/new/choose">open a new issue</a> and describe the goal of the feature, and any relevant use cases. We'll discuss the issue with you, and decide if it's a good fit for the project.</p>
+<p>When discussing new features, please keep in mind our design goals. jrnl strives to
+<a href="https://en.wikipedia.org/wiki/Unix_philosophy">do one thing well</a>. To us, that means:</p>
+<ul>
+<li>being <em>nimble</em></li>
+<li>having a simple interface</li>
+<li>avoiding duplicating functionality</li>
+</ul>
+<h2 id="developing">Developing</h2>
+<h3 id="getting-your-environment-set-up">Getting your environment set up</h3>
+<p>You will need to install <a href="https://python-poetry.org/">poetry</a> to develop jrnl. It will take care of all of the project's other dependencies.</p>
+<h3 id="understanding-the-branches">Understanding the branches</h3>
+<p>jrnl uses two primary branches:</p>
+<ul>
+<li><code>develop</code> - for ongoing development</li>
+<li><code>release</code> - for releases</li>
+</ul>
+<p>In general, pull requests should be made on the <code>develop</code> branch.</p>
+<h3 id="common-development-commands">Common development commands</h3>
+<p>You can find an inventory of commands in the <code>pyproject.toml</code>. Users can run the commands by typing <code>poe</code> followed by the name of the command (<a href="https://github.com/nat-n/poethepoet">Poe the Poet</a> can be installed on its own, or as part of <code>poetry install</code>).</p>
+<p>A typical development workflow includes:</p>
+<ul>
+<li>Installing dependencies:<ul>
+<li><code>poetry install</code></li>
+</ul>
+</li>
+<li>Activate virtual environment:<ul>
+<li><code>poetry shell</code></li>
+</ul>
+</li>
+<li>Running the source in a virtual environment:<ul>
+<li><code>jrnl</code> (with or without arguments as necessary)</li>
+</ul>
+</li>
+<li>Running tests:<ul>
+<li><code>poe test</code></li>
+</ul>
+</li>
+<li>Formatting the code to standardize its style:<ul>
+<li><code>poe format</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="updating-automated-tests">Updating automated tests</h3>
+<p>When resolving bugs or adding new functionality, please add tests to prevent that functionality from breaking in the future. If you notice any functionality that isn't covered in the tests, feel free to submit a test-only pull request as well.</p>
+<p>For testing, jrnl uses <a href="https://docs.pytest.org">pytest</a> for unit tests, and <a href="https://pytest-bdd.readthedocs.io/">pytest-bdd</a> for integration testing. All tests are in the <code>tests</code> folder.</p>
+<p>Many tests can be created by only editing <code>*.feature</code> files with the same format as other tests. For more complicated functionality, you may need to implement steps in <code>tests/lib/</code> which are then executed by your tests in the <code>feature</code> files.</p>
+<h3 id="submitting-pull-requests">Submitting pull requests</h3>
+<p>When you're ready, feel free to submit a pull request (PR). The jrnl maintainers generally review the pull requests every two weeks, but the continuous integration pipeline will run on automated tests on it within a matter of minutes and will report back any issues it has found with your code across a variety of environments.</p>
+<p>The pull request template contains a checklist full of housekeeping items. Please fill them out as necessary when you submit.</p>
+<p>If a pull request contains failing tests, it probably will not be reviewed, and it definitely will not be approved. However, if you need help resolving a failing test, please mention that in your PR.</p>
+<h3 id="finding-things-to-work-on">Finding things to work on</h3>
+<p>You can search the <a href="https://github.com/jrnl-org/jrnl/issues">jrnl GitHub issues</a> by <a href="https://github.com/jrnl-org/jrnl/labels">label</a> for things to work on. Here are some labels worth searching:</p>
+<ul>
+<li><a href="https://github.com/jrnl-org/jrnl/labels/critical">critical</a></li>
+<li><a href="https://github.com/jrnl-org/jrnl/labels/help%20wanted">help wanted</a></li>
+<li><a href="https://github.com/jrnl-org/jrnl/labels/bug">bug</a></li>
+<li><a href="https://github.com/jrnl-org/jrnl/labels/enhancement">enhancement</a></li>
+</ul>
+<p>You can also get a feel for the project's priorities by reviewing the <a href="https://github.com/jrnl-org/jrnl/milestones">milestones</a>.</p>
+<h3 id="a-note-for-new-programmers-and-programmers-new-to-python">A note for new programmers and programmers new to python</h3>
+<p>Although jrnl has grown quite a bit since its inception, the overall complexity (for an end-user program) is fairly low, and we hope you'll find the code easy enough to understand.</p>
+<p>If you have a question, please don't hesitate to ask! Python is known for its welcoming community and openness to novice programmers, so feel free to fork the code and play around with it! If you create something you want to share with us, please create a pull request. We never expect pull requests to be perfect, idiomatic, instantly mergeable code. We can work through it together!</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../reference-config-file/" class="btn btn-neutral float-left" title="Configuration File"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ja/overview/" class="btn btn-neutral float-right" title="概要">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../reference-config-file/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ja/overview/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

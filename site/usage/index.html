@@ -1,0 +1,420 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/usage/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Basic Usage - jrnl</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../assets/colors.css" rel="stylesheet" />
+        <link href="../assets/theme.css" rel="stylesheet" />
+        <link href="../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Basic Usage";
+        var mkdocs_page_input_path = "usage.md";
+        var mkdocs_page_url = "/usage/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Basic Usage</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#composing-entries">Composing Entries</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#specifying-date-and-time">Specifying Date and Time</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#using-tags">Using Tags</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#starring-entries">Starring Entries</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#viewing-and-searching-entries">Viewing and Searching Entries</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#text-search">Text Search</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#filtering-by-tag">Filtering by Tag</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#viewing-starred-entries">Viewing Starred Entries</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#editing-entries">Editing Entries</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#deleting-entries">Deleting Entries</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#listing-journals">Listing Journals</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ja/overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >ユーザーガイド</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ja/contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>User Guide &raquo;</li>
+      <li>Basic Usage</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/usage.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="basic-usage">Basic Usage</h1>
+<p><code>jrnl</code> has two modes: <strong>composing</strong> and <strong>viewing</strong>. Whenever you don't enter
+any arguments that start with a dash (<code>-</code>) or double-dash (<code>--</code>), you're in
+composing mode, meaning that you can write your entry on the command line.</p>
+<p>We intentionally break a convention on command line arguments: all arguments
+starting with a <em>single dash</em> (<code>-</code>) will <em>filter</em> your journal before viewing
+it. Filter arguments can be combined arbitrarily. Arguments with a <em>double dash</em>
+(<code>--</code>) will <em>control</em> how your journal is displayed or exported. Control
+arguments are mutually exclusive (i.e., you can only specify one way to display
+or export your journal at a time).</p>
+<p>For a list of commands, enter <code>jrnl --help</code>.</p>
+<h2 id="composing-entries">Composing Entries</h2>
+<p>Composing mode is entered by either starting <code>jrnl</code> without any arguments --
+which will launch an external editor -- or by just writing an entry on the
+command line:</p>
+<pre><code class="language-text">jrnl today at 3am: I just met Steve Buscemi in a bar! What a nice guy.
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most shells contain a certain number of reserved characters, such as <code>#</code> and
+<code>*</code>. These characters, as well as unbalanced single or double quotation
+marks, parentheses, and others, likely will cause problems. Although
+reserved characters can be escaped using <code>\</code>, this is not ideal for
+long-form writing. The solution: first enter <code>jrnl</code> and hit <code>return</code>. You
+can then enter the text of your journal entry. Alternatively, you can <a href="../advanced/">use
+an external editor</a>.</p>
+</div>
+<p>You can also import an entry directly from a file:</p>
+<pre><code class="language-sh">jrnl &lt; my_entry.txt
+</code></pre>
+<h3 id="specifying-date-and-time">Specifying Date and Time</h3>
+<p>If you don't specify a date and time (e.g., <code>jrnl finished writing letter to brother</code>), <code>jrnl</code> will create an entry using the current date and time. For retrospective entries, you can use a timestamp to tell <code>jrnl</code> where to put the entry. Timestamps can be entered using a variety of formats. Here are some that work:</p>
+<ul>
+<li>at 6am</li>
+<li>yesterday</li>
+<li>last monday</li>
+<li>sunday at noon</li>
+<li>2 march 2012</li>
+<li>7 apr</li>
+<li>5/20/1998 at 23:42</li>
+<li>2020-05-22T15:55-04:00</li>
+</ul>
+<p>If you don't use a timestamp, <code>jrnl</code> will create an entry using the current
+time. If you use a date only (no time), <code>jrnl</code> will use the default time
+specified in your <a href="../reference-config-file/#default_hour-and-default_minute">configuration file</a>.
+Behind the scenes, <code>jrnl</code> reorganizes entries in chronological order.</p>
+<h3 id="using-tags">Using Tags</h3>
+<p><code>jrnl</code> supports tags. The default tag symbol is <code>@</code> (largely because <code>#</code> is a
+reserved character). You can specify your own tag symbol in the
+<a href="../reference-config-file/#tagsymbols">configuration file</a>. To use tags, preface the
+desired tag with the symbol:</p>
+<pre><code class="language-sh">jrnl Had a wonderful day at the @beach with @Tom and @Anna.
+</code></pre>
+<p>Although you can use capitals while tagging an entry, searches by tag are
+case-insensitive.</p>
+<p>There is no limit to how many tags you can use in an entry.</p>
+<h3 id="starring-entries">Starring Entries</h3>
+<p>To mark an entry as a favorite, simply "star" it using an asterisk (<code>*</code>):</p>
+<pre><code class="language-sh">jrnl last sunday *: Best day of my life.
+</code></pre>
+<p>If you don't want to add a date (i.e., you want the date to be entered as
+<em>now</em>), the following options are equivalent:</p>
+<ul>
+<li><code>jrnl *: Best day of my life.</code></li>
+<li><code>jrnl *Best day of my life.</code></li>
+<li><code>jrnl Best day of my life.*</code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure that the asterisk (<code>*</code>) is <strong>not</strong> surrounded by whitespaces.
+<code>jrnl Best day of my life! *</code> will not work because the <code>*</code> character has a
+special meaning in most shells.</p>
+</div>
+<h2 id="viewing-and-searching-entries">Viewing and Searching Entries</h2>
+<p><code>jrnl</code> can display entries in a variety of ways.</p>
+<p>To view all entries, enter:</p>
+<pre><code class="language-sh">jrnl -to today
+</code></pre>
+<p><code>jrnl</code> provides several filtering commands, prefaced by a single dash (<code>-</code>), that
+allow you to find a more specific range of entries. For example,</p>
+<pre><code class="language-sh">jrnl -n 10
+</code></pre>
+<p>lists the ten most recent entries. <code>jrnl -10</code> is even more concise and works the
+same way. If you want to see all of the entries you wrote from the beginning of
+last year until the end of this past March, you would enter</p>
+<pre><code class="language-sh">jrnl -from &quot;last year&quot; -to march
+</code></pre>
+<p>Filter criteria that use more than one word require surrounding quotes (<code>""</code>).</p>
+<p>To see entries on a particular date, use <code>-on</code>:</p>
+<pre><code class="language-sh">jrnl -on yesterday
+</code></pre>
+<h3 id="text-search">Text Search</h3>
+<p>The <code>-contains</code> command displays all entries containing the text you enter after it.
+This may be helpful when you're searching for entries and you can't remember if you
+tagged any words when you wrote them.</p>
+<p>You may realize that you use a word a lot and want to turn it into a tag in all
+of your previous entries.</p>
+<pre><code class="language-sh">jrnl -contains &quot;dogs&quot; --edit
+</code></pre>
+<p>opens your external editor so that you can add a tag symbol (<code>@</code> by default) to
+all instances of the word "dogs."</p>
+<h3 id="filtering-by-tag">Filtering by Tag</h3>
+<p>You can filter your journal entries by tag. For example,</p>
+<pre><code class="language-sh">jrnl @pinkie @WorldDomination
+</code></pre>
+<p>displays all entries in which either <code>@pinkie</code> or <code>@WorldDomination</code>
+occurred. Tag filters can be combined with other filters:</p>
+<pre><code class="language-sh">jrnl -n 5 @pinkie -and @WorldDomination
+</code></pre>
+<p>displays the last five entries containing <em>both</em> <code>@pinkie</code> <em>and</em>
+<code>@worldDomination</code>. You can change which symbols you'd like to use for tagging
+in the <a href="../reference-config-file/#tagsymbols">configuration file</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Entering <code>jrnl @pinkie @WorldDomination</code> will display entries in which both
+tags are present because, although no command line arguments are given, all
+of the input strings look like tags. <code>jrnl</code> will assume you want to filter
+by tag, rather than create a new entry that consists only of tags.</p>
+</div>
+<p>To view a list of all tags in the journal, enter:</p>
+<pre><code class="language-sh">jrnl --tags
+</code></pre>
+<h3 id="viewing-starred-entries">Viewing Starred Entries</h3>
+<p>To display only your favorite (starred) entries, enter</p>
+<pre><code class="language-sh">jrnl -starred
+</code></pre>
+<h2 id="editing-entries">Editing Entries</h2>
+<p>You can edit entries after writing them. This is particularly useful when your
+journal file is encrypted. To use this feature, you need to have an external
+editor configured in your <a href="../reference-config-file/#editor">configuration file</a>. You
+can also edit only the entries that match specific search criteria. For example,</p>
+<pre><code class="language-sh">jrnl -to 1950 @texas -and @history --edit
+</code></pre>
+<p>opens your external editor displaying all entries tagged with <code>@texas</code> and
+<code>@history</code> that were written before 1950. After making changes, save and close
+the file, and only those entries will be modified (and encrypted, if
+applicable).</p>
+<p>If you are using multiple journals, it's easy to edit specific entries from
+specific journals. Simply prefix the filter string with the name of the journal.
+For example,</p>
+<pre><code class="language-sh">jrnl work -n 1 --edit
+</code></pre>
+<p>opens the most recent entry in the 'work' journal in your external editor.</p>
+<h2 id="deleting-entries">Deleting Entries</h2>
+<p>The <code>--delete</code> command opens an interactive interface for deleting entries. The
+date and title of each entry in the journal are presented one at a time, and you
+can choose whether to keep or delete each entry.</p>
+<p>If no filters are specified, <code>jrnl</code> will ask you to keep or delete each entry in
+the entire journal, one by one. If there are a lot of entries in the journal, it
+may be more efficient to filter entries before passing the <code>--delete</code> command.</p>
+<p>Here's an example. Say you have a journal into which you've imported the last 12
+years of blog posts. You use the <code>@book</code> tag a lot, and for some reason you want
+to delete some, but not all, of the entries in which you used that tag, but only
+the ones you wrote at some point in 2004 or earlier. You're not sure which
+entries you want to keep, and you want to look through them before deciding.
+This is what you might enter:</p>
+<pre><code class="language-sh">jrnl -to 2004 @book --delete
+</code></pre>
+<p><code>jrnl</code> will show you only the relevant entries, and you can choose the ones you
+want to delete.</p>
+<p>You may want to delete <em>all</em> of the entries containing <code>@book</code> that you wrote in
+2004 or earlier. If there are dozens or hundreds, the easiest way would be to
+use an external editor. Open an editor with the entries you want to delete...</p>
+<pre><code class="language-sh">jrnl -to 2004 @book --edit
+</code></pre>
+<p>...select everything, delete it, save and close, and all of those entries are
+removed from the journal.</p>
+<h2 id="listing-journals">Listing Journals</h2>
+<p>To list all of your journals:</p>
+<pre><code class="language-sh">jrnl --list
+</code></pre>
+<p>The journals displayed correspond to those specified in the <code>jrnl</code>
+<a href="../reference-config-file/#journals">configuration file</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../installation/" class="btn btn-neutral float-left" title="Quickstart"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../encryption/" class="btn btn-neutral float-right" title="Encryption">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../encryption/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

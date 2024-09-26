@@ -1,0 +1,257 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/overview/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>概要 - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u6982\u8981";
+        var mkdocs_page_input_path = "ja/overview.md";
+        var mkdocs_page_url = "/ja/overview/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">概要</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">プレーンテキスト</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">タグ</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">複数の日記のサポート</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">外部エディタのサポート</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">暗号化</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">インポートとエクスポート</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">マルチプラットフォームサポート</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">オープンソース</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >ユーザーガイド</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../privacy-and-security/">プライバシーとセキュリティ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+      <li>概要</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/overview.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">概要</h1>
+<p><code>jrnl</code>はコマンドライン用のシンプルな日記アプリケーションです。</p>
+<p>簡単に日記エントリーの作成、検索、閲覧ができます。日記は人間が読める形式のプレーンテキストで保存され、<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES暗号化</a>を使用して暗号化することもできます。</p>
+<p><code>jrnl</code>には必要な機能のほとんどが備わっており、不要な機能はほとんどありません。</p>
+<h2 id="_2">プレーンテキスト</h2>
+<p><code>jrnl</code>は各日記をプレーンテキストで保存します。<code>jrnl</code>ファイルは任意の場所に保存でき、共有フォルダに保存してデバイス間で同期することもできます。日記ファイルはコンパクトで（数千のエントリーでも1MiB未満）、現在そして近い将来にわたってほぼすべての電子デバイスで読むことができます。</p>
+<h2 id="_3">タグ</h2>
+<p>後でエントリーを見つけやすくするために、<code>jrnl</code>はインラインタグをサポートしています（デフォルトのタグ記号は<code>@</code>です）。タグを他の検索条件と組み合わせて、エントリーを検索およびフィルタリングできます。</p>
+<h2 id="_4">複数の日記のサポート</h2>
+<p><code>jrnl</code>は複数の日記の作成をサポートしており、各日記は単一のファイルまたは一連のファイルとして保存できます。エントリーは人間が読める形式で自動的にタイムスタンプが付けられ、複数のエントリーを一度に簡単に閲覧できます。<code>jrnl</code>は必要なエントリーを簡単に見つけ出し、読んだり編集したりすることができます。</p>
+<h2 id="_5">外部エディタのサポート</h2>
+<p><code>jrnl</code>はお気に入りのテキストエディタと上手く連携します。エディタで日記エントリーを書くことを好む場合や、より包括的なアプリケーションを必要とする変更を加えたい場合があるかもしれません。<code>jrnl</code>は特定のエントリーをフィルタリングし、選択した<a href="../external-editors/">外部エディタ</a>に渡すことができます。</p>
+<h2 id="_6">暗号化</h2>
+<p><code>jrnl</code>は<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES暗号化</a>をサポートしています。詳細については<a href="../encryption/">暗号化ページ</a>をご覧ください。</p>
+<h2 id="_7">インポートとエクスポート</h2>
+<p><code>jrnl</code>は他のソースからエントリーを簡単にインポートできます。既存のエントリーは様々な<a href="../formats/">フォーマット</a>でエクスポートできます。</p>
+<h2 id="_8">マルチプラットフォームサポート</h2>
+<p><code>jrnl</code>はほとんどのオペレーティングシステムと互換性があります。様々なパッケージマネージャーを使用して<a href="../installation/">ダウンロード</a>するか、ソースからビルドすることができます。</p>
+<h2 id="_9">オープンソース</h2>
+<p><code>jrnl</code>は<a href="https://www.python.org">Python</a>で書かれており、オープンソースソフトウェア愛好家の<a href="https://github.com/jrnl-org/jrnl">フレンドリーなコミュニティ</a>によって維持されています。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../contributing/" class="btn btn-neutral float-left" title="Contributing to jrnl"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../installation/" class="btn btn-neutral float-right" title="クイックスタート">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../../contributing/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

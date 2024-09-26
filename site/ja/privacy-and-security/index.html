@@ -1,0 +1,417 @@
+<!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="jrnl contributors" /><link rel="canonical" href="https://jrnl.sh/ja/privacy-and-security/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>プライバシーとセキュリティ - jrnl</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" />
+        <link href="../../assets/colors.css" rel="stylesheet" />
+        <link href="../../assets/theme.css" rel="stylesheet" />
+        <link href="../../assets/highlight.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc\u3068\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3";
+        var mkdocs_page_input_path = "ja/privacy-and-security.md";
+        var mkdocs_page_url = "/ja/privacy-and-security/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> jrnl
+        </a>
+  
+    <div role="search">
+      <form id ="rtd-search-form" class="wy-form mkdocs-search" action="../../search.html" method="get">
+        <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+        <button class="icon icon-search" aria-label="submit"></button>
+      </form>
+    </div>
+  
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Quickstart</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/">Basic Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../encryption/">Encryption</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../journal-types/">Journal Types</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../privacy-and-security/">Privacy and Security</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../formats/">Formats</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Advanced Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../external-editors/">External Editors</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tips-and-tricks/">Tips and Tricks</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-command-line/">Command Line</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference-config-file/">Configuration File</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to jrnl</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ja</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">概要</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >ユーザーガイド</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../installation/">クイックスタート</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../usage/">基本的な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../encryption/">暗号化</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../journal-types/">ジャーナルの種類</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">プライバシーとセキュリティ</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_2">パスワードの強度</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">合理的否認</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">スパイ行為</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">保存されたパスワード</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">シェル履歴</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#bash">bash</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#zsh">zsh</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#fish">fish</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#windows">Windowsコマンドプロンプト</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#jrnl">エディターからjrnlへの転送中のファイル</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">エディター履歴</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#visual-studio-code">Visual Studio Code</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#vim">Vim</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#neovim">Neovim</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">他のリスクに気づいた場合</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../formats/">フォーマット</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advanced/">高度な使い方</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../external-editors/">外部エディタ</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tips-and-tricks/">ヒントとコツ</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >リファレンス</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-command-line/">コマンドライン</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reference-config-file/">設定ファイル</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >貢献</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../contributing/">jrnlへの貢献</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">jrnl</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><!--
+Copied from https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/readthedocs/breadcrumbs.html
+Then lightly modified for accessibility
+-->
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ja &raquo;</li>
+          <li>ユーザーガイド &raquo;</li>
+      <li>プライバシーとセキュリティ</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/jrnl-org/jrnl/edit/develop/docs/ja/privacy-and-security.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright © 2012-2023 jrnl contributors
+License: https://www.gnu.org/licenses/gpl-3.0.html
+-->
+
+<h1 id="_1">プライバシーとセキュリティ</h1>
+<p><code>jrnl</code>はプライバシーとセキュリティを念頭に置いて設計されていますが、他のプログラムと同様に、
+注意すべきいくつかの制限があります。</p>
+<h2 id="_2">パスワードの強度</h2>
+<p><code>jrnl</code>はパスワードの強度要件を強制しません。短いまたは一般的に使用されるパスワードは、
+基本的なセキュリティスキルを持つ人が暗号化された<code>jrnl</code>ファイルにアクセスするのを
+簡単に回避できてしまいます。</p>
+<h2 id="_3">合理的否認</h2>
+<p>ジャーナルの内容を暗号化の層の背後に隠すことはできますが、誰かがあなたの設定ファイルに
+アクセスできる場合、ジャーナルの存在、そのジャーナルファイルの場所、最後に編集した
+時期を知ることができます。十分な力の不均衡がある場合、誰かが非技術的な手段を通じて
+あなたに暗号化を解除させることができるかもしれません。</p>
+<h2 id="_4">スパイ行為</h2>
+<p><code>jrnl</code>は開かれていない間のジャーナルエントリーへの不正アクセスから保護できますが、
+安全でないコンピューター/場所からは保護できません。例えば：</p>
+<ul>
+<li>誰かがキーロガーをインストールし、ジャーナルに入力する内容を追跡する。</li>
+<li>誰かがエントリーを書いている間にあなたの画面を見ている。</li>
+<li>誰かが<code>jrnl</code>にバックドアをインストールしたり、ジャーナルを毒して
+  エントリーを明らかにするよう仕向けたりする。</li>
+</ul>
+<h2 id="_5">保存されたパスワード</h2>
+<p>暗号化されたジャーナルを作成する際、「パスワードをキーチェーンに保存するか」と
+尋ねられます。このキーチェーンは<a href="https://pypi.org/project/keyring/">Python keyringライブラリ</a>を
+使用してアクセスされ、オペレーティングシステムによって動作が異なります。</p>
+<p>Windowsでは、キーチェーンはWindows Credential Manager（WCM）で、ロックできず、
+あなたのユーザー名で実行されている他のアプリケーションからアクセスできます。
+これが心配な場合は、パスワードを保存しないほうがよいかもしれません。</p>
+<h2 id="_6">シェル履歴</h2>
+<p>コマンドラインからエントリーを入力できるため、コマンドライン操作をログに記録する
+ツールは潜在的なセキュリティリスクとなります。以下に、様々なシェルでこの問題に
+対処する方法を示します。</p>
+<h3 id="bash">bash</h3>
+<p><code>~/.bashrc</code>ファイルに以下の行を追加することで、jrnlの履歴ログを無効にできます：</p>
+<pre><code class="language-sh">HISTIGNORE=&quot;$HISTIGNORE:jrnl *&quot;
+</code></pre>
+<p><code>bash</code>履歴から既存の<code>jrnl</code>コマンドを削除するには、bashの履歴ファイルから
+単純に削除します。このファイルのデフォルトの場所は<code>~/.bash_history</code>ですが、
+必要に応じて<code>echo "$HISTFILE"</code>を実行して見つけることができます。また、
+<code>history -c</code>を実行して履歴からすべてのコマンドを削除することもできます。</p>
+<h3 id="zsh">zsh</h3>
+<p><code>~/.zshrc</code>ファイルに以下を追加することで、jrnlの履歴ログを無効にできます：</p>
+<pre><code class="language-sh">setopt HIST_IGNORE_SPACE
+alias jrnl=&quot; jrnl&quot;
+</code></pre>
+<p><code>zsh</code>履歴から既存の<code>jrnl</code>コマンドを削除するには、zshの履歴ファイルから
+単純に削除します。このファイルのデフォルトの場所は<code>~/.zsh_history</code>ですが、
+必要に応じて<code>echo "$HISTFILE"</code>を実行して見つけることができます。また、
+<code>history -c</code>を実行して履歴からすべてのコマンドを削除することもできます。</p>
+<h3 id="fish">fish</h3>
+<p>デフォルトでは、<code>fish</code>はスペースで始まるコマンドをログに記録しません。
+常にjrnlの前にスペースを付けて実行したい場合は、<code>~/.config/fish/config.fish</code>
+ファイルに以下を追加できます：</p>
+<pre><code class="language-sh">abbr --add jrnl &quot; jrnl&quot;
+</code></pre>
+<p><code>fish</code>履歴から既存のjrnlコマンドを削除するには、<code>history delete --prefix 'jrnl '</code>を実行します。</p>
+<h3 id="windows">Windowsコマンドプロンプト</h3>
+<p>Windowsは履歴をディスクにログ記録しませんが、コマンドプロンプトセッションには
+保持されます。ジャーナリング後、コマンドプロンプトを閉じるか<code>Alt</code>+<code>F7</code>を
+押して履歴をクリアしてください。</p>
+<h2 id="jrnl">エディターからjrnlへの転送中のファイル</h2>
+<p>エントリーの作成や編集時、<code>jrnl</code>はエディターがジャーナルにアクセスできるよう
+ディスク上に暗号化されていない一時ファイルを使用します。エディターを閉じた後、
+<code>jrnl</code>はこの一時ファイルを削除します。</p>
+<p>つまり、ジャーナルエントリーを保存したがまだエディターを閉じていない場合、
+暗号化されていない一時ファイルがディスク上に残ります。この間にコンピューターが
+シャットダウンしたり、<code>jrnl</code>プロセスが予期せず終了したりすると、暗号化されて
+いない一時ファイルがディスク上に残ります。この問題を軽減するには、エディターを
+閉じる直前にのみ保存するようにしてください。また、一時フォルダからこれらの
+ファイルを手動で削除することもできます。デフォルトでは、これらは<code>jrnl*.jrnl</code>
+という名前ですが、<a href="../reference-config-file/#template">テンプレート</a>を使用して
+いる場合は、テンプレートと同じ拡張子になります。</p>
+<h2 id="_7">エディター履歴</h2>
+<p>一部のエディターは、将来の使用のためにディスク上に使用履歴を保存します。
+これは、最近の検索パターンやエディターコマンドを通じて機密情報が漏洩する
+可能性があるという意味でセキュリティリスクとなる可能性があります。</p>
+<h3 id="visual-studio-code">Visual Studio Code</h3>
+<p>Visual Studio Codeは、後でコンテンツを復元またはレビューできるように、
+保存されたファイルの内容を保存します。すべてのファイルに対してこの機能を
+無効にするには、<a href="https://code.visualstudio.com/docs/getstarted/settings#_settings-editor">設定エディター</a>で
+<code>workbench.localHistory.enabled</code>設定のチェックを外します。</p>
+<p>または、<code>workbench.localHistory.exclude</code>設定で<a href="https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options">パターン</a>を
+設定することで、特定のファイルに対してこの機能を無効にできます。<code>jrnl</code>によって
+生成される暗号化されていない一時ファイルを除外するには、<a href="https://code.visualstudio.com/docs/getstarted/settings#_settings-editor">設定エディター</a>で
+<code>workbench.localHistory.exclude</code>設定に<code>**/jrnl*.jrnl</code>パターンを設定できます
+（<a href="../reference-config-file/#template">テンプレート</a>を使用していない場合）。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>Windowsでは、履歴の場所は通常<code>%APPDATA%\Code\User\History</code>にあります。</p>
+<p>Visual Studio Codeは、開いているすべての未保存ファイルのコピーも作成します。
+これらのコピーはバックアップ場所に保存され、ファイルを保存すると自動的に
+クリーンアップされます。ただし、ファイルを保存する前にコンピューターが
+シャットダウンしたり、Visual Studio Codeプロセスが予期せず停止したりすると、
+暗号化されていない一時ファイルがディスク上に残る可能性があります。これらの
+ファイルはバックアップ場所から手動で削除できます。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>Windowsでは、バックアップ場所は通常<code>%APPDATA%\Code\Backups</code>にあります。</p>
+<h3 id="vim">Vim</h3>
+<p>Vimは<code>~/.viminfo</code>にある所謂Viminfoファイルに進捗データを保存します。
+これにはコマンドライン履歴、検索文字列履歴、検索/置換パターン、レジスタの
+内容など、あらゆる種類のユーザーデータが含まれています。また、予期せぬ
+アプリケーションの終了後に開いていたファイルを復元できるよう、Vimはスワップ
+ファイルを使用します。</p>
+<p>これらのオプションや他の情報漏洩の可能性のある機能は、Jrnl設定の<code>editor</code>キーを
+以下のように設定することで無効にできます：</p>
+<pre><code class="language-yaml">editor: &quot;vim -c 'set viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'&quot;
+</code></pre>
+<p>すべてのプラグインとカスタム設定を無効にし、デフォルト設定でVimを起動するには、
+コマンドラインで<code>-u NONE</code>を渡すこともできます。これにより、悪意のあるプラグインや
+その他の検出が困難な情報漏洩が確実に排除されます。ただし、これによりエディター
+の使用感が大幅に低下します。</p>
+<p>代わりに、Jrnlファイルが編集されているときに自動的に検出するようVimに設定するには、
+autocommandを使用できます。これを<code>~/.vimrc</code>に配置します：</p>
+<pre><code class="language-vim">autocmd BufNewFile,BufReadPre *.jrnl setlocal viminfo= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p><a href="../reference-config-file/#template">テンプレート</a>を使用している場合は、
+<code>.jrnl</code>の代わりにテンプレートのファイル拡張子を使用する必要があります。</p>
+<p>言及したオプションの詳細については、Vimで<code>:h &lt;option&gt;</code>を参照してください。</p>
+<h3 id="neovim">Neovim</h3>
+<p>Neovimは主にVimと互換性があるよう努めており、そのためVimと同様の機能を
+持っています。Neovimの1つの違いは、Viminfoファイルの代わりにShaDa
+（"shared data"）ファイルと呼ばれるものが<code>~/.local/state/nvim</code>
+（Neovim v0.8.0以前は<code>~/.local/share/nvim</code>）にあることです。ShaDaファイルは
+Vimと同じ方法で無効にできます。</p>
+<pre><code class="language-yaml">editor: &quot;nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'&quot;
+</code></pre>
+<p>ここでも<code>-u NONE</code>を渡して、デフォルト設定でセッションを開始できます。</p>
+<p>上記のVimと同様に、Vimscriptでautocommandを作成できます：</p>
+<pre><code class="language-vim">autocmd BufNewFile,BufReadPre *.jrnl setlocal shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure
+</code></pre>
+<p>または、同じことをLuaで：</p>
+<pre><code class="language-lua">vim.api.nvim_create_autocmd( {&quot;BufNewFile&quot;,&quot;BufReadPre&quot; }, {
+  group = vim.api.nvim_create_augroup(&quot;PrivateJrnl&quot;, {}),
+  pattern = &quot;*.jrnl&quot;,
+  callback = function()
+    vim.o.shada = &quot;&quot;
+    vim.o.swapfile = false
+    vim.o.undofile = false
+    vim.o.backup = false
+    vim.o.writebackup = false
+    vim.o.shelltemp = false
+    vim.o.history = 0
+    vim.o.modeline = false
+    vim.o.secure = true
+  end,
+})
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p><a href="../reference-config-file/#template">テンプレート</a>を使用している場合は、
+<code>.jrnl</code>の代わりにテンプレートのファイル拡張子を使用する必要があります。</p>
+<p>言及したオプションの詳細については、Neovimで<code>:h &lt;option&gt;</code>を参照してください。</p>
+<h2 id="_8">他のリスクに気づいた場合</h2>
+<p><a href="https://github.com/jrnl-org/jrnl/issues">GitHubで問題を提出</a>して、メンテナーに知らせてください。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../journal-types/" class="btn btn-neutral float-left" title="ジャーナルの種類"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../formats/" class="btn btn-neutral float-right" title="フォーマット">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/jrnl-org/jrnl/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../journal-types/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../formats/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

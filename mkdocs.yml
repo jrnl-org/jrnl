@@ -4,36 +4,92 @@ theme:
   name: readthedocs
   custom_dir: docs_theme
   static_templates:
-      - index.html
+    - index.html
+  language: en
+  features:
+    - language-selector
 watch:
   - docs
   - docs_theme
 extra_css:
-    - https://fonts.googleapis.com/css?family=Open+Sans:300,600
-    - assets/colors.css
-    - assets/theme.css
-    - assets/highlight.css
+  - https://fonts.googleapis.com/css?family=Open+Sans:300,600
+  - assets/colors.css
+  - assets/theme.css
+  - assets/highlight.css
 markdown_extensions:
   - admonition
 repo_url: https://github.com/jrnl-org/jrnl/
 edit_uri: edit/develop/docs/
 site_author: jrnl contributors
 site_description: Collect your thoughts and notes without leaving the command line.
+
+extra:
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    - name: 日本語
+      link: /ja/
+      lang: ja
+  language: en
+
 nav:
   - Overview: overview.md
-  - 'User Guide':
-    - Quickstart: installation.md
-    - Basic Usage: usage.md
-    - Encryption: encryption.md
-    - Journal Types: journal-types.md
-    - Privacy and Security: privacy-and-security.md
-    - Formats: formats.md
-    - Advanced Usage: advanced.md
-    - 'External Editors': external-editors.md
-    - 'Tips and Tricks': tips-and-tricks.md
-  - 'Reference':
-    - Command Line: reference-command-line.md
-    - Configuration File: reference-config-file.md
-  - 'Contributing':
-    - Contributing to jrnl: contributing.md
+  - "User Guide":
+      - Quickstart: installation.md
+      - Basic Usage: usage.md
+      - Encryption: encryption.md
+      - Journal Types: journal-types.md
+      - Privacy and Security: privacy-and-security.md
+      - Formats: formats.md
+      - Advanced Usage: advanced.md
+      - "External Editors": external-editors.md
+      - "Tips and Tricks": tips-and-tricks.md
+  - "Reference":
+      - Command Line: reference-command-line.md
+      - Configuration File: reference-config-file.md
+  - "Contributing":
+      - Contributing to jrnl: contributing.md
+  - ja:
+      - 概要: ja/overview.md
+      - "ユーザーガイド":
+          - クイックスタート: ja/installation.md
+          - 基本的な使い方: ja/usage.md
+          - 暗号化: ja/encryption.md
+          - ジャーナルの種類: ja/journal-types.md
+          - プライバシーとセキュリティ: ja/privacy-and-security.md
+          - フォーマット: ja/formats.md
+          - 高度な使い方: ja/advanced.md
+          - "外部エディタ": ja/external-editors.md
+          - "ヒントとコツ": ja/tips-and-tricks.md
+      - "リファレンス":
+          - コマンドライン: ja/reference-command-line.md
+          - 設定ファイル: ja/reference-config-file.md
+      - "貢献":
+          - jrnlへの貢献: ja/contributing.md
 
+plugins:
+  - search
+  - i18n:
+      default_language: en
+      languages:
+        en: English
+        ja: 日本語
+      nav_translations:
+        ja:
+          Overview: 概要
+          "User Guide": "ユーザーガイド"
+          Quickstart: クイックスタート
+          "Basic Usage": "基本的な使い方"
+          Encryption: 暗号化
+          "Journal Types": "ジャーナルの種類"
+          "Privacy and Security": "プライバシーとセキュリティ"
+          Formats: フォーマット
+          "Advanced Usage": "高度な使い方"
+          "External Editors": "外部エディタ"
+          "Tips and Tricks": "ヒントとコツ"
+          "Reference": "リファレンス"
+          "Command Line": "コマンドライン"
+          "Configuration File": "設定ファイル"
+          "Contributing": "貢献"
+          "Contributing to jrnl": "jrnlへの貢献"
