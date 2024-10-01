@@ -1210,17 +1210,18 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [[package]]
 name = "pytest-bdd"
-version = "7.0.1"
+version = "7.3.0"
 description = "BDD for pytest"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest_bdd-7.0.1-py3-none-any.whl", hash = "sha256:faf115b9de793dc2341e898347f936c3766179a54a018c132796302b120918e5"},
-    {file = "pytest_bdd-7.0.1.tar.gz", hash = "sha256:652d9c5324076ed9348f1c69b6512c00c581708ff17f063771ea703b62d3b956"},
+    {file = "pytest_bdd-7.3.0-py3-none-any.whl", hash = "sha256:168ede4a118e348feb70182590ee4a2f856e68dafe54a75a4e9203da37d4ade6"},
+    {file = "pytest_bdd-7.3.0.tar.gz", hash = "sha256:9dfeb1d8565d9548907f36a5a9e2c8e1e0cbac3b2724e17331b87386a19fbc16"},
 ]
 
 [package.dependencies]
 Mako = "*"
+packaging = "*"
 parse = "*"
 parse-type = "*"
 pytest = ">=6.2.0"
