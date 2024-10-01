@@ -937,13 +937,13 @@ files = [
 
 [[package]]
 name = "parse-type"
-version = "0.6.2"
+version = "0.6.3"
 description = "Simplifies to build parse types based on the parse module"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*"
+python-versions = "!=3.0.*,!=3.1.*,>=2.7"
 files = [
-    {file = "parse_type-0.6.2-py2.py3-none-any.whl", hash = "sha256:06d39a8b70fde873eb2a131141a0e79bb34a432941fb3d66fad247abafc9766c"},
-    {file = "parse_type-0.6.2.tar.gz", hash = "sha256:79b1f2497060d0928bc46016793f1fca1057c4aacdf15ef876aa48d75a73a355"},
+    {file = "parse_type-0.6.3-py2.py3-none-any.whl", hash = "sha256:8d94a52e0197fbad63fee8f70df16e6ed689e5e4f105b705c9afa7a30397a5aa"},
+    {file = "parse_type-0.6.3.tar.gz", hash = "sha256:8e99d2f52fab2f0f1f3d68ba9d026060140bf0e53680aada0111fb27b2f0e93a"},
 ]
 
 [package.dependencies]
@@ -951,7 +951,7 @@ parse = {version = ">=1.18.0", markers = "python_version >= \"3.0\""}
 six = ">=1.15"
 
 [package.extras]
-develop = ["build (>=0.5.1)", "coverage (>=4.4)", "pylint", "pytest (<5.0)", "pytest (>=5.0)", "pytest-cov", "pytest-html (>=1.19.0)", "ruff", "tox (>=2.8,<4.0)", "twine (>=1.13.0)", "virtualenv (<20.22.0)", "virtualenv (>=20.0.0)"]
+develop = ["build (>=0.5.1)", "coverage (>=4.4)", "pylint", "pytest (<5.0)", "pytest (>=5.0)", "pytest-cov", "pytest-html (>=1.19.0)", "ruff", "setuptools", "tox (>=2.8,<4.0)", "twine (>=1.13.0)", "virtualenv (<20.22.0)", "virtualenv (>=20.0.0)"]
 docs = ["Sphinx (>=1.6)", "sphinx-bootstrap-theme (>=0.6.0)"]
 testing = ["pytest (<5.0)", "pytest (>=5.0)", "pytest-html (>=1.19.0)"]
 
