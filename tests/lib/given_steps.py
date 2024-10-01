@@ -9,7 +9,7 @@ import string
 from datetime import datetime
 from unittest.mock import MagicMock
 from unittest.mock import patch
-from xml.etree import ElementTree
+from xml.etree import ElementTree as ET
 
 from pytest_bdd import given
 from pytest_bdd.parsers import parse
@@ -168,7 +168,7 @@ def parse_output_as_language(cli_run, language_name):
     actual_output = cli_run["stdout"]
 
     if language_name == "XML":
-        parsed_output = ElementTree.fromstring(actual_output)
+        parsed_output = ET.fromstring(actual_output)
     elif language_name == "JSON":
         parsed_output = json.loads(actual_output)
     else:

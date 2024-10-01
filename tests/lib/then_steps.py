@@ -4,7 +4,7 @@
 import json
 import os
 import re
-from xml.etree import ElementTree
+from xml.etree import ElementTree as ET
 
 from pytest_bdd import then
 from pytest_bdd.parsers import parse
@@ -300,7 +300,7 @@ def cache_dir_contains_files(file_list, cache_dir):
 def assert_output_is_valid_language(cli_run, language_name):
     language_name = language_name.upper()
     if language_name == "XML":
-        xml_tree = ElementTree.fromstring(cli_run["stdout"])
+        xml_tree = ET.fromstring(cli_run["stdout"])
         assert xml_tree, "Invalid XML"
     elif language_name == "JSON":
         assert json.loads(cli_run["stdout"]), "Invalid JSON"
@@ -390,7 +390,7 @@ def assert_output_field_content(field_name, comparison, expected_keys, parsed_ou
 @then(parse('there should be {number:d} "{item}" elements'))
 def count_elements(number, item, cli_run):
     actual_output = cli_run["stdout"]
-    xml_tree = ElementTree.fromstring(actual_output)
+    xml_tree = ET.fromstring(actual_output)
     assert len(xml_tree.findall(".//" + item)) == number
 
 
