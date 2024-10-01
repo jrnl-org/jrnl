@@ -21,7 +21,12 @@
 
 **Packaging:**
 
+- Update dependency cryptography to v42.0.8 [\#1904](https://github.com/jrnl-org/jrnl/pull/1904) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.6.8 [\#1900](https://github.com/jrnl-org/jrnl/pull/1900) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency requests to v2.32.3 [\#1899](https://github.com/jrnl-org/jrnl/pull/1899) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency python-dateutil to v2.9.0 [\#1898](https://github.com/jrnl-org/jrnl/pull/1898) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency mkdocs to v1.6.1 [\#1895](https://github.com/jrnl-org/jrnl/pull/1895) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency jinja2 to v3.1.4 [\#1892](https://github.com/jrnl-org/jrnl/pull/1892) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.7.1 [\#1864](https://github.com/jrnl-org/jrnl/pull/1864) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.3.1 [\#1863](https://github.com/jrnl-org/jrnl/pull/1863) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.26.1 [\#1862](https://github.com/jrnl-org/jrnl/pull/1862) ([renovate[bot]](https://github.com/apps/renovate))
