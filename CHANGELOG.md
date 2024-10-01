@@ -21,10 +21,17 @@
 
 **Packaging:**
 
+- Update dependency rich to v13.8.1 [\#1926](https://github.com/jrnl-org/jrnl/pull/1926) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.29.0 [\#1925](https://github.com/jrnl-org/jrnl/pull/1925) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency keyring to v25.4.1 [\#1924](https://github.com/jrnl-org/jrnl/pull/1924) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v24.8.0 [\#1923](https://github.com/jrnl-org/jrnl/pull/1923) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency parse-type to v0.6.3 [\#1922](https://github.com/jrnl-org/jrnl/pull/1922) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v42.0.8 [\#1904](https://github.com/jrnl-org/jrnl/pull/1904) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.6.8 [\#1900](https://github.com/jrnl-org/jrnl/pull/1900) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency requests to v2.32.3 [\#1899](https://github.com/jrnl-org/jrnl/pull/1899) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency python-dateutil to v2.9.0 [\#1898](https://github.com/jrnl-org/jrnl/pull/1898) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.6.1 [\#1897](https://github.com/jrnl-org/jrnl/pull/1897) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-bdd to v7.3.0 [\#1896](https://github.com/jrnl-org/jrnl/pull/1896) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency mkdocs to v1.6.1 [\#1895](https://github.com/jrnl-org/jrnl/pull/1895) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency jinja2 to v3.1.4 [\#1892](https://github.com/jrnl-org/jrnl/pull/1892) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.7.1 [\#1864](https://github.com/jrnl-org/jrnl/pull/1864) ([renovate[bot]](https://github.com/apps/renovate))
