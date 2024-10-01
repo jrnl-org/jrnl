@@ -91,7 +91,7 @@ lint.sequence = [
   "poetry --version",
   "poetry check",
   "ruff --version",
-  "ruff .",
+  "ruff check .",
   "black --version",
   "black --check ."
 ]
