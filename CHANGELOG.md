@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.1...HEAD)
 
+**Implemented enhancements:**
+
+- Add calendar heatmap display format [\#1759](https://github.com/jrnl-org/jrnl/pull/1759) ([alichtman](https://github.com/alichtman))
+
 **Fixed bugs:**
 
 - -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
@@ -21,6 +25,9 @@
 
 **Packaging:**
 
+- Update dependency rich to v13.9.1 [\#1931](https://github.com/jrnl-org/jrnl/pull/1931) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v43 [\#1928](https://github.com/jrnl-org/jrnl/pull/1928) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.21.0 [\#1927](https://github.com/jrnl-org/jrnl/pull/1927) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.8.1 [\#1926](https://github.com/jrnl-org/jrnl/pull/1926) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.29.0 [\#1925](https://github.com/jrnl-org/jrnl/pull/1925) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v25.4.1 [\#1924](https://github.com/jrnl-org/jrnl/pull/1924) ([renovate[bot]](https://github.com/apps/renovate))
