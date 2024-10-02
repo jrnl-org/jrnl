@@ -6,10 +6,12 @@
 
 **Implemented enhancements:**
 
+- Add Python 3.13 support [\#1893](https://github.com/jrnl-org/jrnl/issues/1893)
 - Add calendar heatmap display format [\#1759](https://github.com/jrnl-org/jrnl/pull/1759) ([alichtman](https://github.com/alichtman))
 
 **Fixed bugs:**
 
+- Docs accessibility test runner failing [\#1932](https://github.com/jrnl-org/jrnl/issues/1932)
 - -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
 - Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
 - Bug Report [\#1870](https://github.com/jrnl-org/jrnl/issues/1870)
