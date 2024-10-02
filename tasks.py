@@ -41,7 +41,14 @@ def generate_pa11y_config_from_sitemap():
     urls += [url["loc"] for url in xml_sitemap["urlset"]["url"]]
 
     with open(CONFIG_FILENAME, "w") as f:
-        f.write(json.dumps({"urls": urls}))
+        f.write(
+            json.dumps(
+                {
+                    "defaults": {"chromeLaunchConfig": {"args": ["--no-sandbox"]}},
+                    "urls": urls,
+                }
+            )
+        )
 
 
 def output_file(file):
