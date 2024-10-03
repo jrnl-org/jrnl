@@ -187,6 +187,7 @@ class Journal:
                 new_date = time.parse(date_blob, bracketed=True)
 
             if new_date:
+                # Fill in text of entry created in previous loop
                 if entries:
                     entries[-1].text = journal_txt[last_entry_pos : match.start()]
                 last_entry_pos = match.end()
@@ -363,7 +364,7 @@ class Journal:
         raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
         # Split raw text into title and body
         sep = re.search(r"\n|[?!.]+ +\n?", raw)
-        first_line = raw[: sep.end()].strip() if sep else raw
+        first_line = raw[:sep.end()].strip() if sep else raw
         starred = False
 
         if not date:
@@ -376,7 +377,29 @@ class Journal:
                 )
                 if date:  # Parsed successfully, strip that from the raw text
                     starred = raw[:colon_pos].strip().endswith("*")
-                    raw = raw[colon_pos + 1 :].strip()
+                    raw = raw[(colon_pos + 1):].strip()
+            else:
+                date_blob_re = re.compile("(?:^|\n)\\[([^\\]]+)\\] ")
+                match = date_blob_re.search(raw)
+                if match is not None:
+                    date_blob = match.groups()[0]
+                    try:
+                        date = datetime.datetime.strptime(
+                            date_blob, self.config["timeformat"]
+                        )
+                    except ValueError:
+                        # Passing in a date that had brackets around it
+                        date = time.parse(
+                            date_blob,
+                            bracketed=True,
+                            default_hour=self.config["default_hour"],
+                            default_minute=self.config["default_minute"],
+                        )
+
+                    if date:  # Parsed successfully, strip that from the raw text
+                        starred = raw[:match.start()].strip().endswith("*")
+                        raw = raw[match.end():].strip()
+
         starred = (
             starred
             or first_line.startswith("*")
