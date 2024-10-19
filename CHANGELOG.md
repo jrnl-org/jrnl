@@ -11,6 +11,7 @@
 
 **Fixed bugs:**
 
+- Docs accessibility checker failure - contrast ratio [\#1934](https://github.com/jrnl-org/jrnl/issues/1934)
 - Docs accessibility test runner failing [\#1932](https://github.com/jrnl-org/jrnl/issues/1932)
 - -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
 - Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
@@ -35,6 +36,7 @@
 - Update dependency mkdocs to v1.6.1 [\#1895](https://github.com/jrnl-org/jrnl/pull/1895) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pa11y-ci to v3.1.0 [\#1831](https://github.com/jrnl-org/jrnl/pull/1831) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency parse-type to v0.6.4 [\#1936](https://github.com/jrnl-org/jrnl/pull/1936) ([renovate[bot]](https://github.com/apps/renovate))
+- Update peter-evans/create-pull-request action to v7 [\#1929](https://github.com/jrnl-org/jrnl/pull/1929) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.29.0 [\#1925](https://github.com/jrnl-org/jrnl/pull/1925) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v7.4.4 [\#1845](https://github.com/jrnl-org/jrnl/pull/1845) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-bdd to v7.3.0 [\#1896](https://github.com/jrnl-org/jrnl/pull/1896) ([renovate[bot]](https://github.com/apps/renovate))
