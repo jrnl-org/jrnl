@@ -53,6 +53,7 @@
 - Update dependency rich to v13.7.1 [\#1864](https://github.com/jrnl-org/jrnl/pull/1864) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency keyring to v24.3.1 [\#1863](https://github.com/jrnl-org/jrnl/pull/1863) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.26.1 [\#1862](https://github.com/jrnl-org/jrnl/pull/1862) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency typed.js to v2.1.0 [\#1861](https://github.com/jrnl-org/jrnl/pull/1861) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.15.0 [\#1860](https://github.com/jrnl-org/jrnl/pull/1860) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v42.0.7 [\#1857](https://github.com/jrnl-org/jrnl/pull/1857) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v24.4.2 [\#1856](https://github.com/jrnl-org/jrnl/pull/1856) ([renovate[bot]](https://github.com/apps/renovate))
