@@ -7,7 +7,6 @@
 **Implemented enhancements:**
 
 - Add Python 3.13 support [\#1893](https://github.com/jrnl-org/jrnl/issues/1893)
-- Add calendar heatmap display format [\#1759](https://github.com/jrnl-org/jrnl/pull/1759) ([alichtman](https://github.com/alichtman))
 
 **Fixed bugs:**
 
@@ -27,6 +26,9 @@
 
 **Packaging:**
 
+- Update dependency cryptography to v43.0.3 [\#1942](https://github.com/jrnl-org/jrnl/pull/1942) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency black to v24.10.0 [\#1939](https://github.com/jrnl-org/jrnl/pull/1939) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.23.0 [\#1935](https://github.com/jrnl-org/jrnl/pull/1935) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.9.1 [\#1931](https://github.com/jrnl-org/jrnl/pull/1931) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v43 [\#1928](https://github.com/jrnl-org/jrnl/pull/1928) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.21.0 [\#1927](https://github.com/jrnl-org/jrnl/pull/1927) ([renovate[bot]](https://github.com/apps/renovate))
