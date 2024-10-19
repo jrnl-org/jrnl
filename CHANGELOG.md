@@ -31,6 +31,7 @@
 - Update dependency black to v24.10.0 [\#1939](https://github.com/jrnl-org/jrnl/pull/1939) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.7.0 [\#1938](https://github.com/jrnl-org/jrnl/pull/1938) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.9.2 [\#1937](https://github.com/jrnl-org/jrnl/pull/1937) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency parse-type to v0.6.4 [\#1936](https://github.com/jrnl-org/jrnl/pull/1936) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.23.0 [\#1935](https://github.com/jrnl-org/jrnl/pull/1935) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.9.1 [\#1931](https://github.com/jrnl-org/jrnl/pull/1931) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v43 [\#1928](https://github.com/jrnl-org/jrnl/pull/1928) ([renovate[bot]](https://github.com/apps/renovate))
