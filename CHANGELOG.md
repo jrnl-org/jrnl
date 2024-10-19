@@ -11,8 +11,6 @@
 
 **Fixed bugs:**
 
-- Docs accessibility checker failure - contrast ratio [\#1934](https://github.com/jrnl-org/jrnl/issues/1934)
-- Docs accessibility test runner failing [\#1932](https://github.com/jrnl-org/jrnl/issues/1932)
 - -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
 - Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
 - Ignore color when used in a pipeline [\#1839](https://github.com/jrnl-org/jrnl/issues/1839)
@@ -24,6 +22,8 @@
 - Remove documentation recommendation to install pipx through brew or pip [\#1886](https://github.com/jrnl-org/jrnl/issues/1886)
 - Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
 - Recommend pipx as easiest installation method for all OSes and remove warning about apt [\#1889](https://github.com/jrnl-org/jrnl/pull/1889) ([micahellison](https://github.com/micahellison))
+- Docs accessibility checker failure - contrast ratio [\#1934](https://github.com/jrnl-org/jrnl/issues/1934)
+- Docs accessibility test runner failing [\#1932](https://github.com/jrnl-org/jrnl/issues/1932)
 
 **Packaging:**
 
