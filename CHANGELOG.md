@@ -28,6 +28,7 @@
 **Packaging:**
 
 - Update dependency cryptography to v43.0.3 [\#1942](https://github.com/jrnl-org/jrnl/pull/1942) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency xmltodict to v0.14.2 [\#1940](https://github.com/jrnl-org/jrnl/pull/1940) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency black to v24.10.0 [\#1939](https://github.com/jrnl-org/jrnl/pull/1939) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.7.0 [\#1938](https://github.com/jrnl-org/jrnl/pull/1938) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.9.2 [\#1937](https://github.com/jrnl-org/jrnl/pull/1937) ([renovate[bot]](https://github.com/apps/renovate))
