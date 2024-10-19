@@ -11,6 +11,7 @@
 
 **Fixed bugs:**
 
+- Docs accessibility checker failure - contrast ratio [\#1934](https://github.com/jrnl-org/jrnl/issues/1934)
 - Docs accessibility test runner failing [\#1932](https://github.com/jrnl-org/jrnl/issues/1932)
 - -contains doesn't accept multiple search terms, doesn't work with -and [\#1877](https://github.com/jrnl-org/jrnl/issues/1877)
 - Tests failing on develop branch starting with pytest-bdd 7.1.2 [\#1875](https://github.com/jrnl-org/jrnl/issues/1875)
@@ -23,6 +24,7 @@
 - Recommend pipx as default installation method [\#1888](https://github.com/jrnl-org/jrnl/issues/1888)
 - Remove documentation recommendation to install pipx through brew or pip [\#1886](https://github.com/jrnl-org/jrnl/issues/1886)
 - Document security risks of using a computer that someone else has admin access to [\#1793](https://github.com/jrnl-org/jrnl/issues/1793)
+- Force brighter color with XML syntax highlighting [\#1943](https://github.com/jrnl-org/jrnl/pull/1943) ([micahellison](https://github.com/micahellison))
 - Recommend pipx as easiest installation method for all OSes and remove warning about apt [\#1889](https://github.com/jrnl-org/jrnl/pull/1889) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
@@ -35,6 +37,7 @@
 - Update dependency parse-type to v0.6.4 [\#1936](https://github.com/jrnl-org/jrnl/pull/1936) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.23.0 [\#1935](https://github.com/jrnl-org/jrnl/pull/1935) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.9.1 [\#1931](https://github.com/jrnl-org/jrnl/pull/1931) ([renovate[bot]](https://github.com/apps/renovate))
+- Update peter-evans/create-pull-request action to v7 [\#1929](https://github.com/jrnl-org/jrnl/pull/1929) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v43 [\#1928](https://github.com/jrnl-org/jrnl/pull/1928) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.21.0 [\#1927](https://github.com/jrnl-org/jrnl/pull/1927) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v13.8.1 [\#1926](https://github.com/jrnl-org/jrnl/pull/1926) ([renovate[bot]](https://github.com/apps/renovate))
