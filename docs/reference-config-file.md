@@ -57,6 +57,15 @@ for details.
 If `true`, encrypts your journal using AES. Do not change this
 value for journals that already have data in them.
 
+### extension
+
+For [folder journals](journal-types.md#folder), control the extension of the day
+files. By default it is `.txt`. 
+
+!!! warning
+    Changing the extension after a folder journal has been created will prevent 
+    `jrnl` from finding past entries.
+
 ### template
 The path to a text file to use as a template for new entries. Only works when you
 have the `editor` field configured. If you use a template, the editor's
