@@ -34,7 +34,7 @@ runs:
       echo '::endgroup::'
 
       echo '::group::Other dependencies'
-      poetry install
+      poetry sync
       echo '::endgroup::'
 
       echo 'DEPS_INSTALLED=true' >> $GITHUB_ENV
