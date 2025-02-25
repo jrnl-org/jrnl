@@ -65,7 +65,7 @@ jobs:
       run: |
         pip install poetry
         poetry config --local virtualenvs.in-project true
-        poetry install --no-root --remove-untracked
+        poetry sync --no-root
         npm install
         echo "node_modules/.bin" >> "$GITHUB_PATH"
 
