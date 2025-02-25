@@ -170,7 +170,7 @@ isolated_build = True
 [testenv]
 deps =
   pytest >=6.2,<=8.1
-  pytest-bdd >=6.0
+  pytest-bdd >=8.0
   pytest-xdist >=2.5.0
   parse-type >=0.6.0
   toml >=0.10
