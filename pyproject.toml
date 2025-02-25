@@ -47,7 +47,7 @@ ipdb = "*"
 mkdocs = ">=1.4"
 parse-type = ">=0.6.0"
 poethepoet = "*"
-pytest = ">=6.2,<=8.1"
+pytest = ">=8.1"
 pytest-bdd = ">=8.0"
 pytest-clarity = "*"
 pytest-xdist = ">=2.5.0"
@@ -169,7 +169,7 @@ isolated_build = True
 
 [testenv]
 deps =
-  pytest >=6.2,<=8.1
+  pytest >=8.1
   pytest-bdd >=8.0
   pytest-xdist >=2.5.0
   parse-type >=0.6.0
