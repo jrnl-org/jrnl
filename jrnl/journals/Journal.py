@@ -17,6 +17,7 @@ from jrnl.path import expand_path
 from jrnl.prompt import yesno
 
 from .Entry import Entry
+from jrnl.journals.GoogleDocJournal import GoogleDocJournal
 
 
 class Tag:
@@ -475,7 +476,21 @@ def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journ
     config = config.copy()
     config["journal"] = expand_path(config["journal"])
 
-    if os.path.isdir(config["journal"]):
+    if config.get("type") == "googledoc":
+        # Potentially check for encryption conflicts if GoogleDocJournal doesn't support it
+        if config["encrypt"]:
+            print_msg(
+                Message(
+                    MsgText.ConfigEncryptedForUnencryptableJournalType, # Or a new specific message
+                    MsgStyle.WARNING,
+                    {
+                        "journal_name": journal_name,
+                    },
+                )
+            )
+            # Decide if to proceed or raise error, for now, let's assume it might proceed or be handled by GoogleDocJournal's own encryption logic later
+        return GoogleDocJournal(journal_name, **config).open()
+    elif os.path.isdir(config["journal"]):
         if config["encrypt"]:
             print_msg(
                 Message(

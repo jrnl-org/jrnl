@@ -72,7 +72,24 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
 def get_default_config() -> dict[str, Any]:
     return {
         "version": __version__,
-        "journals": {"default": {"journal": get_default_journal_path()}},
+        "journals": {
+            "default": {"journal": get_default_journal_path()},
+            # Example of how a googledoc journal could be configured.
+            # Users would typically define this in their config file for a specific journal.
+            # "my_gdoc_journal": {
+            #     "type": "googledoc",
+            #     "journal": "my_local_gdoc_backup.txt", # Local backup file
+            #     "google_doc_id": "YOUR_GOOGLE_DOC_ID_HERE",
+            #     "encrypt": False, # Encryption for googledoc might need specific handling
+            #     "default_hour": 9,
+            #     "default_minute": 0,
+            #     "timeformat": "%Y-%m-%d %H:%M",
+            #     "tagsymbols": "@",
+            #     "highlight": True,
+            #     "linewrap": 80,
+            #     "indent_character": "|",
+            # }
+        },
         "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
         "encrypt": False,
         "template": False,
@@ -104,20 +121,38 @@ def get_default_colors() -> dict[str, Any]:
 def scope_config(config: dict, journal_name: str) -> dict:
     if journal_name not in config["journals"]:
         return config
-    config = config.copy()
-    journal_conf = config["journals"].get(journal_name)
-    if isinstance(journal_conf, dict):
-        # We can override the default config on a by-journal basis
-        logging.debug(
-            "Updating configuration with specific journal overrides:\n%s",
-            pretty_repr(journal_conf),
-        )
-        config.update(journal_conf)
-    else:
-        # But also just give them a string to point to the journal file
-        config["journal"] = journal_conf
+    
+    # Start with a copy of the global config
+    scoped_config = config.copy()
+    
+    journal_conf_entry = config["journals"].get(journal_name)
 
-    logging.debug("Scoped config:\n%s", pretty_repr(config))
+    if isinstance(journal_conf_entry, dict):
+        # This is a journal configured with specific options
+        # Merge these specific options into the copied global config
+        logging.debug(
+            "Updating configuration with specific journal overrides for '%s':\n%s",
+            journal_name,
+            pretty_repr(journal_conf_entry),
+        )
+        scoped_config.update(journal_conf_entry)
+    elif isinstance(journal_conf_entry, str):
+        # This is a simple string pointing to a journal file
+        scoped_config["journal"] = journal_conf_entry
+    else:
+        # Should not happen if config is well-formed, but handle gracefully
+        logging.warning(
+            "Journal configuration for '%s' is neither a dict nor a string. Using global defaults.",
+            journal_name
+        )
+        # In this case, scoped_config remains a copy of the global config,
+        # with 'journal' potentially not set or set to a global default if any.
+        # If 'default' journal has a simple path, that might be used, or it might need explicit handling.
+        # For now, we ensure 'journal' key exists if it's a simple string config.
+        # If it's a new journal type like 'googledoc', its 'type' field in journal_conf_entry
+        # would have been handled by the dict branch.
+
+    logging.debug("Scoped config for journal '%s':\n%s", journal_name, pretty_repr(scoped_config))
     return config
 
 
