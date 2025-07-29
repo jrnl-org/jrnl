@@ -15,6 +15,14 @@
 
 **Packaging:**
 
+- Update dependency rich to \>=14.1.0, \<14.2.0 [\#2013](https://github.com/jrnl-org/jrnl/pull/2013) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency requests to v2.32.4 [\#2010](https://github.com/jrnl-org/jrnl/pull/2010) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest to v8.4.1 [\#2009](https://github.com/jrnl-org/jrnl/pull/2009) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency pytest-xdist to v3.8.0 [\#2005](https://github.com/jrnl-org/jrnl/pull/2005) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v45 [\#2001](https://github.com/jrnl-org/jrnl/pull/2001) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.28.3 [\#2000](https://github.com/jrnl-org/jrnl/pull/2000) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.36.0 [\#1993](https://github.com/jrnl-org/jrnl/pull/1993) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.12.5 [\#1991](https://github.com/jrnl-org/jrnl/pull/1991) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v14 [\#1989](https://github.com/jrnl-org/jrnl/pull/1989) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency python to 3.13 [\#1988](https://github.com/jrnl-org/jrnl/pull/1988) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.25.0 [\#1986](https://github.com/jrnl-org/jrnl/pull/1986) ([renovate[bot]](https://github.com/apps/renovate))
