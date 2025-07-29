@@ -1,5 +1,5 @@
 {
   "devDependencies": {
-    "pa11y-ci": "3.1.0"
+    "pa11y-ci": "4.0.0"
   }
 }
