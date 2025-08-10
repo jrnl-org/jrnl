@@ -39,6 +39,14 @@ If a journal key has a value, that value will be interpreted as the path
 to the journal. Otherwise, the journal needs the additional indented key
 `journal` to specify its path.
 
+Example:
+
+```yaml
+journals:
+  default:
+    journal: /home/user/journals
+```
+
 All keys below can be specified for each journal at the same level as the
 `journal` key. If a key conflicts with a top-level key, the journal-specific
 key will be used instead.
@@ -121,3 +129,4 @@ Specifies formatter to use by default. See [formats](formats.md).
 ### version
 `jrnl` automatically updates this field to the version that it is running.
 There is no need to change this field manually.
+
