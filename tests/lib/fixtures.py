@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import os
+import sys
 import tempfile
 from collections import defaultdict
 from collections.abc import Iterable
@@ -9,7 +10,6 @@ from pathlib import Path
 from unittest.mock import Mock
 from unittest.mock import patch
 
-import toml
 from keyring import backend
 from keyring import errors
 from pytest import fixture
@@ -203,8 +203,16 @@ def working_dir(request):
 
 @fixture
 def toml_version(working_dir):
-    pyproject = os.path.join(working_dir, "..", "pyproject.toml")
-    pyproject_contents = toml.load(pyproject)
+    pyproject_path = os.path.join(working_dir, "..", "pyproject.toml")
+    if sys.version_info >= (3, 11):
+        import tomllib
+
+        with open(pyproject_path, "rb") as pyproject:
+            pyproject_contents = tomllib.load(pyproject)
+    else:
+        import toml
+
+        pyproject_contents = toml.load(pyproject_path)
     return pyproject_contents["tool"]["poetry"]["version"]
 
 

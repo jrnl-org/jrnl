@@ -54,7 +54,7 @@ pytest-clarity = "*"
 pytest-xdist = ">=2.5.0"
 requests = "*"
 ruff = ">=0.0.276"
-toml = ">=0.10"
+toml = { version = ">=0.10", markers = "python_version < '3.11'" }
 tox = "*"
 xmltodict = "*"
 
@@ -174,7 +174,7 @@ deps =
   pytest-bdd >=8.0
   pytest-xdist >=2.5.0
   parse-type >=0.6.0
-  toml >=0.10
+  toml >=0.10; python_version < '3.11'
 
 commands = pytest {posargs}
 passenv = HOME
