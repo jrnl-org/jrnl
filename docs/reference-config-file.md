@@ -115,6 +115,28 @@ Current valid values are: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`,
 
 To disable colored output, set the value to `NONE`.
 
+### tag_colors
+A dictionary that allows you to specify custom colors for individual tags.
+This provides more granular control over tag coloring than the general `colors.tags` setting.
+
+Each key should be a tag (including the tag symbol), and each value should be a valid color name.
+Tag matching is case-insensitive, so `@HIGH` and `@high` are treated the same.
+
+Tags not specified in this dictionary will fall back to the color defined in `colors.tags`.
+
+Example:
+```yaml
+tag_colors:
+  "@high": red
+  "@medium": yellow
+  "@low": green
+  "#urgent": magenta
+  "#work": blue
+  "#personal": cyan
+```
+
+Valid color values are the same as for the `colors` dictionary: `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE`, and `NONE`.
+
 ### display_format
 Specifies formatter to use by default. See [formats](formats.md).
 

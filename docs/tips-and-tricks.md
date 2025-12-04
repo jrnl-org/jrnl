@@ -8,6 +8,46 @@ License: https://www.gnu.org/licenses/gpl-3.0.html
 This page contains tips and tricks for using `jrnl`, often in conjunction
 with other tools, including external editors.
 
+## Color-coding tags for organization
+
+You can use color-coded tags to create a visual system for organizing your entries. This is particularly useful for productivity systems, mood tracking, or project management.
+
+Here's an example configuration for a productivity-focused journaling system:
+
+```yaml
+tag_colors:
+  # Priority levels
+  "@high": red
+  "@medium": yellow
+  "@low": green
+
+  # Categories
+  "#work": blue
+  "#personal": cyan
+  "#health": magenta
+
+  # Status indicators
+  "@done": green
+  "@todo": red
+  "@inprogress": yellow
+```
+
+With this setup, when you write entries like:
+
+```sh
+jrnl "Finished the quarterly report @done #work @high. Need to schedule team meeting @todo #work @medium."
+```
+
+The tags will be displayed in different colors, making it easy to scan your entries visually and quickly identify priorities, categories, and status at a glance.
+
+You can then use tag filtering in combination with colors:
+
+```sh
+jrnl #work @high    # Show high-priority work items
+jrnl @todo          # Show all todo items (in red)
+jrnl #health -n 5   # Show recent health-related entries
+```
+
 ## Co-occurrence of tags
 
 If I want to find out how often I mentioned my flatmates Alberto and
