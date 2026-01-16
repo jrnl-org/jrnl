@@ -36,7 +36,8 @@ class Folder(Journal):
         self.entries = []
 
         if os.path.exists(self.config["journal"]):
-            file_extension = self.config.get("extension", DEFAULT_EXTENSION)
+            extension = self.config.get("extension", DEFAULT_EXTENSION)
+            file_extension = normalize_extension(extension)
             filenames = Folder._get_files(self, self.config["journal"], file_extension)
             for filename in filenames:
                 with codecs.open(filename, "r", "utf-8") as f:
@@ -48,7 +49,8 @@ class Folder(Journal):
 
     def write(self) -> None:
         """Writes only the entries that have been modified into proper files."""
-        file_extension = self.config.get("extension", DEFAULT_EXTENSION)
+        extension = self.config.get("extension", DEFAULT_EXTENSION)
+        file_extension = normalize_extension(extension)
 
         # Create a list of dates of modified entries. Start with diff_entry_dates
         modified_dates = self._diff_entry_dates
@@ -129,9 +131,10 @@ class Folder(Journal):
     def _get_files(self, journal_path: str, extension: str) -> list[str]:
         """Searches through sub directories starting with journal_path and find all text
         files that look like entries"""
+        file_extension = normalize_extension(extension)
         for year_folder in Folder._get_year_folders(pathlib.Path(journal_path)):
             for month_folder in Folder._get_month_folders(year_folder):
-                yield from Folder._get_day_files(month_folder, extension)
+                yield from Folder._get_day_files(month_folder, file_extension)
 
     @staticmethod
     def _get_year_folders(path: pathlib.Path) -> list[pathlib.Path]:
@@ -149,8 +152,9 @@ class Folder(Journal):
 
     @staticmethod
     def _get_day_files(path: pathlib.Path, extension: str) -> list[str]:
-        for child in path.glob(DAY_PATTERN + extension):
-            day = str(child.name).replace(extension, "")
+        file_extension = normalize_extension(extension)
+        for child in path.glob(DAY_PATTERN + file_extension):
+            day = str(child.name).replace(file_extension, "")
             if (
                 int(day) > 0
                 and int(day) <= 31
@@ -162,3 +166,9 @@ class Folder(Journal):
                 and child.is_file()
             ):
                 yield str(child)
+
+def normalize_extension(ext: str, default: str = DEFAULT_EXTENSION) -> str:
+    if not ext:
+        return default
+    ext = ext.strip()
+    return ext if ext.startswith(".") else f".{ext}"
