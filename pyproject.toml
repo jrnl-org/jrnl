@@ -4,10 +4,25 @@ description = "Collect your thoughts and notes without leaving the command line.
 license = "GPL-3.0-only"
 dynamic = ["version", "classifiers"]
 readme = "README.md"
-authors = [{name = "Micah Ellison", email = "micahellison@gmail.com"}, {name = "Jonathan Wren", email = "jonathan@nowandwren.com"}, {name = "Manuel Ebert", email = "manuel@1450.me"}, {name = "jrnl contributors", email = "maintainers@jrnl.sh"}]
+authors = [
+  {name = "Micah Ellison", email = "micahellison@gmail.com"},
+  {name = "Jonathan Wren", email = "jonathan@nowandwren.com"},
+  {name = "Manuel Ebert", email = "manuel@1450.me"},
+  {name = "jrnl contributors", email = "maintainers@jrnl.sh"}]
 maintainers = [{name = "Jonathan Wren and Micah Ellison", email = "maintainers@jrnl.sh"}]
 requires-python = '>=3.10.0,<3.14'
-dependencies = ['colorama (>=0.4)', 'cryptography (>=3.0)', 'keyring (>=21.0)', 'parsedatetime (>=2.6)', 'python-dateutil (>=2.8,<3.0)', 'pyxdg (>=0.27.0)', 'ruamel.yaml (>=0.17.22)', 'ruamel.yaml.clib (>=0.2.12)', 'rich (>=14.1.0,<14.2.0)', 'tzlocal (>=4.0)']
+dependencies = [
+  'colorama (>=0.4)',
+  'cryptography (>=3.0)',
+  'keyring (>=21.0)',
+  'parsedatetime (>=2.6)',
+  'python-dateutil (>=2.8,<3.0)',
+  'pyxdg (>=0.27.0)',
+  'ruamel.yaml (>=0.17.22)',
+  'ruamel.yaml.clib (>=0.2.12)',
+  'rich (>=14.1.0,<14.2.0)',
+  'tzlocal (>=4.0)'
+]
 
 [project.urls]
 homepage = "https://jrnl.sh"
@@ -22,9 +37,9 @@ jrnl = 'jrnl.main:run'
 [tool.poetry]
 version = "v4.2.1"
 classifiers = [
-    "Topic :: Office/Business :: News/Diary",
-    "Environment :: Console",
-    "Operating System :: OS Independent"
+  "Topic :: Office/Business :: News/Diary",
+  "Environment :: Console",
+  "Operating System :: OS Independent"
 ]
 
 [tool.poetry.group.dev.dependencies]
@@ -90,11 +105,11 @@ required_plugins = [
   "pytest-bdd"
 ]
 markers = [
-    "todo",
-    "skip_win",
-    "skip_posix",
-    "on_win",
-    "on_posix",
+  "todo",
+  "skip_win",
+  "skip_posix",
+  "on_win",
+  "on_posix",
 ]
 addopts = [
   "--pdbcls=IPython.terminal.debugger:Pdb",
@@ -103,9 +118,9 @@ addopts = [
 ]
 
 filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore:[WinError 32].*",
-    "ignore:[WinError 5].*"
+  "ignore::DeprecationWarning",
+  "ignore:[WinError 32].*",
+  "ignore:[WinError 5].*"
 ]
 
 [tool.ruff]
