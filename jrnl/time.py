@@ -81,7 +81,7 @@ def parse(
             *date[:3],
             hour=23 if inclusive else default_hour or 0,
             minute=59 if inclusive else default_minute or 0,
-            second=59 if inclusive else 0
+            second=59 if inclusive else 0,
         )
     else:
         date = datetime.datetime(*date[:6])

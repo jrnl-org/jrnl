@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.2.1...HEAD)
 
+**Implemented enhancements:**
+
+- Feature Report: Inject a unique identifier \(per journal\) next to the title of an entry [\#2043](https://github.com/jrnl-org/jrnl/issues/2043)
+
 **Fixed bugs:**
 
 - poetry warning -  "poetry.dev-dependencies" section is deprecated [\#1975](https://github.com/jrnl-org/jrnl/issues/1975)
@@ -11,6 +15,7 @@
 
 **Build:**
 
+- Modernize pyproject [\#2046](https://github.com/jrnl-org/jrnl/pull/2046) ([micahellison](https://github.com/micahellison))
 - Remove release step to publish to Homebrew [\#1994](https://github.com/jrnl-org/jrnl/pull/1994) ([micahellison](https://github.com/micahellison))
 
 **Packaging:**
