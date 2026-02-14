@@ -27,7 +27,7 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
 ipdb = "*"
 mkdocs = ">=1.4"
