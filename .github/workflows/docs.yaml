@@ -59,7 +59,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-pa11y-v4
+        key: ${{ runner.os }}-pa11y-${{ secrets.CACHE_STRING }}
 
     - name: Install dependencies
       run: |
