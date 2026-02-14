@@ -8,7 +8,8 @@ authors = [
   {name = "Micah Ellison", email = "micahellison@gmail.com"},
   {name = "Jonathan Wren", email = "jonathan@nowandwren.com"},
   {name = "Manuel Ebert", email = "manuel@1450.me"},
-  {name = "jrnl contributors", email = "maintainers@jrnl.sh"}]
+  {name = "jrnl contributors", email = "maintainers@jrnl.sh"}
+]
 maintainers = [{name = "Jonathan Wren and Micah Ellison", email = "maintainers@jrnl.sh"}]
 requires-python = '>=3.10.0,<3.15'
 dependencies = [
@@ -23,7 +24,6 @@ dependencies = [
   'rich (>=14.1.0,<14.2.0)',
   'tzlocal (>=4.0)' # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 ]
-
 
 [project.urls]
 homepage = "https://jrnl.sh"
@@ -42,8 +42,6 @@ classifiers = [
   "Environment :: Console",
   "Operating System :: OS Independent"
 ]
-
-
 
 [tool.poetry.group.dev.dependencies]
 black = { version = ">=21.5b2", allow-prereleases = true }
@@ -119,7 +117,6 @@ addopts = [
   "--tb=native",
   "-n=auto",
 ]
-
 filterwarnings = [
   "ignore::DeprecationWarning",
   "ignore:[WinError 32].*",
