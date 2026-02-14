@@ -20,6 +20,7 @@
 - Update dependency requests to v2.32.4 [\#2010](https://github.com/jrnl-org/jrnl/pull/2010) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v8.4.1 [\#2009](https://github.com/jrnl-org/jrnl/pull/2009) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.8.0 [\#2005](https://github.com/jrnl-org/jrnl/pull/2005) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruamel.yaml to v0.18.14 [\#2004](https://github.com/jrnl-org/jrnl/pull/2004) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency cryptography to v45 [\#2001](https://github.com/jrnl-org/jrnl/pull/2001) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tox to v4.28.3 [\#2000](https://github.com/jrnl-org/jrnl/pull/2000) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency poethepoet to v0.36.0 [\#1993](https://github.com/jrnl-org/jrnl/pull/1993) ([renovate[bot]](https://github.com/apps/renovate))
