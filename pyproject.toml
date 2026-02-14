@@ -1,3 +1,24 @@
+[project]
+name = "jrnl"
+description = "Collect your thoughts and notes without leaving the command line."
+license = "GPL-3.0-only"
+dynamic = ["version", "classifiers"]
+readme = "README.md"
+authors = [{name = "Micah Ellison", email = "micahellison@gmail.com"}, {name = "Jonathan Wren", email = "jonathan@nowandwren.com"}, {name = "Manuel Ebert", email = "manuel@1450.me"}, {name = "jrnl contributors", email = "maintainers@jrnl.sh"}]
+maintainers = [{name = "Jonathan Wren and Micah Ellison", email = "maintainers@jrnl.sh"}]
+requires-python = '>=3.10.0,<3.14'
+dependencies = ['colorama (>=0.4)', 'cryptography (>=3.0)', 'keyring (>=21.0)', 'parsedatetime (>=2.6)', 'python-dateutil (>=2.8,<3.0)', 'pyxdg (>=0.27.0)', 'ruamel.yaml (>=0.17.22)', 'ruamel.yaml.clib (>=0.2.12)', 'rich (>=14.1.0,<14.2.0)', 'tzlocal (>=4.0)']
+
+[project.urls]
+homepage = "https://jrnl.sh"
+repository = "https://github.com/jrnl-org/jrnl"
+Documentation = "https://jrnl.sh"
+"Issue Tracker" = "https://github.com/jrnl-org/jrnl/issues"
+Funding = "https://opencollective.com/jrnl"
+
+[project.scripts]
+jrnl = 'jrnl.main:run'
+
 [tool.poetry]
 version = "v4.2.1"
 classifiers = [
@@ -140,24 +161,3 @@ deps =
 commands = pytest {posargs}
 passenv = HOME
 """
-
-[project]
-name = "jrnl"
-description = "Collect your thoughts and notes without leaving the command line."
-license = "GPL-3.0-only"
-dynamic = ["version", "classifiers"]
-readme = "README.md"
-authors = [{name = "Micah Ellison", email = "micahellison@gmail.com"}, {name = "Jonathan Wren", email = "jonathan@nowandwren.com"}, {name = "Manuel Ebert", email = "manuel@1450.me"}, {name = "jrnl contributors", email = "maintainers@jrnl.sh"}]
-maintainers = [{name = "Jonathan Wren and Micah Ellison", email = "maintainers@jrnl.sh"}]
-requires-python = '>=3.10.0,<3.14'
-dependencies = ['colorama (>=0.4)', 'cryptography (>=3.0)', 'keyring (>=21.0)', 'parsedatetime (>=2.6)', 'python-dateutil (>=2.8,<3.0)', 'pyxdg (>=0.27.0)', 'ruamel.yaml (>=0.17.22)', 'ruamel.yaml.clib (>=0.2.12)', 'rich (>=14.1.0,<14.2.0)', 'tzlocal (>=4.0)']
-
-[project.urls]
-homepage = "https://jrnl.sh"
-repository = "https://github.com/jrnl-org/jrnl"
-Documentation = "https://jrnl.sh"
-"Issue Tracker" = "https://github.com/jrnl-org/jrnl/issues"
-Funding = "https://opencollective.com/jrnl"
-
-[project.scripts]
-jrnl = 'jrnl.main:run'
