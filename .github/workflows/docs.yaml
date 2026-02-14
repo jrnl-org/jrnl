@@ -73,6 +73,7 @@ jobs:
         poetry config --local virtualenvs.in-project true
         poetry sync --no-root
         npm install
+        npx puppeteer browsers install chrome
         echo "node_modules/.bin" >> "$GITHUB_PATH"
 
     - name: Start docs server
