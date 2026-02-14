@@ -28,7 +28,7 @@ jobs:
         os: [ ubuntu-latest ]
     steps:
       - run: git config --global core.autocrlf false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Check workflow files
         uses: docker://rhysd/actionlint:latest
         with:
