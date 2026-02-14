@@ -61,6 +61,12 @@ jobs:
         path: node_modules
         key: ${{ runner.os }}-pa11y-cache-${{ secrets.CACHE_STRING }}
 
+    - name: puppeteer cache for pa11y
+      uses: actions/cache@v5
+      with:
+        path: home/runner/.cache/puppeteer
+        key: ${{ runner.os }}-puppeteer-cache-${{ secrets.CACHE_STRING }}
+
     - name: Install dependencies
       run: |
         pip install poetry
