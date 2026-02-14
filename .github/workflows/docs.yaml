@@ -56,7 +56,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ secrets.CACHE_STRING }}
 
     - name: npm cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: node_modules
         key: ${{ runner.os }}-pa11y-cache-${{ secrets.CACHE_STRING }}
