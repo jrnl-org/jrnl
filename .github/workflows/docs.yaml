@@ -56,10 +56,16 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}-${{ env.PYTHON_FULL_VERSION }}-${{ secrets.CACHE_STRING }}
 
     - name: npm cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: node_modules
-        key: ${{ runner.os }}-pa11y-v3
+        key: ${{ runner.os }}-pa11y-cache-${{ secrets.CACHE_STRING }}
+
+    - name: puppeteer cache for pa11y
+      uses: actions/cache@v5
+      with:
+        path: home/runner/.cache/puppeteer
+        key: ${{ runner.os }}-puppeteer-cache-${{ secrets.CACHE_STRING }}
 
     - name: Install dependencies
       run: |
@@ -67,6 +73,7 @@ jobs:
         poetry config --local virtualenvs.in-project true
         poetry sync --no-root
         npm install
+        npx puppeteer browsers install chrome
         echo "node_modules/.bin" >> "$GITHUB_PATH"
 
     - name: Start docs server
