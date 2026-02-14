@@ -21,7 +21,7 @@ dependencies = [
   'pyxdg (>=0.27.0)',
   'ruamel.yaml (>=0.17.22)',
   'ruamel.yaml.clib (>=0.2.12)', # https://sourceforge.net/p/ruamel-yaml-clib/tickets/36/
-  'rich (>=14.1.0,<14.2.0)',
+  'rich (>=14.3.2,<14.4.0)',
   'tzlocal (>=4.0)' # https://github.com/regebro/tzlocal/blob/master/CHANGES.txt
 ]
 
