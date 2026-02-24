@@ -4,65 +4,46 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3-beta...HEAD)
 
-**Fixed bugs:**
-
-- Doc missing: Setting location of journal [\#2019](https://github.com/jrnl-org/jrnl/issues/2019)
-
-**Documentation:**
-
-- Add example of how to configure location of a journal [\#2020](https://github.com/jrnl-org/jrnl/pull/2020) ([matthiasbeyer](https://github.com/matthiasbeyer))
-
 ## [v4.3-beta](https://pypi.org/project/jrnl/v4.3-beta/) (2026-02-14)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.2.1...v4.3-beta)
 
 **Implemented enhancements:**
 
-- Feature Report: Inject a unique identifier \(per journal\) next to the title of an entry [\#2043](https://github.com/jrnl-org/jrnl/issues/2043)
 - Add Python 3.14 support [\#1997](https://github.com/jrnl-org/jrnl/issues/1997)
-
-**Fixed bugs:**
-
-- poetry warning -  "poetry.dev-dependencies" section is deprecated [\#1975](https://github.com/jrnl-org/jrnl/issues/1975)
-- Homebrew autobump error on jrnl release [\#1961](https://github.com/jrnl-org/jrnl/issues/1961)
 
 **Build:**
 
 - Modernize pyproject [\#2046](https://github.com/jrnl-org/jrnl/pull/2046) ([micahellison](https://github.com/micahellison))
+- poetry warning -  "poetry.dev-dependencies" section is deprecated [\#1975](https://github.com/jrnl-org/jrnl/issues/1975)
 - Remove release step to publish to Homebrew [\#1994](https://github.com/jrnl-org/jrnl/pull/1994) ([micahellison](https://github.com/micahellison))
+- Drop test dependency on PyPI `toml` package [\#2027](https://github.com/jrnl-org/jrnl/issues/2027)
 
 **Documentation:**
 
+- Add example of how to configure location of a journal [\#2020](https://github.com/jrnl-org/jrnl/pull/2020) ([matthiasbeyer](https://github.com/matthiasbeyer))
 - \[Documentation change\] Update command line reference [\#2032](https://github.com/jrnl-org/jrnl/pull/2032) ([katielin019](https://github.com/katielin019))
 
 **Packaging:**
 
-- Feature Report: Drop test dependency on PyPI `toml` package [\#2027](https://github.com/jrnl-org/jrnl/issues/2027)
-- Update actions/checkout action to v6 [\#2053](https://github.com/jrnl-org/jrnl/pull/2053) ([renovate[bot]](https://github.com/apps/renovate))
-- Update actions/cache action to v5 [\#2052](https://github.com/jrnl-org/jrnl/pull/2052) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to \>=14.3.2,\<14.4.0 [\#2051](https://github.com/jrnl-org/jrnl/pull/2051) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency python to 3.14 [\#2050](https://github.com/jrnl-org/jrnl/pull/2050) ([renovate[bot]](https://github.com/apps/renovate))
-- Update actions/setup-python action to v6 [\#2031](https://github.com/jrnl-org/jrnl/pull/2031) ([renovate[bot]](https://github.com/apps/renovate))
 - Add support for Python 3.14 [\#2015](https://github.com/jrnl-org/jrnl/pull/2015) ([micahellison](https://github.com/micahellison))
+  - Many dependencies and subdependencies were updated as part of this. See [commit message for details](https://github.com/jrnl-org/jrnl/commit/5ed0c620cb7c6eaacdda4b474d1b414d991321e0)
+- Update actions/cache action to v5 [\#2052](https://github.com/jrnl-org/jrnl/pull/2052) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v6 [\#2053](https://github.com/jrnl-org/jrnl/pull/2053) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/setup-python action to v6 [\#2031](https://github.com/jrnl-org/jrnl/pull/2031) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency cryptography to v45 [\#2001](https://github.com/jrnl-org/jrnl/pull/2001) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency jinja2 to v3.1.6 [\#1983](https://github.com/jrnl-org/jrnl/pull/1983) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pa11y-ci to v4 [\#2014](https://github.com/jrnl-org/jrnl/pull/2014) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to \>=14.1.0, \<14.2.0 [\#2013](https://github.com/jrnl-org/jrnl/pull/2013) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency requests to v2.32.4 [\#2010](https://github.com/jrnl-org/jrnl/pull/2010) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency poethepoet to v0.36.0 [\#1993](https://github.com/jrnl-org/jrnl/pull/1993) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest to v8.4.1 [\#2009](https://github.com/jrnl-org/jrnl/pull/2009) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency pytest-xdist to v3.8.0 [\#2005](https://github.com/jrnl-org/jrnl/pull/2005) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency python to 3.14 [\#2050](https://github.com/jrnl-org/jrnl/pull/2050) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency requests to v2.32.4 [\#2010](https://github.com/jrnl-org/jrnl/pull/2010) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to \>=14.3.2,\<14.4.0 [\#2051](https://github.com/jrnl-org/jrnl/pull/2051) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruamel.yaml to v0.18.14 [\#2004](https://github.com/jrnl-org/jrnl/pull/2004) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency cryptography to v45 [\#2001](https://github.com/jrnl-org/jrnl/pull/2001) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.28.3 [\#2000](https://github.com/jrnl-org/jrnl/pull/2000) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency poethepoet to v0.36.0 [\#1993](https://github.com/jrnl-org/jrnl/pull/1993) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.12.5 [\#1991](https://github.com/jrnl-org/jrnl/pull/1991) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency rich to v14 [\#1989](https://github.com/jrnl-org/jrnl/pull/1989) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency python to 3.13 [\#1988](https://github.com/jrnl-org/jrnl/pull/1988) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.25.0 [\#1986](https://github.com/jrnl-org/jrnl/pull/1986) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.28.3 [\#2000](https://github.com/jrnl-org/jrnl/pull/2000) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency tzlocal to v5.3.1 [\#1984](https://github.com/jrnl-org/jrnl/pull/1984) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency jinja2 to v3.1.6 [\#1983](https://github.com/jrnl-org/jrnl/pull/1983) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency poethepoet to v0.33.1 [\#1982](https://github.com/jrnl-org/jrnl/pull/1982) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency pytest to v8.3.5 [\#1981](https://github.com/jrnl-org/jrnl/pull/1981) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency cryptography to v44.0.2 [\#1980](https://github.com/jrnl-org/jrnl/pull/1980) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency ruff to v0.11.3 [\#1978](https://github.com/jrnl-org/jrnl/pull/1978) ([renovate[bot]](https://github.com/apps/renovate))
 
 ## [v4.2.1](https://pypi.org/project/jrnl/v4.2.1/) (2025-02-25)
 
