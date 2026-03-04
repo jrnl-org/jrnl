@@ -120,7 +120,9 @@ def git_auto_commit(
         if has_staged:
             repo.index.commit(message)
             logging.debug("git: committed changes in %s", repo_dir)
-            print_msg(Message(MsgText.GitCommitted, MsgStyle.NORMAL, {"path": repo_dir}))
+            print_msg(
+                Message(MsgText.GitCommitted, MsgStyle.NORMAL, {"path": repo_dir})
+            )
             if push:
                 _push_to_remote(repo)
         else:
