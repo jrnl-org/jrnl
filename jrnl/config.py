@@ -58,7 +58,7 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
     """Supply alt_config_path if using an alternate config through --config-file."""
     config["version"] = __version__
 
-    yaml = YAML(typ="safe")
+    yaml = YAML(typ="rt")
     yaml.default_flow_style = False  # prevents collapsing of tree structure
 
     with open(
@@ -70,9 +70,14 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
 
 
 def get_default_config() -> dict[str, Any]:
+    # Load with a placeholder first, then assign the real path as a Python string.
+    # Inlining the path directly into the YAML string would break on paths that
+    # contain YAML-special characters (colons, backslashes, spaces).
+    default_journal = YAML(typ="rt").load("journal: placeholder\n# git: false\n")
+    default_journal["journal"] = get_default_journal_path()
     return {
         "version": __version__,
-        "journals": {"default": {"journal": get_default_journal_path()}},
+        "journals": {"default": default_journal},
         "editor": os.getenv("VISUAL") or os.getenv("EDITOR") or "",
         "encrypt": False,
         "template": False,
@@ -83,6 +88,8 @@ def get_default_config() -> dict[str, Any]:
         "highlight": True,
         "linewrap": 79,
         "indent_character": "|",
+        "backup_all_jrnls_with_git": False,
+        "auto_push_to_git_remote_after_edit": False,
         "colors": {
             "body": "none",
             "date": "none",
@@ -150,7 +157,7 @@ def load_config(config_path: str) -> dict:
     """Tries to load a config file from YAML."""
     try:
         with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-            yaml = YAML(typ="safe")
+            yaml = YAML(typ="rt")
             yaml.allow_duplicate_keys = False
             return yaml.load(f)
     except constructor.DuplicateKeyError as e:
@@ -164,7 +171,7 @@ def load_config(config_path: str) -> dict:
             )
         )
         with open(config_path, encoding=YAML_FILE_ENCODING) as f:
-            yaml = YAML(typ="safe")
+            yaml = YAML(typ="rt")
             yaml.allow_duplicate_keys = True
             return yaml.load(f)
 

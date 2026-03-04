@@ -4,6 +4,7 @@
 import json
 import os
 import random
+from pathlib import Path
 import shutil
 import string
 from datetime import datetime
@@ -70,6 +71,43 @@ def now_is_str(date_str, mock_factories):
     mock_factories["calendar_parse"] = lambda: patch(
         "jrnl.time.__get_pdt_calendar", return_value=calendar_mock
     )
+
+
+@given("git author info is configured")
+def git_author_env(monkeypatch):
+    monkeypatch.setenv("GIT_AUTHOR_NAME", "Test")
+    monkeypatch.setenv("GIT_AUTHOR_EMAIL", "test@test.com")
+    monkeypatch.setenv("GIT_COMMITTER_NAME", "Test")
+    monkeypatch.setenv("GIT_COMMITTER_EMAIL", "test@test.com")
+
+
+@given("a local git remote is configured for the journal")
+def setup_git_remote(config_on_disk, temp_dir):
+    """Set up a local bare repo as a fake git remote for push tests.
+
+    A bare repo (no working tree) is what a real remote like GitHub stores
+    internally. Git's transport protocol works identically whether the remote
+    URL is a local path or git@github.com:..., so this is a faithful end-to-end
+    test of the push path without needing network access.
+
+    The then step "the git remote should have N git commits" opens this same
+    bare repo directly to verify the push landed.
+    """
+    import git as gitpython
+    from jrnl.config import scope_config
+
+    scoped = scope_config(config_on_disk, "default")
+    journal_path = Path(scoped["journal"]).resolve()
+    repo_dir = journal_path.parent if journal_path.is_file() else journal_path
+
+    try:
+        repo = gitpython.Repo(repo_dir)
+    except gitpython.exc.InvalidGitRepositoryError:
+        repo = gitpython.Repo.init(repo_dir)
+
+    remote_path = Path(temp_dir.name) / "remote.git"
+    gitpython.Repo.init(remote_path, bare=True)
+    repo.create_remote("origin", str(remote_path))
 
 
 @given("we don't have a keyring", target_fixture="keyring")

@@ -135,6 +135,8 @@ class MsgText(Enum):
     JournalEncryptedTo = "Journal encrypted to {path}"
     JournalDecryptedTo = "Journal decrypted to {path}"
     BackupCreated = "Created a backup at {filename}"
+    GitCommitted = "Committed to git repo: {path}"
+    GitPushed = "Pushed to git remote: {url}"
 
     # --- Editor ---#
     WritingEntryStart = """

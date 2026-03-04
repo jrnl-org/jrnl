@@ -3,10 +3,11 @@
 
 import codecs
 import os
-import pathlib
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from jrnl import time
+from jrnl.git import git_auto_commit
 
 from .Journal import Journal
 
@@ -86,6 +87,15 @@ class Folder(Journal):
             if os.stat(filename).st_size <= 0:
                 os.remove(filename)
 
+        # scope_config() flattens global and per-journal settings into a single
+        # dict before the journal is opened, so both keys are in self.config.
+        # Per-journal "git" takes precedence; falls back to the global flag.
+        if self.config.get("git", self.config.get("backup_all_jrnls_with_git", False)):
+            git_auto_commit(
+                Path(self.config["journal"]),
+                push=self.config.get("auto_push_to_git_remote_after_edit", False),
+            )
+
     def delete_entries(self, entries_to_delete: list["Entry"]) -> None:
         """Deletes specific entries from a journal."""
         for entry in entries_to_delete:
@@ -124,26 +134,26 @@ class Folder(Journal):
     def _get_files(journal_path: str) -> list[str]:
         """Searches through sub directories starting with journal_path and find all text
         files that look like entries"""
-        for year_folder in Folder._get_year_folders(pathlib.Path(journal_path)):
+        for year_folder in Folder._get_year_folders(Path(journal_path)):
             for month_folder in Folder._get_month_folders(year_folder):
                 yield from Folder._get_day_files(month_folder)
 
     @staticmethod
-    def _get_year_folders(path: pathlib.Path) -> list[pathlib.Path]:
+    def _get_year_folders(path: Path) -> list[Path]:
         for child in path.glob(YEAR_PATTERN):
             if child.is_dir():
                 yield child
         return
 
     @staticmethod
-    def _get_month_folders(path: pathlib.Path) -> list[pathlib.Path]:
+    def _get_month_folders(path: Path) -> list[Path]:
         for child in path.glob(MONTH_PATTERN):
             if int(child.name) > 0 and int(child.name) <= 12 and path.is_dir():
                 yield child
         return
 
     @staticmethod
-    def _get_day_files(path: pathlib.Path) -> list[str]:
+    def _get_day_files(path: Path) -> list[str]:
         for child in path.glob(DAY_PATTERN):
             if (
                 int(child.stem) > 0

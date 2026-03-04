@@ -4,8 +4,10 @@
 import json
 import os
 import re
+from pathlib import Path
 from xml.etree import ElementTree as ET
 
+import git
 from pytest_bdd import then
 from pytest_bdd.parsers import parse
 from pytest_bdd.parsers import re as pytest_bdd_parsers_re
@@ -418,6 +420,35 @@ def count_elements(number, item, cli_run):
     actual_output = cli_run["stdout"]
     xml_tree = ET.fromstring(actual_output)
     assert len(xml_tree.findall(".//" + item)) == number
+
+
+@then(parse("the journal should have {number:d} git commit"))
+@then(parse("the journal should have {number:d} git commits"))
+def journal_should_have_git_auto_commits(number, config_on_disk):
+    scoped = scope_config(config_on_disk, "default")
+    journal_path = Path(scoped["journal"]).resolve()
+    repo_dir = journal_path.parent if journal_path.is_file() else journal_path
+    repo = git.Repo(repo_dir)
+    assert len(list(repo.iter_commits())) == number
+
+
+@then(parse("the git remote should have {number:d} git commit"))
+@then(parse("the git remote should have {number:d} git commits"))
+def git_remote_should_have_commits(number, temp_dir):
+    # The bare repo created by "a local git remote is configured for the journal"
+    # is a plain directory on disk, so we can open and inspect it directly to
+    # verify that jrnl's push landed commits there.
+    remote_path = Path(temp_dir.name) / "remote.git"
+    repo = git.Repo(remote_path)
+    assert len(list(repo.iter_commits("HEAD"))) == number
+
+
+@then("the journal directory should have no git repo")
+def journal_should_have_no_git_repo(config_on_disk):
+    scoped = scope_config(config_on_disk, "default")
+    journal_path = Path(scoped["journal"]).resolve()
+    repo_dir = journal_path.parent if journal_path.is_file() else journal_path
+    assert not (repo_dir / ".git").exists()
 
 
 @then(parse("the editor {it_should:Should} have been called", SHOULD_DICT))
