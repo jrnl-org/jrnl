@@ -107,7 +107,7 @@ def git_auto_commit(
         # plain `git add <dir>` stages additions and modifications but skips
         # removals (relevant for folder journals, which delete empty day files).
         # For single files, -A is equivalent to plain git add.
-        repo.git.add("-A", path)
+        repo.git.add("-A", str(path))
 
         # Check for staged changes; handle new repo (no HEAD) separately
         if repo.head.is_valid():
@@ -139,7 +139,8 @@ def _push_to_remote(repo: git.Repo) -> None:
         return
     try:
         remote = repo.remotes[0]
-        remote.push()
+        branch = repo.active_branch.name
+        remote.push(refspec=f"{branch}:{branch}")
         logging.debug("git: pushed to %s", remote.name)
         print_msg(Message(MsgText.GitPushed, MsgStyle.NORMAL, {"url": remote.url}))
     except git.exc.GitCommandError as e:
