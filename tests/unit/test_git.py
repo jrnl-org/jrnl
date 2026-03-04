@@ -61,7 +61,7 @@ class TestGitCommitFileJournal:
         repo = git.Repo.init(tmp_path)
         existing_file = tmp_path / "existing.txt"
         existing_file.write_text("pre-existing content")
-        repo.index.add([str(existing_file)])
+        repo.git.add(str(existing_file))
         repo.index.commit("pre-existing commit")
 
         journal_file = tmp_path / "journal.txt"
