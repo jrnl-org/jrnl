@@ -136,6 +136,12 @@ class MsgText(Enum):
     JournalDecryptedTo = "Journal decrypted to {path}"
     BackupCreated = "Created a backup at {filename}"
     GitCommitted = "Committed to git repo: {path}"
+    GitPullFailed = """
+        Git pull failed due to merge conflicts.
+        Please resolve them manually in {path} before using jrnl.
+        """
+    GitPulled = "Pulled new changes from git remote: {url}"
+    GitUpToDate = "Already up to date with git remote: {url}"
     GitPushed = "Pushed to git remote: {url}"
 
     # --- Editor ---#

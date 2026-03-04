@@ -110,6 +110,25 @@ def setup_git_remote(config_on_disk, temp_dir):
     repo.create_remote("origin", str(remote_path))
 
 
+@given("the git remote has a new commit")
+def remote_has_new_commit(config_on_disk, temp_dir):
+    """Push an extra commit to the bare remote so the local repo is behind."""
+    import git as gitpython
+    from jrnl.config import scope_config
+
+    remote_path = Path(temp_dir.name) / "remote.git"
+    # Clone the bare remote into a temporary working copy, commit, and push
+    work_path = Path(temp_dir.name) / "remote_work"
+    work_repo = gitpython.Repo.clone_from(str(remote_path), str(work_path))
+    marker = work_path / "remote_change.txt"
+    marker.write_text("change from remote")
+    work_repo.index.add([str(marker)])
+    work_repo.index.commit("remote commit")
+    work_repo.remotes[0].push()
+    # Clean up the working copy so it doesn't interfere
+    shutil.rmtree(work_path)
+
+
 @given("we don't have a keyring", target_fixture="keyring")
 def we_dont_have_keyring(keyring_type):
     return NoKeyring()

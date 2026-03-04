@@ -10,6 +10,7 @@ from pathlib import Path
 from jrnl import time
 from jrnl.config import validate_journal_name
 from jrnl.git import git_auto_commit
+from jrnl.git import git_pull
 from jrnl.encryption import determine_encryption_method
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -130,6 +131,9 @@ class Journal:
                 )
             )
             self.write()
+
+        if self.config.get("auto_pull_from_git_remote_before_edit", False):
+            git_pull(Path(filename))
 
         text = self._load(filename)
         text = self._decrypt(text)

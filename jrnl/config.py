@@ -61,6 +61,16 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
     yaml = YAML(typ="rt")
     yaml.default_flow_style = False  # prevents collapsing of tree structure
 
+    # Sort top-level keys alphabetically so the config file stays tidy
+    # regardless of the order keys were added over time.
+    from ruamel.yaml.comments import CommentedMap
+
+    if not isinstance(config, CommentedMap):
+        config = CommentedMap(config)
+
+    for key in sorted(config.keys()):
+        config.move_to_end(key)
+
     with open(
         alt_config_path if alt_config_path else get_config_path(),
         "w",
@@ -89,6 +99,7 @@ def get_default_config() -> dict[str, Any]:
         "linewrap": 79,
         "indent_character": "|",
         "backup_all_jrnls_with_git": False,
+        "auto_pull_from_git_remote_before_edit": False,
         "auto_push_to_git_remote_after_edit": False,
         "colors": {
             "body": "none",
