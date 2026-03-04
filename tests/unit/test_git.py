@@ -73,7 +73,9 @@ class TestGitCommitFileJournal:
 
 
 class TestGitCommitFolderJournal:
-    def test_initializes_repo_and_commits_directory(self, tmp_path: Path, git_author_env):
+    def test_initializes_repo_and_commits_directory(
+        self, tmp_path: Path, git_author_env
+    ):
         journal_dir = tmp_path / "journal"
         journal_dir.mkdir()
         (journal_dir / "entry.txt").write_text("entry")
@@ -94,7 +96,9 @@ class TestGitPush:
 
         mock_push.assert_not_called()
 
-    def test_push_called_after_commit_when_push_true(self, tmp_path: Path, git_author_env):
+    def test_push_called_after_commit_when_push_true(
+        self, tmp_path: Path, git_author_env
+    ):
         journal_file = tmp_path / "journal.txt"
         journal_file.write_text("entry")
 

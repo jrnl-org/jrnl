@@ -4,10 +4,10 @@
 import json
 import os
 import random
-from pathlib import Path
 import shutil
 import string
 from datetime import datetime
+from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from xml.etree import ElementTree as ET
@@ -94,6 +94,7 @@ def setup_git_remote(config_on_disk, temp_dir):
     bare repo directly to verify the push landed.
     """
     import git as gitpython
+
     from jrnl.config import scope_config
 
     scoped = scope_config(config_on_disk, "default")
@@ -114,7 +115,6 @@ def setup_git_remote(config_on_disk, temp_dir):
 def remote_has_new_commit(config_on_disk, temp_dir):
     """Push an extra commit to the bare remote so the local repo is behind."""
     import git as gitpython
-    from jrnl.config import scope_config
 
     remote_path = Path(temp_dir.name) / "remote.git"
     # Clone the bare remote into a temporary working copy, commit, and push
