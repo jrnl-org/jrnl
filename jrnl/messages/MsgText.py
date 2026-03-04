@@ -148,9 +148,13 @@ class MsgText(Enum):
         """  # noqa: E501 - the line is still under 88 when dedented
     BackupCreated = "Created a backup at {filename}"
     GitCommitted = "Committed to git repo: {path}"
+    GitPullDiverged = """
+        Local and remote journals have diverged in {path}.
+        Please resolve this manually (e.g. git pull) before using jrnl.
+        """
     GitPullFailed = """
-        Git pull failed due to merge conflicts.
-        Please resolve them manually in {path} before using jrnl.
+        Git fetch failed in {path}.
+        Please resolve this manually before using jrnl.
         """
     GitPulled = "Pulled new changes from git remote: {url}"
     GitUpToDate = "Already up to date with git remote: {url}"
