@@ -9,7 +9,9 @@ from unittest.mock import patch
 import git
 import pytest
 
+from jrnl.exception import JrnlException
 from jrnl.git import git_auto_commit
+from jrnl.git import git_pull
 
 
 @pytest.fixture()
@@ -136,6 +138,79 @@ class TestGitPush:
             _push_to_remote(mock_repo)
 
         assert "git push failed" in caplog.text
+
+
+class TestGitPull:
+    def test_pull_skipped_when_no_repo(self, tmp_path: Path):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("entry")
+
+        # Should not raise — just returns silently
+        git_pull(journal_file)
+
+    def test_pull_skipped_when_no_remote(self, tmp_path: Path, git_author_env, caplog):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("entry")
+        git_auto_commit(journal_file)
+
+        with caplog.at_level(logging.DEBUG):
+            git_pull(journal_file)
+
+        assert "no remotes configured" in caplog.text
+
+    def test_pull_calls_remote(self, tmp_path: Path, git_author_env):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("entry")
+        git_auto_commit(journal_file)
+
+        mock_remote = MagicMock()
+        mock_remote.pull.return_value = None
+        mock_remote.url = "https://example.com/repo.git"
+        repo = git.Repo(tmp_path)
+
+        with patch.object(type(repo), "remotes", new_callable=lambda: property(lambda self: [mock_remote])):
+            # Use a fresh Repo mock instead to avoid property patching issues
+            pass
+
+        # Use mock repo approach
+        mock_repo = MagicMock(spec=git.Repo)
+        mock_repo.remotes = [mock_remote]
+
+        with patch("jrnl.git.git.Repo", return_value=mock_repo):
+            git_pull(journal_file)
+
+        mock_remote.pull.assert_called_once()
+
+    def test_pull_raises_on_conflict(self, tmp_path: Path, git_author_env):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("entry")
+        git_auto_commit(journal_file)
+
+        mock_remote = MagicMock()
+        mock_remote.pull.side_effect = git.exc.GitCommandError("pull", 128)
+        mock_repo = MagicMock(spec=git.Repo)
+        mock_repo.remotes = [mock_remote]
+
+        with patch("jrnl.git.git.Repo", return_value=mock_repo):
+            with pytest.raises(JrnlException):
+                git_pull(journal_file)
+
+    def test_pull_skipped_when_path_does_not_exist(self, tmp_path: Path):
+        nonexistent = tmp_path / "nope" / "journal.txt"
+
+        # Should not raise
+        git_pull(nonexistent)
+
+    def test_pull_handles_directory_path(self, tmp_path: Path, git_author_env, caplog):
+        journal_dir = tmp_path / "journal"
+        journal_dir.mkdir()
+        (journal_dir / "entry.txt").write_text("entry")
+        git_auto_commit(journal_dir)
+
+        with caplog.at_level(logging.DEBUG):
+            git_pull(journal_dir)
+
+        assert "no remotes configured" in caplog.text
 
 
 class TestGitCommitErrorHandling:

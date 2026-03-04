@@ -6,10 +6,57 @@ from pathlib import Path
 
 import git
 
+from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
+
+
+def git_pull(path: Path) -> None:
+    """Pull from the first configured remote, if one exists.
+
+    Raises JrnlException if the pull results in merge conflicts.
+    """
+    path = path.resolve()
+    repo_dir = path.parent if path.is_file() else path
+
+    try:
+        repo = git.Repo(repo_dir)
+    except (git.exc.InvalidGitRepositoryError, git.exc.NoSuchPathError):
+        return
+
+    if not repo.remotes:
+        logging.debug("git: no remotes configured, skipping pull")
+        return
+
+    if not repo.head.is_valid():
+        logging.debug("git: repo has no commits yet, skipping pull")
+        return
+
+    try:
+        remote = repo.remotes[0]
+        head_before = repo.head.commit.hexsha
+        remote.pull(repo.active_branch.name)
+        head_after = repo.head.commit.hexsha
+
+        if head_before != head_after:
+            logging.debug("git: pulled new changes from %s", remote.name)
+            print_msg(Message(MsgText.GitPulled, MsgStyle.NORMAL, {"url": remote.url}))
+        else:
+            logging.debug("git: already up to date with %s", remote.name)
+            print_msg(Message(MsgText.GitUpToDate, MsgStyle.NORMAL, {"url": remote.url}))
+    except git.exc.GitCommandNotFound:
+        logging.warning("git not found; skipping pull")
+    except git.exc.GitCommandError as e:
+        logging.warning("git pull failed: %s", e)
+        raise JrnlException(
+            Message(
+                MsgText.GitPullFailed,
+                MsgStyle.ERROR,
+                {"path": repo_dir},
+            )
+        )
 
 
 def git_auto_commit(

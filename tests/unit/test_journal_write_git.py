@@ -8,6 +8,82 @@ from jrnl.journals.FolderJournal import Folder
 from jrnl.journals.Journal import Journal
 
 
+class TestJournalOpenGitPull:
+    def test_pulls_when_auto_pull_enabled(self, tmp_path: Path):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("")
+        journal = Journal(
+            journal=str(journal_file),
+            git=True,
+            auto_pull_from_git_remote_before_edit=True,
+            encrypt=False,
+        )
+
+        with patch("jrnl.journals.Journal.git_pull") as mock_pull:
+            journal.open()
+
+        mock_pull.assert_called_once_with(Path(str(journal_file)))
+
+    def test_skips_pull_when_auto_pull_disabled(self, tmp_path: Path):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("")
+        journal = Journal(
+            journal=str(journal_file),
+            git=True,
+            auto_pull_from_git_remote_before_edit=False,
+            encrypt=False,
+        )
+
+        with patch("jrnl.journals.Journal.git_pull") as mock_pull:
+            journal.open()
+
+        mock_pull.assert_not_called()
+
+    def test_skips_pull_when_key_absent(self, tmp_path: Path):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("")
+        journal = Journal(journal=str(journal_file), git=True, encrypt=False)
+
+        with patch("jrnl.journals.Journal.git_pull") as mock_pull:
+            journal.open()
+
+        mock_pull.assert_not_called()
+
+
+class TestFolderJournalOpenGitPull:
+    def test_pulls_when_auto_pull_enabled(self, tmp_path: Path):
+        journal = Folder(
+            journal=str(tmp_path),
+            git=True,
+            auto_pull_from_git_remote_before_edit=True,
+        )
+
+        with patch("jrnl.journals.FolderJournal.git_pull") as mock_pull:
+            journal.open()
+
+        mock_pull.assert_called_once_with(Path(str(tmp_path)))
+
+    def test_skips_pull_when_auto_pull_disabled(self, tmp_path: Path):
+        journal = Folder(
+            journal=str(tmp_path),
+            git=True,
+            auto_pull_from_git_remote_before_edit=False,
+        )
+
+        with patch("jrnl.journals.FolderJournal.git_pull") as mock_pull:
+            journal.open()
+
+        mock_pull.assert_not_called()
+
+    def test_skips_pull_when_key_absent(self, tmp_path: Path):
+        journal = Folder(journal=str(tmp_path), git=True)
+
+        with patch("jrnl.journals.FolderJournal.git_pull") as mock_pull:
+            journal.open()
+
+        mock_pull.assert_not_called()
+
+
 class TestJournalWriteGit:
     def test_journal_git_false_overrides_global_git_enabled(self, tmp_path: Path):
         journal_file = tmp_path / "journal.txt"

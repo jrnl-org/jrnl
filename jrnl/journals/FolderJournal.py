@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from jrnl import time
 from jrnl.git import git_auto_commit
+from jrnl.git import git_pull
 from jrnl.path import atomic_write
 
 from .Journal import Journal
@@ -34,6 +35,9 @@ class Folder(Journal):
     def open(self) -> "Folder":
         filenames = []
         self.entries = []
+
+        if self.config.get("auto_pull_from_git_remote_before_edit", False):
+            git_pull(pathlib.Path(self.config["journal"]))
 
         if os.path.exists(self.config["journal"]):
             filenames = Folder._get_files(self.config["journal"])

@@ -40,6 +40,22 @@ Feature: Git auto-commit on journal writes
         | git_push_file_journal.yaml   |
         | git_push_folder_journal.yaml |
 
+    Scenario Outline: Writing an entry pulls from remote when auto_pull_from_git_remote_before_edit is enabled
+        Given git author info is configured
+        And we use the config "<config_file>"
+        And a local git remote is configured for the journal
+        When we run "jrnl 23 july 2013: seed entry."
+        Then we should get no error
+        Given the git remote has a new commit
+        When we run "jrnl 24 july 2013: A cold and stormy day."
+        Then we should get no error
+        And the journal should have 3 git commits
+
+        Examples: Journal types
+        | config_file                  |
+        | git_pull_file_journal.yaml   |
+        | git_pull_folder_journal.yaml |
+
     Scenario Outline: No git commit is made when git is not enabled
         Given we use the config "<config_file>"
         When we run "jrnl 23 july 2013: A cold and stormy day."
