@@ -64,9 +64,26 @@ def save_config(config: dict, alt_config_path: str | None = None) -> None:
     # Sort top-level keys alphabetically so the config file stays tidy
     # regardless of the order keys were added over time.
     from ruamel.yaml.comments import CommentedMap
+    from ruamel.yaml.comments import CommentedSeq
 
     if not isinstance(config, CommentedMap):
         config = CommentedMap(config)
+
+    # When a config was originally loaded from JSON, ruamel's round-trip
+    # loader marks every mapping/sequence with flow style.  We must clear
+    # that flag recursively, otherwise the saved file starts with '{' and
+    # is_config_json() will mistake it for a legacy v1.x config.
+    def _force_block_style(node):
+        if isinstance(node, CommentedMap):
+            node.fa.set_block_style()
+            for v in node.values():
+                _force_block_style(v)
+        elif isinstance(node, CommentedSeq):
+            node.fa.set_block_style()
+            for item in node:
+                _force_block_style(item)
+
+    _force_block_style(config)
 
     for key in sorted(config.keys()):
         config.move_to_end(key)
