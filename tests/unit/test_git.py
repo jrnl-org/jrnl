@@ -158,38 +158,99 @@ class TestGitPull:
 
         assert "no remotes configured" in caplog.text
 
-    def test_pull_calls_remote(self, tmp_path: Path, git_author_env):
+    def test_pull_fetches_remote(self, tmp_path: Path, git_author_env):
         journal_file = tmp_path / "journal.txt"
         journal_file.write_text("entry")
         git_auto_commit(journal_file)
 
+        mock_ref = MagicMock()
+        mock_ref.name = "origin/master"
         mock_remote = MagicMock()
-        mock_remote.pull.return_value = None
+        mock_remote.name = "origin"
+        mock_remote.refs = [mock_ref]
         mock_remote.url = "https://example.com/repo.git"
-        repo = git.Repo(tmp_path)
 
-        with patch.object(type(repo), "remotes", new_callable=lambda: property(lambda self: [mock_remote])):
-            # Use a fresh Repo mock instead to avoid property patching issues
-            pass
-
-        # Use mock repo approach
         mock_repo = MagicMock(spec=git.Repo)
         mock_repo.remotes = [mock_remote]
+        mock_repo.active_branch.name = "master"
+        # Same commit = already up to date
+        mock_commit = MagicMock()
+        mock_repo.head.is_valid.return_value = True
+        mock_repo.head.commit = mock_commit
+        mock_repo.commit.return_value = mock_commit
 
         with patch("jrnl.git.git.Repo", return_value=mock_repo):
             git_pull(journal_file)
 
-        mock_remote.pull.assert_called_once()
+        mock_remote.fetch.assert_called_once()
 
-    def test_pull_raises_on_conflict(self, tmp_path: Path, git_author_env):
+    def test_pull_fast_forwards_when_behind(self, tmp_path: Path, git_author_env):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("entry")
+        git_auto_commit(journal_file)
+
+        mock_ref = MagicMock()
+        mock_ref.name = "origin/master"
+        mock_remote = MagicMock()
+        mock_remote.name = "origin"
+        mock_remote.refs = [mock_ref]
+        mock_remote.url = "https://example.com/repo.git"
+
+        local_commit = MagicMock()
+        remote_commit = MagicMock()
+
+        mock_repo = MagicMock(spec=git.Repo)
+        mock_repo.remotes = [mock_remote]
+        mock_repo.active_branch.name = "master"
+        mock_repo.head.is_valid.return_value = True
+        mock_repo.head.commit = local_commit
+        mock_repo.commit.return_value = remote_commit
+        mock_repo.is_ancestor.return_value = True
+
+        with patch("jrnl.git.git.Repo", return_value=mock_repo):
+            git_pull(journal_file)
+
+        mock_repo.head.reset.assert_called_once_with(
+            remote_commit, index=True, working_tree=True
+        )
+
+    def test_pull_raises_when_diverged(self, tmp_path: Path, git_author_env):
+        journal_file = tmp_path / "journal.txt"
+        journal_file.write_text("entry")
+        git_auto_commit(journal_file)
+
+        mock_ref = MagicMock()
+        mock_ref.name = "origin/master"
+        mock_remote = MagicMock()
+        mock_remote.name = "origin"
+        mock_remote.refs = [mock_ref]
+        mock_remote.url = "https://example.com/repo.git"
+
+        local_commit = MagicMock()
+        remote_commit = MagicMock()
+
+        mock_repo = MagicMock(spec=git.Repo)
+        mock_repo.remotes = [mock_remote]
+        mock_repo.active_branch.name = "master"
+        mock_repo.head.is_valid.return_value = True
+        mock_repo.head.commit = local_commit
+        mock_repo.commit.return_value = remote_commit
+        mock_repo.is_ancestor.return_value = False
+
+        with patch("jrnl.git.git.Repo", return_value=mock_repo):
+            with pytest.raises(JrnlException):
+                git_pull(journal_file)
+
+    def test_pull_raises_on_fetch_error(self, tmp_path: Path, git_author_env):
         journal_file = tmp_path / "journal.txt"
         journal_file.write_text("entry")
         git_auto_commit(journal_file)
 
         mock_remote = MagicMock()
-        mock_remote.pull.side_effect = git.exc.GitCommandError("pull", 128)
+        mock_remote.fetch.side_effect = git.exc.GitCommandError("fetch", 128)
         mock_repo = MagicMock(spec=git.Repo)
         mock_repo.remotes = [mock_remote]
+        mock_repo.head.is_valid.return_value = True
 
         with patch("jrnl.git.git.Repo", return_value=mock_repo):
             with pytest.raises(JrnlException):

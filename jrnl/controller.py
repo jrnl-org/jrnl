@@ -65,6 +65,13 @@ def run(args: "Namespace"):
 
     # --- All the standalone commands are now done --- #
 
+    # CLI flags override config for git operations
+    if args.git_enabled is not None:
+        config["git"] = args.git_enabled
+        config["backup_all_jrnls_with_git"] = args.git_enabled
+        config["auto_pull_from_git_remote_before_edit"] = args.git_enabled
+        config["auto_push_to_git_remote_after_edit"] = args.git_enabled
+
     # Get the journal we're going to be working with
     journal = open_journal(args.journal_name, config)
 

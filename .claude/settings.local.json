@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(poetry:*)"
+      "Bash(poetry:*)",
+      "Bash(git stash:*)",
+      "Bash(git:*)"
     ]
   }
 }

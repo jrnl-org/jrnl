@@ -14,9 +14,16 @@ from jrnl.output import print_msg
 
 
 def git_pull(path: Path) -> None:
-    """Pull from the first configured remote, if one exists.
+    """Fetch from the remote and fast-forward if possible.
 
-    Raises JrnlException if the pull results in merge conflicts.
+    Uses fetch + fast-forward instead of pull for better performance:
+    fetch only updates remote refs without touching the working tree,
+    so the common "already up to date" case is very cheap. We only
+    touch the working tree when there are actual new commits to
+    fast-forward to.
+
+    Raises JrnlException if the histories have diverged (not
+    fast-forwardable) so the user can resolve manually.
     """
     path = path.resolve()
     repo_dir = path.parent if path.is_file() else path
@@ -36,20 +43,45 @@ def git_pull(path: Path) -> None:
 
     try:
         remote = repo.remotes[0]
-        head_before = repo.head.commit.hexsha
-        remote.pull(repo.active_branch.name)
-        head_after = repo.head.commit.hexsha
+        branch = repo.active_branch.name
+        remote.fetch()
 
-        if head_before != head_after:
-            logging.debug("git: pulled new changes from %s", remote.name)
-            print_msg(Message(MsgText.GitPulled, MsgStyle.NORMAL, {"url": remote.url}))
-        else:
+        remote_ref = f"{remote.name}/{branch}"
+        if remote_ref not in [ref.name for ref in remote.refs]:
+            logging.debug("git: remote branch %s not found, skipping pull", remote_ref)
+            return
+
+        local_commit = repo.head.commit
+        remote_commit = repo.commit(remote_ref)
+
+        if local_commit == remote_commit:
             logging.debug("git: already up to date with %s", remote.name)
-            print_msg(Message(MsgText.GitUpToDate, MsgStyle.NORMAL, {"url": remote.url}))
+            print_msg(
+                Message(MsgText.GitUpToDate, MsgStyle.NORMAL, {"url": remote.url})
+            )
+            return
+
+        # Check if remote is a descendant of local (i.e. fast-forwardable)
+        if repo.is_ancestor(local_commit, remote_commit):
+            repo.head.reset(remote_commit, index=True, working_tree=True)
+            logging.debug("git: fast-forwarded to %s", remote.name)
+            print_msg(
+                Message(MsgText.GitPulled, MsgStyle.NORMAL, {"url": remote.url})
+            )
+        else:
+            logging.warning("git: local and remote have diverged")
+            raise JrnlException(
+                Message(
+                    MsgText.GitPullDiverged,
+                    MsgStyle.ERROR,
+                    {"path": repo_dir},
+                )
+            )
+
     except git.exc.GitCommandNotFound:
         logging.warning("git not found; skipping pull")
     except git.exc.GitCommandError as e:
-        logging.warning("git pull failed: %s", e)
+        logging.warning("git fetch failed: %s", e)
         raise JrnlException(
             Message(
                 MsgText.GitPullFailed,
