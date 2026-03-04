@@ -65,9 +65,7 @@ def git_pull(path: Path) -> None:
         if repo.is_ancestor(local_commit, remote_commit):
             repo.head.reset(remote_commit, index=True, working_tree=True)
             logging.debug("git: fast-forwarded to %s", remote.name)
-            print_msg(
-                Message(MsgText.GitPulled, MsgStyle.NORMAL, {"url": remote.url})
-            )
+            print_msg(Message(MsgText.GitPulled, MsgStyle.NORMAL, {"url": remote.url}))
         else:
             logging.warning("git: local and remote have diverged")
             raise JrnlException(
