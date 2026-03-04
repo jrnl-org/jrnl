@@ -1,10 +1,12 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import errno
 import json
 import os
 import random
 import shutil
+import stat
 import string
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +23,19 @@ from jrnl.time import __get_pdt_calendar
 from tests.lib.fixtures import FailedKeyring
 from tests.lib.fixtures import NoKeyring
 from tests.lib.fixtures import TestKeyring
+
+
+def _force_remove_readonly(func, path, exc_info):
+    """Error handler for shutil.rmtree on Windows.
+
+    Git marks pack-file objects as read-only, which prevents
+    os.unlink from removing them.  Clear the flag and retry.
+    """
+    if func in (os.unlink, os.rmdir) and exc_info[1].errno == errno.EACCES:
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise
 
 
 @given(re(r"we (?P<editor_method>\w+) to the editor if opened"))
@@ -125,8 +140,14 @@ def remote_has_new_commit(config_on_disk, temp_dir):
     work_repo.index.add([str(marker)])
     work_repo.index.commit("remote commit")
     work_repo.remotes[0].push()
-    # Clean up the working copy so it doesn't interfere
-    shutil.rmtree(work_path)
+    work_repo.close()
+    # Clean up the working copy so it doesn't interfere.
+    if os.name == "nt":
+        # On Windows, git marks pack files as read-only; we must
+        # clear that flag before unlinking.
+        shutil.rmtree(work_path, onerror=_force_remove_readonly)
+    else:
+        shutil.rmtree(work_path)
 
 
 @given("we don't have a keyring", target_fixture="keyring")
