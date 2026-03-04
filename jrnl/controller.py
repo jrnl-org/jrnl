@@ -3,6 +3,7 @@
 
 import logging
 import sys
+from difflib import get_close_matches
 from typing import TYPE_CHECKING
 
 from jrnl import install
@@ -165,7 +166,18 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     logging.debug(
         f"Append mode: appending raw text to journal '{args.journal_name}': {raw}"
     )
-    journal.new_entry(raw)
+    # Check for similar tags
+    existing_tags = {tag.name for tag in journal.tags}
+    new_entry = journal.new_entry(raw)
+    similar_tags = _check_similar_tags(existing_tags, new_entry.tags)
+    for new_tag, matches in similar_tags.items():
+        print_msg(
+            Message(
+                MsgText.SimilarTagsFound,
+                MsgStyle.WARNING,
+                {"new_tag": new_tag, "similar_tags": ", ".join(matches)},
+            )
+        )
     if args.journal_name != DEFAULT_JOURNAL_KEY:
         print_msg(
             Message(
@@ -453,3 +465,16 @@ def _has_display_args(args: "Namespace") -> bool:
 
 def _has_only_tags(tag_symbols: str, args_text: str) -> bool:
     return all(word[0] in tag_symbols for word in " ".join(args_text).split())
+
+
+def _check_similar_tags(
+    existing_tags: set[str], new_tags: set[str]
+) -> dict[str, list[str]]:
+    """Returns a dict mapping each new tag to a list of similar existing tags."""
+    similar: dict[str, list[str]] = {}
+    for new_tag in new_tags:
+        candidates = existing_tags - {new_tag}
+        matches = get_close_matches(new_tag, candidates, n=3, cutoff=0.8)
+        if matches:
+            similar[new_tag] = matches
+    return similar

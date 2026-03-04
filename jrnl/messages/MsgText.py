@@ -284,6 +284,13 @@ class MsgText(Enum):
 
     KeyringRetrievalFailure = "Failed to retrieve keyring"
 
+    # --- Tags --- #
+    SimilarTagsFound = """
+        The tag '{new_tag}' is similar to: {similar_tags}
+
+        Was this intentional? If not, edit the entry 'jrnl --edit' to fix it.
+        """
+
     # --- Deprecation --- #
     DeprecatedCommand = """
         The command {old_cmd} is deprecated and will be removed from jrnl soon.
