@@ -154,9 +154,7 @@ class Journal:
         if self.config.get("git", self.config.get("backup_all_jrnls_with_git", False)):
             git_auto_commit(
                 Path(filename),
-                push=self.config.get(
-                    "auto_push_to_git_remote_after_edit", False
-                ),
+                push=self.config.get("auto_push_to_git_remote_after_edit", False),
             )
 
     def validate_parsing(self) -> bool:
