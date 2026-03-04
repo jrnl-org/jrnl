@@ -98,6 +98,61 @@ jrnl --config-override display_format fancy --config-override linewrap 20 \
 --config-override colors.title green
 ```
 
+## Git Integration
+
+`jrnl` can automatically version your journal with git. When enabled,
+every write to a journal creates a git commit, and you can optionally
+sync with a remote repository.
+
+### Enabling git for all journals
+
+Set `backup_all_jrnls_with_git` in your config file:
+
+```yaml
+backup_all_jrnls_with_git: true
+```
+
+### Enabling git per-journal
+
+Use the `git` key on an individual journal:
+
+```yaml
+journals:
+  default:
+    journal: ~/journal.txt
+    git: true
+  work:
+    journal: ~/work.txt
+    git: false
+```
+
+Per-journal `git` overrides the global `backup_all_jrnls_with_git`.
+
+### Syncing with a remote
+
+To automatically pull before reading and push after writing:
+
+```yaml
+auto_pull_from_git_remote_before_edit: true
+auto_push_to_git_remote_after_edit: true
+```
+
+If the local and remote histories have diverged, `jrnl` will exit with
+an error and ask you to resolve manually.
+
+### Overriding git settings from the command line
+
+Use `--git` to enable all git operations (commit, pull, push) for a
+single invocation, or `--no-git` to disable them:
+
+```sh
+# Write an entry with git sync even if config has it disabled
+jrnl --git "An important entry"
+
+# Write an entry without any git operations
+jrnl --no-git "A quick draft"
+```
+
 ### Using an alternate config
 
 You can specify an alternate configuration file for the current instance of `jrnl` using `--config-file CONFIG_FILE_PATH` where
