@@ -7,6 +7,7 @@ import pathlib
 from typing import TYPE_CHECKING
 
 from jrnl import time
+from jrnl.git import git_auto_commit
 from jrnl.path import atomic_write
 
 from .Journal import Journal
@@ -98,6 +99,15 @@ class Folder(Journal):
         for filename in filenames:
             if os.stat(filename).st_size <= 0:
                 os.remove(filename)
+
+        # scope_config() flattens global and per-journal settings into a single
+        # dict before the journal is opened, so both keys are in self.config.
+        # Per-journal "git" takes precedence; falls back to the global flag.
+        if self.config.get("git", self.config.get("backup_all_jrnls_with_git", False)):
+            git_auto_commit(
+                pathlib.Path(self.config["journal"]),
+                push=self.config.get("auto_push_to_git_remote_after_edit", False),
+            )
 
     def delete_entries(self, entries_to_delete: list["Entry"]) -> None:
         """Deletes specific entries from a journal."""
