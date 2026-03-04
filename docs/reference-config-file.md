@@ -126,6 +126,34 @@ To disable colored output, set the value to `NONE`.
 ### display_format
 Specifies formatter to use by default. See [formats](formats.md).
 
+### backup_all_jrnls_with_git
+If `true`, automatically initializes a git repository for every journal
+and commits after each write. Can be overridden per-journal with the
+`git` key. See [Git Integration](advanced.md#git-integration) for details.
+
+### git (per-journal)
+Set on an individual journal to enable or disable git auto-commit for
+that journal. Overrides the global `backup_all_jrnls_with_git` setting.
+
+Example:
+```yaml
+journals:
+  default:
+    journal: ~/journal.txt
+    git: true
+```
+
+### auto_pull_from_git_remote_before_edit
+If `true`, fetches from the git remote and fast-forwards the local
+branch before reading journal entries. Requires a remote to be
+configured in the journal's git repository. If the local and remote
+histories have diverged, `jrnl` will exit with an error asking you to
+resolve the conflict manually.
+
+### auto_push_to_git_remote_after_edit
+If `true`, pushes to the git remote after committing a journal write.
+Requires a remote to be configured in the journal's git repository.
+
 ### version
 `jrnl` automatically updates this field to the version that it is running.
 There is no need to change this field manually.
