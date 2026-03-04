@@ -43,6 +43,17 @@ class TestCheckSimilarTags:
         result = _check_similar_tags({"@python", "@work"}, {"@python"})
         assert result == {}
 
+    def test_different_symbols_not_compared(self):
+        # @work and #work differ only in symbol — should not warn, as different
+        # symbols are used intentionally for different tag namespaces
+        result = _check_similar_tags({"#work"}, {"@work"})
+        assert result == {}
+
+    def test_same_symbol_custom_tagsymbol(self):
+        # Works correctly with non-default tag symbols too
+        result = _check_similar_tags({"!work"}, {"!works"})
+        assert result == {"!works": ["!work"]}
+
 
 @pytest.mark.parametrize("export_format", ["pretty", "short"])
 def test_display_search_results_pretty_short(export_format):

@@ -470,11 +470,16 @@ def _has_only_tags(tag_symbols: str, args_text: str) -> bool:
 def _check_similar_tags(
     existing_tags: set[str], new_tags: set[str]
 ) -> dict[str, list[str]]:
-    """Returns a dict mapping each new tag to a list of similar existing tags."""
+    """Returns a dict mapping each new tag to a list of similar existing tags.
+
+    Only compares tags that share the same leading symbol, so that intentionally
+    distinct tag namespaces (e.g. '@' for people, '#' for topics) don't produce
+    false positives.
+    """
     similar: dict[str, list[str]] = {}
     for new_tag in new_tags:
-        candidates = existing_tags - {new_tag}
-        matches = get_close_matches(new_tag, candidates, n=3, cutoff=0.8)
+        same_symbol = {t for t in existing_tags if t[0] == new_tag[0]} - {new_tag}
+        matches = get_close_matches(new_tag, same_symbol, n=3, cutoff=0.8)
         if matches:
             similar[new_tag] = matches
     return similar
