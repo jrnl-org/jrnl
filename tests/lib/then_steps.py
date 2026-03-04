@@ -25,7 +25,11 @@ SHOULD_DICT = {"Should": should_choice}
 
 @then("we should get no error")
 def should_get_no_error(cli_run):
-    assert cli_run["status"] == 0, cli_run["status"]
+    assert cli_run["status"] == 0, (
+        f"status={cli_run['status']}\n"
+        f"stderr={cli_run.get('stderr', '')}\n"
+        f"stdout={cli_run.get('stdout', '')}"
+    )
 
 
 @then("we should get an error")
