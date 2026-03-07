@@ -5,10 +5,13 @@ import datetime
 import logging
 import os
 import re
+from pathlib import Path
 
 from jrnl import time
 from jrnl.config import validate_journal_name
 from jrnl.encryption import determine_encryption_method
+from jrnl.git import git_auto_commit
+from jrnl.git import git_pull
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -129,6 +132,9 @@ class Journal:
             )
             self.write()
 
+        if self.config.get("auto_pull_from_git_remote_before_edit", False):
+            git_pull(Path(filename))
+
         text = self._load(filename)
         text = self._decrypt(text)
         self.entries = self._parse(text)
@@ -142,6 +148,14 @@ class Journal:
         text = self._to_text()
         text = self._encrypt(text)
         self._store(filename, text)
+        # scope_config() flattens global and per-journal settings into a single
+        # dict before the journal is opened, so both keys are in self.config.
+        # Per-journal "git" takes precedence; falls back to the global flag.
+        if self.config.get("git", self.config.get("backup_all_jrnls_with_git", False)):
+            git_auto_commit(
+                Path(filename),
+                push=self.config.get("auto_push_to_git_remote_after_edit", False),
+            )
 
     def validate_parsing(self) -> bool:
         """Confirms that the jrnl is still parsed correctly after conversion to text."""

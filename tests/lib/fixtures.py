@@ -213,7 +213,10 @@ def toml_version(working_dir):
         import toml
 
         pyproject_contents = toml.load(pyproject_path)
-    return pyproject_contents["tool"]["poetry"]["version"]
+    version = pyproject_contents["tool"]["poetry"]["version"]
+    if not version.startswith("v"):
+        version = "v" + version
+    return version
 
 
 @fixture

@@ -46,6 +46,7 @@ def expected_args(**kwargs):
         "text": [],
         "config_override": [],
         "config_file_path": "",
+        "git_enabled": None,
     }
     return {**default_args, **kwargs}
 

@@ -14,6 +14,7 @@ usage: jrnl [--debug] [--help] [--version] [--list] [--encrypt] [--decrypt]
             [--format TYPE] [--tags] [--short]
             [--config-override CONFIG_KEY CONFIG_VALUE]
             [--config-file CONFIG_FILE_PATH]
+            [--git | --no-git]
             [[...]]
 ```
 
@@ -131,6 +132,16 @@ Override configured key-value pair with CONFIG_KV_PAIR for this command invocati
 
 Use the config file at CONFIG_FILE_PATH for this command invocation only.
 Read [advanced usage](./advanced.md) for examples.
+
+## Git Integration
+
+### --git
+Enable all git operations (commit, pull, push) for this invocation,
+regardless of what the config file says.
+
+### --no-git
+Disable all git operations for this invocation, regardless of what the
+config file says.
 
 ## Other Arguments
 

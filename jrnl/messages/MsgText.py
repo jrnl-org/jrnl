@@ -135,6 +135,18 @@ class MsgText(Enum):
     JournalEncryptedTo = "Journal encrypted to {path}"
     JournalDecryptedTo = "Journal decrypted to {path}"
     BackupCreated = "Created a backup at {filename}"
+    GitCommitted = "Committed to git repo: {path}"
+    GitPullDiverged = """
+        Local and remote journals have diverged in {path}.
+        Please resolve this manually (e.g. git pull) before using jrnl.
+        """
+    GitPullFailed = """
+        Git fetch failed in {path}.
+        Please resolve this manually before using jrnl.
+        """
+    GitPulled = "Pulled new changes from git remote: {url}"
+    GitUpToDate = "Already up to date with git remote: {url}"
+    GitPushed = "Pushed to git remote: {url}"
 
     # --- Editor ---#
     WritingEntryStart = """
