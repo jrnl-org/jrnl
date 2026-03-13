@@ -2094,14 +2094,14 @@ files = [
 
 [[package]]
 name = "xmltodict"
-version = "1.0.2"
+version = "1.0.4"
 description = "Makes working with XML feel like you are working with JSON"
 optional = false
 python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "xmltodict-1.0.2-py3-none-any.whl", hash = "sha256:62d0fddb0dcbc9f642745d8bbf4d81fd17d6dfaec5a15b5c1876300aad92af0d"},
-    {file = "xmltodict-1.0.2.tar.gz", hash = "sha256:54306780b7c2175a3967cad1db92f218207e5bc1aba697d887807c0fb68b7649"},
+    {file = "xmltodict-1.0.4-py3-none-any.whl", hash = "sha256:a4a00d300b0e1c59fc2bfccb53d7b2e88c32f200df138a0dd2229f842497026a"},
+    {file = "xmltodict-1.0.4.tar.gz", hash = "sha256:6d94c9f834dd9e44514162799d344d815a3a4faec913717a9ecbfa5be1bb8e61"},
 ]
 
 [package.extras]
