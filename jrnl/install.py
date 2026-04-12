@@ -43,11 +43,20 @@ def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> Non
         for key in missing_keys:
             config_data[key] = default_config[key]
 
+    # Fill in any missing color sub-keys (e.g. "tags") that were added
+    # in newer versions, since the top-level check above won't catch them.
+    missing_color_keys = set()
+    if "colors" in config_data and isinstance(config_data["colors"], dict):
+        for color_key, color_val in default_config["colors"].items():
+            if color_key not in config_data["colors"]:
+                config_data["colors"][color_key] = color_val
+                missing_color_keys.add(color_key)
+
     different_version = config_data["version"] != __version__
     if different_version:
         config_data["version"] = __version__
 
-    if missing_keys or different_version:
+    if missing_keys or missing_color_keys or different_version:
         save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
         print_msg(

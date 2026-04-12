@@ -53,7 +53,9 @@ def highlight_tags_with_background_color(
             if part and part[0] not in config["tagsymbols"]:
                 yield colorize(part, color, bold=is_title), part
             elif part:
-                yield colorize(part, config["colors"]["tags"], bold=True), part
+                yield colorize(
+                    part, config.get("colors", {}).get("tags", "none"), bold=True
+                ), part
 
     config = entry.journal.config
     if config["highlight"]:  # highlight tags
