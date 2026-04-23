@@ -83,3 +83,10 @@ and help us sustain our community.
 
 <a href="https://opencollective.com/jrnl"><img
 src="https://opencollective.com/jrnl/individuals.svg?width=890"></a>
+
+
+## Roadmap
+
+- [ ] Improve documentation
+- [ ] Add more examples
+- [ ] Add testing guide
