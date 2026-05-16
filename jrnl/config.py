@@ -127,7 +127,7 @@ def verify_config_colors(config: dict) -> bool:
     :return: True if all keys are set correctly, False otherwise
     """
     all_valid_colors = True
-    for key, color in config["colors"].items():
+    for key, color in config.get("colors", {}).items():
         upper_color = color.upper()
         if upper_color == "NONE":
             continue

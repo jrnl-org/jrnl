@@ -50,14 +50,18 @@ def highlight_tags_with_background_color(
         :rtype: List of tuples
         :returns [(colorized_str, original_str)]"""
         for part in fragments:
-            if part and part[0] not in config["tagsymbols"]:
+            if part and part[0] not in config.get("tagsymbols", "@#"):
                 yield colorize(part, color, bold=is_title), part
             elif part:
-                yield colorize(part, config["colors"]["tags"], bold=True), part
+                yield colorize(
+                    part, config.get("colors", {}).get("tags", "none"), bold=True
+                ), part
 
     config = entry.journal.config
-    if config["highlight"]:  # highlight tags
-        text_fragments = re.split(entry.tag_regex(config["tagsymbols"]), text)
+    if config.get("highlight", True):  # highlight tags
+        text_fragments = re.split(
+            entry.tag_regex(config.get("tagsymbols", "@#")), text
+        )
 
         # Colorizing tags inside of other blocks of text
         final_text = ""
@@ -69,8 +73,8 @@ def highlight_tags_with_background_color(
             if (
                 all(char in punctuation + whitespace for char in piece)
                 or previous_piece.endswith("\n")
-                or (previous_piece and previous_piece[0] in config["tagsymbols"])
-                or piece[0] in config["tagsymbols"]
+                or (previous_piece and previous_piece[0] in config.get("tagsymbols", "@#"))
+                or piece[0] in config.get("tagsymbols", "@#")
             ):
                 final_text += colorized_piece
             else:
