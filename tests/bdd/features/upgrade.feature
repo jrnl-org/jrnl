@@ -69,3 +69,9 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
         Then the output should contain "features/journals/missing.journal does not exist"
         And the output should contain "We're all done"
         And we should get no error
+        
+        Scenario: Config that resembles JSON but has a current version is not flagged for upgrade
+        Given we use the config "json_style_with_version.json"
+        When we run "jrnl --short"
+        Then we should get no error
+        And the output should not contain "Welcome to jrnl"
