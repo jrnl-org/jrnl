@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...HEAD)
+
+**Fixed bugs:**
+
+- KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
+
 ## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3-beta...v4.3)
