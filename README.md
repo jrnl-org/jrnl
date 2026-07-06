@@ -57,6 +57,7 @@ Our maintainers help keep the lights on for the project:
 
  * Jonathan Wren ([wren](https://github.com/wren))
  * Micah Ellison ([micahellison](https://github.com/micahellison))
+ * Aaron Lichtman ([alichtman](https://github.com/alichtman))
 
 Please thank them if you like `jrnl`!
 
