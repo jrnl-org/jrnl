@@ -17,6 +17,23 @@ if on_windows():
     colorama.init()
 
 
+def get_tag_color(tag: str, config: dict) -> str:
+    """
+    Returns the configured color for a specific tag,
+    falling back to the general tags color.
+
+    :param tag: The tag string (e.g., "@high", "#work")
+    :param config: The journal configuration dict
+    :return: Color name to be used with colorize()
+    """
+    # Check if tag_colors is configured and if this specific tag has a color
+    if "tag_colors" in config and tag.lower() in config["tag_colors"]:
+        return config["tag_colors"][tag.lower()]
+
+    # Fall back to the general tags color
+    return config.get("colors", {}).get("tags", "none")
+
+
 def colorize(string: str, color: str, bold: bool = False) -> str:
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
@@ -53,7 +70,9 @@ def highlight_tags_with_background_color(
             if part and part[0] not in config["tagsymbols"]:
                 yield colorize(part, color, bold=is_title), part
             elif part:
-                yield colorize(part, config["colors"]["tags"], bold=True), part
+                # Check if this tag has a specific color configured
+                tag_color = get_tag_color(part, config)
+                yield colorize(part, tag_color, bold=True), part
 
     config = entry.journal.config
     if config["highlight"]:  # highlight tags

@@ -89,6 +89,7 @@ def get_default_config() -> dict[str, Any]:
             "tags": "none",
             "title": "none",
         },
+        "tag_colors": {},
     }
 
 
@@ -143,6 +144,26 @@ def verify_config_colors(config: dict) -> bool:
                 )
             )
             all_valid_colors = False
+
+    # Verify tag_colors if present
+    if "tag_colors" in config:
+        for tag, color in config["tag_colors"].items():
+            upper_color = color.upper()
+            if upper_color == "NONE":
+                continue
+            if not getattr(colorama.Fore, upper_color, None):
+                print_msg(
+                    Message(
+                        MsgText.InvalidColor,
+                        MsgStyle.NORMAL,
+                        {
+                            "key": f"tag_colors.{tag}",
+                            "color": color,
+                        },
+                    )
+                )
+                all_valid_colors = False
+
     return all_valid_colors
 
 
