@@ -110,8 +110,29 @@ def print_msgs(
     console = _get_console(stderr=True)
 
     if get_input:
-        return str(console.input(prompt=decorated_text, password=hide_input))
+        return _prompt_user(decorated_text, hide_input)
     console.print(decorated_text, new_line_start=style.prepend_newline)
+
+
+def _prompt_user(rich_prompt, hide_input: bool = False) -> str:
+    """Get user input using prompt_toolkit for correct CJK wide character support.
+
+    Python's built-in input() relies on readline, which uses the system's wcswidth()
+    to calculate cursor positions. Many systems incorrectly report CJK characters as
+    1 column wide instead of 2, causing cursor misalignment during editing.
+    prompt_toolkit reimplements terminal width calculations in Python using the wcwidth
+    library, which correctly handles east-asian wide characters.
+    """
+    from prompt_toolkit import prompt as pt_prompt
+    from prompt_toolkit.formatted_text import ANSI
+
+    # Render the Rich renderable to an ANSI string to use as the visible prompt
+    render_console = Console(force_terminal=True, highlight=False)
+    with render_console.capture() as capture:
+        render_console.print(rich_prompt, end="")
+    ansi_prompt = capture.get()
+
+    return pt_prompt(ANSI(ansi_prompt), is_password=hide_input)
 
 
 def _get_console(stderr: bool = True) -> Console:

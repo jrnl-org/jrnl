@@ -66,7 +66,7 @@ def get_text_from_stdin() -> str:
     )
 
     try:
-        raw = sys.stdin.read()
+        raw = _read_multiline()
     except KeyboardInterrupt:
         logging.error("Append mode: keyboard interrupt")
         raise JrnlException(
@@ -75,6 +75,24 @@ def get_text_from_stdin() -> str:
         )
 
     return raw
+
+
+def _read_multiline() -> str:
+    """Read multiline input using prompt_toolkit for correct CJK wide character
+    cursor handling. Ctrl+D on a blank line submits (matching original behavior)."""
+    from prompt_toolkit import prompt as pt_prompt
+    from prompt_toolkit.key_binding import KeyBindings
+
+    kb = KeyBindings()
+
+    @kb.add("c-d")
+    def handle_ctrl_d(event):
+        event.current_buffer.validate_and_handle()
+
+    try:
+        return pt_prompt("", multiline=True, key_bindings=kb)
+    except EOFError:
+        return ""
 
 
 def get_template_path(template_path: str, jrnl_template_dir: str) -> str:
