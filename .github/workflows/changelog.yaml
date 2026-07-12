@@ -104,7 +104,7 @@ jobs:
           sed -i -e :a -e '/^\n*$/{$d;N;};/\n$/ba' "$FILENAME"
 
       - name: Generate changelog
-        uses: heinrichreimer/action-github-changelog-generator@v2.1.1
+        uses: heinrichreimer/action-github-changelog-generator@v2.4
         with:
           # see: https://github.com/heinrichreimer/action-github-changelog-generator
           repo: jrnl-org/jrnl
