@@ -17,12 +17,10 @@ Feature: Encrypting and decrypting journals
             """
 
 
-    @todo
     Scenario: Trying to decrypt an already unencrypted journal
-        # This should warn the user that the journal is already encrypted
         Given we use the config "simple.yaml"
         When we run "jrnl --decrypt"
-        Then the config for journal "default" should contain "encrypt: false"
+        Then the error output should contain "is not encrypted"
         When we run "jrnl -99 --short"
         Then the output should be
             """
