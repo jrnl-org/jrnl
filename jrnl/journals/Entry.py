@@ -8,6 +8,7 @@ import re
 from typing import TYPE_CHECKING
 
 from jrnl.color import colorize
+from jrnl.color import get_color
 from jrnl.color import highlight_tags_with_background_color
 from jrnl.output import wrap_with_ansi_colors
 
@@ -110,7 +111,7 @@ class Entry:
 
         date_str = colorize(
             self.date.strftime(self.journal.config["timeformat"]),
-            self.journal.config["colors"]["date"],
+            get_color(self.journal.config, "date"),
             bold=True,
         )
 
@@ -134,13 +135,13 @@ class Entry:
                 + highlight_tags_with_background_color(
                     self,
                     self.title,
-                    self.journal.config["colors"]["title"],
+                    get_color(self.journal.config, "title"),
                     is_title=True,
                 ),
                 columns,
             )
             body = highlight_tags_with_background_color(
-                self, self.body.rstrip(" \n"), self.journal.config["colors"]["body"]
+                self, self.body.rstrip(" \n"), get_color(self.journal.config, "body")
             )
 
             body = wrap_with_ansi_colors(body, columns - len(indent))
@@ -148,11 +149,11 @@ class Entry:
                 # Without explicitly colorizing the indent character, it will lose its
                 # color after a tag appears.
                 body = "\n".join(
-                    colorize(indent, self.journal.config["colors"]["body"]) + line
+                    colorize(indent, get_color(self.journal.config, "body")) + line
                     for line in body.splitlines()
                 )
 
-            body = colorize(body, self.journal.config["colors"]["body"])
+            body = colorize(body, get_color(self.journal.config, "body"))
         else:
             title = (
                 date_str
@@ -160,12 +161,12 @@ class Entry:
                 + highlight_tags_with_background_color(
                     self,
                     self.title.rstrip("\n"),
-                    self.journal.config["colors"]["title"],
+                    get_color(self.journal.config, "title"),
                     is_title=True,
                 )
             )
             body = highlight_tags_with_background_color(
-                self, self.body.rstrip("\n "), self.journal.config["colors"]["body"]
+                self, self.body.rstrip("\n "), get_color(self.journal.config, "body")
             )
 
         # Suppress bodies that are just blanks and new lines.

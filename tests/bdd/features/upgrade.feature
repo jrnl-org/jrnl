@@ -80,6 +80,12 @@ Feature: Upgrading Journals from 1.x.x to 2.x.x
                 tags: none
             """
 
+    Scenario: Displaying a tagged entry should not crash when the colors config is missing the tags key
+        Given we use the config "missing_tags_color.yaml"
+        When we run "jrnl -n 1"
+        Then we should get no error
+        And the output should contain "I met with @dan"
+
     Scenario: Upgrade and parse journals with little endian date format
         Given we use the config "upgrade_from_195_little_endian_dates.json"
         When we run "jrnl -9 --short" and enter "Y"
