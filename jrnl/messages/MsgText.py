@@ -142,9 +142,8 @@ class MsgText(Enum):
         Upgrading "{journal_name}" from {from_version} to {to_version} encryption.
         """
     EncryptionUpgraded = """
-        Successfully upgraded "{journal_name}" from {from_version} to
-        {to_version} encryption.
-        """
+        Successfully upgraded "{journal_name}" from {from_version} to {to_version} encryption.
+        """  # noqa: E501 - the line is still under 88 when dedented
     BackupCreated = "Created a backup at {filename}"
 
     # --- Editor ---#
