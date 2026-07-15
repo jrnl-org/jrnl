@@ -21,6 +21,7 @@
 
 **Merged pull requests:**
 
+- fix: write journal files atomically to avoid corruption on crash [\#2096](https://github.com/jrnl-org/jrnl/pull/2096) ([alichtman](https://github.com/alichtman))
 - fix: emit error when running --decrypt on an unencrypted journal [\#2095](https://github.com/jrnl-org/jrnl/pull/2095) ([alichtman](https://github.com/alichtman))
 - chore: upgrade all deps [\#2091](https://github.com/jrnl-org/jrnl/pull/2091) ([alichtman](https://github.com/alichtman))
 - fix: don't crash on missing or invalid color config values [\#2089](https://github.com/jrnl-org/jrnl/pull/2089) ([alichtman](https://github.com/alichtman))
