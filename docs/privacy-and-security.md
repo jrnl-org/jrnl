@@ -39,9 +39,35 @@ want to "store the password in your keychain." This keychain is accessed using
 the [Python keyring library](https://pypi.org/project/keyring/), which has different
 behavior depending on your operating system.
 
+If your password isn't found in the keychain and you're prompted to type it in
+manually — for example while just reading a journal, not only when first
+encrypting it — `jrnl` will also offer to save that password to the keychain
+once it's confirmed to work. To turn this off, set
+`prompt_to_add_to_keyring_on_successful_decrypt: false` in your config.
+
 In Windows, the keychain is the Windows Credential Manager (WCM), which can't be locked
 and can be accessed by any other application running under your username. If this is
 a concern for you, you may not want to store your password.
+
+### Using 1Password instead of your OS keychain
+
+Set `keyring_backend: onepassword` in your config (globally, or as a
+per-journal override) to store passwords as Login items in
+[1Password](https://1password.com) instead of your OS keychain. This requires
+the [1Password CLI](https://developer.1password.com/docs/cli/get-started/)
+(`op`) to be installed and signed in. Each journal's password is stored under
+its own item, titled `jrnl/<journal name>`, so multiple journals don't
+collide.
+
+If `keyring_backend` isn't already set and `jrnl` detects the `op` CLI on your
+system, it will ask whether you'd like to use 1Password the next time you
+create a new password; answering yes saves the choice to your config so
+you're not asked again.
+
+If `keyring_backend` is unset (the default), or if `op` isn't installed,
+`jrnl` uses your OS keychain as before. If a `keyring_backend` lookup or
+store fails for any reason, `jrnl` falls back to prompting for your password
+interactively.
 
 ## Shell history
 

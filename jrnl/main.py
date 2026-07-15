@@ -28,7 +28,6 @@ def configure_logger(debug: bool = False) -> None:
         handlers=[RichHandler()],
     )
     logging.getLogger("parsedatetime").setLevel(logging.INFO)
-    logging.getLogger("keyring.backend").setLevel(logging.ERROR)
     logging.debug("Logging start")
 
 

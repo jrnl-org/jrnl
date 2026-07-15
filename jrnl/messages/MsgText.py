@@ -246,6 +246,10 @@ class MsgText(Enum):
     PasswordDidNotMatch = "Passwords did not match, please try again"
     WrongPasswordTryAgain = "Wrong password, try again"
     PasswordStoreInKeychain = "Do you want to store the password in your keychain?"
+    UseOnePasswordInstead = (
+        "1Password CLI (op) detected. Use 1Password instead of your OS "
+        "keychain to store this password?"
+    )
 
     # --- Search --- #
     NothingToDelete = """
@@ -292,7 +296,33 @@ class MsgText(Enum):
           https://pypi.org/project/keyring/
         """
 
-    KeyringRetrievalFailure = "Failed to retrieve keyring"
+    OnePasswordCliNotFound = """
+        keyring_backend is set to 'onepassword', but the 1Password CLI ('op')
+        was not found. Install it from:
+          https://developer.1password.com/docs/cli/get-started/
+        """
+
+    KeyringRetrievalFailure = (
+        "Failed to retrieve keyring password for '{journal_name}' from {backend}:"
+        " {reason}"
+    )
+    KeyringStorageFailure = (
+        "Failed to store keyring password for '{journal_name}' in {backend}:"
+        " {reason}"
+    )
+    PasswordStoredInKeyring = (
+        "Password for '{journal_name}' stored in keyring via {backend}"
+        " under entry {keyring_key}"
+    )
+    PasswordRetrievedFromKeyring = (
+        "Password for '{journal_name}' retrieved from keyring via {backend}"
+        " under entry {keyring_key}"
+    )
+    OnePasswordItemWillBeOverwritten = (
+        "An existing 1Password item '{keyring_key}' will be overwritten with"
+        " the new password for '{journal_name}'. Continue?"
+    )
+    KeyringStoreCancelled = "Password for '{journal_name}' was not stored in keyring"
 
     # --- Deprecation --- #
     DeprecatedCommand = """

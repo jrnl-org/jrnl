@@ -133,6 +133,10 @@ class TestJrnlv1JournalUpgrade:
                 "jrnl.encryption.BasePasswordEncryption.prompt_password",
                 return_value=password,
             ),
+            patch(
+                "jrnl.encryption.BasePasswordEncryption.DEFAULT_PROMPT_TO_ADD_TO_KEYRING_ON_SUCCESSFUL_DECRYPT",
+                False,
+            ),
         ):
             result = journal._decrypt(ciphertext)
 
@@ -154,6 +158,10 @@ class TestJrnlv1JournalUpgrade:
                 "jrnl.encryption.BasePasswordEncryption.prompt_password",
                 return_value=password,
             ),
+            patch(
+                "jrnl.encryption.BasePasswordEncryption.DEFAULT_PROMPT_TO_ADD_TO_KEYRING_ON_SUCCESSFUL_DECRYPT",
+                False,
+            ),
         ):
             journal._decrypt(ciphertext)
             v3_ciphertext = journal._encrypt(plaintext)
@@ -174,6 +182,10 @@ class TestJrnlv1JournalUpgrade:
             patch(
                 "jrnl.encryption.BasePasswordEncryption.prompt_password",
                 return_value=password,
+            ),
+            patch(
+                "jrnl.encryption.BasePasswordEncryption.DEFAULT_PROMPT_TO_ADD_TO_KEYRING_ON_SUCCESSFUL_DECRYPT",
+                False,
             ),
         ):
             journal._decrypt(ciphertext)

@@ -8,7 +8,26 @@ from jrnl.output import print_msg
 from jrnl.output import print_msgs
 
 
-def create_password(journal_name: str) -> str:
+def offer_to_store_password_in_keyring(
+    password: str, journal_name: str, config: dict | None = None
+) -> None:
+    if not yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
+        return
+
+    from jrnl.keyring import set_keyring_password
+
+    if config is not None and not config.get("keyring_backend"):
+        from jrnl.encryption.OnePasswordBackend import OnePasswordBackend
+
+        if OnePasswordBackend.is_available() and yesno(
+            Message(MsgText.UseOnePasswordInstead), default=False
+        ):
+            config["keyring_backend"] = "onepassword"
+
+    set_keyring_password(password, journal_name, config)
+
+
+def create_password(journal_name: str, config: dict | None = None) -> str:
     kwargs = {
         "get_input": True,
         "hide_input": True,
@@ -34,10 +53,7 @@ def create_password(journal_name: str) -> str:
 
         print_msg(Message(MsgText.PasswordDidNotMatch, MsgStyle.ERROR))
 
-    if yesno(Message(MsgText.PasswordStoreInKeychain), default=True):
-        from jrnl.keyring import set_keyring_password
-
-        set_keyring_password(pw, journal_name)
+    offer_to_store_password_in_keyring(pw, journal_name, config)
 
     return pw
 

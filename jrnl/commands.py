@@ -143,9 +143,8 @@ def postconfig_encrypt(
 
     # Update the config, if we encrypted in place
     if not args.filename:
-        update_config(
-            original_config, {"encrypt": True}, args.journal_name, force_local=True
-        )
+        updates = {"encrypt": True, **journal._pending_config_updates}
+        update_config(original_config, updates, args.journal_name, force_local=True)
         save_config(original_config)
 
     return 0
@@ -176,9 +175,8 @@ def postconfig_decrypt(
 
     # Update the config, if we decrypted in place
     if not args.filename:
-        update_config(
-            original_config, {"encrypt": False}, args.journal_name, force_local=True
-        )
+        updates = {"encrypt": False, **journal._pending_config_updates}
+        update_config(original_config, updates, args.journal_name, force_local=True)
         save_config(original_config)
 
     return 0

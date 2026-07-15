@@ -66,7 +66,7 @@ Feature: Using the installed keyring
             this password will not be saved in keyring
             y
             """
-        Then the output should contain "Failed to retrieve keyring"
+        Then the output should contain "Failed to store keyring password"
         And we should get no error
         And we should be prompted for a password
         And the config for journal "default" should contain "encrypt: true"
@@ -101,6 +101,46 @@ Feature: Using the installed keyring
         And we should be prompted for a password
         And the output should contain "Failed to retrieve keyring"
         And the output should contain "2013-06-10 15:40 Life is good"
+
+
+    Scenario: Offering to save a manually entered password to keyring after decrypt
+        Given we use the config "encrypted.yaml"
+        And we have a keyring
+        And we are offered to save the password after decrypt
+        And we use the password "bad doggie no biscuit" if prompted
+        When we run "jrnl --short" and enter
+            """
+            y
+            """
+        Then we should get no error
+        And we should be prompted for a password
+        And the output should contain "stored in keyring"
+        When we run "jrnl --short"
+        Then we should not be prompted for a password
+        And the output should be
+            """
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
+            """
+
+
+    Scenario: Declining to save a manually entered password to keyring after decrypt
+        Given we use the config "encrypted.yaml"
+        And we have a keyring
+        And we are offered to save the password after decrypt
+        And we use the password "bad doggie no biscuit" if prompted
+        When we run "jrnl --short" and enter
+            """
+            n
+            """
+        Then we should get no error
+        And we should be prompted for a password
+        And the output should not contain "stored in keyring"
+        When we run "jrnl --short" and enter
+            """
+            n
+            """
+        Then we should be prompted for a password
 
 
     Scenario: Mistyping your password
