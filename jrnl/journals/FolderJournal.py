@@ -7,6 +7,7 @@ import pathlib
 from typing import TYPE_CHECKING
 
 from jrnl import time
+from jrnl.path import atomic_write
 
 from .Journal import Journal
 
@@ -77,8 +78,7 @@ class Folder(Journal):
                 ):
                     write_entries.append(e)
             journal = "\n".join([e.__str__() for e in write_entries])
-            with codecs.open(filename, "w", "utf-8") as journal_file:
-                journal_file.write(journal)
+            atomic_write(filename, journal.encode("utf-8"))
         # look for and delete empty files
         filenames = []
         filenames = Folder._get_files(self.config["journal"])

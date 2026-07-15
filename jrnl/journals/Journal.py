@@ -13,6 +13,7 @@ from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
 from jrnl.output import print_msg
+from jrnl.path import atomic_write
 from jrnl.path import expand_path
 from jrnl.prompt import yesno
 
@@ -252,8 +253,7 @@ class Journal:
             return f.read()
 
     def _store(self, filename: str, text: bytes) -> None:
-        with open(filename, "wb") as f:
-            f.write(text)
+        atomic_write(filename, text)
 
     def _parse(self, journal_txt: str) -> list[Entry]:
         """Parses a journal that's stored in a string and returns a list of entries"""
