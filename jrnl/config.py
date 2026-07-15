@@ -8,12 +8,12 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 
-import colorama
 from rich.pretty import pretty_repr
 from ruamel.yaml import YAML
 from ruamel.yaml import constructor
 
 from jrnl import __version__
+from jrnl.color import is_valid_color
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -132,10 +132,9 @@ def verify_config_colors(config: dict) -> bool:
     """
     all_valid_colors = True
     for key, color in config["colors"].items():
-        upper_color = color.upper() if isinstance(color, str) else ""
-        if upper_color == "NONE":
+        if isinstance(color, str) and color.upper() == "NONE":
             continue
-        if not getattr(colorama.Fore, upper_color, None):
+        if not is_valid_color(color):
             print_msg(
                 Message(
                     MsgText.InvalidColor,

@@ -17,26 +17,31 @@ if on_windows():
     colorama.init()
 
 
+def is_valid_color(color: object) -> bool:
+    """True if `color` is a string naming a real colorama.Fore attribute
+    (e.g. "red"). Used to guard against missing, typo'd, or wrong-typed
+    color config values before handing them to colorama."""
+    return isinstance(color, str) and hasattr(colorama.Fore, color.upper())
+
+
 def get_color(config: dict, key: str) -> str:
     """Safely looks up config["colors"][key], falling back to "NONE" if the
     key is missing or its value isn't a valid colorama.Fore color name.
     Configs created before a given color key existed, hand-edited configs,
     or configs with a typo'd/wrong-typed color value should mean "don't
     colorize", not crash."""
-    color = config["colors"].get(key, "NONE")
-    if isinstance(color, str) and hasattr(colorama.Fore, color.upper()):
-        return color
-    return "NONE"
+    color = config.get("colors", {}).get(key, "NONE")
+    return color if is_valid_color(color) else "NONE"
 
 
 def colorize(string: str, color: str, bold: bool = False) -> str:
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
     it returns the string without any modification."""
-    color_escape = getattr(colorama.Fore, color.upper(), None)
-    if not color_escape:
+    if not is_valid_color(color):
         return string
-    elif not bold:
+    color_escape = getattr(colorama.Fore, color.upper())
+    if not bold:
         return color_escape + string + colorama.Fore.RESET
     else:
         return colorama.Style.BRIGHT + color_escape + string + colorama.Style.RESET_ALL
