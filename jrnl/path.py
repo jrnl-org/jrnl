@@ -1,7 +1,10 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import contextlib
+import os
 import os.path
+import tempfile
 from pathlib import Path
 
 import xdg.BaseDirectory
@@ -70,3 +73,19 @@ def get_config_path() -> str:
     except JrnlException:
         return os.path.join(home_dir(), DEFAULT_CONFIG_NAME)
     return os.path.join(config_directory_path, DEFAULT_CONFIG_NAME)
+
+
+def atomic_write(filename: str, data: bytes) -> None:
+    """Writes data to filename atomically, so a crash or kill mid-write can't
+    leave the file truncated or corrupted. Writes to a temp file in the same
+    directory, then replaces the target in a single filesystem operation."""
+    dirname = os.path.dirname(filename) or "."
+    fd, tmp_path = tempfile.mkstemp(dir=dirname, prefix=".jrnl-", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+        os.replace(tmp_path, filename)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.remove(tmp_path)
+        raise

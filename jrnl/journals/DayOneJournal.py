@@ -4,6 +4,7 @@
 import contextlib
 import datetime
 import fnmatch
+import io
 import os
 import platform
 import plistlib
@@ -19,6 +20,7 @@ import tzlocal
 
 from jrnl import __title__
 from jrnl import __version__
+from jrnl.path import atomic_write
 
 from .Entry import Entry
 from .Journal import Journal
@@ -155,8 +157,9 @@ class DayOne(Journal):
                     entry_plist["Weather"] = entry.weather
 
                 # plistlib expects a binary object
-                with fn.open(mode="wb") as f:
-                    plistlib.dump(entry_plist, f, fmt=plistlib.FMT_XML, sort_keys=False)
+                buf = io.BytesIO()
+                plistlib.dump(entry_plist, buf, fmt=plistlib.FMT_XML, sort_keys=False)
+                atomic_write(str(fn), buf.getvalue())
 
         for entry in self._deleted_entries:
             filename = os.path.join(
