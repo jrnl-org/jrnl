@@ -21,6 +21,7 @@
 
 **Merged pull requests:**
 
+- fix: emit error when running --decrypt on an unencrypted journal [\#2095](https://github.com/jrnl-org/jrnl/pull/2095) ([alichtman](https://github.com/alichtman))
 - chore: upgrade all deps [\#2091](https://github.com/jrnl-org/jrnl/pull/2091) ([alichtman](https://github.com/alichtman))
 - fix: don't crash on missing or invalid color config values [\#2089](https://github.com/jrnl-org/jrnl/pull/2089) ([alichtman](https://github.com/alichtman))
 - Drop Python 3.10 support [\#2088](https://github.com/jrnl-org/jrnl/pull/2088) ([alichtman](https://github.com/alichtman))
