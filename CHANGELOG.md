@@ -7,6 +7,12 @@
 **Fixed bugs:**
 
 - KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
+- 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
+- Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
+
+**Packaging:**
+
+- Drop Python 3.10 support [\#2055](https://github.com/jrnl-org/jrnl/issues/2055)
 
 ## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)
 
