@@ -5,7 +5,6 @@ import contextlib
 import getpass
 import hashlib
 import os
-import platform
 import stat
 import tempfile
 
@@ -16,6 +15,7 @@ from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
+from jrnl.os_compat import on_windows
 from jrnl.output import print_msg
 from jrnl.prompt import yesno
 
@@ -110,7 +110,7 @@ def _process_cmdline(pid: str) -> str | None:
 
 
 def _kill_command(pid: str) -> str:
-    if platform.system() == "Windows":
+    if on_windows():
         return f"taskkill /F /PID {pid}"
     return f"kill -9 {pid}"
 
