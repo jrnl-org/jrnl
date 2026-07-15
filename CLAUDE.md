@@ -87,11 +87,11 @@ YAML-based config with per-journal overrides. Journals can be a string (path) or
 - **BDD tests**: `tests/bdd/features/*.feature` files using pytest-bdd. Step implementations in `tests/lib/` (`given_steps.py`, `when_steps.py`, `then_steps.py`, `fixtures.py`).
 - **Unit tests**: `tests/unit/test_*.py`
 - OS-specific markers: `@skip_win`, `@skip_posix`, `@on_win`, `@on_posix`
-- CI tests across Python 3.10–3.14 on Linux, macOS, and Windows
+- CI tests across Python 3.11–3.14 on Linux, macOS, and Windows
 
 ## Code Style
 
 - Formatter: black (line length 88)
-- Linter: ruff (target Python 3.10)
+- Linter: ruff (target Python 3.11)
 - Import sorting: ruff with isort rules, force single-line imports
 - Build system: poetry-core

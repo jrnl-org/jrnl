@@ -9,7 +9,7 @@ License: https://www.gnu.org/licenses/gpl-3.0.html
 
 The easiest way to install `jrnl` is using
 [pipx](https://pipx.pypa.io/stable/installation/)
-with [Python](https://www.python.org/) 3.10+:
+with [Python](https://www.python.org/) 3.11+:
 
 ``` sh
 pipx install jrnl
