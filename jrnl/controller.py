@@ -41,7 +41,8 @@ def run(args: "Namespace"):
     4. Load specified journal
     5. Start append mode, or search mode
     6. Perform actions with results from search mode (if needed)
-    7. Persist any config changes (automatic encryption upgrade) that occurred during the journal write
+    7. Persist any config changes (automatic encryption upgrade) that occurred
+       during the journal write
     8. Profit
     """
 

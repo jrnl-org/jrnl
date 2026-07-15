@@ -9,7 +9,9 @@ import re
 from jrnl import time
 from jrnl.config import validate_journal_name
 from jrnl.encryption import determine_encryption_method_for_writing
-from jrnl.messages import Message, MsgStyle, MsgText
+from jrnl.messages import Message
+from jrnl.messages import MsgStyle
+from jrnl.messages import MsgText
 from jrnl.output import print_msg
 from jrnl.path import expand_path
 from jrnl.prompt import yesno
@@ -102,7 +104,6 @@ class Journal:
 
     def _decrypt(self, text: bytes) -> str:
         from jrnl.encryption import detect_decryption_method
-        from jrnl.encryption.Jrnlv1Encryption import Jrnlv1Encryption
 
         if self.encryption_method is None:
             self._reconfigure_encryption_method()
@@ -112,11 +113,12 @@ class Journal:
         )
 
         # detect_decryption_method returns the class that matches the on-disk format.
-        # encryption_cls is the latest encryption method for encrypted journals (currently Jrnlv3Encryption).
+        # encryption_cls is the latest encryption method for encrypted journals
+        # (currently Jrnlv3Encryption).
 
-        # If they match, reuse the existing instance (password already loaded, no re-prompt).
-        # If they differ (legacy data on a v3-configured journal), create a fresh decryptor
-        # and flag the journal for upgrade on the next write.
+        # If they match, reuse the existing instance (password already loaded,
+        # no re-prompt). If they differ (legacy data on a v3-configured journal),
+        # create a fresh decryptor and flag the journal for upgrade on the next write.
         encryption_cls = type(self.encryption_method)
         if decryption_cls is encryption_cls:
             decryptor = self.encryption_method
@@ -127,7 +129,8 @@ class Journal:
         result = decryptor.decrypt(text)
 
         if self._is_upgrading_encryption():
-            # Share the now-known password to the v3 write instance so it won't re-prompt
+            # Share the now-known password to the v3 write instance so it
+            # won't re-prompt
             self.encryption_method.password = decryptor.password
             self.encryption_method.check_keyring = False
             print_msg(

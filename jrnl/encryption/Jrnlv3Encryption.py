@@ -14,12 +14,17 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 from .BasePasswordEncryption import BasePasswordEncryption
 
-# v3 file format: b'JRNLv3' (6 bytes) || uint16_be header_len (2 bytes) || JSON header || Fernet token
+# v3 file format:
+#   b'JRNLv3'       6 bytes, magic prefix
+#   header_len      2 bytes, big-endian uint16
+#   header          JSON, `header_len` bytes
+#   token           Fernet token, remaining bytes
 #
 # JSON header fields:
 #   "salt"  — base64url-encoded 16-byte salt (required)
 #
-# Additional fields can be added to the header in future without a format version bump.
+# Additional fields can be added to the header in future without a format
+# version bump.
 JRNL_V3_FILE_FORMAT_PREFIX = b"JRNLv3"
 SALT_LENGTH = 16
 _HEADER_LEN_STRUCT_FORMAT = ">H"  # uint16_be, max header size 65,535 bytes

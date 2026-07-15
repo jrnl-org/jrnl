@@ -14,7 +14,8 @@ from .BasePasswordEncryption import BasePasswordEncryption
 
 
 def is_v2_encrypted(data: bytes) -> bool:
-    """Return True if data is a v2 Fernet-token journal (base64url, starts with 'gAAAAA')."""
+    """Return True if data is a v2 Fernet-token journal (base64url,
+    starts with 'gAAAAA')."""
     return data.startswith(b"gAAAAA")
 
 

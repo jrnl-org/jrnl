@@ -6,7 +6,6 @@ import os
 from unittest.mock import patch
 
 import pytest
-
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher
@@ -105,7 +104,8 @@ class TestJrnlv1Encryption:
         )
 
     def test_detect_decryption_method_v3_prefix_beats_jrnlv1_config(self):
-        """v3 magic prefix always wins, even if config still says 'jrnlv1' (post-upgrade safe)."""
+        """v3 magic prefix always wins, even if config still says
+        'jrnlv1' (post-upgrade safe)."""
         v3 = Jrnlv3Encryption("test_journal", {})
         v3.password = "pw"
         ciphertext = v3._encrypt("entry")
@@ -116,7 +116,8 @@ class TestJrnlv1Encryption:
 
 
 class TestJrnlv1JournalUpgrade:
-    """Test that a journal with encrypt: 'jrnlv1' decrypts with v1 and re-encrypts as v3."""
+    """Test that a journal with encrypt: 'jrnlv1' decrypts with v1 and
+    re-encrypts as v3."""
 
     def test_decrypt_uses_v1_and_flags_upgrade(self):
         password = "test password"

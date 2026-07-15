@@ -234,9 +234,10 @@ def journal_file_should_be_jrnlv3(config_on_disk):
     journal_path = scoped_config["journal"]
     with open(journal_path, "rb") as f:
         data = f.read()
-    assert is_v3_encrypted(
-        data
-    ), f"Expected journal file to be v3 encrypted, observed file header of: {data[:20]!r}"
+    assert is_v3_encrypted(data), (
+        f"Expected journal file to be v3 encrypted, "
+        f"observed file header of: {data[:20]!r}"
+    )
 
 
 @then("we should be prompted for a password")

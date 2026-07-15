@@ -142,7 +142,8 @@ class MsgText(Enum):
         Upgrading "{journal_name}" from {from_version} to {to_version} encryption.
         """
     EncryptionUpgraded = """
-        Successfully upgraded "{journal_name}" from {from_version} to {to_version} encryption.
+        Successfully upgraded "{journal_name}" from {from_version} to
+        {to_version} encryption.
         """
     BackupCreated = "Created a backup at {filename}"
 
