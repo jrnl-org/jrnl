@@ -46,7 +46,7 @@ def preconfig_version(_) -> None:
     from jrnl import __version__
 
     output = f"""
-    {__title__} {__version__}
+    {__title__} v{__version__}
 
     Copyright © 2012-2023 jrnl contributors
 
