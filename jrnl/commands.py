@@ -162,6 +162,15 @@ def postconfig_decrypt(
 
     journal = open_journal(args.journal_name, config)
 
+    if not journal.config["encrypt"]:
+        raise JrnlException(
+            Message(
+                MsgText.JournalNotEncrypted,
+                MsgStyle.ERROR,
+                {"journal_name": args.journal_name},
+            )
+        )
+
     journal.config["encrypt"] = False
     journal._reconfigure_encryption_method()
 
