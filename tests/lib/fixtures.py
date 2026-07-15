@@ -2,7 +2,6 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import os
-import sys
 import tempfile
 from collections import defaultdict
 from collections.abc import Iterable
@@ -203,16 +202,11 @@ def working_dir(request):
 
 @fixture
 def toml_version(working_dir):
+    import tomllib
+
     pyproject_path = os.path.join(working_dir, "..", "pyproject.toml")
-    if sys.version_info >= (3, 11):
-        import tomllib
-
-        with open(pyproject_path, "rb") as pyproject:
-            pyproject_contents = tomllib.load(pyproject)
-    else:
-        import toml
-
-        pyproject_contents = toml.load(pyproject_path)
+    with open(pyproject_path, "rb") as pyproject:
+        pyproject_contents = tomllib.load(pyproject)
     return pyproject_contents["tool"]["poetry"]["version"]
 
 
