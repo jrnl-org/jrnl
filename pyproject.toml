@@ -15,8 +15,10 @@ requires-python = '>=3.11.0,<3.15'
 dependencies = [
   'colorama (>=0.4)', # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
   'cryptography (>=3.0)', # https://cryptography.io/en/latest/api-stability.html
+  'filelock (>=3.30.0)', # https://github.com/tox-dev/filelock -- 3.30.0 fixed contenders truncating the lock file (#591)
   'keyring (>=21.0)', # https://github.com/jaraco/keyring#integration
   'parsedatetime (>=2.6)',
+  'psutil (>=5.9)', # https://github.com/giampaolo/psutil -- cross-platform process lookup for lock-holder diagnostics
   'python-dateutil (>=2.8,<3.0)', # https://github.com/dateutil/dateutil/blob/master/RELEASING
   'pyxdg (>=0.27.0)',
   'ruamel.yaml (>=0.17.22)',

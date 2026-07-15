@@ -72,28 +72,27 @@ def postconfig_import(
     args: argparse.Namespace, config: dict, original_config: dict
 ) -> int:
     from jrnl.config import flush_pending_config_updates
-    from jrnl.journals import open_journal
+    from jrnl.journals import open_journal_with_lock
     from jrnl.plugins import get_importer
 
     # Requires opening the journal
-    journal = open_journal(args.journal_name, config)
+    with open_journal_with_lock(args.journal_name, config) as journal:
+        format = args.export if args.export else "jrnl"
 
-    format = args.export if args.export else "jrnl"
-
-    if (importer := get_importer(format)) is None:
-        raise JrnlException(
-            Message(
-                MsgText.ImporterNotFound,
-                MsgStyle.ERROR,
-                {"format": format},
+        if (importer := get_importer(format)) is None:
+            raise JrnlException(
+                Message(
+                    MsgText.ImporterNotFound,
+                    MsgStyle.ERROR,
+                    {"format": format},
+                )
             )
-        )
 
-    importer.import_(journal, args.filename)
+        importer.import_(journal, args.filename)
 
-    # Persist any config changes that occurred during the import's journal.write()
-    # (e.g. a v1/v2 upgrade to v3 triggered by the write).
-    flush_pending_config_updates(journal, original_config, args.journal_name)
+        # Persist any config changes that occurred during the import's
+        # journal.write() (e.g. a v1/v2 upgrade to v3 triggered by the write).
+        flush_pending_config_updates(journal, original_config, args.journal_name)
 
     return 0
 
@@ -107,46 +106,47 @@ def postconfig_encrypt(
     """
     from jrnl.config import update_config
     from jrnl.install import save_config
-    from jrnl.journals import open_journal
+    from jrnl.journals import open_journal_with_lock
 
     # Open the journal
-    journal = open_journal(args.journal_name, config)
+    with open_journal_with_lock(args.journal_name, config) as journal:
+        if hasattr(journal, "can_be_encrypted") and not journal.can_be_encrypted:
+            raise JrnlException(
+                Message(
+                    MsgText.CannotEncryptJournalType,
+                    MsgStyle.ERROR,
+                    {
+                        "journal_name": args.journal_name,
+                        "journal_type": journal.__class__.__name__,
+                    },
+                )
+            )
 
-    if hasattr(journal, "can_be_encrypted") and not journal.can_be_encrypted:
-        raise JrnlException(
+        # If journal is encrypted, create new password
+        if journal.config["encrypt"]:
+            logging.debug("Journal already encrypted. Re-encrypting...")
+            print(
+                f"Journal {journal.name} is already encrypted. Create a new password."
+            )
+
+        journal.config["encrypt"] = True
+
+        journal.write(args.filename, force_new_password=True)
+
+        print_msg(
             Message(
-                MsgText.CannotEncryptJournalType,
-                MsgStyle.ERROR,
-                {
-                    "journal_name": args.journal_name,
-                    "journal_type": journal.__class__.__name__,
-                },
+                MsgText.JournalEncryptedTo,
+                MsgStyle.NORMAL,
+                {"path": args.filename or journal.config["journal"]},
             )
         )
 
-    # If journal is encrypted, create new password
-    if journal.config["encrypt"]:
-        logging.debug("Journal already encrypted. Re-encrypting...")
-        print(f"Journal {journal.name} is already encrypted. Create a new password.")
-
-    journal.config["encrypt"] = True
-
-    journal.write(args.filename, force_new_password=True)
-
-    print_msg(
-        Message(
-            MsgText.JournalEncryptedTo,
-            MsgStyle.NORMAL,
-            {"path": args.filename or journal.config["journal"]},
-        )
-    )
-
-    # Update the config, if we encrypted in place
-    if not args.filename:
-        update_config(
-            original_config, {"encrypt": True}, args.journal_name, force_local=True
-        )
-        save_config(original_config)
+        # Update the config, if we encrypted in place
+        if not args.filename:
+            update_config(
+                original_config, {"encrypt": True}, args.journal_name, force_local=True
+            )
+            save_config(original_config)
 
     return 0
 
@@ -158,36 +158,35 @@ def postconfig_decrypt(
     """Decrypts to file. If filename is not set, we encrypt the journal file itself."""
     from jrnl.config import update_config
     from jrnl.install import save_config
-    from jrnl.journals import open_journal
+    from jrnl.journals import open_journal_with_lock
 
-    journal = open_journal(args.journal_name, config)
+    with open_journal_with_lock(args.journal_name, config) as journal:
+        if not journal.config["encrypt"]:
+            raise JrnlException(
+                Message(
+                    MsgText.JournalNotEncrypted,
+                    MsgStyle.ERROR,
+                    {"journal_name": args.journal_name},
+                )
+            )
 
-    if not journal.config["encrypt"]:
-        raise JrnlException(
+        journal.config["encrypt"] = False
+        journal._reconfigure_encryption_method()
+
+        journal.write(args.filename)
+        print_msg(
             Message(
-                MsgText.JournalNotEncrypted,
-                MsgStyle.ERROR,
-                {"journal_name": args.journal_name},
+                MsgText.JournalDecryptedTo,
+                MsgStyle.NORMAL,
+                {"path": args.filename or journal.config["journal"]},
             )
         )
 
-    journal.config["encrypt"] = False
-    journal._reconfigure_encryption_method()
-
-    journal.write(args.filename)
-    print_msg(
-        Message(
-            MsgText.JournalDecryptedTo,
-            MsgStyle.NORMAL,
-            {"path": args.filename or journal.config["journal"]},
-        )
-    )
-
-    # Update the config, if we decrypted in place
-    if not args.filename:
-        update_config(
-            original_config, {"encrypt": False}, args.journal_name, force_local=True
-        )
-        save_config(original_config)
+        # Update the config, if we decrypted in place
+        if not args.filename:
+            update_config(
+                original_config, {"encrypt": False}, args.journal_name, force_local=True
+            )
+            save_config(original_config)
 
     return 0

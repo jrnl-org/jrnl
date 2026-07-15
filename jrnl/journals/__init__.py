@@ -2,4 +2,5 @@ from .DayOneJournal import DayOne
 from .Entry import Entry
 from .FolderJournal import Folder
 from .Journal import Journal
-from .Journal import open_journal
+from .Journal import open_journal_with_lock
+from .Journal import open_journal_without_lock
