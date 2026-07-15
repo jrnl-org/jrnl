@@ -134,6 +134,16 @@ class MsgText(Enum):
     JournalEncrypted = "Journal will be encrypted"
     JournalEncryptedTo = "Journal encrypted to {path}"
     JournalDecryptedTo = "Journal decrypted to {path}"
+    LegacyEncryptionJournalOpened = """
+        The journal "{journal_name}" uses the legacy {version} encryption format. Save a
+        change to the journal to upgrade to more secure encryption.
+        """
+    EncryptionUpgrading = """
+        Upgrading "{journal_name}" from {from_version} to {to_version} encryption.
+        """
+    EncryptionUpgraded = """
+        Successfully upgraded "{journal_name}" from {from_version} to {to_version} encryption.
+        """
     BackupCreated = "Created a backup at {filename}"
 
     # --- Editor ---#

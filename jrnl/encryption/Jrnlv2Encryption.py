@@ -13,9 +13,18 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from .BasePasswordEncryption import BasePasswordEncryption
 
 
+def is_v2_encrypted(data: bytes) -> bool:
+    """Return True if data is a v2 Fernet-token journal (base64url, starts with 'gAAAAA')."""
+    return data.startswith(b"gAAAAA")
+
+
 class Jrnlv2Encryption(BasePasswordEncryption):
+    @property
+    def version(self) -> str:
+        return "v2"
+
     def __init__(self, *args, **kwargs) -> None:
-        # Salt is hard-coded
+        # Salt is hard-coded. See https://github.com/jrnl-org/jrnl/security/advisories/GHSA-rhx6-37mm-5q9r
         self._salt: bytes = b"\xf2\xd5q\x0e\xc1\x8d.\xde\xdc\x8e6t\x89\x04\xce\xf8"
         self._key: bytes = b""
 
@@ -47,9 +56,8 @@ class Jrnlv2Encryption(BasePasswordEncryption):
         key = kdf.derive(password)
         self._key = base64.urlsafe_b64encode(key)
 
-    def _encrypt(self, text: str) -> bytes:
-        logging.debug("encrypting")
-        return Fernet(self._key).encrypt(text.encode(self._encoding))
+    def _encrypt(self, _: str) -> bytes:
+        raise NotImplementedError
 
     def _decrypt(self, text: bytes) -> str | None:
         logging.debug("decrypting")

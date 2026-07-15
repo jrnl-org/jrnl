@@ -12,10 +12,32 @@ real world. There are a number of ways that people can at least partially
 compromise your `jrnl` data. See the [Privacy and Security](./privacy-and-security.md) page
 for more information.
 
-## Encrypting and Decrypting
+There is one relevant security advisory for encryption-related security issues: [GHSA-rhx6-37mm-5q9r](https://github.com/jrnl-org/jrnl/security/advisories/GHSA-rhx6-37mm-5q9r).
 
-Existing plain text journal files can be encrypted using the `--encrypt`
-command:
+## Encryption Behavior Overview
+
+- Encrypted journals are now written in the jrnl v3 format.
+- jrnl v1 and v2 encrypted files are read-only formats. They can still be opened and decrypted, but new encrypted writes are always v3.
+
+## jrnl v3 Encrypted File Format
+
+jrnl v3 uses a random 16-byte salt per encrypted write, stored in a JSON
+header after a magic prefix. This avoids the static-salt weakness from v2.
+
+File layout:
+
+| Field | Size | Description |
+| --- | --- | --- |
+| `JRNLv3` | 6 bytes | Magic prefix |
+| `header_len` | 2 bytes (uint16 BE) | Length of JSON header |
+| JSON header | `header_len` bytes | Includes `salt` (base64url-encoded 16-byte salt) |
+| Fernet token | Remaining bytes | Ciphertext |
+
+Additional header fields may be added in future without changing the format version.
+
+## Encrypting and Decrypting from the CLI
+
+To encrypt a journal, run:
 
 ``` sh
 jrnl --encrypt [FILENAME]
@@ -28,7 +50,7 @@ This command also works to change the password for a journal file that is
 already encrypted. `jrnl` will prompt you for the current password and then new
 password.
 
-Conversely,
+Conversely, run this to decrypt a journal:
 
 ``` sh
 jrnl --decrypt [FILENAME]
@@ -84,7 +106,7 @@ decrypt your journal.
 
 !!! note
     These are only examples, and are only here to illustrate that your journal files
-    will still be recoverable even if `jrnl` isn't around anymore. Please use 
+    will still be recoverable even if `jrnl` isn't around anymore. Please use
     `jrnl --decrypt` if available.
 
 **Example for jrnl v2 files**:

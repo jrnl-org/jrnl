@@ -8,10 +8,8 @@ import re
 
 from jrnl import time
 from jrnl.config import validate_journal_name
-from jrnl.encryption import determine_encryption_method
-from jrnl.messages import Message
-from jrnl.messages import MsgStyle
-from jrnl.messages import MsgText
+from jrnl.encryption import determine_encryption_method_for_writing
+from jrnl.messages import Message, MsgStyle, MsgText
 from jrnl.output import print_msg
 from jrnl.path import expand_path
 from jrnl.prompt import yesno
@@ -50,6 +48,10 @@ class Journal:
         self.name = name
         self.entries = []
         self.encryption_method = None
+        # Set by _decrypt when legacy-format data is read, and consumed by
+        # _encrypt on the next write. If None, there is no pending encryption upgrade
+        self._upgrade_encryption_from_version: str | None = None
+        self._pending_config_updates: dict = {}  # config changes to persist after write
 
         # Track changes to journal in session. Modified is tracked in Entry
         self.added_entry_count = 0
@@ -85,21 +87,96 @@ class Journal:
         self.entries = list(frozenset(self.entries) | frozenset(imported_entries))
         self.sort()
 
-    def _get_encryption_method(self) -> None:
-        encryption_method = determine_encryption_method(self.config["encrypt"])
+    def _reconfigure_encryption_method(self, force_new_password: bool = False) -> None:
+        encryption_method = determine_encryption_method_for_writing(
+            self.config.get("encrypt", False)
+        )
         self.encryption_method = encryption_method(self.name, self.config)
+        self._upgrade_encryption_from_version = None
+        if force_new_password:
+            logging.debug("Clearing encryption method...")
+            self.encryption_method.clear()
+
+    def _is_upgrading_encryption(self) -> bool:
+        return self._upgrade_encryption_from_version is not None
 
     def _decrypt(self, text: bytes) -> str:
-        if self.encryption_method is None:
-            self._get_encryption_method()
+        from jrnl.encryption import detect_decryption_method
+        from jrnl.encryption.Jrnlv1Encryption import Jrnlv1Encryption
 
-        return self.encryption_method.decrypt(text)
+        if self.encryption_method is None:
+            self._reconfigure_encryption_method()
+
+        decryption_cls = detect_decryption_method(
+            text, encrypt_setting=self.config.get("encrypt")
+        )
+
+        # detect_decryption_method returns the class that matches the on-disk format.
+        # encryption_cls is the latest encryption method for encrypted journals (currently Jrnlv3Encryption).
+
+        # If they match, reuse the existing instance (password already loaded, no re-prompt).
+        # If they differ (legacy data on a v3-configured journal), create a fresh decryptor
+        # and flag the journal for upgrade on the next write.
+        encryption_cls = type(self.encryption_method)
+        if decryption_cls is encryption_cls:
+            decryptor = self.encryption_method
+        else:
+            decryptor = decryption_cls(self.name, self.config)
+            self._upgrade_encryption_from_version = decryptor.version
+
+        result = decryptor.decrypt(text)
+
+        if self._is_upgrading_encryption():
+            # Share the now-known password to the v3 write instance so it won't re-prompt
+            self.encryption_method.password = decryptor.password
+            self.encryption_method.check_keyring = False
+            print_msg(
+                Message(
+                    MsgText.LegacyEncryptionJournalOpened,
+                    MsgStyle.WARNING,
+                    {"journal_name": self.name, "version": decryptor.version},
+                )
+            )
+
+        return result
 
     def _encrypt(self, text: str) -> bytes:
         if self.encryption_method is None:
-            self._get_encryption_method()
+            self._reconfigure_encryption_method()
 
-        return self.encryption_method.encrypt(text)
+        if self._is_upgrading_encryption():
+            print_msg(
+                Message(
+                    MsgText.EncryptionUpgrading,
+                    MsgStyle.WARNING,
+                    {
+                        "journal_name": self.name,
+                        "from_version": self._upgrade_encryption_from_version,
+                        "to_version": self.encryption_method.version,
+                    },
+                )
+            )
+
+        result = self.encryption_method.encrypt(text)
+
+        if self._is_upgrading_encryption():
+            from_version = self._upgrade_encryption_from_version
+            self._upgrade_encryption_from_version = None
+            self.config["encrypt"] = True
+            self._pending_config_updates["encrypt"] = True
+            print_msg(
+                Message(
+                    MsgText.EncryptionUpgraded,
+                    MsgStyle.WARNING,
+                    {
+                        "journal_name": self.name,
+                        "from_version": from_version,
+                        "to_version": self.encryption_method.version,
+                    },
+                )
+            )
+
+        return result
 
     def open(self, filename: str | None = None) -> "Journal":
         """Opens the journal file and parses it into a list of Entries
@@ -131,13 +208,24 @@ class Journal:
 
         text = self._load(filename)
         text = self._decrypt(text)
-        self.entries = self._parse(text)
+        if self._upgrade_encryption_from_version == "v1":
+            # jrnl 1.x plaintext doesn't wrap entry dates in square brackets, unlike
+            # every format since. Only LegacyJournal knows how to parse that (see its
+            # docstring); using the regular parser here would silently mangle the
+            # decrypted entries into a single bogus entry.
+            self.entries = LegacyJournal._parse(self, text)
+        else:
+            self.entries = self._parse(text)
         self.sort()
         logging.debug("opened %s with %d entries", self.__class__.__name__, len(self))
         return self
 
-    def write(self, filename: str | None = None) -> None:
+    def write(
+        self, filename: str | None = None, force_new_password: bool = False
+    ) -> None:
         """Dumps the journal into the config file, overwriting it"""
+        if force_new_password:
+            self._reconfigure_encryption_method(force_new_password=True)
         filename = filename or self.config["journal"]
         text = self._to_text()
         text = self._encrypt(text)
@@ -458,7 +546,10 @@ class LegacyJournal(Journal):
                     starred = False
 
                 current_entry = Entry(
-                    self, date=new_date, text=line[date_length + 1 :], starred=starred
+                    self,
+                    date=new_date,
+                    text=line[date_length + 1 :] + "\n",
+                    starred=starred,
                 )
             except ValueError:
                 # Happens when we can't parse the start of the line as an date.

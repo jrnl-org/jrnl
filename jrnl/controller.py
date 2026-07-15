@@ -9,6 +9,7 @@ from jrnl import install
 from jrnl import plugins
 from jrnl import time
 from jrnl.config import DEFAULT_JOURNAL_KEY
+from jrnl.config import flush_pending_config_updates
 from jrnl.config import get_config_path
 from jrnl.config import get_journal_name
 from jrnl.config import scope_config
@@ -40,7 +41,8 @@ def run(args: "Namespace"):
     4. Load specified journal
     5. Start append mode, or search mode
     6. Perform actions with results from search mode (if needed)
-    7. Profit
+    7. Persist any config changes (automatic encryption upgrade) that occurred during the journal write
+    8. Profit
     """
 
     # Run command if possible before config is available
@@ -77,21 +79,24 @@ def run(args: "Namespace"):
 
     if _is_append_mode(**kwargs):
         append_mode(**kwargs)
-        return
-
-    # If not append mode, then we're in search mode (only 2 modes exist)
-    search_mode(**kwargs)
-    entries_found_count = len(journal)
-    _print_entries_found_count(entries_found_count, args)
-
-    # Actions
-    _perform_actions_on_search_results(**kwargs)
-
-    if entries_found_count != 0 and _has_action_args(args):
-        _print_changed_counts(journal)
     else:
-        # display only occurs if no other action occurs
-        _display_search_results(**kwargs)
+        # If not append mode, then we're in search mode (only 2 modes exist)
+        search_mode(**kwargs)
+        entries_found_count = len(journal)
+        _print_entries_found_count(entries_found_count, args)
+
+        # Actions
+        _perform_actions_on_search_results(**kwargs)
+
+        if entries_found_count != 0 and _has_action_args(args):
+            _print_changed_counts(journal)
+        else:
+            # display only occurs if no other action occurs
+            _display_search_results(**kwargs)
+
+    # Persist any config changes that occurred during journal.write() (e.g. a v1/v2
+    # upgrade to v3 triggered by the write).
+    flush_pending_config_updates(journal, original_config, args.journal_name)
 
 
 def _perform_actions_on_search_results(**kwargs):

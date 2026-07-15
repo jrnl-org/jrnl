@@ -12,6 +12,7 @@ from pytest_bdd.parsers import re as pytest_bdd_parsers_re
 from ruamel.yaml import YAML
 
 from jrnl.config import scope_config
+from jrnl.encryption.Jrnlv3Encryption import is_v3_encrypted
 from tests.lib.helpers import assert_equal_tags_ignoring_order
 from tests.lib.helpers import does_directory_contain_files
 from tests.lib.helpers import does_directory_contain_n_files
@@ -227,6 +228,17 @@ def config_var_in_memory(config_in_memory, journal_name, it_should, some_yaml):
     assert (expected == actual_slice) == it_should
 
 
+@then("the journal file should be encrypted with jrnlv3")
+def journal_file_should_be_jrnlv3(config_on_disk):
+    scoped_config = scope_config(config_on_disk, "default")
+    journal_path = scoped_config["journal"]
+    with open(journal_path, "rb") as f:
+        data = f.read()
+    assert is_v3_encrypted(
+        data
+    ), f"Expected journal file to be v3 encrypted, observed file header of: {data[:20]!r}"
+
+
 @then("we should be prompted for a password")
 def password_was_called(cli_run):
     assert cli_run["mocks"]["user_input"].return_value.input.called
@@ -395,7 +407,12 @@ def assert_output_field_content(field_name, comparison, parsed_output, docstring
 
         if comparison == "be":
             if isinstance(my_obj, str):
-                assert expected_keys == my_obj, [my_obj, expected_keys]
+                expected_str = (
+                    expected_keys
+                    if isinstance(expected_keys, str)
+                    else "\n".join(expected_keys)
+                )
+                assert expected_str == my_obj, [my_obj, expected_str]
             else:
                 assert set(expected_keys) == set(my_obj), [
                     set(my_obj),

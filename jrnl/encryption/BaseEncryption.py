@@ -34,6 +34,13 @@ class BaseEncryption(ABC):
 
         return result
 
+    @property
+    @abstractmethod
+    def version(self) -> str | None:
+        """Human-readable encryption version string, matching the values accepted
+        by the 'encrypt' config setting, e.g. 'jrnlv1', 'jrnlv2', 'jrnlv3'."""
+        pass
+
     @abstractmethod
     def _encrypt(self, text: str) -> bytes:
         """
