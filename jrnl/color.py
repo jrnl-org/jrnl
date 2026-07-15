@@ -17,6 +17,18 @@ if on_windows():
     colorama.init()
 
 
+def get_color(config: dict, key: str) -> str:
+    """Safely looks up config["colors"][key], falling back to "NONE" if the
+    key is missing or its value isn't a valid colorama.Fore color name.
+    Configs created before a given color key existed, hand-edited configs,
+    or configs with a typo'd/wrong-typed color value should mean "don't
+    colorize", not crash."""
+    color = config["colors"].get(key, "NONE")
+    if isinstance(color, str) and hasattr(colorama.Fore, color.upper()):
+        return color
+    return "NONE"
+
+
 def colorize(string: str, color: str, bold: bool = False) -> str:
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
@@ -53,7 +65,7 @@ def highlight_tags_with_background_color(
             if part and part[0] not in config["tagsymbols"]:
                 yield colorize(part, color, bold=is_title), part
             elif part:
-                yield colorize(part, config["colors"]["tags"], bold=True), part
+                yield colorize(part, get_color(config, "tags"), bold=True), part
 
     config = entry.journal.config
     if config["highlight"]:  # highlight tags

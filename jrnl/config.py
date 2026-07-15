@@ -132,7 +132,7 @@ def verify_config_colors(config: dict) -> bool:
     """
     all_valid_colors = True
     for key, color in config["colors"].items():
-        upper_color = color.upper()
+        upper_color = color.upper() if isinstance(color, str) else ""
         if upper_color == "NONE":
             continue
         if not getattr(colorama.Fore, upper_color, None):

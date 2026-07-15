@@ -89,6 +89,15 @@ YAML-based config with per-journal overrides. Journals can be a string (path) or
 - OS-specific markers: `@skip_win`, `@skip_posix`, `@on_win`, `@on_posix`
 - CI tests across Python 3.11–3.14 on Linux, macOS, and Windows
 
+## Never Touch Real User Config/Journals
+
+`jrnl.config.save_config()` (and anything that calls it, e.g. `install.upgrade_config()`) writes to the real `~/.config/jrnl/jrnl.yaml` by default when no `alt_config_path` is given. Do not run ad-hoc reproduction snippets (`python -c "..."`, scratch scripts) against functions in this codebase that touch config/journal paths — they can silently overwrite the user's actual jrnl config or journal files. Always reproduce bugs through the existing test infrastructure instead:
+
+- BDD: add/run a scenario in `tests/bdd/features/*.feature` against a fixture config in `tests/data/configs/`
+- Unit: use `tmp_path` / existing fixtures in `tests/unit/`, never a bare path that resolves to `get_config_path()`
+
+If a one-off script is unavoidable, pass an explicit `alt_config_path` pointed at a file under the scratchpad/tmp directory, never leave it to default.
+
 ## Code Style
 
 - Formatter: black (line length 88)
