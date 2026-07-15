@@ -14,6 +14,17 @@
 **Packaging:**
 
 - Drop Python 3.10 support [\#2055](https://github.com/jrnl-org/jrnl/issues/2055)
+- Update dependency rich to v15 [\#2094](https://github.com/jrnl-org/jrnl/pull/2094) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v7 - autoclosed [\#2093](https://github.com/jrnl-org/jrnl/pull/2093) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v6 [\#2092](https://github.com/jrnl-org/jrnl/pull/2092) ([renovate[bot]](https://github.com/apps/renovate))
+- Update heinrichreimer/action-github-changelog-generator action to v2.4 [\#2078](https://github.com/jrnl-org/jrnl/pull/2078) ([renovate[bot]](https://github.com/apps/renovate))
+
+**Merged pull requests:**
+
+- chore: upgrade all deps [\#2091](https://github.com/jrnl-org/jrnl/pull/2091) ([alichtman](https://github.com/alichtman))
+- fix: don't crash on missing or invalid color config values [\#2089](https://github.com/jrnl-org/jrnl/pull/2089) ([alichtman](https://github.com/alichtman))
+- Drop Python 3.10 support [\#2088](https://github.com/jrnl-org/jrnl/pull/2088) ([alichtman](https://github.com/alichtman))
+- docs: add CLAUDE.md [\#2086](https://github.com/jrnl-org/jrnl/pull/2086) ([alichtman](https://github.com/alichtman))
 
 ## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)
 
