@@ -25,6 +25,7 @@
 - fix: don't crash on missing or invalid color config values [\#2089](https://github.com/jrnl-org/jrnl/pull/2089) ([alichtman](https://github.com/alichtman))
 - Drop Python 3.10 support [\#2088](https://github.com/jrnl-org/jrnl/pull/2088) ([alichtman](https://github.com/alichtman))
 - docs: add CLAUDE.md [\#2086](https://github.com/jrnl-org/jrnl/pull/2086) ([alichtman](https://github.com/alichtman))
+- fix: prevent ValueError when upgrading with no journals configured [\#2080](https://github.com/jrnl-org/jrnl/pull/2080) ([miloquinn](https://github.com/miloquinn))
 
 ## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)
 
