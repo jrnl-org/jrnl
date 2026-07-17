@@ -18,6 +18,7 @@
 - Update actions/checkout action to v7 - autoclosed [\#2093](https://github.com/jrnl-org/jrnl/pull/2093) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/cache action to v6 [\#2092](https://github.com/jrnl-org/jrnl/pull/2092) ([renovate[bot]](https://github.com/apps/renovate))
 - Update heinrichreimer/action-github-changelog-generator action to v2.4 [\#2078](https://github.com/jrnl-org/jrnl/pull/2078) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.57.0 [\#2017](https://github.com/jrnl-org/jrnl/pull/2017) ([renovate[bot]](https://github.com/apps/renovate))
 
 **Merged pull requests:**
 
