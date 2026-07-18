@@ -11,11 +11,16 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 from xml.etree import ElementTree as ET
 
+import filelock
 from pytest_bdd import given
 from pytest_bdd.parsers import parse
 from pytest_bdd.parsers import re
 
 from jrnl import __version__
+from jrnl.config import load_config
+from jrnl.config import scope_config
+from jrnl.lock import journal_lock_path
+from jrnl.path import expand_path
 from jrnl.time import __get_pdt_calendar
 from tests.lib.fixtures import FailedKeyring
 from tests.lib.fixtures import NoKeyring
@@ -156,6 +161,20 @@ def config_exists(config_file, temp_dir, working_dir):
 @given(parse('we use the password "{password}" if prompted'), target_fixture="password")
 def use_password_forever(password):
     return password
+
+
+@given(parse('the "{journal_name}" journal is locked by another process'))
+def journal_is_locked_by_another_process(
+    journal_name, config_path, request, monkeypatch
+):
+    # Fail fast instead of waiting out the real (multi-second) lock timeout.
+    monkeypatch.setattr("jrnl.lock.LOCK_TIMEOUT_SECONDS", 0.2)
+
+    config = scope_config(load_config(config_path), journal_name)
+    lock_path = journal_lock_path(expand_path(config["journal"]))
+    lock = filelock.FileLock(lock_path)
+    lock.acquire()
+    request.addfinalizer(lock.release)
 
 
 @given("we create a cache directory", target_fixture="cache_dir")

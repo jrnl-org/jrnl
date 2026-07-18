@@ -1,6 +1,7 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import contextlib
 import logging
 import os
 
@@ -10,7 +11,7 @@ from jrnl.config import load_config
 from jrnl.config import scope_config
 from jrnl.exception import JrnlException
 from jrnl.journals import Journal
-from jrnl.journals import open_journal
+from jrnl.journals import open_journal_with_lock
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -118,69 +119,80 @@ def upgrade_jrnl(config_path: str) -> None:
     if not cont:
         raise JrnlException(Message(MsgText.UpgradeAborted, MsgStyle.WARNING))
 
-    for journal_name, path in encrypted_journals.items():
-        print_msg(
-            Message(
-                MsgText.UpgradingJournal,
-                params={
-                    "journal_name": journal_name,
-                    "path": path,
-                },
+    # Each journal's lock is held from open through its eventual write below
+    # (not just through the copy into new_journal) -- otherwise another jrnl
+    # process could grab the lock in between and have its changes silently
+    # clobbered when we write the upgraded journal back to the same path.
+    with contextlib.ExitStack() as stack:
+        for journal_name, path in encrypted_journals.items():
+            print_msg(
+                Message(
+                    MsgText.UpgradingJournal,
+                    params={
+                        "journal_name": journal_name,
+                        "path": path,
+                    },
+                )
             )
-        )
 
-        backup(path, binary=True)
-        old_journal = open_journal(
-            journal_name, scope_config(config, journal_name), legacy=True
-        )
-
-        logging.debug(f"Clearing encryption method for '{journal_name}' journal")
-
-        # Update the encryption method
-        new_journal = Journal.from_journal(old_journal)
-        new_journal.config["encrypt"] = True
-        new_journal._reconfigure_encryption_method()
-        # Copy over password (jrnlv1 only supported password-based encryption)
-        new_journal.encryption_method.password = old_journal.encryption_method.password
-
-        all_journals.append(new_journal)
-
-    for journal_name, path in plain_journals.items():
-        print_msg(
-            Message(
-                MsgText.UpgradingJournal,
-                params={
-                    "journal_name": journal_name,
-                    "path": path,
-                },
+            backup(path, binary=True)
+            old_journal = stack.enter_context(
+                open_journal_with_lock(
+                    journal_name, scope_config(config, journal_name), legacy=True
+                )
             )
-        )
+            logging.debug(f"Clearing encryption method for '{journal_name}' journal")
 
-        backup(path)
-        old_journal = open_journal(
-            journal_name, scope_config(config, journal_name), legacy=True
-        )
-        all_journals.append(Journal.from_journal(old_journal))
+            # Update the encryption method
+            new_journal = Journal.from_journal(old_journal)
+            new_journal.config["encrypt"] = True
+            new_journal._reconfigure_encryption_method()
+            # Copy over password (jrnlv1 only supported password-based encryption)
+            new_journal.encryption_method.password = (
+                old_journal.encryption_method.password
+            )
 
-    # loop through lists to validate
-    failed_journals = [j for j in all_journals if not j.validate_parsing()]
+            all_journals.append(new_journal)
 
-    if len(failed_journals) > 0:
-        raise JrnlException(
-            Message(MsgText.AbortingUpgrade, MsgStyle.WARNING),
-            Message(
-                MsgText.JournalFailedUpgrade,
-                MsgStyle.ERROR,
-                {
-                    "s": "s" if len(failed_journals) > 1 else "",
-                    "failed_journals": "\n".join(j.name for j in failed_journals),
-                },
-            ),
-        )
+        for journal_name, path in plain_journals.items():
+            print_msg(
+                Message(
+                    MsgText.UpgradingJournal,
+                    params={
+                        "journal_name": journal_name,
+                        "path": path,
+                    },
+                )
+            )
 
-    # write all journals - or - don't
-    for j in all_journals:
-        j.write()
+            backup(path)
+            old_journal = stack.enter_context(
+                open_journal_with_lock(
+                    journal_name, scope_config(config, journal_name), legacy=True
+                )
+            )
+            new_journal = Journal.from_journal(old_journal)
+            all_journals.append(new_journal)
+
+        # loop through lists to validate
+        failed_journals = [j for j in all_journals if not j.validate_parsing()]
+
+        if len(failed_journals) > 0:
+            raise JrnlException(
+                Message(MsgText.AbortingUpgrade, MsgStyle.WARNING),
+                Message(
+                    MsgText.JournalFailedUpgrade,
+                    MsgStyle.ERROR,
+                    {
+                        "s": "s" if len(failed_journals) > 1 else "",
+                        "failed_journals": "\n".join(j.name for j in failed_journals),
+                    },
+                ),
+            )
+
+        # write all journals - or - don't
+        for j in all_journals:
+            j.write()
 
     print_msg(Message(MsgText.UpgradingConfig, MsgStyle.NORMAL))
 

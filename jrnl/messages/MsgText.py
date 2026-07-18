@@ -117,6 +117,24 @@ class MsgText(Enum):
 
     NoNamedJournal = "No '{journal_name}' journal configured\n{journals}"
 
+    JournalLockedWarning = """
+        Journal "{journal_name}" is currently locked by another jrnl process:
+        {process}
+        """
+
+    KillLockingProcessQuestion = "Kill it and continue?"
+
+    JournalKillDeclined = "OK, not killing it. Finish or close it, then try again."
+
+    JournalKillFailed = "Could not kill PID {pid}. Finish or close it, then try again."
+
+    JournalStillLocked = """
+        Journal "{journal_name}" is currently locked by another jrnl process:
+        {process}
+
+        Finish or close it, then try again.{kill_hint}
+        """
+
     DoesNotExist = "{name} does not exist"
 
     # --- Journal status ---#

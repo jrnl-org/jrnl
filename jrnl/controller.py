@@ -17,7 +17,8 @@ from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
 from jrnl.editor import read_template_file
 from jrnl.exception import JrnlException
-from jrnl.journals import open_journal
+from jrnl.journals import open_journal_with_lock
+from jrnl.journals import open_journal_without_lock
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -68,36 +69,40 @@ def run(args: "Namespace"):
 
     # --- All the standalone commands are now done --- #
 
-    # Get the journal we're going to be working with
-    journal = open_journal(args.journal_name, config)
+    # Only writes need the cross-process lock (see jrnl.lock); a plain
+    # search/display is read-only and can run alongside another jrnl process.
+    is_append_mode = _is_append_mode(args=args, config=config)
+    requires_lock = is_append_mode or _has_action_args(args)
+    opener = open_journal_with_lock if requires_lock else open_journal_without_lock
 
-    kwargs = {
-        "args": args,
-        "config": config,
-        "journal": journal,
-        "old_entries": journal.entries,
-    }
+    with opener(args.journal_name, config) as journal:
+        kwargs = {
+            "args": args,
+            "config": config,
+            "journal": journal,
+            "old_entries": journal.entries,
+        }
 
-    if _is_append_mode(**kwargs):
-        append_mode(**kwargs)
-    else:
-        # If not append mode, then we're in search mode (only 2 modes exist)
-        search_mode(**kwargs)
-        entries_found_count = len(journal)
-        _print_entries_found_count(entries_found_count, args)
-
-        # Actions
-        _perform_actions_on_search_results(**kwargs)
-
-        if entries_found_count != 0 and _has_action_args(args):
-            _print_changed_counts(journal)
+        if is_append_mode:
+            append_mode(**kwargs)
         else:
-            # display only occurs if no other action occurs
-            _display_search_results(**kwargs)
+            # If not append mode, then we're in search mode (only 2 modes exist)
+            search_mode(**kwargs)
+            entries_found_count = len(journal)
+            _print_entries_found_count(entries_found_count, args)
 
-    # Persist any config changes that occurred during journal.write() (e.g. a v1/v2
-    # upgrade to v3 triggered by the write).
-    flush_pending_config_updates(journal, original_config, args.journal_name)
+            # Actions
+            _perform_actions_on_search_results(**kwargs)
+
+            if entries_found_count != 0 and _has_action_args(args):
+                _print_changed_counts(journal)
+            else:
+                # display only occurs if no other action occurs
+                _display_search_results(**kwargs)
+
+        # Persist any config changes that occurred during journal.write() (e.g. a
+        # v1/v2 upgrade to v3 triggered by the write).
+        flush_pending_config_updates(journal, original_config, args.journal_name)
 
 
 def _perform_actions_on_search_results(**kwargs):

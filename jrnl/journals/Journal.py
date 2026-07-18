@@ -9,6 +9,8 @@ import re
 from jrnl import time
 from jrnl.config import validate_journal_name
 from jrnl.encryption import determine_encryption_method_for_writing
+from jrnl.lock import acquire_journal_lock
+from jrnl.lock import release_journal_lock
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
 from jrnl.messages import MsgText
@@ -51,6 +53,7 @@ class Journal:
         self.name = name
         self.entries = []
         self.encryption_method = None
+        self._lock = None
         # Set by _decrypt when legacy-format data is read, and consumed by
         # _encrypt on the next write. If None, there is no pending encryption upgrade
         self._upgrade_encryption_from_version: str | None = None
@@ -234,6 +237,19 @@ class Journal:
         text = self._to_text()
         text = self._encrypt(text)
         self._store(filename, text)
+
+    def release_lock(self) -> None:
+        """Releases the cross-process lock acquired for this journal in
+        open_journal_with_lock(), if any."""
+        if self._lock is not None:
+            release_journal_lock(self._lock)
+            self._lock = None
+
+    def __enter__(self) -> "Journal":
+        return self
+
+    def __exit__(self, *exc_info) -> None:
+        self.release_lock()
 
     def validate_parsing(self) -> bool:
         """Confirms that the jrnl is still parsed correctly after conversion to text."""
@@ -570,17 +586,9 @@ class LegacyJournal(Journal):
         return entries
 
 
-def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journal:
-    """
-    Creates a normal, encrypted or DayOne journal based on the passed config.
-    If legacy is True, it will open Journals with legacy classes build for
-    backwards compatibility with jrnl 1.x
-    """
-    logging.debug(f"open_journal '{journal_name}'")
-    validate_journal_name(journal_name, config)
-    config = config.copy()
-    config["journal"] = expand_path(config["journal"])
-
+def _dispatch_open_journal(
+    journal_name: str, config: dict, legacy: bool = False
+) -> Journal:
     if os.path.isdir(config["journal"]):
         if config["encrypt"]:
             print_msg(
@@ -617,3 +625,52 @@ def open_journal(journal_name: str, config: dict, legacy: bool = False) -> Journ
         config["encrypt"] = "jrnlv1"
         return LegacyJournal(journal_name, **config).open()
     return Journal(journal_name, **config).open()
+
+
+def _prepare_journal_config(journal_name: str, config: dict) -> dict:
+    validate_journal_name(journal_name, config)
+    config = config.copy()
+    config["journal"] = expand_path(config["journal"])
+    return config
+
+
+def open_journal_without_lock(
+    journal_name: str, config: dict, legacy: bool = False
+) -> Journal:
+    """
+    Creates a normal, encrypted or DayOne journal based on the passed config.
+    If legacy is True, it will open Journals with legacy classes build for
+    backwards compatibility with jrnl 1.x
+
+    Does not acquire the cross-process lock -- use only for read-only access
+    (e.g. search/display). Anything that may write to the journal should use
+    open_journal_with_lock instead.
+    """
+    logging.debug(f"open_journal_without_lock '{journal_name}'")
+    config = _prepare_journal_config(journal_name, config)
+    return _dispatch_open_journal(journal_name, config, legacy)
+
+
+def open_journal_with_lock(
+    journal_name: str, config: dict, legacy: bool = False
+) -> Journal:
+    """
+    Same as open_journal_without_lock, but also acquires a cross-process lock on the
+    journal for the lifetime of the returned Journal object, to prevent two
+    jrnl processes from silently clobbering each other's changes (see issue
+    #1107). Use as a context manager (`with open_journal_with_lock(...) as
+    journal:`) to release the lock automatically, or call
+    journal.release_lock() once done with it.
+    """
+    logging.debug(f"open_journal_with_lock '{journal_name}'")
+    config = _prepare_journal_config(journal_name, config)
+
+    lock = acquire_journal_lock(config["journal"], journal_name)
+    try:
+        journal = _dispatch_open_journal(journal_name, config, legacy)
+    except BaseException:
+        release_journal_lock(lock)
+        raise
+
+    journal._lock = lock
+    return journal
