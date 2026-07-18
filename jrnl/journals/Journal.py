@@ -127,7 +127,16 @@ class Journal:
             decryptor = decryption_cls(self.name, self.config)
             self._upgrade_encryption_from_version = decryptor.version
 
+        keyring_backend_before = self.config.get("keyring_backend")
         result = decryptor.decrypt(text)
+
+        if self.config.get("keyring_backend") != keyring_backend_before:
+            # e.g. the user opted into a non-default keyring backend (such as
+            # 1Password) when offered while decrypting with a manually
+            # entered password.
+            self._pending_config_updates["keyring_backend"] = self.config[
+                "keyring_backend"
+            ]
 
         if self._is_upgrading_encryption():
             # Share the now-known password to the v3 write instance so it
@@ -161,7 +170,15 @@ class Journal:
                 )
             )
 
+        keyring_backend_before = self.config.get("keyring_backend")
         result = self.encryption_method.encrypt(text)
+
+        if self.config.get("keyring_backend") != keyring_backend_before:
+            # e.g. the user opted into a non-default keyring backend (such as
+            # 1Password) when prompted while creating a new password.
+            self._pending_config_updates["keyring_backend"] = self.config[
+                "keyring_backend"
+            ]
 
         if self._is_upgrading_encryption():
             from_version = self._upgrade_encryption_from_version

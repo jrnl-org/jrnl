@@ -89,6 +89,8 @@ def cli_run(
     mock_overrides,
     mock_default_journal_path,
     mock_default_templates_path,
+    mock_onepassword_available,
+    mock_prompt_to_add_to_keyring_on_successful_decrypt,
 ):
     # Check if we need more mocks
     mock_factories.update(mock_args)
@@ -99,6 +101,8 @@ def cli_run(
     mock_factories.update(mock_user_input)
     mock_factories.update(mock_default_journal_path)
     mock_factories.update(mock_default_templates_path)
+    mock_factories.update(mock_onepassword_available)
+    mock_factories.update(mock_prompt_to_add_to_keyring_on_successful_decrypt)
 
     return {
         "status": 0,
@@ -186,6 +190,44 @@ def mock_default_templates_path(temp_dir):
     return {
         "get_templates_path": lambda: patch(
             "jrnl.editor.get_templates_path", return_value=templates_path
+        ),
+    }
+
+
+@fixture
+def onepassword_available():
+    # Whether the 1Password CLI is detected must not depend on whatever
+    # happens to be on the test-runner's PATH.
+    return False
+
+
+@fixture
+def mock_onepassword_available(onepassword_available):
+    return {
+        "onepassword_available": lambda: patch(
+            "jrnl.encryption.OnePasswordBackend.OnePasswordBackend.is_available",
+            return_value=onepassword_available,
+        ),
+    }
+
+
+@fixture
+def prompt_to_add_to_keyring_on_successful_decrypt():
+    # Whether jrnl offers to save a manually entered password to the keyring
+    # after a successful decrypt defaults to off in tests, since most
+    # existing scenarios don't script an answer to that prompt.
+    return False
+
+
+@fixture
+def mock_prompt_to_add_to_keyring_on_successful_decrypt(
+    prompt_to_add_to_keyring_on_successful_decrypt,
+):
+    return {
+        "prompt_to_add_to_keyring_on_successful_decrypt": lambda: patch(
+            "jrnl.encryption.BasePasswordEncryption"
+            ".DEFAULT_PROMPT_TO_ADD_TO_KEYRING_ON_SUCCESSFUL_DECRYPT",
+            prompt_to_add_to_keyring_on_successful_decrypt,
         ),
     }
 

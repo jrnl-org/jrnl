@@ -88,6 +88,14 @@ def we_have_type_of_keyring(keyring_type):
             return TestKeyring()
 
 
+@given(
+    "we are offered to save the password after decrypt",
+    target_fixture="prompt_to_add_to_keyring_on_successful_decrypt",
+)
+def we_are_offered_to_save_password_after_decrypt():
+    return True
+
+
 @given(parse("we use no config"), target_fixture="config_path")
 def we_use_no_config(temp_dir):
     os.chdir(temp_dir.name)  # @todo move this step to a more universal place
