@@ -29,11 +29,16 @@ File layout:
 | Field | Size | Description |
 | --- | --- | --- |
 | `JRNLv3` | 6 bytes | Magic prefix |
-| `header_len` | 2 bytes (uint16 BE) | Length of JSON header |
-| JSON header | `header_len` bytes | Includes `salt` (base64url-encoded 16-byte salt) |
+| `header_len` | 2 bytes (uint16 BE) | Length of the header field, max 64KB |
+| header | `header_len` bytes | Base64-encoded JSON, includes `salt` (base64url-encoded 16-byte salt) |
 | Fernet token | Remaining bytes | Ciphertext |
 
 Additional header fields may be added in future without changing the format version.
+
+!!! note
+    Journals encrypted with v3 before this format was base64-encoded store
+    raw JSON in the header field instead. These are still read correctly;
+    the base64-encoded format is written on the next save.
 
 ## Encrypting and Decrypting from the CLI
 

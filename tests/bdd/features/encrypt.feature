@@ -122,6 +122,27 @@ Feature: Encrypting and decrypting journals
             2013-06-10 15:40 Life is good.
             """
 
+    Scenario: Decrypting a v3 journal with a legacy (pre-base64) header still works (back compat)
+        Given we use the config "encrypted_v3_legacy_header.yaml"
+        And we use the password "good doggie extra biscuit" if prompted
+        When we run "jrnl --decrypt"
+        Then the output should contain "Journal decrypted"
+        And the config for journal "default" should contain "encrypt: false"
+        When we run "jrnl -99 --short"
+        Then the output should be
+            """
+            2013-06-09 15:39 My first entry.
+            2013-06-10 15:40 Life is good.
+            """
+
+    Scenario: Writing to a v3 journal with a legacy header upgrades it to a base64-encoded header
+        Given we use the config "encrypted_v3_legacy_header.yaml"
+        And we use the password "good doggie extra biscuit" if prompted
+        When we run "jrnl today I triggered the header upgrade"
+        Then we should get no error
+        And the journal file should be encrypted with jrnlv3
+        And the jrnlv3 journal file header should be base64-encoded
+
     Scenario: Decrypting a v2 journal with v3 encryption set as the default still works (back compat)
         Given we use the config "encrypted.yaml"
         And we use the password "bad doggie no biscuit" if prompted

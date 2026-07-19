@@ -240,6 +240,34 @@ def journal_file_should_be_jrnlv3(config_on_disk):
     )
 
 
+@then("the jrnlv3 journal file header should be base64-encoded")
+def journal_file_v3_header_should_be_base64(config_on_disk):
+    import base64
+    import struct
+
+    from jrnl.encryption.Jrnlv3Encryption import _HEADER_LEN_STRUCT_FORMAT
+    from jrnl.encryption.Jrnlv3Encryption import JRNL_V3_FILE_FORMAT_PREFIX
+
+    scoped_config = scope_config(config_on_disk, "default")
+    journal_path = scoped_config["journal"]
+    with open(journal_path, "rb") as f:
+        data = f.read()
+
+    assert is_v3_encrypted(data), (
+        f"Expected journal file to be v3 encrypted, "
+        f"observed file header of: {data[:20]!r}"
+    )
+
+    offset = len(JRNL_V3_FILE_FORMAT_PREFIX)
+    (header_len,) = struct.unpack_from(_HEADER_LEN_STRUCT_FORMAT, data, offset)
+    offset += struct.calcsize(_HEADER_LEN_STRUCT_FORMAT)
+    header_field = data[offset : offset + header_len]
+
+    # Raises binascii.Error if header_field isn't valid base64; a raw JSON
+    # header (starting with b'{') fails this with validate=True.
+    base64.b64decode(header_field, validate=True)
+
+
 @then("we should be prompted for a password")
 def password_was_called(cli_run):
     assert cli_run["mocks"]["user_input"].return_value.input.called
