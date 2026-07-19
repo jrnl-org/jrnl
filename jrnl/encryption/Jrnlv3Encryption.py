@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import base64
+import binascii
 import json
 import logging
 import secrets
@@ -16,15 +17,16 @@ from .BasePasswordEncryption import BasePasswordEncryption
 
 # v3 file format:
 #   b'JRNLv3'       6 bytes, magic prefix
-#   header_len      2 bytes, big-endian uint16
-#   header          JSON, `header_len` bytes
+#   header_len      2 bytes, big-endian uint16, max 64KB
+#   header          base64-encoded JSON, `header_len` bytes
 #   token           Fernet token, remaining bytes
 #
-# JSON header fields:
+# JSON header fields (before base64-encoding):
 #   "salt"  — base64url-encoded 16-byte salt (required)
 #
 # Additional fields can be added to the header in future without a format
 # version bump.
+#
 JRNL_V3_FILE_FORMAT_PREFIX = b"JRNLv3"
 SALT_LENGTH = 16
 _HEADER_LEN_STRUCT_FORMAT = ">H"  # uint16_be, max header size 65,535 bytes
@@ -55,7 +57,17 @@ class Jrnlv3Encryption(BasePasswordEncryption):
         offset = len(JRNL_V3_FILE_FORMAT_PREFIX)
         (header_len,) = struct.unpack_from(_HEADER_LEN_STRUCT_FORMAT, data, offset)
         offset += _HEADER_LEN_SIZE
-        header = json.loads(data[offset : offset + header_len])
+        header_field = data[offset : offset + header_len]
+
+        # The raw (non-base64) JSON header format landed on main before this
+        # change, so journals without base64-encoded JSON headers can exist in the
+        # wild; _parse_header falls back to reading the header field directly
+        # as JSON when it isn't valid base64.
+        try:
+            header = json.loads(base64.b64decode(header_field, validate=True))
+        except binascii.Error:
+            # Pre-base64 journals stored the JSON header directly.
+            header = json.loads(header_field)
         return header, data[offset + header_len :]
 
     def _make_key(self, salt: bytes) -> bytes:
@@ -73,7 +85,8 @@ class Jrnlv3Encryption(BasePasswordEncryption):
         salt = secrets.token_bytes(SALT_LENGTH)
 
         header = {"salt": base64.urlsafe_b64encode(salt).decode("ascii")}
-        header_bytes = json.dumps(header, separators=(",", ":")).encode("utf-8")
+        header_json = json.dumps(header, separators=(",", ":")).encode("utf-8")
+        header_bytes = base64.b64encode(header_json)
 
         if len(header_bytes) > 0xFFFF:
             message = (
