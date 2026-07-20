@@ -27,24 +27,26 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=suffix)
     os.close(filehandle)
 
-    with open(tmpfile, "w", encoding="utf-8") as f:
-        if template:
-            f.write(template)
-
     try:
-        subprocess.call(split_args(config["editor"]) + [tmpfile])
-    except FileNotFoundError:
-        raise JrnlException(
-            Message(
-                MsgText.EditorMisconfigured,
-                MsgStyle.ERROR,
-                {"editor_key": config["editor"]},
-            )
-        )
+        with open(tmpfile, "w", encoding="utf-8") as f:
+            if template:
+                f.write(template)
 
-    with open(tmpfile, "r", encoding="utf-8") as f:
-        raw = f.read()
-    os.remove(tmpfile)
+        try:
+            subprocess.call(split_args(config["editor"]) + [tmpfile])
+        except FileNotFoundError:
+            raise JrnlException(
+                Message(
+                    MsgText.EditorMisconfigured,
+                    MsgStyle.ERROR,
+                    {"editor_key": config["editor"]},
+                )
+            )
+
+        with open(tmpfile, "r", encoding="utf-8") as f:
+            raw = f.read()
+    finally:
+        os.remove(tmpfile)
 
     if not raw:
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
