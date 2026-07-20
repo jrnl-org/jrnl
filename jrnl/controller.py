@@ -15,6 +15,7 @@ from jrnl.config import get_journal_name
 from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
+from jrnl.editor import read_stdin_text
 from jrnl.editor import read_template_file
 from jrnl.exception import JrnlException
 from jrnl.journals import open_journal
@@ -158,7 +159,7 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
             raw = _write_in_editor(config, raw)
     elif not sys.stdin.isatty():
         logging.debug("Append mode: receiving piped text")
-        raw = sys.stdin.read()
+        raw = read_stdin_text()
     else:
         raw = _write_in_editor(config, template_text)
 

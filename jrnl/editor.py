@@ -52,6 +52,16 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
     return raw
 
 
+def read_stdin_text() -> str:
+    # It's possible to get invalid UTF-8 here, so we replace on error to
+    # avoid crashing and losing the whole journal entry.
+    try:
+        sys.stdin.reconfigure(errors="replace")
+    except AttributeError:
+        pass
+    return sys.stdin.read()
+
+
 def get_text_from_stdin() -> str:
     print_msg(
         Message(
@@ -66,7 +76,7 @@ def get_text_from_stdin() -> str:
     )
 
     try:
-        raw = sys.stdin.read()
+        raw = read_stdin_text()
     except KeyboardInterrupt:
         logging.error("Append mode: keyboard interrupt")
         raise JrnlException(
