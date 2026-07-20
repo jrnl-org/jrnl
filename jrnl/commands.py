@@ -33,7 +33,7 @@ def preconfig_diagnostic(_) -> None:
     from jrnl import __version__
 
     print(
-        f"{__title__}: {__version__}\n"
+        f"{__title__}: v{__version__}\n"
         f"Python: {sys.version}\n"
         f"OS: {platform.system()} {platform.release()}"
     )
