@@ -93,7 +93,9 @@ def postconfig_import(
 
     # Persist any config changes that occurred during the import's journal.write()
     # (e.g. a v1/v2 upgrade to v3 triggered by the write).
-    flush_pending_config_updates(journal, original_config, args.journal_name)
+    flush_pending_config_updates(
+        journal, original_config, args.journal_name, args.config_file_path
+    )
 
     return 0
 
@@ -146,7 +148,7 @@ def postconfig_encrypt(
         update_config(
             original_config, {"encrypt": True}, args.journal_name, force_local=True
         )
-        save_config(original_config)
+        save_config(original_config, args.config_file_path)
 
     return 0
 
@@ -188,6 +190,6 @@ def postconfig_decrypt(
         update_config(
             original_config, {"encrypt": False}, args.journal_name, force_local=True
         )
-        save_config(original_config)
+        save_config(original_config, args.config_file_path)
 
     return 0

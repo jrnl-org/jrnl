@@ -91,6 +91,16 @@ Feature: Multiple journals
             """
         Then the output should contain "Journal encrypted to features/journals/basic_onefile.journal"
         And the config should contain "encrypt: false"
+        And the config should contain "editor: ''"
+
+    Scenario: Don't overwrite main config when a legacy encryption upgrade is triggered in an alternate config
+        Given the config "encrypted_v1_journal_legacy_config.yaml" exists
+        And we use the password "bad doggie no biscuit" if prompted
+        And we use the config "basic_onefile.yaml"
+        When we run "jrnl --config-file encrypted_v1_journal_legacy_config.yaml today I triggered the upgrade"
+        Then we should get no error
+        And the config should contain "encrypt: false"
+        And the config should contain "editor: noop"
 
     Scenario: Don't overwrite main config when decrypting a journal in an alternate config
         Given the config "editor_encrypted.yaml" exists
@@ -98,6 +108,7 @@ Feature: Multiple journals
         And we use the config "basic_encrypted.yaml"
         When we run "jrnl --cf editor_encrypted.yaml --decrypt"
         Then the config should contain "encrypt: true"
+        And the config should contain "editor: noop"
         And the output should not contain "Wrong password"
 
     Scenario: Show an error message when the config file is empty
