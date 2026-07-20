@@ -5,7 +5,7 @@ name: Docs
 
 on:
   push:
-    branches: [ develop, release ]
+    branches: [ main, release ]
     paths:
     - 'docs/**'
     - 'docs_theme/**'
@@ -15,7 +15,7 @@ on:
     - 'tasks.py'
     - 'pyproject.toml'
   pull_request:
-    branches: [ develop ]
+    branches: [ main ]
     paths:
     - 'docs/**'
     - 'docs_theme/**'

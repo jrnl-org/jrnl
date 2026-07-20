@@ -17,7 +17,7 @@ We welcome contributions to jrnl, whether it's through reporting bugs, improving
 
 ## Code of Conduct
 
-Before starting, please read the [Code of Conduct](https://github.com/jrnl-org/jrnl/blob/develop/CODE_OF_CONDUCT.md).
+Before starting, please read the [Code of Conduct](https://github.com/jrnl-org/jrnl/blob/main/CODE_OF_CONDUCT.md).
 
 ## Reporting Bugs
 
@@ -27,7 +27,7 @@ Please report bugs by [opening a new issue](https://github.com/jrnl-org/jrnl/iss
 
 If you find a typo or a mistake in the docs, please fix it right away and send a pull request. If you're unsure what to change but still see a problem, you can [open a new issue](https://github.com/jrnl-org/jrnl/issues/new/choose) with the "Documentation change" type.
 
-To edit the documentation, edit the `docs/*.md` files on the **develop** branch. You can see the result by running `poe docs-run` inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
+To edit the documentation, edit the `docs/*.md` files on the **main** branch. You can see the result by running `poe docs-run` inside the project's root directory, then navigating your browser to [localhost:8000](http://localhost:8000).
 
 ### External editors and tips and tricks
 
@@ -41,7 +41,7 @@ The nature of jrnl means we deal with extremely sensitive data, and can't risk d
 
 ### Prereleases
 
-[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use [pipx](https://pypi.org/project/pipx/) to fetch them and test them. See the [changelog](https://github.com/jrnl-org/jrnl/blob/develop/CHANGELOG.md) for information on what has changed with each release.
+[Prereleases are deployed through PyPi much like normal releases](https://pypi.org/project/jrnl/#history). You can use [pipx](https://pypi.org/project/pipx/) to fetch them and test them. See the [changelog](https://github.com/jrnl-org/jrnl/blob/main/CHANGELOG.md) for information on what has changed with each release.
 
 ### Pull requests
 
@@ -76,10 +76,29 @@ You will need to install [poetry](https://python-poetry.org/) to develop jrnl. I
 
 jrnl uses two primary branches:
 
- * `develop` - for ongoing development
+ * `main` - for ongoing development
  * `release` - for releases
 
-In general, pull requests should be made on the `develop` branch.
+In general, pull requests should be made on the `main` branch.
+
+#### Updating an existing clone after the `develop` → `main` rename
+
+If you have a clone from before the default branch was renamed from `develop` to `main`, update it with:
+
+```bash
+git checkout develop
+git branch -m develop main
+git fetch origin
+git remote prune origin
+git branch -u origin/main main
+git remote set-head origin -a
+```
+
+If you have other local branches based on `develop`, rebase them onto `main`:
+
+```bash
+git rebase --onto main develop <your-branch>
+```
 
 ### Common development commands
 

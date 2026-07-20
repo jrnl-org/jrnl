@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-jrnl is a command-line journal application written in Python. It supports plain text and encrypted (AES) journals, multiple journal types, and various export formats. The main branch for development is `develop`; PRs should target `develop`.
+jrnl is a command-line journal application written in Python. It supports plain text and encrypted (AES) journals, multiple journal types, and various export formats. The main branch for development is `main`
 
 ## Development Setup
 

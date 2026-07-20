@@ -5,12 +5,12 @@ name: Testing Pipeline Files
 
 on:
   push:
-    branches: [ develop, release ]
+    branches: [ main, release ]
     paths:
     - '.github/workflows/**'
     - '.github/actions/**'
   pull_request:
-    branches: [ develop ]
+    branches: [ main ]
     paths:
     - '.github/workflows/**'
     - '.github/actions/**'
