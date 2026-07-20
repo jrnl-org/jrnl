@@ -85,7 +85,11 @@ class Entry:
     def _parse_tags(self) -> set[str]:
         tagsymbols = self.journal.config["tagsymbols"]
         return {
-            tag.lower() for tag in re.findall(Entry.tag_regex(tagsymbols), self.text)
+            tag.lower()
+            for tag in re.findall(Entry.tag_regex(tagsymbols), self.text)
+            # A run made up only of tagsymbols (e.g. a markdown heading such as
+            # "###") is punctuation, not a tag.
+            if not all(char in tagsymbols for char in tag)
         }
 
     def __str__(self):
