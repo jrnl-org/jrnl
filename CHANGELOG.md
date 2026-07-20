@@ -15,6 +15,8 @@
 **Packaging:**
 
 - Drop Python 3.10 support [\#2055](https://github.com/jrnl-org/jrnl/issues/2055)
+- Update actions/setup-python action to v7 [\#2102](https://github.com/jrnl-org/jrnl/pull/2102) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.15.22 [\#2098](https://github.com/jrnl-org/jrnl/pull/2098) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v15 [\#2094](https://github.com/jrnl-org/jrnl/pull/2094) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/checkout action to v7 - autoclosed [\#2093](https://github.com/jrnl-org/jrnl/pull/2093) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/cache action to v6 [\#2092](https://github.com/jrnl-org/jrnl/pull/2092) ([renovate[bot]](https://github.com/apps/renovate))
