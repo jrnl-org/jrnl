@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...HEAD)
 
+**Implemented enhancements:**
+
+- Feature Request: Add a config option to output any new entries to the terminal after submission. [\#1871](https://github.com/jrnl-org/jrnl/issues/1871)
+
 **Fixed bugs:**
 
 - `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
