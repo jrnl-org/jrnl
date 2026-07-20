@@ -211,10 +211,14 @@ def apply_config_updates_in_place(
 
 
 def flush_pending_config_updates(
-    journal: "Journal", original_config: dict, journal_name: str
+    journal: "Journal",
+    original_config: dict,
+    journal_name: str,
+    alt_config_path: str | None = None,
 ) -> None:
     """Persist any config changes accumulated on the journal (e.g. a legacy
-    encryption upgrade triggered by a write) back to the on-disk config."""
+    encryption upgrade triggered by a write) back to the on-disk config.
+    Supply alt_config_path if using an alternate config through --config-file."""
     if not journal._pending_config_updates:
         return
 
@@ -222,7 +226,7 @@ def flush_pending_config_updates(
         original_config, journal._pending_config_updates, journal_name
     )
     journal._pending_config_updates.clear()
-    save_config(original_config)
+    save_config(original_config, alt_config_path)
 
 
 def get_journal_name(args: argparse.Namespace, config: dict) -> argparse.Namespace:

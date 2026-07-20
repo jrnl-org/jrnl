@@ -97,7 +97,9 @@ def run(args: "Namespace"):
 
     # Persist any config changes that occurred during journal.write() (e.g. a v1/v2
     # upgrade to v3 triggered by the write).
-    flush_pending_config_updates(journal, original_config, args.journal_name)
+    flush_pending_config_updates(
+        journal, original_config, args.journal_name, args.config_file_path
+    )
 
 
 def _perform_actions_on_search_results(**kwargs):
