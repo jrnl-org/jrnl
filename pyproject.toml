@@ -36,7 +36,7 @@ Funding = "https://opencollective.com/jrnl"
 jrnl = 'jrnl.main:run'
 
 [tool.poetry]
-version = "4.3"
+version = "v4.3"
 classifiers = [
   "Topic :: Office/Business :: News/Diary",
   "Environment :: Console",
