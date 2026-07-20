@@ -8,7 +8,7 @@ authors = [
   {name = "Jonathan Wren", email = "jonathan@nowandwren.com"},
   {name = "Manuel Ebert", email = "manuel@1450.me"},
   {name = "Micah Ellison", email = "micahellison@gmail.com"},
-  {name = "Aaron Lichtman", email = "aaronlichtman@gmail.com"}
+  {name = "Aaron Lichtman", email = "aaronlichtman@gmail.com"},
   {name = "jrnl contributors", email = "maintainers@jrnl.sh"}
 ]
 maintainers = [{name = "Jonathan Wren, Micah Ellison, Aaron Lichtman", email = "maintainers@jrnl.sh"}]
