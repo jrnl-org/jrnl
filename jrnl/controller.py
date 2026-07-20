@@ -221,8 +221,9 @@ def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
 
 
 def _write_in_editor(config: dict, prepopulated_text: str | None = None) -> str:
-    if config["editor"]:
-        logging.debug(f"Append mode: opening editor ({config['editor']})")
+    editor = config["editor"]
+    if editor:
+        logging.debug(f"Append mode: opening editor ({editor})")
         raw = get_text_from_editor(config, prepopulated_text)
     else:
         raw = get_text_from_stdin()
