@@ -5,12 +5,13 @@ license = "GPL-3.0-only"
 dynamic = ["version", "classifiers"]
 readme = "README.md"
 authors = [
-  {name = "Micah Ellison", email = "micahellison@gmail.com"},
   {name = "Jonathan Wren", email = "jonathan@nowandwren.com"},
   {name = "Manuel Ebert", email = "manuel@1450.me"},
+  {name = "Micah Ellison", email = "micahellison@gmail.com"},
+  {name = "Aaron Lichtman", email = "aaronlichtman@gmail.com"}
   {name = "jrnl contributors", email = "maintainers@jrnl.sh"}
 ]
-maintainers = [{name = "Jonathan Wren and Micah Ellison", email = "maintainers@jrnl.sh"}]
+maintainers = [{name = "Jonathan Wren, Micah Ellison, Aaron Lichtman", email = "maintainers@jrnl.sh"}]
 requires-python = '>=3.11.0,<3.15'
 dependencies = [
   'colorama (>=0.4)', # https://github.com/tartley/colorama/blob/master/CHANGELOG.rst
@@ -129,7 +130,7 @@ line-length = 88
 target-version = "py311"
 
 # https://beta.ruff.rs/docs/rules/
-lint.select = [ 
+lint.select = [
   'F',     # Pyflakes
   'E',     # pycodestyle errors
   'W',     # pycodestyle warnings
