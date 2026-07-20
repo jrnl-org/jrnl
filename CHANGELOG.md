@@ -13,6 +13,7 @@
 - `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
 - Bug Report [\#2082](https://github.com/jrnl-org/jrnl/issues/2082)
 - KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
+- Bug Report - jrnl item not written [\#2073](https://github.com/jrnl-org/jrnl/issues/2073)
 - 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
 - Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
 - jrnl crashes when `colors.tags` is not configured [\#2021](https://github.com/jrnl-org/jrnl/issues/2021)
@@ -30,6 +31,7 @@
 
 **Merged pull requests:**
 
+- fix: guarantee editor tempfile cleanup and add debug logging [\#2106](https://github.com/jrnl-org/jrnl/pull/2106) ([alichtman](https://github.com/alichtman))
 - fix: don't crash on invalid UTF-8 from stdin when writing an entry [\#2104](https://github.com/jrnl-org/jrnl/pull/2104) ([alichtman](https://github.com/alichtman))
 - fix: don't overwrite the default config when using --config-file [\#2101](https://github.com/jrnl-org/jrnl/pull/2101) ([alichtman](https://github.com/alichtman))
 - fix: write journal files atomically to avoid corruption on crash [\#2096](https://github.com/jrnl-org/jrnl/pull/2096) ([alichtman](https://github.com/alichtman))
