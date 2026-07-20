@@ -16,7 +16,7 @@ extra_css:
 markdown_extensions:
   - admonition
 repo_url: https://github.com/jrnl-org/jrnl/
-edit_uri: edit/develop/docs/
+edit_uri: edit/main/docs/
 site_author: jrnl contributors
 site_description: Collect your thoughts and notes without leaving the command line.
 nav:

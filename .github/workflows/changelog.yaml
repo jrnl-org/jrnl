@@ -6,7 +6,7 @@ name: Changelog
 on:
   push:
     branches:
-      - develop
+      - main
     tags:
       - 'v*'
 
@@ -44,7 +44,7 @@ jobs:
             fi
 
             RELEASE=1
-            BRANCH=develop
+            BRANCH=main
             git checkout $BRANCH
 
             # if actual release (not pre), then changelog should exclude prereleases on update
@@ -122,7 +122,7 @@ jobs:
           sinceTag: ${{ env.SINCE_TAG }}
           maxIssues: 150
           releaseUrl: https://pypi.org/project/jrnl/%s/
-          releaseBranch: develop
+          releaseBranch: main
           verbose: false
           author: true
 
