@@ -6,6 +6,7 @@
 
 **Fixed bugs:**
 
+- `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
 - KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
 - 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
 - Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
@@ -22,6 +23,7 @@
 
 **Merged pull requests:**
 
+- fix: don't overwrite the default config when using --config-file [\#2101](https://github.com/jrnl-org/jrnl/pull/2101) ([alichtman](https://github.com/alichtman))
 - fix: write journal files atomically to avoid corruption on crash [\#2096](https://github.com/jrnl-org/jrnl/pull/2096) ([alichtman](https://github.com/alichtman))
 - fix: emit error when running --decrypt on an unencrypted journal [\#2095](https://github.com/jrnl-org/jrnl/pull/2095) ([alichtman](https://github.com/alichtman))
 - chore: upgrade all deps [\#2091](https://github.com/jrnl-org/jrnl/pull/2091) ([alichtman](https://github.com/alichtman))
