@@ -26,6 +26,7 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
         suffix = "-" + template_filename
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=suffix)
     os.close(filehandle)
+    logging.debug(f"Editor: created tempfile {tmpfile}")
 
     try:
         with open(tmpfile, "w", encoding="utf-8") as f:
@@ -33,8 +34,10 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
                 f.write(template)
 
         try:
+            logging.debug(f"Editor: invoking editor with command {config['editor']}")
             subprocess.call(split_args(config["editor"]) + [tmpfile])
         except FileNotFoundError:
+            logging.error(f"Editor: misconfigured editor {config['editor']}")
             raise JrnlException(
                 Message(
                     MsgText.EditorMisconfigured,
@@ -47,6 +50,7 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
             raw = f.read()
     finally:
         os.remove(tmpfile)
+        logging.debug(f"Editor: removed tempfile {tmpfile}")
 
     if not raw:
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
@@ -120,6 +124,7 @@ def read_template_file(template_path: str) -> str:
             template_data = f.read()
             return template_data
     except FileNotFoundError:
+        logging.debug(f"Couldn't read template file {actual_template_path}")
         raise JrnlException(
             Message(
                 MsgText.CantReadTemplate,
