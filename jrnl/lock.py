@@ -19,21 +19,25 @@ from jrnl.os_compat import on_windows
 from jrnl.output import print_msg
 from jrnl.prompt import yesno
 
-# How long to wait for another jrnl process to release the journal before
-# failing fast, rather than hanging indefinitely. Overridable via
-# JRNL_LOCK_TIMEOUT.
-LOCK_TIMEOUT_SECONDS = float(os.getenv("JRNL_LOCK_TIMEOUT", "2"))
+# How long to wait for a locked journal to free up before failing fast.
+# Zero by default -- if it's locked, it's almost always a human still in an
+# editor, so waiting doesn't help. Override with JRNL_LOCK_TIMEOUT for
+# scripted use where a short grace period helps.
+LOCK_TIMEOUT_SECONDS = float(os.getenv("JRNL_LOCK_TIMEOUT", "0"))
+
+# How long to wait for a killed lock holder to actually die and free the
+# lock. Kept separate from LOCK_TIMEOUT_SECONDS so a fast-failing initial
+# acquire doesn't also rush the kill-and-retry step.
+KILL_RECOVERY_TIMEOUT_SECONDS = 2.0
 
 UNKNOWN_PID = "unknown"
 
 
 def _lock_owner_id() -> str:
-    """Filesystem-safe identifier for the current user, used to scope the
-    lock directory. Falls back to a fixed name if no username is available
-    (e.g. some CI/container setups). getpass.getuser() raises OSError when
-    it explicitly detects no username (Python 3.13+); on platforms without
-    a 'pwd' module (Windows) and no LOGNAME/USER/LNAME/USERNAME env vars,
-    older behavior lets the ImportError from `import pwd` propagate raw."""
+    """Filesystem-safe username for scoping the lock directory. Falls back
+    to "unknown" if none is available -- getpass.getuser() raises OSError
+    for that on Python 3.13+, but can raise ImportError instead on older
+    Python on Windows (no 'pwd' module)."""
     try:
         return getpass.getuser()
     except (OSError, ImportError):
@@ -67,20 +71,15 @@ def journal_lock_path(journal_path: str) -> str:
     return os.path.join(_lock_dir(), f"{digest}.lock")
 
 
-# filelock's Windows backend takes a mandatory OS lock on exactly 1 byte at
-# offset 0 of the lock file to represent ownership (LockFileEx, unlike
-# POSIX flock which locks the whole file only against other flock callers).
-# Reading or writing that byte from any other handle -- even our own, via a
-# second open() -- raises a sharing violation while the lock is held. Keep
-# our bookkeeping strictly past it so a contending process can still read
-# who's holding the lock.
+# filelock's Windows backend locks byte 0 of the lock file to represent
+# ownership; touching that byte from another handle raises while the lock
+# is held. Keep our PID past it so a contender can still read who holds it.
 _PID_OFFSET = 1
 
 
 def _read_lock_pid(lock_path: str) -> str:
-    """Best-effort read of the PID left behind by the current (or last) lock
-    holder. Safe to store in the lock file itself: filelock (>=3.30.0) only
-    lets the actual holder write to it, never a losing contender."""
+    """Best-effort read of the PID left by the current (or last) lock
+    holder."""
     with contextlib.suppress(OSError, ValueError):
         with open(lock_path, "rb") as f:
             f.seek(_PID_OFFSET)
@@ -137,7 +136,7 @@ def _kill_and_wait(pid: str) -> bool:
     try:
         proc = psutil.Process(int(pid))
         proc.kill()
-        proc.wait(timeout=LOCK_TIMEOUT_SECONDS)
+        proc.wait(timeout=KILL_RECOVERY_TIMEOUT_SECONDS)
     except psutil.NoSuchProcess:
         pass
     except (psutil.Error, ValueError):
@@ -192,7 +191,7 @@ def _handle_lock_timeout(
         )
 
     try:
-        lock.acquire()
+        lock.acquire(timeout=KILL_RECOVERY_TIMEOUT_SECONDS)
         return
     except filelock.Timeout:
         # someone else grabbed it in the gap -- show who, in full
@@ -206,11 +205,10 @@ def acquire_journal_lock(journal_path: str, journal_name: str) -> filelock.FileL
     before raising a JrnlException."""
     lock_path = journal_lock_path(journal_path)
 
-    # preserve_lock_file=True: without it, filelock deletes the lock file on
-    # release on Windows (Unix already leaves it), and silently falls back to
-    # SoftFileLock -- which also deletes on release -- if flock isn't
-    # supported. Both would reintroduce the unlink race release_journal_lock
-    # exists to avoid, and would wipe the PID we write into the file below.
+    # preserve_lock_file=True: otherwise filelock deletes the lock file on
+    # release (always on Windows, or if it falls back to SoftFileLock), which
+    # reintroduces the unlink race release_journal_lock avoids, and wipes the
+    # PID we write below.
     lock = filelock.FileLock(
         lock_path, timeout=LOCK_TIMEOUT_SECONDS, preserve_lock_file=True
     )
@@ -226,9 +224,7 @@ def acquire_journal_lock(journal_path: str, journal_name: str) -> filelock.FileL
 def release_journal_lock(lock: filelock.FileLock) -> None:
     """Releases a lock acquired by acquire_journal_lock.
 
-    Does NOT delete the on-disk lock file -- unlinking it here could race
-    with a waiting process and let two processes hold the lock at once.
-    preserve_lock_file=True (set in acquire_journal_lock) makes filelock
-    enforce that too.
+    Leaves the lock file on disk -- deleting it here could race with a
+    waiting process and let two processes hold the lock at once.
     """
     lock.release()
