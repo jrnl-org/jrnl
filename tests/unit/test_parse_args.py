@@ -300,6 +300,18 @@ class TestDeserialization:
         assert input_str[0] in runtime_config
         assert runtime_config[input_str[0]] == input_str[1]
 
+    @pytest.mark.parametrize(
+        "input_str",
+        [
+            ["timeformat", "%d"],
+            ["timeformat", "%Y-%m-%d %H:%M"],
+        ],
+    )
+    def test_deserialize_values_that_are_not_valid_yaml(self, input_str):
+        runtime_config = make_yaml_valid_dict(input_str)
+        assert runtime_config.__class__ is dict
+        assert runtime_config[input_str[0]] == input_str[1]
+
     def test_deserialize_multiple_datatypes(self):
         cfg = make_yaml_valid_dict(["linewrap", "23"])
         assert cfg["linewrap"] == 23
