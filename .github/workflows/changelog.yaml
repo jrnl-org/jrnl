@@ -153,7 +153,7 @@ jobs:
           git push origin "$BRANCH"
 
       - name: Update tag to include changelog
-        if: startsWith(env.GITHUB_REF, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           # This is a tag build (releases and prereleases)
           # update the tag to include the changelog
@@ -161,7 +161,7 @@ jobs:
           git push --tags --force
 
       - name: Create GitHub release
-        if: startsWith(env.GITHUB_REF, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           GH_TOKEN: ${{ secrets.JRNL_BOT_TOKEN }}
         run: |
