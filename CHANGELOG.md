@@ -11,11 +11,13 @@
 **Packaging:**
 
 - Update dependency cryptography to v50 [\#2114](https://github.com/jrnl-org/jrnl/pull/2114) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.58.0 [\#2108](https://github.com/jrnl-org/jrnl/pull/2108) ([renovate[bot]](https://github.com/apps/renovate))
 
 **Merged pull requests:**
 
 - Derive folder-journal entry dates from the folder path [\#2115](https://github.com/jrnl-org/jrnl/pull/2115) ([youdie006](https://github.com/youdie006))
 - docs: add gedit to external editors [\#2107](https://github.com/jrnl-org/jrnl/pull/2107) ([natejswenson](https://github.com/natejswenson))
+- Feature: warning for similar tags [\#2064](https://github.com/jrnl-org/jrnl/pull/2064) ([hanbeex](https://github.com/hanbeex))
 
 ## [v4.6-beta](https://pypi.org/project/jrnl/v4.6-beta/) (2026-08-06)
 
