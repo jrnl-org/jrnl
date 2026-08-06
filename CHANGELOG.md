@@ -1,8 +1,8 @@
 # Changelog
 
-## [v4.4-beta](https://pypi.org/project/jrnl/v4.4-beta/) (2026-08-06)
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...v4.4-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...HEAD)
 
 **Implemented enhancements:**
 
@@ -13,6 +13,7 @@
 - `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
 - Bug Report [\#2082](https://github.com/jrnl-org/jrnl/issues/2082)
 - KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
+- Bug Report - jrnl item not written [\#2073](https://github.com/jrnl-org/jrnl/issues/2073)
 - 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
 - Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
 - jrnl crashes when `colors.tags` is not configured [\#2021](https://github.com/jrnl-org/jrnl/issues/2021)
