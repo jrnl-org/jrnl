@@ -6,9 +6,12 @@
   "schedule": [ "at any time" ],
   "prConcurrentLimit": 10,
   "prHourlyLimit": 10,
+  "automerge": true,
+  "automergeType": "pr",
   "reviewers": [
     "wren",
-    "micahellison"
+    "micahellison",
+    "alichtman"
   ],
   "labels": [ "packaging" ]
 }
