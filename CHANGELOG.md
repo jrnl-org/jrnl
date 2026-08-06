@@ -4,12 +4,17 @@
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.6-beta...HEAD)
 
+**Fixed bugs:**
+
+- Bug: Using time format "%H:%m" overwrites old entries on a day [\#2006](https://github.com/jrnl-org/jrnl/issues/2006)
+
 **Packaging:**
 
 - Update dependency cryptography to v50 [\#2114](https://github.com/jrnl-org/jrnl/pull/2114) ([renovate[bot]](https://github.com/apps/renovate))
 
 **Merged pull requests:**
 
+- Derive folder-journal entry dates from the folder path [\#2115](https://github.com/jrnl-org/jrnl/pull/2115) ([youdie006](https://github.com/youdie006))
 - docs: add gedit to external editors [\#2107](https://github.com/jrnl-org/jrnl/pull/2107) ([natejswenson](https://github.com/natejswenson))
 
 ## [v4.6-beta](https://pypi.org/project/jrnl/v4.6-beta/) (2026-08-06)
