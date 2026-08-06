@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+IMPORTANT: ALWAYS prefer contributing to the `main` branch with a PR.
+
 ## Project Overview
 
 jrnl is a command-line journal application written in Python. It supports plain text and encrypted (AES) journals, multiple journal types, and various export formats. The main branch for development is `main`
