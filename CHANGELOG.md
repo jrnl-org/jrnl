@@ -6,14 +6,15 @@
 
 **Implemented enhancements:**
 
+- Feature Request: VJOURNAL Backend [\#2083](https://github.com/jrnl-org/jrnl/issues/2083)
 - Feature Request: Add a config option to output any new entries to the terminal after submission. [\#1871](https://github.com/jrnl-org/jrnl/issues/1871)
 
 **Fixed bugs:**
 
+- Icelandic letters in UTF-8 not working. [\#2113](https://github.com/jrnl-org/jrnl/issues/2113)
 - `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
 - Bug Report [\#2082](https://github.com/jrnl-org/jrnl/issues/2082)
 - KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
-- Bug Report - jrnl item not written [\#2073](https://github.com/jrnl-org/jrnl/issues/2073)
 - 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
 - Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
 - jrnl crashes when `colors.tags` is not configured [\#2021](https://github.com/jrnl-org/jrnl/issues/2021)
