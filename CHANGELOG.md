@@ -1,28 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/jrnl-org/jrnl/)
+## [v4.6](https://pypi.org/project/jrnl/v4.6/) (2026-08-07)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.6-beta...HEAD)
-
-**Fixed bugs:**
-
-- Bug: Using time format "%H:%m" overwrites old entries on a day [\#2006](https://github.com/jrnl-org/jrnl/issues/2006)
-
-**Packaging:**
-
-- Update dependency cryptography to v50 [\#2114](https://github.com/jrnl-org/jrnl/pull/2114) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency tox to v4.58.0 [\#2108](https://github.com/jrnl-org/jrnl/pull/2108) ([renovate[bot]](https://github.com/apps/renovate))
-
-**Merged pull requests:**
-
-- Enable automerge for Renovate PRs [\#2116](https://github.com/jrnl-org/jrnl/pull/2116) ([alichtman](https://github.com/alichtman))
-- Derive folder-journal entry dates from the folder path [\#2115](https://github.com/jrnl-org/jrnl/pull/2115) ([youdie006](https://github.com/youdie006))
-- docs: add gedit to external editors [\#2107](https://github.com/jrnl-org/jrnl/pull/2107) ([natejswenson](https://github.com/natejswenson))
-- Feature: warning for similar tags [\#2064](https://github.com/jrnl-org/jrnl/pull/2064) ([hanbeex](https://github.com/hanbeex))
-
-## [v4.6-beta](https://pypi.org/project/jrnl/v4.6-beta/) (2026-08-06)
-
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...v4.6-beta)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...v4.6)
 
 **Implemented enhancements:**
 
@@ -38,10 +18,13 @@
 - 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
 - Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
 - jrnl crashes when `colors.tags` is not configured [\#2021](https://github.com/jrnl-org/jrnl/issues/2021)
+- Bug: Using time format "%H:%m" overwrites old entries on a day [\#2006](https://github.com/jrnl-org/jrnl/issues/2006)
 
 **Packaging:**
 
 - Drop Python 3.10 support [\#2055](https://github.com/jrnl-org/jrnl/issues/2055)
+- Update dependency cryptography to v50 [\#2114](https://github.com/jrnl-org/jrnl/pull/2114) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.58.0 [\#2108](https://github.com/jrnl-org/jrnl/pull/2108) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/setup-python action to v7 [\#2102](https://github.com/jrnl-org/jrnl/pull/2102) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.15.22 [\#2098](https://github.com/jrnl-org/jrnl/pull/2098) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v15 [\#2094](https://github.com/jrnl-org/jrnl/pull/2094) ([renovate[bot]](https://github.com/apps/renovate))
@@ -52,6 +35,9 @@
 
 **Merged pull requests:**
 
+- Enable automerge for Renovate PRs [\#2116](https://github.com/jrnl-org/jrnl/pull/2116) ([alichtman](https://github.com/alichtman))
+- Derive folder-journal entry dates from the folder path [\#2115](https://github.com/jrnl-org/jrnl/pull/2115) ([youdie006](https://github.com/youdie006))
+- docs: add gedit to external editors [\#2107](https://github.com/jrnl-org/jrnl/pull/2107) ([natejswenson](https://github.com/natejswenson))
 - fix: guarantee editor tempfile cleanup and add debug logging [\#2106](https://github.com/jrnl-org/jrnl/pull/2106) ([alichtman](https://github.com/alichtman))
 - fix: don't crash on invalid UTF-8 from stdin when writing an entry [\#2104](https://github.com/jrnl-org/jrnl/pull/2104) ([alichtman](https://github.com/alichtman))
 - fix: don't overwrite the default config when using --config-file [\#2101](https://github.com/jrnl-org/jrnl/pull/2101) ([alichtman](https://github.com/alichtman))
@@ -62,6 +48,7 @@
 - Drop Python 3.10 support [\#2088](https://github.com/jrnl-org/jrnl/pull/2088) ([alichtman](https://github.com/alichtman))
 - docs: add CLAUDE.md [\#2086](https://github.com/jrnl-org/jrnl/pull/2086) ([alichtman](https://github.com/alichtman))
 - fix: prevent ValueError when upgrading with no journals configured [\#2080](https://github.com/jrnl-org/jrnl/pull/2080) ([miloquinn](https://github.com/miloquinn))
+- Feature: warning for similar tags [\#2064](https://github.com/jrnl-org/jrnl/pull/2064) ([hanbeex](https://github.com/hanbeex))
 - Minor fixes to docstrings of functions [\#1868](https://github.com/jrnl-org/jrnl/pull/1868) ([MuditJ](https://github.com/MuditJ))
 
 ## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)
