@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import argparse
+import json
 import logging
 import os
 from typing import TYPE_CHECKING
@@ -11,6 +12,7 @@ from typing import Callable
 from rich.pretty import pretty_repr
 from ruamel.yaml import YAML
 from ruamel.yaml import constructor
+from ruamel.yaml.error import YAMLError
 
 from jrnl import __version__
 from jrnl.color import is_valid_color
@@ -49,13 +51,20 @@ def make_yaml_valid_dict(input: list) -> dict:
     """
 
     assert len(input) == 2
+    key, value = input
+
+    yaml = YAML(typ="safe")
 
     # yaml compatible strings are of the form Key:Value
-    yamlstr = YAML_SEPARATOR.join(input)
-
-    runtime_modifications = YAML(typ="safe").load(yamlstr)
-
-    return runtime_modifications
+    try:
+        return yaml.load(YAML_SEPARATOR.join(input))
+    except YAMLError:
+        # The value starts with (or otherwise contains) a character that YAML
+        # treats as reserved when unquoted, e.g. "%" in a strftime format
+        # string like "%d.%m.%Y". Retry with the value safely quoted so it's
+        # parsed as a plain string instead of erroring.
+        quoted_value = json.dumps(value)
+        return yaml.load(YAML_SEPARATOR.join([key, quoted_value]))
 
 
 def save_config(config: dict, alt_config_path: str | None = None) -> None:
@@ -83,6 +92,7 @@ def get_default_config() -> dict[str, Any]:
         "default_hour": 9,
         "default_minute": 0,
         "timeformat": "%F %r",
+        "timeformat_display": "",
         "tagsymbols": "#@",
         "highlight": True,
         "linewrap": 79,

@@ -40,6 +40,7 @@ class Journal:
             "default_hour": 9,
             "default_minute": 0,
             "timeformat": "%Y-%m-%d %H:%M",
+            "timeformat_display": "",
             "tagsymbols": "@",
             "highlight": True,
             "linewrap": 80,

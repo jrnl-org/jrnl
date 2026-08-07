@@ -7,6 +7,7 @@ import os
 import re
 from typing import TYPE_CHECKING
 
+from jrnl import time
 from jrnl.color import colorize
 from jrnl.color import get_color
 from jrnl.color import highlight_tags_with_background_color
@@ -100,6 +101,15 @@ class Entry:
             body=self.body.rstrip("\n "),
         )
 
+    def _display_date_str(self) -> str:
+        """Returns the date of the entry formatted for display, honoring
+        the "timeformat_display" config key (which may be "relative" or a
+        strftime format string) and falling back to "timeformat"."""
+        display_format = self.journal.config.get("timeformat_display")
+        if display_format == "relative":
+            return time.relative_time(self.date)
+        return self.date.strftime(display_format or self.journal.config["timeformat"])
+
     def pprint(self, short: bool = False) -> str:
         """Returns a pretty-printed version of the entry.
         If short is true, only print the title."""
@@ -110,7 +120,7 @@ class Entry:
             indent = ""
 
         date_str = colorize(
-            self.date.strftime(self.journal.config["timeformat"]),
+            self._display_date_str(),
             get_color(self.journal.config, "date"),
             bold=True,
         )
