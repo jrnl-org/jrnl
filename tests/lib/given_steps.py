@@ -1,12 +1,15 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import errno
 import json
 import os
 import random
 import shutil
+import stat
 import string
 from datetime import datetime
+from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from xml.etree import ElementTree as ET
@@ -20,6 +23,19 @@ from jrnl.time import __get_pdt_calendar
 from tests.lib.fixtures import FailedKeyring
 from tests.lib.fixtures import NoKeyring
 from tests.lib.fixtures import TestKeyring
+
+
+def _force_remove_readonly(func, path, exc_info):
+    """Error handler for shutil.rmtree on Windows.
+
+    Git marks pack-file objects as read-only, which prevents
+    os.unlink from removing them.  Clear the flag and retry.
+    """
+    if func in (os.unlink, os.rmdir) and exc_info[1].errno == errno.EACCES:
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise
 
 
 @given(re(r"we (?P<editor_method>\w+) to the editor if opened"))
@@ -70,6 +86,68 @@ def now_is_str(date_str, mock_factories):
     mock_factories["calendar_parse"] = lambda: patch(
         "jrnl.time.__get_pdt_calendar", return_value=calendar_mock
     )
+
+
+@given("git author info is configured")
+def git_author_env(monkeypatch):
+    monkeypatch.setenv("GIT_AUTHOR_NAME", "Test")
+    monkeypatch.setenv("GIT_AUTHOR_EMAIL", "test@test.com")
+    monkeypatch.setenv("GIT_COMMITTER_NAME", "Test")
+    monkeypatch.setenv("GIT_COMMITTER_EMAIL", "test@test.com")
+
+
+@given("a local git remote is configured for the journal")
+def setup_git_remote(config_on_disk, temp_dir):
+    """Set up a local bare repo as a fake git remote for push tests.
+
+    A bare repo (no working tree) is what a real remote like GitHub stores
+    internally. Git's transport protocol works identically whether the remote
+    URL is a local path or git@github.com:..., so this is a faithful end-to-end
+    test of the push path without needing network access.
+
+    The then step "the git remote should have N git commits" opens this same
+    bare repo directly to verify the push landed.
+    """
+    import git as gitpython
+
+    from jrnl.config import scope_config
+
+    scoped = scope_config(config_on_disk, "default")
+    journal_path = Path(scoped["journal"]).resolve()
+    repo_dir = journal_path.parent if journal_path.is_file() else journal_path
+
+    try:
+        repo = gitpython.Repo(repo_dir)
+    except gitpython.exc.InvalidGitRepositoryError:
+        repo = gitpython.Repo.init(repo_dir)
+
+    remote_path = Path(temp_dir.name) / "remote.git"
+    gitpython.Repo.init(remote_path, bare=True)
+    repo.create_remote("origin", str(remote_path))
+
+
+@given("the git remote has a new commit")
+def remote_has_new_commit(config_on_disk, temp_dir):
+    """Push an extra commit to the bare remote so the local repo is behind."""
+    import git as gitpython
+
+    remote_path = Path(temp_dir.name) / "remote.git"
+    # Clone the bare remote into a temporary working copy, commit, and push
+    work_path = Path(temp_dir.name) / "remote_work"
+    work_repo = gitpython.Repo.clone_from(str(remote_path), str(work_path))
+    marker = work_path / "remote_change.txt"
+    marker.write_text("change from remote")
+    work_repo.index.add([str(marker)])
+    work_repo.index.commit("remote commit")
+    work_repo.remotes[0].push()
+    work_repo.close()
+    # Clean up the working copy so it doesn't interfere.
+    if os.name == "nt":
+        # On Windows, git marks pack files as read-only; we must
+        # clear that flag before unlinking.
+        shutil.rmtree(work_path, onerror=_force_remove_readonly)
+    else:
+        shutil.rmtree(work_path)
 
 
 @given("we don't have a keyring", target_fixture="keyring")

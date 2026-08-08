@@ -447,6 +447,23 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         "--cf", dest="config_file_path", type=str, default="", help=argparse.SUPPRESS
     )
 
+    git_group = parser.add_argument_group("Git Integration")
+    git_mutex = git_group.add_mutually_exclusive_group()
+    git_mutex.add_argument(
+        "--git",
+        dest="git_enabled",
+        action="store_true",
+        default=None,
+        help="Enable all git operations (commit, pull, push)",
+    )
+    git_mutex.add_argument(
+        "--no-git",
+        dest="git_enabled",
+        action="store_false",
+        default=None,
+        help="Disable all git operations for this invocation",
+    )
+
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
