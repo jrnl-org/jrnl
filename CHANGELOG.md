@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jrnl-org/jrnl/)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.6...HEAD)
+
+**Packaging:**
+
+- Update dependency ruff to v0.16.2 [\#2109](https://github.com/jrnl-org/jrnl/pull/2109) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v4.6](https://pypi.org/project/jrnl/v4.6/) (2026-08-07)
 
 [Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...v4.6)
