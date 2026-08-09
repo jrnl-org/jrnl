@@ -11,6 +11,7 @@ from typing import Callable
 from rich.pretty import pretty_repr
 from ruamel.yaml import YAML
 from ruamel.yaml import constructor
+from ruamel.yaml.error import YAMLError
 
 from jrnl import __version__
 from jrnl.color import is_valid_color
@@ -53,7 +54,13 @@ def make_yaml_valid_dict(input: list) -> dict:
     # yaml compatible strings are of the form Key:Value
     yamlstr = YAML_SEPARATOR.join(input)
 
-    runtime_modifications = YAML(typ="safe").load(yamlstr)
+    try:
+        runtime_modifications = YAML(typ="safe").load(yamlstr)
+    except YAMLError:
+        # Values that are not valid YAML on their own (e.g. a strftime format
+        # such as "%d", where "%" starts a YAML directive) are still valid
+        # configuration values, so fall back to the literal string.
+        runtime_modifications = {input[0]: input[1]}
 
     return runtime_modifications
 
