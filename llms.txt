@@ -1,0 +1,31 @@
+# jrnl
+
+> A simple, plain-text journal application for the command line. Create, search, tag, and view journal entries; supports multiple journals, external editors, AES encryption, and import/export in several formats.
+
+## Getting Started
+
+- [Installation](https://github.com/jrnl-org/jrnl/blob/main/docs/installation.md): Install via `pipx install jrnl` (Python 3.11+), quickstart example.
+- [Overview](https://github.com/jrnl-org/jrnl/blob/main/docs/overview.md): Core concepts — plain text storage, tags, multiple journals, external editors, encryption, import/export.
+- [Basic Usage](https://github.com/jrnl-org/jrnl/blob/main/docs/usage.md): Composing vs. viewing modes, timestamp parsing, tagging, starring entries.
+
+## Configuration
+
+- [Command Line Reference](https://github.com/jrnl-org/jrnl/blob/main/docs/reference-command-line.md): Full flag synopsis (`--encrypt`, `--decrypt`, `--import`, `--format`, filters like `-on`, `-from`, `-to`, `-contains`, `-starred`).
+- [Config File Reference](https://github.com/jrnl-org/jrnl/blob/main/docs/reference-config-file.md): All `jrnl.yaml` settings (default hour/minute, tag symbols, editor, etc.).
+- [Advanced](https://github.com/jrnl-org/jrnl/blob/main/docs/advanced.md) / [External Editors](https://github.com/jrnl-org/jrnl/blob/main/docs/external-editors.md): Editor integration and advanced configuration.
+
+## Data
+
+- [Formats](https://github.com/jrnl-org/jrnl/blob/main/docs/formats.md): Display, data, and report output formats (JSON, YAML, Markdown, etc.) for viewing and export.
+- [Encryption](https://github.com/jrnl-org/jrnl/blob/main/docs/encryption.md): AES encryption behavior, v3 file format, related security advisory.
+- [Journal Types](https://github.com/jrnl-org/jrnl/blob/main/docs/journal-types.md): Single-file vs. folder-based journals.
+- [Privacy and Security](https://github.com/jrnl-org/jrnl/blob/main/docs/privacy-and-security.md): Threat model and data-handling notes.
+
+## Development
+
+- [Contributing](https://github.com/jrnl-org/jrnl/blob/main/docs/contributing.md): Code of conduct, bug reports, docs editing (`poe docs-run`), developing jrnl.
+
+## Optional
+
+- [Tips and Tricks](https://github.com/jrnl-org/jrnl/blob/main/docs/tips-and-tricks.md): Practical usage patterns.
+- [License](https://github.com/jrnl-org/jrnl/blob/main/LICENSE.md): GPL-3.0.
