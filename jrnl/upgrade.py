@@ -190,6 +190,11 @@ def upgrade_jrnl(config_path: str) -> None:
 
 
 def is_old_version(config_path: str) -> bool:
+    config = load_config(config_path)
+    version = config.get("version")
+    if version is not None:
+        major_version = int(str(version).lstrip("v").split(".")[0])
+        return major_version < 2
     return is_config_json(config_path)
 
 
