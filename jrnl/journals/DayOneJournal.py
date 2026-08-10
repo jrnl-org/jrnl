@@ -180,6 +180,16 @@ class DayOne(Journal):
                 entry.modified = True
                 setattr(entry, attr, new_attr)
 
+    def _normalize_tag(self, tag: str) -> str:
+        """DayOne stores tags without a symbol, so they are always read back with
+        the first configured tag symbol. Rewrite a searched tag to use that same
+        symbol so any configured tag symbol can be used to search."""
+        tag = super()._normalize_tag(tag)
+        tagsymbols = self.config["tagsymbols"]
+        if tag[:1] in tagsymbols:
+            return tagsymbols[0] + tag[1:]
+        return tag
+
     def _get_and_remove_uuid_from_entry(self, entry: Entry) -> Entry:
         uuid_regex = "^ *?# ([a-zA-Z0-9]+) *?$"
         m = re.search(uuid_regex, entry.body, re.MULTILINE)

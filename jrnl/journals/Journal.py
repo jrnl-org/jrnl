@@ -325,6 +325,10 @@ class Journal:
         tag_counts = {(tags.count(tag), tag) for tag in tags}
         return [Tag(tag, count=count) for count, tag in sorted(tag_counts)]
 
+    def _normalize_tag(self, tag: str) -> str:
+        """Normalizes a searched tag so it can be compared to an entry's tags."""
+        return tag.lower()
+
     def filter(
         self,
         tags=[],
@@ -354,8 +358,8 @@ class Journal:
 
         exclude is a list of the tags which should not appear in the results.
         entry is kept if any tag is present, unless they appear in exclude."""
-        self.search_tags = {tag.lower() for tag in tags}
-        excluded_tags = {tag.lower() for tag in exclude}
+        self.search_tags = {self._normalize_tag(tag) for tag in tags}
+        excluded_tags = {self._normalize_tag(tag) for tag in exclude}
         end_date = time.parse(end_date, inclusive=True)
         start_date = time.parse(start_date)
 
