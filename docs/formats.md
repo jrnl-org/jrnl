@@ -21,6 +21,12 @@ more formats through plugins, you may have more available on your system. Please
 Any of these formats can be used interchangeably, and are only grouped into "display",
 "data", and "report" formats below for convenience.
 
+!!! note
+    The formats listed on this page are **export formats** — they are used for
+    displaying or exporting journal entries. When importing entries with
+    `--import`, the only supported format is `jrnl` (the default). See the
+    [--import documentation](reference-command-line.md#-import) for more information.
+
 ## Display Formats
 These formats are mainly intended for displaying your journal in the terminal. Even so,
 they can still be used in the same way as any other format (like written to a file, if

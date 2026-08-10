@@ -50,8 +50,11 @@ Specify a file to import. If not provided, `jrnl` will use STDIN as the data sou
 ```sh
 --format TYPE
 ```
-Specify the format of the file that is being imported. Defaults to the same data
-storage method that jrnl uses. See [formats](formats.md) for more information.
+Specify the format of the file that is being imported. Currently, the only
+supported import format is `jrnl` (the default), which is the same data storage
+method that jrnl uses. The `--format` argument used with `--import` is separate
+from the `--format` argument used for [exporting](#-format-type); export-only
+formats such as `json`, `markdown`, or `text` cannot be used with `--import`.
 
 ## Writing new entries
 See [Basic Usage](usage.md).
