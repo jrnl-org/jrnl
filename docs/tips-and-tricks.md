@@ -47,7 +47,7 @@ Will give you the number of words you wrote in 2013. How long is my
 average entry?
 
 ```sh
-expr $(jrnl --export text | wc -w) / $(jrnl --short | wc -l)
+expr $(jrnl --format text | wc -w) / $(jrnl --short | wc -l)
 ```
 
 This will first get the total number of words in the journal and divide
@@ -193,7 +193,7 @@ Out of the box, `jrnl` can output journal entries in Markdown. To visualize it, 
 
 The simplest way to visualize your Markdown output with `mdless` is as follows:
 ```sh
-jrnl --export md | mdless
+jrnl --format md | mdless
 ```
 
 This will render your Markdown output in the whole screen.
@@ -201,7 +201,7 @@ This will render your Markdown output in the whole screen.
 Fortunately, `mdless` has an option that allows you to adjust the screen width by using the `-w` option as follows:
 
 ```sh
-jrnl --export md | mdless -w 70
+jrnl --format md | mdless -w 70
 ```
 
 If you want Markdown to be your default display format, you can define this in your config file as follows:
