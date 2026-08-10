@@ -300,6 +300,22 @@ class TestDeserialization:
         assert input_str[0] in runtime_config
         assert runtime_config[input_str[0]] == input_str[1]
 
+    @pytest.mark.parametrize(
+        "input_str",
+        [
+            ["timeformat_display", "%d.%m.%Y"],
+            ["timeformat_display", "%Y-%m-%d %H:%M"],
+            ["timeformat_display", "relative"],
+        ],
+    )
+    def test_deserialize_strings_with_percent_signs(self, input_str):
+        # https://github.com/jrnl-org/jrnl/issues/1721
+        # A bare "%" is a reserved YAML indicator character, so values like
+        # strftime format strings must still be usable via --config-override.
+        runtime_config = make_yaml_valid_dict(input_str)
+        assert runtime_config.__class__ is dict
+        assert runtime_config[input_str[0]] == input_str[1]
+
     def test_deserialize_multiple_datatypes(self):
         cfg = make_yaml_valid_dict(["linewrap", "23"])
         assert cfg["linewrap"] == 23

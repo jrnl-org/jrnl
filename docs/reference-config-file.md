@@ -104,6 +104,15 @@ to data loss.
 !!! note
     `jrnl` doesn't support the `%z` or `%Z` time zone identifiers.
 
+### timeformat_display
+Controls how timestamps are displayed when viewing entries (for example, with
+`jrnl -1` or `jrnl --short`). It does not affect how timestamps are stored.
+
+Leave this unset (or empty) to display timestamps using `timeformat`. Set it
+to `relative` to display timestamps as a relative, human-readable string, such
+as `5 minutes ago` or `in 3 days`. Otherwise, it accepts the same kind of time
+format string as `timeformat`.
+
 ### highlight
 If `true`, tags will be highlighted in cyan.
 

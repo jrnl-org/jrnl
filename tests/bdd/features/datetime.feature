@@ -151,6 +151,47 @@ Feature: Reading and writing to journal with custom date formats
             """
 
 
+    Scenario: timeformat_display can format dates differently from timeformat
+        # https://github.com/jrnl-org/jrnl/issues/1721
+        Given we use the config "simple.yaml"
+        When we run "jrnl --config-override timeformat_display '%d.%m.%Y' -on '2013-06-09'"
+        Then the output should contain "09.06.2013 My first entry."
+
+
+    Scenario: timeformat_display also applies to jrnl --short / -s
+        # https://github.com/jrnl-org/jrnl/issues/1721
+        Given we use the config "simple.yaml"
+        When we run "jrnl --config-override timeformat_display '%d.%m.%Y' -on '2013-06-09' --short"
+        Then the output should be "09.06.2013 My first entry."
+        When we run "jrnl --config-override timeformat_display '%d.%m.%Y' -on '2013-06-09' -s"
+        Then the output should be "09.06.2013 My first entry."
+
+
+    Scenario: timeformat_display set in the config file works the same way
+        # https://github.com/jrnl-org/jrnl/issues/1721
+        Given we use the config "timeformat_display.yaml"
+        When we run "jrnl -on '2013-06-09' --short"
+        Then the output should be "09.06.2013 My first entry."
+
+
+    Scenario: timeformat_display of "relative" shows a relative timestamp
+        # https://github.com/jrnl-org/jrnl/issues/1721
+        Given we use the config "simple.yaml"
+        And now is "2013-06-10 03:39:00 PM"
+        When we run "jrnl --config-override timeformat_display relative -on '2013-06-09'"
+        Then the output should contain "1 day ago My first entry."
+
+
+    Scenario: timeformat_display of "relative" works with jrnl --short / -s
+        # https://github.com/jrnl-org/jrnl/issues/1721
+        Given we use the config "simple.yaml"
+        And now is "2013-06-10 03:39:00 PM"
+        When we run "jrnl --config-override timeformat_display relative -on '2013-06-09' --short"
+        Then the output should be "1 day ago My first entry."
+        When we run "jrnl --config-override timeformat_display relative -on '2013-06-09' -s"
+        Then the output should be "1 day ago My first entry."
+
+
     Scenario: Update near-valid dates after journal is edited
         Given we use the config "mostlyreadabledates.yaml"
         When we run "jrnl 2222-08-19: I have made it exactly one month into the future."

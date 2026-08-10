@@ -101,3 +101,30 @@ def is_valid_date(year: int, month: int, day: int) -> bool:
         return True
     except ValueError:
         return False
+
+
+_RELATIVE_PERIODS = (
+    ("year", 60 * 60 * 24 * 365),
+    ("month", 60 * 60 * 24 * 30),
+    ("week", 60 * 60 * 24 * 7),
+    ("day", 60 * 60 * 24),
+    ("hour", 60 * 60),
+    ("minute", 60),
+)
+
+
+def relative_time(date: datetime.datetime, now: datetime.datetime | None = None) -> str:
+    """Returns a relative representation of a datetime, e.g. "5 minutes ago"
+    or "in 3 days", for use with the "relative" timeformat_display value."""
+    now = now or datetime.datetime.now()
+    seconds = (now - date).total_seconds()
+    future = seconds < 0
+    seconds = abs(seconds)
+
+    for period_name, period_seconds in _RELATIVE_PERIODS:
+        value = int(seconds // period_seconds)
+        if value >= 1:
+            unit = period_name if value == 1 else f"{period_name}s"
+            return f"in {value} {unit}" if future else f"{value} {unit} ago"
+
+    return "just now"
