@@ -153,12 +153,36 @@ jobs:
           git push origin "$BRANCH"
 
       - name: Update tag to include changelog
-        if: startsWith(env.GITHUB_REF, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           # This is a tag build (releases and prereleases)
           # update the tag to include the changelog
           git tag -fam "$GITHUB_REF_NAME" "$GITHUB_REF_NAME"
           git push --tags --force
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.JRNL_BOT_TOKEN }}
+        run: |
+          # Pull this tag's section out of the changelog to use as release notes
+          notes_file=$(mktemp)
+          awk -v tag="$GITHUB_REF_NAME" '
+            $0 ~ ("^## \\[" tag "\\]") { found=1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' "$FILENAME" > "$notes_file"
+
+          prerelease_flag=()
+          if [[ "$FULL_RELEASE" != "true" ]]; then
+            prerelease_flag=(--prerelease)
+          fi
+
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file "$notes_file" \
+            --repo "$GITHUB_REPOSITORY" \
+            "${prerelease_flag[@]}"
 
       - name: Merge to Release branch
         if: env.FULL_RELEASE == 'true'

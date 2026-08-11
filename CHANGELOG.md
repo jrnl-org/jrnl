@@ -2,24 +2,37 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...HEAD)
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.6...HEAD)
+
+**Packaging:**
+
+- Update dependency ruff to v0.16.2 [\#2109](https://github.com/jrnl-org/jrnl/pull/2109) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [v4.6](https://pypi.org/project/jrnl/v4.6/) (2026-08-07)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...v4.6)
 
 **Implemented enhancements:**
 
+- Feature Request: VJOURNAL Backend [\#2083](https://github.com/jrnl-org/jrnl/issues/2083)
 - Feature Request: Add a config option to output any new entries to the terminal after submission. [\#1871](https://github.com/jrnl-org/jrnl/issues/1871)
 
 **Fixed bugs:**
 
+- Icelandic letters in UTF-8 not working. [\#2113](https://github.com/jrnl-org/jrnl/issues/2113)
 - `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
 - Bug Report [\#2082](https://github.com/jrnl-org/jrnl/issues/2082)
 - KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
 - 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
 - Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
 - jrnl crashes when `colors.tags` is not configured [\#2021](https://github.com/jrnl-org/jrnl/issues/2021)
+- Bug: Using time format "%H:%m" overwrites old entries on a day [\#2006](https://github.com/jrnl-org/jrnl/issues/2006)
 
 **Packaging:**
 
 - Drop Python 3.10 support [\#2055](https://github.com/jrnl-org/jrnl/issues/2055)
+- Update dependency cryptography to v50 [\#2114](https://github.com/jrnl-org/jrnl/pull/2114) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.58.0 [\#2108](https://github.com/jrnl-org/jrnl/pull/2108) ([renovate[bot]](https://github.com/apps/renovate))
 - Update actions/setup-python action to v7 [\#2102](https://github.com/jrnl-org/jrnl/pull/2102) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency ruff to v0.15.22 [\#2098](https://github.com/jrnl-org/jrnl/pull/2098) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to v15 [\#2094](https://github.com/jrnl-org/jrnl/pull/2094) ([renovate[bot]](https://github.com/apps/renovate))
@@ -30,6 +43,10 @@
 
 **Merged pull requests:**
 
+- Enable automerge for Renovate PRs [\#2116](https://github.com/jrnl-org/jrnl/pull/2116) ([alichtman](https://github.com/alichtman))
+- Derive folder-journal entry dates from the folder path [\#2115](https://github.com/jrnl-org/jrnl/pull/2115) ([youdie006](https://github.com/youdie006))
+- docs: add gedit to external editors [\#2107](https://github.com/jrnl-org/jrnl/pull/2107) ([natejswenson](https://github.com/natejswenson))
+- fix: guarantee editor tempfile cleanup and add debug logging [\#2106](https://github.com/jrnl-org/jrnl/pull/2106) ([alichtman](https://github.com/alichtman))
 - fix: don't crash on invalid UTF-8 from stdin when writing an entry [\#2104](https://github.com/jrnl-org/jrnl/pull/2104) ([alichtman](https://github.com/alichtman))
 - fix: don't overwrite the default config when using --config-file [\#2101](https://github.com/jrnl-org/jrnl/pull/2101) ([alichtman](https://github.com/alichtman))
 - fix: write journal files atomically to avoid corruption on crash [\#2096](https://github.com/jrnl-org/jrnl/pull/2096) ([alichtman](https://github.com/alichtman))
@@ -39,6 +56,7 @@
 - Drop Python 3.10 support [\#2088](https://github.com/jrnl-org/jrnl/pull/2088) ([alichtman](https://github.com/alichtman))
 - docs: add CLAUDE.md [\#2086](https://github.com/jrnl-org/jrnl/pull/2086) ([alichtman](https://github.com/alichtman))
 - fix: prevent ValueError when upgrading with no journals configured [\#2080](https://github.com/jrnl-org/jrnl/pull/2080) ([miloquinn](https://github.com/miloquinn))
+- Feature: warning for similar tags [\#2064](https://github.com/jrnl-org/jrnl/pull/2064) ([hanbeex](https://github.com/hanbeex))
 - Minor fixes to docstrings of functions [\#1868](https://github.com/jrnl-org/jrnl/pull/1868) ([MuditJ](https://github.com/MuditJ))
 
 ## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)

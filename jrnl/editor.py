@@ -26,25 +26,31 @@ def get_text_from_editor(config: dict, template: str = "") -> str:
         suffix = "-" + template_filename
     filehandle, tmpfile = tempfile.mkstemp(prefix="jrnl", text=True, suffix=suffix)
     os.close(filehandle)
-
-    with open(tmpfile, "w", encoding="utf-8") as f:
-        if template:
-            f.write(template)
+    logging.debug(f"Editor: created tempfile {tmpfile}")
 
     try:
-        subprocess.call(split_args(config["editor"]) + [tmpfile])
-    except FileNotFoundError:
-        raise JrnlException(
-            Message(
-                MsgText.EditorMisconfigured,
-                MsgStyle.ERROR,
-                {"editor_key": config["editor"]},
-            )
-        )
+        with open(tmpfile, "w", encoding="utf-8") as f:
+            if template:
+                f.write(template)
 
-    with open(tmpfile, "r", encoding="utf-8") as f:
-        raw = f.read()
-    os.remove(tmpfile)
+        try:
+            logging.debug(f"Editor: invoking editor with command {config['editor']}")
+            subprocess.call(split_args(config["editor"]) + [tmpfile])
+        except FileNotFoundError:
+            logging.error(f"Editor: misconfigured editor {config['editor']}")
+            raise JrnlException(
+                Message(
+                    MsgText.EditorMisconfigured,
+                    MsgStyle.ERROR,
+                    {"editor_key": config["editor"]},
+                )
+            )
+
+        with open(tmpfile, "r", encoding="utf-8") as f:
+            raw = f.read()
+    finally:
+        os.remove(tmpfile)
+        logging.debug(f"Editor: removed tempfile {tmpfile}")
 
     if not raw:
         raise JrnlException(Message(MsgText.NoTextReceived, MsgStyle.NORMAL))
@@ -118,6 +124,7 @@ def read_template_file(template_path: str) -> str:
             template_data = f.read()
             return template_data
     except FileNotFoundError:
+        logging.debug(f"Couldn't read template file {actual_template_path}")
         raise JrnlException(
             Message(
                 MsgText.CantReadTemplate,

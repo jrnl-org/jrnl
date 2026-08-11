@@ -132,6 +132,18 @@ editor: emacsclient -a "" -c
 
 When you're done editing the message, save and `C-x #` to close the buffer and stop the emacsclient process.
 
+## gedit
+
+To use [gedit](https://gedit-text-editor.org/) as your editor, edit the `jrnl` config
+file (`jrnl.yaml`) like this:
+
+```yaml
+editor: "gedit -w"
+```
+
+The `-w` (`--wait`) flag tells `gedit` to wait until the file is closed before
+passing control back to `jrnl`.
+
 ## Other editors
 
 If you're using another editor and would like to share, feel free to [contribute documentation](./contributing.md#editing-documentation) on it.

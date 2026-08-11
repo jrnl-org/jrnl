@@ -9,12 +9,50 @@ import pytest
 
 import jrnl
 from jrnl.args import parse_args
+from jrnl.controller import _check_similar_tags
 from jrnl.controller import _display_search_results
 
 
 @pytest.fixture
 def random_string():
     return "".join(random.choices(string.ascii_uppercase + string.digits, k=25))
+
+
+class TestCheckSimilarTags:
+    def test_similar_tag_detected(self):
+        result = _check_similar_tags({"@work"}, {"@works"})
+        assert result == {"@works": ["@work"]}
+
+    def test_exact_match_not_flagged(self):
+        result = _check_similar_tags({"@work"}, {"@work"})
+        assert result == {}
+
+    def test_no_existing_tags(self):
+        result = _check_similar_tags(set(), {"@work"})
+        assert result == {}
+
+    def test_dissimilar_tags_not_flagged(self):
+        result = _check_similar_tags({"@vacation"}, {"@work"})
+        assert result == {}
+
+    def test_multiple_new_tags_checked(self):
+        result = _check_similar_tags({"@work", "@home"}, {"@works", "@homes"})
+        assert result == {"@works": ["@work"], "@homes": ["@home"]}
+
+    def test_new_tag_not_compared_to_itself(self):
+        result = _check_similar_tags({"@python", "@work"}, {"@python"})
+        assert result == {}
+
+    def test_different_symbols_not_compared(self):
+        # @work and #work differ only in symbol — should not warn, as different
+        # symbols are used intentionally for different tag namespaces
+        result = _check_similar_tags({"#work"}, {"@work"})
+        assert result == {}
+
+    def test_same_symbol_custom_tagsymbol(self):
+        # Works correctly with non-default tag symbols too
+        result = _check_similar_tags({"!work"}, {"!works"})
+        assert result == {"!works": ["!work"]}
 
 
 @pytest.mark.parametrize("export_format", ["pretty", "short"])

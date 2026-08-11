@@ -39,7 +39,20 @@ class Folder(Journal):
             for filename in filenames:
                 with codecs.open(filename, "r", "utf-8") as f:
                     journal = f.read()
-                    self.entries.extend(self._parse(journal))
+                # The folder layout (YYYY/MM/DD.txt) is authoritative for each
+                # entry's date. Parsing the date only from the entry header
+                # loses the day when the configured timeformat has no date
+                # component (e.g. "%H:%M"), which made same-day entries collide
+                # and overwrite each other on the next write (#2006).
+                file_path = pathlib.Path(filename)
+                year, month, day = (
+                    int(file_path.parts[-3]),
+                    int(file_path.parts[-2]),
+                    int(file_path.stem),
+                )
+                for entry in self._parse(journal):
+                    entry.date = entry.date.replace(year=year, month=month, day=day)
+                    self.entries.append(entry)
             self.sort()
 
         return self
