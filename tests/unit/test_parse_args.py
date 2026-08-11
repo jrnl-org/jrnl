@@ -148,6 +148,34 @@ def test_import_alone():
     assert cli_as_dict("--import") == expected_args(postconfig_cmd=postconfig_import)
 
 
+@pytest.mark.parametrize(
+    "cli",
+    [
+        "--import --format whatformats",
+        "--import --format json",
+        "--import --format=json",
+        "--format json --import",
+    ],
+)
+def test_import_with_format_is_rejected(cli, capsys):
+    """--format is export-only, so pairing it with --import must say exactly that.
+
+    "--format json" is the case worth noting: json is a valid *export* format,
+    so argparse accepted it and the run only failed later, at import time, with
+    "not a valid importer". The other spellings used to be rejected with an
+    invalid-choice error listing every export format.
+    """
+    with pytest.raises(SystemExit) as wrapped_e:
+        cli_as_dict(cli)
+
+    assert wrapped_e.value.code == 2
+    assert "not allowed with argument --import" in capsys.readouterr().err
+
+
+def test_format_without_import_is_unaffected():
+    assert cli_as_dict("--format json") == expected_args(export="json")
+
+
 def test_file_flag_alone():
     assert cli_as_dict("--file test.txt") == expected_args(filename="test.txt")
     assert cli_as_dict("--file 'lorem ipsum.txt'") == expected_args(

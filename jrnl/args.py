@@ -13,7 +13,6 @@ from jrnl.commands import preconfig_diagnostic
 from jrnl.commands import preconfig_version
 from jrnl.output import deprecated_cmd
 from jrnl.plugins import EXPORT_FORMATS
-from jrnl.plugins import IMPORT_FORMATS
 from jrnl.plugins import util
 
 
@@ -37,6 +36,25 @@ class IgnoreNoneAppendAction(argparse._AppendAction):
     def __call__(self, parser, namespace, values, option_string=None):
         if values is not None:
             super().__call__(parser, namespace, values, option_string)
+
+
+def parse_import_and_format(args: list[str], parser: argparse.ArgumentParser) -> None:
+    """
+    --format selects an export format, so it cannot be combined with --import.
+
+    This runs against the raw arguments, before argparse validates --format,
+    because that validation is what produces the misleading message: --format
+    is restricted to the *export* formats, so `--import --format jrnl` -- the
+    combination the --import help text itself describes -- is rejected as an
+    invalid choice, and the user is handed a list of export formats to pick
+    from instead of being told the two options do not go together.
+    """
+
+    if "--import" not in args:
+        return
+
+    if any(arg == "--format" or arg.startswith("--format=") for arg in args):
+        parser.error("argument --format: not allowed with argument --import")
 
 
 def parse_not_arg(
@@ -168,14 +186,12 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
         metavar="TYPE",
         const=postconfig_import,
         dest="postconfig_cmd",
-        help=f"""
+        help="""
         Import entries from another journal.
 
         Optional parameters:
 
         --file FILENAME (default: uses stdin)
-
-        --format [{util.oxford_list(IMPORT_FORMATS)}] (default: jrnl)
         """,
     )
     standalone.add_argument(
@@ -450,6 +466,7 @@ def parse_args(args: list[str] = []) -> argparse.Namespace:
     # Handle '-123' as a shortcut for '-n 123'
     num = re.compile(r"^-(\d+)$")
     args = [num.sub(r"-n \1", arg) for arg in args]
+    parse_import_and_format(args, parser)
     parsed_args = parser.parse_intermixed_args(args)
     parsed_args = parse_not_arg(args, parsed_args, parser)
 
