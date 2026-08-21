@@ -2,3 +2,4 @@
 *.feature text eol=lf
 poetry.lock text eol=lf
 pyrpoject.toml text eol=lf
+*.txt text eol=lf
