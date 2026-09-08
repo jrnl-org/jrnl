@@ -123,16 +123,18 @@ def install() -> dict:
 
     # Where to create the journal?
     default_journal_path = get_default_journal_path()
-    user_given_path = print_msg(
-        Message(
-            MsgText.InstallJournalPathQuestion,
-            MsgStyle.PROMPT,
-            params={
-                "default_journal_path": default_journal_path,
-            },
-        ),
-        get_input=True,
-    )
+    user_given_path = None
+    with contextlib.suppress(EOFError):
+        user_given_path = print_msg(
+            Message(
+                MsgText.InstallJournalPathQuestion,
+                MsgStyle.PROMPT,
+                params={
+                    "default_journal_path": default_journal_path,
+                },
+            ),
+            get_input=True,
+        )
     journal_path = absolute_path(user_given_path or default_journal_path)
     default_config = get_default_config()
     default_config["journals"][DEFAULT_JOURNAL_KEY]["journal"] = journal_path
@@ -143,13 +145,17 @@ def install() -> dict:
         os.makedirs(path)
 
     # Encrypt it?
-    encrypt = yesno(Message(MsgText.EncryptJournalQuestion), default=False)
+    encrypt = False
+    with contextlib.suppress(EOFError):
+        encrypt = yesno(Message(MsgText.EncryptJournalQuestion), default=False)
     if encrypt:
         default_config["encrypt"] = True
         print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
 
     # Use colors?
-    use_colors = yesno(Message(MsgText.UseColorsQuestion), default=True)
+    use_colors = True
+    with contextlib.suppress(EOFError):
+        use_colors = yesno(Message(MsgText.UseColorsQuestion), default=True)
     if use_colors:
         default_config["colors"] = get_default_colors()
 
