@@ -624,6 +624,19 @@ Feature: Custom formats
         When we run "jrnl --format markdown --file {cache_dir}"
         Then the cache directory should contain 5 files
         And we should get no error
+    
+    Scenario: Export entries with identical dates and titles
+        Given we use the config "basic_onefile.yaml"
+        And we create a cache directory
+        When we run "jrnl 2020-10-20 01:00: same title"
+        When we run "jrnl 2020-10-20 02:00: same title"
+        When we run "jrnl --format text --file {cache_dir}"
+        Then the cache directory should contain the files
+            """
+            2020-10-20_same-title.txt
+            2020-10-20_same-title_2.txt
+            """
+        And we should get no error
 
     Scenario: Export entries in text format with a title longer than max file name length.
         Given we use the config "basic_onefile.yaml"
