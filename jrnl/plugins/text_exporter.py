@@ -63,6 +63,12 @@ class TextExporter:
             entry_is_written = False
             while not entry_is_written:
                 full_path = os.path.join(path, cls.make_filename(entry))
+                if os.path.exists(full_path):
+                    base, extension = os.path.splitext(full_path)
+                    counter = 2
+                    while os.path.exists(f"{base}_{counter}{extension}"):
+                        counter += 1
+                    full_path = f"{base}_{counter}{extension}"  
                 try:
                     with open(full_path, "w", encoding="utf-8") as f:
                         f.write(cls.export_entry(entry))
