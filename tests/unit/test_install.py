@@ -41,3 +41,23 @@ def test_install_uses_defaults_when_stdin_is_eof(tmp_path):
 
     assert config["journals"]["default"]["journal"] == journal_path
     assert config["encrypt"] is False
+
+
+def test_password_prompt_propagates_eof():
+    """Password prompts must NOT swallow EOFError.
+
+    With the broad print_msgs() catch (commit 55abe86), prompt_password() would
+    silently return "" on EOF instead of raising.  The narrower fix (catching EOF
+    only inside install()) must let EOFError propagate from password helpers so
+    callers can handle it or let it terminate the process.
+    """
+    from jrnl.prompt import prompt_password
+
+    mock_console = MagicMock()
+    mock_console.input.side_effect = EOFError
+
+    with (
+        patch("jrnl.output._get_console", return_value=mock_console),
+        pytest.raises(EOFError),
+    ):
+        prompt_password()
