@@ -110,7 +110,10 @@ def print_msgs(
     console = _get_console(stderr=True)
 
     if get_input:
-        return str(console.input(prompt=decorated_text, password=hide_input))
+        try:
+            return str(console.input(prompt=decorated_text, password=hide_input))
+        except EOFError:
+            return ""
     console.print(decorated_text, new_line_start=style.prepend_newline)
 
 
