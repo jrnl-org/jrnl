@@ -154,10 +154,15 @@ def install() -> dict:
         default_config["encrypt"] = True
         print_msg(Message(MsgText.JournalEncrypted, MsgStyle.NORMAL))
 
-    # Use colors?  Default is Yes; EOF is treated as the default.
+    # Use colors?  Default is Yes; EOF falls back to the default only when the
+    # journal is NOT encrypted.  If encryption was chosen and stdin is already
+    # exhausted, re-raise so save_config() is never called: an encrypt:true config
+    # written without a password set leaves the journal permanently broken.
     try:
         use_colors = yesno(Message(MsgText.UseColorsQuestion), default=True)
     except EOFError:
+        if encrypt:
+            raise
         use_colors = True
     if use_colors:
         default_config["colors"] = get_default_colors()
