@@ -1,8 +1,11 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import os
 import sys
 from unittest import mock
+from unittest.mock import MagicMock
+from unittest.mock import patch
 
 import pytest
 
@@ -15,3 +18,88 @@ def test_initialize_autocomplete_runs_without_readline():
 
     with mock.patch.dict(sys.modules, {"readline": None}):
         install._initialize_autocomplete()  # should not throw exception
+
+
+def test_install_uses_defaults_when_stdin_is_eof(tmp_path):
+    """install() must not raise EOFError when stdin is at EOF (e.g. jrnl < /dev/null).
+    Instead every interactive prompt should fall back to its built-in default."""
+    from jrnl import install
+
+    config_path = str(tmp_path / "jrnl.yaml")
+    journal_path = str(tmp_path / "journal.txt")
+
+    mock_console = MagicMock()
+    mock_console.input.side_effect = EOFError
+
+    with (
+        patch("jrnl.output._get_console", return_value=mock_console),
+        patch("jrnl.install.get_config_path", return_value=config_path),
+        patch("jrnl.config.get_config_path", return_value=config_path),
+        patch("jrnl.install.get_default_journal_path", return_value=journal_path),
+        patch("jrnl.config.get_default_journal_path", return_value=journal_path),
+    ):
+        config = install.install()
+
+    assert config["journals"]["default"]["journal"] == journal_path
+    assert config["encrypt"] is False
+    assert config["colors"] == {
+        "body": "none",
+        "date": "black",
+        "tags": "yellow",
+        "title": "cyan",
+    }, "colors must default to ON when all prompts receive EOF"
+
+
+def test_install_eof_after_yes_to_encrypt_aborts_without_writing_config(tmp_path):
+    """Partial-stdin scenario: path=blank, encrypt=yes, then EOF at colors prompt.
+
+    install() must abort (re-raise EOFError) and must NOT write a config file.
+    Saving an encrypt:true config before a password is set leaves the journal
+    permanently broken (ValueError: Invalid IV size for CBC on every subsequent run).
+
+    Against c7a3755 this test fails because that commit swallowed EOF at the colors
+    prompt unconditionally, causing install() to save the broken config and return
+    normally instead of raising.
+    """
+    from jrnl import install
+
+    config_path = str(tmp_path / "jrnl.yaml")
+    journal_path = str(tmp_path / "journal.txt")
+
+    mock_console = MagicMock()
+    # journal path: blank (use default), encrypt: yes, colors: EOF
+    mock_console.input.side_effect = ["", "y", EOFError()]
+
+    with (
+        patch("jrnl.output._get_console", return_value=mock_console),
+        patch("jrnl.install.get_config_path", return_value=config_path),
+        patch("jrnl.config.get_config_path", return_value=config_path),
+        patch("jrnl.install.get_default_journal_path", return_value=journal_path),
+        patch("jrnl.config.get_default_journal_path", return_value=journal_path),
+        pytest.raises(EOFError),
+    ):
+        install.install()
+
+    assert not os.path.exists(
+        config_path
+    ), "Config must not be written when install aborts on EOF after encrypt=yes"
+
+
+def test_password_prompt_propagates_eof():
+    """Password prompts must NOT swallow EOFError.
+
+    With the broad print_msgs() catch (commit 55abe86), prompt_password() would
+    silently return "" on EOF instead of raising.  The narrower fix (catching EOF
+    only inside install()) must let EOFError propagate from password helpers so
+    callers can handle it or let it terminate the process.
+    """
+    from jrnl.prompt import prompt_password
+
+    mock_console = MagicMock()
+    mock_console.input.side_effect = EOFError
+
+    with (
+        patch("jrnl.output._get_console", return_value=mock_console),
+        pytest.raises(EOFError),
+    ):
+        prompt_password()
