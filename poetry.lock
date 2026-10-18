@@ -1862,14 +1862,14 @@ files = [
 
 [[package]]
 name = "tox"
-version = "4.58.0"
+version = "4.67.1"
 description = "tox is a generic virtualenv management and test command line tool"
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.11"
 groups = ["dev"]
 files = [
-    {file = "tox-4.58.0-py3-none-any.whl", hash = "sha256:dcae21f5f015f3a67658e35644cce0d1aa0dedcd06f3927f95d84e1717f6cea5"},
-    {file = "tox-4.58.0.tar.gz", hash = "sha256:ab0b126a04dd56bc18e6d216386db09335247f2289b54cf534deb5c4ae3a8d2e"},
+    {file = "tox-4.67.1-py3-none-any.whl", hash = "sha256:23d614cb703e1f7bd39e00c046d4c261b63fb9986e185134c6be2f93531d9726"},
+    {file = "tox-4.67.1.tar.gz", hash = "sha256:a68602f64421b199016127364ee47347b958391d19c2b2e53fe95673a8fe98e9"},
 ]
 
 [package.dependencies]
@@ -1882,6 +1882,7 @@ pluggy = ">=1.6"
 pyproject-api = ">=1.10"
 python-discovery = ">=1.4.4"
 tomli-w = ">=1.2"
+typing-extensions = {version = ">=4.15", markers = "python_version < \"3.13\""}
 virtualenv = ">=21.1"
 
 [package.extras]
