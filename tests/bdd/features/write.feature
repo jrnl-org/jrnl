@@ -60,6 +60,64 @@ Feature: Writing new entries.
         | dayone.yaml       |
         | encrypted.yaml    |
 
+    Scenario Outline: Writing an entry in the editor should keep escaped newlines as typed
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        And we write to the editor if opened
+            """
+            Pasting some code. The literal \n should stay as typed
+            """
+        When we run "jrnl"
+        Then we should get no error
+        When we run "jrnl -1"
+        Then the output should contain
+            """
+            The literal \n should stay as typed
+            """
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
+
+    Scenario Outline: Piping an entry should keep escaped newlines as typed
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl" and pipe "Pasting some code. The literal \n should stay as typed"
+        Then we should get no error
+        When we run "jrnl -1"
+        Then the output should contain
+            """
+            The literal \n should stay as typed
+            """
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
+
+    Scenario Outline: Escaped newline in command line text with edit flag should still split the entry
+        Given we use the config "<config_file>"
+        And we use the password "test" if prompted
+        When we run "jrnl This is the title\\n This is the second line --edit"
+        Then we should get no error
+        And the editor should have been called
+        When we run "jrnl -1"
+        Then the output should contain "This is the title"
+        And the output should contain "| This is the second line"
+        And the output should not contain "title\n"
+
+        Examples: configs
+        | config_file          |
+        | basic_onefile.yaml   |
+        | basic_encrypted.yaml |
+        | basic_folder.yaml    |
+        | basic_dayone.yaml    |
+
     Scenario Outline: Writing a partial entry from command line with edit flag should go to the editor
         Given we use the config "<config_file>"
         And we use the password "test" if prompted
