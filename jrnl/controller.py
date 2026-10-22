@@ -156,6 +156,8 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     if args.text:
         logging.debug(f"Append mode: cli text detected: {args.text}")
         raw = " ".join(args.text).strip()
+        # Allow "\n" as a newline shortcut for text written on the command line
+        raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
         if args.edit:
             raw = _write_in_editor(config, raw)
     elif not sys.stdin.isatty():
