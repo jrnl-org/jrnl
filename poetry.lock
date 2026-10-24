@@ -1931,14 +1931,14 @@ files = [
 
 [[package]]
 name = "tzlocal"
-version = "5.4.4"
+version = "5.4.5"
 description = "tzinfo object for the local timezone"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "tzlocal-5.4.4-py3-none-any.whl", hash = "sha256:aae09f0126a8a86fa736be266eb4a471380d26a0de3bc14844e7821fee3e2a15"},
-    {file = "tzlocal-5.4.4.tar.gz", hash = "sha256:8dbb8660838688a7b6ba4fed31d18dedf842afb4d47ca050d6d891c2c15f3be4"},
+    {file = "tzlocal-5.4.5-py3-none-any.whl", hash = "sha256:ecab534f6d65d9deb4c4ea52c121ab6dd5958e9b878e71dcb102578269752454"},
+    {file = "tzlocal-5.4.5.tar.gz", hash = "sha256:ba976898bad27945178c9ca25c222c19e322b30c10342b9f40b46714f70d2d5f"},
 ]
 
 [package.dependencies]
