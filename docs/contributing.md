@@ -53,7 +53,7 @@ There are always [open bugs among our GitHub issues](https://github.com/jrnl-org
 
 ### Automate tests
 
-See the develop section below for information on how to contribute new automated tests.
+See the [Developing](#developing) section below for information on how to contribute new automated tests.
 
 ## Submitting feature requests and ideas
 
@@ -71,6 +71,8 @@ When discussing new features, please keep in mind our design goals. jrnl strives
 ### Getting your environment set up
 
 You will need to install [poetry](https://python-poetry.org/) to develop jrnl. It will take care of all of the project's other dependencies.
+
+Make sure you're using a Python version jrnl supports (see `requires-python` in `pyproject.toml`). If Poetry says your Python version isn't supported, run `poetry env use` with one that is, e.g. `poetry env use python3.13`.
 
 ### Understanding the branches
 
@@ -109,11 +111,13 @@ A typical development workflow includes:
  * Installing dependencies:
     * `poetry install`
  * Activate virtual environment:
-    * `poetry shell`
+    * `eval $(poetry env activate)` ([other shells](https://python-poetry.org/docs/managing-environments/#activating-the-environment))
+    * `poetry shell` was removed in Poetry 2.0. You can add it back with [poetry-plugin-shell](https://github.com/python-poetry/poetry-plugin-shell), or skip activating and put `poetry run` in front of each command (e.g. `poetry run poe test`)
  * Running the source in a virtual environment:
     * `jrnl` (with or without arguments as necessary)
  * Running tests:
-     * `poe test`
+     * `poe test` (lint + full test suite)
+     * `pytest tests/unit/test_parse_args.py` to run a single file
  * Formatting the code to standardize its style:
      * `poe format`
 
