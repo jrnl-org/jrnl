@@ -1372,19 +1372,19 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests
 
 [[package]]
 name = "pytest-bdd"
-version = "8.1.0"
+version = "9.0.0"
 description = "BDD for pytest"
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["dev"]
 files = [
-    {file = "pytest_bdd-8.1.0-py3-none-any.whl", hash = "sha256:2124051e71a05ad7db15296e39013593f72ebf96796e1b023a40e5453c47e5fb"},
-    {file = "pytest_bdd-8.1.0.tar.gz", hash = "sha256:ef0896c5cd58816dc49810e8ff1d632f4a12019fb3e49959b2d349ffc1c9bfb5"},
+    {file = "pytest_bdd-9.0.0-py3-none-any.whl", hash = "sha256:e407a361d8a07bff7d37df2ae0bf93e6b3542ed57e2c6bb89ba46b786ac7984e"},
+    {file = "pytest_bdd-9.0.0.tar.gz", hash = "sha256:f22450a98345590c2b3aac5ed3412662788e0a7afac34aa8d650c14445b87046"},
 ]
 
 [package.dependencies]
-gherkin-official = ">=29.0.0,<30.0.0"
-Mako = "*"
+gherkin-official = ">=29.0.0,<31.0.0 || >31.0.0,<32.0.0 || >32.0.0"
+mako = "*"
 packaging = "*"
 parse = "*"
 parse-type = "*"
