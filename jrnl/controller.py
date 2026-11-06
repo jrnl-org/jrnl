@@ -158,6 +158,9 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
         raw = " ".join(args.text).strip()
         if args.edit:
             raw = _write_in_editor(config, raw)
+        else:
+            # Allow "\n" as a newline shortcut for text written on the command line
+            raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
     elif not sys.stdin.isatty():
         logging.debug("Append mode: receiving piped text")
         raw = read_stdin_text()

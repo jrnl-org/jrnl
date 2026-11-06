@@ -452,7 +452,6 @@ class Journal:
         the input first.
         """
 
-        raw = raw.replace("\\n ", "\n").replace("\\n", "\n")
         # Split raw text into title and body
         sep = re.search(r"\n|[?!.]+ +\n?", raw)
         first_line = raw[: sep.end()].strip() if sep else raw
