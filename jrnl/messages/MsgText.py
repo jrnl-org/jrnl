@@ -232,6 +232,11 @@ class MsgText(Enum):
         Configuration updated to newest version at {config_path}
         """
 
+    ConfigUpdateNotSaved = """
+        Could not write configuration at {config_path}.
+        Using updated configuration for this run.
+        """
+
     ConfigDoubleKeys = """
         There is at least one duplicate key in your configuration file.
 

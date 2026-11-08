@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import contextlib
+import errno
 import glob
 import logging
 import os
@@ -31,12 +32,11 @@ from jrnl.upgrade import is_old_version
 
 
 def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> None:
-    """Checks if there are keys missing in a given config dict, and if so, updates the
-    config file accordingly. This essentially automatically ports jrnl installations
-    if new config parameters are introduced in later versions. Also checks for
-    existence of and difference in version number between config dict
-    and current jrnl version, and if so, update the config file accordingly.
-    Supply alt_config_path if using an alternate config through --config-file."""
+    """Fill missing config defaults and refresh the version.
+
+    Save the updated config if writable. Supply alt_config_path when using
+    --config-file.
+    """
     default_config = get_default_config()
     missing_keys = set(default_config).difference(config_data)
     if missing_keys:
@@ -48,8 +48,20 @@ def upgrade_config(config_data: dict, alt_config_path: str | None = None) -> Non
         config_data["version"] = __version__
 
     if missing_keys or different_version:
-        save_config(config_data, alt_config_path)
         config_path = alt_config_path if alt_config_path else get_config_path()
+        try:
+            save_config(config_data, config_path)
+        except OSError as exc:
+            if exc.errno not in (errno.EACCES, errno.EPERM, errno.EROFS):
+                raise
+            print_msg(
+                Message(
+                    MsgText.ConfigUpdateNotSaved,
+                    MsgStyle.WARNING,
+                    {"config_path": config_path},
+                )
+            )
+            return
         print_msg(
             Message(
                 MsgText.ConfigUpdated, MsgStyle.NORMAL, {"config_path": config_path}
