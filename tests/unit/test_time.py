@@ -14,6 +14,10 @@ def test_default_hour_is_added():
     ) == datetime.datetime(2020, 6, 20, 9)
 
 
+def test_bare_hour_after_at_is_a_time():
+    assert time.parse("yesterday at 21", default_hour=9).hour == 21
+
+
 def test_default_minute_is_added():
     assert time.parse(
         "2020-06-20",

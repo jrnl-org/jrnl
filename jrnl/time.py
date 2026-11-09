@@ -2,6 +2,7 @@
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
 import datetime
+import re
 
 FAKE_YEAR = 9999
 DEFAULT_FUTURE = datetime.datetime(FAKE_YEAR, 12, 31, 23, 59, 59)
@@ -35,6 +36,10 @@ def parse(
     # existing journal. It's probably a markdown footnote
     if len(date_str) <= 6 and bracketed:
         return None
+
+    # parsedatetime reads "today at 15" as a date with no time
+    if not bracketed:
+        date_str = re.sub(r"\bat (\d{1,2})$", r"at \1:00", date_str.strip())
 
     default_date = DEFAULT_FUTURE if inclusive else DEFAULT_PAST
     date = None
