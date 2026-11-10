@@ -190,6 +190,11 @@ class MsgText(Enum):
         No entry to save, because the template was not changed
     """
     # --- Upgrade --- #
+    UndatedEntryGivenTodaysDate = """
+        Text without a date was found above the first entry.
+        It was kept as an entry with today's date.
+        """
+
     JournalFailedUpgrade = """
         The following journal{s} failed to upgrade:
         {failed_journals}

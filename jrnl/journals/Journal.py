@@ -280,6 +280,14 @@ class Journal:
             if new_date:
                 if entries:
                     entries[-1].text = journal_txt[last_entry_pos : match.start()]
+                elif journal_txt[: match.start()].strip():
+                    # Text above the first timestamp would otherwise be dropped on save
+                    print_msg(
+                        Message(MsgText.UndatedEntryGivenTodaysDate, MsgStyle.WARNING)
+                    )
+                    undated = Entry(self, date=time.parse("now"))
+                    undated.text = journal_txt[: match.start()]
+                    entries.append(undated)
                 last_entry_pos = match.end()
                 entries.append(Entry(self, date=new_date))
 
