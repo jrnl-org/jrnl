@@ -14,7 +14,7 @@ jrnl
  [![Downloads](https://pepy.tech/badge/jrnl)](https://pepy.tech/project/jrnl)
  [![Version](http://img.shields.io/pypi/v/jrnl.svg?style=flat)](https://pypi.python.org/pypi/jrnl/)
  [![Homebrew](https://img.shields.io/homebrew/v/jrnl?style=flat-square)](https://formulae.brew.sh/formula/jrnl)
- [![Gitter](https://img.shields.io/gitter/room/jrnl-org/jrnl)](https://gitter.im/jrnl-org/jrnl)
+ 
  [![Changelog](https://img.shields.io/badge/changelog-on%20github-green)](https://github.com/jrnl-org/jrnl/blob/main/CHANGELOG.md)
 ====
 
