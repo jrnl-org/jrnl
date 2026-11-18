@@ -82,7 +82,14 @@ You can override a configuration field for the current instance of `jrnl` using 
 You can specify multiple overrides as multiple calls to `--config-override`.
 
 !!! note
-    These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing. 
+    These overrides allow you to modify ***any*** field of your jrnl configuration. We trust that you know what you are doing.
+
+    An override always takes precedence for the current run, even when the same
+    key is set for the active journal under `journals.<name>`. For example,
+    `--config-override linewrap 23` wins over a journal-level `linewrap`, so you
+    don't need the full `--config-override journals.<name>.linewrap 23` form.
+    Overrides apply only to that run and are never written back to your config
+    file, even by commands that save it such as `--encrypt`.
 
 #### Examples: 
 

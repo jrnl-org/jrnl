@@ -1,6 +1,7 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import copy
 import logging
 import sys
 from difflib import get_close_matches
@@ -54,13 +55,17 @@ def run(args: "Namespace"):
 
     # Load the config, and extract journal name
     config = install.load_or_install_jrnl(args.config_file_path)
-    original_config = config.copy()
+    # Deep copy: overrides mutate nested dicts (colors, journals.<name>) in place,
+    # and original_config is what gets saved back to disk
+    original_config = copy.deepcopy(config)
 
     # Apply config overrides
     config = apply_overrides(args, config)
 
     args = get_journal_name(args, config)
     config = scope_config(config, args.journal_name)
+    # Re-apply so CLI overrides win over journal-level keys copied in by scoping
+    config = apply_overrides(args, config)
 
     # Run post-config command now that config is ready
     if callable(args.postconfig_cmd):
