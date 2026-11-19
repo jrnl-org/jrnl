@@ -6,7 +6,7 @@ name: Changelog
 on:
   push:
     branches:
-      - develop
+      - main
     tags:
       - 'v*'
 
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.JRNL_BOT_TOKEN }}
 
@@ -44,7 +44,7 @@ jobs:
             fi
 
             RELEASE=1
-            BRANCH=develop
+            BRANCH=main
             git checkout $BRANCH
 
             # if actual release (not pre), then changelog should exclude prereleases on update
@@ -104,7 +104,7 @@ jobs:
           sed -i -e :a -e '/^\n*$/{$d;N;};/\n$/ba' "$FILENAME"
 
       - name: Generate changelog
-        uses: heinrichreimer/action-github-changelog-generator@v2.1.1
+        uses: heinrichreimer/action-github-changelog-generator@v2.4
         with:
           # see: https://github.com/heinrichreimer/action-github-changelog-generator
           repo: jrnl-org/jrnl
@@ -122,7 +122,7 @@ jobs:
           sinceTag: ${{ env.SINCE_TAG }}
           maxIssues: 150
           releaseUrl: https://pypi.org/project/jrnl/%s/
-          releaseBranch: develop
+          releaseBranch: main
           verbose: false
           author: true
 
@@ -153,12 +153,36 @@ jobs:
           git push origin "$BRANCH"
 
       - name: Update tag to include changelog
-        if: startsWith(env.GITHUB_REF, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           # This is a tag build (releases and prereleases)
           # update the tag to include the changelog
           git tag -fam "$GITHUB_REF_NAME" "$GITHUB_REF_NAME"
           git push --tags --force
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.JRNL_BOT_TOKEN }}
+        run: |
+          # Pull this tag's section out of the changelog to use as release notes
+          notes_file=$(mktemp)
+          awk -v tag="$GITHUB_REF_NAME" '
+            $0 ~ ("^## \\[" tag "\\]") { found=1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' "$FILENAME" > "$notes_file"
+
+          prerelease_flag=()
+          if [[ "$FULL_RELEASE" != "true" ]]; then
+            prerelease_flag=(--prerelease)
+          fi
+
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file "$notes_file" \
+            --repo "$GITHUB_REPOSITORY" \
+            "${prerelease_flag[@]}"
 
       - name: Merge to Release branch
         if: env.FULL_RELEASE == 'true'

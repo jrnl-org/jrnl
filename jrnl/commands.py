@@ -33,7 +33,7 @@ def preconfig_diagnostic(_) -> None:
     from jrnl import __version__
 
     print(
-        f"{__title__}: {__version__}\n"
+        f"{__title__}: v{__version__}\n"
         f"Python: {sys.version}\n"
         f"OS: {platform.system()} {platform.release()}"
     )
@@ -46,7 +46,7 @@ def preconfig_version(_) -> None:
     from jrnl import __version__
 
     output = f"""
-    {__title__} {__version__}
+    {__title__} v{__version__}
 
     Copyright © 2012-2023 jrnl contributors
 
@@ -68,7 +68,10 @@ def postconfig_list(args: argparse.Namespace, config: dict, **_) -> int:
 
 
 @cmd_requires_valid_journal_name
-def postconfig_import(args: argparse.Namespace, config: dict, **_) -> int:
+def postconfig_import(
+    args: argparse.Namespace, config: dict, original_config: dict
+) -> int:
+    from jrnl.config import flush_pending_config_updates
     from jrnl.journals import open_journal
     from jrnl.plugins import get_importer
 
@@ -87,6 +90,12 @@ def postconfig_import(args: argparse.Namespace, config: dict, **_) -> int:
         )
 
     importer.import_(journal, args.filename)
+
+    # Persist any config changes that occurred during the import's journal.write()
+    # (e.g. a v1/v2 upgrade to v3 triggered by the write).
+    flush_pending_config_updates(
+        journal, original_config, args.journal_name, args.config_file_path
+    )
 
     return 0
 
@@ -118,17 +127,13 @@ def postconfig_encrypt(
         )
 
     # If journal is encrypted, create new password
-    logging.debug("Clearing encryption method...")
-
-    if journal.config["encrypt"] is True:
+    if journal.config["encrypt"]:
         logging.debug("Journal already encrypted. Re-encrypting...")
         print(f"Journal {journal.name} is already encrypted. Create a new password.")
-        journal.encryption_method.clear()
-    else:
-        journal.config["encrypt"] = True
-        journal.encryption_method = None
 
-    journal.write(args.filename)
+    journal.config["encrypt"] = True
+
+    journal.write(args.filename, force_new_password=True)
 
     print_msg(
         Message(
@@ -143,7 +148,7 @@ def postconfig_encrypt(
         update_config(
             original_config, {"encrypt": True}, args.journal_name, force_local=True
         )
-        save_config(original_config)
+        save_config(original_config, args.config_file_path)
 
     return 0
 
@@ -159,9 +164,17 @@ def postconfig_decrypt(
 
     journal = open_journal(args.journal_name, config)
 
-    logging.debug("Clearing encryption method...")
+    if not journal.config["encrypt"]:
+        raise JrnlException(
+            Message(
+                MsgText.JournalNotEncrypted,
+                MsgStyle.ERROR,
+                {"journal_name": args.journal_name},
+            )
+        )
+
     journal.config["encrypt"] = False
-    journal.encryption_method = None
+    journal._reconfigure_encryption_method()
 
     journal.write(args.filename)
     print_msg(
@@ -177,6 +190,6 @@ def postconfig_decrypt(
         update_config(
             original_config, {"encrypt": False}, args.journal_name, force_local=True
         )
-        save_config(original_config)
+        save_config(original_config, args.config_file_path)
 
     return 0

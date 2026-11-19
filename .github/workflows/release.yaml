@@ -61,12 +61,12 @@ jobs:
         echo "JRNL_VERSION=$JRNL_VERSION" >> "$GITHUB_ENV"
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
-        python-version: '3.13'
+        python-version: '3.14'
 
     - name: Checkout repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         token: ${{ secrets.JRNL_BOT_TOKEN }}
 
@@ -82,7 +82,7 @@ jobs:
       if: ${{ github.event.inputs.include_repo_version == 'true' }}
       run: |
         poetry version "$JRNL_VERSION"
-        echo "__version__ = \"$JRNL_VERSION\"" > jrnl/__version__.py
+        echo "__version__ = \"$(poetry version -s)\"" > jrnl/__version__.py
 
     - name: Commit updated files
       if: ${{ github.event.inputs.include_repo_version == 'true' && github.repository == env.HOME_REPO }}

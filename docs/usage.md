@@ -77,6 +77,28 @@ case-insensitive.
 
 There is no limit to how many tags you can use in an entry.
 
+#### Similar Tag Warning ####
+
+When you write an entry, `jrnl` checks whether any of its tags closely resemble
+tags you've used before. If so, it prints a warning:
+
+```
+The tag '@works' is similar to: @work
+
+Was this intentional? If not, re-open the entry with 'jrnl --edit' to fix it.
+```
+
+This is just a warning — `jrnl` will not ask for confirmation or block the
+entry from being saved. This is intentional: some similar-looking tags are
+perfectly meaningful to keep separate. For example:
+
+- `@health` and `@wealth` — related topics, but distinct goals
+- `@friend` and `@fiend` — very different meanings
+- `@hiking` and `@biking` — different activities worth tracking separately
+- `@learn` and `@lean` — different intentions entirely
+
+If the warning appears and you did make a typo, run `jrnl --edit` to fix it.
+
 ### Starring Entries ###
 
 To mark an entry as a favorite, simply "star" it using an asterisk (`*`):

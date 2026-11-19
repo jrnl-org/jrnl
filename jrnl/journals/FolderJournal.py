@@ -7,6 +7,7 @@ import pathlib
 from typing import TYPE_CHECKING
 
 from jrnl import time
+from jrnl.path import atomic_write
 
 from .Journal import Journal
 
@@ -38,7 +39,20 @@ class Folder(Journal):
             for filename in filenames:
                 with codecs.open(filename, "r", "utf-8") as f:
                     journal = f.read()
-                    self.entries.extend(self._parse(journal))
+                # The folder layout (YYYY/MM/DD.txt) is authoritative for each
+                # entry's date. Parsing the date only from the entry header
+                # loses the day when the configured timeformat has no date
+                # component (e.g. "%H:%M"), which made same-day entries collide
+                # and overwrite each other on the next write (#2006).
+                file_path = pathlib.Path(filename)
+                year, month, day = (
+                    int(file_path.parts[-3]),
+                    int(file_path.parts[-2]),
+                    int(file_path.stem),
+                )
+                for entry in self._parse(journal):
+                    entry.date = entry.date.replace(year=year, month=month, day=day)
+                    self.entries.append(entry)
             self.sort()
 
         return self
@@ -77,8 +91,7 @@ class Folder(Journal):
                 ):
                     write_entries.append(e)
             journal = "\n".join([e.__str__() for e in write_entries])
-            with codecs.open(filename, "w", "utf-8") as journal_file:
-                journal_file.write(journal)
+            atomic_write(filename, journal.encode("utf-8"))
         # look for and delete empty files
         filenames = []
         filenames = Folder._get_files(self.config["journal"])

@@ -4,15 +4,16 @@
 import argparse
 import logging
 import os
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 
-import colorama
 from rich.pretty import pretty_repr
 from ruamel.yaml import YAML
 from ruamel.yaml import constructor
 
 from jrnl import __version__
+from jrnl.color import is_valid_color
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
 from jrnl.messages import MsgStyle
@@ -21,6 +22,9 @@ from jrnl.output import list_journals
 from jrnl.output import print_msg
 from jrnl.path import get_config_path
 from jrnl.path import get_default_journal_path
+
+if TYPE_CHECKING:
+    from jrnl.journals import Journal
 
 # Constants
 DEFAULT_JOURNAL_KEY = "default"
@@ -129,10 +133,9 @@ def verify_config_colors(config: dict) -> bool:
     """
     all_valid_colors = True
     for key, color in config["colors"].items():
-        upper_color = color.upper()
-        if upper_color == "NONE":
+        if isinstance(color, str) and color.upper() == "NONE":
             continue
-        if not getattr(colorama.Fore, upper_color, None):
+        if not is_valid_color(color):
             print_msg(
                 Message(
                     MsgText.InvalidColor,
@@ -209,6 +212,42 @@ def update_config(
         config["journals"][scope].update(new_config)
     else:
         config.update(new_config)
+
+
+def apply_config_updates_in_place(
+    config: dict, updates: dict, journal_name: str
+) -> None:
+    """Apply config updates at whichever level each key originally lived.
+
+    For each key in updates: if the journal has a journal-level override for
+    that key, update it there; otherwise update the top-level key. This
+    preserves the original config scope rather than silently moving settings.
+    """
+    journal_conf = config.get("journals", {}).get(journal_name)
+    for key, value in updates.items():
+        if isinstance(journal_conf, dict) and key in journal_conf:
+            journal_conf[key] = value
+        else:
+            config[key] = value
+
+
+def flush_pending_config_updates(
+    journal: "Journal",
+    original_config: dict,
+    journal_name: str,
+    alt_config_path: str | None = None,
+) -> None:
+    """Persist any config changes accumulated on the journal (e.g. a legacy
+    encryption upgrade triggered by a write) back to the on-disk config.
+    Supply alt_config_path if using an alternate config through --config-file."""
+    if not journal._pending_config_updates:
+        return
+
+    apply_config_updates_in_place(
+        original_config, journal._pending_config_updates, journal_name
+    )
+    journal._pending_config_updates.clear()
+    save_config(original_config, alt_config_path)
 
 
 def get_journal_name(args: argparse.Namespace, config: dict) -> argparse.Namespace:

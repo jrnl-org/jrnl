@@ -189,7 +189,7 @@ jrnl --format md
 
 Markdown is a simple markup language that is human readable and can be used to be
 rendered to other formats (html, pdf). `jrnl`'s
-[README](https://github.com/jrnl-org/jrnl/blob/develop/README.md) for example is
+[README](https://github.com/jrnl-org/jrnl/blob/main/README.md) for example is
 formatted in markdown, then Github adds some formatting to make it look nice.
 
 The markdown format groups entries by date (first by year, then by month), and adds

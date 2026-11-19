@@ -38,10 +38,10 @@ def colorize(string: str, color: str, bold: bool = False) -> str:
     """Returns the string colored with colorama.Fore.color. If the color set by
     the user is "NONE" or the color doesn't exist in the colorama.Fore attributes,
     it returns the string without any modification."""
-    color_escape = getattr(colorama.Fore, color.upper(), None)
-    if not color_escape:
+    if not is_valid_color(color):
         return string
-    elif not bold:
+    color_escape = getattr(colorama.Fore, color.upper())
+    if not bold:
         return color_escape + string + colorama.Fore.RESET
     else:
         return colorama.Style.BRIGHT + color_escape + string + colorama.Style.RESET_ALL
@@ -73,6 +73,7 @@ def highlight_tags_with_background_color(
                 # Check if this tag has a specific color configured
                 tag_color = get_tag_color(part, config)
                 yield colorize(part, tag_color, bold=True), part
+                yield colorize(part, get_color(config, "tags"), bold=True), part
 
     config = entry.journal.config
     if config["highlight"]:  # highlight tags

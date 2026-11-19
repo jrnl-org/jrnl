@@ -12,7 +12,7 @@ Feature: Functionality of jrnl outside of actually handling journals
     Scenario: Running the diagnostic command
         Given we use the config "simple.yaml"
         When we run "jrnl --diagnostic"
-        Then the output should contain "jrnl"
+        Then the output should match "^jrnl: v\d+\.\d+(\.\d+)?(-(alpha|beta)\d*)?"
         And the output should contain "Python"
         And the output should contain "OS"
 

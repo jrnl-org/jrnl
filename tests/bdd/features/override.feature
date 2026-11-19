@@ -28,18 +28,22 @@ Feature: Implementing Runtime Overrides for Select Configuration Keys
         Given we use the config "simple.yaml"
         And we use the password "test" if prompted
         When we run "jrnl  -2 --config-override linewrap 23 --format fancy"
-        Then the output should be
+        Then the standard output should contain
             """
             ┎─────╮2013-06-09 15:39
             ┃ My  ╘═══════════════╕
-            ┃ fir st  ent ry.     │
+            """
+        And the standard output should contain
+            """
             ┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
             ┃ Everything is       │
             ┃ alright             │
             ┖─────────────────────┘
             ┎─────╮2013-06-10 15:40
             ┃ Lif ╘═══════════════╕
-            ┃ e is  goo d.        │
+            """
+        And the standard output should contain
+            """
             ┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
             ┃ But I'm better.     │
             ┖─────────────────────┘

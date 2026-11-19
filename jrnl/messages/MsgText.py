@@ -101,6 +101,8 @@ class MsgText(Enum):
         of journal can't be encrypted. Please fix your config file.
         """
 
+    JournalNotEncrypted = 'Journal "{journal_name}" is not encrypted'
+
     DecryptionFailedGeneric = "The decryption of journal data failed."
 
     KeyboardInterruptMsg = "Aborted by user"
@@ -134,6 +136,16 @@ class MsgText(Enum):
     JournalEncrypted = "Journal will be encrypted"
     JournalEncryptedTo = "Journal encrypted to {path}"
     JournalDecryptedTo = "Journal decrypted to {path}"
+    LegacyEncryptionJournalOpened = """
+        The journal "{journal_name}" uses the legacy {version} encryption format. Save a
+        change to the journal to upgrade to more secure encryption.
+        """
+    EncryptionUpgrading = """
+        Upgrading "{journal_name}" from {from_version} to {to_version} encryption.
+        """
+    EncryptionUpgraded = """
+        Successfully upgraded "{journal_name}" from {from_version} to {to_version} encryption.
+        """  # noqa: E501 - the line is still under 88 when dedented
     BackupCreated = "Created a backup at {filename}"
 
     # --- Editor ---#
@@ -283,6 +295,13 @@ class MsgText(Enum):
         """
 
     KeyringRetrievalFailure = "Failed to retrieve keyring"
+
+    # --- Tags --- #
+    SimilarTagsFound = """
+        The tag '{new_tag}' is similar to: {similar_tags}
+
+        Was this intentional? If not, edit the entry 'jrnl --edit' to fix it.
+        """
 
     # --- Deprecation --- #
     DeprecatedCommand = """

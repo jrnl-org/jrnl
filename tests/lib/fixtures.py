@@ -9,7 +9,6 @@ from pathlib import Path
 from unittest.mock import Mock
 from unittest.mock import patch
 
-import toml
 from keyring import backend
 from keyring import errors
 from pytest import fixture
@@ -203,8 +202,11 @@ def working_dir(request):
 
 @fixture
 def toml_version(working_dir):
-    pyproject = os.path.join(working_dir, "..", "pyproject.toml")
-    pyproject_contents = toml.load(pyproject)
+    import tomllib
+
+    pyproject_path = os.path.join(working_dir, "..", "pyproject.toml")
+    with open(pyproject_path, "rb") as pyproject:
+        pyproject_contents = tomllib.load(pyproject)
     return pyproject_contents["tool"]["poetry"]["version"]
 
 

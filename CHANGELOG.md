@@ -2,19 +2,86 @@
 
 ## [Unreleased](https://github.com/jrnl-org/jrnl/)
 
-[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.2.1...HEAD)
-
-**Fixed bugs:**
-
-- poetry warning -  "poetry.dev-dependencies" section is deprecated [\#1975](https://github.com/jrnl-org/jrnl/issues/1975)
-- Homebrew autobump error on jrnl release [\#1961](https://github.com/jrnl-org/jrnl/issues/1961)
-
-**Build:**
-
-- Remove release step to publish to Homebrew [\#1994](https://github.com/jrnl-org/jrnl/pull/1994) ([micahellison](https://github.com/micahellison))
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.6...HEAD)
 
 **Packaging:**
 
+- Update dependency ruff to v0.16.2 [\#2109](https://github.com/jrnl-org/jrnl/pull/2109) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [v4.6](https://pypi.org/project/jrnl/v4.6/) (2026-08-07)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3...v4.6)
+
+**Implemented enhancements:**
+
+- Feature Request: VJOURNAL Backend [\#2083](https://github.com/jrnl-org/jrnl/issues/2083)
+- Feature Request: Add a config option to output any new entries to the terminal after submission. [\#1871](https://github.com/jrnl-org/jrnl/issues/1871)
+
+**Fixed bugs:**
+
+- Icelandic letters in UTF-8 not working. [\#2113](https://github.com/jrnl-org/jrnl/issues/2113)
+- `--config-file` broken on latest build [\#2099](https://github.com/jrnl-org/jrnl/issues/2099)
+- Bug Report [\#2082](https://github.com/jrnl-org/jrnl/issues/2082)
+- KeyError: date [\#2077](https://github.com/jrnl-org/jrnl/issues/2077)
+- 6 Tests failed because 'v' is missing in front of '4.3.0' [\#2065](https://github.com/jrnl-org/jrnl/issues/2065)
+- Version tests failing on 4.3-beta release due to beta/b0 tags [\#2060](https://github.com/jrnl-org/jrnl/issues/2060)
+- jrnl crashes when `colors.tags` is not configured [\#2021](https://github.com/jrnl-org/jrnl/issues/2021)
+- Bug: Using time format "%H:%m" overwrites old entries on a day [\#2006](https://github.com/jrnl-org/jrnl/issues/2006)
+
+**Packaging:**
+
+- Drop Python 3.10 support [\#2055](https://github.com/jrnl-org/jrnl/issues/2055)
+- Update dependency cryptography to v50 [\#2114](https://github.com/jrnl-org/jrnl/pull/2114) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.58.0 [\#2108](https://github.com/jrnl-org/jrnl/pull/2108) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/setup-python action to v7 [\#2102](https://github.com/jrnl-org/jrnl/pull/2102) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency ruff to v0.15.22 [\#2098](https://github.com/jrnl-org/jrnl/pull/2098) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to v15 [\#2094](https://github.com/jrnl-org/jrnl/pull/2094) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v7 - autoclosed [\#2093](https://github.com/jrnl-org/jrnl/pull/2093) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v6 [\#2092](https://github.com/jrnl-org/jrnl/pull/2092) ([renovate[bot]](https://github.com/apps/renovate))
+- Update heinrichreimer/action-github-changelog-generator action to v2.4 [\#2078](https://github.com/jrnl-org/jrnl/pull/2078) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency tox to v4.57.0 [\#2017](https://github.com/jrnl-org/jrnl/pull/2017) ([renovate[bot]](https://github.com/apps/renovate))
+
+**Merged pull requests:**
+
+- Enable automerge for Renovate PRs [\#2116](https://github.com/jrnl-org/jrnl/pull/2116) ([alichtman](https://github.com/alichtman))
+- Derive folder-journal entry dates from the folder path [\#2115](https://github.com/jrnl-org/jrnl/pull/2115) ([youdie006](https://github.com/youdie006))
+- docs: add gedit to external editors [\#2107](https://github.com/jrnl-org/jrnl/pull/2107) ([natejswenson](https://github.com/natejswenson))
+- fix: guarantee editor tempfile cleanup and add debug logging [\#2106](https://github.com/jrnl-org/jrnl/pull/2106) ([alichtman](https://github.com/alichtman))
+- fix: don't crash on invalid UTF-8 from stdin when writing an entry [\#2104](https://github.com/jrnl-org/jrnl/pull/2104) ([alichtman](https://github.com/alichtman))
+- fix: don't overwrite the default config when using --config-file [\#2101](https://github.com/jrnl-org/jrnl/pull/2101) ([alichtman](https://github.com/alichtman))
+- fix: write journal files atomically to avoid corruption on crash [\#2096](https://github.com/jrnl-org/jrnl/pull/2096) ([alichtman](https://github.com/alichtman))
+- fix: emit error when running --decrypt on an unencrypted journal [\#2095](https://github.com/jrnl-org/jrnl/pull/2095) ([alichtman](https://github.com/alichtman))
+- chore: upgrade all deps [\#2091](https://github.com/jrnl-org/jrnl/pull/2091) ([alichtman](https://github.com/alichtman))
+- fix: don't crash on missing or invalid color config values [\#2089](https://github.com/jrnl-org/jrnl/pull/2089) ([alichtman](https://github.com/alichtman))
+- Drop Python 3.10 support [\#2088](https://github.com/jrnl-org/jrnl/pull/2088) ([alichtman](https://github.com/alichtman))
+- docs: add CLAUDE.md [\#2086](https://github.com/jrnl-org/jrnl/pull/2086) ([alichtman](https://github.com/alichtman))
+- fix: prevent ValueError when upgrading with no journals configured [\#2080](https://github.com/jrnl-org/jrnl/pull/2080) ([miloquinn](https://github.com/miloquinn))
+- Feature: warning for similar tags [\#2064](https://github.com/jrnl-org/jrnl/pull/2064) ([hanbeex](https://github.com/hanbeex))
+- Minor fixes to docstrings of functions [\#1868](https://github.com/jrnl-org/jrnl/pull/1868) ([MuditJ](https://github.com/MuditJ))
+
+## [v4.3](https://pypi.org/project/jrnl/v4.3/) (2026-02-24)
+
+[Full Changelog](https://github.com/jrnl-org/jrnl/compare/v4.3-beta...v4.3)
+
+**Build:**
+
+- Modernize pyproject [\#2046](https://github.com/jrnl-org/jrnl/pull/2046) ([micahellison](https://github.com/micahellison))
+- Remove release step to publish to Homebrew [\#1994](https://github.com/jrnl-org/jrnl/pull/1994) ([micahellison](https://github.com/micahellison))
+
+**Documentation:**
+
+- Doc missing: Setting location of journal [\#2019](https://github.com/jrnl-org/jrnl/issues/2019)
+- \[Documentation change\] Update command line reference [\#2032](https://github.com/jrnl-org/jrnl/pull/2032) ([katielin019](https://github.com/katielin019))
+- Add example of how to configure location of a journal [\#2020](https://github.com/jrnl-org/jrnl/pull/2020) ([matthiasbeyer](https://github.com/matthiasbeyer))
+
+**Packaging:**
+
+- Update actions/checkout action to v6 [\#2053](https://github.com/jrnl-org/jrnl/pull/2053) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v5 [\#2052](https://github.com/jrnl-org/jrnl/pull/2052) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency rich to \>=14.3.2,\<14.4.0 [\#2051](https://github.com/jrnl-org/jrnl/pull/2051) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency python to 3.14 [\#2050](https://github.com/jrnl-org/jrnl/pull/2050) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/setup-python action to v6 [\#2031](https://github.com/jrnl-org/jrnl/pull/2031) ([renovate[bot]](https://github.com/apps/renovate))
+- Add support for Python 3.14 [\#2015](https://github.com/jrnl-org/jrnl/pull/2015) ([micahellison](https://github.com/micahellison))
 - Update dependency pa11y-ci to v4 [\#2014](https://github.com/jrnl-org/jrnl/pull/2014) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency rich to \>=14.1.0, \<14.2.0 [\#2013](https://github.com/jrnl-org/jrnl/pull/2013) ([renovate[bot]](https://github.com/apps/renovate))
 - Update dependency requests to v2.32.4 [\#2010](https://github.com/jrnl-org/jrnl/pull/2010) ([renovate[bot]](https://github.com/apps/renovate))

@@ -1,6 +1,7 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import os
 import random
 import string
 from os import getenv
@@ -9,6 +10,7 @@ from unittest.mock import patch
 import pytest
 
 from jrnl.path import absolute_path
+from jrnl.path import atomic_write
 from jrnl.path import expand_path
 from jrnl.path import home_dir
 
@@ -104,3 +106,46 @@ def test_absolute_path(mock_abspath, mock_expand_path):
     assert absolute_path(test_val) == mock_abspath.return_value
     mock_expand_path.assert_called_with(test_val)
     mock_abspath.assert_called_with(mock_expand_path.return_value)
+
+
+def test_atomic_write_creates_new_file(tmp_path):
+    filename = str(tmp_path / "journal.txt")
+
+    atomic_write(filename, b"hello world")
+
+    with open(filename, "rb") as f:
+        assert f.read() == b"hello world"
+    # no leftover temp file
+    assert os.listdir(tmp_path) == ["journal.txt"]
+
+
+def test_atomic_write_replaces_existing_file(tmp_path):
+    filename = str(tmp_path / "journal.txt")
+    with open(filename, "wb") as f:
+        f.write(b"old content")
+
+    atomic_write(filename, b"new content")
+
+    with open(filename, "rb") as f:
+        assert f.read() == b"new content"
+    assert os.listdir(tmp_path) == ["journal.txt"]
+
+
+def test_atomic_write_leaves_original_untouched_on_failure(tmp_path, monkeypatch):
+    filename = str(tmp_path / "journal.txt")
+    with open(filename, "wb") as f:
+        f.write(b"original content")
+
+    def broken_replace(*args, **kwargs):
+        msg = "simulated failure"
+        raise OSError(msg)
+
+    monkeypatch.setattr(os, "replace", broken_replace)
+
+    with pytest.raises(OSError):
+        atomic_write(filename, b"new content")
+
+    with open(filename, "rb") as f:
+        assert f.read() == b"original content"
+    # the temp file should have been cleaned up, leaving just the original
+    assert os.listdir(tmp_path) == ["journal.txt"]

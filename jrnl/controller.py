@@ -3,17 +3,20 @@
 
 import logging
 import sys
+from difflib import get_close_matches
 from typing import TYPE_CHECKING
 
 from jrnl import install
 from jrnl import plugins
 from jrnl import time
 from jrnl.config import DEFAULT_JOURNAL_KEY
+from jrnl.config import flush_pending_config_updates
 from jrnl.config import get_config_path
 from jrnl.config import get_journal_name
 from jrnl.config import scope_config
 from jrnl.editor import get_text_from_editor
 from jrnl.editor import get_text_from_stdin
+from jrnl.editor import read_stdin_text
 from jrnl.editor import read_template_file
 from jrnl.exception import JrnlException
 from jrnl.journals import open_journal
@@ -40,7 +43,9 @@ def run(args: "Namespace"):
     4. Load specified journal
     5. Start append mode, or search mode
     6. Perform actions with results from search mode (if needed)
-    7. Profit
+    7. Persist any config changes (automatic encryption upgrade) that occurred
+       during the journal write
+    8. Profit
     """
 
     # Run command if possible before config is available
@@ -77,21 +82,26 @@ def run(args: "Namespace"):
 
     if _is_append_mode(**kwargs):
         append_mode(**kwargs)
-        return
-
-    # If not append mode, then we're in search mode (only 2 modes exist)
-    search_mode(**kwargs)
-    entries_found_count = len(journal)
-    _print_entries_found_count(entries_found_count, args)
-
-    # Actions
-    _perform_actions_on_search_results(**kwargs)
-
-    if entries_found_count != 0 and _has_action_args(args):
-        _print_changed_counts(journal)
     else:
-        # display only occurs if no other action occurs
-        _display_search_results(**kwargs)
+        # If not append mode, then we're in search mode (only 2 modes exist)
+        search_mode(**kwargs)
+        entries_found_count = len(journal)
+        _print_entries_found_count(entries_found_count, args)
+
+        # Actions
+        _perform_actions_on_search_results(**kwargs)
+
+        if entries_found_count != 0 and _has_action_args(args):
+            _print_changed_counts(journal)
+        else:
+            # display only occurs if no other action occurs
+            _display_search_results(**kwargs)
+
+    # Persist any config changes that occurred during journal.write() (e.g. a v1/v2
+    # upgrade to v3 triggered by the write).
+    flush_pending_config_updates(
+        journal, original_config, args.journal_name, args.config_file_path
+    )
 
 
 def _perform_actions_on_search_results(**kwargs):
@@ -150,7 +160,7 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
             raw = _write_in_editor(config, raw)
     elif not sys.stdin.isatty():
         logging.debug("Append mode: receiving piped text")
-        raw = sys.stdin.read()
+        raw = read_stdin_text()
     else:
         raw = _write_in_editor(config, template_text)
 
@@ -165,7 +175,18 @@ def append_mode(args: "Namespace", config: dict, journal: "Journal", **kwargs) -
     logging.debug(
         f"Append mode: appending raw text to journal '{args.journal_name}': {raw}"
     )
-    journal.new_entry(raw)
+    # Check for similar tags
+    existing_tags = {tag.name for tag in journal.tags}
+    new_entry = journal.new_entry(raw)
+    similar_tags = _check_similar_tags(existing_tags, new_entry.tags)
+    for new_tag, matches in similar_tags.items():
+        print_msg(
+            Message(
+                MsgText.SimilarTagsFound,
+                MsgStyle.WARNING,
+                {"new_tag": new_tag, "similar_tags": ", ".join(matches)},
+            )
+        )
     if args.journal_name != DEFAULT_JOURNAL_KEY:
         print_msg(
             Message(
@@ -212,8 +233,9 @@ def search_mode(args: "Namespace", journal: "Journal", **kwargs) -> None:
 
 
 def _write_in_editor(config: dict, prepopulated_text: str | None = None) -> str:
-    if config["editor"]:
-        logging.debug("Append mode: opening editor")
+    editor = config["editor"]
+    if editor:
+        logging.debug(f"Append mode: opening editor ({editor})")
         raw = get_text_from_editor(config, prepopulated_text)
     else:
         raw = get_text_from_stdin()
@@ -453,3 +475,21 @@ def _has_display_args(args: "Namespace") -> bool:
 
 def _has_only_tags(tag_symbols: str, args_text: str) -> bool:
     return all(word[0] in tag_symbols for word in " ".join(args_text).split())
+
+
+def _check_similar_tags(
+    existing_tags: set[str], new_tags: set[str]
+) -> dict[str, list[str]]:
+    """Returns a dict mapping each new tag to a list of similar existing tags.
+
+    Only compares tags that share the same leading symbol, so that intentionally
+    distinct tag namespaces (e.g. '@' for people, '#' for topics) don't produce
+    false positives.
+    """
+    similar: dict[str, list[str]] = {}
+    for new_tag in new_tags:
+        same_symbol = {t for t in existing_tags if t[0] == new_tag[0]} - {new_tag}
+        matches = get_close_matches(new_tag, same_symbol, n=3, cutoff=0.8)
+        if matches:
+            similar[new_tag] = matches
+    return similar

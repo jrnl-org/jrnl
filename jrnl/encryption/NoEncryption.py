@@ -11,6 +11,10 @@ class NoEncryption(BaseEncryption):
         super().__init__(*args, **kwargs)
         logging.debug("start")
 
+    @property
+    def version(self) -> str | None:
+        return None
+
     def _encrypt(self, text: str) -> bytes:
         logging.debug("encrypting")
         return text.encode(self._encoding)

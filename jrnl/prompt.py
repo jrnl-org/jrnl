@@ -20,7 +20,7 @@ def create_password(journal_name: str) -> str:
                 MsgStyle.PROMPT,
                 params={"journal_name": journal_name},
             ),
-            **kwargs
+            **kwargs,
         )
 
         if not pw:

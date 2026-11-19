@@ -14,6 +14,10 @@ from jrnl.encryption.BasePasswordEncryption import BasePasswordEncryption
 
 
 class Jrnlv1Encryption(BasePasswordEncryption):
+    @property
+    def version(self) -> str:
+        return "v1"
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         logging.debug("start")

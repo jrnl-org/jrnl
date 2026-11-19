@@ -30,7 +30,7 @@ Print version and license information.
 ### --list
 List the config file location, all configured journals, and their locations.
 
-### ---encrypt
+### --encrypt
 Encrypt a journal. See [encryption](encryption.md) for more information.
 
 ### --decrypt
@@ -138,4 +138,5 @@ Read [advanced usage](./advanced.md) for examples.
 Prints information useful for troubleshooting while `jrnl` executes.
 
 ### --diagnostic
+
 Prints diagnostic information useful for [reporting issues](https://github.com/jrnl-org/jrnl/issues).

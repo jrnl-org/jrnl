@@ -83,7 +83,7 @@ def upgrade_jrnl(config_path: str) -> None:
 
     kwargs = {
         # longest journal name
-        "pad": max([len(journal) for journal in config["journals"]]),
+        "pad": max((len(journal) for journal in config["journals"]), default=0),
     }
 
     _print_journal_summary(
@@ -138,8 +138,8 @@ def upgrade_jrnl(config_path: str) -> None:
 
         # Update the encryption method
         new_journal = Journal.from_journal(old_journal)
-        new_journal.config["encrypt"] = "jrnlv2"
-        new_journal._get_encryption_method()
+        new_journal.config["encrypt"] = True
+        new_journal._reconfigure_encryption_method()
         # Copy over password (jrnlv1 only supported password-based encryption)
         new_journal.encryption_method.password = old_journal.encryption_method.password
 

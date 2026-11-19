@@ -1,11 +1,13 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import datetime
 import pathlib
 from unittest import mock
 
 import pytest
 
+from jrnl.journals.Entry import Entry
 from jrnl.journals.FolderJournal import Folder
 
 
@@ -57,3 +59,33 @@ def test_get_day_files_expected_filtering(inputs_and_outputs):
         expected_output.sort()
 
         assert actual_output == expected_output
+
+
+def test_dateless_timeformat_preserves_same_day_entries(tmp_path):
+    # Regression for #2006: with a timeformat that carries no date component
+    # (e.g. "%H:%M"), a second entry added on the same day must not overwrite
+    # the earlier one. The folder path (YYYY/MM/DD) is authoritative for the
+    # date, so entries must round-trip regardless of the timeformat.
+    kwargs = {"journal": str(tmp_path / "journal"), "timeformat": "%H:%M"}
+
+    journal = Folder("test", **kwargs)
+    morning = Entry(
+        journal, date=datetime.datetime(2020, 1, 15, 9, 0), text="Morning entry"
+    )
+    morning.modified = True
+    journal.entries = [morning]
+    journal.write()
+
+    journal = Folder("test", **kwargs).open()
+    evening = Entry(
+        journal, date=datetime.datetime(2020, 1, 15, 17, 0), text="Evening entry"
+    )
+    evening.modified = True
+    journal.entries.append(evening)
+    journal.write()
+
+    journal = Folder("test", **kwargs).open()
+    texts = " ".join(e.text for e in journal.entries)
+    assert len(journal.entries) == 2
+    assert "Morning entry" in texts
+    assert "Evening entry" in texts
