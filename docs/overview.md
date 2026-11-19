@@ -26,6 +26,12 @@ To make it easier to find entries later, `jrnl` includes support for inline tags
 (the default tag symbol is `@`). You can find and filter entries by using tags
 along with other search criteria.
 
+`jrnl` also supports custom colors for individual tags, allowing you to create
+visual organization systems. For example, you can assign different colors to
+priority levels (`@high` in red, `@low` in green) or categories (`#work` in blue,
+`#personal` in cyan). See the [configuration reference](./reference-config-file.md#tag_colors)
+for details on setting up tag colors.
+
 ## Support for Multiple Journals
   
 `jrnl` includes support for the creation of multiple journals, each of which

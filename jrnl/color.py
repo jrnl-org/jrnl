@@ -17,21 +17,21 @@ if on_windows():
     colorama.init()
 
 
-def is_valid_color(color: object) -> bool:
-    """True if `color` is a string naming a real colorama.Fore attribute
-    (e.g. "red"). Used to guard against missing, typo'd, or wrong-typed
-    color config values before handing them to colorama."""
-    return isinstance(color, str) and hasattr(colorama.Fore, color.upper())
+def get_tag_color(tag: str, config: dict) -> str:
+    """
+    Returns the configured color for a specific tag,
+    falling back to the general tags color.
 
+    :param tag: The tag string (e.g., "@high", "#work")
+    :param config: The journal configuration dict
+    :return: Color name to be used with colorize()
+    """
+    # Check if tag_colors is configured and if this specific tag has a color
+    if "tag_colors" in config and tag.lower() in config["tag_colors"]:
+        return config["tag_colors"][tag.lower()]
 
-def get_color(config: dict, key: str) -> str:
-    """Safely looks up config["colors"][key], falling back to "NONE" if the
-    key is missing or its value isn't a valid colorama.Fore color name.
-    Configs created before a given color key existed, hand-edited configs,
-    or configs with a typo'd/wrong-typed color value should mean "don't
-    colorize", not crash."""
-    color = config.get("colors", {}).get(key, "NONE")
-    return color if is_valid_color(color) else "NONE"
+    # Fall back to the general tags color
+    return config.get("colors", {}).get("tags", "none")
 
 
 def colorize(string: str, color: str, bold: bool = False) -> str:
@@ -70,6 +70,9 @@ def highlight_tags_with_background_color(
             if part and part[0] not in config["tagsymbols"]:
                 yield colorize(part, color, bold=is_title), part
             elif part:
+                # Check if this tag has a specific color configured
+                tag_color = get_tag_color(part, config)
+                yield colorize(part, tag_color, bold=True), part
                 yield colorize(part, get_color(config, "tags"), bold=True), part
 
     config = entry.journal.config
