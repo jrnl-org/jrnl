@@ -1,9 +1,12 @@
 # Copyright © 2012-2023 jrnl contributors
 # License: https://www.gnu.org/licenses/gpl-3.0.html
 
+import io
 import os
 import re
 from typing import TYPE_CHECKING
+
+from ruamel.yaml import YAML
 
 from jrnl.exception import JrnlException
 from jrnl.messages import Message
@@ -74,10 +77,10 @@ class YAMLExporter(TextExporter):
         if previous_line not in ["\r", "\n", "\r\n", "\n\r"]:
             newbody = newbody + os.linesep
 
-        # set indentation for YAML body block
-        spacebody = "\t"
+        # set indentation for YAML body block (YAML does not allow tabs here)
+        spacebody = ""
         for line in newbody.splitlines(True):
-            spacebody = spacebody + "\t" + line
+            spacebody = spacebody + "    " + line
 
         if warn_on_heading_level is True:
             print_msg(
@@ -128,7 +131,7 @@ class YAMLExporter(TextExporter):
         ).format(
             start="---",
             date=date_str,
-            title=entry.title,
+            title=_yaml_scalar(entry.title),
             starred=entry.starred,
             tags=", ".join([tag[1:] for tag in entry.tags]),
             dayone=dayone_attributes,
@@ -140,3 +143,12 @@ class YAMLExporter(TextExporter):
     def export_journal(cls, journal: "Journal"):
         """Returns an error, as YAML export requires a directory as a target."""
         raise JrnlException(Message(MsgText.YamlMustBeDirectory, MsgStyle.ERROR))
+
+
+def _yaml_scalar(value: str) -> str:
+    """Return value as a YAML scalar, quoted only when it has to be."""
+    yaml = YAML(typ="safe")
+    yaml.width = 1_000_000
+    out = io.StringIO()
+    yaml.dump(value, out)
+    return out.getvalue().removesuffix("\n...\n").rstrip("\n")
